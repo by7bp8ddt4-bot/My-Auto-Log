@@ -1,0 +1,91 @@
+// Data model keys
+export const STORAGE_KEYS = {
+  VEHICLES: 'myautolog_vehicles',
+  MAINTENANCE_LOGS: 'myautolog_maintenance_logs',
+  REMINDERS: 'myautolog_reminders',
+  SETTINGS: 'myautolog_settings',
+  LAST_SYNC: 'myautolog_last_sync',
+  PREMIUM_STATUS: 'myautolog_premium_status',
+};
+
+// Default reminder templates based on common maintenance intervals
+export const DEFAULT_REMINDER_TEMPLATES = [
+  {
+    id: 'oil-change',
+    title: 'Oil Change',
+    description: 'Regular oil and filter replacement',
+    intervalMiles: 5000,
+    intervalDays: 180,
+    icon: 'Droplets',
+  },
+  {
+    id: 'tire-rotation',
+    title: 'Tire Rotation',
+    description: 'Rotate tires for even wear',
+    intervalMiles: 7500,
+    intervalDays: 180,
+    icon: 'RefreshCw',
+  },
+  {
+    id: 'brake-inspection',
+    title: 'Brake Inspection',
+    description: 'Check brake pads, rotors, and fluid',
+    intervalMiles: 10000,
+    intervalDays: 365,
+    icon: 'CircleDot',
+  },
+  {
+    id: 'air-filter',
+    title: 'Air Filter Replacement',
+    description: 'Replace engine air filter',
+    intervalMiles: 15000,
+    intervalDays: 365,
+    icon: 'Wind',
+  },
+  {
+    id: 'battery-check',
+    title: 'Battery Check',
+    description: 'Test battery health and terminals',
+    intervalMiles: 20000,
+    intervalDays: 365,
+    icon: 'BatteryFull',
+  },
+  {
+    id: 'spark-plugs',
+    title: 'Spark Plugs Replacement',
+    description: 'Replace spark plugs',
+    intervalMiles: 30000,
+    intervalDays: 730,
+    icon: 'Zap',
+  },
+  {
+    id: 'transmission-fluid',
+    title: 'Transmission Fluid',
+    description: 'Flush and replace transmission fluid',
+    intervalMiles: 60000,
+    intervalDays: 1095,
+    icon: 'Gauge',
+  },
+  {
+    id: 'timing-belt',
+    title: 'Timing Belt Replacement',
+    description: 'Replace timing belt and tensioner',
+    intervalMiles: 90000,
+    intervalDays: 1825,
+    icon: 'AlertTriangle',
+  },
+];
+
+export const SERVICE_TYPES = [
+  'Oil Change',
+  'Tire Rotation',
+  'Brake Service',
+  'Engine Service',
+  'Transmission Service',
+  'Battery Replacement',
+  'Filter Replacement',
+  'Fluid Check/Top-Up',
+  'Inspection',
+  'Repair',
+  'Other',
+];

@@ -1,0 +1,241 @@
+import { useState } from 'react';
+import { X, Car, Plus, Pencil, Trash2, ChevronRight } from 'lucide-react';
+import { formatNumber } from '../utils/helpers';
+
+export default function VehicleList({ vehicles, onAdd, onEdit, onDelete, isPremium, vehicleCount, onNavigate }) {
+  const [showForm, setShowForm] = useState(false);
+  const [editingVehicle, setEditingVehicle] = useState(null);
+
+  const handleAdd = () => {
+    if (vehicles.length >= 1 && !isPremium) {
+      onNavigate('premium');
+      return;
+    }
+    setEditingVehicle(null);
+    setShowForm(true);
+  };
+
+  const handleEdit = (v) => {
+    setEditingVehicle(v);
+    setShowForm(true);
+  };
+
+  const handleSubmit = (data) => {
+    if (editingVehicle) {
+      onEdit(editingVehicle.id, data);
+    } else {
+      onAdd(data);
+    }
+    setShowForm(false);
+    setEditingVehicle(null);
+  };
+
+  return (
+    <div>
+      <div className="flex items-center justify-between mb-6">
+        <div>
+          <h2 className="text-xl font-bold text-white">My Vehicles</h2>
+          <p className="text-sm text-slate-400 mt-0.5">
+            {vehicleCount} {vehicleCount === 1 ? 'vehicle' : 'vehicles'} tracked
+          </p>
+        </div>
+        <button
+          onClick={handleAdd}
+          className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-sm font-medium transition-all"
+        >
+          <Plus className="w-4 h-4" />
+          Add Vehicle
+        </button>
+      </div>
+
+      {vehicles.length === 0 ? (
+        <div className="text-center py-16">
+          <div className="w-16 h-16 rounded-2xl bg-slate-800 flex items-center justify-center mx-auto mb-4">
+            <Car className="w-8 h-8 text-slate-600" />
+          </div>
+          <p className="text-slate-400 mb-2">No vehicles yet</p>
+          <p className="text-sm text-slate-600 mb-6">Add your first vehicle to get started</p>
+          <button
+            onClick={handleAdd}
+            className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-sm font-medium transition-all"
+          >
+            <Plus className="w-4 h-4" />
+            Add Your First Vehicle
+          </button>
+        </div>
+      ) : (
+        <div className="grid sm:grid-cols-2 gap-4">
+          {vehicles.map(v => (
+            <div
+              key={v.id}
+              className="group p-5 rounded-2xl bg-slate-900/60 border border-slate-800 hover:border-blue-500/30 transition-all"
+            >
+              <div className="flex items-start justify-between mb-3">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500/20 to-cyan-500/20 flex items-center justify-center">
+                    <Car className="w-5 h-5 text-blue-400" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-white text-sm">{v.name}</h3>
+                    <p className="text-xs text-slate-500">
+                      {v.year} {v.make} {v.model}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <button
+                    onClick={() => handleEdit(v)}
+                    className="p-1.5 rounded-lg hover:bg-slate-800 text-slate-500 hover:text-blue-400 transition-all"
+                  >
+                    <Pencil className="w-3.5 h-3.5" />
+                  </button>
+                  <button
+                    onClick={() => onDelete(v.id)}
+                    className="p-1.5 rounded-lg hover:bg-red-500/10 text-slate-500 hover:text-red-400 transition-all"
+                  >
+                    <Trash2 className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              </div>
+
+              <div className="flex items-center justify-between text-sm">
+                <div>
+                  <span className="text-slate-400">Mileage: </span>
+                  <span className="text-white font-medium">{formatNumber(v.mileage)} mi</span>
+                </div>
+                {v.licensePlate && (
+                  <span className="text-xs text-slate-600 font-mono">{v.licensePlate}</span>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Vehicle Form Modal */}
+      {showForm && (
+        <VehicleFormModal
+          vehicle={editingVehicle}
+          onSave={handleSubmit}
+          onClose={() => { setShowForm(false); setEditingVehicle(null); }}
+        />
+      )}
+    </div>
+  );
+}
+
+function VehicleFormModal({ vehicle, onSave, onClose }) {
+  const [form, setForm] = useState({
+    name: vehicle?.name || '',
+    make: vehicle?.make || '',
+    model: vehicle?.model || '',
+    year: vehicle?.year || new Date().getFullYear(),
+    licensePlate: vehicle?.licensePlate || '',
+    mileage: vehicle?.mileage || 0,
+  });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!form.name || !form.make || !form.model) return;
+    onSave(form);
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center">
+      <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} />
+      <div className="relative w-full sm:max-w-md bg-slate-900 border border-slate-800 rounded-t-2xl sm:rounded-2xl p-6 shadow-2xl animate-slide-up">
+        <div className="flex items-center justify-between mb-6">
+          <h3 className="text-lg font-bold text-white">
+            {vehicle ? 'Edit Vehicle' : 'Add Vehicle'}
+          </h3>
+          <button onClick={onClose} className="p-1.5 rounded-lg hover:bg-slate-800 text-slate-400">
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label className="block text-xs text-slate-400 mb-1.5 font-medium">Vehicle Name *</label>
+            <input
+              type="text"
+              value={form.name}
+              onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
+              placeholder="e.g. Daily Driver"
+              className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
+              required
+            />
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label className="block text-xs text-slate-400 mb-1.5 font-medium">Make *</label>
+              <input
+                type="text"
+                value={form.make}
+                onChange={e => setForm(f => ({ ...f, make: e.target.value }))}
+                placeholder="e.g. Toyota"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
+                required
+              />
+            </div>
+            <div>
+              <label className="block text-xs text-slate-400 mb-1.5 font-medium">Model *</label>
+              <input
+                type="text"
+                value={form.model}
+                onChange={e => setForm(f => ({ ...f, model: e.target.value }))}
+                placeholder="e.g. Camry"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
+                required
+              />
+            </div>
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label className="block text-xs text-slate-400 mb-1.5 font-medium">Year</label>
+              <input
+                type="number"
+                value={form.year}
+                onChange={e => setForm(f => ({ ...f, year: parseInt(e.target.value) || '' }))}
+                className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
+              />
+            </div>
+            <div>
+              <label className="block text-xs text-slate-400 mb-1.5 font-medium">Current Mileage</label>
+              <input
+                type="number"
+                value={form.mileage}
+                onChange={e => setForm(f => ({ ...f, mileage: parseInt(e.target.value) || 0 }))}
+                className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
+              />
+            </div>
+          </div>
+          <div>
+            <label className="block text-xs text-slate-400 mb-1.5 font-medium">License Plate</label>
+            <input
+              type="text"
+              value={form.licensePlate}
+              onChange={e => setForm(f => ({ ...f, licensePlate: e.target.value }))}
+              placeholder="e.g. ABC-1234"
+              className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
+            />
+          </div>
+          <div className="flex gap-3 pt-2">
+            <button
+              type="button"
+              onClick={onClose}
+              className="flex-1 py-2.5 rounded-xl border border-slate-700 text-sm font-medium text-slate-300 hover:bg-slate-800 transition-all"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              className="flex-1 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-sm font-medium transition-all"
+            >
+              {vehicle ? 'Save Changes' : 'Add Vehicle'}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+}
