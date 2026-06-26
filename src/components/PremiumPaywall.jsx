@@ -1,0 +1,92 @@
+import {
+  Star, Crown, CheckCircle, X, ArrowRight, Sparkles, Zap, Shield, Cloud, BarChart3, Upload
+} from 'lucide-react';
+
+export default function PremiumPaywall({ onClose, onUpgrade }) {
+  const features = [
+    { icon: Star, label: 'Unlimited Vehicles', desc: 'Track your entire fleet' },
+    { icon: Zap, label: 'AI Mileage Predictions', desc: 'Auto-detect from fuel receipts*' },
+    { icon: BarChart3, label: 'Advanced Analytics', desc: 'Expense breakdowns & charts' },
+    { icon: Cloud, label: 'Cloud Document Storage', desc: 'Store receipts & PDFs' },
+    { icon: Shield, label: 'Premium Resale Reports', desc: 'Full service history PDF' },
+    { icon: Upload, label: 'Priority Support', desc: 'Fast, dedicated help' },
+  ];
+
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-slate-950 via-blue-950/30 to-slate-950 flex flex-col items-center justify-center p-4">
+      <div className="w-full max-w-md">
+        {/* Close */}
+        <button onClick={onClose} className="mb-4 p-2 rounded-full hover:bg-slate-800 text-slate-400 transition-colors">
+          <X className="w-5 h-5" />
+        </button>
+
+        {/* Header */}
+        <div className="text-center mb-8">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-blue-500/20 to-cyan-500/20 border border-blue-500/30 text-blue-300 text-xs font-medium mb-4">
+            <Sparkles className="w-3.5 h-3.5" />
+            PREMIUM
+          </div>
+          <h1 className="text-3xl font-bold text-white mb-2">
+            Upgrade Your Experience
+          </h1>
+          <p className="text-slate-400 text-sm">
+            Unlock the full power of MyAutoLog
+          </p>
+        </div>
+
+        {/* Pricing */}
+        <div className="bg-gradient-to-b from-blue-600/10 to-cyan-600/5 border border-blue-500/30 rounded-2xl p-6 mb-6 shadow-xl shadow-blue-500/10">
+          <div className="flex items-baseline justify-center gap-1 mb-2">
+            <span className="text-5xl font-bold text-white">$4</span>
+            <span className="text-2xl text-slate-300">.99</span>
+            <span className="text-slate-500 ml-1">/mo</span>
+          </div>
+          <p className="text-center text-sm text-emerald-400 mb-4">
+            <span className="line-through text-slate-500 mr-2">$59.88/yr</span>
+            $39.99/yr — Save 33%
+          </p>
+          <button
+            onClick={onUpgrade}
+            className="w-full py-3.5 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-semibold shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 transition-all duration-200 flex items-center justify-center gap-2"
+          >
+            <Crown className="w-4 h-4" />
+            Upgrade to Premium
+            <ArrowRight className="w-4 h-4" />
+          </button>
+          <p className="text-[10px] text-slate-600 text-center mt-2">Cancel anytime • No questions asked</p>
+        </div>
+
+        {/* Features */}
+        <div className="space-y-3">
+          {features.map(f => {
+            const Icon = f.icon;
+            return (
+              <div key={f.label} className="flex items-center gap-3 p-3 rounded-xl bg-slate-900/60 border border-slate-800">
+                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500/20 to-cyan-500/20 flex items-center justify-center shrink-0">
+                  <Icon className="w-4 h-4 text-blue-400" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="text-sm font-medium text-white">{f.label}</div>
+                  <div className="text-xs text-slate-500">{f.desc}</div>
+                </div>
+                <CheckCircle className="w-4 h-4 text-emerald-400 shrink-0" />
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Free Tier Note */}
+        <div className="mt-6 p-4 rounded-xl bg-slate-900/40 border border-slate-800 text-center">
+          <p className="text-xs text-slate-500">
+            Free plan continues working. You don't lose saved data if you don't upgrade.
+          </p>
+          <button onClick={onClose} className="mt-2 text-xs text-blue-400 hover:text-blue-300">
+            Continue with Free Plan →
+          </button>
+        </div>
+
+        <p className="text-[10px] text-slate-700 text-center mt-4">*AI features coming in next release</p>
+      </div>
+    </div>
+  );
+}
