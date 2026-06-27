@@ -8,9 +8,10 @@ import RemindersList from './components/RemindersList.jsx';
 import PremiumPaywall from './components/PremiumPaywall.jsx';
 import Settings from './components/Settings.jsx';
 import SyncIndicator from './components/SyncIndicator.jsx';
+import AuthPage from './components/AuthPage.jsx';
+import { useSupabaseData, useSupabaseAuth } from './hooks/useSupabaseData.js';
 import { useLocalStorage, useSyncStatus } from './hooks/useLocalStorage.js';
 import { STORAGE_KEYS } from './utils/constants.js';
-import { generateId } from './utils/helpers.js';
 
 export default function App() {
   const [page, setPage] = useState('landing');
@@ -19,10 +20,23 @@ export default function App() {
   });
   const [forceOffline, setForceOffline] = useState(false);
 
-  // Data stores
-  const vehiclesStore = useLocalStorage(STORAGE_KEYS.VEHICLES, []);
-  const logsStore = useLocalStorage(STORAGE_KEYS.MAINTENANCE_LOGS, []);
-  const remindersStore = useLocalStorage(STORAGE_KEYS.REMINDERS, []);
+  // Supabase auth
+  const auth = useSupabaseAuth();
+  const isAuthenticated = !!auth.user;
+
+  // Data stores — use Supabase when logged in, localStorage fallback when logged out
+  const vehiclesStore = isAuthenticated
+    ? useSupabaseData('vehicles', auth.user?.id)
+    : useLocalStorage(STORAGE_KEYS.VEHICLES, []);
+
+  const logsStore = isAuthenticated
+    ? useSupabaseData('maintenance_logs', auth.user?.id)
+    : useLocalStorage(STORAGE_KEYS.MAINTENANCE_LOGS, []);
+
+  const remindersStore = isAuthenticated
+    ? useSupabaseData('reminders', auth.user?.id)
+    : useLocalStorage(STORAGE_KEYS.REMINDERS, []);
+
   const sync = useSyncStatus();
 
   // Override online status when force offline is toggled
@@ -41,10 +55,13 @@ export default function App() {
     sync.markChanged();
   }, [sync]);
 
-  // Logout (go back to landing)
+  // Logout
   const handleLogout = useCallback(() => {
+    if (isAuthenticated) {
+      auth.signOut();
+    }
     setPage('landing');
-  }, []);
+  }, [auth, isAuthenticated]);
 
   // Add vehicle
   const addVehicle = useCallback((data) => {
@@ -59,18 +76,17 @@ export default function App() {
 
   // Add maintenance log
   const addLog = useCallback((data) => {
-    const log = logsStore.add({
+    logsStore.add({
       ...data,
       mileage: parseInt(data.mileage) || 0,
       cost: parseFloat(data.cost) || 0,
-    });
+    }).then?.(() => {}) || null; // handle both promise and sync returns
     sync.markChanged();
-    return log;
   }, [logsStore, sync]);
 
   // Add reminder
   const addReminder = useCallback((data) => {
-    const reminder = remindersStore.add({
+    remindersStore.add({
       ...data,
       enabled: true,
       lastCompletedMileage: parseInt(data.lastCompletedMileage) || 0,
@@ -80,7 +96,6 @@ export default function App() {
       dueDate: data.dueDate || new Date(Date.now() + 180 * 86400000).toISOString(),
     });
     sync.markChanged();
-    return reminder;
   }, [remindersStore, sync]);
 
   // Reset all data
@@ -100,6 +115,23 @@ export default function App() {
     setPremium(true);
     setPage('dashboard');
   }, []);
+
+  // Show auth page if not authenticated (after landing)
+  if (page !== 'landing' && page !== 'premium' && !isAuthenticated && !auth.loading) {
+    return (
+      <>
+        <AuthPage onAuth={auth} />
+        <SyncIndicator
+          isOnline={effectiveOnline}
+          syncing={sync.syncing}
+          lastSync={sync.lastSync}
+          pendingChanges={sync.pendingChanges}
+          forceOffline={forceOffline}
+          setForceOffline={setForceOffline}
+        />
+      </>
+    );
+  }
 
   // Render pages
   if (page === 'landing') {
