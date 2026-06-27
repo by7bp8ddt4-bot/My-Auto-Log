@@ -1,9 +1,6 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import tailwindcss from '@tailwindcss/vite'
-
-// Note: Service worker (sw.js) and manifest.json are manually managed in public/
-// vite-plugin-pwa is incompatible with Vite 8.x — manual setup works perfectly.
+import { defineConfig } from "vite"
+import react from "@vitejs/plugin-react"
+import tailwindcss from "@tailwindcss/vite"
 
 export default defineConfig({
   plugins: [
@@ -11,12 +8,14 @@ export default defineConfig({
     tailwindcss(),
   ],
   build: {
-    outDir: 'dist',
+    outDir: "dist",
     sourcemap: false,
     rollupOptions: {
       output: {
-        manualChunks: {
-          vendor: ['react', 'react-dom', 'lucide-react'],
+        manualChunks(id) {
+          if (id.includes("node_modules")) {
+            return "vendor";
+          }
         },
       },
     },

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Car, Mail, Lock, Google, Loader2, AlertCircle, Eye, EyeOff, Sparkles } from 'lucide-react';
+import { Car, Mail, Lock, Loader2, AlertCircle, Eye, EyeOff, Sparkles } from 'lucide-react';
 
 export default function AuthPage({ onAuth }) {
   const [mode, setMode] = useState('signin');
