@@ -221,6 +221,7 @@ export default function App() {
       onNavigate={navigate}
     />,
     schedule: <MaintenanceSchedule
+      vehicles={vehiclesStore.data}
       vehicle={vehiclesStore.data[0]}
       logs={logsStore.data}
       onAddLog={addLog}
