@@ -1,10 +1,11 @@
 import logoImg from '/assets/logo.png';
 import iconImg from '/assets/icon-1024.png';
-import { Car, ClipboardList, Bell, Settings, LogOut, ChevronRight } from 'lucide-react';
+import { Car, ClipboardList, Bell, Settings, LogOut, ChevronRight, Calendar } from 'lucide-react';
 
 const navItems = [
   { id: 'dashboard', label: 'Dashboard', icon: Car },
   { id: 'vehicles', label: 'My Vehicles', icon: Car },
+  { id: 'schedule', label: 'Schedule', icon: Calendar },
   { id: 'logs', label: 'Service Logs', icon: ClipboardList },
   { id: 'reminders', label: 'Reminders', icon: Bell },
 ];
