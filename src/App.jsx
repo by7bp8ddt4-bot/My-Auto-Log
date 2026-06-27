@@ -24,18 +24,25 @@ export default function App() {
   const auth = useSupabaseAuth();
   const isAuthenticated = !!auth.user;
 
-  // Data stores — use Supabase when logged in, localStorage fallback when logged out
-  const vehiclesStore = isAuthenticated
-    ? useSupabaseData('vehicles', auth.user?.id)
-    : useLocalStorage(STORAGE_KEYS.VEHICLES, []);
+  // Auto-redirect to dashboard when user signs in / auth loads
+  useEffect(() => {
+    if (isAuthenticated && (page === 'auth' || (!auth.loading && page !== 'landing' && page !== 'premium' && page !== 'dashboard'))) {
+      setPage('dashboard');
+    }
+  }, [isAuthenticated, auth.loading]);
 
-  const logsStore = isAuthenticated
-    ? useSupabaseData('maintenance_logs', auth.user?.id)
-    : useLocalStorage(STORAGE_KEYS.MAINTENANCE_LOGS, []);
+  // Data stores — always call hooks in same order (React rules)
+  const supabaseVehicles = useSupabaseData('vehicles', auth.user?.id);
+  const supabaseLogs = useSupabaseData('maintenance_logs', auth.user?.id);
+  const supabaseReminders = useSupabaseData('reminders', auth.user?.id);
+  const localVehicles = useLocalStorage(STORAGE_KEYS.VEHICLES, []);
+  const localLogs = useLocalStorage(STORAGE_KEYS.MAINTENANCE_LOGS, []);
+  const localReminders = useLocalStorage(STORAGE_KEYS.REMINDERS, []);
 
-  const remindersStore = isAuthenticated
-    ? useSupabaseData('reminders', auth.user?.id)
-    : useLocalStorage(STORAGE_KEYS.REMINDERS, []);
+  // Use Supabase when authenticated, localStorage when not
+  const vehiclesStore = isAuthenticated ? supabaseVehicles : localVehicles;
+  const logsStore = isAuthenticated ? supabaseLogs : localLogs;
+  const remindersStore = isAuthenticated ? supabaseReminders : localReminders;
 
   const sync = useSyncStatus();
 
@@ -80,7 +87,7 @@ export default function App() {
       ...data,
       mileage: parseInt(data.mileage) || 0,
       cost: parseFloat(data.cost) || 0,
-    }).then?.(() => {}) || null; // handle both promise and sync returns
+    });
     sync.markChanged();
   }, [logsStore, sync]);
 
