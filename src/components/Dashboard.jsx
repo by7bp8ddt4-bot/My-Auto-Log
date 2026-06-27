@@ -223,7 +223,7 @@ export default function Dashboard({ vehicles, logs, reminders, onNavigate, onAdd
                       date: new Date().toISOString().split('T')[0],
                       mileage: activeVehicle.mileage,
                       description: `Manufacturer scheduled maintenance: ${item.service}`,
-                      source: 'dashboard-schedule'
+                      source: 'schedule'
                     })}
                     className="p-1.5 rounded-lg bg-blue-600/20 hover:bg-blue-600/40 text-blue-400 transition-all"
                   >
