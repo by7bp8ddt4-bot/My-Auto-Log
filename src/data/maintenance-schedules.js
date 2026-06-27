@@ -156,6 +156,59 @@ export const MAINTENANCE_SCHEDULES = {
       impreza: 'outback'
     }
   },
+  jeep: {
+    models: {
+      wrangler: [
+        { service: 'Oil & Filter Change', intervalMiles: 8000, intervalMonths: 12, severity: 'medium', description: 'Essential for the rugged engine of your Jeep.' },
+        { service: 'Tire Rotation', intervalMiles: 8000, intervalMonths: 12, severity: 'low', description: 'Keeps your off-road or on-road tires wearing evenly.' },
+        { service: 'Cabin Air Filter', intervalMiles: 20000, intervalMonths: 24, severity: 'low', description: 'Keeps the dust of the trail out of your cabin.' },
+        { service: 'Transfer Case Fluid', intervalMiles: 30000, intervalMonths: 36, severity: 'high', description: 'Crucial for 4x4 health. Fresh fluid keeps your 4WD system engaging smoothly.' },
+        { service: 'Spark Plugs', intervalMiles: 100000, intervalMonths: 120, severity: 'medium', description: 'Ensures reliable ignition for years to come.' },
+      ],
+      'grand cherokee': 'wrangler'
+    }
+  },
+  ram: {
+    models: {
+      1500: [
+        { service: 'Oil & Filter Change', intervalMiles: 8000, intervalMonths: 12, severity: 'medium', description: 'Keeps the HEMI or EcoDiesel engine running strong.' },
+        { service: 'Tire Rotation', intervalMiles: 8000, intervalMonths: 12, severity: 'low', description: 'Important for heavy trucks to maintain stable handling.' },
+        { service: 'Engine Air Filter', intervalMiles: 30000, intervalMonths: 24, severity: 'low', description: 'A clean filter helps your truck breathe and tow efficiently.' },
+        { service: 'Differential Fluid', intervalMiles: 20000, intervalMonths: 24, severity: 'medium', description: 'Ram trucks used for towing need regular differential service.' },
+        { service: 'Spark Plugs', intervalMiles: 100000, intervalMonths: 120, severity: 'medium', description: 'Ensures optimal power and fuel economy.' },
+      ]
+    }
+  },
+  tesla: {
+    models: {
+      'model 3': [
+        { service: 'Cabin Air Filter', intervalMiles: 0, intervalMonths: 24, severity: 'low', description: 'Tesla recommends a fresh filter every 2 years to keep air pure.' },
+        { service: 'Tire Rotation', intervalMiles: 6250, intervalMonths: 0, severity: 'low', description: 'EVs are heavy and torque-heavy; regular rotations are critical.' },
+        { service: 'Brake Fluid Test', intervalMiles: 0, intervalMonths: 24, severity: 'medium', description: 'Test for moisture every 2 years. Since you use regen braking, the pads last forever but fluid still ages.' },
+        { service: 'A/C Desiccant Bag', intervalMiles: 0, intervalMonths: 48, severity: 'medium', description: 'Helps the air conditioning system stay dry and efficient.' },
+        { service: 'Brake Caliper Cleaning', intervalMiles: 12500, intervalMonths: 12, severity: 'low', description: 'Important in cold climates where road salt can cause calipers to seize since they are used less.' },
+      ],
+      'model y': 'model 3'
+    }
+  },
+  volkswagen: {
+    models: {
+      jetta: [
+        { service: 'Oil & Filter Change', intervalMiles: 10000, intervalMonths: 12, severity: 'medium', description: 'German engines thrive on regular, high-quality synthetic oil changes.' },
+        { service: 'Tire Rotation', intervalMiles: 10000, intervalMonths: 12, severity: 'low', description: 'Helps maintain the crisp handling VW is known for.' },
+        { service: 'Cabin Air Filter', intervalMiles: 20000, intervalMonths: 24, severity: 'low', description: 'Ensures the interior remains a clean environment.' },
+        { service: 'Spark Plugs', intervalMiles: 40000, intervalMonths: 48, severity: 'medium', description: 'VW turbo engines need fresh plugs more often for peak performance.' },
+        { service: 'Transmission Service', intervalMiles: 80000, intervalMonths: 72, severity: 'high', description: 'Crucial for the long-term health of the DSG or automatic transmission.' },
+      ],
+      tiguan: 'jetta'
+    }
+  },
+  gmc: {
+    models: {
+      sierra: 'chevrolet.silverado',
+      yukon: 'chevrolet.silverado'
+    }
+  },
   default: [
     { service: 'Oil & Filter Change', intervalMiles: 5000, intervalMonths: 6, severity: 'medium', description: 'The gold standard for keeping any engine running for a long time.' },
     { service: 'Tire Rotation', intervalMiles: 5000, intervalMonths: 6, severity: 'low', description: 'Regular rotations prevent you from needing new tires prematurely.' },

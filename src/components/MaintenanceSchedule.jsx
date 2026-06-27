@@ -13,14 +13,17 @@ import {
 import { formatNumber, formatDate } from '../utils/helpers';
 import { useMaintenanceSchedule } from '../hooks/useMaintenanceSchedule';
 
-export default function MaintenanceSchedule({ vehicle, logs, onAddLog, onNavigate }) {
+export default function MaintenanceSchedule({ vehicle: initialVehicle, logs, onAddLog, onNavigate, vehicles = [] }) {
+  const [selectedVehicleId, setSelectedVehicleId] = React.useState(initialVehicle?.id || vehicles[0]?.id || '');
+  
+  const vehicle = vehicles.find(v => v.id === selectedVehicleId) || initialVehicle;
   const schedule = useMaintenanceSchedule(vehicle, logs);
 
-  if (!vehicle) {
+  if (!vehicle && vehicles.length === 0) {
     return (
       <div className="text-center py-12 bg-slate-900/30 rounded-2xl border border-slate-800">
         <Settings className="w-10 h-10 text-slate-600 mx-auto mb-3" />
-        <p className="text-sm text-slate-400 mb-1">Select a vehicle to see its schedule</p>
+        <p className="text-sm text-slate-400 mb-1">Add a vehicle to see its maintenance schedule</p>
       </div>
     );
   }
@@ -31,13 +34,25 @@ export default function MaintenanceSchedule({ vehicle, logs, onAddLog, onNavigat
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h2 className="text-xl font-bold text-white">Maintenance Schedule</h2>
           <p className="text-sm text-slate-400 mt-0.5">
-            Based on {vehicle.year} {vehicle.make} {vehicle.model} manufacturer guidelines
+            {vehicle ? `Based on ${vehicle.year} ${vehicle.make} ${vehicle.model} manufacturer guidelines` : 'Manufacturer guidelines'}
           </p>
         </div>
+        
+        {vehicles.length > 1 && (
+          <select 
+            value={selectedVehicleId}
+            onChange={(e) => setSelectedVehicleId(e.target.value)}
+            className="px-3 py-2 rounded-xl bg-slate-800 border border-slate-700 text-white text-xs focus:ring-2 focus:ring-blue-500 outline-none"
+          >
+            {vehicles.map(v => (
+              <option key={v.id} value={v.id}>{v.year} {v.make} {v.model}</option>
+            ))}
+          </select>
+        )}
       </div>
 
       {/* Summary Stats */}
