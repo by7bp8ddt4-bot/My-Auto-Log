@@ -36,6 +36,7 @@ export default function AuthPage({ onAuth }) {
       }
 
       if (mode === 'signup') {
+        if (data?.session) return; // Already logged in, App.jsx handles navigation
         setError('Check your email for a confirmation link!');
         setMode('signin');
       }

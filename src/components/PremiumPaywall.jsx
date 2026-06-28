@@ -35,25 +35,68 @@ export default function PremiumPaywall({ onClose, onUpgrade }) {
         </div>
 
         {/* Pricing */}
-        <div className="bg-gradient-to-b from-blue-600/10 to-cyan-600/5 border border-blue-500/30 rounded-2xl p-6 mb-6 shadow-xl shadow-blue-500/10">
-          <div className="flex items-baseline justify-center gap-1 mb-2">
-            <span className="text-5xl font-bold text-white">$4</span>
-            <span className="text-2xl text-slate-300">.99</span>
-            <span className="text-slate-500 ml-1">/mo</span>
+        <div className="space-y-4 mb-6">
+          {/* Monthly */}
+          <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-5 shadow-xl transition-all hover:border-blue-500/30 group">
+            <div className="flex items-center justify-between mb-4">
+              <div>
+                <h3 className="text-white font-bold text-lg">Monthly</h3>
+                <p className="text-slate-400 text-xs">Flexible, cancel anytime</p>
+              </div>
+              <div className="text-right">
+                <div className="text-2xl font-bold text-white">$4.99</div>
+                <div className="text-[10px] text-slate-500">per month</div>
+              </div>
+            </div>
+            <button
+              onClick={() => {
+                onUpgrade();
+                window.location.href = 'https://buy.stripe.com/6oU9AT5ko1Ob6GV36b0sU00';
+              }}
+              className="w-full py-3 rounded-xl bg-slate-800 group-hover:bg-blue-600 text-white font-semibold transition-all duration-200 flex items-center justify-center gap-2"
+            >
+              Choose Monthly
+              <ArrowRight className="w-4 h-4" />
+            </button>
           </div>
-          <p className="text-center text-sm text-emerald-400 mb-4">
-            <span className="line-through text-slate-500 mr-2">$59.88/yr</span>
-            $39.99/yr — Save 33%
-          </p>
-          <button
-            onClick={onUpgrade}
-            className="w-full py-3.5 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-semibold shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 transition-all duration-200 flex items-center justify-center gap-2"
-          >
-            <Crown className="w-4 h-4" />
-            Upgrade to Premium
-            <ArrowRight className="w-4 h-4" />
-          </button>
-          <p className="text-[10px] text-slate-600 text-center mt-2">Cancel anytime • No questions asked</p>
+
+          {/* Yearly */}
+          <div className="bg-gradient-to-b from-blue-600/10 to-cyan-600/5 border border-blue-500/30 rounded-2xl p-5 shadow-xl shadow-blue-500/10 transition-all hover:border-blue-500/50 group relative overflow-hidden">
+            <div className="absolute top-0 right-0">
+              <div className="bg-emerald-500 text-slate-950 text-[10px] font-bold px-3 py-1 rounded-bl-lg uppercase tracking-wider">
+                Save 33%
+              </div>
+            </div>
+            <div className="flex items-center justify-between mb-4">
+              <div>
+                <h3 className="text-white font-bold text-lg flex items-center gap-2">
+                  Yearly
+                  <span className="bg-blue-500/20 text-blue-300 text-[10px] px-1.5 py-0.5 rounded-full">Best Value</span>
+                </h3>
+                <p className="text-slate-400 text-xs">One payment, full year access</p>
+              </div>
+              <div className="text-right">
+                <div className="text-2xl font-bold text-white">$39.99</div>
+                <div className="text-[10px] text-slate-500">per year</div>
+              </div>
+            </div>
+            <button
+              onClick={() => {
+                onUpgrade();
+                window.location.href = 'https://buy.stripe.com/eVq00j1480K77KZayD0sU01';
+              }}
+              className="w-full py-3 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-semibold shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 transition-all duration-200 flex items-center justify-center gap-2"
+            >
+              <Crown className="w-4 h-4 text-yellow-300" />
+              Choose Yearly
+              <ArrowRight className="w-4 h-4" />
+            </button>
+          </div>
+          
+          <div className="flex items-center justify-center gap-1.5 text-slate-500">
+            <Shield className="w-3.5 h-3.5" />
+            <p className="text-[10px] font-medium">Your purchase will be processed securely by Stripe</p>
+          </div>
         </div>
 
         {/* Features */}
@@ -85,7 +128,7 @@ export default function PremiumPaywall({ onClose, onUpgrade }) {
           </button>
         </div>
 
-        <p className="text-[10px] text-slate-700 text-center mt-4">*AI features coming in next release</p>
+        <p className="text-[10px] text-slate-700 text-center mt-4">Safe & secure checkout</p>
       </div>
     </div>
   );
