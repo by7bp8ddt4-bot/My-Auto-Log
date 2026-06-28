@@ -193,7 +193,7 @@ export default function LandingPage({ onGetStarted, onViewPremium }) {
             >
               Upgrade to Premium
             </button>
-            <p className="text-[10px] text-slate-600 mt-3 text-center">*Coming soon</p>
+            <p className="text-[10px] text-slate-600 mt-3 text-center">Secure checkout via Stripe</p>
           </div>
         </div>
       </div>
