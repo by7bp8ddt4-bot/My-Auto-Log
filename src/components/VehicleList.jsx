@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { X, Car, Plus, Pencil, Trash2, ChevronRight } from 'lucide-react';
 import { formatNumber } from '../utils/helpers';
+import { ManufacturerBadge } from '../utils/manufacturerBranding.jsx';
 
 export default function VehicleList({ vehicles, onAdd, onEdit, onDelete, isPremium, vehicleCount, onNavigate }) {
   const [showForm, setShowForm] = useState(false);
@@ -72,9 +73,7 @@ export default function VehicleList({ vehicles, onAdd, onEdit, onDelete, isPremi
             >
               <div className="flex items-start justify-between mb-3">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500/20 to-cyan-500/20 flex items-center justify-center">
-                    <Car className="w-5 h-5 text-blue-400" />
-                  </div>
+                  <ManufacturerBadge make={v.make} size={20} />
                   <div>
                     <h3 className="font-semibold text-white text-sm">{v.name}</h3>
                     <p className="text-xs text-slate-500">

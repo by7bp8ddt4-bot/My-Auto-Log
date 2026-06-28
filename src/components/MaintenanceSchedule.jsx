@@ -12,12 +12,14 @@ import {
 } from 'lucide-react';
 import { formatNumber, formatDate } from '../utils/helpers';
 import { useMaintenanceSchedule } from '../hooks/useMaintenanceSchedule';
+import { getManufacturerColor, ManufacturerBadge } from '../utils/manufacturerBranding';
 
 export default function MaintenanceSchedule({ vehicle: initialVehicle, logs, onAddLog, onNavigate, vehicles = [] }) {
   const [selectedVehicleId, setSelectedVehicleId] = React.useState(initialVehicle?.id || vehicles[0]?.id || '');
   
   const vehicle = vehicles.find(v => v.id === selectedVehicleId) || initialVehicle;
   const schedule = useMaintenanceSchedule(vehicle, logs);
+  const brandColor = getManufacturerColor(vehicle?.make);
 
   if (!vehicle && vehicles.length === 0) {
     return (
@@ -34,12 +36,15 @@ export default function MaintenanceSchedule({ vehicle: initialVehicle, logs, onA
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <h2 className="text-xl font-bold text-white">Maintenance Schedule</h2>
-          <p className="text-sm text-slate-400 mt-0.5">
-            {vehicle ? `Based on ${vehicle.year} ${vehicle.make} ${vehicle.model} manufacturer guidelines` : 'Manufacturer guidelines'}
-          </p>
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-2xl bg-slate-900/40 border border-slate-800" style={{ borderLeft: `4px solid ${brandColor}` }}>
+        <div className="flex items-center gap-3">
+          <ManufacturerBadge make={vehicle?.make} size={32} className="bg-slate-900/60" />
+          <div>
+            <h2 className="text-xl font-bold text-white">Maintenance Schedule</h2>
+            <p className="text-sm text-slate-400 mt-0.5">
+              {vehicle ? `Based on ${vehicle.year} ${vehicle.make} ${vehicle.model} guidelines` : 'Manufacturer guidelines'}
+            </p>
+          </div>
         </div>
         
         {vehicles.length > 1 && (

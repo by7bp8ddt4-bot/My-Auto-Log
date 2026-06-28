@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import {
   Car, AlertTriangle, Clock, DollarSign, Bell, Gauge,
-  TrendingUp, Wrench, ArrowUpRight, Calendar
+  TrendingUp, Wrench, ArrowUpRight, Calendar, Plus
 } from 'lucide-react';
 import { formatCurrency, formatNumber, formatDate } from '../utils/helpers';
 import { calculateReminderStatus } from '../utils/helpers';
 import AICopilot from './AICopilot.jsx';
 import { useMaintenanceSchedule } from '../hooks/useMaintenanceSchedule';
+import { ManufacturerBadge } from '../utils/manufacturerBranding.jsx';
 
 export default function Dashboard({ vehicles, logs, reminders, onNavigate, onAddLog, isPremium }) {
   const [showExpenseAnalytics, setShowExpenseAnalytics] = useState(false);
@@ -177,6 +178,7 @@ export default function Dashboard({ vehicles, logs, reminders, onNavigate, onAdd
           </div>
           
           <div className="flex items-center gap-4 mb-4 p-3 bg-slate-800/30 rounded-xl">
+            <ManufacturerBadge make={activeVehicle.make} size={24} />
             <div className="flex-1">
               <div className="text-xs text-slate-400 mb-1">Active Vehicle</div>
               <div className="text-sm font-bold text-white">{activeVehicle.year} {activeVehicle.make} {activeVehicle.model}</div>
