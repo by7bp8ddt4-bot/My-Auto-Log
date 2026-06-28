@@ -5,6 +5,7 @@ import {
 } from 'lucide-react';
 import { formatNumber, formatDate } from '../utils/helpers';
 import { useMaintenanceSchedule } from '../hooks/useMaintenanceSchedule';
+import { getManufacturerColor, ManufacturerBadge } from '../utils/manufacturerBranding.jsx';
 
 // Mock AI translations for the informal input
 function mockTranslate(input, vehicleMileage) {
@@ -123,6 +124,7 @@ export default function AICopilot({ vehicles, logs, onAddLog, onNavigate, isPrem
 
   const activeVehicle = vehicles[0] || null;
   const schedule = useMaintenanceSchedule(activeVehicle, logs);
+  const brandColor = getManufacturerColor(activeVehicle?.make);
   
   // Find the most urgent item (overdue or next upcoming)
   const urgentItem = schedule[0];
@@ -280,22 +282,19 @@ export default function AICopilot({ vehicles, logs, onAddLog, onNavigate, isPrem
 
       {/* Feature 2: Proactive Jargon-Free Timelines */}
       {urgentItem && (
-        <div className={`p-5 rounded-2xl bg-gradient-to-br border transition-all ${
-          urgentItem.status === 'overdue' ? 'from-red-600/5 to-orange-600/5 border-red-500/20 shadow-lg shadow-red-500/5' :
-          urgentItem.status === 'due-soon' ? 'from-amber-600/5 to-orange-600/5 border-amber-500/20' :
-          'from-blue-600/5 to-cyan-600/5 border-blue-500/20'
-        }`}>
+        <div 
+          className={`p-5 rounded-2xl bg-gradient-to-br border transition-all ${
+            urgentItem.status === 'overdue' ? 'from-red-600/5 to-orange-600/5 border-red-500/20 shadow-lg shadow-red-500/5' :
+            urgentItem.status === 'due-soon' ? 'from-amber-600/5 to-orange-600/5 border-amber-500/20' :
+            'from-blue-600/5 to-cyan-600/5 border-blue-500/20'
+          }`}
+          style={{ borderTop: `4px solid ${brandColor}` }}
+        >
           <div className="flex items-center gap-3 mb-4">
-            <div className={`w-10 h-10 rounded-xl bg-gradient-to-br flex items-center justify-center ${
-              urgentItem.status === 'overdue' ? 'from-red-500/20 to-orange-500/20' :
-              urgentItem.status === 'due-soon' ? 'from-amber-500/20 to-orange-500/20' :
-              'from-blue-500/20 to-cyan-500/20'
-            }`}>
-              {urgentItem.status === 'overdue' ? <AlertTriangle className="w-5 h-5 text-red-400" /> : <Lightbulb className="w-5 h-5 text-amber-400" />}
-            </div>
-            <div>
+            <ManufacturerBadge make={activeVehicle.make} size={28} className="bg-slate-900/60 shrink-0" />
+            <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2">
-                <h3 className="text-sm font-semibold text-white">
+                <h3 className="text-sm font-semibold text-white truncate">
                   {urgentItem.status === 'overdue' ? 'Urgent Maintenance Required' : 'AI Assistant — Proactive Guidance'}
                 </h3>
                 <span className={`text-[10px] px-1.5 py-0.5 rounded-full font-bold tracking-wider ${
