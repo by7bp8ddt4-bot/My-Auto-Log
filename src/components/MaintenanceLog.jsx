@@ -1,13 +1,14 @@
 import { useState } from 'react';
 import {
   X, Plus, ClipboardList, Trash2, FileText, Upload, Calendar, DollarSign,
-  Gauge, Image, Cloud, CheckCircle2, Loader2
+  Gauge, Image, Cloud, CheckCircle2, Loader2, Pencil
 } from 'lucide-react';
 import { formatDate, formatCurrency, formatNumber } from '../utils/helpers';
 import { SERVICE_TYPES } from '../utils/constants';
 
-export default function MaintenanceLog({ logs, vehicles, onAdd, onDelete, onNavigate, isPremium }) {
+export default function MaintenanceLog({ logs, vehicles, onAdd, onUpdate, onDelete, onNavigate, isPremium }) {
   const [showForm, setShowForm] = useState(false);
+  const [editingLog, setEditingLog] = useState(null);
   const [vehicleFilter, setVehicleFilter] = useState('all');
 
   const filteredLogs = vehicleFilter === 'all'
@@ -175,12 +176,20 @@ export default function MaintenanceLog({ logs, vehicles, onAdd, onDelete, onNavi
                           )}
                         </div>
                       </div>
-                      <button
-                        onClick={() => onDelete(log.id)}
-                        className="p-1.5 rounded-lg hover:bg-red-500/10 text-slate-600 hover:text-red-400 transition-all shrink-0"
-                      >
-                        <Trash2 className="w-3.5 h-3.5" />
-                      </button>
+                      <div className="flex gap-0.5 shrink-0">
+                        <button
+                          onClick={() => { setEditingLog(log); setShowForm(true); }}
+                          className="p-1.5 rounded-lg hover:bg-blue-500/10 text-slate-500 hover:text-blue-400 transition-all"
+                        >
+                          <Pencil className="w-3.5 h-3.5" />
+                        </button>
+                        <button
+                          onClick={() => onDelete(log.id)}
+                          className="p-1.5 rounded-lg hover:bg-red-500/10 text-slate-600 hover:text-red-400 transition-all"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
                     </div>
                   </div>
                 );
@@ -190,27 +199,29 @@ export default function MaintenanceLog({ logs, vehicles, onAdd, onDelete, onNavi
         </>
       )}
 
-      {showForm && (
+      {(showForm) && (
         <MaintenanceFormModal
           vehicles={vehicles}
-          onSave={onAdd}
-          onClose={() => setShowForm(false)}
+          initialData={editingLog}
+          isEditing={!!editingLog}
+          onSave={editingLog ? (data) => { onUpdate(editingLog.id, data); setShowForm(false); setEditingLog(null); } : onAdd}
+          onClose={() => { setShowForm(false); setEditingLog(null); }}
         />
       )}
     </div>
   );
 }
 
-function MaintenanceFormModal({ vehicles, onSave, onClose }) {
+function MaintenanceFormModal({ vehicles, initialData, isEditing, onSave, onClose }) {
   const [form, setForm] = useState({
-    vehicleId: vehicles[0]?.id || '',
-    date: new Date().toISOString().split('T')[0],
-    mileage: '',
-    serviceType: '',
-    description: '',
-    cost: '',
+    vehicleId: initialData?.vehicleId || vehicles[0]?.id || '',
+    date: initialData?.date || new Date().toISOString().split('T')[0],
+    mileage: initialData?.mileage?.toString() || '',
+    serviceType: initialData?.serviceType || '',
+    description: initialData?.description || '',
+    cost: initialData?.cost?.toString() || '',
   });
-  const [documents, setDocuments] = useState([]);
+  const [documents, setDocuments] = useState(initialData?.documents || []);
   const [uploadProgress, setUploadProgress] = useState(null);
   const [uploadComplete, setUploadComplete] = useState(false);
 
@@ -272,7 +283,7 @@ function MaintenanceFormModal({ vehicles, onSave, onClose }) {
       <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} />
       <div className="relative w-full sm:max-w-lg bg-slate-900 border border-slate-800 rounded-t-2xl sm:rounded-2xl p-6 shadow-2xl max-h-[90vh] overflow-y-auto">
         <div className="flex items-center justify-between mb-6">
-          <h3 className="text-lg font-bold text-white">Log Service</h3>
+          <h3 className="text-lg font-bold text-white">{isEditing ? 'Edit Service' : 'Log Service'}</h3>
           <button onClick={onClose} className="p-1.5 rounded-lg hover:bg-slate-800 text-slate-400">
             <X className="w-5 h-5" />
           </button>
@@ -424,7 +435,7 @@ function MaintenanceFormModal({ vehicles, onSave, onClose }) {
               Cancel
             </button>
             <button type="submit" className="flex-1 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-sm font-medium transition-all">
-              Log Service
+              {isEditing ? 'Save Changes' : 'Log Service'}
             </button>
           </div>
         </form>

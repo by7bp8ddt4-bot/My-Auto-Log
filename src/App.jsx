@@ -198,6 +198,10 @@ export default function App() {
       logs={logsStore.data}
       vehicles={vehiclesStore.data}
       onAdd={addLog}
+      onUpdate={(id, updates) => {
+        logsStore.updateItem(id, updates);
+        sync.markChanged();
+      }}
       onDelete={(id) => {
         logsStore.remove(id);
         sync.markChanged();
