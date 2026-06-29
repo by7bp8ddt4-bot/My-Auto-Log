@@ -1,15 +1,18 @@
 import { useState } from 'react';
 import {
   Car, AlertTriangle, Clock, DollarSign, Bell, Gauge,
-  TrendingUp, Wrench, ArrowUpRight, Calendar, Plus
+  TrendingUp, Wrench, ArrowUpRight, Calendar, Plus, Fuel,
+  FileText, Download
 } from 'lucide-react';
 import { formatCurrency, formatNumber, formatDate } from '../utils/helpers';
 import { calculateReminderStatus } from '../utils/helpers';
+import { generateResaleReport } from '../utils/generateReport';
+import MileageChart from './MileageChart.jsx';
 import AICopilot from './AICopilot.jsx';
 import { useMaintenanceSchedule } from '../hooks/useMaintenanceSchedule';
 import { ManufacturerBadge } from '../utils/manufacturerBranding.jsx';
 
-export default function Dashboard({ vehicles, logs, reminders, onNavigate, onAddLog, isPremium }) {
+export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], onNavigate, onAddLog, isPremium }) {
   const [showExpenseAnalytics, setShowExpenseAnalytics] = useState(false);
 
   const activeVehicle = vehicles[0];
@@ -64,52 +67,21 @@ export default function Dashboard({ vehicles, logs, reminders, onNavigate, onAdd
   return (
     <div>
       {/* Welcome */}
-      <div className="mb-6">
-        <h2 className="text-xl font-bold text-white">Dashboard</h2>
-        <p className="text-sm text-slate-400 mt-0.5">
-          {vehicles.length} {vehicles.length === 1 ? 'vehicle' : 'vehicles'} • {logs.length} service records
-        </p>
-      </div>
-
-      {/* AI Co-Pilot Section — Prominently featured */}
-      <div className="mb-8">
-        <AICopilot
-          vehicles={vehicles}
-          logs={logs}
-          onAddLog={onAddLog}
-          onNavigate={onNavigate}
-          isPremium={isPremium}
-        />
-      </div>
-
-      {/* Premium AI Mileage Prediction */}
-      {isPremium && aiMileagePrediction && vehicles[0] && (
-        <div className="mb-6 p-5 rounded-2xl bg-gradient-to-r from-blue-600/10 to-cyan-600/10 border border-blue-500/30">
-          <div className="flex items-center gap-2 mb-3">
-            <div className="w-8 h-8 rounded-lg bg-blue-500/20 flex items-center justify-center">
-              <TrendingUp className="w-4 h-4 text-blue-400" />
-            </div>
-            <div>
-              <h3 className="text-sm font-semibold text-white">AI Mileage Prediction</h3>
-              <p className="text-[10px] text-blue-300">Based on weekly driving patterns</p>
-            </div>
-          </div>
-          <div className="grid grid-cols-3 gap-4">
-            <div className="text-center">
-              <div className="text-lg font-bold text-cyan-300">{formatNumber(aiMileagePrediction.predicted)}</div>
-              <div className="text-[10px] text-slate-400">Predicted Mileage</div>
-            </div>
-            <div className="text-center">
-              <div className="text-lg font-bold text-blue-300">{formatNumber(aiMileagePrediction.weeklyAvg)} mi</div>
-              <div className="text-[10px] text-slate-400">Weekly Average</div>
-            </div>
-            <div className="text-center">
-              <div className="text-lg font-bold text-emerald-300">{aiMileagePrediction.confidence}%</div>
-              <div className="text-[10px] text-slate-400">Confidence</div>
-            </div>
-          </div>
+      <div className="mb-6 flex items-center justify-between">
+        <div>
+          <h2 className="text-xl font-bold text-white">Dashboard</h2>
+          <p className="text-sm text-slate-400 mt-0.5">
+            {vehicles.length} {vehicles.length === 1 ? 'vehicle' : 'vehicles'} • {logs.length} service records
+          </p>
         </div>
-      )}
+        <button 
+          onClick={() => onNavigate('fuel')}
+          className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-emerald-600/20 border border-emerald-500/30 text-emerald-400 text-xs font-medium hover:bg-emerald-600/30 transition-all"
+        >
+          <Fuel className="w-3.5 h-3.5" />
+          Fuel Tracking
+        </button>
+      </div>
 
       {/* Stats Grid */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
@@ -151,7 +123,7 @@ export default function Dashboard({ vehicles, logs, reminders, onNavigate, onAdd
             text: 'text-emerald-400',
           },
         ].map(s => (
-          <div key={s.label} className={`p-4 rounded-2xl ${s.bg} ${s.border} border`}>
+          <div key={s.label} className={`p-4 rounded-2xl ${s.bg} ${s.border} border shadow-sm`}>
             <div className="flex items-center gap-2 mb-3">
               <s.icon className={`w-4 h-4 ${s.text}`} />
               <span className="text-xs text-slate-400">{s.label}</span>
@@ -159,6 +131,26 @@ export default function Dashboard({ vehicles, logs, reminders, onNavigate, onAdd
             <div className={`text-2xl font-bold ${s.text}`}>{s.value}</div>
           </div>
         ))}
+      </div>
+
+      {/* Mileage Chart Section */}
+      <div className="mb-8">
+        <MileageChart 
+          logs={logs} 
+          vehicles={vehicles} 
+          isPremium={isPremium} 
+        />
+      </div>
+
+      {/* AI Co-Pilot Section — Prominently featured */}
+      <div className="mb-8">
+        <AICopilot
+          vehicles={vehicles}
+          logs={logs}
+          onAddLog={onAddLog}
+          onNavigate={onNavigate}
+          isPremium={isPremium}
+        />
       </div>
 
       {/* Maintenance Schedule Card */}
@@ -489,6 +481,33 @@ export default function Dashboard({ vehicles, logs, reminders, onNavigate, onAdd
           </div>
         )}
       </div>
+
+      {/* Mileage Graph */}
+      <div className="mt-8">
+        <MileageChart logs={logs} vehicles={vehicles} isPremium={isPremium} />
+      </div>
+
+      {/* Premium PDF Resale Report */}
+      {isPremium && (
+        <div className="mt-4 p-5 rounded-2xl bg-gradient-to-r from-amber-600/5 to-orange-600/5 border border-amber-500/20">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <FileText className="w-4 h-4 text-amber-400" />
+              <h3 className="text-sm font-semibold text-white">Resale Value Report</h3>
+            </div>
+            <button
+              onClick={() => generateResaleReport(vehicles, logs, reminders)}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-500 text-white text-xs font-medium transition-all"
+            >
+              <Download className="w-3.5 h-3.5" />
+              Generate PDF
+            </button>
+          </div>
+          <p className="text-xs text-slate-400 mt-2">
+            Generate a professional PDF report of your full service history — perfect for dealership trade-ins or private sales.
+          </p>
+        </div>
+      )}
 
       {/* Quick Actions */}
       <div className="mt-8 p-5 rounded-2xl bg-gradient-to-r from-blue-600/5 to-cyan-600/5 border border-blue-500/20">

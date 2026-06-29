@@ -194,6 +194,9 @@ export function useSupabaseAuth() {
     supabase.auth.getSession().then(({ data: { session: s } }) => {
       setSession(s);
       setUser(s?.user ?? null);
+      if (s?.user) {
+        supabase.from('profiles').upsert({ id: s.user.id, email: s.user.email });
+      }
       setLoading(false);
     });
 
@@ -201,6 +204,9 @@ export function useSupabaseAuth() {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
       setUser(session?.user ?? null);
+      if (session?.user) {
+        supabase.from('profiles').upsert({ id: session.user.id, email: session.user.email });
+      }
       setLoading(false);
     });
 
@@ -215,11 +221,17 @@ export function useSupabaseAuth() {
         emailRedirectTo: window.location.origin,
       }
     });
+    if (data?.user) {
+      await supabase.from('profiles').upsert({ id: data.user.id, email: data.user.email });
+    }
     return { data, error };
   }, []);
 
   const signIn = useCallback(async (email, password) => {
     const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+    if (data?.user) {
+      await supabase.from('profiles').upsert({ id: data.user.id, email: data.user.email });
+    }
     return { data, error };
   }, []);
 
@@ -230,7 +242,28 @@ export function useSupabaseAuth() {
         redirectTo: window.location.origin,
       },
     });
+    // For OAuth, we handle profile update in a separate useEffect or on return
     return { data, error };
+  }, []);
+
+  // Premium status — stored in profiles table so it persists across devices
+  const checkPremium = useCallback(async () => {
+    if (!user) return false;
+    try {
+      const { data } = await supabase.from('profiles').select('premium').eq('id', user.id).single();
+      return data?.premium === true;
+    } catch {
+      return localStorage.getItem('myautolog_premium') === 'true';
+    }
+  }, [user]);
+
+  const setPremiumStatus = useCallback(async (userId) => {
+    localStorage.setItem('myautolog_premium', 'true');
+    try {
+      await supabase.from('profiles').upsert({ id: userId, premium: true, updated_at: new Date().toISOString() });
+    } catch (e) {
+      console.warn('Could not save premium to Supabase:', e);
+    }
   }, []);
 
   const signOut = useCallback(async () => {
@@ -243,5 +276,5 @@ export function useSupabaseAuth() {
     });
   }, []);
 
-  return { user, session, loading, signUp, signIn, signInWithGoogle, signOut };
+  return { user, session, loading, signUp, signIn, signInWithGoogle, signOut, checkPremium, setPremiumStatus };
 }

@@ -200,13 +200,119 @@ export const MAINTENANCE_SCHEDULES = {
         { service: 'Spark Plugs', intervalMiles: 40000, intervalMonths: 48, severity: 'medium', description: 'VW turbo engines need fresh plugs more often for peak performance.' },
         { service: 'Transmission Service', intervalMiles: 80000, intervalMonths: 72, severity: 'high', description: 'Crucial for the long-term health of the DSG or automatic transmission.' },
       ],
-      tiguan: 'jetta'
+      tiguan: 'jetta',
+      golf: 'jetta',
+      passat: 'jetta',
+      atlas: 'jetta',
+      'id.4': [
+        { service: 'Cabin Air Filter', intervalMiles: 0, intervalMonths: 24, severity: 'low', description: 'VW recommends a fresh filter every 2 years to keep air pure in your EV.' },
+        { service: 'Tire Rotation', intervalMiles: 10000, intervalMonths: 0, severity: 'low', description: 'Regular rotations are critical for the heavy ID.4 to prevent uneven wear.' },
+        { service: 'Brake Fluid Test', intervalMiles: 0, intervalMonths: 24, severity: 'medium', description: 'Test for moisture every 2 years. Fluid ages even if pads last a long time due to regen.' },
+        { service: 'Vehicle Inspection', intervalMiles: 0, intervalMonths: 24, severity: 'low', description: 'A thorough check of the high-voltage components and drivetrain.' },
+      ]
     }
   },
   gmc: {
     models: {
       sierra: 'chevrolet.silverado',
       yukon: 'chevrolet.silverado'
+    }
+  },
+  mazda: {
+    models: {
+      mazda3: [
+        { service: 'Oil & Filter Change', intervalMiles: 5000, intervalMonths: 6, severity: 'medium', description: 'Mazda engines perform best with regular fresh oil changes.' },
+        { service: 'Tire Rotation', intervalMiles: 5000, intervalMonths: 6, severity: 'low', description: 'Ensures your Zoom-Zoom handling remains balanced and safe.' },
+        { service: 'Cabin Air Filter', intervalMiles: 15000, intervalMonths: 12, severity: 'low', description: 'Keeps the air inside your Mazda crisp and clean.' },
+        { service: 'Engine Air Filter', intervalMiles: 30000, intervalMonths: 36, severity: 'low', description: 'Helps the engine breathe easily for better power and gas mileage.' },
+        { service: 'Brake Fluid Flush', intervalMiles: 30000, intervalMonths: 24, severity: 'medium', description: 'Critical for maintaining that responsive Mazda brake feel.' },
+      ],
+      'cx-5': 'mazda3',
+      'cx-9': 'mazda3',
+      'mx-5 miata': 'mazda3'
+    }
+  },
+  audi: {
+    models: {
+      a4: [
+        { service: 'Oil & Filter Change', intervalMiles: 10000, intervalMonths: 12, severity: 'medium', description: 'High-performance Audi engines require synthetic oil to stay healthy.' },
+        { service: 'Dust & Pollen Filter', intervalMiles: 20000, intervalMonths: 24, severity: 'low', description: 'Keeps your luxury cabin free of allergens and dust.' },
+        { service: 'Brake Fluid Flush', intervalMiles: 20000, intervalMonths: 24, severity: 'medium', description: 'Ensures your stopping power remains consistent and safe.' },
+        { service: 'Spark Plugs', intervalMiles: 40000, intervalMonths: 48, severity: 'medium', description: 'New plugs prevent misfires in Audi turbocharged engines.' },
+        { service: 'Engine Air Filter', intervalMiles: 60000, intervalMonths: 72, severity: 'low', description: 'A clean filter is essential for maintaining Audi performance.' },
+        { service: 'Transmission Service', intervalMiles: 40000, intervalMonths: 48, severity: 'high', description: 'Crucial for the longevity of the sophisticated S-tronic or Tiptronic trans.' },
+      ],
+      a3: 'a4',
+      q5: 'a4',
+      q7: 'a4'
+    }
+  },
+  volvo: {
+    models: {
+      xc60: [
+        { service: 'Oil & Filter Change', intervalMiles: 10000, intervalMonths: 12, severity: 'medium', description: 'Regular oil changes are the foundation of Volvo longevity.' },
+        { service: 'Tire Rotation', intervalMiles: 10000, intervalMonths: 12, severity: 'low', description: 'Keeps your Volvo stable and your tires lasting longer.' },
+        { service: 'Cabin Air Filter', intervalMiles: 20000, intervalMonths: 24, severity: 'low', description: 'Ensures the CleanZone air quality remains high.' },
+        { service: 'Brake Fluid Flush', intervalMiles: 40000, intervalMonths: 24, severity: 'medium', description: 'Crucial for maintaining safe braking performance in all conditions.' },
+        { service: 'Engine Air Filter', intervalMiles: 40000, intervalMonths: 48, severity: 'low', description: 'Protects the engine and maintains efficiency.' },
+        { service: 'Spark Plugs', intervalMiles: 60000, intervalMonths: 60, severity: 'medium', description: 'Maintains optimal fuel combustion and engine smoothness.' },
+      ],
+      xc40: 'xc60',
+      xc90: 'xc60',
+      s60: 'xc60'
+    }
+  },
+  lexus: {
+    models: {
+      rx: [
+        { service: 'Oil & Filter Change', intervalMiles: 10000, intervalMonths: 12, severity: 'medium', description: 'Ensures the legendary Lexus reliability continues for years.' },
+        { service: 'Tire Rotation', intervalMiles: 5000, intervalMonths: 6, severity: 'low', description: 'Frequent rotations keep your ride smooth and quiet.' },
+        { service: 'Cabin Air Filter', intervalMiles: 15000, intervalMonths: 12, severity: 'low', description: 'Filters out impurities for a true luxury experience.' },
+        { service: 'Brake Fluid Flush', intervalMiles: 30000, intervalMonths: 36, severity: 'medium', description: 'Maintains the crisp, safe braking feel Lexus is known for.' },
+        { service: 'Engine Air Filter', intervalMiles: 30000, intervalMonths: 36, severity: 'low', description: 'Helps the engine work efficiently and stay clean.' },
+      ],
+      es: 'rx',
+      nx: 'rx',
+      is: 'rx'
+    }
+  },
+  acura: {
+    models: {
+      mdx: [
+        { service: 'Oil & Filter Change', intervalMiles: 7500, intervalMonths: 12, severity: 'medium', description: 'Essential for the high-revving performance of your Acura.' },
+        { service: 'Tire Rotation', intervalMiles: 7500, intervalMonths: 12, severity: 'low', description: 'Critical for maintaining the Precision Crafted Handling.' },
+        { service: 'Cabin Air Filter', intervalMiles: 15000, intervalMonths: 12, severity: 'low', description: 'Keeps your interior air fresh and free of road dust.' },
+        { service: 'Brake Fluid Flush', intervalMiles: 30000, intervalMonths: 36, severity: 'medium', description: 'Ensures consistent and safe braking performance.' },
+        { service: 'Transfer Case Fluid', intervalMiles: 30000, intervalMonths: 24, severity: 'medium', description: 'Crucial for SH-AWD models to keep the system smooth.' },
+      ],
+      rdx: 'mdx',
+      tlx: 'mdx',
+      integra: 'mdx'
+    }
+  },
+  dodge: {
+    models: {
+      charger: [
+        { service: 'Oil & Filter Change', intervalMiles: 8000, intervalMonths: 6, severity: 'medium', description: 'Fresh oil is vital for those powerful HEMI or Pentastar engines.' },
+        { service: 'Tire Rotation', intervalMiles: 8000, intervalMonths: 6, severity: 'low', description: 'Especially important for rear-wheel drive muscle to prevent uneven wear.' },
+        { service: 'Cabin Air Filter', intervalMiles: 20000, intervalMonths: 24, severity: 'low', description: 'Keeps the air inside the cockpit clean during every drive.' },
+        { service: 'Engine Air Filter', intervalMiles: 30000, intervalMonths: 24, severity: 'low', description: 'Allows your Dodge to breathe deep for maximum power.' },
+        { service: 'Spark Plugs', intervalMiles: 100000, intervalMonths: 120, severity: 'medium', description: 'Ensures reliable power and quick starts every time.' },
+      ],
+      challenger: 'charger',
+      durango: 'charger'
+    }
+  },
+  chrysler: {
+    models: {
+      pacifica: [
+        { service: 'Oil & Filter Change', intervalMiles: 8000, intervalMonths: 12, severity: 'medium', description: 'Keeps your family mover running reliably and efficiently.' },
+        { service: 'Tire Rotation', intervalMiles: 8000, intervalMonths: 12, severity: 'low', description: 'Maintains stability and extends the life of your tires.' },
+        { service: 'Cabin Air Filter', intervalMiles: 20000, intervalMonths: 24, severity: 'low', description: 'A fresh filter means cleaner air for all your passengers.' },
+        { service: 'Engine Air Filter', intervalMiles: 30000, intervalMonths: 24, severity: 'low', description: 'Improves fuel economy and engine longevity.' },
+        { service: 'Spark Plugs', intervalMiles: 100000, intervalMonths: 120, severity: 'medium', description: 'Long-lasting plugs that eventually need a fresh set for smooth idling.' },
+      ],
+      300: 'pacifica'
     }
   },
   default: [
