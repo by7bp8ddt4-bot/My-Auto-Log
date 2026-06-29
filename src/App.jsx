@@ -23,6 +23,17 @@ export default function App() {
   });
   const [forceOffline, setForceOffline] = useState(false);
 
+  // Activate premium from URL parameter (mobile-friendly activation link)
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('activate') === 'premium') {
+      localStorage.setItem(STORAGE_KEYS.PREMIUM_STATUS, 'true');
+      setPremium(true);
+      // Clean the URL so refresh doesn't re-trigger, but keep path
+      window.history.replaceState({}, '', window.location.pathname);
+    }
+  }, []);
+
   // Supabase auth
   const auth = useSupabaseAuth();
   const isAuthenticated = !!auth.user;
