@@ -7,18 +7,32 @@ import {
 import { formatDate, formatCurrency, formatNumber } from '../utils/helpers';
 import { SERVICE_TYPES } from '../utils/constants';
 
+import oilIcon from '../assets/folder-icons/oil-drop.svg';
+import tireIcon from '../assets/folder-icons/tire.svg';
+import brakeIcon from '../assets/folder-icons/brake.svg';
+import engineIcon from '../assets/folder-icons/engine.svg';
+import transIcon from '../assets/folder-icons/transmission.svg';
+import batteryIcon from '../assets/folder-icons/battery.svg';
+import filterIcon from '../assets/folder-icons/filter.svg';
+import fluidIcon from '../assets/folder-icons/fluid-level.svg';
+import inspectionIcon from '../assets/folder-icons/clipboard-check.svg';
+import wrenchIcon from '../assets/folder-icons/wrench.svg';
+import folderIcon from '../assets/folder-icons/folder.svg';
+import allIcon from '../assets/folder-icons/archive-drawer.svg';
+
 const SERVICE_CONFIG = {
-  'Oil Change': { icon: Droplets, color: 'text-amber-400', bg: 'bg-amber-400/10', border: 'border-amber-400/20' },
-  'Tire Rotation': { icon: RefreshCw, color: 'text-blue-400', bg: 'bg-blue-400/10', border: 'border-blue-400/20' },
-  'Brake Service': { icon: CircleDot, color: 'text-red-400', bg: 'bg-red-400/10', border: 'border-red-400/20' },
-  'Engine Service': { icon: Zap, color: 'text-yellow-400', bg: 'bg-yellow-400/10', border: 'border-yellow-400/20' },
-  'Transmission Service': { icon: Gauge, color: 'text-purple-400', bg: 'bg-purple-400/10', border: 'border-purple-400/20' },
-  'Battery Replacement': { icon: BatteryFull, color: 'text-emerald-400', bg: 'bg-emerald-400/10', border: 'border-emerald-400/20' },
-  'Filter Replacement': { icon: Wind, color: 'text-cyan-400', bg: 'bg-cyan-400/10', border: 'border-cyan-400/20' },
-  'Fluid Check/Top-Up': { icon: Droplet, color: 'text-sky-400', bg: 'bg-sky-400/10', border: 'border-sky-400/20' },
-  'Inspection': { icon: ClipboardList, color: 'text-slate-400', bg: 'bg-slate-400/10', border: 'border-slate-400/20' },
-  'Repair': { icon: Wrench, color: 'text-orange-400', bg: 'bg-orange-400/10', border: 'border-orange-400/20' },
-  'Other': { icon: FileText, color: 'text-slate-500', bg: 'bg-slate-500/10', border: 'border-slate-500/20' },
+  'Oil Change': { icon: oilIcon, color: 'text-amber-400', bg: 'bg-amber-400/10', border: 'border-amber-400/20' },
+  'Tire Rotation': { icon: tireIcon, color: 'text-blue-400', bg: 'bg-blue-400/10', border: 'border-blue-400/20' },
+  'Brake Service': { icon: brakeIcon, color: 'text-red-400', bg: 'bg-red-400/10', border: 'border-red-400/20' },
+  'Engine Service': { icon: engineIcon, color: 'text-yellow-400', bg: 'bg-yellow-400/10', border: 'border-yellow-400/20' },
+  'Transmission Service': { icon: transIcon, color: 'text-purple-400', bg: 'bg-purple-400/10', border: 'border-purple-400/20' },
+  'Battery Replacement': { icon: batteryIcon, color: 'text-emerald-400', bg: 'bg-emerald-400/10', border: 'border-emerald-400/20' },
+  'Filter Replacement': { icon: filterIcon, color: 'text-cyan-400', bg: 'bg-cyan-400/10', border: 'border-cyan-400/20' },
+  'Fluid Check/Top-Up': { icon: fluidIcon, color: 'text-sky-400', bg: 'bg-sky-400/10', border: 'border-sky-400/20' },
+  'Inspection': { icon: inspectionIcon, color: 'text-slate-400', bg: 'bg-slate-400/10', border: 'border-slate-400/20' },
+  'Repair': { icon: wrenchIcon, color: 'text-orange-400', bg: 'bg-orange-400/10', border: 'border-orange-400/20' },
+  'Other': { icon: folderIcon, color: 'text-slate-500', bg: 'bg-slate-500/10', border: 'border-slate-500/20' },
+  'All Records': { icon: allIcon, color: 'text-indigo-400', bg: 'bg-indigo-400/10', border: 'border-indigo-400/20' },
 };
 
 export default function MaintenanceLog({ logs, vehicles, onAdd, onUpdate, onDelete, onNavigate, isPremium }) {
@@ -61,7 +75,15 @@ export default function MaintenanceLog({ logs, vehicles, onAdd, onUpdate, onDele
     return acc;
   }, {});
 
+  const allRecordsGroup = filteredLogs.length > 0 ? {
+    type: 'All Records',
+    logs: filteredLogs,
+    totalCost: totalSpent,
+    lastDate: [...filteredLogs].sort((a,b) => new Date(b.date) - new Date(a.date))[0].date
+  } : null;
+
   const sortedGroups = Object.values(groupedLogs).sort((a, b) => new Date(b.lastDate) - new Date(a.lastDate));
+  if (allRecordsGroup) sortedGroups.unshift(allRecordsGroup);
 
   return (
     <div>
@@ -152,7 +174,17 @@ export default function MaintenanceLog({ logs, vehicles, onAdd, onUpdate, onDele
                       className="w-full flex items-center gap-4 p-4 text-left focus:outline-none"
                     >
                       <div className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 ${config.bg} ${config.border} border shadow-sm`}>
-                        <Icon className={`w-6 h-6 ${config.color}`} />
+                        <div
+                          className={`w-6 h-6 ${config.color}`}
+                          style={{
+                            backgroundColor: 'currentColor',
+                            WebkitMaskImage: `url(${config.icon})`,
+                            maskImage: `url(${config.icon})`,
+                            maskSize: 'contain',
+                            maskRepeat: 'no-repeat',
+                            maskPosition: 'center'
+                          }}
+                        />
                       </div>
 
                       <div className="flex-1 min-w-0">
@@ -232,7 +264,7 @@ export default function MaintenanceLog({ logs, vehicles, onAdd, onUpdate, onDele
                                               <span className="text-[7px] text-slate-500 mt-0.5">PDF</span>
                                             </div>
                                           )}
-                                          <div className="absolute inset-0 rounded-lg bg-black/0 group-hover/doc:bg-black/40 transition-all flex items-center justify-center opacity-0 group-hover/doc:opacity-100 cursor-pointer">
+                                          <div className="absolute inset-0 rounded-lg bg-black/40 transition-all flex items-center justify-center opacity-100 cursor-pointer">
                                             <FileText className="w-3.5 h-3.5 text-white" />
                                           </div>
                                         </div>
@@ -263,7 +295,7 @@ export default function MaintenanceLog({ logs, vehicles, onAdd, onUpdate, onDele
                                   </div>
                                 </div>
 
-                                <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity shrink-0">
+                                <div className="flex items-center gap-1 shrink-0">
                                   <button
                                     onClick={(e) => { e.stopPropagation(); setEditingLog(log); setShowForm(true); }}
                                     className="p-1.5 rounded-lg hover:bg-blue-500/20 text-slate-400 hover:text-blue-400 transition-all"
@@ -511,7 +543,7 @@ function MaintenanceFormModal({ vehicles, initialData, isEditing, onSave, onClos
                     )}
                     <button
                       onClick={() => removeDocument(d.id)}
-                      className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-red-500 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all"
+                      className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-red-500 text-white flex items-center justify-center transition-all"
                     >
                       <X className="w-3 h-3" />
                     </button>
