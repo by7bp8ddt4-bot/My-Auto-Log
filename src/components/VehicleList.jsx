@@ -81,7 +81,7 @@ export default function VehicleList({ vehicles, onAdd, onEdit, onDelete, isPremi
                     </p>
                   </div>
                 </div>
-                <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                <div className="flex gap-1">
                   <button
                     onClick={() => handleEdit(v)}
                     className="p-1.5 rounded-lg hover:bg-slate-800 text-slate-500 hover:text-blue-400 transition-all"
