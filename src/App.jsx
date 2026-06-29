@@ -10,6 +10,7 @@ import Settings from './components/Settings.jsx';
 import SyncIndicator from './components/SyncIndicator.jsx';
 import AuthPage from './components/AuthPage.jsx';
 import MaintenanceSchedule from './components/MaintenanceSchedule.jsx';
+import FuelLog from './components/FuelLog.jsx';
 import { useSupabaseData, useSupabaseAuth } from './hooks/useSupabaseData.js';
 import { useLocalStorage, useSyncStatus } from './hooks/useLocalStorage.js';
 import { STORAGE_KEYS } from './utils/constants.js';
@@ -36,14 +37,41 @@ export default function App() {
   const supabaseVehicles = useSupabaseData('vehicles', auth.user?.id);
   const supabaseLogs = useSupabaseData('maintenance_logs', auth.user?.id);
   const supabaseReminders = useSupabaseData('reminders', auth.user?.id);
+  const supabaseProfile = useSupabaseData('profiles', auth.user?.id);
+  const supabaseFuelLogs = useSupabaseData('fuel_logs', auth.user?.id);
+  
   const localVehicles = useLocalStorage(STORAGE_KEYS.VEHICLES, []);
   const localLogs = useLocalStorage(STORAGE_KEYS.MAINTENANCE_LOGS, []);
   const localReminders = useLocalStorage(STORAGE_KEYS.REMINDERS, []);
+  const localFuelLogs = useLocalStorage('myautolog_fuel_logs', []);
 
   // Use Supabase when authenticated, localStorage when not
   const vehiclesStore = isAuthenticated ? supabaseVehicles : localVehicles;
   const logsStore = isAuthenticated ? supabaseLogs : localLogs;
   const remindersStore = isAuthenticated ? supabaseReminders : localReminders;
+  const fuelLogsStore = isAuthenticated ? supabaseFuelLogs : localFuelLogs;
+
+  // Add fuel log
+  const addFuelLog = useCallback((data) => {
+    fuelLogsStore.add({
+      ...data,
+      mileage: parseInt(data.mileage) || 0,
+      gallons: parseFloat(data.gallons) || 0,
+      cost: parseFloat(data.cost) || 0,
+    });
+    sync.markChanged();
+  }, [fuelLogsStore, sync]);
+
+  // Sync premium status from Supabase
+  useEffect(() => {
+    if (isAuthenticated && supabaseProfile.data.length > 0) {
+      const isPremium = supabaseProfile.data[0].isPremium;
+      if (isPremium !== premium) {
+        setPremium(isPremium);
+        localStorage.setItem(STORAGE_KEYS.PREMIUM_STATUS, isPremium ? 'true' : 'false');
+      }
+    }
+  }, [isAuthenticated, supabaseProfile.data, premium]);
 
   const sync = useSyncStatus();
 
@@ -117,12 +145,15 @@ export default function App() {
     sync.markChanged();
   }, [vehiclesStore, logsStore, remindersStore, sync]);
 
-  // Upgrade to premium
+  // Upgrade to premium — persist to Supabase + localStorage
   const handleUpgrade = useCallback(() => {
     localStorage.setItem(STORAGE_KEYS.PREMIUM_STATUS, 'true');
+    if (auth.user?.id) {
+      auth.setPremiumStatus(auth.user.id);
+    }
     setPremium(true);
     setPage('dashboard');
-  }, []);
+  }, [auth]);
 
   // Show auth page if not authenticated (after landing)
   if (page !== 'landing' && page !== 'premium' && !isAuthenticated && !auth.loading) {
@@ -166,6 +197,7 @@ export default function App() {
       <PremiumPaywall
         onClose={() => setPage('dashboard')}
         onUpgrade={handleUpgrade}
+        userId={auth.user?.id}
       />
     );
   }
@@ -175,6 +207,7 @@ export default function App() {
       vehicles={vehiclesStore.data}
       logs={logsStore.data}
       reminders={remindersStore.data}
+      fuelLogs={fuelLogsStore.data}
       onNavigate={navigate}
       onAddLog={addLog}
       isPremium={premium}
@@ -231,11 +264,36 @@ export default function App() {
       onAddLog={addLog}
       onNavigate={navigate}
     />,
+    fuel: <FuelLog
+      logs={fuelLogsStore.data}
+      vehicles={vehiclesStore.data}
+      onAdd={addFuelLog}
+      onDelete={(id) => {
+        fuelLogsStore.remove(id);
+        sync.markChanged();
+      }}
+      onNavigate={navigate}
+      isPremium={premium}
+    />,
     settings: <Settings
       onReset={handleReset}
       vehicles={vehiclesStore.data}
       logs={logsStore.data}
       reminders={remindersStore.data}
+    />,
+    fuel: <FuelLog
+      logs={localFuelLogs.data} // Use localFuelLogs for now as it seems to be initialized
+      vehicles={vehiclesStore.data}
+      onAdd={(data) => {
+        localFuelLogs.add(data);
+        sync.markChanged();
+      }}
+      onDelete={(id) => {
+        localFuelLogs.remove(id);
+        sync.markChanged();
+      }}
+      onNavigate={navigate}
+      isPremium={premium}
     />,
   };
 

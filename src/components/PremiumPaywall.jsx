@@ -2,7 +2,7 @@ import {
   Star, Crown, CheckCircle, X, ArrowRight, Sparkles, Zap, Shield, Cloud, BarChart3, Upload
 } from 'lucide-react';
 
-export default function PremiumPaywall({ onClose, onUpgrade }) {
+export default function PremiumPaywall({ onClose, onUpgrade, userId }) {
   const features = [
     { icon: Star, label: 'Unlimited Vehicles', desc: 'Track your entire fleet' },
     { icon: Zap, label: 'AI Mileage Predictions', desc: 'Auto-detect from fuel receipts*' },
@@ -11,6 +11,11 @@ export default function PremiumPaywall({ onClose, onUpgrade }) {
     { icon: Shield, label: 'Premium Resale Reports', desc: 'Full service history PDF' },
     { icon: Upload, label: 'Priority Support', desc: 'Fast, dedicated help' },
   ];
+
+  const getStripeUrl = (baseUrl) => {
+    if (!userId) return baseUrl;
+    return `${baseUrl}?client_reference_id=${userId}`;
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-950 via-blue-950/30 to-slate-950 flex flex-col items-center justify-center p-4">
@@ -51,7 +56,7 @@ export default function PremiumPaywall({ onClose, onUpgrade }) {
             <button
               onClick={() => {
                 onUpgrade();
-                window.location.href = 'https://buy.stripe.com/6oU9AT5ko1Ob6GV36b0sU00';
+                window.location.href = getStripeUrl('https://buy.stripe.com/6oU9AT5ko1Ob6GV36b0sU00');
               }}
               className="w-full py-3 rounded-xl bg-slate-800 group-hover:bg-blue-600 text-white font-semibold transition-all duration-200 flex items-center justify-center gap-2"
             >
@@ -83,7 +88,7 @@ export default function PremiumPaywall({ onClose, onUpgrade }) {
             <button
               onClick={() => {
                 onUpgrade();
-                window.location.href = 'https://buy.stripe.com/eVq00j1480K77KZayD0sU01';
+                window.location.href = getStripeUrl('https://buy.stripe.com/eVq00j1480K77KZayD0sU01');
               }}
               className="w-full py-3 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-semibold shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 transition-all duration-200 flex items-center justify-center gap-2"
             >
