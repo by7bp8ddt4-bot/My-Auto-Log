@@ -1,15 +1,38 @@
 import { useState } from 'react';
 import {
   X, Plus, ClipboardList, Trash2, FileText, Upload, Calendar, DollarSign,
-  Gauge, Image, Cloud, CheckCircle2, Loader2, Pencil
+  Gauge, Image, Cloud, CheckCircle2, Loader2, Pencil, Droplets, RefreshCw,
+  CircleDot, Zap, BatteryFull, Wind, Droplet, Wrench, ChevronDown, ChevronRight
 } from 'lucide-react';
 import { formatDate, formatCurrency, formatNumber } from '../utils/helpers';
 import { SERVICE_TYPES } from '../utils/constants';
+
+const SERVICE_CONFIG = {
+  'Oil Change': { icon: Droplets, color: 'text-amber-400', bg: 'bg-amber-400/10', border: 'border-amber-400/20' },
+  'Tire Rotation': { icon: RefreshCw, color: 'text-blue-400', bg: 'bg-blue-400/10', border: 'border-blue-400/20' },
+  'Brake Service': { icon: CircleDot, color: 'text-red-400', bg: 'bg-red-400/10', border: 'border-red-400/20' },
+  'Engine Service': { icon: Zap, color: 'text-yellow-400', bg: 'bg-yellow-400/10', border: 'border-yellow-400/20' },
+  'Transmission Service': { icon: Gauge, color: 'text-purple-400', bg: 'bg-purple-400/10', border: 'border-purple-400/20' },
+  'Battery Replacement': { icon: BatteryFull, color: 'text-emerald-400', bg: 'bg-emerald-400/10', border: 'border-emerald-400/20' },
+  'Filter Replacement': { icon: Wind, color: 'text-cyan-400', bg: 'bg-cyan-400/10', border: 'border-cyan-400/20' },
+  'Fluid Check/Top-Up': { icon: Droplet, color: 'text-sky-400', bg: 'bg-sky-400/10', border: 'border-sky-400/20' },
+  'Inspection': { icon: ClipboardList, color: 'text-slate-400', bg: 'bg-slate-400/10', border: 'border-slate-400/20' },
+  'Repair': { icon: Wrench, color: 'text-orange-400', bg: 'bg-orange-400/10', border: 'border-orange-400/20' },
+  'Other': { icon: FileText, color: 'text-slate-500', bg: 'bg-slate-500/10', border: 'border-slate-500/20' },
+};
 
 export default function MaintenanceLog({ logs, vehicles, onAdd, onUpdate, onDelete, onNavigate, isPremium }) {
   const [showForm, setShowForm] = useState(false);
   const [editingLog, setEditingLog] = useState(null);
   const [vehicleFilter, setVehicleFilter] = useState('all');
+  const [expandedFolders, setExpandedFolders] = useState({});
+
+  const toggleFolder = (type) => {
+    setExpandedFolders(prev => ({
+      ...prev,
+      [type]: !prev[type]
+    }));
+  };
 
   const filteredLogs = vehicleFilter === 'all'
     ? logs
@@ -18,6 +41,27 @@ export default function MaintenanceLog({ logs, vehicles, onAdd, onUpdate, onDele
   const getVehicleName = (id) => vehicles.find(v => v.id === id)?.name || 'Unknown';
 
   const totalSpent = filteredLogs.reduce((sum, l) => sum + (l.cost || 0), 0);
+
+  const groupedLogs = filteredLogs.reduce((acc, log) => {
+    const type = log.serviceType || 'Other';
+    if (!acc[type]) {
+      acc[type] = {
+        type,
+        logs: [],
+        totalCost: 0,
+        lastDate: null,
+      };
+    }
+    acc[type].logs.push(log);
+    acc[type].totalCost += (log.cost || 0);
+
+    if (!acc[type].lastDate || new Date(log.date) > new Date(acc[type].lastDate)) {
+      acc[type].lastDate = log.date;
+    }
+    return acc;
+  }, {});
+
+  const sortedGroups = Object.values(groupedLogs).sort((a, b) => new Date(b.lastDate) - new Date(a.lastDate));
 
   return (
     <div>
@@ -89,108 +133,156 @@ export default function MaintenanceLog({ logs, vehicles, onAdd, onUpdate, onDele
               </button>
             </div>
           ) : (
-            <div className="space-y-3">
-              {filteredLogs.sort((a,b) => new Date(b.date) - new Date(a.date)).map(log => {
-                const isAiGenerated = log.source === 'ai-copilot' || log.source === 'ai-copilot-scheduled';
-                const hasDocuments = log.documents && log.documents.length > 0;
+            <div className="space-y-4">
+              {sortedGroups.map(group => {
+                const config = SERVICE_CONFIG[group.type] || SERVICE_CONFIG['Other'];
+                const Icon = config.icon;
+                const isExpanded = expandedFolders[group.type];
+
                 return (
                   <div
-                    key={log.id}
-                    className="p-4 rounded-2xl bg-slate-900/60 border border-slate-800 hover:border-slate-700 transition-all"
+                    key={group.type}
+                    className={`rounded-2xl border transition-all overflow-hidden ${
+                      isExpanded ? 'bg-slate-900/80 border-slate-700 shadow-lg' : 'bg-slate-900/40 border-slate-800 hover:border-slate-700'
+                    }`}
                   >
-                    <div className="flex items-start justify-between gap-4">
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2 mb-1.5 flex-wrap">
-                          <span className="text-sm font-semibold text-white truncate">{log.serviceType}</span>
-                          <span className="text-[10px] px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 shrink-0">
-                            {getVehicleName(log.vehicleId)}
-                          </span>
-                          {/* AI Badge */}
-                          {isAiGenerated && (
-                            <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-purple-500/20 text-purple-300 shrink-0">
-                              AI
-                            </span>
-                          )}
-                          {/* Premium Cloud Synced Badge */}
-                          {isPremium && (
-                            <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-blue-500/15 text-blue-300 shrink-0 flex items-center gap-0.5">
-                              <Cloud className="w-2.5 h-2.5" />
-                              Cloud Synced
-                            </span>
-                          )}
-                        </div>
-                        {log.description && (
-                          <p className="text-xs text-slate-500 mb-2 line-clamp-2">{log.description}</p>
-                        )}
+                    {/* Folder Header */}
+                    <button
+                      onClick={() => toggleFolder(group.type)}
+                      className="w-full flex items-center gap-4 p-4 text-left focus:outline-none"
+                    >
+                      <div className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 ${config.bg} ${config.border} border shadow-sm`}>
+                        <Icon className={`w-6 h-6 ${config.color}`} />
+                      </div>
 
-                        {/* Document Thumbnails */}
-                        {hasDocuments && (
-                          <div className="flex flex-wrap gap-1.5 mb-2">
-                            {log.documents.slice(0, 3).map(doc => (
-                              <div key={doc.id} className="relative group">
-                                {doc.type?.startsWith('image/') ? (
-                                  <img
-                                    src={doc.dataUrl}
-                                    alt={doc.name}
-                                    className="w-12 h-12 rounded-lg object-cover border border-slate-700"
-                                  />
-                                ) : (
-                                  <div className="w-12 h-12 rounded-lg bg-slate-800 border border-slate-700 flex flex-col items-center justify-center">
-                                    <FileText className="w-4 h-4 text-blue-400" />
-                                    <span className="text-[8px] text-slate-500 mt-0.5">PDF</span>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2 mb-0.5">
+                          <h3 className="text-sm font-bold text-white truncate">{group.type}</h3>
+                          <span className="text-[10px] px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 font-bold tracking-tight">
+                            {group.logs.length} {group.logs.length === 1 ? 'RECORD' : 'RECORDS'}
+                          </span>
+                        </div>
+                        <p className="text-[10px] text-slate-500 flex items-center gap-1">
+                          <Calendar className="w-3 h-3" />
+                          Last service: {formatDate(group.lastDate)}
+                        </p>
+                      </div>
+
+                      <div className="text-right shrink-0">
+                        <div className="text-sm font-bold text-emerald-400 bg-emerald-500/5 px-2 py-1 rounded-lg border border-emerald-500/10">
+                          {formatCurrency(group.totalCost)}
+                        </div>
+                        <div className="text-[10px] text-slate-500 font-medium flex items-center justify-end gap-1 mt-1.5">
+                          {isExpanded ? 'Collapse' : 'Expand'}
+                          {isExpanded ? <ChevronDown className="w-3 h-3" /> : <ChevronRight className="w-3 h-3" />}
+                        </div>
+                      </div>
+                    </button>
+
+                    {/* Folder Contents (Expanded) */}
+                    {isExpanded && (
+                      <div className="border-t border-slate-800/50 bg-slate-950/30 p-2 space-y-2">
+                        {group.logs.sort((a,b) => new Date(b.date) - new Date(a.date)).map(log => {
+                          const isAiGenerated = log.source === 'ai-copilot' || log.source === 'ai-copilot-scheduled';
+                          const hasDocuments = log.documents && log.documents.length > 0;
+                          return (
+                            <div
+                              key={log.id}
+                              className="p-3 rounded-xl bg-slate-900/60 border border-slate-800/50 hover:border-slate-700 transition-all group"
+                            >
+                              <div className="flex items-start justify-between gap-4">
+                                <div className="flex-1 min-w-0">
+                                  <div className="flex items-center gap-2 mb-1.5 flex-wrap">
+                                    <span className="text-xs font-semibold text-slate-200">
+                                      {getVehicleName(log.vehicleId)}
+                                    </span>
+                                    {isAiGenerated && (
+                                      <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-purple-500/20 text-purple-300 shrink-0 font-bold uppercase tracking-tighter">
+                                        AI
+                                      </span>
+                                    )}
+                                    {isPremium && (
+                                      <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-blue-500/15 text-blue-300 shrink-0 flex items-center gap-0.5 font-bold uppercase tracking-tighter">
+                                        <Cloud className="w-2.5 h-2.5" />
+                                        Cloud
+                                      </span>
+                                    )}
                                   </div>
-                                )}
-                                <div className="absolute inset-0 rounded-lg bg-black/0 group-hover:bg-black/40 transition-all flex items-center justify-center opacity-0 group-hover:opacity-100">
-                                  <FileText className="w-4 h-4 text-white" />
+
+                                  {log.description && (
+                                    <p className="text-xs text-slate-500 mb-2 line-clamp-2 italic leading-relaxed">
+                                      "{log.description}"
+                                    </p>
+                                  )}
+
+                                  {/* Document Thumbnails */}
+                                  {hasDocuments && (
+                                    <div className="flex flex-wrap gap-1.5 mb-2.5">
+                                      {log.documents.slice(0, 3).map(doc => (
+                                        <div key={doc.id} className="relative group/doc">
+                                          {doc.type?.startsWith('image/') ? (
+                                            <img
+                                              src={doc.dataUrl}
+                                              alt={doc.name}
+                                              className="w-10 h-10 rounded-lg object-cover border border-slate-700"
+                                            />
+                                          ) : (
+                                            <div className="w-10 h-10 rounded-lg bg-slate-800 border border-slate-700 flex flex-col items-center justify-center">
+                                              <FileText className="w-3.5 h-3.5 text-blue-400" />
+                                              <span className="text-[7px] text-slate-500 mt-0.5">PDF</span>
+                                            </div>
+                                          )}
+                                          <div className="absolute inset-0 rounded-lg bg-black/0 group-hover/doc:bg-black/40 transition-all flex items-center justify-center opacity-0 group-hover/doc:opacity-100 cursor-pointer">
+                                            <FileText className="w-3.5 h-3.5 text-white" />
+                                          </div>
+                                        </div>
+                                      ))}
+                                      {log.documents.length > 3 && (
+                                        <div className="w-10 h-10 rounded-lg bg-slate-800 border border-slate-700 flex items-center justify-center">
+                                          <span className="text-[10px] text-slate-400 font-medium">+{log.documents.length - 3}</span>
+                                        </div>
+                                      )}
+                                    </div>
+                                  )}
+
+                                  <div className="flex flex-wrap items-center gap-3 text-[10px] text-slate-400">
+                                    <span className="flex items-center gap-1">
+                                      <Calendar className="w-3 h-3" />
+                                      {formatDate(log.date)}
+                                    </span>
+                                    <span className="flex items-center gap-1 font-bold text-slate-300">
+                                      <Gauge className="w-3 h-3" />
+                                      {formatNumber(log.mileage)} mi
+                                    </span>
+                                    {log.cost > 0 && (
+                                      <span className="flex items-center gap-1 text-emerald-400 font-bold bg-emerald-500/5 px-1.5 py-0.5 rounded border border-emerald-500/10">
+                                        <DollarSign className="w-3 h-3" />
+                                        {formatCurrency(log.cost)}
+                                      </span>
+                                    )}
+                                  </div>
+                                </div>
+
+                                <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity shrink-0">
+                                  <button
+                                    onClick={(e) => { e.stopPropagation(); setEditingLog(log); setShowForm(true); }}
+                                    className="p-1.5 rounded-lg hover:bg-blue-500/20 text-slate-400 hover:text-blue-400 transition-all"
+                                  >
+                                    <Pencil className="w-3.5 h-3.5" />
+                                  </button>
+                                  <button
+                                    onClick={(e) => { e.stopPropagation(); onDelete(log.id); }}
+                                    className="p-1.5 rounded-lg hover:bg-red-500/20 text-slate-400 hover:text-red-400 transition-all"
+                                  >
+                                    <Trash2 className="w-3.5 h-3.5" />
+                                  </button>
                                 </div>
                               </div>
-                            ))}
-                            {log.documents.length > 3 && (
-                              <div className="w-12 h-12 rounded-lg bg-slate-800 border border-slate-700 flex items-center justify-center">
-                                <span className="text-[10px] text-slate-400 font-medium">+{log.documents.length - 3}</span>
-                              </div>
-                            )}
-                          </div>
-                        )}
-
-                        <div className="flex flex-wrap items-center gap-3 text-xs text-slate-500">
-                          <span className="flex items-center gap-1">
-                            <Calendar className="w-3 h-3" />
-                            {formatDate(log.date)}
-                          </span>
-                          <span className="flex items-center gap-1">
-                            <Gauge className="w-3 h-3" />
-                            {formatNumber(log.mileage)} mi
-                          </span>
-                          {log.cost > 0 && (
-                            <span className="flex items-center gap-1 text-emerald-400">
-                              <DollarSign className="w-3 h-3" />
-                              {formatCurrency(log.cost)}
-                            </span>
-                          )}
-                          {hasDocuments && (
-                            <span className="flex items-center gap-0.5 text-blue-400">
-                              <Image className="w-3 h-3" />
-                              {log.documents.length}
-                            </span>
-                          )}
-                        </div>
+                            </div>
+                          );
+                        })}
                       </div>
-                      <div className="flex gap-0.5 shrink-0">
-                        <button
-                          onClick={() => { setEditingLog(log); setShowForm(true); }}
-                          className="p-1.5 rounded-lg hover:bg-blue-500/10 text-slate-500 hover:text-blue-400 transition-all"
-                        >
-                          <Pencil className="w-3.5 h-3.5" />
-                        </button>
-                        <button
-                          onClick={() => onDelete(log.id)}
-                          className="p-1.5 rounded-lg hover:bg-red-500/10 text-slate-600 hover:text-red-400 transition-all"
-                        >
-                          <Trash2 className="w-3.5 h-3.5" />
-                        </button>
-                      </div>
-                    </div>
+                    )}
                   </div>
                 );
               })}
