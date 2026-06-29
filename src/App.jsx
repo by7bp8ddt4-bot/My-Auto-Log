@@ -29,10 +29,10 @@ export default function App() {
 
   // Auto-redirect to dashboard when user signs in / auth loads
   useEffect(() => {
-    if (isAuthenticated && (page === 'auth' || (!auth.loading && page !== 'landing' && page !== 'premium' && page !== 'dashboard'))) {
+    if (isAuthenticated && !auth.loading && (page === 'auth' || page === 'landing')) {
       setPage('dashboard');
     }
-  }, [isAuthenticated, auth.loading]);
+  }, [isAuthenticated, auth.loading, page]);
 
   // Data stores — always call hooks in same order (React rules)
   const supabaseVehicles = useSupabaseData('vehicles', auth.user?.id);
@@ -52,13 +52,18 @@ export default function App() {
   const remindersStore = isAuthenticated ? supabaseReminders : localReminders;
   const fuelLogsStore = isAuthenticated ? supabaseFuelLogs : localFuelLogs;
 
-  // Sync premium status from Supabase
+  // Sync premium status from Supabase — only upgrade, never downgrade localStorage
+  // (prevents race condition where Stripe redirect completes before DB upsert)
   useEffect(() => {
     if (isAuthenticated && supabaseProfile.data.length > 0) {
       const dbPremium = supabaseProfile.data[0].premium;
-      if (dbPremium !== undefined && dbPremium !== premium) {
-        setPremium(!!dbPremium);
-        localStorage.setItem(STORAGE_KEYS.PREMIUM_STATUS, dbPremium ? 'true' : 'false');
+      if (dbPremium === true && !premium) {
+        setPremium(true);
+        localStorage.setItem(STORAGE_KEYS.PREMIUM_STATUS, 'true');
+      }
+      // If localStorage says premium but DB doesn't yet, re-sync the DB
+      if (premium && !dbPremium) {
+        supabase.from('profiles').upsert({ id: auth.user.id, premium: true });
       }
     }
   }, [isAuthenticated, supabaseProfile.data, premium]);
