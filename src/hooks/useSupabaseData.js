@@ -253,12 +253,12 @@ export function useSupabaseAuth() {
       const { data } = await supabase.from('profiles').select('premium').eq('id', user.id).single();
       return data?.premium === true;
     } catch {
-      return localStorage.getItem('myautolog_premium') === 'true';
+      return localStorage.getItem('myautolog_premium_status') === 'true';
     }
   }, [user]);
 
   const setPremiumStatus = useCallback(async (userId) => {
-    localStorage.setItem('myautolog_premium', 'true');
+    localStorage.setItem('myautolog_premium_status', 'true');
     try {
       await supabase.from('profiles').upsert({ id: userId, premium: true, updated_at: new Date().toISOString() });
     } catch (e) {
