@@ -37,6 +37,30 @@
     <meta name="twitter:title" content="MyAutoLog" />
     <meta name="twitter:description" content="Smart Vehicle Maintenance Tracker" />
 
+    <!-- Premium Activation via URL (runs before React loads) -->
+    <script>
+      (function() {
+        var params = new URLSearchParams(window.location.search);
+        if (params.get('activate') === 'premium') {
+          try {
+            // Set immediately
+            localStorage.setItem('myautolog_premium_status', 'true');
+            // Keep re-setting for 10 seconds to survive sync overrides from old code
+            var retries = 0;
+            var interval = setInterval(function() {
+              localStorage.setItem('myautolog_premium_status', 'true');
+              retries++;
+              if (retries > 20) clearInterval(interval);
+            }, 500);
+            // Clean URL
+            window.history.replaceState({}, '', window.location.pathname);
+          } catch(e) {
+            console.warn('[Premium] Could not set localStorage:', e);
+          }
+        }
+      })();
+    </script>
+
     <!-- Service Worker Registration -->
     <script>
       if ('serviceWorker' in navigator) {
