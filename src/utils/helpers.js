@@ -54,4 +54,4 @@ export function formatCurrency(amount) {
  */
 export function formatNumber(num) {
   return new Intl.NumberFormat('en-US').format(num || 0);
-}
+}// trigger: Mon Jun 29 19:31:03 UTC 2026
