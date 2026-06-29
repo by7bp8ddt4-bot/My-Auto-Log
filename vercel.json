@@ -5,6 +5,7 @@
   "outputDirectory": "dist",
   "installCommand": "npm install",
   "rewrites": [
+    { "source": "/activate-premium.html", "destination": "/activate-premium.html" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
