@@ -1,29 +1,32 @@
--- Fuel economy tracking table
-CREATE TABLE IF NOT EXISTS fuel_logs (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-  user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
-  vehicle_id UUID NOT NULL REFERENCES vehicles(id) ON DELETE CASCADE,
-  date DATE NOT NULL DEFAULT CURRENT_DATE,
-  mileage INTEGER NOT NULL DEFAULT 0,
-  gallons DECIMAL(6,2) NOT NULL DEFAULT 0,
-  cost DECIMAL(8,2) NOT NULL DEFAULT 0,
-  is_full_tank BOOLEAN NOT NULL DEFAULT true,
-  octane TEXT DEFAULT 'regular',
-  notes TEXT,
-  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+-- Analytics events table for product analytics
+CREATE TABLE IF NOT EXISTS analytics_events (
+  id BIGSERIAL PRIMARY KEY,
+  event TEXT NOT NULL,
+  user_id UUID REFERENCES auth.users(id) ON DELETE SET NULL,
+  properties JSONB NOT NULL DEFAULT '{}',
+  url TEXT,
+  path TEXT,
+  timestamp TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
-CREATE INDEX IF NOT EXISTS idx_fuel_logs_user_id ON fuel_logs(user_id);
-CREATE INDEX IF NOT EXISTS idx_fuel_logs_vehicle_id ON fuel_logs(vehicle_id);
+CREATE INDEX IF NOT EXISTS idx_analytics_events_event ON analytics_events(event);
+CREATE INDEX IF NOT EXISTS idx_analytics_events_user_id ON analytics_events(user_id);
+CREATE INDEX IF NOT EXISTS idx_analytics_events_timestamp ON analytics_events(timestamp DESC);
 
-ALTER TABLE fuel_logs ENABLE ROW LEVEL SECURITY;
+ALTER TABLE analytics_events ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY "Users can view their own fuel logs"
-  ON fuel_logs FOR SELECT USING (auth.uid() = user_id);
-CREATE POLICY "Users can insert their own fuel logs"
-  ON fuel_logs FOR INSERT WITH CHECK (auth.uid() = user_id);
-CREATE POLICY "Users can update their own fuel logs"
-  ON fuel_logs FOR UPDATE USING (auth.uid() = user_id);
-CREATE POLICY "Users can delete their own fuel logs"
-  ON fuel_logs FOR DELETE USING (auth.uid() = user_id);
+-- Allow users to insert their own events (or anonymously if no user_id)
+CREATE POLICY "Anyone can insert analytics events"
+  ON analytics_events FOR INSERT
+  WITH CHECK (true);
+
+-- Only allow users to view their own events (for debugging)
+CREATE POLICY "Users can view their own analytics events"
+  ON analytics_events FOR SELECT
+  USING (auth.uid() = user_id OR user_id IS NULL);
+
+-- Admins can view all events (via service role key)
+CREATE POLICY "Service role can view all analytics events"
+  ON analytics_events FOR SELECT
+  USING (auth.role() = 'service_role');
