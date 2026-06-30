@@ -89,7 +89,7 @@ export default function MaintenanceLog({ logs, vehicles, onAdd, onUpdate, onDele
     <div>
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h2 className="text-xl font-bold text-white">Service Logs</h2>
+          <h2 className="text-xl font-bold text-white">Maintenance Log</h2>
           <p className="text-sm text-slate-400 mt-0.5">{filteredLogs.length} records</p>
         </div>
         <button

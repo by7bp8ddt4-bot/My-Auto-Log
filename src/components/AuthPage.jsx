@@ -79,7 +79,7 @@ export default function AuthPage({ onAuth }) {
             {mode === 'signin' ? 'Welcome Back' : 'Create Account'}
           </h2>
           <p className="text-sm text-slate-400 mb-6">
-            {mode === 'signin' ? 'Sign in to manage your vehicles' : 'Start tracking your vehicle maintenance'}
+            {mode === 'signin' ? 'Sign in to manage your vehicles' : 'Join 12,000+ drivers who never worry about their next oil change.'}
           </p>
 
           {error && (
