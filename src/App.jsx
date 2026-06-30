@@ -14,6 +14,7 @@ import FuelLog from './components/FuelLog.jsx';
 import MileageChart from './components/MileageChart.jsx';
 import { useSupabaseData, useSupabaseAuth } from './hooks/useSupabaseData.js';
 import { useLocalStorage, useSyncStatus } from './hooks/useLocalStorage.js';
+import useAnalytics from './hooks/useAnalytics.js';
 import { STORAGE_KEYS } from './utils/constants.js';
 
 export default function App() {
@@ -23,27 +24,32 @@ export default function App() {
   });
   const [forceOffline, setForceOffline] = useState(false);
 
+  // Supabase auth
+  const auth = useSupabaseAuth();
+  const isAuthenticated = !!auth.user;
+
+  // Analytics hook — auto-tracks page views and user identity (after auth)
+  const analytics = useAnalytics(page, auth.user, premium);
+
   // Activate premium from URL parameter (mobile-friendly activation link)
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     if (params.get('activate') === 'premium') {
       localStorage.setItem(STORAGE_KEYS.PREMIUM_STATUS, 'true');
       setPremium(true);
+      analytics.track('premium_activated', { method: 'url_param' });
       // Clean the URL so refresh doesn't re-trigger, but keep path
       window.history.replaceState({}, '', window.location.pathname);
     }
   }, []);
 
-  // Supabase auth
-  const auth = useSupabaseAuth();
-  const isAuthenticated = !!auth.user;
-
   // Auto-redirect to dashboard when user signs in / auth loads
   useEffect(() => {
     if (isAuthenticated && !auth.loading && (page === 'auth' || page === 'landing')) {
+      analytics.track('auth_auto_redirect', { fromPage: page });
       setPage('dashboard');
     }
-  }, [isAuthenticated, auth.loading, page]);
+  }, [isAuthenticated, auth.loading, page, analytics]);
 
   // Data stores — always call hooks in same order (React rules)
   const supabaseVehicles = useSupabaseData('vehicles', auth.user?.id);
@@ -100,21 +106,25 @@ export default function App() {
   // Logout
   const handleLogout = useCallback(() => {
     if (isAuthenticated) {
+      analytics.track('user_logout', { page });
+      analytics.logoutAnalytics();
       auth.signOut();
     }
     setPage('landing');
-  }, [auth, isAuthenticated]);
+  }, [auth, isAuthenticated, analytics, page]);
 
   // Add vehicle
   const addVehicle = useCallback((data) => {
     if (!premium && vehiclesStore.data.length >= 1) {
+      analytics.track('premium_gate_hit', { gate: 'add_vehicle', vehicleCount: vehiclesStore.data.length });
       setPage('premium');
       return;
     }
     const mileage = parseInt(data.mileage) || 0;
     vehiclesStore.add({ ...data, mileage });
+    analytics.track('vehicle_added', { make: data.make, model: data.model, year: data.year });
     sync.markChanged();
-  }, [premium, vehiclesStore, sync]);
+  }, [premium, vehiclesStore, sync, analytics]);
 
   // Add maintenance log
   const addLog = useCallback((data) => {
@@ -123,8 +133,13 @@ export default function App() {
       mileage: parseInt(data.mileage) || 0,
       cost: parseFloat(data.cost) || 0,
     });
+    analytics.track('maintenance_log_added', {
+      serviceType: data.serviceType,
+      cost: parseFloat(data.cost) || 0,
+      vehicleId: data.vehicleId,
+    });
     sync.markChanged();
-  }, [logsStore, sync]);
+  }, [logsStore, sync, analytics]);
 
   // Add reminder
   const addReminder = useCallback((data) => {
@@ -137,8 +152,12 @@ export default function App() {
       dueMileage: data.dueMileage || 0,
       dueDate: data.dueDate || new Date(Date.now() + 180 * 86400000).toISOString(),
     });
+    analytics.track('reminder_added', {
+      reminderType: data.title,
+      intervalMiles: parseInt(data.intervalMiles) || 5000,
+    });
     sync.markChanged();
-  }, [remindersStore, sync]);
+  }, [remindersStore, sync, analytics]);
 
   // Reset all data
   const handleReset = useCallback(() => {
@@ -148,8 +167,9 @@ export default function App() {
     localStorage.removeItem(STORAGE_KEYS.LAST_SYNC);
     localStorage.removeItem(STORAGE_KEYS.PREMIUM_STATUS);
     setPremium(false);
+    analytics.track('data_reset', {});
     sync.markChanged();
-  }, [vehiclesStore, logsStore, remindersStore, sync]);
+  }, [vehiclesStore, logsStore, remindersStore, sync, analytics]);
 
   // Upgrade to premium — persist to Supabase + localStorage
   const handleUpgrade = useCallback(() => {
@@ -158,8 +178,9 @@ export default function App() {
       auth.setPremiumStatus(auth.user.id);
     }
     setPremium(true);
+    analytics.track('premium_upgraded', { method: 'inline_button', userId: auth.user?.id });
     setPage('dashboard');
-  }, [auth]);
+  }, [auth, analytics]);
 
   // Show auth page if not authenticated (after landing)
   if (page !== 'landing' && page !== 'premium' && !isAuthenticated && !auth.loading) {
@@ -183,8 +204,8 @@ export default function App() {
     return (
       <>
         <LandingPage
-          onGetStarted={() => setPage('dashboard')}
-          onViewPremium={() => setPage('premium')}
+          onGetStarted={() => { analytics.track('landing_get_started'); setPage('dashboard'); }}
+          onViewPremium={() => { analytics.track('landing_view_premium'); setPage('premium'); }}
         />
         <SyncIndicator
           isOnline={effectiveOnline}
@@ -201,9 +222,10 @@ export default function App() {
   if (page === 'premium') {
     return (
       <PremiumPaywall
-        onClose={() => setPage('dashboard')}
+        onClose={() => { analytics.track('premium_paywall_closed'); setPage('dashboard'); }}
         onUpgrade={handleUpgrade}
         userId={auth.user?.id}
+        trackEvent={analytics.track}
       />
     );
   }
@@ -268,6 +290,7 @@ export default function App() {
       vehicles={vehiclesStore.data}
       logs={logsStore.data}
       reminders={remindersStore.data}
+      isAuthenticated={isAuthenticated}
     />,
     mileage: <div className="p-4 max-w-4xl mx-auto">
       <MileageChart logs={logsStore.data} vehicles={vehiclesStore.data} isPremium={premium} />

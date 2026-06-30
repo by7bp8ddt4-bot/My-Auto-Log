@@ -94,7 +94,7 @@ export default function LandingPage({ onGetStarted, onViewPremium }) {
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {[
-            { title: 'Vehicle Management', desc: 'Add unlimited vehicles with detailed specs, photos, and license info.', img: vehicleMgmtImg },
+            { title: 'Vehicle Management', desc: 'Track all your vehicles in one place with detailed specs, photos, and license info.', img: vehicleMgmtImg },
             { title: 'Smart Reminders', desc: 'Mileage & time-based alerts that learn your driving patterns.', img: remindersImg },
             { title: 'AI Co-Pilot', desc: 'Convert informal notes into structured maintenance records instantly.', img: aiCopilotImg },
             { title: 'Expense Analytics', desc: 'Track costs per vehicle, per month, with beautiful charts.', img: analyticsImg },

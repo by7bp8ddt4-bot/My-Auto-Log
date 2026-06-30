@@ -1,6 +1,6 @@
 import { Settings2, Download, Trash2, RefreshCw, Database, User } from 'lucide-react';
 
-export default function Settings({ onReset, onExport, vehicles, logs, reminders }) {
+export default function Settings({ onReset, onExport, vehicles, logs, reminders, isAuthenticated }) {
   const handleExport = () => {
     const exportData = {
       exportedAt: new Date().toISOString(),
@@ -86,8 +86,7 @@ export default function Settings({ onReset, onExport, vehicles, logs, reminders 
             <h3 className="text-sm font-semibold text-white">Storage</h3>
           </div>
           <p className="text-xs text-slate-500">
-            Data is stored locally in your browser. It persists across sessions
-            and is available offline. Premium users get cloud backup across devices.
+            {isAuthenticated ? 'Your data is securely synced to the cloud and available across all your devices.' : 'Data is currently stored locally in your browser.'} Offline changes are saved and sync automatically when you're back online.
           </p>
         </div>
       </div>
