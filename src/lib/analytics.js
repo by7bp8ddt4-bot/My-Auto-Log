@@ -1,91 +1,68 @@
 /**
- * MyAutoLog Analytics — PostHog Integration
+ * MyAutoLog Analytics — Supabase Backend
  *
  * Tracks user behavior, page views, conversion funnels, and product usage.
- * Configure via VITE_POSTHOG_KEY and VITE_POSTHOG_HOST env vars.
- * Falls back to a no-op stub when PostHog is not configured (dev/local).
+ * Stores events directly in the `analytics_events` Supabase table.
+ * Zero external dependencies — works with existing Supabase setup.
  */
 
-import posthog from 'posthog-js';
+import { supabase } from './supabase';
 
-const POSTHOG_KEY = import.meta.env.VITE_POSTHOG_KEY;
-const POSTHOG_HOST = import.meta.env.VITE_POSTHOG_HOST || 'https://app.posthog.com';
-const IS_CONFIGURED = !!POSTHOG_KEY;
-
-// Track whether we've already initialized
-let initialized = false;
+// Store identity for consistent event metadata
+let currentUserId = null;
+let currentProperties = {};
 
 /**
- * Initialize PostHog analytics.
- * Call once at app bootstrap (in App.jsx or main.jsx).
+ * Initialize analytics.
+ * Call once at app bootstrap.
  */
 export function initAnalytics(userId = null) {
-  if (!IS_CONFIGURED) {
-    console.log('[Analytics] PostHog not configured — skipping init');
-    return;
-  }
-  if (initialized) return;
-  initialized = true;
-
-  posthog.init(POSTHOG_KEY, {
-    api_host: POSTHOG_HOST,
-    capture_pageview: false, // We'll manually track page views for control
-    persistence: 'localStorage',
-    loaded: (ph) => {
-      if (userId) ph.identify(userId);
-      console.log('[Analytics] PostHog initialized');
-    },
-  });
+  if (userId) currentUserId = userId;
+  console.log('[Analytics] Initialized with Supabase backend');
 }
 
 /**
  * Identify a user (call after auth state change).
- * @param {string} userId - The user's UUID from Supabase auth
- * @param {object} properties - Optional user properties (email, plan, etc.)
  */
 export function identifyUser(userId, properties = {}) {
-  if (!IS_CONFIGURED || !initialized || !userId) return;
-  posthog.identify(userId, properties);
+  currentUserId = userId;
+  currentProperties = { ...currentProperties, ...properties };
 }
 
 /**
  * Reset user identity (call on logout).
  */
 export function resetAnalytics() {
-  if (!IS_CONFIGURED) return;
-  posthog.reset();
+  currentUserId = null;
+  currentProperties = {};
 }
 
 /**
- * Track a page view event (manual).
- * @param {string} pageName - e.g. 'landing', 'dashboard', 'premium-paywall'
- * @param {object} properties - Optional extra properties
+ * Track a page view event.
  */
 export function trackPageView(pageName, properties = {}) {
-  if (!IS_CONFIGURED) return;
-  posthog.capture('$pageview', {
+  _track('page_view', {
     page: pageName,
     path: window.location.pathname,
+    url: window.location.href,
     ...properties,
   });
 }
 
 /**
  * Track a custom event.
- * @param {string} eventName - e.g. 'vehicle_added', 'signup_completed', 'premium_upgraded'
- * @param {object} properties - Event-specific properties
  */
 export function trackEvent(eventName, properties = {}) {
-  if (!IS_CONFIGURED) return;
-  posthog.capture(eventName, properties);
+  _track(eventName, {
+    ...properties,
+  });
 }
 
 /**
- * Track a user action with identity context.
- * Wraps the core tracking with consistent metadata.
+ * Track a user action with timestamp context.
  */
 export function trackAction(action, properties = {}) {
-  trackEvent(action, {
+  _track(action, {
     timestamp: new Date().toISOString(),
     ...properties,
   });
@@ -93,34 +70,81 @@ export function trackAction(action, properties = {}) {
 
 /**
  * Set super properties that persist across all events.
- * @param {object} properties
  */
 export function setAnalyticsProperties(properties) {
-  if (!IS_CONFIGURED || !initialized) return;
-  posthog.register(properties);
+  currentProperties = { ...currentProperties, ...properties };
 }
 
 /**
- * Feature flag check (for gradual rollouts).
- * @param {string} flagKey
- * @param {object} options
- * @returns {boolean|string|number}
+ * Feature flag check — not supported with Supabase backend.
  */
-export function getFeatureFlag(flagKey, options = {}) {
-  if (!IS_CONFIGURED || !initialized) return false;
-  return posthog.getFeatureFlag(flagKey, options);
+export function getFeatureFlag() {
+  return false;
 }
 
-// Expose the raw posthog object for advanced usage
-export { posthog };
-
 /**
- * Get analytics configuration status for debugging
+ * Get analytics configuration status.
  */
 export function getAnalyticsStatus() {
   return {
-    configured: IS_CONFIGURED,
-    initialized,
-    host: POSTHOG_HOST,
+    configured: true,
+    backend: 'supabase',
+    userId: currentUserId,
   };
+}
+
+/**
+ * Core tracking function — writes to `analytics_events` table.
+ * Fire-and-forget: uses optimistic write, never throws.
+ */
+async function _track(event, properties = {}) {
+  try {
+    const payload = {
+      event,
+      user_id: currentUserId,
+      properties: {
+        ...currentProperties,
+        ...properties,
+      },
+      url: window.location.href,
+      path: window.location.pathname,
+      timestamp: new Date().toISOString(),
+    };
+
+    // Optimistic write — don't block on it
+    supabase.from('analytics_events').insert([payload]).then(({ error }) => {
+      if (error) {
+        // Fallback: store in localStorage if write fails
+        try {
+          const queue = JSON.parse(localStorage.getItem('analytics_queue') || '[]');
+          queue.push(payload);
+          // Keep only last 50 queued events
+          if (queue.length > 50) queue.shift();
+          localStorage.setItem('analytics_queue', JSON.stringify(queue));
+        } catch (e) {
+          // Silently fail — analytics should never break the app
+        }
+      }
+    });
+  } catch (e) {
+    // Silently fail — analytics should never break the app
+  }
+}
+
+/**
+ * Flush any queued analytics events to Supabase.
+ * Called periodically and on network recovery.
+ */
+export async function flushAnalyticsQueue() {
+  try {
+    const queue = JSON.parse(localStorage.getItem('analytics_queue') || '[]');
+    if (queue.length === 0) return;
+    
+    const { error } = await supabase.from('analytics_events').insert(queue);
+    if (!error) {
+      localStorage.removeItem('analytics_queue');
+    }
+  } catch (e) {
+    // Silently fail
+  }
 }
