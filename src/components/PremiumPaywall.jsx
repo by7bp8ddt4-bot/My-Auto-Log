@@ -2,7 +2,7 @@ import {
   Star, Crown, CheckCircle, X, ArrowRight, Sparkles, Zap, Shield, Cloud, BarChart3, Upload
 } from 'lucide-react';
 
-export default function PremiumPaywall({ onClose, onUpgrade, userId }) {
+export default function PremiumPaywall({ onClose, onUpgrade, userId, trackEvent }) {
   const features = [
     { icon: Star, label: 'Unlimited Vehicles', desc: 'Track your entire fleet' },
     { icon: Zap, label: 'AI Mileage Predictions', desc: 'Auto-detect from fuel receipts*' },
@@ -55,6 +55,7 @@ export default function PremiumPaywall({ onClose, onUpgrade, userId }) {
             </div>
             <button
               onClick={() => {
+                trackEvent?.('premium_checkout_started', { plan: 'monthly', price: 4.99, userId });
                 onUpgrade();
                 window.location.href = getStripeUrl('https://buy.stripe.com/6oU9AT5ko1Ob6GV36b0sU00');
               }}
@@ -87,6 +88,7 @@ export default function PremiumPaywall({ onClose, onUpgrade, userId }) {
             </div>
             <button
               onClick={() => {
+                trackEvent?.('premium_checkout_started', { plan: 'yearly', price: 39.99, userId });
                 onUpgrade();
                 window.location.href = getStripeUrl('https://buy.stripe.com/eVq00j1480K77KZayD0sU01');
               }}
