@@ -28,6 +28,8 @@ const SERVICE_CONFIG = {
   'Transmission Service': { icon: transIcon, color: 'text-purple-400', bg: 'bg-purple-400/10', border: 'border-purple-400/20' },
   'Battery Replacement': { icon: batteryIcon, color: 'text-emerald-400', bg: 'bg-emerald-400/10', border: 'border-emerald-400/20' },
   'Filter Replacement': { icon: filterIcon, color: 'text-cyan-400', bg: 'bg-cyan-400/10', border: 'border-cyan-400/20' },
+  'Cabin Air Filter': { icon: filterIcon, color: 'text-teal-400', bg: 'bg-teal-400/10', border: 'border-teal-400/20' },
+  'Wiper Blades': { icon: wrenchIcon, color: 'text-blue-300', bg: 'bg-blue-300/10', border: 'border-blue-300/20' },
   'Fluid Check/Top-Up': { icon: fluidIcon, color: 'text-sky-400', bg: 'bg-sky-400/10', border: 'border-sky-400/20' },
   'Inspection': { icon: inspectionIcon, color: 'text-slate-400', bg: 'bg-slate-400/10', border: 'border-slate-400/20' },
   'Repair': { icon: wrenchIcon, color: 'text-orange-400', bg: 'bg-orange-400/10', border: 'border-orange-400/20' },

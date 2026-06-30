@@ -9,6 +9,7 @@ import { calculateReminderStatus } from '../utils/helpers';
 import { generateResaleReport } from '../utils/generateReport';
 import MileageChart from './MileageChart.jsx';
 import AICopilot from './AICopilot.jsx';
+import GettingStarted from './GettingStarted.jsx';
 import { useMaintenanceSchedule } from '../hooks/useMaintenanceSchedule';
 import { ManufacturerBadge } from '../utils/manufacturerBranding.jsx';
 
@@ -82,6 +83,13 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
           Fuel Tracking
         </button>
       </div>
+
+      {/* Onboarding Wizard for new users */}
+      {vehicles.length === 0 && (
+        <div className="mb-8">
+          <GettingStarted onNavigate={onNavigate} />
+        </div>
+      )}
 
       {/* Stats Grid */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
