@@ -116,6 +116,107 @@ export default function LandingPage({ onGetStarted, onViewPremium }) {
         </div>
       </div>
 
+      {/* How It Works Section */}
+      <div className="max-w-6xl mx-auto px-4 py-20 border-t border-slate-800/50">
+        <div className="text-center mb-16">
+          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
+            How It Works
+          </h2>
+          <p className="text-slate-400 max-w-xl mx-auto">
+            From driveway to digital health record in 3 simple steps.
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-3 gap-12">
+          {[
+            {
+              step: '01',
+              title: 'Add Your Vehicle',
+              desc: 'Scan your VIN or select your make/model. We instantly load your manufacturer’s exact maintenance schedule.'
+            },
+            {
+              step: '02',
+              title: 'Log with Ease',
+              desc: 'Log services in seconds. Use our AI Co-Pilot to translate informal notes into professional records—even offline.'
+            },
+            {
+              step: '03',
+              title: 'Drive with Confidence',
+              desc: 'Receive smart, predictive reminders. Generate a professional Resale Report that proves your car was meticulously maintained.'
+            }
+          ].map((item, idx) => (
+            <div key={idx} className="relative group">
+              <div className="text-5xl font-black text-blue-500/10 absolute -top-8 -left-4 group-hover:text-blue-500/20 transition-colors">{item.step}</div>
+              <h3 className="text-xl font-bold text-white mb-3 relative z-10">{item.title}</h3>
+              <p className="text-slate-400 text-sm leading-relaxed relative z-10">{item.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* FAQ Section */}
+      <div className="max-w-4xl mx-auto px-4 py-20 border-t border-slate-800/50">
+        <div className="text-center mb-16">
+          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
+            Frequently Asked Questions
+          </h2>
+        </div>
+
+        <div className="space-y-4">
+          {[
+            {
+              q: 'Is MyAutoLog really free?',
+              a: 'Yes! Our Free tier allows you to track one vehicle with manual mileage updates and standard reminders. Premium unlocks unlimited vehicles, AI predictions, and advanced analytics.'
+            },
+            {
+              q: 'Does it work for electric vehicles (EVs)?',
+              a: 'Absolutely. MyAutoLog is EV-aware. We won’t remind you to change your oil on a Tesla, but we will help you track tire rotations and brake fluid health.'
+            },
+            {
+              q: 'Can I use it without an internet connection?',
+              a: 'Yes. MyAutoLog is built as an offline-first PWA. You can log services in underground garages, and your data syncs automatically once you’re back online.'
+            },
+            {
+              q: 'How does the AI Co-Pilot work?',
+              a: 'Type informal notes like "engine is squeaking." Our AI analyzes your vehicle’s engineering and suggests the likely issue, estimated costs, and logs it professionally.'
+            }
+          ].map((faq, idx) => (
+            <details key={idx} className="group rounded-2xl bg-slate-900/40 border border-slate-800 overflow-hidden transition-all">
+              <summary className="flex items-center justify-between p-6 cursor-pointer list-none">
+                <span className="text-sm font-semibold text-white">{faq.q}</span>
+                <ChevronRight className="w-4 h-4 text-slate-500 group-open:rotate-90 transition-transform" />
+              </summary>
+              <div className="px-6 pb-6 text-sm text-slate-400 leading-relaxed border-t border-slate-800/50 pt-4">
+                {faq.a}
+              </div>
+            </details>
+          ))}
+        </div>
+      </div>
+
+      {/* Email Capture Section */}
+      <div className="max-w-6xl mx-auto px-4 py-20">
+        <div className="relative rounded-3xl bg-gradient-to-r from-blue-600 to-cyan-500 p-8 md:p-12 overflow-hidden">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -mr-32 -mt-32 blur-3xl" />
+          <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
+            <div className="max-w-md text-center md:text-left">
+              <h2 className="text-3xl font-bold text-white mb-2">Never Miss a Service Again</h2>
+              <p className="text-blue-50/80 text-sm">Join 12,000+ drivers and get our "Vehicle Longevity Checklist" free when you sign up for updates.</p>
+            </div>
+            <form className="flex flex-col sm:flex-row gap-3 w-full max-w-md" onSubmit={(e) => e.preventDefault()}>
+              <input 
+                type="email" 
+                placeholder="Enter your email" 
+                className="flex-1 px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder-blue-100/50 focus:outline-none focus:ring-2 focus:ring-white/30"
+              />
+              <button className="px-6 py-3 rounded-xl bg-white text-blue-600 font-bold hover:bg-blue-50 transition-colors shadow-lg">
+                Get My Checklist
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+
       {/* Premium Teaser / Mock Paywall */}
       <div className="max-w-6xl mx-auto px-4 py-20">
         <div className="text-center mb-12">
