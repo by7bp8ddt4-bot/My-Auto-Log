@@ -525,7 +525,10 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
             { label: 'Log Service', icon: Wrench, action: 'logs' },
             { label: 'Add Vehicle', icon: Car, action: 'vehicles' },
             { label: 'Add Reminder', icon: Bell, action: 'reminders' },
-            { label: 'View Premium', icon: TrendingUp, action: 'premium' },
+            ...(isPremium
+              ? [{ label: 'Resale Report', icon: FileText, action: 'logs' }]
+              : [{ label: 'View Premium', icon: TrendingUp, action: 'premium' }]
+            ),
           ].map(q => {
             const Icon = q.icon;
             return (
