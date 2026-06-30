@@ -14,23 +14,35 @@ import { useMaintenanceSchedule } from '../hooks/useMaintenanceSchedule';
 import { ManufacturerBadge } from '../utils/manufacturerBranding.jsx';
 
 export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], onNavigate, onAddLog, isPremium }) {
-  const [showExpenseAnalytics, setShowExpenseAnalytics] = useState(false);
+  const [activeVehicleId, setActiveVehicleId] = useState(vehicles[0]?.id || null);
 
-  const activeVehicle = vehicles[0];
-  const schedule = useMaintenanceSchedule(activeVehicle, logs);
+  // Derive active vehicle — find by activeVehicleId or fall back to first
+  const activeVehicle = vehicles.find(v => v.id === activeVehicleId) || vehicles[0] || null;
+
+  // Keep activeVehicleId in sync if vehicles change
+  if (vehicles.length > 0 && (!activeVehicleId || !vehicles.find(v => v.id === activeVehicleId))) {
+    setTimeout(() => setActiveVehicleId(vehicles[0].id), 0);
+  }
+
+  // Filter logs/reminders/fuelLogs by active vehicle
+  const vehicleLogs = logs.filter(l => l.vehicleId === activeVehicleId);
+  const vehicleReminders = reminders.filter(r => r.vehicleId === activeVehicleId);
+  const vehicleFuelLogs = fuelLogs.filter(f => f.vehicleId === activeVehicleId);
+
+  const schedule = useMaintenanceSchedule(activeVehicle, vehicleLogs);
   const overdueCount = schedule.filter(s => s.status === 'overdue').length;
   const dueSoonCount = schedule.filter(s => s.status === 'due-soon').length;
 
-  const totalMileage = vehicles.reduce((sum, v) => sum + (v.mileage || 0), 0);
-  const totalSpent = logs.reduce((sum, l) => sum + (l.cost || 0), 0);
-  const servicesThisMonth = logs.filter(l => {
+  const totalMileage = activeVehicle ? (activeVehicle.mileage || 0) : 0;
+  const totalSpent = vehicleLogs.reduce((sum, l) => sum + (l.cost || 0), 0);
+  const servicesThisMonth = vehicleLogs.filter(l => {
     const d = new Date(l.date);
     const now = new Date();
     return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
   }).length;
 
-  // Get upcoming reminders
-  const upcomingReminders = reminders
+  // Get upcoming reminders (scoped to active vehicle)
+  const upcomingReminders = vehicleReminders
     .filter(r => r.enabled !== false)
     .map(r => {
       const vehicle = vehicles.find(v => v.id === r.vehicleId);
@@ -45,9 +57,9 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
     .slice(0, 5);
 
   // Premium AI Mileage Prediction
-  const aiMileagePrediction = isPremium && vehicles[0]
+  const aiMileagePrediction = isPremium && activeVehicle
     ? {
-      predicted: Math.round(vehicles[0].mileage + Math.random() * 150 + 50),
+      predicted: Math.round(activeVehicle.mileage + Math.random() * 150 + 50),
       weeklyAvg: Math.round(150 + Math.random() * 100),
       confidence: 85 + Math.floor(Math.random() * 12),
     }
@@ -55,7 +67,7 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
 
   // Expense analytics data
   const expenseByCategory = {};
-  logs.forEach(l => {
+  vehicleLogs.forEach(l => {
     if (l.cost > 0) {
       expenseByCategory[l.serviceType] = (expenseByCategory[l.serviceType] || 0) + l.cost;
     }
@@ -83,6 +95,26 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
           Fuel Tracking
         </button>
       </div>
+
+      {/* Vehicle Tab Bar — premium only, 2+ vehicles */}
+      {isPremium && vehicles.length > 1 && (
+        <div className="flex gap-2 overflow-x-auto pb-2 mb-6 scrollbar-hide">
+          {vehicles.map(v => (
+            <button
+              key={v.id}
+              onClick={() => setActiveVehicleId(v.id)}
+              className={`flex items-center gap-2 px-3 py-2 rounded-xl border transition-all shrink-0 ${
+                v.id === activeVehicleId
+                  ? 'bg-blue-600/20 border-blue-500/40 text-white'
+                  : 'bg-slate-900/60 border-slate-800/50 text-slate-400 hover:border-slate-700'
+              }`}
+            >
+              <ManufacturerBadge make={v.make} size={20} />
+              <span className="text-xs font-medium whitespace-nowrap">{v.name || `${v.year} ${v.make}`}</span>
+            </button>
+          ))}
+        </div>
+      )}
 
       {/* Onboarding Wizard for new users */}
       {vehicles.length === 0 && (
@@ -144,7 +176,7 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
       {/* Mileage Chart Section */}
       <div className="mb-8">
         <MileageChart 
-          logs={logs} 
+          logs={vehicleLogs} 
           vehicles={vehicles} 
           isPremium={isPremium} 
         />
@@ -155,6 +187,7 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
         <AICopilot
           vehicles={vehicles}
           logs={logs}
+          activeVehicleId={activeVehicleId}
           onAddLog={onAddLog}
           onNavigate={onNavigate}
           isPremium={isPremium}
@@ -251,7 +284,7 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
               View all
             </button>
           </div>
-          {logs.length === 0 ? (
+          {vehicleLogs.length === 0 ? (
             <div className="text-center py-8">
               <p className="text-sm text-slate-500">No recent activity</p>
               <button onClick={() => onNavigate('logs')} className="mt-2 text-xs text-blue-400 hover:text-blue-300">
@@ -260,7 +293,7 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
             </div>
           ) : (
             <div className="space-y-2.5">
-              {logs.sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, 5).map(log => {
+              {vehicleLogs.sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, 5).map(log => {
                 const vehicle = vehicles.find(v => v.id === log.vehicleId);
                 const isAiGenerated = log.source === 'ai-copilot' || log.source === 'ai-copilot-scheduled';
                 return (
