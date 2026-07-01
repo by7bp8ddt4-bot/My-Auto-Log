@@ -12,6 +12,7 @@ import AuthPage from './components/AuthPage.jsx';
 import MaintenanceSchedule from './components/MaintenanceSchedule.jsx';
 import FuelLog from './components/FuelLog.jsx';
 import MileageChart from './components/MileageChart.jsx';
+import Modifications from './components/Modifications.jsx';
 import { useSupabaseData, useSupabaseAuth } from './hooks/useSupabaseData.js';
 import { useLocalStorage, useSyncStatus } from './hooks/useLocalStorage.js';
 import useAnalytics from './hooks/useAnalytics.js';
@@ -58,17 +59,20 @@ export default function App() {
   const supabaseReminders = useSupabaseData('reminders', auth.user?.id);
   const supabaseProfile = useSupabaseData('profiles', auth.user?.id);
   const supabaseFuelLogs = useSupabaseData('fuel_logs', auth.user?.id);
+  const supabaseMods = useSupabaseData('modifications', auth.user?.id);
   
   const localVehicles = useLocalStorage(STORAGE_KEYS.VEHICLES, []);
   const localLogs = useLocalStorage(STORAGE_KEYS.MAINTENANCE_LOGS, []);
   const localReminders = useLocalStorage(STORAGE_KEYS.REMINDERS, []);
   const localFuelLogs = useLocalStorage('myautolog_fuel_logs', []);
+  const localMods = useLocalStorage('myautolog_modifications', []);
 
   // Use Supabase when authenticated, localStorage when not
   const vehiclesStore = isAuthenticated ? supabaseVehicles : localVehicles;
   const logsStore = isAuthenticated ? supabaseLogs : localLogs;
   const remindersStore = isAuthenticated ? supabaseReminders : localReminders;
   const fuelLogsStore = isAuthenticated ? supabaseFuelLogs : localFuelLogs;
+  const modsStore = isAuthenticated ? supabaseMods : localMods;
 
   // Sync premium status from Supabase — only upgrade, never downgrade localStorage
   // (prevents race condition where Stripe redirect completes before DB upsert)
@@ -320,6 +324,14 @@ export default function App() {
       onAdd={(data) => { fuelLogsStore.add(data); sync.markChanged(); }}
       onDelete={(id) => { fuelLogsStore.remove(id); sync.markChanged(); }}
       onUpdate={(id, data) => { fuelLogsStore.updateItem(id, data); sync.markChanged(); }}
+    />,
+    mods: <Modifications
+      mods={modsStore.data}
+      vehicles={vehiclesStore.data}
+      onAdd={(data) => { modsStore.add(data); sync.markChanged(); }}
+      onDelete={(id) => { modsStore.remove(id); sync.markChanged(); }}
+      onNavigate={navigate}
+      isPremium={premium}
     />,
   };
 
