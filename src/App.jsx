@@ -16,6 +16,7 @@ import { useSupabaseData, useSupabaseAuth } from './hooks/useSupabaseData.js';
 import { useLocalStorage, useSyncStatus } from './hooks/useLocalStorage.js';
 import useAnalytics from './hooks/useAnalytics.js';
 import { STORAGE_KEYS } from './utils/constants.js';
+import { generateAutoReminders, summarizeAutoReminders } from './utils/autoReminders.js';
 
 export default function App() {
   const [page, setPage] = useState('landing');
@@ -121,10 +122,22 @@ export default function App() {
       return;
     }
     const mileage = parseInt(data.mileage) || 0;
-    vehiclesStore.add({ ...data, mileage });
-    analytics.track('vehicle_added', { make: data.make, model: data.model, year: data.year });
+    const vehicleData = { ...data, mileage };
+    vehiclesStore.add(vehicleData);
+
+    // Auto-create reminders from manufacturer schedule (via VIN-decoded make/model)
+    const savedVehicle = { ...vehicleData, id: vehicleData.id || data.id };
+    const autoReminders = generateAutoReminders(savedVehicle, remindersStore.data);
+    autoReminders.forEach(reminder => {
+      remindersStore.add(reminder);
+    });
+    
+    analytics.track('vehicle_added', { make: data.make, model: data.model, year: data.year, autoReminders: autoReminders.length });
+    if (autoReminders.length > 0) {
+      analytics.track('auto_reminders_created', { count: autoReminders.length });
+    }
     sync.markChanged();
-  }, [premium, vehiclesStore, sync, analytics]);
+  }, [premium, vehiclesStore, remindersStore, sync, analytics]);
 
   // Add maintenance log
   const addLog = useCallback((data) => {
