@@ -1,40 +1,8 @@
-import { useState } from 'react';
 import {
-  Star, Crown, CheckCircle, X, ArrowRight, Sparkles, Zap, Shield, Cloud, BarChart3, Upload, Loader2
+  Star, Crown, CheckCircle, X, ArrowRight, Sparkles, Zap, Shield, Cloud, BarChart3, Upload
 } from 'lucide-react';
 
 export default function PremiumPaywall({ onClose, onUpgrade, userId, trackEvent }) {
-  const [loading, setLoading] = useState(null);
-
-  const handleCheckout = async (plan) => {
-    if (loading) return;
-    setLoading(plan);
-
-    try {
-      trackEvent?.('premium_checkout_started', { plan, price: plan === 'yearly' ? 39.99 : 4.99, userId });
-
-      const response = await fetch('/api/create-checkout-session', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId, plan }),
-      });
-
-      const data = await response.json();
-
-      if (data.url) {
-        window.location.href = data.url;
-      } else {
-        console.error('Failed to create checkout session:', data.error);
-        alert('Could not start checkout. Please try again later.');
-        setLoading(null);
-      }
-    } catch (err) {
-      console.error('Checkout error:', err);
-      alert('An error occurred. Please try again.');
-      setLoading(null);
-    }
-  };
-
   const features = [
     { icon: Star, label: 'Unlimited Vehicles', desc: 'Track your entire fleet' },
     { icon: Zap, label: 'AI Mileage Predictions', desc: 'Auto-detect from fuel receipts*' },
@@ -43,6 +11,11 @@ export default function PremiumPaywall({ onClose, onUpgrade, userId, trackEvent 
     { icon: Shield, label: 'Premium Resale Reports', desc: 'Full service history PDF' },
     { icon: Upload, label: 'Priority Support', desc: 'Fast, dedicated help' },
   ];
+
+  const getStripeUrl = (baseUrl) => {
+    if (!userId) return baseUrl;
+    return `${baseUrl}?client_reference_id=${userId}`;
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-950 via-blue-950/30 to-slate-950 flex flex-col items-center justify-center p-4">
@@ -81,18 +54,15 @@ export default function PremiumPaywall({ onClose, onUpgrade, userId, trackEvent 
               </div>
             </div>
             <button
-              onClick={() => handleCheckout('monthly')}
-              disabled={loading !== null}
-              className="w-full py-3 rounded-xl bg-slate-800 group-hover:bg-blue-600 text-white font-semibold transition-all duration-200 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+              onClick={() => {
+                trackEvent?.('premium_checkout_started', { plan: 'monthly', price: 4.99, userId });
+                onUpgrade();
+                window.location.href = getStripeUrl('https://buy.stripe.com/6oU9AT5ko1Ob6GV36b0sU00');
+              }}
+              className="w-full py-3 rounded-xl bg-slate-800 group-hover:bg-blue-600 text-white font-semibold transition-all duration-200 flex items-center justify-center gap-2"
             >
-              {loading === 'monthly' ? (
-                <Loader2 className="w-4 h-4 animate-spin" />
-              ) : (
-                <>
-                  Choose Monthly
-                  <ArrowRight className="w-4 h-4" />
-                </>
-              )}
+              Choose Monthly
+              <ArrowRight className="w-4 h-4" />
             </button>
           </div>
 
@@ -117,19 +87,16 @@ export default function PremiumPaywall({ onClose, onUpgrade, userId, trackEvent 
               </div>
             </div>
             <button
-              onClick={() => handleCheckout('yearly')}
-              disabled={loading !== null}
-              className="w-full py-3 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-semibold shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 transition-all duration-200 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+              onClick={() => {
+                trackEvent?.('premium_checkout_started', { plan: 'yearly', price: 39.99, userId });
+                onUpgrade();
+                window.location.href = getStripeUrl('https://buy.stripe.com/eVq00j1480K77KZayD0sU01');
+              }}
+              className="w-full py-3 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-semibold shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 transition-all duration-200 flex items-center justify-center gap-2"
             >
-              {loading === 'yearly' ? (
-                <Loader2 className="w-4 h-4 animate-spin" />
-              ) : (
-                <>
-                  <Crown className="w-4 h-4 text-yellow-300" />
-                  Choose Yearly
-                  <ArrowRight className="w-4 h-4" />
-                </>
-              )}
+              <Crown className="w-4 h-4 text-yellow-300" />
+              Choose Yearly
+              <ArrowRight className="w-4 h-4" />
             </button>
           </div>
           
