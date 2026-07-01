@@ -19,8 +19,8 @@ export default function Layout({ currentPage, onNavigate, onLogout, children }) 
       <header className="bg-slate-900/80 backdrop-blur-md border-b border-slate-800 sticky top-0 z-40">
         <div className="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <img src={iconImg} alt="MyAutoLog" className="w-8 h-8 rounded-lg" />
-            <img src={logoImg} alt="MyAutoLog" className="h-5 hidden sm:block" />
+            <img src={iconImg} alt="MTXtrkr" className="w-8 h-8 rounded-lg" />
+            <img src={logoImg} alt="MTXtrkr" className="h-5 hidden sm:block" />
             <span className="font-bold text-lg tracking-tight sm:hidden">
               <span className="text-white">My</span>
               <span className="text-blue-400">Auto</span>
@@ -98,7 +98,7 @@ export default function Layout({ currentPage, onNavigate, onLogout, children }) 
           })}
         </nav>
         <div className="pt-3 border-t border-slate-800">
-          <p className="text-[10px] text-slate-600 px-3">MyAutoLog v1.0</p>
+          <p className="text-[10px] text-slate-600 px-3">MTXtrkr v1.0</p>
         </div>
       </aside>
     </div>

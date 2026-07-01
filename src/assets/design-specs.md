@@ -1,4 +1,4 @@
-# MyAutoLog Design Specifications
+# MTXtrkr Design Specifications
 
 ## 1. Graph Color Palette
 Define a cohesive color scheme for data visualization that complements the dark automotive theme.
@@ -32,7 +32,7 @@ Design for a professional PDF export intended for potential buyers.
   2. Last Service Date/Mileage
   3. Service "Grade" (e.g., A+ for on-time maintenance)
 - **History Table**: Alternating row colors (Light Slate) for maximum readability.
-- **Footer**: "Verified by MyAutoLog" watermark with a QR code linking to the live record (if public sharing is enabled).
+- **Footer**: "Verified by MTXtrkr" watermark with a QR code linking to the live record (if public sharing is enabled).
 - **Mockup**: Refer to `src/assets/resale-report-mockup.html` for the high-fidelity layout.
 
 ## 4. Email Reminder Template

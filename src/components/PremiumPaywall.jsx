@@ -35,7 +35,7 @@ export default function PremiumPaywall({ onClose, onUpgrade, userId, trackEvent 
             Upgrade Your Experience
           </h1>
           <p className="text-slate-400 text-sm">
-            Unlock the full power of MyAutoLog
+            Unlock the full power of MTXtrkr
           </p>
         </div>
 

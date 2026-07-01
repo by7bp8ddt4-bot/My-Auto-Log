@@ -1,6 +1,6 @@
 {
-  "name": "MyAutoLog",
-  "short_name": "MyAutoLog",
+  "name": "MTXtrkr",
+  "short_name": "MTXtrkr",
   "description": "Smart Vehicle Maintenance Tracker — Never miss a service again",
   "start_url": "/",
   "scope": "/",
@@ -36,7 +36,7 @@
       "sizes": "1170x2532",
       "type": "image/png",
       "form_factor": "narrow",
-      "label": "MyAutoLog Dashboard"
+      "label": "MTXtrkr Dashboard"
     }
   ]
 }
