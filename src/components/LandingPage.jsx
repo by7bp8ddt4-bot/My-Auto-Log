@@ -74,7 +74,7 @@ export default function LandingPage({ onGetStarted, onViewPremium }) {
             </div>
             {/* Hero Image */}
             <div className="relative mt-16 max-w-5xl mx-auto rounded-3xl overflow-hidden border border-slate-800 shadow-2xl shadow-blue-500/20 group">
-              <img src={heroImage} alt="MyAutoLog Dashboard" className="w-full h-auto group-hover:scale-[1.01] transition-transform duration-700" />
+              <img src={heroImage} alt="MTXtrkr Dashboard" className="w-full h-auto group-hover:scale-[1.01] transition-transform duration-700" />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent" />
             </div>
           </div>
@@ -88,7 +88,7 @@ export default function LandingPage({ onGetStarted, onViewPremium }) {
             Everything You Need
           </h2>
           <p className="text-slate-400 max-w-xl mx-auto">
-            From basic logging to smart predictive maintenance, MyAutoLog has you covered.
+            From basic logging to smart predictive maintenance, MTXtrkr has you covered.
           </p>
         </div>
 
@@ -165,16 +165,16 @@ export default function LandingPage({ onGetStarted, onViewPremium }) {
         <div className="space-y-4">
           {[
             {
-              q: 'Is MyAutoLog really free?',
+              q: 'Is MTXtrkr really free?',
               a: 'Yes! Our Free tier allows you to track one vehicle with manual mileage updates and standard reminders. Premium unlocks unlimited vehicles, AI predictions, and advanced analytics.'
             },
             {
               q: 'Does it work for electric vehicles (EVs)?',
-              a: 'Absolutely. MyAutoLog is EV-aware. We won’t remind you to change your oil on a Tesla, but we will help you track tire rotations and brake fluid health.'
+              a: 'Absolutely. MTXtrkr is EV-aware. We won’t remind you to change your oil on a Tesla, but we will help you track tire rotations and brake fluid health.'
             },
             {
               q: 'Can I use it without an internet connection?',
-              a: 'Yes. MyAutoLog is built as an offline-first PWA. You can log services in underground garages, and your data syncs automatically once you’re back online.'
+              a: 'Yes. MTXtrkr is built as an offline-first PWA. You can log services in underground garages, and your data syncs automatically once you’re back online.'
             },
             {
               q: 'How does the AI Co-Pilot work?',
@@ -363,7 +363,7 @@ export default function LandingPage({ onGetStarted, onViewPremium }) {
       {/* Footer */}
       <footer className="border-t border-slate-800 py-8">
         <div className="max-w-6xl mx-auto px-4 text-center text-xs text-slate-600">
-          © 2026 MyAutoLog. All rights reserved. Built with ❤️ for car enthusiasts.
+          © 2026 MTXtrkr. All rights reserved. Built with ❤️ for car enthusiasts.
         </div>
       </footer>
     </div>

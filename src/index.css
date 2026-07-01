@@ -22,3 +22,12 @@
 .animate-slide-up {
   animation: slide-up 0.3s ease-out;
 }
+
+/* Hide scrollbar for vehicle tabs */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}

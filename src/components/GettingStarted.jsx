@@ -39,7 +39,7 @@ export default function GettingStarted({ onNavigate }) {
           <Sparkles className="w-6 h-6 text-white" />
         </div>
         <div>
-          <h2 className="text-xl font-bold text-white">Welcome to MyAutoLog!</h2>
+          <h2 className="text-xl font-bold text-white">Welcome to MTXtrkr!</h2>
           <p className="text-sm text-slate-400">Let's get your vehicle's health record started in 3 easy steps.</p>
         </div>
       </div>

@@ -200,6 +200,7 @@ export default function App() {
   }, [auth, analytics]);
 
   // Show auth page if not authenticated (after landing)
+  /*
   if (page !== 'landing' && page !== 'premium' && !isAuthenticated && !auth.loading) {
     return (
       <>
@@ -215,6 +216,7 @@ export default function App() {
       </>
     );
   }
+  */
 
   // Render pages
   if (page === 'landing') {
