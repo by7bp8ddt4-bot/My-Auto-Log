@@ -35,11 +35,11 @@ export default async function handler(req, res) {
     if (userId) {
       const { error } = await supabase
         .from('profiles')
-        .upsert({ 
-          id: userId, 
-          is_premium: true, 
-          updated_at: new Date().toISOString() 
-        });
+        .upsert({
+                      id: userId,
+                      premium: true,
+                      updated_at: new Date().toISOString()
+                    });
       
       if (error) {
         console.error('Error updating profile:', error);

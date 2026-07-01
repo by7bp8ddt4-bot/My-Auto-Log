@@ -36,14 +36,17 @@ export default function App() {
   // Activate premium from URL parameter (mobile-friendly activation link)
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    if (params.get('activate') === 'premium') {
+    if (params.get('activate') === 'premium' || params.get('payment_success') === 'true') {
       localStorage.setItem(STORAGE_KEYS.PREMIUM_STATUS, 'true');
       setPremium(true);
-      analytics.track('premium_activated', { method: 'url_param' });
+      if (auth.user?.id) {
+        auth.setPremiumStatus(auth.user.id);
+      }
+      analytics.track('premium_activated', { method: params.get('activate') === 'premium' ? 'url_param' : 'stripe_checkout' });
       // Clean the URL so refresh doesn't re-trigger, but keep path
       window.history.replaceState({}, '', window.location.pathname);
     }
-  }, []);
+  }, [auth.user?.id]);
 
   // Auto-redirect to dashboard when user signs in / auth loads
   useEffect(() => {
