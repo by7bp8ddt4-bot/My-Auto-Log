@@ -98,21 +98,29 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
 
       {/* Vehicle Tab Bar — premium only, 2+ vehicles */}
       {isPremium && vehicles.length > 1 && (
-        <div className="flex gap-2 overflow-x-auto pb-2 mb-6 scrollbar-hide">
-          {vehicles.map(v => (
-            <button
-              key={v.id}
-              onClick={() => setActiveVehicleId(v.id)}
-              className={`flex items-center gap-2 px-3 py-2 rounded-xl border transition-all shrink-0 ${
-                v.id === activeVehicleId
-                  ? 'bg-blue-600/20 border-blue-500/40 text-white'
-                  : 'bg-slate-900/60 border-slate-800/50 text-slate-400 hover:border-slate-700'
-              }`}
-            >
-              <ManufacturerBadge make={v.make} size={20} />
-              <span className="text-xs font-medium whitespace-nowrap">{v.name || `${v.year} ${v.make}`}</span>
-            </button>
-          ))}
+        <div className="mb-5">
+          <div className="flex flex-nowrap gap-2 -mx-4 px-4 overflow-x-auto pb-1 snap-x snap-mandatory scrollbar-hide">
+            {vehicles.map(v => (
+              <button
+                key={v.id}
+                onClick={() => setActiveVehicleId(v.id)}
+                className={`flex items-center gap-2.5 px-4 py-3 rounded-2xl border-2 transition-all shrink-0 snap-start min-w-0 ${
+                  v.id === activeVehicleId
+                    ? 'bg-blue-600/15 border-blue-500/50 text-white shadow-sm shadow-blue-500/10'
+                    : 'bg-slate-900/80 border-slate-700/60 text-slate-400 hover:border-slate-600'
+                }`}
+              >
+                <ManufacturerBadge make={v.make} size={22} />
+                <span className="text-sm font-semibold whitespace-nowrap">{v.name || `${v.year} ${v.make}`}</span>
+                {v.id === activeVehicleId && (
+                  <div className="w-1.5 h-1.5 rounded-full bg-blue-400 shrink-0" />
+                )}
+              </button>
+            ))}
+          </div>
+          <p className="text-[10px] text-slate-600 mt-1.5 text-center">
+            ← Swipe or tap to switch vehicles →
+          </p>
         </div>
       )}
 
@@ -450,14 +458,14 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
               <p className="text-[10px] text-slate-500 mb-2">Monthly Spending Trend</p>
               <div className="flex items-end gap-1.5 h-16">
                 {Array.from({ length: 12 }, (_, i) => {
-                  const monthLogs = logs.filter(l => {
+                  const monthLogs = vehicleLogs.filter(l => {
                     const d = new Date(l.date);
                     const now = new Date();
                     return d.getMonth() === (i % 12) && d.getFullYear() === now.getFullYear();
                   });
                   const monthTotal = monthLogs.reduce((s, l) => s + (l.cost || 0), 0);
                   const maxTotal = Math.max(...Array.from({ length: 12 }, (_, j) => {
-                    const ml = logs.filter(l => {
+                    const ml = vehicleLogs.filter(l => {
                       const d = new Date(l.date);
                       const now = new Date();
                       return d.getMonth() === (j % 12) && d.getFullYear() === now.getFullYear();
@@ -521,11 +529,6 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
             </div>
           </div>
         )}
-      </div>
-
-      {/* Mileage Graph */}
-      <div className="mt-8">
-        <MileageChart logs={logs} vehicles={vehicles} isPremium={isPremium} />
       </div>
 
       {/* Premium PDF Resale Report */}
