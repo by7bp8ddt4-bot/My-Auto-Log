@@ -1,16 +1,16 @@
 import { useState } from 'react';
-import { Wrench, Plus, X, ShoppingBag, Tag, Calendar, Gauge, DollarSign, ChevronDown, ChevronRight, Car } from 'lucide-react';
+import { Wrench, Plus, X, ShoppingBag, Tag, Calendar, Gauge, DollarSign, ChevronDown, ChevronRight, Car, Zap, ArrowUpDown, Lightbulb, Speaker, Package } from 'lucide-react';
 import { formatDate, formatCurrency, formatNumber } from '../utils/helpers';
 
 const CATEGORIES = [
-  { id: 'performance', label: 'Performance', icon: Wrench, color: 'text-amber-400', bg: 'bg-amber-400/10', border: 'border-amber-400/20' },
+  { id: 'performance', label: 'Performance', icon: Zap, color: 'text-amber-400', bg: 'bg-amber-400/10', border: 'border-amber-400/20' },
   { id: 'exterior', label: 'Exterior', icon: Car, color: 'text-blue-400', bg: 'bg-blue-400/10', border: 'border-blue-400/20' },
-  { id: 'interior', label: 'Interior', icon: ShoppingBag, color: 'text-purple-400', bg: 'bg-purple-400/10', border: 'border-purple-400/20' },
-  { id: 'audio', label: 'Audio/Electronics', icon: Tag, color: 'text-cyan-400', bg: 'bg-cyan-400/10', border: 'border-cyan-400/20' },
-  { id: 'wheels', label: 'Wheels/Tires', icon: Tag, color: 'text-emerald-400', bg: 'bg-emerald-400/10', border: 'border-emerald-400/20' },
-  { id: 'lighting', label: 'Lighting', icon: Tag, color: 'text-yellow-400', bg: 'bg-yellow-400/10', border: 'border-yellow-400/20' },
-  { id: 'engine', label: 'Engine/Mechanical', icon: Wrench, color: 'text-red-400', bg: 'bg-red-400/10', border: 'border-red-400/20' },
-  { id: 'other', label: 'Other', icon: Tag, color: 'text-slate-400', bg: 'bg-slate-400/10', border: 'border-slate-400/20' },
+  { id: 'interior', label: 'Interior', icon: ShoppingBag, color: 'text-emerald-400', bg: 'bg-emerald-400/10', border: 'border-emerald-400/20' },
+  { id: 'wheels', label: 'Wheels/Tires', icon: Tag, color: 'text-cyan-400', bg: 'bg-cyan-400/10', border: 'border-cyan-400/20' },
+  { id: 'suspension', label: 'Suspension', icon: ArrowUpDown, color: 'text-purple-400', bg: 'bg-purple-400/10', border: 'border-purple-400/20' },
+  { id: 'lighting', label: 'Lighting', icon: Lightbulb, color: 'text-yellow-400', bg: 'bg-yellow-400/10', border: 'border-yellow-400/20' },
+  { id: 'audio', label: 'Audio/Electronics', icon: Speaker, color: 'text-pink-400', bg: 'bg-pink-400/10', border: 'border-pink-400/20' },
+  { id: 'other', label: 'Other', icon: Package, color: 'text-slate-400', bg: 'bg-slate-400/10', border: 'border-slate-400/20' },
 ];
 
 const CATEGORY_MAP = Object.fromEntries(CATEGORIES.map(c => [c.id, c]));
