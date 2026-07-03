@@ -10,7 +10,7 @@ import {
   CheckCircle2,
   Settings
 } from 'lucide-react';
-import { formatNumber, formatDate } from '../utils/helpers';
+import { formatNumber, formatDate, getLocalDateString } from '../utils/helpers';
 import { useMaintenanceSchedule } from '../hooks/useMaintenanceSchedule';
 import { getManufacturerColor, ManufacturerBadge } from '../utils/manufacturerBranding';
 
@@ -85,7 +85,7 @@ export default function MaintenanceSchedule({ vehicle: initialVehicle, logs, onA
             onLog={() => onAddLog({
               vehicleId: vehicle.id,
               serviceType: item.service,
-              date: new Date().toISOString().split('T')[0],
+              date: getLocalDateString(),
               mileage: vehicle.mileage,
               description: `Manufacturer scheduled maintenance: ${item.service}`,
               source: 'maintenance-schedule'

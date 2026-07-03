@@ -132,6 +132,8 @@ function VehicleFormModal({ vehicle, onSave, onClose }) {
     year: vehicle?.year || new Date().getFullYear(),
     licensePlate: vehicle?.licensePlate || '',
     mileage: vehicle?.mileage || 0,
+    purchaseDate: vehicle?.purchaseDate || '',
+    purchaseMileage: vehicle?.purchaseMileage || 0,
     vin: vehicle?.vin || '',
   });
   const [vinState, setVinState] = useState({ status: 'idle', message: '', data: null }); // idle | loading | success | error
@@ -312,6 +314,27 @@ function VehicleFormModal({ vehicle, onSave, onClose }) {
                 type="number"
                 value={form.mileage}
                 onChange={e => setForm(f => ({ ...f, mileage: parseInt(e.target.value) || 0 }))}
+                className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
+              />
+            </div>
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label className="block text-xs text-slate-400 mb-1.5 font-medium">Purchase Date</label>
+              <input
+                type="date"
+                value={form.purchaseDate}
+                onChange={e => setForm(f => ({ ...f, purchaseDate: e.target.value }))}
+                max={new Date().toISOString().split('T')[0]}
+                className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
+              />
+            </div>
+            <div>
+              <label className="block text-xs text-slate-400 mb-1.5 font-medium">Mileage at Purchase</label>
+              <input
+                type="number"
+                value={form.purchaseMileage}
+                onChange={e => setForm(f => ({ ...f, purchaseMileage: parseInt(e.target.value) || 0 }))}
                 className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
               />
             </div>

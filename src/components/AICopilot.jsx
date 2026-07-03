@@ -3,7 +3,7 @@ import {
   Brain, Sparkles, Save, CheckCircle2, Loader2,
   Lightbulb, Wrench, Calendar, Zap, AlertTriangle
 } from 'lucide-react';
-import { formatNumber, formatDate } from '../utils/helpers';
+import { formatNumber, formatDate, getLocalDateString } from '../utils/helpers';
 import { useMaintenanceSchedule } from '../hooks/useMaintenanceSchedule';
 import { getManufacturerColor, ManufacturerBadge } from '../utils/manufacturerBranding.jsx';
 import { getSpecsForVehicle, isEV } from '../data/maintenance-schedules.js';
@@ -161,7 +161,7 @@ export default function AICopilot({ vehicles, logs, onAddLog, onNavigate, isPrem
     if (!translation?.loggable || !activeVehicle) return;
     onAddLog({
       vehicleId: activeVehicle.id,
-      date: new Date().toISOString().split('T')[0],
+      date: getLocalDateString(),
       mileage: activeVehicle.mileage,
       serviceType: translation.loggable.serviceType,
       description: translation.loggable.description,
@@ -372,7 +372,7 @@ export default function AICopilot({ vehicles, logs, onAddLog, onNavigate, isPrem
                 <div className="flex flex-wrap gap-2">
                   <button onClick={() => {
                     onAddLog({
-                      vehicleId: activeVehicle.id, date: new Date().toISOString().split('T')[0],
+                      vehicleId: activeVehicle.id, date: getLocalDateString(),
                       mileage: activeVehicle.mileage, serviceType: urgentItem.service,
                       description: `Completed: ${urgentItem.service}.`, cost: 0, documents: [], source: 'ai-copilot-scheduled',
                     }); onNavigate('logs');
