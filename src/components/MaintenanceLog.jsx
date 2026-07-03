@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import {
   X, Plus, ClipboardList, Trash2, FileText, Upload, Calendar, DollarSign,
-  Gauge, CheckCircle2, Loader2, Pencil, Cloud,
-  ChevronDown, ChevronRight, FolderOpen, Folders
+  Gauge, CheckCircle2, Loader2, Pencil, Cloud
 } from 'lucide-react';
 import { formatDate, formatCurrency, formatNumber, getLocalDateString } from '../utils/helpers';
 import { SERVICE_TYPES } from '../utils/constants';
@@ -20,22 +19,23 @@ import wrenchIcon from '../assets/folder-icons/wrench.svg';
 import folderIcon from '../assets/folder-icons/folder.svg';
 import allIcon from '../assets/folder-icons/archive-drawer.svg';
 
+// Design spec color matrix — each service type gets a tab border, active tab bg, and accent color
 const SERVICE_CONFIG = {
-  'Oil Change': { icon: oilIcon, color: 'text-amber-400', bg: 'bg-amber-400/10', border: 'border-amber-400/20' },
-  'Tire Rotation': { icon: tireIcon, color: 'text-blue-400', bg: 'bg-blue-400/10', border: 'border-blue-400/20' },
-  'New Tires': { icon: tireIcon, color: 'text-cyan-400', bg: 'bg-cyan-400/10', border: 'border-cyan-400/20' },
-  'Brake Service': { icon: brakeIcon, color: 'text-red-400', bg: 'bg-red-400/10', border: 'border-red-400/20' },
-  'Engine Service': { icon: engineIcon, color: 'text-yellow-400', bg: 'bg-yellow-400/10', border: 'border-yellow-400/20' },
-  'Transmission Service': { icon: transIcon, color: 'text-purple-400', bg: 'bg-purple-400/10', border: 'border-purple-400/20' },
-  'Battery Replacement': { icon: batteryIcon, color: 'text-emerald-400', bg: 'bg-emerald-400/10', border: 'border-emerald-400/20' },
-  'Filter Replacement': { icon: filterIcon, color: 'text-cyan-400', bg: 'bg-cyan-400/10', border: 'border-cyan-400/20' },
-  'Cabin Air Filter': { icon: filterIcon, color: 'text-teal-400', bg: 'bg-teal-400/10', border: 'border-teal-400/20' },
-  'Wiper Blades': { icon: wrenchIcon, color: 'text-blue-300', bg: 'bg-blue-300/10', border: 'border-blue-300/20' },
-  'Fluid Check/Top-Up': { icon: fluidIcon, color: 'text-sky-400', bg: 'bg-sky-400/10', border: 'border-sky-400/20' },
-  'Inspection': { icon: inspectionIcon, color: 'text-slate-400', bg: 'bg-slate-400/10', border: 'border-slate-400/20' },
-  'Repair': { icon: wrenchIcon, color: 'text-orange-400', bg: 'bg-orange-400/10', border: 'border-orange-400/20' },
-  'Other': { icon: folderIcon, color: 'text-slate-500', bg: 'bg-slate-500/10', border: 'border-slate-500/20' },
-  'All Records': { icon: allIcon, color: 'text-indigo-400', bg: 'bg-indigo-400/10', border: 'border-indigo-400/20' },
+  'All Records':       { icon: allIcon,       tabBorder: 'border-indigo-500/20', tabBg: 'bg-indigo-600',      accent: 'text-indigo-400', bodyBg: 'bg-indigo-500/5' },
+  'Oil Change':        { icon: oilIcon,       tabBorder: 'border-amber-500/20',  tabBg: 'bg-amber-600',       accent: 'text-amber-400',  bodyBg: 'bg-amber-500/5' },
+  'Tire Rotation':     { icon: tireIcon,      tabBorder: 'border-blue-500/20',   tabBg: 'bg-blue-600',        accent: 'text-blue-400',   bodyBg: 'bg-blue-500/5' },
+  'New Tires':         { icon: tireIcon,      tabBorder: 'border-cyan-500/20',   tabBg: 'bg-cyan-600',        accent: 'text-cyan-400',   bodyBg: 'bg-cyan-500/5' },
+  'Brake Service':     { icon: brakeIcon,     tabBorder: 'border-red-500/20',    tabBg: 'bg-red-600',         accent: 'text-red-400',    bodyBg: 'bg-red-500/5' },
+  'Engine Service':    { icon: engineIcon,    tabBorder: 'border-yellow-500/20', tabBg: 'bg-yellow-600',      accent: 'text-yellow-400', bodyBg: 'bg-yellow-500/5' },
+  'Transmission Service': { icon: transIcon,  tabBorder: 'border-purple-500/20', tabBg: 'bg-purple-600',      accent: 'text-purple-400', bodyBg: 'bg-purple-500/5' },
+  'Battery Replacement': { icon: batteryIcon, tabBorder: 'border-emerald-500/20',tabBg: 'bg-emerald-600',    accent: 'text-emerald-400',bodyBg: 'bg-emerald-500/5' },
+  'Filter Replacement': { icon: filterIcon,   tabBorder: 'border-cyan-500/20',   tabBg: 'bg-cyan-600',        accent: 'text-cyan-400',   bodyBg: 'bg-cyan-500/5' },
+  'Cabin Air Filter':  { icon: filterIcon,    tabBorder: 'border-teal-500/20',   tabBg: 'bg-teal-600',        accent: 'text-teal-400',   bodyBg: 'bg-teal-500/5' },
+  'Wiper Blades':      { icon: wrenchIcon,    tabBorder: 'border-blue-300/20',   tabBg: 'bg-blue-400',        accent: 'text-blue-300',   bodyBg: 'bg-blue-300/5' },
+  'Fluid Check/Top-Up':{ icon: fluidIcon,     tabBorder: 'border-sky-500/20',    tabBg: 'bg-sky-600',         accent: 'text-sky-400',    bodyBg: 'bg-sky-500/5' },
+  'Inspection':        { icon: inspectionIcon,tabBorder: 'border-slate-500/20',  tabBg: 'bg-slate-600',       accent: 'text-slate-400',  bodyBg: 'bg-slate-500/5' },
+  'Repair':            { icon: wrenchIcon,    tabBorder: 'border-orange-500/20', tabBg: 'bg-orange-600',      accent: 'text-orange-400', bodyBg: 'bg-orange-500/5' },
+  'Other':             { icon: folderIcon,    tabBorder: 'border-slate-600/20',  tabBg: 'bg-slate-700',       accent: 'text-slate-500',  bodyBg: 'bg-slate-600/5' },
 };
 
 /** Get the service types for a log entry (handles both old single-type and new multi-type) */
@@ -49,14 +49,8 @@ export default function MaintenanceLog({ logs, vehicles, onAdd, onUpdate, onDele
   const [showForm, setShowForm] = useState(false);
   const [editingLog, setEditingLog] = useState(null);
   const [vehicleFilter, setVehicleFilter] = useState('all');
-  const [expandedFolders, setExpandedFolders] = useState({});
-
-  const toggleFolder = (type) => {
-    setExpandedFolders(prev => ({
-      ...prev,
-      [type]: !prev[type]
-    }));
-  };
+  // Design spec: single active folder, only one open at a time
+  const [activeFolder, setActiveFolder] = useState('All Records');
 
   const filteredLogs = vehicleFilter === 'all'
     ? logs
@@ -71,12 +65,7 @@ export default function MaintenanceLog({ logs, vehicles, onAdd, onUpdate, onDele
     const types = getLogServiceTypes(log);
     types.forEach(type => {
       if (!acc[type]) {
-        acc[type] = {
-          type,
-          logs: [],
-          totalCost: 0,
-          lastDate: null,
-        };
+        acc[type] = { type, logs: [], totalCost: 0, lastDate: null };
       }
       acc[type].logs.push(log);
       acc[type].totalCost += (log.cost || 0);
@@ -167,235 +156,211 @@ export default function MaintenanceLog({ logs, vehicles, onAdd, onUpdate, onDele
               </button>
             </div>
           ) : (
-            <div className="relative space-y-3">
-              {sortedGroups.map((group, idx) => {
+            /* Cabinet Drawer Container — per design spec */
+            <div className="relative flex flex-col py-2 rounded-3xl bg-slate-950/20 border border-slate-900/60 shadow-inner">
+              {sortedGroups.map((group, index) => {
                 const config = SERVICE_CONFIG[group.type] || SERVICE_CONFIG['Other'];
-                const isExpanded = expandedFolders[group.type];
-                // Stack offset: each folder peeks out slightly from behind
-                const stackOffset = group.type !== 'All Records' ? idx * 4 : 0;
+                const isActive = activeFolder === group.type;
 
                 return (
                   <div
                     key={group.type}
-                    className="relative"
-                    style={{ zIndex: sortedGroups.length - idx }}
+                    onClick={() => setActiveFolder(group.type)}
+                    style={{ zIndex: isActive ? 40 : 10 + index }}
+                    className={`
+                      relative flex flex-col rounded-2xl border-2
+                      bg-gradient-to-b from-slate-900 to-slate-950
+                      transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] cursor-pointer select-none
+                      ${isActive
+                        ? 'border-slate-700 -translate-y-2 scale-[1.01] shadow-[0_-12px_24px_rgba(2,6,23,0.6),_0_20px_30px_rgba(0,0,0,0.5)]'
+                        : 'border-slate-800 hover:border-slate-700 shadow-[0_-4px_12px_rgba(0,0,0,0.3)]'
+                      }
+                      ${index > 0 ? '-mt-10 sm:-mt-12' : ''}
+                    `}
                   >
-                    {/* Stacked folder card — layered visual effect */}
+                    {/* The Tab — physically protruding from top of card */}
                     <div
-                      className={`rounded-2xl border transition-all duration-300 overflow-hidden ${
-                        isExpanded
-                          ? 'bg-slate-900/90 border-slate-600 shadow-[0_8px_30px_rgba(0,0,0,0.5)]'
-                          : 'bg-slate-900/60 border-slate-700/60 shadow-[0_2px_10px_rgba(0,0,0,0.3)] hover:shadow-[0_4px_20px_rgba(0,0,0,0.4)] hover:border-slate-600'
-                      }`}
-                      style={{
-                        // Stacked offset: each folder is slightly indented
-                        marginLeft: group.type !== 'All Records' ? `${Math.min(idx * 6, 30)}px` : '0',
-                        transform: isExpanded ? 'translateY(0)' : 'translateY(0)',
-                      }}
+                      className={`
+                        absolute left-4 -top-[33px] h-9 px-4 flex items-center gap-2
+                        rounded-t-xl border-t-2 border-x-2 border-b-0 transition-all duration-300 z-10
+                        ${isActive
+                          ? `${config.tabBg} backdrop-blur-md font-bold ${config.tabBorder}`
+                          : 'bg-slate-900/80 border-slate-700/40 text-slate-400 hover:text-white'
+                        }
+                      `}
                     >
-                      {/* Folder tab / label strip at top */}
-                      <div className={`h-1.5 w-full rounded-t-2xl ${config.bg} ${config.border} border-t border-x`} />
-
-                      {/* Folder Header */}
-                      <button
-                        onClick={() => toggleFolder(group.type)}
-                        className="w-full flex items-center gap-4 px-4 py-3.5 text-left focus:outline-none group/folder"
-                      >
-                        <div className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 ${config.bg} ${config.border} border shadow-sm relative`}>
-                          {/* Folder icon tab overlay */}
-                          <div className={`absolute -top-2 -right-2 w-5 h-5 rounded-full ${config.bg} border ${config.border} flex items-center justify-center`}>
-                            {isExpanded ? (
-                              <FolderOpen className="w-3 h-3" style={{ color: config.color.replace('text-', '').replace('-400', '') }} />
-                            ) : (
-                              <Folders className="w-3 h-3 text-slate-400" />
-                            )}
-                          </div>
-                          <div
-                            className={`w-6 h-6 ${config.color}`}
-                            style={{
-                              backgroundColor: 'currentColor',
-                              WebkitMaskImage: `url(${config.icon})`,
-                              maskImage: `url(${config.icon})`,
-                              maskSize: 'contain',
-                              maskRepeat: 'no-repeat',
-                              maskPosition: 'center'
-                            }}
-                          />
-                        </div>
-
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2 mb-0.5">
-                            <h3 className="text-sm font-bold text-white truncate">{group.type}</h3>
-                            <span className="text-[10px] px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 font-bold tracking-tight">
-                              {group.logs.length} {group.logs.length === 1 ? 'RECORD' : 'RECORDS'}
-                            </span>
-                            {/* Multi-job badge */}
-                            <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-indigo-500/15 text-indigo-300 font-bold uppercase tracking-tighter">
-                              Folder
-                            </span>
-                          </div>
-                          <p className="text-[10px] text-slate-500 flex items-center gap-1">
-                            <Calendar className="w-3 h-3" />
-                            Last: {formatDate(group.lastDate)}
-                          </p>
-                        </div>
-
-                        <div className="text-right shrink-0">
-                          <div className="text-sm font-bold text-emerald-400 bg-emerald-500/5 px-2 py-1 rounded-lg border border-emerald-500/10">
-                            {formatCurrency(group.totalCost)}
-                          </div>
-                          <div className="text-[10px] text-slate-500 font-medium flex items-center justify-end gap-1 mt-1.5">
-                            {isExpanded ? 'Collapse' : 'Open'}
-                            {isExpanded ? <ChevronDown className="w-3 h-3" /> : <ChevronRight className="w-3 h-3" />}
-                          </div>
-                        </div>
-                      </button>
-
-                      {/* Folder Contents (Expanded) — shows as paper sheets inside the folder */}
-                      {isExpanded && (
-                        <div className="border-t border-slate-700/40 bg-slate-950/50 px-3 pb-3 pt-2 space-y-2">
-                          {group.logs.sort((a,b) => new Date(b.date) - new Date(a.date)).map((log, logIdx) => {
-                            const isAiGenerated = log.source === 'ai-copilot' || log.source === 'ai-copilot-scheduled';
-                            const hasDocuments = log.documents && log.documents.length > 0;
-                            const logTypes = getLogServiceTypes(log);
-                            const isMultiJob = logTypes.length > 1;
-                            return (
-                              <div
-                                key={log.id}
-                                className={`relative p-3 rounded-xl border transition-all group hover:z-10 ${
-                                  logIdx === 0
-                                    ? 'bg-slate-800/80 border-slate-600/60 shadow-md' // top sheet
-                                    : 'bg-slate-800/40 border-slate-700/30 shadow-sm'
-                                }`}
-                                style={{
-                                  // Slight paper-stack offset for inner records
-                                  marginLeft: logIdx > 0 ? `${Math.min(logIdx * 2, 8)}px` : '0',
-                                }}
-                              >
-                                <div className="flex items-start justify-between gap-4">
-                                  <div className="flex-1 min-w-0">
-                                    <div className="flex items-center gap-2 mb-1.5 flex-wrap">
-                                      <span className="text-xs font-semibold text-slate-200">
-                                        {getVehicleName(log.vehicleId)}
-                                      </span>
-                                      {isMultiJob && (
-                                        <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 shrink-0 font-bold uppercase tracking-tighter">
-                                          Multi-Job
-                                        </span>
-                                      )}
-                                      {isAiGenerated && (
-                                        <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-purple-500/20 text-purple-300 shrink-0 font-bold uppercase tracking-tighter">
-                                          AI
-                                        </span>
-                                      )}
-                                      {isPremium && (
-                                        <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-blue-500/15 text-blue-300 shrink-0 flex items-center gap-0.5 font-bold uppercase tracking-tighter">
-                                          <Cloud className="w-2.5 h-2.5" />
-                                          Cloud
-                                        </span>
-                                      )}
-                                    </div>
-
-                                    {/* Multi-job type tags */}
-                                    {isMultiJob && (
-                                      <div className="flex flex-wrap gap-1 mb-2">
-                                        {logTypes.map(t => {
-                                          const cfg = SERVICE_CONFIG[t] || SERVICE_CONFIG['Other'];
-                                          return (
-                                            <span
-                                              key={t}
-                                              className={`text-[9px] px-1.5 py-0.5 rounded-md ${cfg.bg} ${cfg.color} font-medium`}
-                                            >
-                                              {t}
-                                            </span>
-                                          );
-                                        })}
-                                      </div>
-                                    )}
-
-                                    {log.description && (
-                                      <p className="text-xs text-slate-500 mb-2 line-clamp-2 italic leading-relaxed">
-                                        &ldquo;{log.description}&rdquo;
-                                      </p>
-                                    )}
-
-                                    {/* Document Thumbnails */}
-                                    {hasDocuments && (
-                                      <div className="flex flex-wrap gap-1.5 mb-2.5">
-                                        {log.documents.slice(0, 3).map(doc => (
-                                          <div key={doc.id} className="relative group/doc">
-                                            {doc.type?.startsWith('image/') ? (
-                                              <img
-                                                src={doc.dataUrl}
-                                                alt={doc.name}
-                                                className="w-10 h-10 rounded-lg object-cover border border-slate-700"
-                                              />
-                                            ) : (
-                                              <div className="w-10 h-10 rounded-lg bg-slate-800 border border-slate-700 flex flex-col items-center justify-center">
-                                                <FileText className="w-3.5 h-3.5 text-blue-400" />
-                                                <span className="text-[7px] text-slate-500 mt-0.5">PDF</span>
-                                              </div>
-                                            )}
-                                            <div className="absolute inset-0 rounded-lg bg-black/40 transition-all flex items-center justify-center opacity-0 group-hover/doc:opacity-100 cursor-pointer">
-                                              <FileText className="w-3.5 h-3.5 text-white" />
-                                            </div>
-                                          </div>
-                                        ))}
-                                        {log.documents.length > 3 && (
-                                          <div className="w-10 h-10 rounded-lg bg-slate-800 border border-slate-700 flex items-center justify-center">
-                                            <span className="text-[10px] text-slate-400 font-medium">+{log.documents.length - 3}</span>
-                                          </div>
-                                        )}
-                                      </div>
-                                    )}
-
-                                    <div className="flex flex-wrap items-center gap-3 text-[10px] text-slate-400">
-                                      <span className="flex items-center gap-1">
-                                        <Calendar className="w-3 h-3" />
-                                        {formatDate(log.date)}
-                                      </span>
-                                      <span className="flex items-center gap-1 font-bold text-slate-300">
-                                        <Gauge className="w-3 h-3" />
-                                        {formatNumber(log.mileage)} mi
-                                      </span>
-                                      {log.cost > 0 && (
-                                        <span className="flex items-center gap-1 text-emerald-400 font-bold bg-emerald-500/5 px-1.5 py-0.5 rounded border border-emerald-500/10">
-                                          <DollarSign className="w-3 h-3" />
-                                          {formatCurrency(log.cost)}
-                                        </span>
-                                      )}
-                                    </div>
-                                  </div>
-
-                                  <div className="flex items-center gap-1 shrink-0">
-                                    <button
-                                      onClick={(e) => { e.stopPropagation(); setEditingLog(log); setShowForm(true); }}
-                                      className="p-1.5 rounded-lg hover:bg-blue-500/20 text-slate-400 hover:text-blue-400 transition-all"
-                                    >
-                                      <Pencil className="w-3.5 h-3.5" />
-                                    </button>
-                                    <button
-                                      onClick={(e) => { e.stopPropagation(); onDelete(log.id); }}
-                                      className="p-1.5 rounded-lg hover:bg-red-500/20 text-slate-400 hover:text-red-400 transition-all"
-                                    >
-                                      <Trash2 className="w-3.5 h-3.5" />
-                                    </button>
-                                  </div>
-                                </div>
-                              </div>
-                            );
-                          })}
-                        </div>
-                      )}
+                      {/* Icon */}
+                      <div
+                        className={`w-4 h-4 shrink-0 ${isActive ? 'text-white' : 'text-slate-500'}`}
+                        style={{
+                          backgroundColor: 'currentColor',
+                          WebkitMaskImage: `url(${config.icon})`,
+                          maskImage: `url(${config.icon})`,
+                          maskSize: 'contain',
+                          maskRepeat: 'no-repeat',
+                          maskPosition: 'center'
+                        }}
+                      />
+                      {/* Tab Label — uppercase, monospace per spec */}
+                      <span className="text-[11px] uppercase tracking-wider font-mono whitespace-nowrap">{group.type}</span>
+                      {/* Record count badge inside tab */}
+                      <span className={`text-[9px] px-1.5 py-0.5 rounded-full font-bold ml-1 ${
+                        isActive ? 'bg-slate-950/40 text-white' : 'bg-slate-800 text-slate-400'
+                      }`}>
+                        {group.logs.length}
+                      </span>
                     </div>
 
-                    {/* Stacked folder shadow peeking from behind */}
-                    {group.type !== 'All Records' && idx < sortedGroups.length - 1 && !isExpanded && (
-                      <div
-                        className="absolute -bottom-1 left-0 right-0 h-2 rounded-b-2xl bg-slate-800/30 border border-slate-700/30 -z-10"
-                        style={{ marginLeft: `${Math.min((idx + 1) * 4, 20)}px`, marginRight: '4px' }}
-                      />
-                    )}
+                    {/* Folder Header — always visible (even when collapsed) */}
+                    <div className="flex items-center justify-between p-4 pt-5">
+                      <div>
+                        <h3 className="text-sm font-bold text-white flex items-center gap-2">
+                          {group.type}
+                          {isActive && (
+                            <span className="text-[10px] text-emerald-400 bg-emerald-400/10 px-2 py-0.5 rounded-full border border-emerald-400/20 font-mono">
+                              ACTIVE FOLDER
+                            </span>
+                          )}
+                        </h3>
+                        <p className="text-[10px] text-slate-500 mt-1">
+                          Last serviced: {formatDate(group.lastDate)}
+                        </p>
+                      </div>
+                      <div className="text-right shrink-0">
+                        <span className="text-sm font-bold text-emerald-400 bg-emerald-500/5 px-2 py-1 rounded-lg border border-emerald-500/10">
+                          {formatCurrency(group.totalCost)}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Folder Contents — revealed on active state with max-h animation */}
+                    <div
+                      className={`
+                        transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] overflow-hidden
+                        ${isActive ? 'max-h-[1200px] border-t border-slate-800 bg-slate-950/20 p-4 space-y-3' : 'max-h-0'}
+                      `}
+                    >
+                      {group.logs.sort((a,b) => new Date(b.date) - new Date(a.date)).map(log => {
+                        const isAiGenerated = log.source === 'ai-copilot' || log.source === 'ai-copilot-scheduled';
+                        const hasDocuments = log.documents && log.documents.length > 0;
+                        const logTypes = getLogServiceTypes(log);
+                        const isMultiJob = logTypes.length > 1;
+                        return (
+                          <div
+                            key={log.id}
+                            className="p-3 rounded-xl bg-slate-900/40 border border-slate-800 hover:border-slate-700 transition-all group"
+                          >
+                            <div className="flex items-start justify-between gap-4">
+                              <div className="flex-1 min-w-0">
+                                <div className="flex items-center gap-2 mb-1.5 flex-wrap">
+                                  <span className="text-xs font-semibold text-slate-200">
+                                    {getVehicleName(log.vehicleId)}
+                                  </span>
+                                  {isMultiJob && (
+                                    <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 shrink-0 font-bold uppercase tracking-tighter">
+                                      Multi-Job
+                                    </span>
+                                  )}
+                                  {isAiGenerated && (
+                                    <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-purple-500/20 text-purple-300 shrink-0 font-bold uppercase tracking-tighter">
+                                      AI
+                                    </span>
+                                  )}
+                                  {isPremium && (
+                                    <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-blue-500/15 text-blue-300 shrink-0 flex items-center gap-0.5 font-bold uppercase tracking-tighter">
+                                      <Cloud className="w-2.5 h-2.5" />
+                                      Cloud
+                                    </span>
+                                  )}
+                                </div>
+
+                                {/* Multi-job type tags */}
+                                {isMultiJob && (
+                                  <div className="flex flex-wrap gap-1 mb-2">
+                                    {logTypes.map(t => {
+                                      const cfg = SERVICE_CONFIG[t] || SERVICE_CONFIG['Other'];
+                                      return (
+                                        <span key={t} className={`text-[9px] px-1.5 py-0.5 rounded-md ${cfg.bodyBg} ${cfg.accent} font-medium`}>
+                                          {t}
+                                        </span>
+                                      );
+                                    })}
+                                  </div>
+                                )}
+
+                                {log.description && (
+                                  <p className="text-xs text-slate-500 mb-2 line-clamp-2 italic leading-relaxed">
+                                    &ldquo;{log.description}&rdquo;
+                                  </p>
+                                )}
+
+                                {/* Document Thumbnails */}
+                                {hasDocuments && (
+                                  <div className="flex flex-wrap gap-1.5 mb-2.5">
+                                    {log.documents.slice(0, 3).map(doc => (
+                                      <div key={doc.id} className="relative group/doc">
+                                        {doc.type?.startsWith('image/') ? (
+                                          <img
+                                            src={doc.dataUrl}
+                                            alt={doc.name}
+                                            className="w-10 h-10 rounded-lg object-cover border border-slate-700"
+                                          />
+                                        ) : (
+                                          <div className="w-10 h-10 rounded-lg bg-slate-800 border border-slate-700 flex flex-col items-center justify-center">
+                                            <FileText className="w-3.5 h-3.5 text-blue-400" />
+                                            <span className="text-[7px] text-slate-500 mt-0.5">PDF</span>
+                                          </div>
+                                        )}
+                                        <div className="absolute inset-0 rounded-lg bg-black/40 transition-all flex items-center justify-center opacity-0 group-hover/doc:opacity-100 cursor-pointer">
+                                          <FileText className="w-3.5 h-3.5 text-white" />
+                                        </div>
+                                      </div>
+                                    ))}
+                                    {log.documents.length > 3 && (
+                                      <div className="w-10 h-10 rounded-lg bg-slate-800 border border-slate-700 flex items-center justify-center">
+                                        <span className="text-[10px] text-slate-400 font-medium">+{log.documents.length - 3}</span>
+                                      </div>
+                                    )}
+                                  </div>
+                                )}
+
+                                <div className="flex flex-wrap items-center gap-3 text-[10px] text-slate-400">
+                                  <span className="flex items-center gap-1">
+                                    <Calendar className="w-3 h-3" />
+                                    {formatDate(log.date)}
+                                  </span>
+                                  <span className="flex items-center gap-1 font-bold text-slate-300">
+                                    <Gauge className="w-3 h-3" />
+                                    {formatNumber(log.mileage)} mi
+                                  </span>
+                                  {log.cost > 0 && (
+                                    <span className="flex items-center gap-1 text-emerald-400 font-bold bg-emerald-500/5 px-1.5 py-0.5 rounded border border-emerald-500/10">
+                                      <DollarSign className="w-3 h-3" />
+                                      {formatCurrency(log.cost)}
+                                    </span>
+                                  )}
+                                </div>
+                              </div>
+
+                              <div className="flex items-center gap-1 shrink-0">
+                                <button
+                                  onClick={(e) => { e.stopPropagation(); setEditingLog(log); setShowForm(true); }}
+                                  className="p-1.5 rounded-lg hover:bg-blue-500/20 text-slate-400 hover:text-blue-400 transition-all"
+                                >
+                                  <Pencil className="w-3.5 h-3.5" />
+                                </button>
+                                <button
+                                  onClick={(e) => { e.stopPropagation(); onDelete(log.id); }}
+                                  className="p-1.5 rounded-lg hover:bg-red-500/20 text-slate-400 hover:text-red-400 transition-all"
+                                >
+                                  <Trash2 className="w-3.5 h-3.5" />
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
                   </div>
                 );
               })}
@@ -449,10 +414,8 @@ function MaintenanceFormModal({ vehicles, initialData, isEditing, onSave, onClos
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files || []);
     if (files.length === 0) return;
-
     setUploadProgress(0);
     setUploadComplete(false);
-
     files.forEach((file, idx) => {
       const reader = new FileReader();
       reader.onprogress = (ev) => {
@@ -470,10 +433,7 @@ function MaintenanceFormModal({ vehicles, initialData, isEditing, onSave, onClos
         }]);
         if (idx === files.length - 1) {
           setUploadProgress(100);
-          setTimeout(() => {
-            setUploadComplete(true);
-            setUploadProgress(null);
-          }, 400);
+          setTimeout(() => { setUploadComplete(true); setUploadProgress(null); }, 400);
         }
       };
       reader.readAsDataURL(file);
@@ -482,19 +442,14 @@ function MaintenanceFormModal({ vehicles, initialData, isEditing, onSave, onClos
 
   const removeDocument = (id) => {
     setDocuments(prev => prev.filter(d => d.id !== id));
-    if (documents.length <= 1) {
-      setUploadComplete(false);
-    }
+    if (documents.length <= 1) setUploadComplete(false);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!form.vehicleId || form.serviceTypes.length === 0) return;
-
-    // For backward compatibility, also set serviceType to the first selected
     const serviceTypes = form.serviceTypes;
     const serviceType = serviceTypes[0];
-
     onSave({
       ...form,
       serviceTypes,
@@ -536,22 +491,14 @@ function MaintenanceFormModal({ vehicles, initialData, isEditing, onSave, onClos
           <div className="grid grid-cols-2 gap-3">
             <div>
               <label className="block text-xs text-slate-400 mb-1.5 font-medium">Date</label>
-              <input
-                type="date"
-                value={form.date}
-                onChange={e => setForm(f => ({ ...f, date: e.target.value }))}
-                className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50"
-              />
+              <input type="date" value={form.date} onChange={e => setForm(f => ({ ...f, date: e.target.value }))}
+                className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50" />
             </div>
             <div>
               <label className="block text-xs text-slate-400 mb-1.5 font-medium">Mileage</label>
-              <input
-                type="number"
-                value={form.mileage}
-                onChange={e => setForm(f => ({ ...f, mileage: e.target.value }))}
+              <input type="number" value={form.mileage} onChange={e => setForm(f => ({ ...f, mileage: e.target.value }))}
                 placeholder="e.g. 45000"
-                className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50"
-              />
+                className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50" />
             </div>
           </div>
 
@@ -569,17 +516,13 @@ function MaintenanceFormModal({ vehicles, initialData, isEditing, onSave, onClos
                     key={type}
                     className={`flex items-center gap-2 px-3 py-2 rounded-lg cursor-pointer transition-all text-xs ${
                       isSelected
-                        ? `${config.bg} ${config.border} border`
+                        ? `${config.bodyBg} ${config.tabBorder} border`
                         : 'text-slate-400 hover:bg-slate-800/60 border border-transparent'
                     }`}
                   >
-                    <input
-                      type="checkbox"
-                      checked={isSelected}
-                      onChange={() => toggleServiceType(type)}
-                      className="w-3.5 h-3.5 rounded border-slate-600 text-blue-600 focus:ring-blue-500/30 bg-slate-800"
-                    />
-                    <span className={isSelected ? config.color : ''}>{type}</span>
+                    <input type="checkbox" checked={isSelected} onChange={() => toggleServiceType(type)}
+                      className="w-3.5 h-3.5 rounded border-slate-600 text-blue-600 focus:ring-blue-500/30 bg-slate-800" />
+                    <span className={isSelected ? config.accent : ''}>{type}</span>
                   </label>
                 );
               })}
@@ -589,12 +532,7 @@ function MaintenanceFormModal({ vehicles, initialData, isEditing, onSave, onClos
                 {form.serviceTypes.map(t => {
                   const cfg = SERVICE_CONFIG[t] || SERVICE_CONFIG['Other'];
                   return (
-                    <span
-                      key={t}
-                      className={`text-[10px] px-2 py-0.5 rounded-full ${cfg.bg} ${cfg.color} font-medium`}
-                    >
-                      {t}
-                    </span>
+                    <span key={t} className={`text-[10px] px-2 py-0.5 rounded-full ${cfg.bodyBg} ${cfg.accent} font-medium`}>{t}</span>
                   );
                 })}
               </div>
@@ -603,85 +541,52 @@ function MaintenanceFormModal({ vehicles, initialData, isEditing, onSave, onClos
 
           <div>
             <label className="block text-xs text-slate-400 mb-1.5 font-medium">Description</label>
-            <textarea
-              value={form.description}
-              onChange={e => setForm(f => ({ ...f, description: e.target.value }))}
-              placeholder="Notes about this service..."
-              rows={2}
-              className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 resize-none"
-            />
+            <textarea value={form.description} onChange={e => setForm(f => ({ ...f, description: e.target.value }))}
+              placeholder="Notes about this service..." rows={2}
+              className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 resize-none" />
           </div>
 
           <div>
             <label className="block text-xs text-slate-400 mb-1.5 font-medium">Cost ($)</label>
-            <input
-              type="number"
-              step="0.01"
-              value={form.cost}
-              onChange={e => setForm(f => ({ ...f, cost: e.target.value }))}
+            <input type="number" step="0.01" value={form.cost} onChange={e => setForm(f => ({ ...f, cost: e.target.value }))}
               placeholder="0.00"
-              className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50"
-            />
+              className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50" />
           </div>
 
-          {/* Enhanced Document Upload with Progress */}
+          {/* Enhanced Document Upload */}
           <div>
             <label className="block text-xs text-slate-400 mb-1.5 font-medium">Receipts / Documents</label>
             <label className="flex items-center justify-center gap-2 px-4 py-3 rounded-xl border-2 border-dashed border-slate-700 hover:border-blue-500/50 cursor-pointer transition-all text-sm text-slate-400 hover:text-blue-400">
               {uploadComplete ? (
-                <>
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-                  Upload complete!
-                </>
+                <><CheckCircle2 className="w-4 h-4 text-emerald-400" /> Upload complete!</>
               ) : (
-                <>
-                  <Upload className="w-4 h-4" />
-                  Upload files (receipts, photos)
-                </>
+                <><Upload className="w-4 h-4" /> Upload files (receipts, photos)</>
               )}
               <input type="file" multiple accept="image/*,.pdf" onChange={handleFileChange} className="hidden" />
             </label>
-
-            {/* Upload Progress Bar */}
             {uploadProgress !== null && (
               <div className="mt-2">
                 <div className="flex items-center gap-2 text-xs text-slate-400 mb-1">
-                  <Loader2 className="w-3 h-3 animate-spin" />
-                  <span>Uploading...</span>
-                  <span className="ml-auto">{uploadProgress}%</span>
+                  <Loader2 className="w-3 h-3 animate-spin" /><span>Uploading...</span><span className="ml-auto">{uploadProgress}%</span>
                 </div>
                 <div className="w-full h-1.5 rounded-full bg-slate-800 overflow-hidden">
-                  <div
-                    className="h-full rounded-full bg-gradient-to-r from-blue-500 to-cyan-400 transition-all duration-300"
-                    style={{ width: `${uploadProgress}%` }}
-                  />
+                  <div className="h-full rounded-full bg-gradient-to-r from-blue-500 to-cyan-400 transition-all duration-300" style={{ width: `${uploadProgress}%` }} />
                 </div>
               </div>
             )}
-
-            {/* Document Thumbnails Preview */}
             {documents.length > 0 && (
               <div className="mt-2 flex flex-wrap gap-2">
                 {documents.map(d => (
                   <div key={d.id} className="relative group">
                     {d.type?.startsWith('image/') ? (
-                      <img
-                        src={d.dataUrl}
-                        alt={d.name}
-                        className="w-16 h-16 rounded-lg object-cover border border-slate-700"
-                      />
+                      <img src={d.dataUrl} alt={d.name} className="w-16 h-16 rounded-lg object-cover border border-slate-700" />
                     ) : (
                       <div className="w-16 h-16 rounded-lg bg-slate-800 border border-slate-700 flex flex-col items-center justify-center">
-                        <FileText className="w-5 h-5 text-blue-400" />
-                        <span className="text-[8px] text-slate-500">{d.name.split('.').pop()}</span>
+                        <FileText className="w-5 h-5 text-blue-400" /><span className="text-[8px] text-slate-500">{d.name.split('.').pop()}</span>
                       </div>
                     )}
-                    <button
-                      onClick={() => removeDocument(d.id)}
-                      className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-red-500 text-white flex items-center justify-center transition-all"
-                    >
-                      <X className="w-3 h-3" />
-                    </button>
+                    <button onClick={() => removeDocument(d.id)}
+                      className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-red-500 text-white flex items-center justify-center transition-all"><X className="w-3 h-3" /></button>
                     <div className="text-[9px] text-slate-500 text-center truncate max-w-[4rem] mt-0.5">{d.name}</div>
                   </div>
                 ))}
@@ -690,18 +595,13 @@ function MaintenanceFormModal({ vehicles, initialData, isEditing, onSave, onClos
           </div>
 
           <div className="flex gap-3 pt-2">
-            <button type="button" onClick={onClose} className="flex-1 py-2.5 rounded-xl border border-slate-700 text-sm font-medium text-slate-300 hover:bg-slate-800 transition-all">
+            <button type="button" onClick={onClose}
+              className="flex-1 py-2.5 rounded-xl border border-slate-700 text-sm font-medium text-slate-300 hover:bg-slate-800 transition-all">
               Cancel
             </button>
-            <button
-              type="submit"
-              disabled={form.serviceTypes.length === 0}
-              className="flex-1 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 disabled:bg-slate-700 disabled:text-slate-500 text-white text-sm font-medium transition-all"
-            >
-              {form.serviceTypes.length > 1
-                ? `Log ${form.serviceTypes.length} Services`
-                : isEditing ? 'Save Changes' : 'Log Service'
-              }
+            <button type="submit" disabled={form.serviceTypes.length === 0}
+              className="flex-1 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 disabled:bg-slate-700 disabled:text-slate-500 text-white text-sm font-medium transition-all">
+              {form.serviceTypes.length > 1 ? `Log ${form.serviceTypes.length} Services` : isEditing ? 'Save Changes' : 'Log Service'}
             </button>
           </div>
         </form>
