@@ -282,7 +282,7 @@ export default function App() {
     return (
       <>
         <LandingPage
-          onGetStarted={() => { analytics.track('landing_get_started'); setPage('dashboard'); }}
+          onGetStarted={() => { analytics.track('landing_get_started'); setPage('auth'); }}
           onViewPremium={() => { analytics.track('landing_view_premium'); setPage('premium'); }}
         />
         <SyncIndicator
