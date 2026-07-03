@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import {
   X, Plus, ClipboardList, Trash2, FileText, Upload, Calendar, DollarSign,
-  Gauge, CheckCircle2, Loader2, Pencil, Cloud
+  Gauge, CheckCircle2, Loader2, Pencil, Cloud, ScanLine
 } from 'lucide-react';
 import { formatDate, formatCurrency, formatNumber, getLocalDateString } from '../utils/helpers';
 import { SERVICE_TYPES } from '../utils/constants';
+import ReceiptScanner from './ReceiptScanner.jsx';
 
 import oilIcon from '../assets/folder-icons/oil-drop.svg';
 import tireIcon from '../assets/folder-icons/tire.svg';
@@ -48,6 +49,7 @@ function getLogServiceTypes(log) {
 export default function MaintenanceLog({ logs, vehicles, onAdd, onUpdate, onDelete, onNavigate, isPremium }) {
   const [showForm, setShowForm] = useState(false);
   const [editingLog, setEditingLog] = useState(null);
+  const [showScanner, setShowScanner] = useState(false);
   const [vehicleFilter, setVehicleFilter] = useState('all');
   // Design spec: single active folder, only one open at a time
   const [activeFolder, setActiveFolder] = useState('All Records');
@@ -96,13 +98,25 @@ export default function MaintenanceLog({ logs, vehicles, onAdd, onUpdate, onDele
         <button
           onClick={() => {
             if (vehicles.length === 0) return;
+            setShowScanner(true);
+          }}
+          disabled={vehicles.length === 0}
+          className="flex items-center gap-2 px-3 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 disabled:bg-slate-800 disabled:text-slate-600 text-white text-sm font-medium transition-all"
+        >
+          <ScanLine className="w-4 h-4" />
+          <span className="hidden sm:inline">Scan Receipt</span>
+        </button>
+        <button
+          onClick={() => {
+            if (vehicles.length === 0) return;
             setShowForm(true);
           }}
           disabled={vehicles.length === 0}
           className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 disabled:bg-slate-800 disabled:text-slate-600 text-white text-sm font-medium transition-all"
         >
           <Plus className="w-4 h-4" />
-          Log Service
+          <span className="hidden sm:inline">Log Service</span>
+          <span className="sm:hidden">Add</span>
         </button>
       </div>
 
@@ -379,6 +393,16 @@ export default function MaintenanceLog({ logs, vehicles, onAdd, onUpdate, onDele
             : (data) => { onAdd(data); setShowForm(false); }
           }
           onClose={() => { setShowForm(false); setEditingLog(null); }}
+        />
+      )}
+
+      {/* Receipt Scanner Modal */}
+      {(showScanner) && (
+        <ReceiptScanner
+          vehicles={vehicles}
+          onSave={(data) => { onAdd(data); setShowScanner(false); }}
+          onClose={() => setShowScanner(false)}
+          isPremium={isPremium}
         />
       )}
     </div>
