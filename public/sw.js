@@ -1,4 +1,4 @@
-const CACHE_NAME = 'myautolog-v1';
+const CACHE_NAME = 'mtxtrkr-v1';
 const STATIC_ASSETS = [
   '/',
   '/index.html',

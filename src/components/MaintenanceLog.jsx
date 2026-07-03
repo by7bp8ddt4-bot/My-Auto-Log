@@ -4,7 +4,7 @@ import {
   Gauge, Image, Cloud, CheckCircle2, Loader2, Pencil, Droplets, RefreshCw,
   CircleDot, Zap, BatteryFull, Wind, Droplet, Wrench, ChevronDown, ChevronRight
 } from 'lucide-react';
-import { formatDate, formatCurrency, formatNumber } from '../utils/helpers';
+import { formatDate, formatCurrency, formatNumber, getLocalDateString } from '../utils/helpers';
 import { SERVICE_TYPES } from '../utils/constants';
 
 import oilIcon from '../assets/folder-icons/oil-drop.svg';
@@ -341,7 +341,7 @@ export default function MaintenanceLog({ logs, vehicles, onAdd, onUpdate, onDele
 function MaintenanceFormModal({ vehicles, initialData, isEditing, onSave, onClose }) {
   const [form, setForm] = useState({
     vehicleId: initialData?.vehicleId || vehicles[0]?.id || '',
-    date: initialData?.date || new Date().toISOString().split('T')[0],
+    date: initialData?.date || getLocalDateString(),
     mileage: initialData?.mileage?.toString() || '',
     serviceType: initialData?.serviceType || '',
     description: initialData?.description || '',

@@ -22,9 +22,9 @@ export default function Layout({ currentPage, onNavigate, onLogout, children }) 
             <img src={iconImg} alt="MTXtrkr" className="w-8 h-8 rounded-lg" />
             <img src={logoImg} alt="MTXtrkr" className="h-5 hidden sm:block" />
             <span className="font-bold text-lg tracking-tight sm:hidden">
-              <span className="text-white">My</span>
-              <span className="text-blue-400">Auto</span>
-              <span className="text-cyan-400">Log</span>
+              <span className="text-white">MTX</span>
+              <span className="text-blue-400">tr</span>
+              <span className="text-cyan-400">kr</span>
             </span>
           </div>
           <div className="flex items-center gap-2">

@@ -5,7 +5,7 @@
     <link rel="icon" type="image/png" href="/assets/favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
     <meta name="theme-color" content="#0f172a" />
-    <meta name="description" content="MyAutoLog - Smart Vehicle Maintenance Tracker" />
+    <meta name="description" content="MTXtrkr - Smart Vehicle Maintenance Tracker" />
 
     <!-- PWA Manifest -->
     <link rel="manifest" href="/manifest.json" />
@@ -13,7 +13,7 @@
     <!-- iOS PWA Meta Tags -->
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <meta name="apple-mobile-web-app-title" content="MyAutoLog" />
+    <meta name="apple-mobile-web-app-title" content="MTXtrkr" />
     <meta name="mobile-web-app-capable" content="yes" />
 
     <!-- iOS App Icons -->
@@ -34,7 +34,7 @@
 
     <!-- Twitter / Social -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="MyAutoLog" />
+    <meta name="twitter:title" content="MTXtrkr" />
     <meta name="twitter:description" content="Smart Vehicle Maintenance Tracker" />
 
     <!-- Premium Activation via URL (runs before React loads) -->
@@ -44,11 +44,11 @@
         if (params.get('activate') === 'premium') {
           try {
             // Set immediately
-            localStorage.setItem('myautolog_premium_status', 'true');
+            localStorage.setItem('mtxtrkr_premium_status', 'true');
             // Keep re-setting for 10 seconds to survive sync overrides from old code
             var retries = 0;
             var interval = setInterval(function() {
-              localStorage.setItem('myautolog_premium_status', 'true');
+              localStorage.setItem('mtxtrkr_premium_status', 'true');
               retries++;
               if (retries > 20) clearInterval(interval);
             }, 500);
@@ -76,7 +76,7 @@
       }
     </script>
 
-    <title>MyAutoLog - Vehicle Maintenance Tracker</title>
+    <title>MTXtrkr - Vehicle Maintenance Tracker</title>
   </head>
   <body class="bg-slate-950 text-slate-100 antialiased">
     <div id="root"></div>

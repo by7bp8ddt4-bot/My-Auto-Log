@@ -53,11 +53,11 @@
     <div class="icon">⭐</div>
     <h1>Activating Premium...</h1>
     <p id="status">Setting up your premium account. Please wait...</p>
-    <a href="/" class="btn" id="goBtn" style="display:none">Go to MyAutoLog</a>
+    <a href="/" class="btn" id="goBtn" style="display:none">Go to MTXtrkr</a>
   </div>
   <script>
     try {
-      localStorage.setItem('myautolog_premium_status', 'true');
+      localStorage.setItem('mtxtrkr_premium_status', 'true');
       document.getElementById('status').innerHTML = '✅ <span class="success">Premium activated!</span>';
       document.getElementById('goBtn').style.display = 'inline-block';
     } catch(e) {
