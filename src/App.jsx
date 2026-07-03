@@ -168,13 +168,19 @@ export default function App() {
 
   // Add maintenance log
   const addLog = useCallback((data) => {
-    logsStore.add({
+    const logData = {
       ...data,
       mileage: parseInt(data.mileage) || 0,
       cost: parseFloat(data.cost) || 0,
-    });
+    };
+    // Ensure serviceTypes array is always stored for multi-job support
+    if (!Array.isArray(logData.serviceTypes) || logData.serviceTypes.length === 0) {
+      logData.serviceTypes = logData.serviceType ? [logData.serviceType] : ['Other'];
+    }
+    logsStore.add(logData);
     analytics.track('maintenance_log_added', {
-      serviceType: data.serviceType,
+      serviceType: logData.serviceType,
+      serviceTypes: logData.serviceTypes,
       cost: parseFloat(data.cost) || 0,
       vehicleId: data.vehicleId,
     });

@@ -65,11 +65,22 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
     }
     : null;
 
-  // Expense analytics data
+  // Get service types from a log (handles both old single-type and new multi-type)
+  const getLogServiceTypes = (log) => {
+    if (Array.isArray(log.serviceTypes) && log.serviceTypes.length > 0) return log.serviceTypes;
+    if (log.serviceType) return [log.serviceType];
+    return ['Other'];
+  };
+
+  // Expense analytics data — count each log against ALL its service types
   const expenseByCategory = {};
   vehicleLogs.forEach(l => {
     if (l.cost > 0) {
-      expenseByCategory[l.serviceType] = (expenseByCategory[l.serviceType] || 0) + l.cost;
+      const types = getLogServiceTypes(l);
+      const costPerType = l.cost / types.length; // split multi-job costs evenly
+      types.forEach(type => {
+        expenseByCategory[type] = (expenseByCategory[type] || 0) + costPerType;
+      });
     }
   });
   const sortedCategories = Object.entries(expenseByCategory)
@@ -304,6 +315,8 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
               {vehicleLogs.sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, 5).map(log => {
                 const vehicle = vehicles.find(v => v.id === log.vehicleId);
                 const isAiGenerated = log.source === 'ai-copilot' || log.source === 'ai-copilot-scheduled';
+                const logTypes = getLogServiceTypes(log);
+                const isMultiJob = logTypes.length > 1;
                 return (
                   <div key={log.id} className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-slate-800/50 transition-colors">
                     <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${
@@ -313,9 +326,16 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="text-sm text-white truncate flex items-center gap-1.5">
-                        {log.serviceType}
+                        {isMultiJob ? (
+                          <span className="truncate">{logTypes[0]} +{logTypes.length - 1}</span>
+                        ) : (
+                          log.serviceType
+                        )}
                         {isAiGenerated && (
                           <span className="text-[9px] px-1 py-0.5 rounded bg-purple-500/20 text-purple-300">AI</span>
+                        )}
+                        {isMultiJob && (
+                          <span className="text-[9px] px-1 py-0.5 rounded bg-indigo-500/20 text-indigo-300">Multi</span>
                         )}
                       </div>
                       <div className="text-xs text-slate-500">

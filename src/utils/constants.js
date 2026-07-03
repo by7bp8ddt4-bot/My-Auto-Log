@@ -95,6 +95,7 @@ export const DEFAULT_REMINDER_TEMPLATES = [
 export const SERVICE_TYPES = [
   'Oil Change',
   'Tire Rotation',
+  'New Tires',
   'Brake Service',
   'Engine Service',
   'Transmission Service',
