@@ -378,6 +378,9 @@ export default function App() {
       logs={logsStore.data}
       reminders={remindersStore.data}
       isAuthenticated={isAuthenticated}
+      isPremium={premium}
+      onNavigate={navigate}
+      onLogout={handleLogout}
     />,
     mileage: <div className="p-4 max-w-4xl mx-auto">
       <MileageChart logs={logsStore.data} vehicles={vehiclesStore.data} isPremium={premium} />
