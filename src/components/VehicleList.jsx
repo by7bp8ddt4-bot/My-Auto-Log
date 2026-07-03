@@ -325,7 +325,7 @@ function VehicleFormModal({ vehicle, onSave, onClose }) {
                 type="date"
                 value={form.purchaseDate}
                 onChange={e => setForm(f => ({ ...f, purchaseDate: e.target.value }))}
-                max={new Date().toISOString().split('T')[0]}
+                max={(() => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`; })()}
                 className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
               />
             </div>
