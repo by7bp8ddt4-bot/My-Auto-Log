@@ -1,7 +1,7 @@
-import { Settings2, Download, Trash2, RefreshCw, Database, User, Crown, ChevronRight } from 'lucide-react';
+import { Settings2, Download, Trash2, RefreshCw, Database, User, Crown, ChevronRight, LogOut } from 'lucide-react';
 import { getSubscriptionData } from './SubscriptionManagement.jsx';
 
-export default function Settings({ onReset, onExport, vehicles, logs, reminders, isAuthenticated, isPremium, onNavigate }) {
+export default function Settings({ onReset, onExport, vehicles, logs, reminders, isAuthenticated, isPremium, onNavigate, onLogout }) {
   const sub = getSubscriptionData();
   const handleExport = () => {
     const exportData = {
@@ -71,6 +71,34 @@ export default function Settings({ onReset, onExport, vehicles, logs, reminders,
             </button>
           )}
         </div>
+
+        {/* Sign Out */}
+        {isAuthenticated && (
+          <div className="p-5 rounded-2xl bg-slate-900/60 border border-slate-800">
+            <div className="flex items-center gap-3 mb-3">
+              <div className="w-10 h-10 rounded-xl bg-red-500/10 flex items-center justify-center">
+                <LogOut className="w-5 h-5 text-red-400" />
+              </div>
+              <div>
+                <h3 className="text-sm font-semibold text-white">Session</h3>
+                <p className="text-xs text-slate-500">
+                  Signed in with Supabase
+                </p>
+              </div>
+            </div>
+            <button
+              onClick={() => {
+                if (window.confirm('Sign out of MTXtrkr? Your data will remain saved in the cloud.')) {
+                  onLogout();
+                }
+              }}
+              className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl border border-red-500/30 text-red-400 text-sm font-medium hover:bg-red-500/10 transition-all"
+            >
+              <LogOut className="w-4 h-4" />
+              Sign Out
+            </button>
+          </div>
+        )}
 
         {/* Data Management */}
         <div className="p-5 rounded-2xl bg-slate-900/60 border border-slate-800">
