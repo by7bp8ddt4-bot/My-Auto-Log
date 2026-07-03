@@ -1,11 +1,11 @@
 // Data model keys
 export const STORAGE_KEYS = {
-  VEHICLES: 'myautolog_vehicles',
-  MAINTENANCE_LOGS: 'myautolog_maintenance_logs',
-  REMINDERS: 'myautolog_reminders',
-  SETTINGS: 'myautolog_settings',
-  LAST_SYNC: 'myautolog_last_sync',
-  PREMIUM_STATUS: 'myautolog_premium_status',
+  VEHICLES: 'mtxtrkr_vehicles',
+  MAINTENANCE_LOGS: 'mtxtrkr_maintenance_logs',
+  REMINDERS: 'mtxtrkr_reminders',
+  SETTINGS: 'mtxtrkr_settings',
+  LAST_SYNC: 'mtxtrkr_last_sync',
+  PREMIUM_STATUS: 'mtxtrkr_premium_status',
 };
 
 // Default reminder templates based on common maintenance intervals

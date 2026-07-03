@@ -67,9 +67,9 @@ export default function AuthPage({ onAuth }) {
             <Car className="w-5.5 h-5.5 text-white" />
           </div>
           <span className="font-bold text-2xl tracking-tight">
-            <span className="text-white">My</span>
-            <span className="text-blue-400">Auto</span>
-            <span className="text-cyan-400">Log</span>
+            <span className="text-white">MTX</span>
+            <span className="text-blue-400">tr</span>
+            <span className="text-cyan-400">kr</span>
           </span>
         </div>
 

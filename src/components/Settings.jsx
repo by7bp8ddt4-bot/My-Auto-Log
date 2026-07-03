@@ -12,7 +12,7 @@ export default function Settings({ onReset, onExport, vehicles, logs, reminders,
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `myautolog-export-${new Date().toISOString().split('T')[0]}.json`;
+    a.download = `mtxtrkr-export-${new Date().toISOString().split('T')[0]}.json`;
     a.click();
     URL.revokeObjectURL(url);
   };

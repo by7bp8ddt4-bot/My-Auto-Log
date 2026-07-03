@@ -34,12 +34,20 @@ export function generateId() {
 }
 
 /**
- * Format date for display
+ * Format date for display — timezone-safe
+ * Parses YYYY-MM-DD as local time to avoid UTC-to-local shift.
  */
 export function formatDate(dateStr) {
   if (!dateStr) return '—';
+  // Parse YYYY-MM-DD as local date to avoid UTC timezone shift
+  const parts = dateStr.split('T')[0].split('-').map(Number);
+  if (parts.length === 3 && !isNaN(parts[0]) && !isNaN(parts[1]) && !isNaN(parts[2])) {
+    const d = new Date(parts[0], parts[1] - 1, parts[2]);
+    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  }
+  // Fallback for other formats
   const d = new Date(dateStr);
-  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  return isNaN(d.getTime()) ? dateStr : d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
 }
 
 /**
@@ -54,4 +62,15 @@ export function formatCurrency(amount) {
  */
 export function formatNumber(num) {
   return new Intl.NumberFormat('en-US').format(num || 0);
-}// trigger: Mon Jun 29 19:31:03 UTC 2026
+}
+
+/**
+ * Get today's date as YYYY-MM-DD in LOCAL timezone (not UTC).
+ * Use this for date input defaults to avoid timezone off-by-one.
+ */
+export function getLocalDateString(date = new Date()) {
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, '0');
+  const d = String(date.getDate()).padStart(2, '0');
+  return `${y}-${m}-${d}`;
+}

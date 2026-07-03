@@ -1,5 +1,5 @@
 /**
- * MyAutoLog Analytics — Supabase Backend
+ * MTXtrkr Analytics — Supabase Backend
  *
  * Tracks user behavior, page views, conversion funnels, and product usage.
  * Stores events directly in the `analytics_events` Supabase table.

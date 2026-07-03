@@ -54,9 +54,9 @@ export default function PremiumPaywall({ onClose, onUpgrade, userId, trackEvent 
               </div>
             </div>
             <button
-              onClick={() => {
+              onClick={async () => {
                 trackEvent?.('premium_checkout_started', { plan: 'monthly', price: 4.99, userId });
-                onUpgrade();
+                await onUpgrade();
                 window.location.href = getStripeUrl('https://buy.stripe.com/6oU9AT5ko1Ob6GV36b0sU00');
               }}
               className="w-full py-3 rounded-xl bg-slate-800 group-hover:bg-blue-600 text-white font-semibold transition-all duration-200 flex items-center justify-center gap-2"
@@ -87,9 +87,9 @@ export default function PremiumPaywall({ onClose, onUpgrade, userId, trackEvent 
               </div>
             </div>
             <button
-              onClick={() => {
+              onClick={async () => {
                 trackEvent?.('premium_checkout_started', { plan: 'yearly', price: 39.99, userId });
-                onUpgrade();
+                await onUpgrade();
                 window.location.href = getStripeUrl('https://buy.stripe.com/eVq00j1480K77KZayD0sU01');
               }}
               className="w-full py-3 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-semibold shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 transition-all duration-200 flex items-center justify-center gap-2"

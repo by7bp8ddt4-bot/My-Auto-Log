@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 import { BarChart3, TrendingUp, Fuel, DollarSign, Gauge, Plus, X, Calendar } from 'lucide-react';
-import { formatDate, formatCurrency, formatNumber, generateId } from '../utils/helpers';
+import { formatDate, formatCurrency, formatNumber, generateId, getLocalDateString } from '../utils/helpers';
 
 const OCTANE_OPTIONS = ['regular', 'mid-grade', 'premium', 'diesel', 'e85'];
 
@@ -169,7 +169,7 @@ export default function FuelLog({ logs, vehicles, onAdd, onDelete, onNavigate, i
 function FuelFormModal({ vehicles, onSave, onClose }) {
   const [form, setForm] = useState({
     vehicleId: vehicles[0]?.id || '',
-    date: new Date().toISOString().split('T')[0],
+    date: getLocalDateString(),
     mileage: '',
     gallons: '',
     cost: '',

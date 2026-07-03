@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Wrench, Plus, X, ShoppingBag, Tag, Calendar, Gauge, DollarSign, ChevronDown, ChevronRight, Car, Zap, ArrowUpDown, Lightbulb, Speaker, Package } from 'lucide-react';
-import { formatDate, formatCurrency, formatNumber } from '../utils/helpers';
+import { formatDate, formatCurrency, formatNumber, getLocalDateString } from '../utils/helpers';
 
 const CATEGORIES = [
   { id: 'performance', label: 'Performance', icon: Zap, color: 'text-amber-400', bg: 'bg-amber-400/10', border: 'border-amber-400/20' },
@@ -183,7 +183,7 @@ function ModFormModal({ vehicles, initialVehicleId, onSave, onClose }) {
     partName: '',
     category: 'performance',
     brand: '',
-    date: new Date().toISOString().split('T')[0],
+    date: getLocalDateString(),
     mileage: '',
     cost: '',
     notes: '',

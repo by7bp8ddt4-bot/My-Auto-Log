@@ -18,6 +18,29 @@ import { useLocalStorage, useSyncStatus } from './hooks/useLocalStorage.js';
 import useAnalytics from './hooks/useAnalytics.js';
 import { STORAGE_KEYS } from './utils/constants.js';
 import { generateAutoReminders, summarizeAutoReminders } from './utils/autoReminders.js';
+import { supabase } from './lib/supabase.js';
+
+// Migration: myautolog_ → mtxtrkr_ localStorage keys (runs once on import)
+(function migrateStorageKeys() {
+  const OLD_PREFIX = 'myautolog_';
+  const NEW_PREFIX = 'mtxtrkr_';
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    if (key && key.startsWith(OLD_PREFIX)) {
+      const newKey = key.replace(OLD_PREFIX, NEW_PREFIX);
+      if (!localStorage.getItem(newKey)) {
+        localStorage.setItem(newKey, localStorage.getItem(key));
+      }
+    }
+  }
+  // Remove old keys after copying
+  const keysToRemove = [];
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    if (key && key.startsWith(OLD_PREFIX)) keysToRemove.push(key);
+  }
+  keysToRemove.forEach(k => localStorage.removeItem(k));
+})();
 
 export default function App() {
   const [page, setPage] = useState('landing');
@@ -64,8 +87,8 @@ export default function App() {
   const localVehicles = useLocalStorage(STORAGE_KEYS.VEHICLES, []);
   const localLogs = useLocalStorage(STORAGE_KEYS.MAINTENANCE_LOGS, []);
   const localReminders = useLocalStorage(STORAGE_KEYS.REMINDERS, []);
-  const localFuelLogs = useLocalStorage('myautolog_fuel_logs', []);
-  const localMods = useLocalStorage('myautolog_modifications', []);
+  const localFuelLogs = useLocalStorage('mtxtrkr_fuel_logs', []);
+  const localMods = useLocalStorage('mtxtrkr_modifications', []);
 
   // Use Supabase when authenticated, localStorage when not
   const vehiclesStore = isAuthenticated ? supabaseVehicles : localVehicles;
@@ -188,16 +211,46 @@ export default function App() {
     sync.markChanged();
   }, [vehiclesStore, logsStore, remindersStore, sync, analytics]);
 
-  // Upgrade to premium — persist to Supabase + localStorage
-  const handleUpgrade = useCallback(() => {
-    localStorage.setItem(STORAGE_KEYS.PREMIUM_STATUS, 'true');
-    if (auth.user?.id) {
-      auth.setPremiumStatus(auth.user.id);
-    }
-    setPremium(true);
-    analytics.track('premium_upgraded', { method: 'inline_button', userId: auth.user?.id });
-    setPage('dashboard');
-  }, [auth, analytics]);
+  // Upgrade to premium — migrate localStorage data to Supabase, then activate
+        const handleUpgrade = useCallback(async () => {
+          // 1. Migrate localStorage data to Supabase if user is authenticated
+          if (auth.user?.id) {
+            // Map each localStorage dataset to its Supabase store with the appropriate key
+            const migrations = [
+              { store: supabaseVehicles, key: STORAGE_KEYS.VEHICLES },
+              { store: supabaseLogs, key: STORAGE_KEYS.MAINTENANCE_LOGS },
+              { store: supabaseReminders, key: STORAGE_KEYS.REMINDERS },
+              { store: supabaseFuelLogs, key: 'mtxtrkr_fuel_logs' },
+              { store: supabaseMods, key: 'mtxtrkr_modifications' },
+            ];
+            for (const { store, key } of migrations) {
+              try {
+                const raw = localStorage.getItem(key);
+                if (raw) {
+                  const items = JSON.parse(raw);
+                  if (Array.isArray(items) && items.length > 0) {
+                    // Insert each item using the store's .add() method
+                    for (const item of items) {
+                      const { id, createdAt, updatedAt, ...cleanItem } = item;
+                      await store.add(cleanItem);
+                    }
+                  }
+                }
+              } catch (e) {
+                console.warn(`[Upgrade] Could not migrate ${key}:`, e);
+              }
+            }
+          }
+
+          // 2. Activate premium (after migration completes)
+          localStorage.setItem(STORAGE_KEYS.PREMIUM_STATUS, 'true');
+          if (auth.user?.id) {
+            auth.setPremiumStatus(auth.user.id);
+          }
+          setPremium(true);
+          analytics.track('premium_upgraded', { method: 'inline_button', userId: auth.user?.id });
+          setPage('dashboard');
+        }, [auth, supabaseVehicles, supabaseLogs, supabaseReminders, supabaseFuelLogs, supabaseMods, analytics]);
 
   // Show auth page if not authenticated (after landing)
   /*
