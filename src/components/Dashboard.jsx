@@ -4,7 +4,7 @@ import {
   TrendingUp, Wrench, ArrowUpRight, Calendar, Plus, Fuel,
   FileText, Download
 } from 'lucide-react';
-import { formatCurrency, formatNumber, formatDate } from '../utils/helpers';
+import { formatCurrency, formatNumber, formatDate, getLocalDateString } from '../utils/helpers';
 import { calculateReminderStatus } from '../utils/helpers';
 import { generateResaleReport } from '../utils/generateReport';
 import MileageChart from './MileageChart.jsx';
@@ -263,7 +263,7 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
                     onClick={() => onAddLog({
                       vehicleId: activeVehicle.id,
                       serviceType: item.service,
-                      date: new Date().toISOString().split('T')[0],
+                      date: getLocalDateString(),
                       mileage: activeVehicle.mileage,
                       description: `Manufacturer scheduled maintenance: ${item.service}`,
                       source: 'schedule'

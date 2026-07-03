@@ -12,7 +12,9 @@ export default function Settings({ onReset, onExport, vehicles, logs, reminders,
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `mtxtrkr-export-${new Date().toISOString().split('T')[0]}.json`;
+    const d = new Date();
+    const dateStr = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+    a.download = `mtxtrkr-export-${dateStr}.json`;
     a.click();
     URL.revokeObjectURL(url);
   };
