@@ -1,6 +1,7 @@
 import {
   Star, Crown, CheckCircle, X, ArrowRight, Sparkles, Zap, Shield, Cloud, BarChart3, Upload
 } from 'lucide-react';
+import { setSubscriptionData } from './SubscriptionManagement.jsx';
 
 export default function PremiumPaywall({ onClose, onUpgrade, userId, trackEvent }) {
   const features = [
@@ -56,6 +57,9 @@ export default function PremiumPaywall({ onClose, onUpgrade, userId, trackEvent 
             <button
               onClick={async () => {
                 trackEvent?.('premium_checkout_started', { plan: 'monthly', price: 4.99, userId });
+                // Estimate next billing date (30 days from now)
+                const nextBilling = new Date(Date.now() + 30 * 86400000).toISOString().split('T')[0];
+                setSubscriptionData({ plan: 'monthly', status: 'active', nextBilling });
                 await onUpgrade();
                 window.location.href = getStripeUrl('https://buy.stripe.com/6oU9AT5ko1Ob6GV36b0sU00');
               }}
@@ -89,6 +93,9 @@ export default function PremiumPaywall({ onClose, onUpgrade, userId, trackEvent 
             <button
               onClick={async () => {
                 trackEvent?.('premium_checkout_started', { plan: 'yearly', price: 39.99, userId });
+                // Estimate next billing date (365 days from now)
+                const nextBilling = new Date(Date.now() + 365 * 86400000).toISOString().split('T')[0];
+                setSubscriptionData({ plan: 'yearly', status: 'active', nextBilling });
                 await onUpgrade();
                 window.location.href = getStripeUrl('https://buy.stripe.com/eVq00j1480K77KZayD0sU01');
               }}
