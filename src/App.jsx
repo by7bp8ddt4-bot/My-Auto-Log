@@ -13,6 +13,7 @@ import MaintenanceSchedule from './components/MaintenanceSchedule.jsx';
 import FuelLog from './components/FuelLog.jsx';
 import MileageChart from './components/MileageChart.jsx';
 import Modifications from './components/Modifications.jsx';
+import SubscriptionManagement, { setSubscriptionData } from './components/SubscriptionManagement.jsx';
 import { useSupabaseData, useSupabaseAuth } from './hooks/useSupabaseData.js';
 import { useLocalStorage, useSyncStatus } from './hooks/useLocalStorage.js';
 import useAnalytics from './hooks/useAnalytics.js';
@@ -61,8 +62,16 @@ export default function App() {
     const params = new URLSearchParams(window.location.search);
     if (params.get('activate') === 'premium') {
       localStorage.setItem(STORAGE_KEYS.PREMIUM_STATUS, 'true');
+      // Capture plan type from URL if provided
+      const plan = params.get('plan') || 'monthly';
+      const nextBilling = params.get('next_billing') || null;
+      setSubscriptionData({
+        plan,
+        status: 'active',
+        nextBilling,
+      });
       setPremium(true);
-      analytics.track('premium_activated', { method: 'url_param' });
+      analytics.track('premium_activated', { method: 'url_param', plan });
       // Clean the URL so refresh doesn't re-trigger, but keep path
       window.history.replaceState({}, '', window.location.pathname);
     }
@@ -393,6 +402,12 @@ export default function App() {
       onDelete={(id) => { modsStore.remove(id); sync.markChanged(); }}
       onNavigate={navigate}
       isPremium={premium}
+    />,
+    subscription: <SubscriptionManagement
+      userId={auth.user?.id}
+      isPremium={premium}
+      onNavigate={navigate}
+      trackEvent={analytics.track}
     />,
   };
 

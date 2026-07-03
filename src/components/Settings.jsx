@@ -1,6 +1,8 @@
-import { Settings2, Download, Trash2, RefreshCw, Database, User } from 'lucide-react';
+import { Settings2, Download, Trash2, RefreshCw, Database, User, Crown, ChevronRight } from 'lucide-react';
+import { getSubscriptionData } from './SubscriptionManagement.jsx';
 
-export default function Settings({ onReset, onExport, vehicles, logs, reminders, isAuthenticated }) {
+export default function Settings({ onReset, onExport, vehicles, logs, reminders, isAuthenticated, isPremium, onNavigate }) {
+  const sub = getSubscriptionData();
   const handleExport = () => {
     const exportData = {
       exportedAt: new Date().toISOString(),
@@ -30,20 +32,44 @@ export default function Settings({ onReset, onExport, vehicles, logs, reminders,
         {/* Account */}
         <div className="p-5 rounded-2xl bg-slate-900/60 border border-slate-800">
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center">
-              <User className="w-5 h-5 text-blue-400" />
+            <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${isPremium ? 'bg-gradient-to-br from-blue-500/20 to-cyan-500/20' : 'bg-blue-500/10'}`}>
+              {isPremium ? <Crown className="w-5 h-5 text-yellow-400" /> : <User className="w-5 h-5 text-blue-400" />}
             </div>
-            <div>
+            <div className="flex-1">
               <h3 className="text-sm font-semibold text-white">Account</h3>
-              <p className="text-xs text-slate-500">Free Plan — 1 vehicle limit</p>
+              <p className="text-xs text-slate-500">
+                {isPremium
+                  ? `Premium — ${sub.plan === 'yearly' ? 'Yearly' : 'Monthly'} Plan`
+                  : 'Free Plan — 1 vehicle limit'}
+              </p>
             </div>
+            {isPremium && (
+              <span className={`text-[9px] px-1.5 py-0.5 rounded-full font-bold uppercase tracking-tighter ${
+                sub.status === 'cancelled'
+                  ? 'bg-amber-500/15 text-amber-400'
+                  : 'bg-emerald-500/15 text-emerald-400'
+              }`}>
+                {sub.status === 'cancelled' ? 'Cancelled' : 'Active'}
+              </span>
+            )}
           </div>
-          <button
-            onClick={() => window.dispatchEvent(new CustomEvent('navigate', { detail: 'premium' }))}
-            className="w-full py-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white text-sm font-medium"
-          >
-            Upgrade to Premium
-          </button>
+          {isPremium ? (
+            <button
+              onClick={() => onNavigate('subscription')}
+              className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-sm font-medium transition-all"
+            >
+              <Crown className="w-4 h-4" />
+              Manage Subscription
+              <ChevronRight className="w-4 h-4" />
+            </button>
+          ) : (
+            <button
+              onClick={() => onNavigate('premium')}
+              className="w-full py-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white text-sm font-medium"
+            >
+              Upgrade to Premium
+            </button>
+          )}
         </div>
 
         {/* Data Management */}
