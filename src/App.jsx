@@ -212,45 +212,45 @@ export default function App() {
   }, [vehiclesStore, logsStore, remindersStore, sync, analytics]);
 
   // Upgrade to premium — migrate localStorage data to Supabase, then activate
-        const handleUpgrade = useCallback(async () => {
-          // 1. Migrate localStorage data to Supabase if user is authenticated
-          if (auth.user?.id) {
-            // Map each localStorage dataset to its Supabase store with the appropriate key
-            const migrations = [
-              { store: supabaseVehicles, key: STORAGE_KEYS.VEHICLES },
-              { store: supabaseLogs, key: STORAGE_KEYS.MAINTENANCE_LOGS },
-              { store: supabaseReminders, key: STORAGE_KEYS.REMINDERS },
-              { store: supabaseFuelLogs, key: 'mtxtrkr_fuel_logs' },
-              { store: supabaseMods, key: 'mtxtrkr_modifications' },
-            ];
-            for (const { store, key } of migrations) {
-              try {
-                const raw = localStorage.getItem(key);
-                if (raw) {
-                  const items = JSON.parse(raw);
-                  if (Array.isArray(items) && items.length > 0) {
-                    // Insert each item using the store's .add() method
-                    for (const item of items) {
-                      const { id, createdAt, updatedAt, ...cleanItem } = item;
-                      await store.add(cleanItem);
-                    }
-                  }
-                }
-              } catch (e) {
-                console.warn(`[Upgrade] Could not migrate ${key}:`, e);
+  const handleUpgrade = useCallback(async () => {
+    // 1. Migrate localStorage data to Supabase if user is authenticated
+    if (auth.user?.id) {
+      // Map each localStorage dataset to its Supabase store with the appropriate key
+      const migrations = [
+        { store: supabaseVehicles, key: STORAGE_KEYS.VEHICLES },
+        { store: supabaseLogs, key: STORAGE_KEYS.MAINTENANCE_LOGS },
+        { store: supabaseReminders, key: STORAGE_KEYS.REMINDERS },
+        { store: supabaseFuelLogs, key: 'mtxtrkr_fuel_logs' },
+        { store: supabaseMods, key: 'mtxtrkr_modifications' },
+      ];
+      for (const { store, key } of migrations) {
+        try {
+          const raw = localStorage.getItem(key);
+          if (raw) {
+            const items = JSON.parse(raw);
+            if (Array.isArray(items) && items.length > 0) {
+              // Insert each item using the store's .add() method
+              for (const item of items) {
+                const { id, createdAt, updatedAt, ...cleanItem } = item;
+                await store.add(cleanItem);
               }
             }
           }
+        } catch (e) {
+          console.warn(`[Upgrade] Could not migrate ${key}:`, e);
+        }
+      }
+    }
 
-          // 2. Activate premium (after migration completes)
-          localStorage.setItem(STORAGE_KEYS.PREMIUM_STATUS, 'true');
-          if (auth.user?.id) {
-            auth.setPremiumStatus(auth.user.id);
-          }
-          setPremium(true);
-          analytics.track('premium_upgraded', { method: 'inline_button', userId: auth.user?.id });
-          setPage('dashboard');
-        }, [auth, supabaseVehicles, supabaseLogs, supabaseReminders, supabaseFuelLogs, supabaseMods, analytics]);
+    // 2. Activate premium (after migration completes)
+    localStorage.setItem(STORAGE_KEYS.PREMIUM_STATUS, 'true');
+    if (auth.user?.id) {
+      auth.setPremiumStatus(auth.user.id);
+    }
+    setPremium(true);
+    analytics.track('premium_upgraded', { method: 'inline_button', userId: auth.user?.id });
+    setPage('dashboard');
+  }, [auth, supabaseVehicles, supabaseLogs, supabaseReminders, supabaseFuelLogs, supabaseMods, analytics]);
 
   // Show auth page if not authenticated (after landing)
   /*
