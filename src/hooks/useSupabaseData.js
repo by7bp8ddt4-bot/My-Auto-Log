@@ -246,6 +246,16 @@ export function useSupabaseAuth() {
     return { data, error };
   }, []);
 
+  const signInWithApple = useCallback(async () => {
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: 'apple',
+      options: {
+        redirectTo: window.location.origin,
+      },
+    });
+    return { data, error };
+  }, []);
+
   // Premium status — stored in profiles table so it persists across devices
   const checkPremium = useCallback(async () => {
     if (!user) return false;
@@ -288,5 +298,5 @@ export function useSupabaseAuth() {
     });
   }, []);
 
-  return { user, session, loading, signUp, signIn, signInWithGoogle, signOut, checkPremium, setPremiumStatus, resetPassword, updatePassword };
+  return { user, session, loading, signUp, signIn, signInWithGoogle, signInWithApple, signOut, checkPremium, setPremiumStatus, resetPassword, updatePassword };
 }
