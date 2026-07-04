@@ -70,24 +70,21 @@ export default function App() {
   // Activate premium from URL parameter (mobile-friendly activation link)
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
+
     if (params.get('activate') === 'premium') {
       localStorage.setItem(STORAGE_KEYS.PREMIUM_STATUS, 'true');
-      // Capture plan type from URL if provided
       const plan = params.get('plan') || 'monthly';
       const nextBilling = params.get('next_billing') || null;
-      setSubscriptionData({
-        plan,
-        status: 'active',
-        nextBilling,
-      });
+      setSubscriptionData({ plan, status: 'active', nextBilling });
       setPremium(true);
       analytics.track('premium_activated', { method: 'url_param', plan });
-      // Persist to Supabase immediately if user is already authenticated
+
+      // Only clear URL & persist to Supabase when auth is ready
       if (auth.user?.id) {
         supabase.from('profiles').upsert({ id: auth.user.id, premium: true });
+        window.history.replaceState({}, '', window.location.pathname);
       }
-      // Clean the URL so refresh doesn't re-trigger, but keep path
-      window.history.replaceState({}, '', window.location.pathname);
+      // else: keep the URL param so this effect re-runs when auth loads
     }
 
     // Premium restore URL — forces premium=true in both localStorage and Supabase
@@ -95,12 +92,15 @@ export default function App() {
     if (params.get('restore-premium') === '1') {
       localStorage.setItem(STORAGE_KEYS.PREMIUM_STATUS, 'true');
       setPremium(true);
+
+      // Only clear URL & persist when auth is ready
       if (auth.user?.id) {
         supabase.from('profiles').upsert({ id: auth.user.id, premium: true });
+        window.history.replaceState({}, '', window.location.pathname);
       }
-      window.history.replaceState({}, '', window.location.pathname);
+      // else: keep the URL param so this effect re-runs when auth loads
     }
-  }, []);
+  }, [auth.user?.id]);
 
   // Auto-redirect to dashboard when user signs in / auth loads
   useEffect(() => {
@@ -108,7 +108,8 @@ export default function App() {
       analytics.track('auth_auto_redirect', { fromPage: page });
       setPage('dashboard');
     }
-  }, [isAuthenticated, auth.loading, page, analytics]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isAuthenticated, auth.loading, page]);
 
   // Data stores — always call hooks in same order (React rules)
   const supabaseVehicles = useSupabaseData('vehicles', auth.user?.id);
