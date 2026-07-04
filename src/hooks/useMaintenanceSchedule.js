@@ -79,8 +79,9 @@ export function useMaintenanceSchedule(vehicle, logs = []) {
       let status = 'upcoming';
       if (milesUntilDue <= 0 || daysUntilDue <= 0) {
         status = 'overdue';
-      } else if (milesUntilDue < item.intervalMiles * 0.2 || daysUntilDue < item.intervalMonths * 6) {
-        // Due soon if within 20% of interval or ~20% of time (rough month estimate)
+      } else if (daysUntilDue <= 30) {
+        status = 'critical';
+      } else if (daysUntilDue <= 90) {
         status = 'due-soon';
       }
 
@@ -102,7 +103,7 @@ export function useMaintenanceSchedule(vehicle, logs = []) {
       };
     }).sort((a, b) => {
       // Sort by urgency: overdue first, then due-soon, then upcoming
-      const order = { overdue: 0, 'due-soon': 1, upcoming: 2 };
+      const order = { overdue: 0, critical: 1, 'due-soon': 2, upcoming: 3 };
       if (order[a.status] !== order[b.status]) {
         return order[a.status] - order[b.status];
       }

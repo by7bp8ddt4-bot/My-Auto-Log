@@ -14,14 +14,12 @@ import { formatNumber, formatDate, getLocalDateString } from '../utils/helpers';
 import { useMaintenanceSchedule } from '../hooks/useMaintenanceSchedule';
 import { getManufacturerColor, ManufacturerBadge } from '../utils/manufacturerBranding';
 
-export default function MaintenanceSchedule({ vehicle: initialVehicle, logs, onAddLog, onNavigate, vehicles = [] }) {
-  const [selectedVehicleId, setSelectedVehicleId] = React.useState(initialVehicle?.id || vehicles[0]?.id || '');
-  
-  const vehicle = vehicles.find(v => v.id === selectedVehicleId) || initialVehicle;
+export default function MaintenanceSchedule({ vehicle: initialVehicle, logs, onAddLog, onNavigate, selectedVehicleId }) {
+  const vehicle = initialVehicle;
   const schedule = useMaintenanceSchedule(vehicle, logs);
   const brandColor = getManufacturerColor(vehicle?.make);
 
-  if (!vehicle && vehicles.length === 0) {
+  if (!vehicle) {
     return (
       <div className="text-center py-12 bg-slate-900/30 rounded-2xl border border-slate-800">
         <Settings className="w-10 h-10 text-slate-600 mx-auto mb-3" />
@@ -31,6 +29,7 @@ export default function MaintenanceSchedule({ vehicle: initialVehicle, logs, onA
   }
 
   const overdue = schedule.filter(item => item.status === 'overdue');
+  const critical = schedule.filter(item => item.status === 'critical');
   const dueSoon = schedule.filter(item => item.status === 'due-soon');
   const upcoming = schedule.filter(item => item.status === 'upcoming');
 
@@ -47,24 +46,17 @@ export default function MaintenanceSchedule({ vehicle: initialVehicle, logs, onA
           </div>
         </div>
         
-        {vehicles.length > 1 && (
-          <select 
-            value={selectedVehicleId}
-            onChange={(e) => setSelectedVehicleId(e.target.value)}
-            className="px-3 py-2 rounded-xl bg-slate-800 border border-slate-700 text-white text-xs focus:ring-2 focus:ring-blue-500 outline-none"
-          >
-            {vehicles.map(v => (
-              <option key={v.id} value={v.id}>{v.year} {v.make} {v.model}</option>
-            ))}
-          </select>
-        )}
-      </div>
+        </div>
 
       {/* Summary Stats */}
-      <div className="grid grid-cols-3 gap-3">
+      <div className="grid grid-cols-4 gap-3">
         <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-4 text-center">
           <div className="text-2xl font-bold text-red-400">{overdue.length}</div>
           <div className="text-[10px] text-slate-500 uppercase tracking-wider font-semibold">Overdue</div>
+        </div>
+        <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-4 text-center">
+          <div className="text-2xl font-bold text-red-400">{critical.length}</div>
+          <div className="text-[10px] text-slate-500 uppercase tracking-wider font-semibold">Critical</div>
         </div>
         <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-4 text-center">
           <div className="text-2xl font-bold text-amber-400">{dueSoon.length}</div>
@@ -108,12 +100,14 @@ export default function MaintenanceSchedule({ vehicle: initialVehicle, logs, onA
 function ScheduleItem({ item, onLog }) {
   const statusColors = {
     overdue: 'text-red-400 border-red-500/20 bg-red-500/5',
+    critical: 'text-red-400 border-red-500/20 bg-red-500/5',
     'due-soon': 'text-amber-400 border-amber-500/20 bg-amber-500/5',
     upcoming: 'text-slate-400 border-slate-800 bg-slate-900/40'
   };
 
   const progressColors = {
     overdue: 'bg-red-500',
+    critical: 'bg-red-500',
     'due-soon': 'bg-amber-500',
     upcoming: 'bg-blue-500'
   };

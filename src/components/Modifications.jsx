@@ -15,12 +15,11 @@ const CATEGORIES = [
 
 const CATEGORY_MAP = Object.fromEntries(CATEGORIES.map(c => [c.id, c]));
 
-export default function Modifications({ mods = [], vehicles, onAdd, onDelete, onNavigate, isPremium }) {
+export default function Modifications({ mods = [], vehicles, onAdd, onDelete, onNavigate, isPremium, selectedVehicleId }) {
   const [showForm, setShowForm] = useState(false);
-  const [vehicleFilter, setVehicleFilter] = useState('all');
   const [expandedFolders, setExpandedFolders] = useState({});
 
-  const filteredMods = vehicleFilter === 'all' ? mods : mods.filter(m => m.vehicleId === vehicleFilter);
+  const filteredMods = selectedVehicleId ? mods.filter(m => m.vehicleId === selectedVehicleId) : mods;
   const getVehicleName = (id) => vehicles.find(v => v.id === id)?.name || 'Unknown';
   const totalSpent = filteredMods.reduce((s, m) => s + (m.cost || 0), 0);
 
