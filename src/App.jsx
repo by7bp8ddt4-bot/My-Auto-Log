@@ -114,7 +114,7 @@ export default function App() {
   const supabaseVehicles = useSupabaseData('vehicles', auth.user?.id);
   const supabaseLogs = useSupabaseData('maintenance_logs', auth.user?.id);
   const supabaseReminders = useSupabaseData('reminders', auth.user?.id);
-  const supabaseProfile = useSupabaseData('profiles', auth.user?.id);
+  const supabaseProfile = useSupabaseData('profiles', auth.user?.id, 'id');
   const supabaseFuelLogs = useSupabaseData('fuel_logs', auth.user?.id);
   const supabaseMods = useSupabaseData('modifications', auth.user?.id);
   
