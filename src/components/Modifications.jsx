@@ -18,6 +18,7 @@ const CATEGORY_MAP = Object.fromEntries(CATEGORIES.map(c => [c.id, c]));
 export default function Modifications({ mods = [], vehicles, onAdd, onDelete, onNavigate, isPremium, selectedVehicleId }) {
   const [showForm, setShowForm] = useState(false);
   const [expandedFolders, setExpandedFolders] = useState({});
+  const [vehicleFilter, setVehicleFilter] = useState('all');
 
   const filteredMods = selectedVehicleId ? mods.filter(m => m.vehicleId === selectedVehicleId) : mods;
   const getVehicleName = (id) => vehicles.find(v => v.id === id)?.name || 'Unknown';
