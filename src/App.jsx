@@ -50,6 +50,16 @@ export default function App() {
   });
   const [forceOffline, setForceOffline] = useState(false);
 
+  // Global selected vehicle — persists across pages, saved to localStorage
+  const [selectedVehicleId, setSelectedVehicleId] = useState(() => {
+    return localStorage.getItem('mtxtrkr_selected_vehicle') || null;
+  });
+
+  const handleSelectVehicle = useCallback((id) => {
+    setSelectedVehicleId(id);
+    localStorage.setItem('mtxtrkr_selected_vehicle', id);
+  }, []);
+
   // Supabase auth
   const auth = useSupabaseAuth();
   const isAuthenticated = !!auth.user;
@@ -348,6 +358,8 @@ export default function App() {
       onNavigate={navigate}
       onAddLog={addLog}
       isPremium={premium}
+      selectedVehicleId={selectedVehicleId}
+      onSelectVehicle={handleSelectVehicle}
     />,
     vehicles: <VehicleList
       vehicles={vehiclesStore.data}
@@ -378,6 +390,7 @@ export default function App() {
       }}
       onNavigate={navigate}
       isPremium={premium}
+      selectedVehicleId={selectedVehicleId}
     />,
     reminders: <RemindersList
       reminders={remindersStore.data}
@@ -408,10 +421,11 @@ export default function App() {
       <MileageChart logs={logsStore.data} vehicles={vehiclesStore.data} isPremium={premium} />
     </div>,
     schedule: <MaintenanceSchedule
-      vehicle={vehiclesStore.data[0]}
+      vehicle={vehiclesStore.data.find(v => v.id === selectedVehicleId) || vehiclesStore.data[0] || null}
       logs={logsStore.data}
       onAddLog={addLog}
       onNavigate={navigate}
+      selectedVehicleId={selectedVehicleId}
     />,
     fuel: <FuelLog
       logs={fuelLogsStore.data}
@@ -419,6 +433,7 @@ export default function App() {
       onAdd={(data) => { fuelLogsStore.add(data); sync.markChanged(); }}
       onDelete={(id) => { fuelLogsStore.remove(id); sync.markChanged(); }}
       onUpdate={(id, data) => { fuelLogsStore.updateItem(id, data); sync.markChanged(); }}
+      selectedVehicleId={selectedVehicleId}
     />,
     mods: <Modifications
       mods={modsStore.data}
@@ -427,6 +442,7 @@ export default function App() {
       onDelete={(id) => { modsStore.remove(id); sync.markChanged(); }}
       onNavigate={navigate}
       isPremium={premium}
+      selectedVehicleId={selectedVehicleId}
     />,
     subscription: <SubscriptionManagement
       userId={auth.user?.id}

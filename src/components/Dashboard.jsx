@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Car, AlertTriangle, Clock, DollarSign, Bell, Gauge,
   TrendingUp, Wrench, ArrowUpRight, Calendar, Plus, Fuel,
-  FileText, Download
+  FileText, Download, CheckCircle
 } from 'lucide-react';
 import { formatCurrency, formatNumber, formatDate, getLocalDateString } from '../utils/helpers';
 import { calculateReminderStatus } from '../utils/helpers';
@@ -13,21 +13,15 @@ import GettingStarted from './GettingStarted.jsx';
 import { useMaintenanceSchedule } from '../hooks/useMaintenanceSchedule';
 import { ManufacturerBadge } from '../utils/manufacturerBranding.jsx';
 
-export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], onNavigate, onAddLog, isPremium }) {
-  const [activeVehicleId, setActiveVehicleId] = useState(vehicles[0]?.id || null);
-
-  // Derive active vehicle — find by activeVehicleId or fall back to first
-  const activeVehicle = vehicles.find(v => v.id === activeVehicleId) || vehicles[0] || null;
-
-  // Keep activeVehicleId in sync if vehicles change
-  if (vehicles.length > 0 && (!activeVehicleId || !vehicles.find(v => v.id === activeVehicleId))) {
-    setTimeout(() => setActiveVehicleId(vehicles[0].id), 0);
-  }
+export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], onNavigate, onAddLog, isPremium, selectedVehicleId, onSelectVehicle }) {
+  // Derive active vehicle from global prop — fall back to first if invalid
+  const effectiveVehicleId = (vehicles.find(v => v.id === selectedVehicleId) ? selectedVehicleId : vehicles[0]?.id) || null;
+  const activeVehicle = vehicles.find(v => v.id === effectiveVehicleId) || vehicles[0] || null;
 
   // Filter logs/reminders/fuelLogs by active vehicle
-  const vehicleLogs = logs.filter(l => l.vehicleId === activeVehicleId);
-  const vehicleReminders = reminders.filter(r => r.vehicleId === activeVehicleId);
-  const vehicleFuelLogs = fuelLogs.filter(f => f.vehicleId === activeVehicleId);
+  const vehicleLogs = logs.filter(l => l.vehicleId === effectiveVehicleId);
+  const vehicleReminders = reminders.filter(r => r.vehicleId === effectiveVehicleId);
+  const vehicleFuelLogs = fuelLogs.filter(f => f.vehicleId === effectiveVehicleId);
 
   const schedule = useMaintenanceSchedule(activeVehicle, vehicleLogs);
   const overdueCount = schedule.filter(s => s.status === 'overdue').length;
@@ -114,16 +108,16 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
             {vehicles.map(v => (
               <button
                 key={v.id}
-                onClick={() => setActiveVehicleId(v.id)}
+                onClick={() => onSelectVehicle(v.id)}
                 className={`flex items-center gap-2.5 px-4 py-3 rounded-2xl border-2 transition-all shrink-0 snap-start min-w-0 ${
-                  v.id === activeVehicleId
+                  v.id === effectiveVehicleId
                     ? 'bg-blue-600/15 border-blue-500/50 text-white shadow-sm shadow-blue-500/10'
                     : 'bg-slate-900/80 border-slate-700/60 text-slate-400 hover:border-slate-600'
                 }`}
               >
                 <ManufacturerBadge make={v.make} size={22} />
                 <span className="text-sm font-semibold whitespace-nowrap">{v.name || `${v.year} ${v.make}`}</span>
-                {v.id === activeVehicleId && (
+                {v.id === effectiveVehicleId && (
                   <div className="w-1.5 h-1.5 rounded-full bg-blue-400 shrink-0" />
                 )}
               </button>

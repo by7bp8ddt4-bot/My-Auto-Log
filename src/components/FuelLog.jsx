@@ -4,11 +4,11 @@ import { formatDate, formatCurrency, formatNumber, generateId, getLocalDateStrin
 
 const OCTANE_OPTIONS = ['regular', 'mid-grade', 'premium', 'diesel', 'e85'];
 
-export default function FuelLog({ logs, vehicles, onAdd, onDelete, onNavigate, isPremium }) {
+export default function FuelLog({ logs, vehicles, onAdd, onUpdate, onDelete, selectedVehicleId }) {
   const [showForm, setShowForm] = useState(false);
-  const [vehicleFilter, setVehicleFilter] = useState('all');
+  const [editingLog, setEditingLog] = useState(null);
 
-  const filteredLogs = vehicleFilter === 'all' ? logs : logs.filter(l => l.vehicleId === vehicleFilter);
+  const filteredLogs = selectedVehicleId ? logs.filter(l => l.vehicleId === selectedVehicleId) : logs;
   const getVehicleName = (id) => vehicles.find(v => v.id === id)?.name || 'Unknown';
 
   // Calculate MPG from consecutive fill-ups

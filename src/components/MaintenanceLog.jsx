@@ -46,17 +46,16 @@ function getLogServiceTypes(log) {
   return ['Other'];
 }
 
-export default function MaintenanceLog({ logs, vehicles, onAdd, onUpdate, onDelete, onNavigate, isPremium }) {
+export default function MaintenanceLog({ logs, vehicles, onAdd, onUpdate, onDelete, onNavigate, isPremium, selectedVehicleId }) {
   const [showForm, setShowForm] = useState(false);
   const [editingLog, setEditingLog] = useState(null);
   const [showScanner, setShowScanner] = useState(false);
-  const [vehicleFilter, setVehicleFilter] = useState('all');
   // Design spec: single active folder, only one open at a time
   const [activeFolder, setActiveFolder] = useState(null);
 
-  const filteredLogs = vehicleFilter === 'all'
-    ? logs
-    : logs.filter(l => l.vehicleId === vehicleFilter);
+  const filteredLogs = selectedVehicleId
+    ? logs.filter(l => l.vehicleId === selectedVehicleId)
+    : logs;
 
   const getVehicleName = (id) => vehicles.find(v => v.id === id)?.name || 'Unknown';
 
