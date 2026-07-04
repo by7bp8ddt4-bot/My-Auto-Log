@@ -52,7 +52,7 @@ export default function MaintenanceLog({ logs, vehicles, onAdd, onUpdate, onDele
   const [showScanner, setShowScanner] = useState(false);
   const [vehicleFilter, setVehicleFilter] = useState('all');
   // Design spec: single active folder, only one open at a time
-  const [activeFolder, setActiveFolder] = useState('All Records');
+  const [activeFolder, setActiveFolder] = useState(null);
 
   const filteredLogs = vehicleFilter === 'all'
     ? logs

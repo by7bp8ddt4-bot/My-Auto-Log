@@ -12,7 +12,7 @@ export const STORAGE_KEYS = {
 export const DEFAULT_REMINDER_TEMPLATES = [
   {
     id: 'oil-change',
-    title: 'Oil Change',
+    title: 'Oil & Filter Change',
     description: 'Regular oil and filter replacement',
     intervalMiles: 5000,
     intervalDays: 180,
@@ -93,7 +93,7 @@ export const DEFAULT_REMINDER_TEMPLATES = [
 ];
 
 export const SERVICE_TYPES = [
-  'Oil Change',
+  'Oil & Filter Change',
   'Tire Rotation',
   'New Tires',
   'Brake Service',
