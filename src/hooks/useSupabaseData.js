@@ -266,6 +266,18 @@ export function useSupabaseAuth() {
     }
   }, []);
 
+  const resetPassword = useCallback(async (email) => {
+    const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/auth?type=recovery`,
+    });
+    return { data, error };
+  }, []);
+
+  const updatePassword = useCallback(async (newPassword) => {
+    const { data, error } = await supabase.auth.updateUser({ password: newPassword });
+    return { data, error };
+  }, []);
+
   const signOut = useCallback(async () => {
     await supabase.auth.signOut();
     setUser(null);
@@ -276,5 +288,5 @@ export function useSupabaseAuth() {
     });
   }, []);
 
-  return { user, session, loading, signUp, signIn, signInWithGoogle, signOut, checkPremium, setPremiumStatus };
+  return { user, session, loading, signUp, signIn, signInWithGoogle, signOut, checkPremium, setPremiumStatus, resetPassword, updatePassword };
 }
