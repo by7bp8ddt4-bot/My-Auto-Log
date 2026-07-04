@@ -72,6 +72,10 @@ export default function App() {
       });
       setPremium(true);
       analytics.track('premium_activated', { method: 'url_param', plan });
+      // Persist to Supabase immediately if user is already authenticated
+      if (auth.user?.id) {
+        supabase.from('profiles').upsert({ id: auth.user.id, premium: true });
+      }
       // Clean the URL so refresh doesn't re-trigger, but keep path
       window.history.replaceState({}, '', window.location.pathname);
     }
@@ -106,19 +110,26 @@ export default function App() {
   const fuelLogsStore = isAuthenticated ? supabaseFuelLogs : localFuelLogs;
   const modsStore = isAuthenticated ? supabaseMods : localMods;
 
-  // Sync premium status from Supabase — only upgrade, never downgrade localStorage
-  // (prevents race condition where Stripe redirect completes before DB upsert)
+  // Sync premium status between Supabase and localStorage
+  // Priority: localStorage -> Supabase (write local to DB on detection)
+  //          : Supabase -> localStorage (restore from DB when local is missing)
   useEffect(() => {
-    if (isAuthenticated && supabaseProfile.data.length > 0) {
+    if (!isAuthenticated) return;
+
+    if (supabaseProfile.data.length > 0) {
       const dbPremium = supabaseProfile.data[0].premium;
+      // DB says premium but local doesn't → restore local (e.g. new device login)
       if (dbPremium === true && !premium) {
         setPremium(true);
         localStorage.setItem(STORAGE_KEYS.PREMIUM_STATUS, 'true');
       }
-      // If localStorage says premium but DB doesn't yet, re-sync the DB
+      // Local says premium but DB doesn't → persist to DB (e.g. Stripe activation)
       if (premium && !dbPremium) {
         supabase.from('profiles').upsert({ id: auth.user.id, premium: true });
       }
+    } else if (premium) {
+      // No profile row yet but localStorage says premium — create one
+      supabase.from('profiles').upsert({ id: auth.user.id, premium: true });
     }
   }, [isAuthenticated, supabaseProfile.data, premium]);
 
