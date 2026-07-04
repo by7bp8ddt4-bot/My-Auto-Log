@@ -412,6 +412,7 @@ export default function App() {
       onNavigate={navigate}
       trackEvent={analytics.track}
     />,
+    auth: <AuthPage onAuth={auth} />,
   };
 
   return (
