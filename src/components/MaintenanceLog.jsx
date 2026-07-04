@@ -46,6 +46,14 @@ const FOLDER_MAP = {
 const SERVICE_CONFIG = {};
 FOLDER_DEFS.forEach(f => { SERVICE_CONFIG[f.type] = f; });
 
+/** Resolve the config for a service type, falling back via FOLDER_MAP then to Engine Service */
+function getServiceConfig(type) {
+  if (SERVICE_CONFIG[type]) return SERVICE_CONFIG[type];
+  const folder = FOLDER_MAP[type];
+  if (folder && SERVICE_CONFIG[folder]) return SERVICE_CONFIG[folder];
+  return SERVICE_CONFIG['Engine Service']; // safe fallback for 'Other', 'Repair', etc.
+}
+
 /** Get the service types for a log entry (handles both old single-type and new multi-type) */
 function getLogServiceTypes(log) {
   if (Array.isArray(log.serviceTypes) && log.serviceTypes.length > 0) return log.serviceTypes;
@@ -180,7 +188,7 @@ export default function MaintenanceLog({ logs, vehicles, onAdd, onUpdate, onDele
             /* Cabinet Drawer Container — per design spec */
             <div className="relative flex flex-col py-2 rounded-3xl bg-slate-950/20 border border-slate-900/60 shadow-inner">
               {sortedGroups.map((group, index) => {
-                const config = SERVICE_CONFIG[group.type] || SERVICE_CONFIG['Other'];
+                const config = getServiceConfig(group.type);
                 const isActive = activeFolder === group.type;
 
                 return (
@@ -299,7 +307,7 @@ export default function MaintenanceLog({ logs, vehicles, onAdd, onUpdate, onDele
                                 {isMultiJob && (
                                   <div className="flex flex-wrap gap-1 mb-2">
                                     {logTypes.map(t => {
-                                      const cfg = SERVICE_CONFIG[t] || SERVICE_CONFIG['Other'];
+                                      const cfg = getServiceConfig(t);
                                       return (
                                         <span key={t} className={`text-[9px] px-1.5 py-0.5 rounded-md ${cfg.bodyBg} ${cfg.accent} font-medium`}>
                                           {t}
@@ -540,7 +548,7 @@ function MaintenanceFormModal({ vehicles, initialData, isEditing, onSave, onClos
             </label>
             <div className="grid grid-cols-2 gap-1.5 max-h-48 overflow-y-auto p-1 rounded-xl bg-slate-900/50 border border-slate-800">
               {SERVICE_TYPES.map(type => {
-                const config = SERVICE_CONFIG[type] || SERVICE_CONFIG['Other'];
+                const config = getServiceConfig(type);
                 const isSelected = form.serviceTypes.includes(type);
                 return (
                   <label
@@ -561,7 +569,7 @@ function MaintenanceFormModal({ vehicles, initialData, isEditing, onSave, onClos
             {form.serviceTypes.length > 0 && (
               <div className="flex flex-wrap gap-1 mt-2">
                 {form.serviceTypes.map(t => {
-                  const cfg = SERVICE_CONFIG[t] || SERVICE_CONFIG['Other'];
+                  const cfg = getServiceConfig(t);
                   return (
                     <span key={t} className={`text-[10px] px-2 py-0.5 rounded-full ${cfg.bodyBg} ${cfg.accent} font-medium`}>{t}</span>
                   );
