@@ -12,32 +12,39 @@ import tireIcon from '../assets/folder-icons/tire.svg';
 import brakeIcon from '../assets/folder-icons/brake.svg';
 import engineIcon from '../assets/folder-icons/engine.svg';
 import transIcon from '../assets/folder-icons/transmission.svg';
-import batteryIcon from '../assets/folder-icons/battery.svg';
-import filterIcon from '../assets/folder-icons/filter.svg';
-import fluidIcon from '../assets/folder-icons/fluid-level.svg';
-import inspectionIcon from '../assets/folder-icons/clipboard-check.svg';
-import wrenchIcon from '../assets/folder-icons/wrench.svg';
-import folderIcon from '../assets/folder-icons/folder.svg';
 import allIcon from '../assets/folder-icons/archive-drawer.svg';
 
-// Design spec color matrix — each service type gets a tab border, active tab bg, and accent color
-const SERVICE_CONFIG = {
-  'All Records':       { icon: allIcon,       tabBorder: 'border-indigo-500/20', tabBg: 'bg-indigo-600',      accent: 'text-indigo-400', bodyBg: 'bg-indigo-500/5' },
-  'Oil Change':        { icon: oilIcon,       tabBorder: 'border-amber-500/20',  tabBg: 'bg-amber-600',       accent: 'text-amber-400',  bodyBg: 'bg-amber-500/5' },
-  'Tire Rotation':     { icon: tireIcon,      tabBorder: 'border-blue-500/20',   tabBg: 'bg-blue-600',        accent: 'text-blue-400',   bodyBg: 'bg-blue-500/5' },
-  'New Tires':         { icon: tireIcon,      tabBorder: 'border-cyan-500/20',   tabBg: 'bg-cyan-600',        accent: 'text-cyan-400',   bodyBg: 'bg-cyan-500/5' },
-  'Brake Service':     { icon: brakeIcon,     tabBorder: 'border-red-500/20',    tabBg: 'bg-red-600',         accent: 'text-red-400',    bodyBg: 'bg-red-500/5' },
-  'Engine Service':    { icon: engineIcon,    tabBorder: 'border-yellow-500/20', tabBg: 'bg-yellow-600',      accent: 'text-yellow-400', bodyBg: 'bg-yellow-500/5' },
-  'Transmission Service': { icon: transIcon,  tabBorder: 'border-purple-500/20', tabBg: 'bg-purple-600',      accent: 'text-purple-400', bodyBg: 'bg-purple-500/5' },
-  'Battery Replacement': { icon: batteryIcon, tabBorder: 'border-emerald-500/20',tabBg: 'bg-emerald-600',    accent: 'text-emerald-400',bodyBg: 'bg-emerald-500/5' },
-  'Filter Replacement': { icon: filterIcon,   tabBorder: 'border-cyan-500/20',   tabBg: 'bg-cyan-600',        accent: 'text-cyan-400',   bodyBg: 'bg-cyan-500/5' },
-  'Cabin Air Filter':  { icon: filterIcon,    tabBorder: 'border-teal-500/20',   tabBg: 'bg-teal-600',        accent: 'text-teal-400',   bodyBg: 'bg-teal-500/5' },
-  'Wiper Blades':      { icon: wrenchIcon,    tabBorder: 'border-blue-300/20',   tabBg: 'bg-blue-400',        accent: 'text-blue-300',   bodyBg: 'bg-blue-300/5' },
-  'Fluid Check/Top-Up':{ icon: fluidIcon,     tabBorder: 'border-sky-500/20',    tabBg: 'bg-sky-600',         accent: 'text-sky-400',    bodyBg: 'bg-sky-500/5' },
-  'Inspection':        { icon: inspectionIcon,tabBorder: 'border-slate-500/20',  tabBg: 'bg-slate-600',       accent: 'text-slate-400',  bodyBg: 'bg-slate-500/5' },
-  'Repair':            { icon: wrenchIcon,    tabBorder: 'border-orange-500/20', tabBg: 'bg-orange-600',      accent: 'text-orange-400', bodyBg: 'bg-orange-500/5' },
-  'Other':             { icon: folderIcon,    tabBorder: 'border-slate-600/20',  tabBg: 'bg-slate-700',       accent: 'text-slate-500',  bodyBg: 'bg-slate-600/5' },
+// Folder config — only 6 folders. Each SERVICE_TYPE maps to one of these.
+const FOLDER_DEFS = [
+  { type: 'All Records',       icon: allIcon,       tabBorder: 'border-indigo-500/20', tabBg: 'bg-indigo-600',      accent: 'text-indigo-400', bodyBg: 'bg-indigo-500/5' },
+  { type: 'Oil & Filter Change', icon: oilIcon,     tabBorder: 'border-amber-500/20',  tabBg: 'bg-amber-600',       accent: 'text-amber-400',  bodyBg: 'bg-amber-500/5' },
+  { type: 'Engine Service',    icon: engineIcon,    tabBorder: 'border-yellow-500/20', tabBg: 'bg-yellow-600',      accent: 'text-yellow-400', bodyBg: 'bg-yellow-500/5' },
+  { type: 'Driveline Service', icon: transIcon,     tabBorder: 'border-purple-500/20', tabBg: 'bg-purple-600',      accent: 'text-purple-400', bodyBg: 'bg-purple-500/5' },
+  { type: 'Brakes Service',    icon: brakeIcon,     tabBorder: 'border-red-500/20',    tabBg: 'bg-red-600',         accent: 'text-red-400',    bodyBg: 'bg-red-500/5' },
+  { type: 'Tires',             icon: tireIcon,      tabBorder: 'border-blue-500/20',   tabBg: 'bg-blue-600',        accent: 'text-blue-400',   bodyBg: 'bg-blue-500/5' },
+];
+
+// Map every SERVICE_TYPE to its parent folder
+const FOLDER_MAP = {
+  'Oil & Filter Change': 'Oil & Filter Change',
+  'Engine Service': 'Engine Service',
+  'Battery Replacement': 'Engine Service',
+  'Filter Replacement': 'Engine Service',
+  'Cabin Air Filter': 'Engine Service',
+  'Fluid Check/Top-Up': 'Engine Service',
+  'Wiper Blades': 'Engine Service',
+  'Inspection': 'Engine Service',
+  'Repair': 'Engine Service',
+  'Other': 'Engine Service',
+  'Transmission Service': 'Driveline Service',
+  'Brake Service': 'Brakes Service',
+  'Tire Rotation': 'Tires',
+  'New Tires': 'Tires',
 };
+
+// Build SERVICE_CONFIG from folder defs for easy lookup
+const SERVICE_CONFIG = {};
+FOLDER_DEFS.forEach(f => { SERVICE_CONFIG[f.type] = f; });
 
 /** Get the service types for a log entry (handles both old single-type and new multi-type) */
 function getLogServiceTypes(log) {
@@ -61,17 +68,18 @@ export default function MaintenanceLog({ logs, vehicles, onAdd, onUpdate, onDele
 
   const totalSpent = filteredLogs.reduce((sum, l) => sum + (l.cost || 0), 0);
 
-  // Group logs by service type — each log can appear in MULTIPLE groups
+  // Group logs by folder — each log goes into its parent folder based on service type
   const groupedLogs = filteredLogs.reduce((acc, log) => {
     const types = getLogServiceTypes(log);
     types.forEach(type => {
-      if (!acc[type]) {
-        acc[type] = { type, logs: [], totalCost: 0, lastDate: null };
+      const folder = FOLDER_MAP[type] || 'Engine Service';
+      if (!acc[folder]) {
+        acc[folder] = { type: folder, logs: [], totalCost: 0, lastDate: null };
       }
-      acc[type].logs.push(log);
-      acc[type].totalCost += (log.cost || 0);
-      if (!acc[type].lastDate || new Date(log.date) > new Date(acc[type].lastDate)) {
-        acc[type].lastDate = log.date;
+      acc[folder].logs.push(log);
+      acc[folder].totalCost += (log.cost || 0);
+      if (!acc[folder].lastDate || new Date(log.date) > new Date(acc[folder].lastDate)) {
+        acc[folder].lastDate = log.date;
       }
     });
     return acc;
