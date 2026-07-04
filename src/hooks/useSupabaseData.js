@@ -28,7 +28,7 @@ const keysToCamel = (obj) => {
  * Hook to fetch and manage data from Supabase with localStorage fallback.
  * Provides offline-capable CRUD operations.
  */
-export function useSupabaseData(tableName, userId) {
+export function useSupabaseData(tableName, userId, filterColumn = 'user_id') {
   const [data, setData] = useState(() => {
     // Load from localStorage cache on init
     try {
@@ -57,7 +57,7 @@ export function useSupabaseData(tableName, userId) {
       const { data: result, error: err } = await supabase
         .from(tableName)
         .select('*')
-        .eq('user_id', userId)
+        .eq(filterColumn, userId)
         .order('created_at', { ascending: false });
 
       if (err) throw err;
@@ -85,7 +85,7 @@ export function useSupabaseData(tableName, userId) {
     const subscription = supabase
       .channel(`${tableName}-changes`)
       .on('postgres_changes',
-        { event: '*', schema: 'public', table: tableName, filter: `user_id=eq.${userId}` },
+        { event: '*', schema: 'public', table: tableName, filter: `${filterColumn}=eq.${userId}` },
         (payload) => {
           // Refresh data when changes occur
           fetchData();
@@ -132,7 +132,7 @@ export function useSupabaseData(tableName, userId) {
         .from(tableName)
         .update(snakeUpdates)
         .eq('id', id)
-        .eq('user_id', userId);
+        .eq(filterColumn, userId);
 
       if (err) throw err;
       setData(prev => prev.map(item =>
@@ -157,7 +157,7 @@ export function useSupabaseData(tableName, userId) {
         .from(tableName)
         .delete()
         .eq('id', id)
-        .eq('user_id', userId);
+        .eq(filterColumn, userId);
 
       if (err) throw err;
       const newData = data.filter(item => item.id !== id);
