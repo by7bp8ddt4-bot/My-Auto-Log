@@ -58,7 +58,7 @@ function aiTranslate(input, vehicle) {
       severity: 'Completed',
       action: `Oil change performed. Reset maintenance minder. ${oilStr}. For your ${make} ${model}, this is the most important service for engine longevity.`,
       estimatedCost: '$45–$80',
-      loggable: { serviceType: 'Oil Change', description: `Engine oil & filter replacement completed on ${make} ${model}. Used ${oil?.viscosity || 'recommended'} ${oil?.type || 'oil'}.`, mileage }
+      loggable: { serviceType: 'Oil & Filter Change', description: `Engine oil & filter replacement completed on ${make} ${model}. Used ${oil?.viscosity || 'recommended'} ${oil?.type || 'oil'}.`, mileage }
     };
   }
 

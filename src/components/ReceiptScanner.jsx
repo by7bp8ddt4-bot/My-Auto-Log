@@ -82,7 +82,7 @@ function parseReceiptText(text, vehicleMileage) {
 
   // 3. Extract service type — match against known service types
   const serviceKeywords = {
-    'Oil Change': ['oil change', 'oil & filter', 'oil and filter', 'lube', 'synthetic oil', 'oil filter', '5w-30', '5w30', '0w-20', '0w20', '10w-30'],
+    'Oil & Filter Change': ['oil change', 'oil & filter', 'oil and filter', 'lube', 'synthetic oil', 'oil filter', '5w-30', '5w30', '0w-20', '0w20', '10w-30'],
     'Tire Rotation': ['tire rotation', 'rotate tires', 'tyre rotation', 'tire rotate'],
     'New Tires': ['new tire', 'new tyre', 'tire replacement', 'tire purchase', 'set of tires', 'tires mounted', 'p185', 'p205', 'p215', '225/', '235/', '245/'],
     'Brake Service': ['brake', 'brake pad', 'brake rotor', 'brake job', 'brake fluid', 'brake service', 'rotor resurface', 'caliper'],
