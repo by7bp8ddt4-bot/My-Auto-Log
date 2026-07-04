@@ -79,6 +79,17 @@ export default function App() {
       // Clean the URL so refresh doesn't re-trigger, but keep path
       window.history.replaceState({}, '', window.location.pathname);
     }
+
+    // Premium restore URL — forces premium=true in both localStorage and Supabase
+    // Use: visit https://mtxtrkr.vercel.app/?restore-premium=1 while signed in
+    if (params.get('restore-premium') === '1') {
+      localStorage.setItem(STORAGE_KEYS.PREMIUM_STATUS, 'true');
+      setPremium(true);
+      if (auth.user?.id) {
+        supabase.from('profiles').upsert({ id: auth.user.id, premium: true });
+      }
+      window.history.replaceState({}, '', window.location.pathname);
+    }
   }, []);
 
   // Auto-redirect to dashboard when user signs in / auth loads
