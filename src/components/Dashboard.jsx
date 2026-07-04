@@ -200,7 +200,7 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
         <AICopilot
           vehicles={vehicles}
           logs={logs}
-          activeVehicleId={activeVehicleId}
+          activeVehicleId={effectiveVehicleId}
           onAddLog={onAddLog}
           onNavigate={onNavigate}
           isPremium={isPremium}
