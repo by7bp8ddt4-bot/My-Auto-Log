@@ -57,8 +57,8 @@ export default function MaintenanceLog({ logs, vehicles, onAdd, onUpdate, onDele
   const [showForm, setShowForm] = useState(false);
   const [editingLog, setEditingLog] = useState(null);
   const [showScanner, setShowScanner] = useState(false);
-  // Design spec: single active folder, only one open at a time
   const [activeFolder, setActiveFolder] = useState(null);
+  const [vehicleFilter, setVehicleFilter] = useState('all');
 
   const filteredLogs = selectedVehicleId
     ? logs.filter(l => l.vehicleId === selectedVehicleId)

@@ -7,6 +7,7 @@ const OCTANE_OPTIONS = ['regular', 'mid-grade', 'premium', 'diesel', 'e85'];
 export default function FuelLog({ logs, vehicles, onAdd, onUpdate, onDelete, selectedVehicleId }) {
   const [showForm, setShowForm] = useState(false);
   const [editingLog, setEditingLog] = useState(null);
+  const [vehicleFilter, setVehicleFilter] = useState('all');
 
   const filteredLogs = selectedVehicleId ? logs.filter(l => l.vehicleId === selectedVehicleId) : logs;
   const getVehicleName = (id) => vehicles.find(v => v.id === id)?.name || 'Unknown';
