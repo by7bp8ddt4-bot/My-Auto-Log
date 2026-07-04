@@ -93,15 +93,26 @@ export default function MaintenanceLog({ logs, vehicles, onAdd, onUpdate, onDele
     return acc;
   }, {});
 
-  const allRecordsGroup = filteredLogs.length > 0 ? {
+  // Ensure all folder types are always visible, even when empty
+  const allFolderTypes = FOLDER_DEFS.map(f => f.type).filter(t => t !== 'All Records');
+  allFolderTypes.forEach(folderType => {
+    if (!groupedLogs[folderType]) {
+      groupedLogs[folderType] = { type: folderType, logs: [], totalCost: 0, lastDate: null };
+    }
+  });
+
+  // All Records folder — always visible
+  const allRecordsGroup = {
     type: 'All Records',
     logs: filteredLogs,
     totalCost: totalSpent,
-    lastDate: [...filteredLogs].sort((a,b) => new Date(b.date) - new Date(a.date))[0].date
-  } : null;
+    lastDate: filteredLogs.length > 0
+      ? [...filteredLogs].sort((a,b) => new Date(b.date) - new Date(a.date))[0].date
+      : null,
+  };
 
-  const sortedGroups = Object.values(groupedLogs).sort((a, b) => new Date(b.lastDate) - new Date(a.lastDate));
-  if (allRecordsGroup) sortedGroups.unshift(allRecordsGroup);
+  const sortedGroups = Object.values(groupedLogs).sort((a, b) => new Date(b.lastDate || 0) - new Date(a.lastDate || 0));
+  sortedGroups.unshift(allRecordsGroup);
 
   return (
     <div>
@@ -252,7 +263,7 @@ export default function MaintenanceLog({ logs, vehicles, onAdd, onUpdate, onDele
                           )}
                         </h3>
                         <p className="text-[10px] text-slate-500 mt-1">
-                          Last serviced: {formatDate(group.lastDate)}
+                          {group.lastDate ? `Last serviced: ${formatDate(group.lastDate)}` : 'No service records yet'}
                         </p>
                       </div>
                       <div className="text-right shrink-0">
@@ -269,7 +280,7 @@ export default function MaintenanceLog({ logs, vehicles, onAdd, onUpdate, onDele
                         ${isActive ? 'max-h-[1200px] border-t border-slate-800 bg-slate-950/20 p-4 space-y-3' : 'max-h-0'}
                       `}
                     >
-                      {group.logs.sort((a,b) => new Date(b.date) - new Date(a.date)).map(log => {
+                      {group.logs.length > 0 ? group.logs.sort((a,b) => new Date(b.date) - new Date(a.date)).map(log => {
                         const isAiGenerated = log.source === 'ai-copilot' || log.source === 'ai-copilot-scheduled';
                         const hasDocuments = log.documents && log.documents.length > 0;
                         const logTypes = getLogServiceTypes(log);
@@ -388,7 +399,19 @@ export default function MaintenanceLog({ logs, vehicles, onAdd, onUpdate, onDele
                             </div>
                           </div>
                         );
-                      })}
+                      }) : (
+                        <div className="text-center py-8">
+                          <ClipboardList className="w-8 h-8 text-slate-700 mx-auto mb-2" />
+                          <p className="text-xs text-slate-500">No {group.type.toLowerCase()} logs yet</p>
+                          <button
+                            onClick={(e) => { e.stopPropagation(); setShowForm(true); }}
+                            className="mt-2 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-[10px] font-medium transition-all"
+                          >
+                            <Plus className="w-3 h-3" />
+                            Log your first service
+                          </button>
+                        </div>
+                      )}
                     </div>
                   </div>
                 );
