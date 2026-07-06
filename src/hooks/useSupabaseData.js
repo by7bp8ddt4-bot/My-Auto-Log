@@ -190,7 +190,12 @@ export function useSupabaseAuth() {
   const [loading, setLoading] = useState(true);
   const [isRecovery, setIsRecovery] = useState(() => {
     // Detect recovery hash on mount (before Supabase processes it)
-    return window.location.hash && window.location.hash.includes('type=recovery');
+    if (window.location.hash && window.location.hash.includes('type=recovery')) return true;
+    // Check sessionStorage — set by auth.html redirect page when hash was detected
+    try {
+      if (sessionStorage.getItem('mtxtrkr_recovery_hash')) return true;
+    } catch(e) {}
+    return false;
   });
 
   useEffect(() => {
@@ -285,7 +290,7 @@ export function useSupabaseAuth() {
 
   const resetPassword = useCallback(async (email) => {
     const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${window.location.origin}/auth`,
+      redirectTo: `${window.location.origin}/auth.html`,
     });
     return { data, error };
   }, []);

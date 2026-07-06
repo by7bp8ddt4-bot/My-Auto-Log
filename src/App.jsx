@@ -45,9 +45,13 @@ import { supabase } from './lib/supabase.js';
 
 export default function App() {
   const [page, setPage] = useState(() => {
-    // Show auth page if URL path is /auth or recovery hash detected
-    if (window.location.pathname === '/auth') return 'auth';
+    // Show auth page if URL path is /auth or /auth.html or recovery hash detected
+    if (window.location.pathname === '/auth' || window.location.pathname === '/auth.html') return 'auth';
     if (window.location.hash && window.location.hash.includes('type=recovery')) return 'auth';
+    // Check sessionStorage (set by auth.html redirect page)
+    try {
+      if (sessionStorage.getItem('mtxtrkr_recovery_hash')) return 'auth';
+    } catch(e) {}
     return 'landing';
   });
   const [premium, setPremium] = useState(() => {
