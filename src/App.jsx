@@ -423,6 +423,7 @@ export default function App() {
       }}
       isPremium={premium}
       onNavigate={navigate}
+      selectedVehicleId={selectedVehicleId}
     />,
     settings: <Settings
       onReset={handleReset}

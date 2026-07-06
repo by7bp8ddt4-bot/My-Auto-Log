@@ -66,7 +66,6 @@ export default function MaintenanceLog({ logs, vehicles, onAdd, onUpdate, onDele
   const [editingLog, setEditingLog] = useState(null);
   const [showScanner, setShowScanner] = useState(false);
   const [activeFolder, setActiveFolder] = useState(null);
-  const [vehicleFilter, setVehicleFilter] = useState('all');
 
   const filteredLogs = selectedVehicleId
     ? logs.filter(l => l.vehicleId === selectedVehicleId)
@@ -156,31 +155,10 @@ export default function MaintenanceLog({ logs, vehicles, onAdd, onUpdate, onDele
 
       {vehicles.length > 0 && (
         <>
-          <div className="flex flex-wrap items-center gap-3 mb-6">
-            <div className="flex gap-1.5 p-1 rounded-xl bg-slate-900 border border-slate-800">
-              <button
-                onClick={() => setVehicleFilter('all')}
-                className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
-                  vehicleFilter === 'all' ? 'bg-blue-600 text-white' : 'text-slate-400 hover:text-white'
-                }`}
-              >
-                All
-              </button>
-              {vehicles.map(v => (
-                <button
-                  key={v.id}
-                  onClick={() => setVehicleFilter(v.id)}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
-                    vehicleFilter === v.id ? 'bg-blue-600 text-white' : 'text-slate-400 hover:text-white'
-                  }`}
-                >
-                  {v.name}
-                </button>
-              ))}
-            </div>
-            <div className="text-xs text-slate-500 ml-auto">
+          <div className="flex items-center justify-between mb-6">
+            <p className="text-xs text-slate-500">
               Total: <span className="text-emerald-400 font-medium">{formatCurrency(totalSpent)}</span>
-            </div>
+            </p>
           </div>
 
           {filteredLogs.length === 0 ? (
@@ -425,6 +403,7 @@ export default function MaintenanceLog({ logs, vehicles, onAdd, onUpdate, onDele
         <MaintenanceFormModal
           vehicles={vehicles}
           initialData={editingLog}
+          initialVehicleId={selectedVehicleId}
           isEditing={!!editingLog}
           onSave={editingLog
             ? (data) => { onUpdate(editingLog.id, data); setShowForm(false); setEditingLog(null); }
@@ -447,9 +426,9 @@ export default function MaintenanceLog({ logs, vehicles, onAdd, onUpdate, onDele
   );
 }
 
-function MaintenanceFormModal({ vehicles, initialData, isEditing, onSave, onClose }) {
+function MaintenanceFormModal({ vehicles, initialData, initialVehicleId, isEditing, onSave, onClose }) {
   const [form, setForm] = useState({
-    vehicleId: initialData?.vehicleId || vehicles[0]?.id || '',
+    vehicleId: initialData?.vehicleId || initialVehicleId || vehicles[0]?.id || '',
     date: initialData?.date || getLocalDateString(),
     mileage: initialData?.mileage?.toString() || '',
     // Support both old single-type and new multi-type

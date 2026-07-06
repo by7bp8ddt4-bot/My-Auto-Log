@@ -7,7 +7,6 @@ const OCTANE_OPTIONS = ['regular', 'mid-grade', 'premium', 'diesel', 'e85'];
 export default function FuelLog({ logs, vehicles, onAdd, onUpdate, onDelete, selectedVehicleId }) {
   const [showForm, setShowForm] = useState(false);
   const [editingLog, setEditingLog] = useState(null);
-  const [vehicleFilter, setVehicleFilter] = useState('all');
 
   const filteredLogs = selectedVehicleId ? logs.filter(l => l.vehicleId === selectedVehicleId) : logs;
   const getVehicleName = (id) => vehicles.find(v => v.id === id)?.name || 'Unknown';
@@ -66,17 +65,9 @@ export default function FuelLog({ logs, vehicles, onAdd, onUpdate, onDelete, sel
 
       {vehicles.length > 0 && (
         <>
-          {/* Vehicle filter + Stats */}
+          {/* Stats summary */}
           <div className="flex flex-wrap items-center gap-3 mb-6">
-            <div className="flex gap-1.5 p-1 rounded-xl bg-slate-900 border border-slate-800">
-              <button onClick={() => setVehicleFilter('all')}
-                className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${vehicleFilter === 'all' ? 'bg-blue-600 text-white' : 'text-slate-400 hover:text-white'}`}>All</button>
-              {vehicles.map(v => (
-                <button key={v.id} onClick={() => setVehicleFilter(v.id)}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${vehicleFilter === v.id ? 'bg-blue-600 text-white' : 'text-slate-400 hover:text-white'}`}>{v.name}</button>
-              ))}
-            </div>
-            <div className="flex items-center gap-3 text-xs text-slate-500 ml-auto">
+            <div className="flex items-center gap-3 text-xs text-slate-500">
               <span><span className="text-emerald-400 font-medium">{formatCurrency(totalSpent)}</span> total</span>
               <span><span className="text-cyan-400 font-medium">{formatNumber(totalGallons)}</span> gal</span>
             </div>
@@ -161,15 +152,15 @@ export default function FuelLog({ logs, vehicles, onAdd, onUpdate, onDelete, sel
       )}
 
       {showForm && (
-        <FuelFormModal vehicles={vehicles} onSave={(data) => { onAdd(data); setShowForm(false); }} onClose={() => setShowForm(false)} />
+        <FuelFormModal vehicles={vehicles} selectedVehicleId={selectedVehicleId} onSave={(data) => { onAdd(data); setShowForm(false); }} onClose={() => setShowForm(false)} />
       )}
     </div>
   );
 }
 
-function FuelFormModal({ vehicles, onSave, onClose }) {
+function FuelFormModal({ vehicles, selectedVehicleId, onSave, onClose }) {
   const [form, setForm] = useState({
-    vehicleId: vehicles[0]?.id || '',
+    vehicleId: selectedVehicleId || vehicles[0]?.id || '',
     date: getLocalDateString(),
     mileage: '',
     gallons: '',
