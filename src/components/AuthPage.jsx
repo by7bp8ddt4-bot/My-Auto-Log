@@ -33,8 +33,11 @@ export default function AuthPage({ onAuth }) {
           setError(updateError.message || 'Failed to update password.');
           return;
         }
+        // Sign out of the temporary recovery session before showing sign-in form
+        await onAuth.signOut();
         setMode('signin');
-        setError('Password updated successfully! Sign in with your new password.');
+        setEmail('');
+        setError('Password updated! Sign in with your new password.');
         return;
       }
 
