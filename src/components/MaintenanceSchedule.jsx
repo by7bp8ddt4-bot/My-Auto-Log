@@ -164,7 +164,7 @@ function ScheduleItem({ item, onLog }) {
           <div className="flex items-center gap-1">
             <Gauge className="w-3 h-3 opacity-70" />
             {isGood ? (
-              <span className="text-emerald-400">Serviced — {formatNumber(item.percentRemaining)}% to go</span>
+              <span className="text-emerald-400">{formatNumber(item.percentRemaining)}% to go <span className="text-slate-500">•</span> Due in {formatNumber(item.milesUntilDue)} mi</span>
             ) : item.milesUntilDue <= 0 ? (
               <span className="text-red-400">{formatNumber(Math.abs(item.milesUntilDue))} mi overdue</span>
             ) : (
@@ -173,9 +173,7 @@ function ScheduleItem({ item, onLog }) {
           </div>
           <div className="flex items-center gap-1">
             <Clock className="w-3 h-3 opacity-70" />
-            {isGood ? (
-              <span className="text-emerald-400">Next in ~{formatNumber(item.milesUntilDue)} mi</span>
-            ) : item.daysUntilDue <= 0 ? (
+            {item.daysUntilDue <= 0 ? (
               <span className="text-red-400">{Math.abs(item.daysUntilDue)} days overdue</span>
             ) : (
               <span>~{Math.round(item.daysUntilDue / 30)} months left</span>
