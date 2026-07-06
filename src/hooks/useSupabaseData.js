@@ -310,5 +310,5 @@ export function useSupabaseAuth() {
     });
   }, []);
 
-  return { user, session, loading, isRecovery, signUp, signIn, signInWithGoogle, signInWithApple, signOut, checkPremium, setPremiumStatus, resetPassword, updatePassword };
+  return { user, session, loading, isRecovery, clearRecovery: () => setIsRecovery(false), signUp, signIn, signInWithGoogle, signInWithApple, signOut, checkPremium, setPremiumStatus, resetPassword, updatePassword };
 }
