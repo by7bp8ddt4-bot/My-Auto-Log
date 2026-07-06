@@ -44,7 +44,13 @@ import { supabase } from './lib/supabase.js';
 })();
 
 export default function App() {
-  const [page, setPage] = useState('landing');
+  const [page, setPage] = useState(() => {
+    // Go straight to auth page if password recovery hash detected
+    if (window.location.hash && window.location.hash.includes('type=recovery')) {
+      return 'auth';
+    }
+    return 'landing';
+  });
   const [premium, setPremium] = useState(() => {
     return localStorage.getItem(STORAGE_KEYS.PREMIUM_STATUS) === 'true';
   });
