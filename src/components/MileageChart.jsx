@@ -4,8 +4,22 @@ import { TrendingUp, Gauge } from 'lucide-react';
 import { formatNumber } from '../utils/helpers';
 
 export default function MileageChart({ logs, vehicles, isPremium }) {
+  // Build initial data points from vehicles' purchase info (always available)
+  const initialData = useMemo(() => {
+    return vehicles
+      .filter(v => v.purchaseDate && (v.purchaseMileage || v.mileage))
+      .map(v => ({
+        date: v.purchaseDate?.slice(0, 7) || 'Purchase',
+        [v.name || 'Vehicle']: v.purchaseMileage || v.mileage || 0,
+        sortKey: new Date(v.purchaseDate).getTime() || 0,
+        _vehicleName: v.name || 'Vehicle',
+        _isPurchase: true,
+      }));
+  }, [vehicles]);
+
   const chartData = useMemo(() => {
-    if (!logs || logs.length < 2) return [];
+    // Start with purchase data points, overlay service log data
+    if (!logs || logs.length === 0) return initialData;
 
     // Group by vehicle
     const byVehicle = {};
@@ -15,7 +29,7 @@ export default function MileageChart({ logs, vehicles, isPremium }) {
     });
 
     // Build data points per vehicle, sorted by date/mileage
-    const result = [];
+    const result = [...initialData]; // Start with purchase points
     Object.entries(byVehicle).forEach(([vId, entries]) => {
       const vehicle = vehicles.find(v => v.id === vId);
       const sorted = entries.sort((a, b) => new Date(a.date) - new Date(b.date) || a.mileage - b.mileage);
@@ -27,11 +41,11 @@ export default function MileageChart({ logs, vehicles, isPremium }) {
         byDate[key] = Math.max(byDate[key] || 0, e.mileage);
       });
 
-      Object.entries(byDate).forEach(([date, mileage], i) => {
+      Object.entries(byDate).forEach(([date, mileage]) => {
         result.push({
-          date: date?.slice(0, 7) || `Point ${i + 1}`,
+          date: date?.slice(0, 7) || '',
           [vehicle?.name || 'Vehicle']: mileage,
-          sortKey: new Date(date).getTime() || i,
+          sortKey: new Date(date).getTime() || 0,
           _vehicleName: vehicle?.name || 'Vehicle',
         });
       });
@@ -40,7 +54,7 @@ export default function MileageChart({ logs, vehicles, isPremium }) {
     // Sort combined data by date
     result.sort((a, b) => a.sortKey - b.sortKey);
     return result;
-  }, [logs, vehicles]);
+  }, [logs, vehicles, initialData]);
 
   // Generate projected mileage for premium
   const projectedData = useMemo(() => {
@@ -78,14 +92,31 @@ export default function MileageChart({ logs, vehicles, isPremium }) {
 
   const allData = [...chartData, ...projectedData];
 
-  if (chartData.length < 2) {
+  if (chartData.length === 0) {
     return (
       <div className="p-5 rounded-2xl bg-slate-900/60 border border-slate-800">
         <div className="flex items-center gap-2 mb-3">
           <TrendingUp className="w-4 h-4 text-blue-400" />
           <h3 className="text-sm font-semibold text-white">Mileage Over Time</h3>
         </div>
-        <p className="text-xs text-slate-500 text-center py-8">Log at least 2 services with mileage to see the trend</p>
+        <p className="text-xs text-slate-500 text-center py-8">Add a vehicle with purchase date and mileage to start tracking</p>
+      </div>
+    );
+  }
+
+  if (chartData.length === 1 && chartData[0]._isPurchase) {
+    return (
+      <div className="p-5 rounded-2xl bg-slate-900/60 border border-slate-800">
+        <div className="flex items-center gap-2 mb-3">
+          <TrendingUp className="w-4 h-4 text-blue-400" />
+          <h3 className="text-sm font-semibold text-white">Mileage Over Time</h3>
+        </div>
+        <div className="py-6 text-center">
+          <Gauge className="w-8 h-8 text-slate-600 mx-auto mb-2" />
+          <p className="text-sm text-slate-300 font-medium mb-1">{formatNumber(chartData[0][chartData[0]._vehicleName])} mi</p>
+          <p className="text-xs text-slate-500">Purchase mileage — {chartData[0].date}</p>
+          <p className="text-xs text-slate-500 mt-3">Log services with mileage to build your trend</p>
+        </div>
       </div>
     );
   }
