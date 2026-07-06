@@ -44,13 +44,7 @@ import { supabase } from './lib/supabase.js';
 })();
 
 export default function App() {
-  const [page, setPage] = useState(() => {
-    // Go straight to auth page if password recovery hash detected
-    if (window.location.hash && window.location.hash.includes('type=recovery')) {
-      return 'auth';
-    }
-    return 'landing';
-  });
+  const [page, setPage] = useState('landing');
   const [premium, setPremium] = useState(() => {
     return localStorage.getItem(STORAGE_KEYS.PREMIUM_STATUS) === 'true';
   });
@@ -108,17 +102,16 @@ export default function App() {
     }
   }, [auth.user?.id]);
 
-  // Auto-navigate to auth page when password recovery hash is detected in URL
+  // Auto-navigate to auth page when password recovery is detected
   useEffect(() => {
-    if (window.location.hash && window.location.hash.includes('type=recovery')) {
+    if (auth.isRecovery && page !== 'auth') {
       setPage('auth');
     }
-  }, []);
+  }, [auth.isRecovery, page]);
 
   // Auto-redirect to dashboard when user signs in / auth loads (skip during password recovery)
   useEffect(() => {
-    const isRecovery = window.location.hash && window.location.hash.includes('type=recovery');
-    if (isAuthenticated && !auth.loading && (page === 'auth' || page === 'landing') && !isRecovery) {
+    if (isAuthenticated && !auth.loading && (page === 'auth' || page === 'landing') && !auth.isRecovery) {
       analytics.track('auth_auto_redirect', { fromPage: page });
       setPage('dashboard');
     }

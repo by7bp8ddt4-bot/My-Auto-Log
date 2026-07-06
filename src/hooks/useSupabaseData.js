@@ -188,6 +188,10 @@ export function useSupabaseAuth() {
   const [user, setUser] = useState(null);
   const [session, setSession] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [isRecovery, setIsRecovery] = useState(() => {
+    // Detect recovery hash on mount (before Supabase processes it)
+    return window.location.hash && window.location.hash.includes('type=recovery');
+  });
 
   useEffect(() => {
     // Get initial session
@@ -201,9 +205,12 @@ export function useSupabaseAuth() {
     });
 
     // Listen for auth changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       setSession(session);
       setUser(session?.user ?? null);
+      if (event === 'PASSWORD_RECOVERY') {
+        setIsRecovery(true);
+      }
       if (session?.user) {
         supabase.from('profiles').upsert({ id: session.user.id, email: session.user.email });
       }
@@ -298,5 +305,5 @@ export function useSupabaseAuth() {
     });
   }, []);
 
-  return { user, session, loading, signUp, signIn, signInWithGoogle, signInWithApple, signOut, checkPremium, setPremiumStatus, resetPassword, updatePassword };
+  return { user, session, loading, isRecovery, signUp, signIn, signInWithGoogle, signInWithApple, signOut, checkPremium, setPremiumStatus, resetPassword, updatePassword };
 }

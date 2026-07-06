@@ -3,23 +3,13 @@ import { Car, Mail, Lock, Loader2, AlertCircle, Eye, EyeOff, Sparkles, ArrowLeft
 import { supabase } from '../lib/supabase';
 
 export default function AuthPage({ onAuth }) {
-  const [mode, setMode] = useState('signin');
+  const [mode, setMode] = useState(() => onAuth.isRecovery ? 'recovery' : 'signin');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [sent, setSent] = useState(false);
-
-  // Detect recovery mode from URL hash/fragment (Supabase sends type=recovery in the URL fragment)
-  useEffect(() => {
-    const hash = window.location.hash;
-    if (hash && hash.includes('type=recovery')) {
-      setMode('recovery');
-      // Clean the URL
-      window.history.replaceState({}, '', window.location.pathname);
-    }
-  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
