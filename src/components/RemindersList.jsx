@@ -7,13 +7,17 @@ import { formatDate, formatNumber, generateId } from '../utils/helpers';
 import { DEFAULT_REMINDER_TEMPLATES } from '../utils/constants';
 import { calculateReminderStatus } from '../utils/helpers';
 
-export default function RemindersList({ reminders, vehicles, onAdd, onUpdate, onDelete, onNavigate, isPremium }) {
+export default function RemindersList({ reminders, vehicles, onAdd, onUpdate, onDelete, onNavigate, isPremium, selectedVehicleId }) {
   const [showForm, setShowForm] = useState(false);
 
   const getVehicleName = (id) => vehicles.find(v => v.id === id)?.name || 'Unknown';
   const getVehicleMileage = (id) => vehicles.find(v => v.id === id)?.mileage || 0;
 
-  const remindersWithStatus = reminders.map(r => {
+  const filteredReminders = selectedVehicleId
+    ? reminders.filter(r => r.vehicleId === selectedVehicleId)
+    : reminders;
+
+  const remindersWithStatus = filteredReminders.map(r => {
     const vehicle = vehicles.find(v => v.id === r.vehicleId);
     const status = calculateReminderStatus(r, vehicle?.mileage || 0, r.vehicleId);
     return { ...r, ...status, vehicleName: vehicle?.name || 'Unknown' };
@@ -30,7 +34,7 @@ export default function RemindersList({ reminders, vehicles, onAdd, onUpdate, on
       <div className="flex items-center justify-between mb-6">
         <div>
           <h2 className="text-xl font-bold text-white">Reminders</h2>
-          <p className="text-sm text-slate-400 mt-0.5">{reminders.length} active reminders</p>
+          <p className="text-sm text-slate-400 mt-0.5">{filteredReminders.length} active reminders</p>
         </div>
         <div className="flex gap-2">
           {!isPremium && (
@@ -88,6 +92,7 @@ export default function RemindersList({ reminders, vehicles, onAdd, onUpdate, on
         <ReminderFormModal
           vehicles={vehicles}
           templates={DEFAULT_REMINDER_TEMPLATES}
+          selectedVehicleId={selectedVehicleId}
           onSave={(data) => { onAdd(data); setShowForm(false); }}
           onClose={() => setShowForm(false)}
         />
@@ -183,11 +188,11 @@ function WarningSection({ title, color, reminders, onToggle, onDelete, getVehicl
   );
 }
 
-function ReminderFormModal({ vehicles, templates, onSave, onClose }) {
+function ReminderFormModal({ vehicles, templates, selectedVehicleId, onSave, onClose }) {
   const [selectedTemplate, setSelectedTemplate] = useState(null);
   const [custom, setCustom] = useState(false);
   const [form, setForm] = useState({
-    vehicleId: vehicles[0]?.id || '',
+    vehicleId: selectedVehicleId || vehicles[0]?.id || '',
     title: '',
     description: '',
     intervalMiles: 5000,

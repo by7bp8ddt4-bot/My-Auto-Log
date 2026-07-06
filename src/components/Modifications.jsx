@@ -18,7 +18,6 @@ const CATEGORY_MAP = Object.fromEntries(CATEGORIES.map(c => [c.id, c]));
 export default function Modifications({ mods = [], vehicles, onAdd, onDelete, onNavigate, isPremium, selectedVehicleId }) {
   const [showForm, setShowForm] = useState(false);
   const [expandedFolders, setExpandedFolders] = useState({});
-  const [vehicleFilter, setVehicleFilter] = useState('all');
 
   const filteredMods = selectedVehicleId ? mods.filter(m => m.vehicleId === selectedVehicleId) : mods;
   const getVehicleName = (id) => vehicles.find(v => v.id === id)?.name || 'Unknown';
@@ -63,17 +62,9 @@ export default function Modifications({ mods = [], vehicles, onAdd, onDelete, on
 
       {vehicles.length > 0 && (
         <>
-          {/* Vehicle filter + Stats */}
+          {/* Stats summary */}
           <div className="flex flex-wrap items-center gap-3 mb-6">
-            <div className="flex gap-1.5 p-1 rounded-xl bg-slate-900 border border-slate-800 overflow-x-auto">
-              <button onClick={() => setVehicleFilter('all')}
-                className={`px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition-all ${vehicleFilter === 'all' ? 'bg-blue-600 text-white' : 'text-slate-400 hover:text-white'}`}>All Vehicles</button>
-              {vehicles.map(v => (
-                <button key={v.id} onClick={() => setVehicleFilter(v.id)}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition-all ${vehicleFilter === v.id ? 'bg-blue-600 text-white' : 'text-slate-400 hover:text-white'}`}>{v.name}</button>
-              ))}
-            </div>
-            <div className="flex items-center gap-3 text-xs text-slate-500 ml-auto">
+            <div className="flex items-center gap-3 ml-auto text-xs text-slate-500">
               <span><span className="text-emerald-400 font-medium">{formatCurrency(totalSpent)}</span> total</span>
               <span><span className="text-cyan-400 font-medium">{filteredMods.length}</span> parts</span>
             </div>
@@ -168,7 +159,7 @@ export default function Modifications({ mods = [], vehicles, onAdd, onDelete, on
       {showForm && (
         <ModFormModal
           vehicles={vehicles}
-          initialVehicleId={vehicleFilter !== 'all' ? vehicleFilter : undefined}
+          initialVehicleId={selectedVehicleId}
           onSave={(data) => { onAdd(data); setShowForm(false); }}
           onClose={() => setShowForm(false)}
         />

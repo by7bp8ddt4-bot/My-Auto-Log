@@ -133,13 +133,15 @@ function aiTranslate(input, vehicle) {
   };
 }
 
-export default function AICopilot({ vehicles, logs, onAddLog, onNavigate, isPremium }) {
+export default function AICopilot({ vehicles, logs, onAddLog, onNavigate, isPremium, activeVehicleId }) {
   const [inputText, setInputText] = useState('');
   const [translation, setTranslation] = useState(null);
   const [isTranslating, setIsTranslating] = useState(false);
   const [saved, setSaved] = useState(false);
 
-  const activeVehicle = vehicles[0] || null;
+  const activeVehicle = activeVehicleId
+    ? vehicles.find(v => v.id === activeVehicleId) || vehicles[0] || null
+    : vehicles[0] || null;
   const schedule = useMaintenanceSchedule(activeVehicle, logs);
   const brandColor = getManufacturerColor(activeVehicle?.make);
   const urgentItem = schedule[0];
