@@ -63,7 +63,12 @@ export function useSupabaseData(tableName, userId, filterColumn = 'user_id') {
       if (err) throw err;
       const camelData = keysToCamel(result || []);
       setData(camelData);
-      cacheData(camelData);
+      // Only overwrite cache if we got results, or if cache was already empty
+      // This prevents realtime race conditions from wiping valid cached data
+      const prevCache = JSON.parse(localStorage.getItem(`supabase_${tableName}`) || '[]');
+      if (camelData.length > 0 || prevCache.length === 0) {
+        cacheData(camelData);
+      }
       setError(null);
     } catch (err) {
       console.error(`Error fetching ${tableName}:`, err);
@@ -111,15 +116,21 @@ export function useSupabaseData(tableName, userId, filterColumn = 'user_id') {
 
       if (err) throw err;
       const camelResult = keysToCamel(result);
-      setData(prev => [camelResult, ...prev]);
-      cacheData([camelResult, ...data]);
+      setData(prev => {
+        const newData = [camelResult, ...prev];
+        cacheData(newData);
+        return newData;
+      });
       return camelResult;
     } catch (err) {
       console.error(`Error inserting into ${tableName}:`, err);
       // Fallback: add to local state
       const fallback = { ...item, id: item.id || crypto.randomUUID(), userId, createdAt: new Date().toISOString() };
-      setData(prev => [fallback, ...prev]);
-      cacheData([fallback, ...data]);
+      setData(prev => {
+        const newData = [fallback, ...prev];
+        cacheData(newData);
+        return newData;
+      });
       return fallback;
     }
   }, [tableName, userId, data, cacheData]);
@@ -135,12 +146,13 @@ export function useSupabaseData(tableName, userId, filterColumn = 'user_id') {
         .eq(filterColumn, userId);
 
       if (err) throw err;
-      setData(prev => prev.map(item =>
-        item.id === id ? { ...item, ...updates, updatedAt: new Date().toISOString() } : item
-      ));
-      cacheData(data.map(item =>
-        item.id === id ? { ...item, ...updates, updatedAt: new Date().toISOString() } : item
-      ));
+      setData(prev => {
+        const newData = prev.map(item =>
+          item.id === id ? { ...item, ...updates, updatedAt: new Date().toISOString() } : item
+        );
+        cacheData(newData);
+        return newData;
+      });
     } catch (err) {
       console.error(`Error updating ${tableName}:`, err);
       // Fallback to local update
