@@ -44,6 +44,16 @@ function isSameService(scheduleName, logServiceType) {
 }
 
 /**
+ * Get all service types from a log entry.
+ * Handles both old single-type (serviceType string) and new multi-type (serviceTypes array).
+ */
+function getLogServiceTypes(log) {
+  if (Array.isArray(log.serviceTypes) && log.serviceTypes.length > 0) return log.serviceTypes;
+  if (log.serviceType) return [log.serviceType];
+  return ['Other'];
+}
+
+/**
  * Hook to compute a manufacturer maintenance schedule for a vehicle
  * based on its mileage and service history.
  * 
@@ -59,12 +69,13 @@ export function useMaintenanceSchedule(vehicle, logs = []) {
 
     return schedule.map(item => {
       // Find the last time this specific service was performed
-      // We look for logs that contain the service name in their serviceType or description
+      // We look for logs that contain the service name in their serviceType, serviceTypes, or description
       const lastService = vehicleLogs
-        .filter(log => 
-          isSameService(item.service, log.serviceType) ||
-          log.description?.toLowerCase().includes(item.service.toLowerCase())
-        )
+        .filter(log => {
+          const serviceTypes = getLogServiceTypes(log);
+          return serviceTypes.some(type => isSameService(item.service, type)) ||
+            log.description?.toLowerCase().includes(item.service.toLowerCase());
+        })
         .sort((a, b) => (b.mileage || 0) - (a.mileage || 0))[0];
 
       const lastMileage = lastService ? lastService.mileage : 0;
@@ -76,6 +87,12 @@ export function useMaintenanceSchedule(vehicle, logs = []) {
       const milesUntilDue = dueMileage - vehicle.mileage;
       const daysUntilDue = Math.ceil((dueDate.getTime() - Date.now()) / (24 * 60 * 60 * 1000));
       
+      // Calculate progress percentage
+      const mileageProgress = ((vehicle.mileage - lastMileage) / item.intervalMiles) * 100;
+      const timeProgress = ((Date.now() - lastDate.getTime()) / (dueDate.getTime() - lastDate.getTime())) * 100;
+      const percentComplete = Math.min(100, Math.max(0, Math.max(mileageProgress, timeProgress)));
+      const percentRemaining = 100 - percentComplete;
+
       let status = 'upcoming';
       if (milesUntilDue <= 0 || daysUntilDue <= 0) {
         status = 'overdue';
@@ -83,12 +100,10 @@ export function useMaintenanceSchedule(vehicle, logs = []) {
         status = 'critical';
       } else if (daysUntilDue <= 90) {
         status = 'due-soon';
+      } else if (percentComplete < 50 && lastMileage > 0) {
+        // Only show 'good' if a service has actually been logged before
+        status = 'good';
       }
-
-      // Calculate progress percentage
-      const mileageProgress = ((vehicle.mileage - lastMileage) / item.intervalMiles) * 100;
-      const timeProgress = ((Date.now() - lastDate.getTime()) / (dueDate.getTime() - lastDate.getTime())) * 100;
-      const percentComplete = Math.min(100, Math.max(0, Math.max(mileageProgress, timeProgress)));
 
       return {
         ...item,
@@ -99,11 +114,12 @@ export function useMaintenanceSchedule(vehicle, logs = []) {
         milesUntilDue,
         daysUntilDue,
         status,
-        percentComplete
+        percentComplete,
+        percentRemaining
       };
     }).sort((a, b) => {
-      // Sort by urgency: overdue first, then due-soon, then upcoming
-      const order = { overdue: 0, critical: 1, 'due-soon': 2, upcoming: 3 };
+      // Sort by urgency: overdue first, then due-soon, then upcoming, then good
+      const order = { overdue: 0, critical: 1, 'due-soon': 2, upcoming: 3, good: 4 };
       if (order[a.status] !== order[b.status]) {
         return order[a.status] - order[b.status];
       }

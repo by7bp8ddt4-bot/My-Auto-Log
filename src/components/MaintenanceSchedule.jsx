@@ -32,6 +32,7 @@ export default function MaintenanceSchedule({ vehicle: initialVehicle, logs, onA
   const critical = schedule.filter(item => item.status === 'critical');
   const dueSoon = schedule.filter(item => item.status === 'due-soon');
   const upcoming = schedule.filter(item => item.status === 'upcoming');
+  const good = schedule.filter(item => item.status === 'good');
 
   return (
     <div className="space-y-6">
@@ -49,22 +50,26 @@ export default function MaintenanceSchedule({ vehicle: initialVehicle, logs, onA
         </div>
 
       {/* Summary Stats */}
-      <div className="grid grid-cols-4 gap-3">
-        <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-4 text-center">
-          <div className="text-2xl font-bold text-red-400">{overdue.length}</div>
-          <div className="text-[10px] text-slate-500 uppercase tracking-wider font-semibold">Overdue</div>
+      <div className="grid grid-cols-5 gap-2 sm:gap-3">
+        <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-3 sm:p-4 text-center">
+          <div className="text-lg sm:text-2xl font-bold text-red-400">{overdue.length}</div>
+          <div className="text-[9px] sm:text-[10px] text-slate-500 uppercase tracking-wider font-semibold">Overdue</div>
         </div>
-        <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-4 text-center">
-          <div className="text-2xl font-bold text-red-400">{critical.length}</div>
-          <div className="text-[10px] text-slate-500 uppercase tracking-wider font-semibold">Critical</div>
+        <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-3 sm:p-4 text-center">
+          <div className="text-lg sm:text-2xl font-bold text-red-400">{critical.length}</div>
+          <div className="text-[9px] sm:text-[10px] text-slate-500 uppercase tracking-wider font-semibold">Critical</div>
         </div>
-        <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-4 text-center">
-          <div className="text-2xl font-bold text-amber-400">{dueSoon.length}</div>
-          <div className="text-[10px] text-slate-500 uppercase tracking-wider font-semibold">Due Soon</div>
+        <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-3 sm:p-4 text-center">
+          <div className="text-lg sm:text-2xl font-bold text-amber-400">{dueSoon.length}</div>
+          <div className="text-[9px] sm:text-[10px] text-slate-500 uppercase tracking-wider font-semibold">Due Soon</div>
         </div>
-        <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-4 text-center">
-          <div className="text-2xl font-bold text-emerald-400">{upcoming.length}</div>
-          <div className="text-[10px] text-slate-500 uppercase tracking-wider font-semibold">Upcoming</div>
+        <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-3 sm:p-4 text-center">
+          <div className="text-lg sm:text-2xl font-bold text-blue-400">{upcoming.length}</div>
+          <div className="text-[9px] sm:text-[10px] text-slate-500 uppercase tracking-wider font-semibold">Upcoming</div>
+        </div>
+        <div className="bg-slate-900/60 border border-emerald-500/30 rounded-2xl p-3 sm:p-4 text-center">
+          <div className="text-lg sm:text-2xl font-bold text-emerald-400">{good.length}</div>
+          <div className="text-[9px] sm:text-[10px] text-emerald-500 uppercase tracking-wider font-semibold">Serviced</div>
         </div>
       </div>
 
@@ -102,18 +107,22 @@ function ScheduleItem({ item, onLog }) {
     overdue: 'text-red-400 border-red-500/20 bg-red-500/5',
     critical: 'text-red-400 border-red-500/20 bg-red-500/5',
     'due-soon': 'text-amber-400 border-amber-500/20 bg-amber-500/5',
-    upcoming: 'text-slate-400 border-slate-800 bg-slate-900/40'
+    upcoming: 'text-slate-400 border-slate-800 bg-slate-900/40',
+    good: 'text-emerald-400 border-emerald-500/20 bg-emerald-500/5'
   };
 
   const progressColors = {
     overdue: 'bg-red-500',
     critical: 'bg-red-500',
     'due-soon': 'bg-amber-500',
-    upcoming: 'bg-blue-500'
+    upcoming: 'bg-blue-500',
+    good: 'bg-emerald-500'
   };
 
+  const isGood = item.status === 'good';
+
   return (
-    <div className={`p-4 rounded-2xl border transition-all ${statusColors[item.status]} ${item.status !== 'upcoming' ? 'shadow-lg' : ''}`}>
+    <div className={`p-4 rounded-2xl border transition-all ${statusColors[item.status]} ${item.status !== 'upcoming' ? 'shadow-lg shadow-emerald-500/5' : ''}`}>
       <div className="flex items-start justify-between gap-4 mb-3">
         <div className="flex-1">
           <div className="flex items-center gap-2 mb-1">
@@ -154,7 +163,9 @@ function ScheduleItem({ item, onLog }) {
         <div className="flex items-center justify-between text-[10px] font-semibold">
           <div className="flex items-center gap-1">
             <Gauge className="w-3 h-3 opacity-70" />
-            {item.milesUntilDue <= 0 ? (
+            {isGood ? (
+              <span className="text-emerald-400">Serviced — {formatNumber(item.percentRemaining)}% to go</span>
+            ) : item.milesUntilDue <= 0 ? (
               <span className="text-red-400">{formatNumber(Math.abs(item.milesUntilDue))} mi overdue</span>
             ) : (
               <span>Due in {formatNumber(item.milesUntilDue)} mi</span>
@@ -162,7 +173,9 @@ function ScheduleItem({ item, onLog }) {
           </div>
           <div className="flex items-center gap-1">
             <Clock className="w-3 h-3 opacity-70" />
-            {item.daysUntilDue <= 0 ? (
+            {isGood ? (
+              <span className="text-emerald-400">Next in ~{formatNumber(item.milesUntilDue)} mi</span>
+            ) : item.daysUntilDue <= 0 ? (
               <span className="text-red-400">{Math.abs(item.daysUntilDue)} days overdue</span>
             ) : (
               <span>~{Math.round(item.daysUntilDue / 30)} months left</span>
