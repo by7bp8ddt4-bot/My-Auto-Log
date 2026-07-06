@@ -1,14 +1,14 @@
 import logoImg from '/assets/logo.png';
 import iconImg from '/assets/icon-1024.png';
-import { Car, ClipboardList, Bell, Settings, LogOut, ChevronRight, Calendar, Fuel, Wrench } from 'lucide-react';
+import { LayoutDashboard, Truck, ClipboardList, Bell, Settings, LogOut, ChevronRight, Calendar, Fuel, Wrench } from 'lucide-react';
 
 const navItems = [
-  { id: 'dashboard', label: 'Dashboard', icon: Car },
-  { id: 'vehicles', label: 'My Vehicles', icon: Car },
+  { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
+  { id: 'vehicles', label: 'My Vehicles', icon: Truck },
   { id: 'schedule', label: 'Schedule', icon: Calendar },
   { id: 'fuel', label: 'Fuel', icon: Fuel },
-  { id: 'mods', label: 'Mods', icon: Wrench },
   { id: 'logs', label: 'Service Logs', icon: ClipboardList },
+  { id: 'mods', label: 'Mods', icon: Wrench },
   { id: 'reminders', label: 'Reminders', icon: Bell },
 ];
 
@@ -51,7 +51,7 @@ export default function Layout({ currentPage, onNavigate, onLogout, children }) 
 
       {/* Bottom Navigation (Mobile) */}
       <nav className="fixed bottom-0 left-0 right-0 bg-slate-900/95 backdrop-blur-md border-t border-slate-800 z-40 md:hidden">
-        <div className="flex items-center justify-around h-16 px-2">
+        <div className="flex items-center justify-start gap-1 h-16 px-2 overflow-x-auto scrollbar-hide">
           {navItems.map(item => {
             const Icon = item.icon;
             const isActive = currentPage === item.id;
