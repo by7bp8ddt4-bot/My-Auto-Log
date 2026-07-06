@@ -44,7 +44,12 @@ import { supabase } from './lib/supabase.js';
 })();
 
 export default function App() {
-  const [page, setPage] = useState('landing');
+  const [page, setPage] = useState(() => {
+    // Show auth page if URL path is /auth or recovery hash detected
+    if (window.location.pathname === '/auth') return 'auth';
+    if (window.location.hash && window.location.hash.includes('type=recovery')) return 'auth';
+    return 'landing';
+  });
   const [premium, setPremium] = useState(() => {
     return localStorage.getItem(STORAGE_KEYS.PREMIUM_STATUS) === 'true';
   });
