@@ -7,6 +7,7 @@
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api/$1" },
     { "source": "/activate-premium.html", "destination": "/activate-premium.html" },
+    { "source": "/auth.html", "destination": "/auth.html" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
