@@ -35,8 +35,10 @@ export default function AuthPage({ onAuth }) {
         }
         // Sign out of the temporary recovery session before showing sign-in form
         await onAuth.signOut();
+        onAuth.clearRecovery();
         setMode('signin');
         setEmail('');
+        setPassword('');
         setError('Password updated! Sign in with your new password.');
         return;
       }

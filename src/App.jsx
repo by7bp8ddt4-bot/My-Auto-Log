@@ -190,14 +190,14 @@ export default function App() {
   }, [sync]);
 
   // Logout
-  const handleLogout = useCallback(() => {
-    if (isAuthenticated) {
-      analytics.track('user_logout', { page });
-      analytics.logoutAnalytics();
-      auth.signOut();
-    }
+  const handleLogout = useCallback(async () => {
     setPage('landing');
-  }, [auth, isAuthenticated, analytics, page]);
+    if (isAuthenticated) {
+      analytics.track('user_logout', { page: 'settings' });
+      analytics.logoutAnalytics();
+      await auth.signOut();
+    }
+  }, [auth, isAuthenticated, analytics]);
 
   // Add vehicle
   const addVehicle = useCallback((data) => {
