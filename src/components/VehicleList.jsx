@@ -131,9 +131,9 @@ function VehicleFormModal({ vehicle, onSave, onClose }) {
     model: vehicle?.model || '',
     year: vehicle?.year || new Date().getFullYear(),
     licensePlate: vehicle?.licensePlate || '',
-    mileage: vehicle?.mileage || 0,
+    mileage: vehicle?.mileage || '',
     purchaseDate: vehicle?.purchaseDate || '',
-    purchaseMileage: vehicle?.purchaseMileage || 0,
+    purchaseMileage: vehicle?.purchaseMileage || '',
     vin: vehicle?.vin || '',
   });
   const [vinState, setVinState] = useState({ status: 'idle', message: '', data: null }); // idle | loading | success | error
@@ -179,7 +179,11 @@ function VehicleFormModal({ vehicle, onSave, onClose }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!form.name || !form.make || !form.model) return;
-    const submitData = { ...form };
+    const submitData = {
+      ...form,
+      mileage: parseInt(form.mileage) || 0,
+      purchaseMileage: parseInt(form.purchaseMileage) || 0,
+    };
     // Remove raw NHTSA reference to keep the vehicle object clean
     if (submitData.vinDecoded?._raw) {
       submitData.vinDecoded = { ...submitData.vinDecoded };
@@ -313,7 +317,7 @@ function VehicleFormModal({ vehicle, onSave, onClose }) {
               <input
                 type="number"
                 value={form.mileage}
-                onChange={e => setForm(f => ({ ...f, mileage: parseInt(e.target.value) || 0 }))}
+                onChange={e => setForm(f => ({ ...f, mileage: e.target.value === '' ? '' : parseInt(e.target.value) || '' }))}
                 className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
               />
             </div>
@@ -334,7 +338,7 @@ function VehicleFormModal({ vehicle, onSave, onClose }) {
               <input
                 type="number"
                 value={form.purchaseMileage}
-                onChange={e => setForm(f => ({ ...f, purchaseMileage: parseInt(e.target.value) || 0 }))}
+                onChange={e => setForm(f => ({ ...f, purchaseMileage: e.target.value === '' ? '' : parseInt(e.target.value) || '' }))}
                 className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
               />
             </div>
