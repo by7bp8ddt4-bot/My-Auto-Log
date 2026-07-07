@@ -74,10 +74,10 @@ export default async function handler(req, res) {
         return { userId: profile.id, status: 'skipped', reason: 'No email on profile' };
       }
 
-      // Get user's vehicles with current mileage
+      // Get user's vehicles with current mileage and lease info
       const { data: vehicles } = await supabase
         .from('vehicles')
-        .select('id, name, make, model, year, mileage')
+        .select('id, name, make, model, year, mileage, isLeased, leaseMileageLimit, leaseEndDate, purchaseDate, purchaseMileage')
         .eq('user_id', profile.id);
 
       // Get the most recent maintenance log for a mileage reference
@@ -90,9 +90,32 @@ export default async function handler(req, res) {
         .single();
 
       const vehicleCount = vehicles?.length || 0;
-      const vehicleList = vehicles?.map(v =>
-        `${v.year} ${v.make} ${v.model} (${v.name}) — ${v.mileage?.toLocaleString() || '?'} mi`
-      ).join('<br>') || 'No vehicles added yet.';
+      const vehicleList = vehicles?.map(v => {
+        const base = `${v.year} ${v.make} ${v.model} (${v.name}) — ${v.mileage?.toLocaleString() || '?'} mi`;
+        if (v.isLeased && v.leaseMileageLimit) {
+          // Calculate projected mileage vs limit if we have purchase data
+          let leaseMsg = '';
+          if (v.purchaseDate && v.purchaseMileage >= 0) {
+            const daysSince = Math.floor((Date.now() - new Date(v.purchaseDate).getTime()) / (24 * 60 * 60 * 1000));
+            if (daysSince > 0) {
+              const dailyAvg = Math.max(0, (v.mileage - v.purchaseMileage) / daysSince);
+              if (dailyAvg > 0 && v.leaseEndDate) {
+                const daysToEnd = Math.max(0, Math.floor((new Date(v.leaseEndDate).getTime() - Date.now()) / (24 * 60 * 60 * 1000)));
+                const projected = Math.round(v.mileage + dailyAvg * daysToEnd);
+                const overUnder = projected > v.leaseMileageLimit
+                  ? `<span style="color:#ef4444;">⚠ ${(projected - v.leaseMileageLimit).toLocaleString()} mi over</span>`
+                  : `<span style="color:#10b981;">${(v.leaseMileageLimit - projected).toLocaleString()} mi remaining</span>`;
+                leaseMsg = ` — <strong>Lease:</strong> ${v.leaseMileageLimit.toLocaleString()} mi limit, projected ${projected.toLocaleString()} mi (${overUnder})`;
+              }
+            }
+          }
+          if (!leaseMsg) {
+            leaseMsg = ` — <strong>Lease:</strong> ${v.leaseMileageLimit.toLocaleString()} mi limit`;
+          }
+          return base + leaseMsg;
+        }
+        return base;
+      }).join('<br>') || 'No vehicles added yet.';
 
       const lastLogMileage = recentLog?.mileage
         ? `${recentLog.mileage.toLocaleString()} mi on ${recentLog.date}`
@@ -141,6 +164,14 @@ export default async function handler(req, res) {
                     service reminders, and fuel economy tracking precise. Just a quick tap to stay on top of it.
                   </p>
                 </div>
+                ${vehicles?.some(v => v.isLeased) ? `
+                <div style="background: #fef3c7; border-radius: 8px; padding: 12px; margin: 16px 0; border: 1px solid #fcd34d;">
+                  <p style="color: #92400e; font-size: 12px; margin: 0; line-height: 1.5;">
+                    <strong>🔑 Lease Mileage Alert:</strong> You have ${vehicles.filter(v => v.isLeased).length} leased vehicle(s). 
+                    Keep your mileage current to avoid over-mileage charges at lease end.
+                  </p>
+                </div>
+                ` : ''}
               </div>
               <div style="background: #f1f5f9; padding: 20px 24px; text-align: center; border-top: 1px solid #e2e8f0;">
                 <p style="color: #94a3b8; font-size: 11px; margin: 0; line-height: 1.5;">

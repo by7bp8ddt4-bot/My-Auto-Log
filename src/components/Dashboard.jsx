@@ -286,6 +286,37 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
               </div>
             </div>
           )}
+
+          {/* Lease Limit Comparison — shown when vehicle has lease data */}
+          {activeVehicle?.isLeased && activeVehicle?.leaseMileageLimit > 0 && activeVehicle?.leaseEndDate && (
+            <div className="mt-3 p-3 rounded-xl bg-amber-500/5 border border-amber-500/20">
+              <div className="flex items-center justify-between text-xs mb-2">
+                <span className="text-slate-500">Lease Limit</span>
+                <span className="text-white font-bold">{formatNumber(activeVehicle.leaseMileageLimit)} mi</span>
+              </div>
+              <div className="flex items-center justify-between text-xs mb-2">
+                <span className="text-slate-500">Projected at lease end</span>
+                <span className={projectedMileage > activeVehicle.leaseMileageLimit ? 'text-red-400 font-bold' : 'text-emerald-400 font-bold'}>
+                  {formatNumber(projectedMileage)} mi
+                </span>
+              </div>
+              {/* Progress bar */}
+              <div className="w-full h-2 rounded-full bg-slate-800 overflow-hidden">
+                <div
+                  className={`h-full rounded-full transition-all ${projectedMileage > activeVehicle.leaseMileageLimit ? 'bg-red-500' : 'bg-amber-500'}`}
+                  style={{ width: `${Math.min(100, (projectedMileage / activeVehicle.leaseMileageLimit) * 100)}%` }}
+                />
+              </div>
+              <div className="flex items-center justify-between text-[10px] mt-1">
+                <span className="text-slate-600">{Math.round((projectedMileage / activeVehicle.leaseMileageLimit) * 100)}% used</span>
+                {projectedMileage > activeVehicle.leaseMileageLimit ? (
+                  <span className="text-red-400 font-medium">⚠ {formatNumber(projectedMileage - activeVehicle.leaseMileageLimit)} mi over limit</span>
+                ) : (
+                  <span className="text-emerald-400 font-medium">{formatNumber(activeVehicle.leaseMileageLimit - projectedMileage)} mi remaining</span>
+                )}
+              </div>
+            </div>
+          )}
         </div>
       ) : !isPremium && activeVehicle?.purchaseDate && activeVehicle?.purchaseMileage >= 0 ? (
         /* Free user sees blurred preview with upgrade CTA */
