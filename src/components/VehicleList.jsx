@@ -222,6 +222,7 @@ function VehicleFormModal({ vehicle, onSave, onClose, initialType = 'car' }) {
     purchaseDate: vehicle?.purchaseDate || '',
     purchaseMileage: vehicle?.purchaseMileage || '',
     vin: vehicle?.vin || '',
+    engineSerial: vehicle?.engineSerial || '',
     type: vehicle?.type || initialType || 'car',
   });
   const [vinState, setVinState] = useState({ status: 'idle', message: '', data: null }); // idle | loading | success | error
@@ -315,6 +316,11 @@ function VehicleFormModal({ vehicle, onSave, onClose, initialType = 'car' }) {
         <div className="flex items-center justify-between mb-6">
           <h3 className="text-lg font-bold text-white">
             {vehicle ? 'Edit Vehicle' : `Add ${(() => { const vt = VEHICLE_TYPES.find(t => t.id === form.type) || VEHICLE_TYPES[0]; return vt.label; })()}`}
+            {form.type !== 'car' && (
+              <span className="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-400 font-medium ml-2">
+                {VEHICLE_TYPES.find(t => t.id === form.type)?.label || form.type}
+              </span>
+            )}
           </h3>
           <button onClick={onClose} className="p-1.5 rounded-lg hover:bg-slate-800 text-slate-400">
             <X className="w-5 h-5" />
@@ -322,38 +328,57 @@ function VehicleFormModal({ vehicle, onSave, onClose, initialType = 'car' }) {
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          {/* VIN Decoder Section */}
-          <div className="p-4 rounded-xl bg-gradient-to-r from-blue-600/5 to-cyan-600/5 border border-blue-500/20">
-            <label className="block text-xs text-slate-400 mb-1.5 font-medium">
-              VIN Decoder <span className="text-slate-600 font-normal">(free NHTSA lookup)</span>
-            </label>
-            <div className="flex gap-2">
+          {form.type === 'marine-diesel' || form.type === 'outboard' ? (
+            /* Engine Serial Number — for marine/outboard engines */
+            <div className="p-4 rounded-xl bg-gradient-to-r from-indigo-600/5 to-purple-600/5 border border-indigo-500/20">
+              <label className="block text-xs text-slate-400 mb-1.5 font-medium">
+                Engine Serial Number <span className="text-slate-600 font-normal">(for lookup)</span>
+              </label>
               <input
                 type="text"
-                value={form.vin}
-                onChange={e => handleVinChange(e.target.value)}
-                placeholder="e.g. 1HGCM82633A004352"
-                maxLength={17}
-                className="flex-1 px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm font-mono tracking-wider placeholder:text-slate-600 placeholder:tracking-normal focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all uppercase"
+                value={form.engineSerial}
+                onChange={e => setForm(f => ({ ...f, engineSerial: e.target.value.toUpperCase() }))}
+                placeholder="e.g. CAT 7.1 SERIAL #"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm font-mono tracking-wider placeholder:text-slate-600 placeholder:tracking-normal focus:outline-none focus:ring-2 focus:ring-indigo-500/50 transition-all"
               />
-              <button
-                type="button"
-                onClick={handleDecodeVin}
-                disabled={vinState.status === 'loading' || form.vin.length < 17}
-                className="shrink-0 flex items-center gap-1.5 px-3 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 disabled:bg-slate-700 disabled:text-slate-500 text-white text-xs font-medium transition-all"
-              >
-                {vinState.status === 'loading' ? (
-                  <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                ) : (
-                  <ScanLine className="w-3.5 h-3.5" />
-                )}
-                Decode
-              </button>
+              <p className="text-xs text-slate-500 mt-2">
+                Enter the engine serial number for reference. MTXtrkr will use it to look up maintenance schedules.
+              </p>
             </div>
-            <div className="mt-2 min-h-[20px]">
-              {renderVinStatus()}
+          ) : (
+            /* VIN Decoder — for road vehicles */
+            <div className="p-4 rounded-xl bg-gradient-to-r from-blue-600/5 to-cyan-600/5 border border-blue-500/20">
+              <label className="block text-xs text-slate-400 mb-1.5 font-medium">
+                VIN Decoder <span className="text-slate-600 font-normal">(free NHTSA lookup)</span>
+              </label>
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  value={form.vin}
+                  onChange={e => handleVinChange(e.target.value)}
+                  placeholder="e.g. 1HGCM82633A004352"
+                  maxLength={17}
+                  className="flex-1 px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm font-mono tracking-wider placeholder:text-slate-600 placeholder:tracking-normal focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all uppercase"
+                />
+                <button
+                  type="button"
+                  onClick={handleDecodeVin}
+                  disabled={vinState.status === 'loading' || form.vin.length < 17}
+                  className="shrink-0 flex items-center gap-1.5 px-3 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 disabled:bg-slate-700 disabled:text-slate-500 text-white text-xs font-medium transition-all"
+                >
+                  {vinState.status === 'loading' ? (
+                    <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                  ) : (
+                    <ScanLine className="w-3.5 h-3.5" />
+                  )}
+                  Decode
+                </button>
+              </div>
+              <div className="mt-2 min-h-[20px]">
+                {renderVinStatus()}
+              </div>
             </div>
-          </div>
+          )}
 
           <div>
             <label className="block text-xs text-slate-400 mb-1.5 font-medium">Vehicle Name *</label>
