@@ -96,6 +96,20 @@ export default function App() {
       // else: keep the URL param so this effect re-runs when auth loads
     }
 
+    // Stripe checkout success — set premium when user returns from payment
+    if (params.get('payment_success') === 'true') {
+      localStorage.setItem(STORAGE_KEYS.PREMIUM_STATUS, 'true');
+      setPremium(true);
+      analytics.track('premium_activated', { method: 'stripe_checkout' });
+
+      // Only clear URL & persist to Supabase when auth is ready
+      if (auth.user?.id) {
+        supabase.from('profiles').upsert({ id: auth.user.id, premium: true });
+        window.history.replaceState({}, '', window.location.pathname);
+      }
+      // else: keep the URL param so this effect re-runs when auth loads
+    }
+
     // Premium restore URL — forces premium=true in both localStorage and Supabase
     // Use: visit https://mtxtrkr.vercel.app/?restore-premium=1 while signed in
     if (params.get('restore-premium') === '1') {
