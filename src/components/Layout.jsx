@@ -6,19 +6,19 @@ import { LayoutDashboard, Car, ClipboardList, Bell, Settings, LogOut, ChevronRig
 const allNavItems = [
   { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { id: 'vehicles', label: 'Garage', icon: Car },
-  { id: 'schedule', label: 'Schedule', icon: Calendar },
+  { id: 'schedule', label: 'Scheduled Maintenance', icon: Calendar },
   { id: 'fuel', label: 'Fuel', icon: Fuel },
   { id: 'logs', label: 'Service Logs', icon: ClipboardList },
-  { id: 'mods', label: 'Mods', icon: Wrench },
+  { id: 'mods', label: 'Performance Mods', icon: Wrench },
   { id: 'reminders', label: 'Reminders', icon: Bell },
 ];
 
 // Primary items shown in bottom nav; rest go in the More drawer
 const primaryNavItems = allNavItems.filter(i =>
-  ['dashboard', 'vehicles'].includes(i.id)
+  ['dashboard', 'vehicles', 'schedule', 'logs'].includes(i.id)
 );
 const moreNavItems = allNavItems.filter(i =>
-  ['schedule', 'fuel', 'logs', 'mods', 'reminders'].includes(i.id)
+  ['fuel', 'mods', 'reminders'].includes(i.id)
 );
 
 export default function Layout({ currentPage, onNavigate, onLogout, children }) {
