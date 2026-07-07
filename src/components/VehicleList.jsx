@@ -3,11 +3,25 @@ import { X, Car, Plus, Pencil, Trash2, ChevronRight, ScanLine, Loader2, CheckCir
 import { formatNumber } from '../utils/helpers';
 import { ManufacturerBadge } from '../utils/manufacturerBranding.jsx';
 import { decodeVin, isValidVin } from '../utils/vinDecoder.js';
+import { VEHICLE_TYPES } from '../utils/constants.js';
+
+// Map icon names to lucide-react components
+const TYPE_ICONS = { Car, Motorcycle };
 
 export default function VehicleList({ vehicles, onAdd, onEdit, onDelete, isPremium, vehicleCount, onNavigate }) {
   const [showForm, setShowForm] = useState(false);
   const [editingVehicle, setEditingVehicle] = useState(null);
   const [vehicleType, setVehicleType] = useState('car');
+  const [expandedTypes, setExpandedTypes] = useState(() => {
+    // Start with all types expanded
+    const init = {};
+    VEHICLE_TYPES.forEach(t => { init[t.id] = true; });
+    return init;
+  });
+
+  const toggleType = (typeId) => {
+    setExpandedTypes(prev => ({ ...prev, [typeId]: !prev[typeId] }));
+  };
 
   const handleAdd = (type = 'car') => {
     if (vehicles.length >= 1 && !isPremium) {
@@ -34,6 +48,16 @@ export default function VehicleList({ vehicles, onAdd, onEdit, onDelete, isPremi
     setEditingVehicle(null);
   };
 
+  // Group vehicles by type
+  const groupedByType = {};
+  VEHICLE_TYPES.forEach(t => { groupedByType[t.id] = []; });
+  vehicles.forEach(v => {
+    const type = v.type || 'car';
+    if (groupedByType[type]) groupedByType[type].push(v);
+  });
+
+  const hasAnyVehicles = vehicles.length > 0;
+
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
@@ -43,25 +67,9 @@ export default function VehicleList({ vehicles, onAdd, onEdit, onDelete, isPremi
             {vehicleCount} {vehicleCount === 1 ? 'vehicle' : 'vehicles'} tracked
           </p>
         </div>
-        <div className="flex gap-2">
-          <button
-            onClick={() => handleAdd('car')}
-            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-sm font-medium transition-all"
-          >
-            <Plus className="w-4 h-4" />
-            Add Car/Truck
-          </button>
-          <button
-            onClick={() => handleAdd('motorcycle')}
-            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-sm font-medium border border-slate-700 transition-all"
-          >
-            <Plus className="w-4 h-4" />
-            Add Motorcycle
-          </button>
-        </div>
       </div>
 
-      {vehicles.length === 0 ? (
+      {!hasAnyVehicles ? (
         <div className="text-center py-16">
           <div className="w-16 h-16 rounded-2xl bg-slate-800 flex items-center justify-center mx-auto mb-4">
             <Car className="w-8 h-8 text-slate-600" />
@@ -69,45 +77,82 @@ export default function VehicleList({ vehicles, onAdd, onEdit, onDelete, isPremi
           <p className="text-slate-400 mb-2">No vehicles yet</p>
           <p className="text-sm text-slate-600 mb-6">Add your first vehicle to get started</p>
           <div className="flex gap-3 justify-center">
-            <button
-              onClick={() => handleAdd('car')}
-              className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-sm font-medium transition-all"
-            >
-              <Plus className="w-4 h-4" />
-              Add Car/Truck
-            </button>
-            <button
-              onClick={() => handleAdd('motorcycle')}
-              className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-sm font-medium border border-slate-700 transition-all"
-            >
-              <Plus className="w-4 h-4" />
-              Add Motorcycle
-            </button>
+            {VEHICLE_TYPES.map(type => {
+              const Icon = TYPE_ICONS[type.icon];
+              return (
+                <button
+                  key={type.id}
+                  onClick={() => handleAdd(type.id)}
+                  className={`inline-flex items-center gap-2 px-6 py-2.5 rounded-xl ${type.color} text-white text-sm font-medium border ${type.border} transition-all`}
+                >
+                  {Icon && <Icon className="w-4 h-4" />}
+                  Add {type.label}
+                </button>
+              );
+            })}
           </div>
         </div>
       ) : (
-        <div className="grid sm:grid-cols-2 gap-4">
-          {vehicles.map(v => (
+        <div className="space-y-4">
+          {VEHICLE_TYPES.map(type => {
+            const typeVehicles = groupedByType[type.id] || [];
+            const isExpanded = expandedTypes[type.id];
+            const Icon = TYPE_ICONS[type.icon];
+
+            return (
+              <div key={type.id} className="rounded-2xl border border-slate-800 bg-slate-900/40 overflow-hidden">
+                {/* Folder Header */}
+                <div
+                  onClick={() => toggleType(type.id)}
+                  className="flex items-center justify-between p-4 cursor-pointer hover:bg-slate-800/40 transition-all"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-slate-800">
+                      {Icon && <Icon className="w-5 h-5 text-slate-400" />}
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-white text-sm">{type.label}s</h3>
+                      <p className="text-xs text-slate-500">{typeVehicles.length} {typeVehicles.length === 1 ? 'vehicle' : 'vehicles'}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={(e) => { e.stopPropagation(); handleAdd(type.id); }}
+                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-[10px] font-medium transition-all"
+                    >
+                      <Plus className="w-3 h-3" />
+                      Add {type.label}
+                    </button>
+                    <ChevronRight className={`w-4 h-4 text-slate-500 transition-transform ${isExpanded ? 'rotate-90' : ''}`} />
+                  </div>
+                </div>
+
+                {/* Vehicle List */}
+                {isExpanded && (
+                  <div className="px-4 pb-4 space-y-3">
+                    {typeVehicles.length > 0 ? (
+                      typeVehicles.map(v => (
             <div
               key={v.id}
               className="group p-5 rounded-2xl bg-slate-900/60 border border-slate-800 hover:border-blue-500/30 transition-all"
             >
               <div className="flex items-start justify-between mb-3">
                 <div className="flex items-center gap-3">
-                  {v.type === 'motorcycle' ? (
-                    <div className="w-10 h-10 rounded-xl bg-slate-800 flex items-center justify-center shrink-0">
-                      <Motorcycle className="w-5 h-5 text-slate-400" />
-                    </div>
-                  ) : (
-                    <ManufacturerBadge make={v.make} size={20} />
-                  )}
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <h3 className="font-semibold text-white text-sm">{v.name}</h3>
-                      {v.type === 'motorcycle' && (
-                        <span className="text-[9px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-400 font-medium uppercase tracking-wider">Moto</span>
-                      )}
-                    </div>
+                  {(() => {
+                    const vt = VEHICLE_TYPES.find(t => t.id === v.type) || VEHICLE_TYPES[0];
+                    const Icon = TYPE_ICONS[vt.icon];
+                    return (
+                      <>
+                        <div className="w-10 h-10 rounded-xl bg-slate-800 flex items-center justify-center shrink-0">
+                          {Icon && <Icon className="w-5 h-5 text-slate-400" />}
+                        </div>
+                        <div>
+                          <div className="flex items-center gap-2">
+                            <h3 className="font-semibold text-white text-sm">{v.name}</h3>
+                            {v.type && v.type !== 'car' && (
+                              <span className="text-[9px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-400 font-medium uppercase tracking-wider">{vt.label}</span>
+                            )}
+                          </div>
                     <p className="text-xs text-slate-500">
                       {v.year} {v.make} {v.model}
                     </p>
@@ -139,7 +184,17 @@ export default function VehicleList({ vehicles, onAdd, onEdit, onDelete, isPremi
                 )}
               </div>
             </div>
-          ))}
+                      ))
+                    ) : (
+                      <div className="text-center py-8 bg-slate-900/30 rounded-xl border border-slate-800">
+                        <p className="text-xs text-slate-500">No {type.label.toLowerCase()}s yet</p>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            );
+          })}
         </div>
       )}
 
@@ -259,7 +314,7 @@ function VehicleFormModal({ vehicle, onSave, onClose, initialType = 'car' }) {
       <div className="relative w-full sm:max-w-md bg-slate-900 border border-slate-800 rounded-t-2xl sm:rounded-2xl p-6 shadow-2xl animate-slide-up">
         <div className="flex items-center justify-between mb-6">
           <h3 className="text-lg font-bold text-white">
-            {vehicle ? 'Edit Vehicle' : form.type === 'motorcycle' ? 'Add Motorcycle' : 'Add Car/Truck'}
+            {vehicle ? 'Edit Vehicle' : `Add ${(() => { const vt = VEHICLE_TYPES.find(t => t.id === form.type) || VEHICLE_TYPES[0]; return vt.label; })()}`}
           </h3>
           <button onClick={onClose} className="p-1.5 rounded-lg hover:bg-slate-800 text-slate-400">
             <X className="w-5 h-5" />
