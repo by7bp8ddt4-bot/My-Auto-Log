@@ -6,18 +6,17 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY
 );
 
-// Create Gmail SMTP transporter (same sender as forgot password emails)
-const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST || 'smtp.gmail.com',
-  port: parseInt(process.env.SMTP_PORT || '587'),
-  secure: false,
-  auth: {
-    user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASS,
-  },
-});
-
 export default async function handler(req, res) {
+  // Health check — no auth needed, just verify the function is alive
+  if (req.query.health === '1') {
+    const config = {
+      supabaseConfigured: !!(process.env.VITE_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY),
+      smtpConfigured: !!(process.env.SMTP_USER && process.env.SMTP_PASS),
+      cronConfigured: !!process.env.CRON_SECRET,
+    };
+    return res.status(200).json({ status: 'ok', config });
+  }
+
   // Security check — only the cron job can call this
   const authHeader = req.headers['authorization'];
   if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
@@ -30,6 +29,25 @@ export default async function handler(req, res) {
   }
 
   try {
+    // Verify config is complete
+    if (!process.env.SMTP_USER || !process.env.SMTP_PASS) {
+      return res.status(500).json({ error: 'SMTP not configured — missing SMTP_USER or SMTP_PASS env vars' });
+    }
+
+    // Create transporter lazily (inside handler, not at module level)
+    const transporter = nodemailer.createTransport({
+      host: process.env.SMTP_HOST || 'smtp.gmail.com',
+      port: parseInt(process.env.SMTP_PORT || '587'),
+      secure: false,
+      auth: {
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS,
+      },
+    });
+
+    // Verify transporter works
+    await transporter.verify();
+
     // 1. Fetch all premium users with their profiles
     const { data: premiumUsers, error: userError } = await supabase
       .from('profiles')
@@ -80,7 +98,7 @@ export default async function handler(req, res) {
         ? `${recentLog.mileage.toLocaleString()} mi on ${recentLog.date}`
         : 'No service logs yet.';
 
-      const appUrl = 'https://mtxtrkr.vercel.app';
+      const appUrl = 'https://mtxtrkr.com';
 
       try {
         await transporter.sendMail({
@@ -89,21 +107,16 @@ export default async function handler(req, res) {
           subject: `📅 Time to update your mileage — MTXtrkr`,
           html: `
             <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 560px; margin: 0 auto; background: #f8fafc; border-radius: 16px; overflow: hidden;">
-              <!-- Header -->
               <div style="background: linear-gradient(135deg, #1e3a5f, #0f172a); padding: 32px 24px; text-align: center;">
                 <div style="font-size: 36px; margin-bottom: 8px;">⛽</div>
                 <h1 style="color: #ffffff; font-size: 20px; margin: 0; font-weight: 700;">Time for a Mileage Check-In</h1>
                 <p style="color: #94a3b8; font-size: 14px; margin: 8px 0 0;">Keep your maintenance schedule on track</p>
               </div>
-
-              <!-- Body -->
               <div style="padding: 24px;">
                 <p style="color: #334155; font-size: 15px; line-height: 1.6;">Hi there,</p>
                 <p style="color: #475569; font-size: 14px; line-height: 1.6;">
                   It's been a month — time to update your mileage in MTXtrkr so your maintenance schedule stays accurate.
                 </p>
-
-                <!-- Vehicle Summary -->
                 <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; margin: 16px 0;">
                   <h3 style="color: #0f172a; font-size: 13px; margin: 0 0 8px; text-transform: uppercase; letter-spacing: 0.5px;">
                     Your Vehicles (${vehicleCount})
@@ -117,15 +130,11 @@ export default async function handler(req, res) {
                     ${lastLogMileage}
                   </div>
                 </div>
-
-                <!-- CTA -->
                 <div style="text-align: center; margin: 24px 0;">
                   <a href="${appUrl}" style="display: inline-block; background: linear-gradient(135deg, #2563eb, #06b6d4); color: #ffffff; padding: 14px 32px; border-radius: 12px; text-decoration: none; font-size: 15px; font-weight: 600; box-shadow: 0 4px 12px rgba(37,99,235,0.3);">
                     Update Mileage Now
                   </a>
                 </div>
-
-                <!-- Why it matters -->
                 <div style="background: #f1f5f9; border-radius: 8px; padding: 12px; margin: 16px 0;">
                   <p style="color: #475569; font-size: 12px; margin: 0; line-height: 1.5;">
                     <strong>💡 Why this matters:</strong> Accurate mileage keeps your maintenance schedule, 
@@ -133,8 +142,6 @@ export default async function handler(req, res) {
                   </p>
                 </div>
               </div>
-
-              <!-- Footer -->
               <div style="background: #f1f5f9; padding: 20px 24px; text-align: center; border-top: 1px solid #e2e8f0;">
                 <p style="color: #94a3b8; font-size: 11px; margin: 0; line-height: 1.5;">
                   You're receiving this monthly reminder because you're a <strong>MTXtrkr Premium</strong> member.<br>
