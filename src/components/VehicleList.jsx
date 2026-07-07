@@ -157,6 +157,9 @@ export default function VehicleList({ vehicles, onAdd, onEdit, onDelete, isPremi
                       {v.year} {v.make} {v.model}
                     </p>
                   </div>
+                    </>
+                  );
+                })()}
                 </div>
                 <div className="flex gap-1">
                   <button
