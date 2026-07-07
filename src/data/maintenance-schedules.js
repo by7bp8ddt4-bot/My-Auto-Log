@@ -293,6 +293,138 @@ export const MAINTENANCE_SCHEDULES = {
       300: 'pacifica'
     }
   },
+  cat: {
+    specs: { oil: { viscosity: '15W-40', type: 'Diesel Engine Oil CJ-4', capacity: '7.0 gal' }, transmission: { type: 'Marine gearbox' }, coolant: { type: 'CAT Extended Life Coolant (ELC)' }, fuelFilters: { type: 'CAT 1R-0749 primary / 1R-0750 secondary' },
+      oilFilters: { type: 'CAT 3I-0852' }, airFilter: { type: 'CAT heavy-duty' }, valveAdjustment: { note: 'Required every 2000 hours' },
+      zincAnodes: { note: 'Inspect and replace annually in saltwater' }, impeller: { note: 'Raw water pump impeller' } },
+    models: {
+      'c7': [
+        { service: 'Oil & Filter Change', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 250 hours of operation. CAT diesel engine oil CJ-4 15W-40.' },
+        { service: 'Fuel Filter Replacement', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 500 hours. Replace primary and secondary fuel filters.' },
+        { service: 'Coolant Exchange', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 2000 hours or 3 years. CAT Extended Life Coolant (ELC).' },
+        { service: 'Valve Adjustment', intervalMiles: 0, intervalMonths: 0, severity: 'medium', description: 'Every 2000 hours. Inspect and adjust valve lash.' },
+        { service: 'Zinc Anode Replacement', intervalMiles: 0, intervalMonths: 6, severity: 'medium', description: 'Inspect every 6 months in saltwater. Replace if 50% consumed.' },
+        { service: 'Raw Water Impeller', intervalMiles: 0, intervalMonths: 12, severity: 'high', description: 'Replace annually. Critical for cooling system.' },
+        { service: 'Inspection', intervalMiles: 0, intervalMonths: 0, severity: 'low', description: 'Every 250 hours. Check belts, hoses, clamps, and seawater system.' },
+      ],
+      'c9': 'cat.c7', 'c12': 'cat.c7', 'c18': 'cat.c7', 'c32': 'cat.c7',
+      'c4.4': 'cat.c7', 'c6.6': 'cat.c7', 'c8.7': 'cat.c7'
+    }
+  },
+  cummins: {
+    specs: { oil: { viscosity: '15W-40', type: 'Diesel Engine Oil CJ-4/CH-4', capacity: '6.0 gal' }, transmission: { type: 'ZF Marine / Twin Disc' }, coolant: { type: 'Fleetguard ES Compleat OAT' },
+      fuelFilters: { type: 'Fleetguard FS1000 / FF5320' }, oilFilters: { type: 'Fleetguard LF3000' }, airFilter: { type: 'Fleetguard heavy-duty' },
+      zincAnodes: { note: 'Inspect annually' }, impeller: { note: 'Raw water pump impeller' }, aftercooler: { note: 'Inspect and clean annually' } },
+    models: {
+      'qsb': [
+        { service: 'Oil & Filter Change', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 250 hours. Cummins approved CJ-4 15W-40 diesel oil.' },
+        { service: 'Fuel Filter Replacement', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 500 hours. Replace primary and secondary Fleetguard filters.' },
+        { service: 'Coolant Exchange', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 2000 hours or 2 years. Fleetguard ES Compleat OAT.' },
+        { service: 'Aftercooler Service', intervalMiles: 0, intervalMonths: 12, severity: 'high', description: 'Inspect and clean aftercooler core annually. Prevents seawater corrosion.' },
+        { service: 'Zinc Anode Replacement', intervalMiles: 0, intervalMonths: 6, severity: 'medium', description: 'Inspect every 6 months. Replace as needed for corrosion protection.' },
+        { service: 'Raw Water Impeller', intervalMiles: 0, intervalMonths: 12, severity: 'high', description: 'Replace annually. Critical seawater cooling circulation.' },
+        { service: 'Valve Adjustment', intervalMiles: 0, intervalMonths: 0, severity: 'medium', description: 'Every 2000 hours. Check and adjust valve lash.' },
+        { service: 'Inspection', intervalMiles: 0, intervalMonths: 0, severity: 'low', description: 'Every 250 hours. Check hoses, belts, and seawater strainer.' },
+      ],
+      'qsl': 'cummins.qsb', 'qsm11': 'cummins.qsb', 'qsx15': 'cummins.qsb',
+      '6bta': 'cummins.qsb', '6cta': 'cummins.qsb'
+    }
+  },
+  yamaha: {
+    specs: { oil: { viscosity: '10W-30', type: 'Yamalube 4M FC-W', capacity: '5.3 qt' }, gearOil: { type: 'Yamalube Marine Gear Oil' }, coolant: { type: 'Yamaha Long Life Coolant' },
+      sparkPlugs: { type: 'NGK Iridium', gap: '0.044 in' }, fuelFilters: { type: 'Yamaha 10 micron' }, impeller: { note: 'Water pump impeller' },
+      zincAnodes: { note: 'Replace annually' }, timingBelt: { note: '4-stroke outboards — check every 1000 hours' } },
+    models: {
+      'f115': [
+        { service: 'Oil & Filter Change', intervalMiles: 0, intervalMonths: 6, severity: 'high', description: 'Every 100 hours or annually. Use Yamalube 4M FC-W 10W-30.' },
+        { service: 'Gear Oil Change', intervalMiles: 0, intervalMonths: 12, severity: 'high', description: 'Every 100 hours or annually. Yamalube Marine Gear Oil.' },
+        { service: 'Water Pump Impeller', intervalMiles: 0, intervalMonths: 24, severity: 'high', description: 'Replace every 300 hours or 3 years. Critical for cooling.' },
+        { service: 'Spark Plugs', intervalMiles: 0, intervalMonths: 0, severity: 'medium', description: 'Every 200 hours. NGK Iridium plugs.' },
+        { service: 'Fuel Filter Replacement', intervalMiles: 0, intervalMonths: 12, severity: 'medium', description: 'Replace annually. 10 micron Yamaha fuel filter.' },
+        { service: 'Zinc Anode Replacement', intervalMiles: 0, intervalMonths: 12, severity: 'medium', description: 'Replace annually. Critical in saltwater operation.' },
+        { service: 'Valve Adjustment', intervalMiles: 0, intervalMonths: 0, severity: 'medium', description: 'Every 500 hours. Check intake and exhaust valve clearance.' },
+        { service: 'Timing Belt Inspection', intervalMiles: 0, intervalMonths: 0, severity: 'medium', description: 'Every 1000 hours. Inspect 4-stroke timing mechanism.' },
+        { service: 'Inspection', intervalMiles: 0, intervalMonths: 6, severity: 'low', description: 'Bi-annual inspection. Check fuel lines, hoses, electrical connections.' },
+      ],
+      'f150': 'yamaha.f115', 'f200': 'yamaha.f115', 'f250': 'yamaha.f115',
+      'f300': 'yamaha.f115', 'f70': 'yamaha.f115'
+    }
+  },
+  mercury: {
+    specs: { oil: { viscosity: '10W-30', type: 'Mercury MerCruiser Full Synthetic', capacity: '6.0 qt' }, gearOil: { type: 'Mercury High Performance Gear Oil' }, coolant: { type: 'Mercury Extended Life Coolant' },
+      sparkPlugs: { type: 'NGK Iridium', gap: '0.035 in' }, fuelFilters: { type: 'Mercury 10 micron water-separating' },
+      impeller: { note: 'Water pump impeller' }, zincAnodes: { note: 'Replace annually' } },
+    models: {
+      'verado': [
+        { service: 'Oil & Filter Change', intervalMiles: 0, intervalMonths: 6, severity: 'high', description: 'Every 100 hours or annually. Mercury Full Synthetic 10W-30.' },
+        { service: 'Gear Oil Change', intervalMiles: 0, intervalMonths: 12, severity: 'high', description: 'Every 100 hours or annually. Mercury High Performance Gear Oil.' },
+        { service: 'Water Pump Impeller', intervalMiles: 0, intervalMonths: 24, severity: 'high', description: 'Replace every 300 hours. Critical for Verado supercharged cooling.' },
+        { service: 'Spark Plugs', intervalMiles: 0, intervalMonths: 0, severity: 'medium', description: 'Every 200 hours. NGK Iridium plugs.' },
+        { service: 'Fuel/Water Separator', intervalMiles: 0, intervalMonths: 12, severity: 'medium', description: 'Replace annually. Mercury 10 micron water-separating filter.' },
+        { service: 'Zinc Anode Replacement', intervalMiles: 0, intervalMonths: 12, severity: 'medium', description: 'Replace annually. Saltwater protection.' },
+        { service: 'Supercharger Belt', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 300 hours. Inspect and replace Verado supercharger belt.' },
+        { service: 'Inspection', intervalMiles: 0, intervalMonths: 6, severity: 'low', description: 'Bi-annual check of electrical, cooling, and fuel systems.' },
+      ],
+      'pro xs': 'mercury.verado',
+      'fourstroke': 'mercury.verado',
+      'optipop': 'mercury.verado'
+    }
+  },
+  'john-deere': {
+    specs: { oil: { viscosity: '15W-40', type: 'John Deere Plus-50 II', capacity: '5.0 gal' }, transmission: { type: 'Hy-Gard Transmission & Hydraulic Oil' }, coolant: { type: 'John Deere Cool-Gard II' },
+      fuelFilters: { type: 'John Deere original' }, oilFilters: { type: 'John Deere original' },
+      airFilter: { type: 'John Deere heavy-duty' }, battery: { groupSize: 'Group 94R' }, tirePressure: { psi: 30 } },
+    models: {
+      '6r': [
+        { service: 'Oil & Filter Change', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 250 hours. John Deere Plus-50 II 15W-40.' },
+        { service: 'Fuel Filter Replacement', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 500 hours. Replace both primary and secondary filters.' },
+        { service: 'Hydraulic Oil Change', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 1500 hours. John Deere Hy-Gard hydraulic/transmission oil.' },
+        { service: 'Coolant Exchange', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 2000 hours. Cool-Gard II extended life.' },
+        { service: 'Air Filter Replacement', intervalMiles: 0, intervalMonths: 0, severity: 'medium', description: 'Every 500 hours or when indicator says so.' },
+        { service: 'Battery Check', intervalMiles: 0, intervalMonths: 6, severity: 'low', description: 'Check terminals and charge every 6 months.' },
+        { service: 'Tire Pressure Check', intervalMiles: 0, intervalMonths: 0, severity: 'low', description: 'Check daily for proper inflation.' },
+        { service: 'Inspection', intervalMiles: 0, intervalMonths: 0, severity: 'low', description: 'Every 250 hours. Full inspection of belts, hoses, controls.' },
+      ],
+      '5r': 'john-deere.6r', '7r': 'john-deere.6r', '8r': 'john-deere.6r',
+      '9r': 'john-deere.6r'
+    }
+  },
+  kubota: {
+    specs: { oil: { viscosity: '10W-30', type: 'Kubota UDT / Super UDT', capacity: '3.5 gal' }, transmission: { type: 'Kubota Super UDT2' }, coolant: { type: 'Kubota Long Life Coolant' },
+      fuelFilters: { type: 'Kubota original' }, oilFilters: { type: 'Kubota original' },
+      airFilter: { type: 'Kubota heavy-duty dry' }, battery: { groupSize: 'Group 27' } },
+    models: {
+      'lx3310': [
+        { service: 'Oil & Filter Change', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 200 hours. Kubota UDT or Super UDT 10W-30.' },
+        { service: 'Fuel Filter Replacement', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 400 hours. Replace Kubota original fuel filter.' },
+        { service: 'Transmission Fluid Change', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 400 hours. Kubota Super UDT2 hydraulic/transmission fluid.' },
+        { service: 'Coolant Exchange', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 2000 hours. Kubota Long Life Coolant.' },
+        { service: 'Air Filter Replacement', intervalMiles: 0, intervalMonths: 0, severity: 'medium', description: 'Every 400 hours or when indicator shows restricted.' },
+        { service: 'Battery Check', intervalMiles: 0, intervalMonths: 6, severity: 'low', description: 'Check terminals and charge every 6 months.' },
+        { service: 'Inspection', intervalMiles: 0, intervalMonths: 0, severity: 'low', description: 'Every 200 hours. Check belts, hoses, fluid levels.' },
+      ],
+      'l4701': 'kubota.lx3310', 'mx5200': 'kubota.lx3310',
+      'b2601': 'kubota.lx3310', 'z700': 'kubota.lx3310'
+    }
+  },
+  yanmar: {
+    specs: { oil: { viscosity: '15W-40', type: 'Diesel Engine Oil CF-4/CH-4', capacity: '4.0 gal' }, transmission: { type: 'ZF Marine / Yanmar KM series' }, coolant: { type: 'Yanmar Long Life Coolant' },
+      fuelFilters: { type: 'Yanmar Y-1001 primary / Y-1002 secondary' }, oilFilters: { type: 'Yanmar Y-2001' },
+      zincAnodes: { note: 'Inspect annually' }, impeller: { note: 'Raw water pump impeller' } },
+    models: {
+      '4jh': [
+        { service: 'Oil & Filter Change', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 250 hours. Diesel engine oil CF-4/CH-4 15W-40.' },
+        { service: 'Fuel Filter Replacement', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 500 hours. Replace primary and secondary Yanmar fuel filters.' },
+        { service: 'Coolant Exchange', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 2000 hours or 2 years. Yanmar Long Life Coolant.' },
+        { service: 'Raw Water Impeller', intervalMiles: 0, intervalMonths: 12, severity: 'high', description: 'Replace annually. Critical for saltwater cooling.' },
+        { service: 'Zinc Anode Replacement', intervalMiles: 0, intervalMonths: 6, severity: 'medium', description: 'Inspect every 6 months. Replace if 50% consumed.' },
+        { service: 'Valve Adjustment', intervalMiles: 0, intervalMonths: 0, severity: 'medium', description: 'Every 1000 hours. Check and adjust valve clearance.' },
+        { service: 'Inspection', intervalMiles: 0, intervalMonths: 0, severity: 'low', description: 'Every 250 hours. Check seawater system, hoses, belts.' },
+      ],
+      '3ym30': 'yanmar.4jh', '4jh5': 'yanmar.4jh', '6lp': 'yanmar.4jh',
+      '6ly': 'yanmar.4jh'
+    }
+  },
   default: {
     specs: { oil: { viscosity: '5W-30', type: 'Conventional/Synthetic Blend', capacity: '5.0 qt' }, transmission: { type: "Check owner's manual" }, coolant: { type: 'Universal OAT' }, brakeFluid: { type: 'DOT 3' }, tirePressure: { psi: 34 }, sparkPlugs: { type: 'Iridium', gap: '0.044 in' }, battery: { groupSize: 'Group 35' } },
     services: [
