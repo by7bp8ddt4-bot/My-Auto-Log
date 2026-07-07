@@ -63,7 +63,7 @@ export default function VehicleList({ vehicles, onAdd, onEdit, onDelete, isPremi
     <div>
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h2 className="text-xl font-bold text-white">My Vehicles</h2>
+          <h2 className="text-xl font-bold text-white">Garage</h2>
           <p className="text-sm text-slate-400 mt-0.5">
             {vehicleCount} {vehicleCount === 1 ? 'vehicle' : 'vehicles'} tracked
           </p>
