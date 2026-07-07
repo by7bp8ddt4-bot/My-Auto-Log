@@ -78,8 +78,46 @@ export function useMaintenanceSchedule(vehicle, logs = []) {
   return useMemo(() => {
     if (!vehicle) return [];
 
-    const schedule = getScheduleForVehicle(vehicle.make, vehicle.model);
+    const baseSchedule = getScheduleForVehicle(vehicle.make, vehicle.model);
     const vehicleLogs = logs.filter(log => log.vehicleId === vehicle.id);
+
+    // Build a dynamic schedule enriched by VIN-decoded drivetrain data
+    const schedule = [...baseSchedule];
+    const vinData = vehicle.vinDecoded;
+
+    if (vinData?.driveType) {
+      const dt = vinData.driveType.toLowerCase();
+      const is4wd = dt.includes('4wd') || dt.includes('4-wheel') || dt.includes('4x4') || dt.includes('all-wheel') || dt.includes('awd');
+
+      if (is4wd) {
+        const hasDifferential = schedule.some(s => s.service.toLowerCase().includes('differential'));
+        if (!hasDifferential) {
+          schedule.push(
+            { service: 'Front Differential Fluid', intervalMiles: 50000, intervalMonths: 48, severity: 'medium', description: 'Protects front differential gears.' },
+            { service: 'Rear Differential Fluid', intervalMiles: 50000, intervalMonths: 48, severity: 'medium', description: 'Fresh fluid prevents rear axle gear wear.' },
+          );
+        }
+        // Transfer case for 4x4 specifically
+        if (dt.includes('4wd') || dt.includes('4-wheel') || dt.includes('4x4')) {
+          const hasTransferCase = schedule.some(s => s.service.toLowerCase().includes('transfer case'));
+          if (!hasTransferCase) {
+            schedule.push(
+              { service: 'Transfer Case Fluid', intervalMiles: 50000, intervalMonths: 48, severity: 'medium', description: 'Keeps 4x4 transfer case operating smoothly.' },
+            );
+          }
+        }
+      }
+    }
+
+    // Check if vehicle has a manual transmission
+    if (vinData?.transmission?.toLowerCase().includes('manual')) {
+      const hasClutch = schedule.some(s => s.service.toLowerCase().includes('clutch'));
+      if (!hasClutch) {
+        schedule.push(
+          { service: 'Clutch Inspection', intervalMiles: 60000, intervalMonths: 60, severity: 'medium', description: 'Check clutch wear and adjustment for manual transmission.' },
+        );
+      }
+    }
 
     return schedule.map(item => {
       // Find the last time this specific service was performed
