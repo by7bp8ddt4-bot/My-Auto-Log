@@ -1,10 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import {
   X, Plus, ClipboardList, Trash2, FileText, Upload, Calendar, DollarSign,
   Gauge, CheckCircle2, Loader2, Pencil, Cloud, ScanLine
 } from 'lucide-react';
 import { formatDate, formatCurrency, formatNumber, getLocalDateString } from '../utils/helpers';
-import { SERVICE_TYPES, VEHICLE_TYPES } from '../utils/constants';
+import { SERVICE_TYPES } from '../utils/constants';
 import ReceiptScanner from './ReceiptScanner.jsx';
 
 import oilIcon from '../assets/folder-icons/oil-drop.svg';
@@ -92,25 +92,8 @@ export default function MaintenanceLog({ logs, vehicles, onAdd, onUpdate, onDele
     return acc;
   }, {});
 
-  // Get selected vehicle's type config to filter irrelevant folders
-  const selectedVehicle = selectedVehicleId ? vehicles.find(v => v.id === selectedVehicleId) : null;
-  const vehicleTypeConfig = selectedVehicle
-    ? VEHICLE_TYPES.find(t => t.id === (selectedVehicle.type || 'car'))
-    : null;
-  const excludedTypes = vehicleTypeConfig?.excludedServiceTypes || [];
-
   // Ensure all relevant folder types are always visible, even when empty
-  const allFolderTypes = FOLDER_DEFS.map(f => f.type).filter(t => {
-    if (t === 'All Records') return false;
-    // Check if this folder's services are all excluded
-    const servicesInFolder = Object.entries(FOLDER_MAP)
-      .filter(([_, folder]) => folder === t)
-      .map(([service]) => service);
-    // If ALL services in this folder are excluded, hide the folder
-    // But always show Engine Service (catch-all) and Oil & Filter Change
-    if (t === 'Engine Service' || t === 'Oil & Filter Change') return true;
-    return !servicesInFolder.every(s => excludedTypes.includes(s));
-  });
+  const allFolderTypes = FOLDER_DEFS.map(f => f.type).filter(t => t !== 'All Records');
   allFolderTypes.forEach(folderType => {
     if (!groupedLogs[folderType]) {
       groupedLogs[folderType] = { type: folderType, logs: [], totalCost: 0, lastDate: null };
@@ -459,21 +442,6 @@ function MaintenanceFormModal({ vehicles, initialData, initialVehicleId, isEditi
   const [uploadProgress, setUploadProgress] = useState(null);
   const [uploadComplete, setUploadComplete] = useState(false);
 
-  // Filter service types based on selected vehicle's type
-  const selectedFormVehicle = vehicles.find(v => v.id === form.vehicleId);
-  const formVehicleTypeConfig = VEHICLE_TYPES.find(t => t.id === (selectedFormVehicle?.type || 'car'));
-  const availableServiceTypes = SERVICE_TYPES.filter(
-    st => !formVehicleTypeConfig?.excludedServiceTypes?.includes(st)
-  );
-
-  // Clear invalid service types when vehicle changes
-  useEffect(() => {
-    setForm(f => ({
-      ...f,
-      serviceTypes: f.serviceTypes.filter(st => availableServiceTypes.includes(st)),
-    }));
-  }, [form.vehicleId]);
-
   const toggleServiceType = (type) => {
     setForm(f => {
       const current = f.serviceTypes;
@@ -581,7 +549,7 @@ function MaintenanceFormModal({ vehicles, initialData, initialVehicleId, isEditi
               Service Type(s) * <span className="text-slate-500 font-normal">(select one or more)</span>
             </label>
             <div className="grid grid-cols-2 gap-1.5 max-h-48 overflow-y-auto p-1 rounded-xl bg-slate-900/50 border border-slate-800">
-              {availableServiceTypes.map(type => {
+              {SERVICE_TYPES.map(type => {
                 const config = getServiceConfig(type);
                 const isSelected = form.serviceTypes.includes(type);
                 return (
