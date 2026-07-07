@@ -19,11 +19,11 @@ export default function SyncIndicator({ isOnline, syncing, lastSync, pendingChan
       : 'Offline — Caching locally';
 
   return (
-    <div className="fixed bottom-4 right-4 z-50 flex flex-col items-end gap-2">
+    <div className="fixed top-14 left-4 z-50 flex flex-col items-start gap-2">
       {/* Main Status Badge */}
       <div
         className={`
-          flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium shadow-lg backdrop-blur-sm transition-all duration-300 cursor-pointer
+          flex items-center gap-2 px-2.5 py-1 rounded-lg text-[10px] font-medium shadow-lg backdrop-blur-sm transition-all duration-300 cursor-pointer
           ${syncing ? 'bg-blue-500/20 text-blue-300 border border-blue-500/30' :
             actuallyOnline ? 'bg-emerald-500/15 text-emerald-300 border border-emerald-500/30' :
             'bg-amber-500/20 text-amber-300 border border-amber-500/30'}
@@ -32,23 +32,22 @@ export default function SyncIndicator({ isOnline, syncing, lastSync, pendingChan
       >
         {syncing ? (
           <>
-            <Loader2 className="w-3.5 h-3.5 animate-spin" />
-            <span>Syncing...</span>
+            <Loader2 className="w-3 h-3 animate-spin" />
+            <span className="hidden sm:inline">Syncing...</span>
           </>
         ) : actuallyOnline ? (
           <>
             {pendingChanges > 0 ? (
-              <Cloud className="w-3.5 h-3.5" />
+              <Cloud className="w-3 h-3" />
             ) : (
-              <CheckCircle2 className="w-3.5 h-3.5" />
+              <CheckCircle2 className="w-3 h-3" />
             )}
             <span className="hidden sm:inline">{indicatorText}</span>
-            <span className="hidden sm:inline opacity-60">{lastSyncStr}</span>
           </>
         ) : (
           <>
-            <WifiOff className="w-3.5 h-3.5" />
-            <span className="hidden sm:inline">Offline — Caching locally</span>
+            <WifiOff className="w-3 h-3" />
+            <span className="hidden sm:inline">Offline</span>
           </>
         )}
       </div>
