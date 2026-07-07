@@ -1,10 +1,10 @@
 import logoImg from '/assets/logo.png';
 import iconImg from '/assets/icon-1024.png';
-import { LayoutDashboard, Truck, ClipboardList, Bell, Settings, LogOut, ChevronRight, Calendar, Fuel, Wrench } from 'lucide-react';
+import { LayoutDashboard, Car, ClipboardList, Bell, Settings, LogOut, ChevronRight, Calendar, Fuel, Wrench } from 'lucide-react';
 
 const navItems = [
   { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
-  { id: 'vehicles', label: 'My Vehicles', icon: Truck },
+  { id: 'vehicles', label: 'My Vehicles', icon: Car },
   { id: 'schedule', label: 'Schedule', icon: Calendar },
   { id: 'fuel', label: 'Fuel', icon: Fuel },
   { id: 'logs', label: 'Service Logs', icon: ClipboardList },
@@ -51,7 +51,7 @@ export default function Layout({ currentPage, onNavigate, onLogout, children }) 
 
       {/* Bottom Navigation (Mobile) */}
       <nav className="fixed bottom-0 left-0 right-0 bg-slate-900/95 backdrop-blur-md border-t border-slate-800 z-40 md:hidden">
-        <div className="flex items-center justify-start gap-1 h-16 px-2 overflow-x-auto scrollbar-hide">
+        <div className="flex items-center justify-around h-14 px-1 overflow-x-auto scrollbar-hide">
           {navItems.map(item => {
             const Icon = item.icon;
             const isActive = currentPage === item.id;
@@ -59,15 +59,15 @@ export default function Layout({ currentPage, onNavigate, onLogout, children }) 
               <button
                 key={item.id}
                 onClick={() => onNavigate(item.id)}
-                className={`flex flex-col items-center gap-0.5 py-1 px-3 rounded-xl transition-all ${
+                className={`flex flex-col items-center justify-center gap-px py-1 px-1.5 rounded-lg transition-all min-w-0 flex-shrink-0 ${
                   isActive
                     ? 'text-blue-400'
                     : 'text-slate-500 hover:text-slate-300'
                 }`}
               >
-                <Icon className={`w-5 h-5 ${isActive ? 'drop-shadow-[0_0_8px_rgba(59,130,246,0.5)]' : ''}`} />
-                <span className="text-[10px] font-medium">{item.label}</span>
-                {isActive && <div className="w-1 h-1 rounded-full bg-blue-400 mt-0.5" />}
+                <Icon className={`w-4.5 h-4.5 ${isActive ? 'drop-shadow-[0_0_8px_rgba(59,130,246,0.5)]' : ''}`} />
+                <span className="text-[9px] font-medium leading-tight whitespace-nowrap">{item.label}</span>
+                {isActive && <div className="w-0.5 h-0.5 rounded-full bg-blue-400" />}
               </button>
             );
           })}
