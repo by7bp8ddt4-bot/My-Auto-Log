@@ -112,7 +112,7 @@ export default function VehicleList({ vehicles, onAdd, onEdit, onDelete, isPremi
                       {Icon && <Icon className="w-5 h-5 text-slate-400" />}
                     </div>
                     <div>
-                      <h3 className="font-semibold text-white text-sm">{type.label}s</h3>
+                      <h3 className="font-semibold text-white text-sm">{type.plural || type.label + 's'}</h3>
                       <p className="text-xs text-slate-500">{typeVehicles.length} {typeVehicles.length === 1 ? 'vehicle' : 'vehicles'}</p>
                     </div>
                   </div>
@@ -191,7 +191,7 @@ export default function VehicleList({ vehicles, onAdd, onEdit, onDelete, isPremi
                       ))
                     ) : (
                       <div className="text-center py-8 bg-slate-900/30 rounded-xl border border-slate-800">
-                        <p className="text-xs text-slate-500">No {type.label.toLowerCase()}s yet</p>
+                        <p className="text-xs text-slate-500">No {(type.plural || type.label + 's').toLowerCase()} yet</p>
                       </div>
                     )}
                   </div>
@@ -350,6 +350,24 @@ function VehicleFormModal({ vehicle, onSave, onClose, initialType = 'car' }) {
               />
               <p className="text-xs text-slate-500 mt-2">
                 Enter the engine serial number for reference. MTXtrkr will use it to look up maintenance schedules.
+              </p>
+            </div>
+          ) : form.type === 'watercraft' ? (
+            /* HIN Decoder — for personal watercraft */
+            <div className="p-4 rounded-xl bg-gradient-to-r from-cyan-600/5 to-teal-600/5 border border-cyan-500/20">
+              <label className="block text-xs text-slate-400 mb-1.5 font-medium">
+                HIN (Hull Identification Number) <span className="text-slate-600 font-normal">(for lookup)</span>
+              </label>
+              <input
+                type="text"
+                value={form.vin}
+                onChange={e => setForm(f => ({ ...f, vin: e.target.value.toUpperCase().slice(0, 12) }))}
+                placeholder="e.g. USCCP1234J899"
+                maxLength={12}
+                className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm font-mono tracking-wider placeholder:text-slate-600 placeholder:tracking-normal focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all uppercase"
+              />
+              <p className="text-xs text-slate-500 mt-2">
+                Enter the 12-character HIN. Usually found on the stern or transom of your watercraft.
               </p>
             </div>
           ) : (
