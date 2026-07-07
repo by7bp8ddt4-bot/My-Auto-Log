@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { X, Car, Plus, Pencil, Trash2, ChevronRight, ScanLine, Loader2, CheckCircle2, AlertCircle } from 'lucide-react';
+import { X, Car, Plus, Pencil, Trash2, ChevronRight, ScanLine, Loader2, CheckCircle2, AlertCircle, Motorcycle } from 'lucide-react';
 import { formatNumber } from '../utils/helpers';
 import { ManufacturerBadge } from '../utils/manufacturerBranding.jsx';
 import { decodeVin, isValidVin } from '../utils/vinDecoder.js';
@@ -7,12 +7,14 @@ import { decodeVin, isValidVin } from '../utils/vinDecoder.js';
 export default function VehicleList({ vehicles, onAdd, onEdit, onDelete, isPremium, vehicleCount, onNavigate }) {
   const [showForm, setShowForm] = useState(false);
   const [editingVehicle, setEditingVehicle] = useState(null);
+  const [vehicleType, setVehicleType] = useState('car');
 
-  const handleAdd = () => {
+  const handleAdd = (type = 'car') => {
     if (vehicles.length >= 1 && !isPremium) {
       onNavigate('premium');
       return;
     }
+    setVehicleType(type);
     setEditingVehicle(null);
     setShowForm(true);
   };
@@ -41,13 +43,22 @@ export default function VehicleList({ vehicles, onAdd, onEdit, onDelete, isPremi
             {vehicleCount} {vehicleCount === 1 ? 'vehicle' : 'vehicles'} tracked
           </p>
         </div>
-        <button
-          onClick={handleAdd}
-          className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-sm font-medium transition-all"
-        >
-          <Plus className="w-4 h-4" />
-          Add Vehicle
-        </button>
+        <div className="flex gap-2">
+          <button
+            onClick={() => handleAdd('car')}
+            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-sm font-medium transition-all"
+          >
+            <Plus className="w-4 h-4" />
+            Add Car/Truck
+          </button>
+          <button
+            onClick={() => handleAdd('motorcycle')}
+            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-sm font-medium border border-slate-700 transition-all"
+          >
+            <Plus className="w-4 h-4" />
+            Add Motorcycle
+          </button>
+        </div>
       </div>
 
       {vehicles.length === 0 ? (
@@ -57,13 +68,22 @@ export default function VehicleList({ vehicles, onAdd, onEdit, onDelete, isPremi
           </div>
           <p className="text-slate-400 mb-2">No vehicles yet</p>
           <p className="text-sm text-slate-600 mb-6">Add your first vehicle to get started</p>
-          <button
-            onClick={handleAdd}
-            className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-sm font-medium transition-all"
-          >
-            <Plus className="w-4 h-4" />
-            Add Your First Vehicle
-          </button>
+          <div className="flex gap-3 justify-center">
+            <button
+              onClick={() => handleAdd('car')}
+              className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-sm font-medium transition-all"
+            >
+              <Plus className="w-4 h-4" />
+              Add Car/Truck
+            </button>
+            <button
+              onClick={() => handleAdd('motorcycle')}
+              className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-sm font-medium border border-slate-700 transition-all"
+            >
+              <Plus className="w-4 h-4" />
+              Add Motorcycle
+            </button>
+          </div>
         </div>
       ) : (
         <div className="grid sm:grid-cols-2 gap-4">
@@ -74,9 +94,20 @@ export default function VehicleList({ vehicles, onAdd, onEdit, onDelete, isPremi
             >
               <div className="flex items-start justify-between mb-3">
                 <div className="flex items-center gap-3">
-                  <ManufacturerBadge make={v.make} size={20} />
+                  {v.type === 'motorcycle' ? (
+                    <div className="w-10 h-10 rounded-xl bg-slate-800 flex items-center justify-center shrink-0">
+                      <Motorcycle className="w-5 h-5 text-slate-400" />
+                    </div>
+                  ) : (
+                    <ManufacturerBadge make={v.make} size={20} />
+                  )}
                   <div>
-                    <h3 className="font-semibold text-white text-sm">{v.name}</h3>
+                    <div className="flex items-center gap-2">
+                      <h3 className="font-semibold text-white text-sm">{v.name}</h3>
+                      {v.type === 'motorcycle' && (
+                        <span className="text-[9px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-400 font-medium uppercase tracking-wider">Moto</span>
+                      )}
+                    </div>
                     <p className="text-xs text-slate-500">
                       {v.year} {v.make} {v.model}
                     </p>
@@ -116,6 +147,7 @@ export default function VehicleList({ vehicles, onAdd, onEdit, onDelete, isPremi
       {showForm && (
         <VehicleFormModal
           vehicle={editingVehicle}
+          initialType={vehicleType}
           onSave={handleSubmit}
           onClose={() => { setShowForm(false); setEditingVehicle(null); }}
         />
@@ -124,7 +156,7 @@ export default function VehicleList({ vehicles, onAdd, onEdit, onDelete, isPremi
   );
 }
 
-function VehicleFormModal({ vehicle, onSave, onClose }) {
+function VehicleFormModal({ vehicle, onSave, onClose, initialType = 'car' }) {
   const [form, setForm] = useState({
     name: vehicle?.name || '',
     make: vehicle?.make || '',
@@ -135,6 +167,7 @@ function VehicleFormModal({ vehicle, onSave, onClose }) {
     purchaseDate: vehicle?.purchaseDate || '',
     purchaseMileage: vehicle?.purchaseMileage || '',
     vin: vehicle?.vin || '',
+    type: vehicle?.type || initialType || 'car',
   });
   const [vinState, setVinState] = useState({ status: 'idle', message: '', data: null }); // idle | loading | success | error
 
@@ -226,7 +259,7 @@ function VehicleFormModal({ vehicle, onSave, onClose }) {
       <div className="relative w-full sm:max-w-md bg-slate-900 border border-slate-800 rounded-t-2xl sm:rounded-2xl p-6 shadow-2xl animate-slide-up">
         <div className="flex items-center justify-between mb-6">
           <h3 className="text-lg font-bold text-white">
-            {vehicle ? 'Edit Vehicle' : 'Add Vehicle'}
+            {vehicle ? 'Edit Vehicle' : form.type === 'motorcycle' ? 'Add Motorcycle' : 'Add Car/Truck'}
           </h3>
           <button onClick={onClose} className="p-1.5 rounded-lg hover:bg-slate-800 text-slate-400">
             <X className="w-5 h-5" />
