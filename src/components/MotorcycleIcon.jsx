@@ -13,22 +13,24 @@ export default function MotorcycleIcon({ className = 'w-5 h-5', ...props }) {
       className={className}
       {...props}
     >
-      {/* Rear wheel */}
+      {/* Wheels (radius 3.5, centered at y=16) */}
       <circle cx="6" cy="16" r="3.5" />
-      {/* Front wheel */}
       <circle cx="18" cy="16" r="3.5" />
-      {/* Frame - seat to rear axle */}
-      <line x1="6" y1="16" x2="10.5" y2="10" />
-      {/* Frame - seat to front */}
-      <line x1="10.5" y1="10" x2="16" y2="10" />
-      {/* Front fork */}
-      <line x1="16" y1="10" x2="18" y2="13" />
+      
+      {/* Swingarm & Engine Cradle */}
+      <path d="M6 16h6.5l1.5-3.5h-5.5" />
+      
+      {/* Seat and Tank Line */}
+      <path d="M7 11.5c2.5 0 3.5-1.5 6.5-1.5h2.5" />
+      
       {/* Handlebars */}
-      <line x1="15" y1="7.5" x2="18" y2="8.5" />
-      {/* Seat */}
-      <path d="M9 10.5c1.5 0 2.5-.5 4-.5" />
-      {/* Exhaust */}
-      <path d="M8 17.5c-.5 1.5 0 2.5 1 3" strokeWidth="1.5" />
+      <line x1="14.5" y1="7" x2="17.5" y2="8.5" />
+      
+      {/* Front Fork - connects triple clamp directly to axle */}
+      <line x1="16" y1="10" x2="18" y2="16" />
+      
+      {/* Exhaust (standard stroke-width inheriting from parent container) */}
+      <path d="M9 16.5h6l1.5-1" />
     </svg>
   );
 }
