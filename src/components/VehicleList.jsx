@@ -334,11 +334,11 @@ function VehicleFormModal({ vehicle, onSave, onClose, initialType = 'car' }) {
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-3">
           {form.type === 'marine-diesel' || form.type === 'outboard' ? (
             /* Engine Serial Number — for marine/outboard engines */
-            <div className="p-4 rounded-xl bg-gradient-to-r from-indigo-600/5 to-purple-600/5 border border-indigo-500/20">
-              <label className="block text-xs text-slate-400 mb-1.5 font-medium">
+            <div>
+              <label className="block text-xs text-slate-400 mb-1 font-medium">
                 Engine Serial Number <span className="text-slate-600 font-normal">(for lookup)</span>
               </label>
               <input
@@ -348,14 +348,11 @@ function VehicleFormModal({ vehicle, onSave, onClose, initialType = 'car' }) {
                 placeholder="e.g. CAT 7.1 SERIAL #"
                 className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm font-mono tracking-wider placeholder:text-slate-600 placeholder:tracking-normal focus:outline-none focus:ring-2 focus:ring-indigo-500/50 transition-all"
               />
-              <p className="text-xs text-slate-500 mt-2">
-                Enter the engine serial number for reference. MTXtrkr will use it to look up maintenance schedules.
-              </p>
             </div>
           ) : form.type === 'watercraft' ? (
             /* HIN Decoder — for personal watercraft */
-            <div className="p-4 rounded-xl bg-gradient-to-r from-cyan-600/5 to-teal-600/5 border border-cyan-500/20">
-              <label className="block text-xs text-slate-400 mb-1.5 font-medium">
+            <div>
+              <label className="block text-xs text-slate-400 mb-1 font-medium">
                 HIN (Hull Identification Number) <span className="text-slate-600 font-normal">(for lookup)</span>
               </label>
               <input
@@ -366,14 +363,11 @@ function VehicleFormModal({ vehicle, onSave, onClose, initialType = 'car' }) {
                 maxLength={12}
                 className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm font-mono tracking-wider placeholder:text-slate-600 placeholder:tracking-normal focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all uppercase"
               />
-              <p className="text-xs text-slate-500 mt-2">
-                Enter the 12-character HIN. Usually found on the stern or transom of your watercraft.
-              </p>
             </div>
           ) : (
             /* VIN Decoder — for road vehicles */
-            <div className="p-4 rounded-xl bg-gradient-to-r from-blue-600/5 to-cyan-600/5 border border-blue-500/20">
-              <label className="block text-xs text-slate-400 mb-1.5 font-medium">
+            <div>
+              <label className="block text-xs text-slate-400 mb-1 font-medium">
                 VIN Decoder <span className="text-slate-600 font-normal">(free NHTSA lookup)</span>
               </label>
               <div className="flex gap-2">
@@ -399,7 +393,7 @@ function VehicleFormModal({ vehicle, onSave, onClose, initialType = 'car' }) {
                   Decode
                 </button>
               </div>
-              <div className="mt-2 min-h-[20px]">
+              <div className="mt-1 min-h-[18px]">
                 {renderVinStatus()}
               </div>
             </div>
