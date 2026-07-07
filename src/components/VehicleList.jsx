@@ -460,7 +460,7 @@ function VehicleFormModal({ vehicle, onSave, onClose, initialType = 'car' }) {
               />
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <label className="block text-xs text-slate-400 mb-1.5 font-medium">Purchase Date</label>
               <input
