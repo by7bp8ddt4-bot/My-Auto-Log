@@ -277,29 +277,6 @@ export default function LandingPage({ onGetStarted, onViewPremium }) {
         </div>
       </div>
 
-      {/* Email Capture Section */}
-      <div className="max-w-6xl mx-auto px-4 py-20">
-        <div className="relative rounded-3xl bg-gradient-to-r from-blue-600 to-cyan-500 p-8 md:p-12 overflow-hidden">
-          <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -mr-32 -mt-32 blur-3xl" />
-          <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
-            <div className="max-w-md text-center md:text-left">
-              <h2 className="text-3xl font-bold text-white mb-2">Never Miss a Service Again</h2>
-              <p className="text-blue-50/80 text-sm">Join 12,000+ drivers and get our "Vehicle Longevity Checklist" free when you sign up for updates.</p>
-            </div>
-            <form className="flex flex-col sm:flex-row gap-3 w-full max-w-md" onSubmit={(e) => e.preventDefault()}>
-              <input 
-                type="email" 
-                placeholder="Enter your email" 
-                className="flex-1 px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder-blue-100/50 focus:outline-none focus:ring-2 focus:ring-white/30"
-              />
-              <button className="px-6 py-3 rounded-xl bg-white text-blue-600 font-bold hover:bg-blue-50 transition-colors shadow-lg">
-                Get My Checklist
-              </button>
-            </form>
-          </div>
-        </div>
-      </div>
-
       {/* Premium Teaser / Mock Paywall */}
       <div className="max-w-6xl mx-auto px-4 py-20">
         <div className="text-center mb-12">
