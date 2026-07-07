@@ -1,6 +1,7 @@
 import {
   Car, Bell, Cloud, Shield, Star, CheckCircle, ChevronRight, ArrowRight,
-  Smartphone, Wifi, BarChart3, DollarSign, Clock, Upload
+  Smartphone, Wifi, BarChart3, DollarSign, Clock, Upload,
+  Crown, Gauge, Calendar, TrendingUp
 } from 'lucide-react';
 import heroImage from '/assets/hero.png';
 import vehicleMgmtImg from '/assets/features/vehicle-mgmt.png';
@@ -113,6 +114,119 @@ export default function LandingPage({ onGetStarted, onViewPremium }) {
               </div>
             );
           })}
+        </div>
+      </div>
+
+      {/* Lease Mileage Section */}
+      <div className="max-w-6xl mx-auto px-4 py-20">
+        <div className="bg-gradient-to-br from-blue-600/5 to-cyan-600/5 border border-blue-500/20 rounded-3xl p-8 md:p-12">
+          <div className="flex flex-col md:flex-row items-start gap-10">
+            <div className="flex-1">
+              {/* Badge */}
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-300 text-xs font-medium mb-4">
+                <Calendar className="w-3 h-3" />
+                Lease Protection — Premium Feature
+              </div>
+
+              {/* Headline */}
+              <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">
+                Your Lease Says 36,000 Miles.
+                <br />
+                <span className="bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent">
+                  MTXtrkr Tells You If You'll Make It.
+                </span>
+              </h2>
+
+              {/* Body */}
+              <p className="text-slate-400 leading-relaxed mb-6">
+                The average lease overage fee is $0.25 per mile. Going 5,000 miles over costs $1,250 —
+                on top of your turn-in fees. Most people don't realize they're over until the bill arrives.
+              </p>
+              <p className="text-slate-400 leading-relaxed mb-6">
+                MTXtrkr's Lease Mileage Projector gives you a crystal ball. Tell us your lease end date
+                and mileage limit. We track your actual driving and project your odometer at any future
+                date — next month, next year, or at turn-in. If you're on track to exceed your limit,
+                you'll see it before the fees pile up.
+              </p>
+
+              {/* Feature List */}
+              <div className="grid sm:grid-cols-2 gap-3 mb-8">
+                {[
+                  { icon: TrendingUp, label: 'Predictive mileage at any date' },
+                  { icon: Gauge, label: 'Current vs. limit tracking' },
+                  { icon: Calendar, label: 'Turn-in date awareness' },
+                  { icon: Bell, label: 'Monthly email alerts (Premium)' },
+                ].map((feat, i) => {
+                  const Icon = feat.icon;
+                  return (
+                    <div key={i} className="flex items-start gap-2.5">
+                      <div className="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center shrink-0">
+                        <Icon className="w-4 h-4 text-blue-400" />
+                      </div>
+                      <div>
+                        <p className="text-sm text-slate-300 font-medium">{feat.label}</p>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* CTA */}
+              <button
+                onClick={onViewPremium}
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-semibold shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 transition-all text-sm"
+              >
+                <Crown className="w-4 h-4" />
+                Get Premium — Protect Your Lease
+                <ArrowRight className="w-4 h-4" />
+              </button>
+              <p className="text-[10px] text-slate-600 mt-2">Free plan includes basic lease setup. Premium adds predictions and alerts.</p>
+            </div>
+
+            {/* Visual — Dashboard Mockup */}
+            <div className="flex-1 w-full max-w-sm">
+              <div className="bg-slate-800/50 rounded-2xl p-4 border border-slate-700/50">
+                {/* Dashboard Card */}
+                <div className="space-y-3">
+                  <div className="flex items-center gap-2 text-xs text-slate-400 mb-1">
+                    <Gauge className="w-3.5 h-3.5 text-amber-400" />
+                    <span className="font-medium text-amber-300">Lease Mileage Projector</span>
+                  </div>
+                  <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-700/50">
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="text-xs text-slate-500">2023 Honda CR-V</span>
+                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-300 font-medium">Leased</span>
+                    </div>
+                    <div className="space-y-2">
+                      <div className="flex justify-between text-xs">
+                        <span className="text-slate-400">Current</span>
+                        <span className="text-white font-medium">24,450 mi</span>
+                      </div>
+                      <div className="flex justify-between text-xs">
+                        <span className="text-slate-400">Projected at turn-in</span>
+                        <span className="text-amber-300 font-medium">38,200 mi</span>
+                      </div>
+                      <div className="flex justify-between text-xs">
+                        <span className="text-slate-400">Your limit</span>
+                        <span className="text-white font-medium">36,000 mi</span>
+                      </div>
+                    </div>
+                    {/* Progress bar */}
+                    <div className="mt-3 pt-3 border-t border-slate-700/50">
+                      <div className="flex justify-between text-[10px] text-slate-500 mb-1">
+                        <span>Used: 68%</span>
+                        <span>Limit: 100%</span>
+                      </div>
+                      <div className="w-full h-2 rounded-full bg-slate-800 overflow-hidden">
+                        <div className="h-full rounded-full bg-gradient-to-r from-amber-500 to-red-500" style={{width: '106%'}} />
+                      </div>
+                      <p className="text-[10px] text-red-400 mt-1 font-medium">⚠️ 2,200 mi over — adjust driving or plan early turn-in</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
