@@ -224,6 +224,9 @@ function VehicleFormModal({ vehicle, onSave, onClose, initialType = 'car' }) {
     vin: vehicle?.vin || '',
     engineSerial: vehicle?.engineSerial || '',
     type: vehicle?.type || initialType || 'car',
+    isLeased: vehicle?.isLeased || false,
+    leaseEndDate: vehicle?.leaseEndDate || '',
+    leaseMileageLimit: vehicle?.leaseMileageLimit || '',
   });
   const [vinState, setVinState] = useState({ status: 'idle', message: '', data: null }); // idle | loading | success | error
 
@@ -466,6 +469,46 @@ function VehicleFormModal({ vehicle, onSave, onClose, initialType = 'car' }) {
               className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
             />
           </div>
+
+          {/* Leasing Section */}
+          <div className="border-t border-slate-800 pt-4 mt-4">
+            <label className="flex items-center gap-3 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={form.isLeased}
+                onChange={e => setForm(f => ({ ...f, isLeased: e.target.checked }))}
+                className="w-4 h-4 rounded border-slate-600 text-blue-600 focus:ring-blue-500/30 bg-slate-800"
+              />
+              <span className="text-sm text-white font-medium">This vehicle is leased</span>
+            </label>
+          </div>
+
+          {form.isLeased && (
+            <div className="grid grid-cols-2 gap-3 p-4 rounded-xl bg-amber-500/5 border border-amber-500/20">
+              <div>
+                <label className="block text-xs text-slate-400 mb-1.5 font-medium">Lease End Date</label>
+                <input
+                  type="date"
+                  value={form.leaseEndDate}
+                  onChange={e => setForm(f => ({ ...f, leaseEndDate: e.target.value }))}
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm focus:outline-none focus:ring-2 focus:ring-amber-500/50"
+                />
+              </div>
+              <div>
+                <label className="block text-xs text-slate-400 mb-1.5 font-medium">Mileage Limit</label>
+                <input
+                  type="number"
+                  value={form.leaseMileageLimit}
+                  onChange={e => setForm(f => ({ ...f, leaseMileageLimit: e.target.value === '' ? '' : parseInt(e.target.value) || '' }))}
+                  placeholder="e.g. 36000"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500/50"
+                />
+              </div>
+              <p className="col-span-2 text-[10px] text-amber-400/70">
+                MTXtrkr will track your mileage pace and alert you if you're approaching your lease limit.
+              </p>
+            </div>
+          )}
           <div className="flex gap-3 pt-2">
             <button
               type="button"
