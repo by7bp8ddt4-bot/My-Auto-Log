@@ -430,6 +430,28 @@ export const MAINTENANCE_SCHEDULES = {
       '6ly': 'yanmar.4jh'
     }
   },
+  hyster: {
+    specs: { oil: { viscosity: '15W-40', type: 'Diesel Engine Oil CF-4/CH-4', capacity: '3.0 gal' }, transmission: { type: 'Hyster Powershift / Hydrostatic' }, coolant: { type: 'Universal OAT' },
+      fuelFilters: { type: 'Hyster original' }, oilFilters: { type: 'Hyster original' },
+      airFilter: { type: 'Hyster heavy-duty' }, battery: { groupSize: 'Group 31' }, tirePressure: { psi: 'Varies by tire type' } },
+    models: {
+      'h50': [
+        { service: 'Oil & Filter Change', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 250 hours. Diesel engine oil CF-4/CH-4 15W-40. Classic models: check for straight-weight 30W if pre-1970.' },
+        { service: 'Air Filter Replacement', intervalMiles: 0, intervalMonths: 0, severity: 'medium', description: 'Every 500 hours or when indicator shows restricted.' },
+        { service: 'Fuel Filter Replacement', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 500 hours. Replace Hyster original or equivalent fuel filter.' },
+        { service: 'Transmission Fluid Change', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 1000 hours. Hyster Powershift or Monotrol transmission fluid.' },
+        { service: 'Hydraulic Fluid Change', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 1000 hours. Replace hydraulic oil and return filter.' },
+        { service: 'Coolant Exchange', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 2000 hours. Universal OAT coolant.' },
+        { service: 'Brake Inspection', intervalMiles: 0, intervalMonths: 0, severity: 'medium', description: 'Every 500 hours. Check brake pads, discs, and fluid.' },
+        { service: 'Tire Inspection', intervalMiles: 0, intervalMonths: 0, severity: 'low', description: 'Every 250 hours. Check tire condition and pressure.' },
+        { service: 'Inspection', intervalMiles: 0, intervalMonths: 0, severity: 'low', description: 'Every 250 hours. Full inspection of mast, chains, forks, and safety systems.' },
+      ],
+      'h60': 'hyster.h50', 'h70': 'hyster.h50', 'h80': 'hyster.h50',
+      'h100': 'hyster.h50', 'h120': 'hyster.h50',
+      's50': 'hyster.h50', 's60': 'hyster.h50', 's70': 'hyster.h50',
+      '50': 'hyster.h50', 'h50a': 'hyster.h50', 'h50b': 'hyster.h50', 'h50c': 'hyster.h50'
+    }
+  },
   default: {
     specs: { oil: { viscosity: '5W-30', type: 'Conventional/Synthetic Blend', capacity: '5.0 qt' }, transmission: { type: "Check owner's manual" }, coolant: { type: 'Universal OAT' }, brakeFluid: { type: 'DOT 3' }, tirePressure: { psi: 34 }, sparkPlugs: { type: 'Iridium', gap: '0.044 in' }, battery: { groupSize: 'Group 35' } },
     services: [
