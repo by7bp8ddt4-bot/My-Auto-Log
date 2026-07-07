@@ -1,12 +1,13 @@
 import { useState } from 'react';
-import { X, Car, Plus, Pencil, Trash2, ChevronRight, ScanLine, Loader2, CheckCircle2, AlertCircle, Motorcycle, Tractor, Package, Ship, Anchor, Cog } from 'lucide-react';
+import { X, Car, Plus, Pencil, Trash2, ChevronRight, ScanLine, Loader2, CheckCircle2, AlertCircle, Tractor, Package, Ship, Anchor, Cog } from 'lucide-react';
 import { formatNumber } from '../utils/helpers';
 import { ManufacturerBadge } from '../utils/manufacturerBranding.jsx';
 import { decodeVin, isValidVin } from '../utils/vinDecoder.js';
 import { VEHICLE_TYPES } from '../utils/constants.js';
+import MotorcycleIcon from './MotorcycleIcon';
 
 // Map icon names to lucide-react components
-const TYPE_ICONS = { Car, Motorcycle, Tractor, Package, Ship, Anchor, Cog };
+const TYPE_ICONS = { Car, Motorcycle: MotorcycleIcon, Tractor, Package, Ship, Anchor, Cog };
 
 export default function VehicleList({ vehicles, onAdd, onEdit, onDelete, isPremium, vehicleCount, onNavigate }) {
   const [showForm, setShowForm] = useState(false);
