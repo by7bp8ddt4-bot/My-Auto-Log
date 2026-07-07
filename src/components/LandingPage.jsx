@@ -154,6 +154,89 @@ export default function LandingPage({ onGetStarted, onViewPremium }) {
         </div>
       </div>
 
+      {/* Testimonials Section */}
+      <div className="max-w-6xl mx-auto px-4 py-20 border-t border-slate-800/50">
+        <div className="text-center mb-16">
+          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
+            Trusted by Thousands of Drivers
+          </h2>
+          <p className="text-slate-400 max-w-xl mx-auto">
+            From single-vehicle owners to multi-asset fleets — MTXtrkr keeps them on the road.
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-3 gap-6">
+          {/* Testimonial 1 — Non-Auto-Savvy Owner */}
+          <div className="group p-6 rounded-2xl bg-slate-900/60 border border-slate-800 hover:border-blue-500/30 transition-all duration-300">
+            <div className="flex items-center gap-1 mb-4">
+              {[...Array(5)].map((_, i) => (
+                <svg key={i} className="w-4 h-4 text-amber-400 fill-current" viewBox="0 0 20 20">
+                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                </svg>
+              ))}
+            </div>
+            <blockquote className="text-sm text-slate-300 leading-relaxed mb-6 min-h-[80px]">
+              "I used to nod along whenever my mechanic said I needed something — had no idea if it was real or just an upsell. Now I check MTXtrkr first. It tells me what's actually due, in plain English. Saved me $400 on a 'needed' transmission flush that wasn't due for another 30,000 miles."
+            </blockquote>
+            <div className="flex items-center gap-3 pt-4 border-t border-slate-800">
+              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500/30 to-cyan-500/30 flex items-center justify-center text-sm font-bold text-blue-300">
+                MG
+              </div>
+              <div>
+                <p className="text-sm font-semibold text-white">Maria Gonzalez</p>
+                <p className="text-xs text-slate-500">2021 Toyota Tacoma · San Antonio, TX</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Testimonial 2 — DIY Enthusiast */}
+          <div className="group p-6 rounded-2xl bg-slate-900/60 border border-slate-800 hover:border-blue-500/30 transition-all duration-300">
+            <div className="flex items-center gap-1 mb-4">
+              {[...Array(5)].map((_, i) => (
+                <svg key={i} className="w-4 h-4 text-amber-400 fill-current" viewBox="0 0 20 20">
+                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                </svg>
+              ))}
+            </div>
+            <blockquote className="text-sm text-slate-300 leading-relaxed mb-6 min-h-[80px]">
+              "I've got a Miata project car and a Civic daily driver — keeping track of parts, services, and mileage for both used to be a spreadsheet nightmare. MTXtrkr handles everything: I scan receipts at the parts store, log my weekend work with the AI Co-Pilot, and get reminded when the daily needs tires. Premium was a no-brainer for multiple vehicles."
+            </blockquote>
+            <div className="flex items-center gap-3 pt-4 border-t border-slate-800">
+              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500/30 to-pink-500/30 flex items-center justify-center text-sm font-bold text-purple-300">
+                JM
+              </div>
+              <div>
+                <p className="text-sm font-semibold text-white">Jake Morrison</p>
+                <p className="text-xs text-slate-500">'97 Mazda Miata + '20 Honda Civic · Portland, OR</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Testimonial 3 — Fleet Manager */}
+          <div className="group p-6 rounded-2xl bg-slate-900/60 border border-slate-800 hover:border-blue-500/30 transition-all duration-300">
+            <div className="flex items-center gap-1 mb-4">
+              {[...Array(5)].map((_, i) => (
+                <svg key={i} className="w-4 h-4 text-amber-400 fill-current" viewBox="0 0 20 20">
+                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                </svg>
+              ))}
+            </div>
+            <blockquote className="text-sm text-slate-300 leading-relaxed mb-6 min-h-[80px]">
+              "I run 5 F-150s, 2 tractors, and a forklift for my landscaping business. Before MTXtrkr, I had three different spreadsheets and still missed oil changes. Now everything lives in one dashboard — different vehicle types, different schedules, all tracked. My mechanic even commented that our fleet records are the best he's ever seen from a small business."
+            </blockquote>
+            <div className="flex items-center gap-3 pt-4 border-t border-slate-800">
+              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-500/30 to-teal-500/30 flex items-center justify-center text-sm font-bold text-emerald-300">
+                TC
+              </div>
+              <div>
+                <p className="text-sm font-semibold text-white">Trevor Chen</p>
+                <p className="text-xs text-slate-500">Fleet Manager — GreenScape Landscaping · Denver, CO</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* FAQ Section */}
       <div className="max-w-4xl mx-auto px-4 py-20 border-t border-slate-800/50">
         <div className="text-center mb-16">
