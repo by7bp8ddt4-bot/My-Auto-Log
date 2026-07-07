@@ -59,6 +59,25 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
     }
     : null;
 
+  // Lease Mileage Projector — state & computed values
+  const [targetDate, setTargetDate] = useState(() => {
+    const d = new Date();
+    d.setFullYear(d.getFullYear() + 3);
+    return d.toISOString().split('T')[0];
+  });
+  const daysSincePurchase = activeVehicle?.purchaseDate
+    ? Math.floor((Date.now() - new Date(activeVehicle.purchaseDate).getTime()) / (24 * 60 * 60 * 1000))
+    : 1;
+  const dailyAvg = daysSincePurchase > 0 && activeVehicle?.purchaseMileage >= 0
+    ? Math.max(0, (activeVehicle.mileage - activeVehicle.purchaseMileage) / daysSincePurchase)
+    : 0;
+  const daysToTarget = targetDate
+    ? Math.max(0, Math.floor((new Date(targetDate).getTime() - Date.now()) / (24 * 60 * 60 * 1000)))
+    : 0;
+  const projectedMileage = dailyAvg > 0 && daysToTarget > 0
+    ? Math.round(activeVehicle.mileage + dailyAvg * daysToTarget)
+    : 0;
+
   // Get service types from a log (handles both old single-type and new multi-type)
   const getLogServiceTypes = (log) => {
     if (Array.isArray(log.serviceTypes) && log.serviceTypes.length > 0) return log.serviceTypes;
@@ -206,6 +225,105 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
           isPremium={isPremium}
         />
       </div>
+
+      {/* Lease Mileage Projector — Premium */}
+      {isPremium && activeVehicle?.purchaseDate && activeVehicle?.purchaseMileage >= 0 ? (
+        <div className="mb-8 p-5 rounded-2xl bg-gradient-to-r from-violet-600/5 to-purple-600/5 border border-violet-500/20">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-sm font-semibold text-white flex items-center gap-2">
+              <TrendingUp className="w-4 h-4 text-violet-400" />
+              Lease Mileage Projector
+            </h3>
+          </div>
+
+          {/* Current Pace Stats */}
+          <div className="grid grid-cols-3 gap-3 mb-4">
+            <div className="p-3 rounded-xl bg-slate-900/60 border border-slate-800 text-center">
+              <div className="text-[10px] text-slate-500 uppercase tracking-wider">Daily Avg</div>
+              <div className="text-lg font-bold text-violet-400">{formatNumber(Math.round(dailyAvg))} mi</div>
+            </div>
+            <div className="p-3 rounded-xl bg-slate-900/60 border border-slate-800 text-center">
+              <div className="text-[10px] text-slate-500 uppercase tracking-wider">Weekly</div>
+              <div className="text-lg font-bold text-violet-400">{formatNumber(Math.round(dailyAvg * 7))} mi</div>
+            </div>
+            <div className="p-3 rounded-xl bg-slate-900/60 border border-slate-800 text-center">
+              <div className="text-[10px] text-slate-500 uppercase tracking-wider">Monthly</div>
+              <div className="text-lg font-bold text-violet-400">{formatNumber(Math.round(dailyAvg * 30))} mi</div>
+            </div>
+          </div>
+
+          {/* Target Date Projector */}
+          <div className="flex items-end gap-3 mb-4">
+            <div className="flex-1">
+              <label className="block text-xs text-slate-400 mb-1.5">Target Date (e.g. lease end)</label>
+              <input
+                type="date"
+                value={targetDate}
+                onChange={e => setTargetDate(e.target.value)}
+                className="w-full px-3 py-2 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm focus:outline-none focus:ring-2 focus:ring-violet-500/50"
+              />
+            </div>
+            <div className="text-center">
+              <div className="text-xs text-slate-500 mb-1">Projected</div>
+              <div className="text-xl font-bold text-violet-400">{formatNumber(projectedMileage)} mi</div>
+            </div>
+          </div>
+
+          {projectedMileage > 0 && (
+            <div className="p-3 rounded-xl bg-slate-950/40 border border-slate-800">
+              <div className="flex items-center justify-between text-xs">
+                <span className="text-slate-500">At your current pace, you'll reach</span>
+                <span className="text-white font-bold">{formatNumber(projectedMileage)} mi</span>
+              </div>
+              <div className="flex items-center justify-between text-xs mt-1">
+                <span className="text-slate-500">by</span>
+                <span className="text-white font-bold">{formatDate(targetDate)}</span>
+              </div>
+              <div className="mt-2 pt-2 border-t border-slate-800 flex items-center justify-between text-xs">
+                <span className="text-slate-500">That's</span>
+                <span className="text-violet-400 font-bold">{formatNumber(Math.round(dailyAvg * daysToTarget))} mi</span>
+                <span className="text-slate-500">from today</span>
+              </div>
+            </div>
+          )}
+        </div>
+      ) : !isPremium && activeVehicle?.purchaseDate && activeVehicle?.purchaseMileage >= 0 ? (
+        /* Free user sees blurred preview with upgrade CTA */
+        <div className="mb-8 p-5 rounded-2xl bg-gradient-to-r from-violet-600/5 to-purple-600/5 border border-violet-500/20 relative overflow-hidden">
+          <div className="filter blur-sm pointer-events-none select-none">
+            <div className="grid grid-cols-3 gap-3 mb-4">
+              <div className="p-3 rounded-xl bg-slate-900/60 border border-slate-800 text-center">
+                <div className="text-[10px] text-slate-500 uppercase tracking-wider">Daily Avg</div>
+                <div className="text-lg font-bold text-violet-400">42 mi</div>
+              </div>
+              <div className="p-3 rounded-xl bg-slate-900/60 border border-slate-800 text-center">
+                <div className="text-[10px] text-slate-500 uppercase tracking-wider">Weekly</div>
+                <div className="text-lg font-bold text-violet-400">294 mi</div>
+              </div>
+              <div className="p-3 rounded-xl bg-slate-900/60 border border-slate-800 text-center">
+                <div className="text-[10px] text-slate-500 uppercase tracking-wider">Monthly</div>
+                <div className="text-lg font-bold text-violet-400">1,260 mi</div>
+              </div>
+            </div>
+          </div>
+          <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-[3px] flex items-center justify-center rounded-xl">
+            <div className="text-center p-6">
+              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-violet-500/20 to-purple-500/20 flex items-center justify-center mx-auto mb-3">
+                <TrendingUp className="w-6 h-6 text-violet-400" />
+              </div>
+              <p className="text-sm font-semibold text-white mb-1">Track Your Lease Mileage</p>
+              <p className="text-xs text-slate-400 mb-4">Predict your mileage at lease end based on your actual driving pace.</p>
+              <button
+                onClick={() => onNavigate('premium')}
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-violet-600 to-purple-500 text-white text-xs font-medium shadow-lg shadow-violet-500/25 hover:shadow-violet-500/40 transition-all"
+              >
+                <TrendingUp className="w-3.5 h-3.5" />
+                Upgrade to Premium — $4.99/mo
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : null}
 
       {/* Maintenance Schedule Card */}
       {activeVehicle && (
