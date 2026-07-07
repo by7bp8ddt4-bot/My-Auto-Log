@@ -51,14 +51,6 @@ export const DEFAULT_REMINDER_TEMPLATES = [
     icon: 'Wind',
   },
   {
-    id: 'wiper-blades',
-    title: 'Wiper Blades',
-    description: 'Replace windshield wiper blades',
-    intervalMiles: 10000,
-    intervalDays: 180,
-    icon: 'Wrench',
-  },
-  {
     id: 'battery-check',
     title: 'Battery Check',
     description: 'Test battery health and terminals',
@@ -95,13 +87,13 @@ export const DEFAULT_REMINDER_TEMPLATES = [
 // Vehicle types — config-driven for easy expansion
 // Add new types here; UI buttons auto-generate from this array
 export const VEHICLE_TYPES = [
-  { id: 'car', label: 'Car/Truck', icon: 'Car', color: 'bg-blue-600 hover:bg-blue-500', border: 'border-transparent', badgeColor: 'bg-blue-600' },
-  { id: 'motorcycle', label: 'Motorcycle', icon: 'Motorcycle', color: 'bg-slate-800 hover:bg-slate-700', border: 'border-slate-700', badgeColor: 'bg-slate-800' },
-  { id: 'ag-equipment', label: 'Ag Equipment', icon: 'Tractor', color: 'bg-green-700 hover:bg-green-600', border: 'border-green-600', badgeColor: 'bg-green-700' },
-  { id: 'forklift', label: 'Forklift', icon: 'Package', color: 'bg-amber-700 hover:bg-amber-600', border: 'border-amber-600', badgeColor: 'bg-amber-700' },
-  { id: 'watercraft', label: 'Watercraft', icon: 'Ship', color: 'bg-cyan-700 hover:bg-cyan-600', border: 'border-cyan-600', badgeColor: 'bg-cyan-700' },
-  { id: 'outboard', label: 'Outboard Engine', icon: 'Anchor', color: 'bg-teal-700 hover:bg-teal-600', border: 'border-teal-600', badgeColor: 'bg-teal-700' },
-  { id: 'marine-diesel', label: 'Marine Diesel Engine', icon: 'Cog', color: 'bg-indigo-700 hover:bg-indigo-600', border: 'border-indigo-600', badgeColor: 'bg-indigo-700' },
+  { id: 'car', label: 'Car/Truck', icon: 'Car', color: 'bg-blue-600 hover:bg-blue-500', border: 'border-transparent', badgeColor: 'bg-blue-600', excludedServiceTypes: [] },
+  { id: 'motorcycle', label: 'Motorcycle', icon: 'Motorcycle', color: 'bg-slate-800 hover:bg-slate-700', border: 'border-slate-700', badgeColor: 'bg-slate-800', excludedServiceTypes: ['Cabin Air Filter', 'Wiper Blades'] },
+  { id: 'ag-equipment', label: 'Ag Equipment', icon: 'Tractor', color: 'bg-green-700 hover:bg-green-600', border: 'border-green-600', badgeColor: 'bg-green-700', excludedServiceTypes: ['Cabin Air Filter', 'Wiper Blades'] },
+  { id: 'forklift', label: 'Forklift', icon: 'Package', color: 'bg-amber-700 hover:bg-amber-600', border: 'border-amber-600', badgeColor: 'bg-amber-700', excludedServiceTypes: ['Cabin Air Filter', 'Wiper Blades', 'Tire Rotation', 'New Tires'] },
+  { id: 'watercraft', label: 'Watercraft', icon: 'Ship', color: 'bg-cyan-700 hover:bg-cyan-600', border: 'border-cyan-600', badgeColor: 'bg-cyan-700', excludedServiceTypes: ['Brake Service', 'Tire Rotation', 'New Tires', 'Transmission Service', 'Cabin Air Filter', 'Wiper Blades'] },
+  { id: 'outboard', label: 'Outboard Engine', icon: 'Anchor', color: 'bg-teal-700 hover:bg-teal-600', border: 'border-teal-600', badgeColor: 'bg-teal-700', excludedServiceTypes: ['Brake Service', 'Tire Rotation', 'New Tires', 'Transmission Service', 'Cabin Air Filter', 'Wiper Blades'] },
+  { id: 'marine-diesel', label: 'Marine Diesel Engine', icon: 'Cog', color: 'bg-indigo-700 hover:bg-indigo-600', border: 'border-indigo-600', badgeColor: 'bg-indigo-700', excludedServiceTypes: ['Brake Service', 'Tire Rotation', 'New Tires', 'Transmission Service', 'Cabin Air Filter', 'Wiper Blades'] },
 ];
 
 export const SERVICE_TYPES = [
