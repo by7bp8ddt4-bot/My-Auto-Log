@@ -101,6 +101,7 @@ export const VEHICLE_TYPES = [
   { id: 'forklift', label: 'Forklift', icon: 'Package', color: 'bg-amber-700 hover:bg-amber-600', border: 'border-amber-600', badgeColor: 'bg-amber-700' },
   { id: 'watercraft', label: 'Watercraft', icon: 'Ship', color: 'bg-cyan-700 hover:bg-cyan-600', border: 'border-cyan-600', badgeColor: 'bg-cyan-700' },
   { id: 'outboard', label: 'Outboard Engine', icon: 'Anchor', color: 'bg-teal-700 hover:bg-teal-600', border: 'border-teal-600', badgeColor: 'bg-teal-700' },
+  { id: 'marine-diesel', label: 'Marine Diesel Engine', icon: 'Cog', color: 'bg-indigo-700 hover:bg-indigo-600', border: 'border-indigo-600', badgeColor: 'bg-indigo-700' },
 ];
 
 export const SERVICE_TYPES = [
