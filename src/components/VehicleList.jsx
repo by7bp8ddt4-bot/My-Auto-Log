@@ -423,7 +423,7 @@ function VehicleFormModal({ vehicle, onSave, onClose, initialType = 'car' }) {
                 type="text"
                 value={form.make}
                 onChange={e => setForm(f => ({ ...f, make: e.target.value }))}
-                placeholder="e.g. Toyota"
+                placeholder={form.type === 'motorcycle' ? 'e.g. Yamaha' : form.type === 'ag-equipment' ? 'e.g. John Deere' : form.type === 'forklift' ? 'e.g. Hyster' : form.type === 'watercraft' ? 'e.g. Yamaha' : form.type === 'outboard' ? 'e.g. Mercury' : form.type === 'marine-diesel' ? 'e.g. Cummins' : 'e.g. Toyota'}
                 className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
                 required
               />
@@ -434,7 +434,7 @@ function VehicleFormModal({ vehicle, onSave, onClose, initialType = 'car' }) {
                 type="text"
                 value={form.model}
                 onChange={e => setForm(f => ({ ...f, model: e.target.value }))}
-                placeholder="e.g. Camry"
+                placeholder={form.type === 'motorcycle' ? 'e.g. R1' : form.type === 'ag-equipment' ? 'e.g. 6R' : form.type === 'forklift' ? 'e.g. H50' : form.type === 'watercraft' ? 'e.g. FX Cruiser' : form.type === 'outboard' ? 'e.g. F150' : form.type === 'marine-diesel' ? 'e.g. QSB 6.7' : 'e.g. Camry'}
                 className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
                 required
               />
