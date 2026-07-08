@@ -10,9 +10,11 @@ import { DEFAULT_REMINDER_TEMPLATES, VEHICLE_TYPES } from '../utils/constants';
 import { getScheduleForVehicle } from '../data/maintenance-schedules';
 import { isSameService, getLogServiceTypes } from '../hooks/useMaintenanceSchedule';
 import MotorcycleIcon from './MotorcycleIcon';
+import SemiTruckIcon from './SemiTruckIcon';
+import RVIcon from './RVIcon';
 
 // Map icon names to components for vehicle type display
-const TYPE_ICONS = { Car, Motorcycle: MotorcycleIcon, Tractor: Car, Package: Car, Ship: Car, Anchor: Car, Cog: Car };
+const TYPE_ICONS = { Car, Motorcycle: MotorcycleIcon, Tractor: Car, Package: Car, Ship: Car, Anchor: Car, Cog: Car, SemiTruck: SemiTruckIcon, RV: RVIcon };
 
 // ---------- Helper: Compute schedule status for one vehicle ----------
 
