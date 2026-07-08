@@ -70,56 +70,6 @@ import cadillacLogo from '../assets/brand-logos/cadillac.svg';
 import lincolnLogo from '../assets/brand-logos/lincoln.svg';
 import infinitiLogo from '../assets/brand-logos/infiniti.svg';
 
-// Motorcycle Logo Imports
-import harleyLogo from '../assets/brand-logos/harley-davidson.svg';
-import yamahaMcLogo from '../assets/brand-logos/yamaha-mc.svg';
-import hondaMcLogo from '../assets/brand-logos/honda-mc.svg';
-import kawasakiLogo from '../assets/brand-logos/kawasaki.svg';
-import suzukiLogo from '../assets/brand-logos/suzuki.svg';
-import bmwMcLogo from '../assets/brand-logos/bmw-mc.svg';
-import ducatiLogo from '../assets/brand-logos/ducati.svg';
-import ktmLogo from '../assets/brand-logos/ktm.svg';
-import triumphLogo from '../assets/brand-logos/triumph.svg';
-import indianLogo from '../assets/brand-logos/indian.svg';
-
-// Semi-Truck Logo Imports
-import freightlinerLogo from '../assets/brand-logos/freightliner.svg';
-import kenworthLogo from '../assets/brand-logos/kenworth.svg';
-import peterbiltLogo from '../assets/brand-logos/peterbilt.svg';
-import volvoTrucksLogo from '../assets/brand-logos/volvo-trucks.svg';
-import mackLogo from '../assets/brand-logos/mack.svg';
-import internationalLogo from '../assets/brand-logos/international.svg';
-import westernStarLogo from '../assets/brand-logos/western-star.svg';
-
-// RV Logo Imports
-import winnebagoLogo from '../assets/brand-logos/winnebago.svg';
-import thorLogo from '../assets/brand-logos/thor.svg';
-import forestRiverLogo from '../assets/brand-logos/forest-river.svg';
-import jaycoLogo from '../assets/brand-logos/jayco.svg';
-import airstreamLogo from '../assets/brand-logos/airstream.svg';
-import newmarLogo from '../assets/brand-logos/newmar.svg';
-import grandDesignLogo from '../assets/brand-logos/grand-design.svg';
-
-// Watercraft Logo Imports
-import seadooLogo from '../assets/brand-logos/seadoo.svg';
-import yamahaWcLogo from '../assets/brand-logos/yamaha-wc.svg';
-import kawasakiWcLogo from '../assets/brand-logos/kawasaki-wc.svg';
-
-// Forklift Logo Imports
-import toyotaForkliftLogo from '../assets/brand-logos/toyota-forklift.svg';
-import crownLogo from '../assets/brand-logos/crown.svg';
-import raymondLogo from '../assets/brand-logos/raymond.svg';
-import clarkLogo from '../assets/brand-logos/clark.svg';
-import yaleLogo from '../assets/brand-logos/yale.svg';
-import catForkliftLogo from '../assets/brand-logos/cat-forklift.svg';
-import komatsuLogo from '../assets/brand-logos/komatsu.svg';
-
-// Car/Truck Logo Imports (Additional)
-import buickLogo from '../assets/brand-logos/buick.svg';
-import cadillacLogo from '../assets/brand-logos/cadillac.svg';
-import lincolnLogo from '../assets/brand-logos/lincoln.svg';
-import infinitiLogo from '../assets/brand-logos/infiniti.svg';
-
 const manufacturerData = {
   // --- Original Car Manufacturers ---
   toyota: {
@@ -176,7 +126,7 @@ const manufacturerData = {
   // --- Motorcycles ---
   'harley-davidson': {
     name: 'Harley-Davidson',
-    logo: harleyLogo,
+    logo: harleyDavidsonLogo,
     color: '#FF6600',
   },
   'yamaha-mc': {
@@ -334,7 +284,8 @@ const manufacturerData = {
   },
   'clark': {
     name: 'Clark',
-    logo: '#228B22',
+    logo: clarkLogo,
+    color: '#228B22',
   },
   'yale': {
     name: 'Yale',
