@@ -150,7 +150,7 @@ export default function VehicleList({ vehicles, onAdd, onEdit, onDelete, isPremi
                       typeVehicles.map(v => (
             <div
               key={v.id}
-              className="group p-5 rounded-2xl bg-slate-900/60 border border-slate-800 hover:border-blue-500/30 transition-all"
+              className="group p-5 rounded-2xl bg-slate-900/60 border border-slate-800 hover:border-blue-500/30 transition-all glass-card btn-tactile"
             >
               <div className="flex items-start justify-between mb-3">
                 <div className="flex items-center gap-3">
