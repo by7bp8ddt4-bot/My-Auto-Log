@@ -28,6 +28,8 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
   const dueSoonCount = schedule.filter(s => s.status === 'due-soon').length;
 
   const totalMileage = activeVehicle ? (activeVehicle.mileage || 0) : 0;
+  const isHourVehicle = activeVehicle && ['ag-equipment', 'forklift', 'watercraft', 'outboard', 'marine-diesel'].includes(activeVehicle.type);
+  const mileageUnit = isHourVehicle ? 'hrs' : 'mi';
   const totalSpent = vehicleLogs.reduce((sum, l) => sum + (l.cost || 0), 0);
   const servicesThisMonth = vehicleLogs.filter(l => {
     const d = new Date(l.date);
@@ -170,7 +172,7 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
           {
             icon: Gauge,
             label: 'Total Mileage',
-            value: `${formatNumber(totalMileage)} mi`,
+            value: `${formatNumber(totalMileage)} ${mileageUnit}`,
             color: 'cyan',
             bg: 'bg-cyan-500/10',
             border: 'border-cyan-500/20',
@@ -265,7 +267,7 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
             </div>
             <div className="text-center">
               <div className="text-xs text-slate-500 mb-1">Projected</div>
-              <div className="text-xl font-bold text-violet-400">{formatNumber(projectedMileage)} mi</div>
+              <div className="text-xl font-bold text-violet-400">{formatNumber(projectedMileage)} {mileageUnit}</div>
             </div>
           </div>
 
@@ -273,7 +275,7 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
             <div className="p-3 rounded-xl bg-slate-950/40 border border-slate-800">
               <div className="flex items-center justify-between text-xs">
                 <span className="text-slate-500">At your current pace, you'll reach</span>
-                <span className="text-white font-bold">{formatNumber(projectedMileage)} mi</span>
+                <span className="text-white font-bold">{formatNumber(projectedMileage)} {mileageUnit}</span>
               </div>
               <div className="flex items-center justify-between text-xs mt-1">
                 <span className="text-slate-500">by</span>
@@ -281,7 +283,7 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
               </div>
               <div className="mt-2 pt-2 border-t border-slate-800 flex items-center justify-between text-xs">
                 <span className="text-slate-500">That's</span>
-                <span className="text-violet-400 font-bold">{formatNumber(Math.round(dailyAvg * daysToTarget))} mi</span>
+                <span className="text-violet-400 font-bold">{formatNumber(Math.round(dailyAvg * daysToTarget))} {mileageUnit}</span>
                 <span className="text-slate-500">from today</span>
               </div>
             </div>
@@ -292,12 +294,12 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
             <div className="mt-3 p-3 rounded-xl bg-amber-500/5 border border-amber-500/20">
               <div className="flex items-center justify-between text-xs mb-2">
                 <span className="text-slate-500">Lease Limit</span>
-                <span className="text-white font-bold">{formatNumber(activeVehicle.leaseMileageLimit)} mi</span>
+                <span className="text-white font-bold">{formatNumber(activeVehicle.leaseMileageLimit)} {mileageUnit}</span>
               </div>
               <div className="flex items-center justify-between text-xs mb-2">
                 <span className="text-slate-500">Projected at lease end</span>
                 <span className={projectedMileage > activeVehicle.leaseMileageLimit ? 'text-red-400 font-bold' : 'text-emerald-400 font-bold'}>
-                  {formatNumber(projectedMileage)} mi
+                  {formatNumber(projectedMileage)} {mileageUnit}
                 </span>
               </div>
               {/* Progress bar */}

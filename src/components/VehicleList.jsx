@@ -5,9 +5,11 @@ import { ManufacturerBadge } from '../utils/manufacturerBranding.jsx';
 import { decodeVin, isValidVin } from '../utils/vinDecoder.js';
 import { VEHICLE_TYPES } from '../utils/constants.js';
 import MotorcycleIcon from './MotorcycleIcon';
+import SemiTruckIcon from './SemiTruckIcon';
+import RVIcon from './RVIcon';
 
 // Map icon names to lucide-react components
-const TYPE_ICONS = { Car, Motorcycle: MotorcycleIcon, Tractor, Package, Ship, Anchor, Cog };
+const TYPE_ICONS = { Car, Motorcycle: MotorcycleIcon, Tractor, Package, Ship, Anchor, Cog, SemiTruck: SemiTruckIcon, RV: RVIcon };
 
 export default function VehicleList({ vehicles, onAdd, onEdit, onDelete, isPremium, vehicleCount, onNavigate }) {
   const [showForm, setShowForm] = useState(false);
@@ -250,6 +252,15 @@ function VehicleFormModal({ vehicle, onSave, onClose, initialType = 'car', focus
   });
   const [vinState, setVinState] = useState({ status: 'idle', message: '', data: null }); // idle | loading | success | error
 
+  // Per-type form helpers
+  const usesHours = ['ag-equipment', 'forklift', 'watercraft', 'outboard', 'marine-diesel'].includes(form.type);
+  const hasVinDecoder = ['car', 'motorcycle', 'semi-truck', 'rv'].includes(form.type);
+  const hasLicensePlate = ['car', 'motorcycle', 'watercraft', 'semi-truck', 'rv'].includes(form.type);
+
+  const mileageLabel = usesHours ? 'Engine Hours' : 'Current Mileage';
+  const purchaseMileageLabel = usesHours ? 'Hours at Purchase' : 'Mileage at Purchase';
+  const canLease = ['car', 'motorcycle', 'semi-truck', 'rv'].includes(form.type);
+
   const handleDecodeVin = async () => {
     const vin = form.vin?.trim().toUpperCase();
     if (!vin || vin.length < 17) {
@@ -351,7 +362,18 @@ function VehicleFormModal({ vehicle, onSave, onClose, initialType = 'car', focus
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-3">
-          {form.type === 'marine-diesel' || form.type === 'outboard' ? (
+          {!hasVinDecoder && !['watercraft', 'outboard', 'marine-diesel'].includes(form.type) ? (
+            /* N/A identifier — for equipment without VIN/HIN/serial */
+            <div>
+              <label className="block text-xs text-slate-400 mb-1 font-medium">
+                VIN / Serial Number <span className="text-slate-600 font-normal">(for lookup)</span>
+              </label>
+              <div className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800/50 border border-slate-700/50 text-slate-500 text-sm italic flex items-center gap-2">
+                <span className="text-slate-600 text-[10px] font-medium uppercase tracking-wider">N/A</span>
+                <span className="text-xs">No VIN required for this vehicle type</span>
+              </div>
+            </div>
+          ) : form.type === 'marine-diesel' || form.type === 'outboard' ? (
             /* Engine Serial Number — for marine/outboard engines */
             <div>
               <label className="block text-xs text-slate-400 mb-1 font-medium">
@@ -433,7 +455,7 @@ function VehicleFormModal({ vehicle, onSave, onClose, initialType = 'car', focus
                 type="text"
                 value={form.make}
                 onChange={e => setForm(f => ({ ...f, make: e.target.value }))}
-                placeholder={form.type === 'motorcycle' ? 'e.g. Yamaha' : form.type === 'ag-equipment' ? 'e.g. John Deere' : form.type === 'forklift' ? 'e.g. Hyster' : form.type === 'watercraft' ? 'e.g. Yamaha' : form.type === 'outboard' ? 'e.g. Mercury' : form.type === 'marine-diesel' ? 'e.g. Cummins' : 'e.g. Toyota'}
+                placeholder={form.type === 'motorcycle' ? 'e.g. Yamaha' : form.type === 'ag-equipment' ? 'e.g. John Deere' : form.type === 'forklift' ? 'e.g. Hyster' : form.type === 'watercraft' ? 'e.g. Yamaha' : form.type === 'outboard' ? 'e.g. Mercury' : form.type === 'marine-diesel' ? 'e.g. Cummins' : form.type === 'semi-truck' ? 'e.g. Freightliner' : form.type === 'rv' ? 'e.g. Winnebago' : 'e.g. Toyota'}
                 className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
                 required
               />
@@ -444,7 +466,7 @@ function VehicleFormModal({ vehicle, onSave, onClose, initialType = 'car', focus
                 type="text"
                 value={form.model}
                 onChange={e => setForm(f => ({ ...f, model: e.target.value }))}
-                placeholder={form.type === 'motorcycle' ? 'e.g. R1' : form.type === 'ag-equipment' ? 'e.g. 6R' : form.type === 'forklift' ? 'e.g. H50' : form.type === 'watercraft' ? 'e.g. FX Cruiser' : form.type === 'outboard' ? 'e.g. F150' : form.type === 'marine-diesel' ? 'e.g. QSB 6.7' : 'e.g. Camry'}
+                placeholder={form.type === 'motorcycle' ? 'e.g. R1' : form.type === 'ag-equipment' ? 'e.g. 6R' : form.type === 'forklift' ? 'e.g. H50' : form.type === 'watercraft' ? 'e.g. FX Cruiser' : form.type === 'outboard' ? 'e.g. F150' : form.type === 'marine-diesel' ? 'e.g. QSB 6.7' : form.type === 'semi-truck' ? 'e.g. Cascadia' : form.type === 'rv' ? 'e.g. Vista' : 'e.g. Camry'}
                 className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
                 required
               />
@@ -461,7 +483,7 @@ function VehicleFormModal({ vehicle, onSave, onClose, initialType = 'car', focus
               />
             </div>
             <div>
-              <label className="block text-xs text-slate-400 mb-1.5 font-medium">Current Mileage</label>
+              <label className="block text-xs text-slate-400 mb-1.5 font-medium">{mileageLabel}</label>
               <input
                 type="number"
                 value={form.mileage}
@@ -483,7 +505,7 @@ function VehicleFormModal({ vehicle, onSave, onClose, initialType = 'car', focus
               />
             </div>
             <div>
-              <label className="block text-xs text-slate-400 mb-1.5 font-medium">Mileage at Purchase</label>
+              <label className="block text-xs text-slate-400 mb-1.5 font-medium">{purchaseMileageLabel}</label>
               <input
                 type="number"
                 value={form.purchaseMileage}
@@ -492,31 +514,43 @@ function VehicleFormModal({ vehicle, onSave, onClose, initialType = 'car', focus
               />
             </div>
           </div>
-          <div>
-            <label className="block text-xs text-slate-400 mb-1.5 font-medium">License Plate</label>
-            <input
-              type="text"
-              value={form.licensePlate}
-              onChange={e => setForm(f => ({ ...f, licensePlate: e.target.value }))}
-              placeholder="e.g. ABC-1234"
-              className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
-            />
-          </div>
-
-          {/* Leasing Section */}
-          <div className="border-t border-slate-800 pt-4 mt-4">
-            <label className="flex items-center gap-3 cursor-pointer">
+          {hasLicensePlate ? (
+            <div>
+              <label className="block text-xs text-slate-400 mb-1.5 font-medium">License Plate</label>
               <input
-                type="checkbox"
-                checked={form.isLeased}
-                onChange={e => setForm(f => ({ ...f, isLeased: e.target.checked }))}
-                className="w-4 h-4 rounded border-slate-600 text-blue-600 focus:ring-blue-500/30 bg-slate-800"
+                type="text"
+                value={form.licensePlate}
+                onChange={e => setForm(f => ({ ...f, licensePlate: e.target.value }))}
+                placeholder="e.g. ABC-1234"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
               />
-              <span className="text-sm text-white font-medium">This vehicle is leased</span>
-            </label>
-          </div>
+            </div>
+          ) : (
+            <div>
+              <label className="block text-xs text-slate-400 mb-1.5 font-medium">License Plate</label>
+              <div className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800/50 border border-slate-700/50 text-slate-500 text-sm italic flex items-center gap-2">
+                <span className="text-slate-600 text-[10px] font-medium uppercase tracking-wider">N/A</span>
+                <span className="text-xs">No plate required for this vehicle type</span>
+              </div>
+            </div>
+          )}
 
-          {form.isLeased && (
+          {canLease && (
+            <>
+              {/* Leasing Section */}
+              <div className="border-t border-slate-800 pt-4 mt-4">
+                <label className="flex items-center gap-3 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={form.isLeased}
+                    onChange={e => setForm(f => ({ ...f, isLeased: e.target.checked }))}
+                    className="w-4 h-4 rounded border-slate-600 text-blue-600 focus:ring-blue-500/30 bg-slate-800"
+                  />
+                  <span className="text-sm text-white font-medium">This vehicle is leased</span>
+                </label>
+              </div>
+
+              {form.isLeased && (
             <div className="grid grid-cols-2 gap-3 p-4 rounded-xl bg-amber-500/5 border border-amber-500/20">
               <div>
                 <label className="block text-xs text-slate-400 mb-1.5 font-medium">Lease End Date</label>
@@ -541,6 +575,8 @@ function VehicleFormModal({ vehicle, onSave, onClose, initialType = 'car', focus
                 MTXtrkr will track your mileage pace and alert you if you're approaching your lease limit.
               </p>
             </div>
+          )}
+            </>
           )}
           <div className="flex gap-3 pt-2">
             <button
