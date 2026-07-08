@@ -195,7 +195,7 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
             text: 'text-emerald-400',
           },
         ].map(s => (
-          <div key={s.label} className={`p-4 rounded-2xl ${s.bg} ${s.border} border shadow-sm`}>
+          <div key={s.label} className={`p-4 rounded-2xl ${s.bg} ${s.border} border shadow-sm glass-card`}>
             <div className="flex items-center gap-2 mb-3">
               <s.icon className={`w-4 h-4 ${s.text}`} />
               <span className="text-xs text-slate-400">{s.label}</span>
