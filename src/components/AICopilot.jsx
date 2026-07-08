@@ -261,7 +261,7 @@ export default function AICopilot({ vehicles, logs, onAddLog, onNavigate, isPrem
         <textarea
           value={inputText}
           onChange={(e) => setInputText(e.target.value)}
-          placeholder='e.g. "my engine is making a high-pitched squeal when I turn on the AC" or "i did the oil thing yesterday in my driveway"'
+          placeholder='Ask it anything — "engine is squeaking when I turn on the AC" or "did the oil thing yesterday"'
           rows={3}
           className="w-full px-4 py-3 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-purple-500/50 resize-none transition-all"
         />

@@ -723,6 +723,162 @@ export const MAINTENANCE_SCHEDULES = {
     }
   },
 
+  // --- Motorcycles ---
+  'harley-davidson': {
+    specs: { oil: { viscosity: '20W-50', type: 'Harley-Davidson Screamin\' Eagle Full Synthetic', capacity: '4.0 qt' }, primaryChain: { type: 'Harley Formula+ Primary Chaincase Oil' }, transmission: { type: 'Harley Formula+ Transmission Oil' }, brakeFluid: { type: 'DOT 5' }, tirePressure: { psi: 36 }, battery: { groupSize: 'Group 24' } },
+    models: {
+      'street glide': [
+        { service: 'Oil & Filter Change', intervalMiles: 5000, intervalMonths: 6, severity: 'high', description: 'Harley V-Twin loves fresh Screamin\' Eagle 20W-50. Belt drive — no chain maintenance needed.' },
+        { service: 'Primary Chaincase Oil', intervalMiles: 5000, intervalMonths: 6, severity: 'medium', description: 'Replace Harley Formula+ primary chaincase oil. Keeps the clutch and primary running smooth.' },
+        { service: 'Transmission Oil', intervalMiles: 10000, intervalMonths: 12, severity: 'medium', description: 'Replace with Harley Formula+ transmission oil. Essential for smooth shifting.' },
+        { service: 'Brake Fluid Flush', intervalMiles: 20000, intervalMonths: 24, severity: 'medium', description: 'DOT 5 silicone-based fluid. Does not absorb water like DOT 3/4.' },
+        { service: 'Spark Plugs', intervalMiles: 30000, intervalMonths: 36, severity: 'medium', description: 'Replace Harley twin cam or Milwaukee-Eight spark plugs.' },
+        { service: 'Drive Belt Inspection', intervalMiles: 10000, intervalMonths: 12, severity: 'low', description: 'Inspect belt tension and wear. Harley belt drive is low maintenance but needs checking.' },
+        { service: 'Tire Inspection', intervalMiles: 5000, intervalMonths: 6, severity: 'low', description: 'Check tire pressure and tread depth. Harley tires wear faster than car tires.' },
+      ],
+      'road king': 'harley-davidson.street glide', 'fat boy': 'harley-davidson.street glide',
+      'softail': 'harley-davidson.street glide', 'sportster': 'harley-davidson.street glide',
+      'electra glide': 'harley-davidson.street glide'
+    }
+  },
+  'yamaha-mc': {
+    specs: { oil: { viscosity: '10W-40', type: 'Yamalube 4T Full Synthetic', capacity: '3.5 qt' }, transmission: { type: 'Yamalube 10W-40 (shared with engine)' }, brakeFluid: { type: 'DOT 4' }, tirePressure: { psi: 33 }, battery: { groupSize: 'Group 12' }, chain: { type: '520 / 530 O-ring chain' } },
+    models: {
+      'r1': [
+        { service: 'Oil & Filter Change', intervalMiles: 4000, intervalMonths: 6, severity: 'high', description: 'High-revving CP4 crossplane engine. Yamalube 10W-40 full synthetic.' },
+        { service: 'Chain Lube & Adjustment', intervalMiles: 500, intervalMonths: 0, severity: 'medium', description: 'Lube and adjust every 500 miles. 520 O-ring chain needs frequent care.' },
+        { service: 'Brake Fluid Flush', intervalMiles: 15000, intervalMonths: 12, severity: 'medium', description: 'DOT 4. Sport bike brakes run hot.' },
+        { service: 'Spark Plugs', intervalMiles: 24000, intervalMonths: 24, severity: 'medium', description: 'NGK Iridium plugs. Critical for high-RPM performance.' },
+        { service: 'Coolant Exchange', intervalMiles: 30000, intervalMonths: 48, severity: 'medium', description: 'Yamaha Long Life Coolant. Prevents overheating during spirited riding.' },
+        { service: 'Tire Inspection', intervalMiles: 2000, intervalMonths: 0, severity: 'low', description: 'Sport bike tires wear fast. Check every 2000 miles.' },
+        { service: 'Valve Clearance Check', intervalMiles: 26000, intervalMonths: 48, severity: 'high', description: 'CP4 engine needs valve adjustments. Dealer service recommended.' },
+      ],
+      'r7': 'yamaha-mc.r1', 'mt-09': 'yamaha-mc.r1', 'mt-07': 'yamaha-mc.r1',
+      'yzf-r6': 'yamaha-mc.r1', 'super tenere': 'yamaha-mc.r1'
+    }
+  },
+  'honda-mc': {
+    specs: { oil: { viscosity: '10W-30', type: 'Honda GN4/HP4 Full Synthetic', capacity: '3.0 qt' }, transmission: { type: 'Honda 10W-30 (shared with engine)' }, brakeFluid: { type: 'DOT 4' }, tirePressure: { psi: 34 }, battery: { groupSize: 'Group 12' }, chain: { type: '520 O-ring chain' } },
+    models: {
+      'cbr1000rr': [
+        { service: 'Oil & Filter Change', intervalMiles: 4000, intervalMonths: 6, severity: 'high', description: 'Honda Fireblade engine. Use Honda GN4 or HP4 10W-30.' },
+        { service: 'Chain Lube & Adjustment', intervalMiles: 500, intervalMonths: 0, severity: 'medium', description: 'Every 500 miles. 520 O-ring chain lube and tension check.' },
+        { service: 'Brake Fluid Flush', intervalMiles: 15000, intervalMonths: 12, severity: 'medium', description: 'DOT 4 brake fluid. Consistent braking feel.' },
+        { service: 'Spark Plugs', intervalMiles: 24000, intervalMonths: 24, severity: 'medium', description: 'Iridium plugs for consistent ignition.' },
+        { service: 'Valve Clearance Check', intervalMiles: 16000, intervalMonths: 24, severity: 'high', description: 'Honda recommends valve check every 16k miles.' },
+        { service: 'Coolant Exchange', intervalMiles: 30000, intervalMonths: 48, severity: 'medium', description: 'Honda Type 2 coolant.' },
+      ],
+      'cbr600rr': 'honda-mc.cbr1000rr', 'cbr650r': 'honda-mc.cbr1000rr',
+      'cb1000r': 'honda-mc.cbr1000rr', 'africa twin': 'honda-mc.cbr1000rr',
+      'nc750x': 'honda-mc.cbr1000rr', 'gold wing': 'honda-mc.cbr1000rr'
+    }
+  },
+  'kawasaki-mc': {
+    specs: { oil: { viscosity: '10W-40', type: 'Kawasaki Performance Full Synthetic', capacity: '3.5 qt' }, transmission: { type: 'Kawasaki 10W-40 (shared with engine)' }, brakeFluid: { type: 'DOT 4' }, tirePressure: { psi: 34 }, battery: { groupSize: 'Group 12' }, chain: { type: '520/525 O-ring chain' } },
+    models: {
+      'ninja zx-10r': [
+        { service: 'Oil & Filter Change', intervalMiles: 4000, intervalMonths: 6, severity: 'high', description: 'Kawasaki superbike engine. Full synthetic 10W-40.' },
+        { service: 'Chain Lube & Adjustment', intervalMiles: 500, intervalMonths: 0, severity: 'medium', description: 'Every 500 miles. 525 O-ring chain care.' },
+        { service: 'Brake Fluid Flush', intervalMiles: 15000, intervalMonths: 12, severity: 'medium', description: 'DOT 4 fluid flush.' },
+        { service: 'Spark Plugs', intervalMiles: 24000, intervalMonths: 24, severity: 'medium', description: 'NGK Iridium plugs.' },
+        { service: 'Valve Clearance Check', intervalMiles: 15000, intervalMonths: 24, severity: 'high', description: 'Kawasaki recommends checking every 15k miles.' },
+        { service: 'Coolant Exchange', intervalMiles: 30000, intervalMonths: 48, severity: 'medium', description: 'Kawasaki Long Life Coolant.' },
+      ],
+      'ninja 650': 'kawasaki-mc.ninja zx-10r', 'z900': 'kawasaki-mc.ninja zx-10r',
+      'z650': 'kawasaki-mc.ninja zx-10r', 'versys 650': 'kawasaki-mc.ninja zx-10r',
+      'vulcan s': 'kawasaki-mc.ninja zx-10r'
+    }
+  },
+  'suzuki-mc': {
+    specs: { oil: { viscosity: '10W-40', type: 'Suzuki ECSTAR Full Synthetic', capacity: '3.2 qt' }, transmission: { type: 'Suzuki 10W-40 (shared with engine)' }, brakeFluid: { type: 'DOT 4' }, tirePressure: { psi: 34 }, battery: { groupSize: 'Group 12' }, chain: { type: '525 O-ring chain' } },
+    models: {
+      'gsx-r1000': [
+        { service: 'Oil & Filter Change', intervalMiles: 4000, intervalMonths: 6, severity: 'high', description: 'Suzuki GSX-R engine. ECSTAR 10W-40 full synthetic.' },
+        { service: 'Chain Lube & Adjustment', intervalMiles: 500, intervalMonths: 0, severity: 'medium', description: 'Every 500 miles. 525 O-ring chain.' },
+        { service: 'Brake Fluid Flush', intervalMiles: 15000, intervalMonths: 12, severity: 'medium', description: 'DOT 4 brake fluid.' },
+        { service: 'Spark Plugs', intervalMiles: 24000, intervalMonths: 24, severity: 'medium', description: 'Iridium plugs for GSX-R performance.' },
+        { service: 'Valve Clearance Check', intervalMiles: 15000, intervalMonths: 24, severity: 'high', description: 'Every 15k miles. Dealer service.' },
+        { service: 'Coolant Exchange', intervalMiles: 30000, intervalMonths: 48, severity: 'medium', description: 'Suzuki Long Life Coolant.' },
+      ],
+      'gsx-r750': 'suzuki-mc.gsx-r1000', 'gsx-r600': 'suzuki-mc.gsx-r1000',
+      'sv650': 'suzuki-mc.gsx-r1000', 'v-strom 650': 'suzuki-mc.gsx-r1000',
+      'hayabusa': 'suzuki-mc.gsx-r1000'
+    }
+  },
+  'bmw-mc': {
+    specs: { oil: { viscosity: '5W-40', type: 'BMW Advantec Pro Full Synthetic', capacity: '4.0 qt' }, transmission: { type: 'BMW Gear Oil 75W-90 (separate)' }, brakeFluid: { type: 'DOT 4' }, tirePressure: { psi: 36 }, battery: { groupSize: 'Group 12' }, shaftDrive: { note: 'Shaft drive — no chain maintenance needed' } },
+    models: {
+      'r1250gs': [
+        { service: 'Oil & Filter Change', intervalMiles: 6000, intervalMonths: 12, severity: 'high', description: 'BMW boxer twin. Advantec 5W-40. Shaft drive — no chain to lube.' },
+        { service: 'Transmission Oil Change', intervalMiles: 12000, intervalMonths: 24, severity: 'medium', description: 'Separate gearbox. BMW 75W-90 gear oil.' },
+        { service: 'Final Drive Oil Change', intervalMiles: 12000, intervalMonths: 24, severity: 'high', description: 'Replace shaft drive final drive oil. Critical for BMW shaft reliability.' },
+        { service: 'Brake Fluid Flush', intervalMiles: 20000, intervalMonths: 24, severity: 'medium', description: 'DOT 4. BMW linked braking system.' },
+        { service: 'Spark Plugs', intervalMiles: 30000, intervalMonths: 36, severity: 'medium', description: 'Iridium plugs for boxer engine.' },
+        { service: 'Valve Clearance Check', intervalMiles: 12000, intervalMonths: 24, severity: 'high', description: 'Boxer engine valve adjustment. Dealer service recommended.' },
+        { service: 'Coolant Exchange', intervalMiles: 40000, intervalMonths: 48, severity: 'medium', description: 'BMW coolant. Prevents overheating during long tours.' },
+        { service: 'Tire Inspection', intervalMiles: 6000, intervalMonths: 6, severity: 'low', description: 'Adventure tires need regular checking for punctures and wear.' },
+      ],
+      's1000rr': 'bmw-mc.r1250gs', 'r nine t': 'bmw-mc.r1250gs', 'f850gs': 'bmw-mc.r1250gs',
+      'k1600': 'bmw-mc.r1250gs'
+    }
+  },
+  indian: {
+    specs: { oil: { viscosity: '20W-50', type: 'Indian Motorcycle Full Synthetic', capacity: '4.0 qt' }, primaryChain: { type: 'Indian Formula+ Primary Chaincase Oil' }, transmission: { type: 'Indian Formula+ Transmission Oil' }, brakeFluid: { type: 'DOT 4' }, tirePressure: { psi: 36 }, battery: { groupSize: 'Group 24' } },
+    models: {
+      'challenger': [
+        { service: 'Oil & Filter Change', intervalMiles: 5000, intervalMonths: 6, severity: 'high', description: 'Indian PowerPlus V-Twin. 20W-50 full synthetic. Belt drive — no chain.' },
+        { service: 'Primary Chaincase Oil', intervalMiles: 5000, intervalMonths: 6, severity: 'medium', description: 'Replace Indian Formula+ primary oil. Keeps clutch smooth.' },
+        { service: 'Transmission Oil', intervalMiles: 10000, intervalMonths: 12, severity: 'medium', description: 'Indian Formula+ transmission oil.' },
+        { service: 'Brake Fluid Flush', intervalMiles: 20000, intervalMonths: 24, severity: 'medium', description: 'DOT 4. Indian braking system.' },
+        { service: 'Spark Plugs', intervalMiles: 30000, intervalMonths: 36, severity: 'medium', description: 'Replace PowerPlus engine spark plugs.' },
+        { service: 'Drive Belt Inspection', intervalMiles: 10000, intervalMonths: 12, severity: 'low', description: 'Check belt tension and condition.' },
+      ],
+      'chieftain': 'indian.challenger', 'springfield': 'indian.challenger', 'scout': 'indian.challenger'
+    }
+  },
+
+  // --- Ford cross-references (Lincoln) ---
+  lincoln: {
+    specs: { oil: { viscosity: '5W-20', type: 'Ford Motorcraft Full Synthetic', capacity: '6.0 qt' }, transmission: { type: 'Mercon LV', capacity: '4.0 qt' }, coolant: { type: 'Motorcraft Orange' }, brakeFluid: { type: 'DOT 4' }, tirePressure: { psi: 36 }, sparkPlugs: { type: 'Iridium', gap: '0.049 in' }, battery: { groupSize: 'Group 65' } },
+    models: {
+      corsair: 'ford.f-150', nautilus: 'ford.f-150', aviator: 'ford.f-150', navigator: 'ford.f-150'
+    }
+  },
+  // --- Nissan cross-references (Infiniti) ---
+  infiniti: {
+    specs: { oil: { viscosity: '0W-20', type: 'Nissan Ester Full Synthetic', capacity: '5.0 qt' }, transmission: { type: 'NS-3 (CVT) / Matic S', capacity: '4.0 qt' }, coolant: { type: 'Nissan Blue' }, brakeFluid: { type: 'DOT 3' }, tirePressure: { psi: 34 }, sparkPlugs: { type: 'Iridium', gap: '0.044 in' }, battery: { groupSize: 'Group 35' } },
+    models: {
+      q50: 'nissan.altima', q60: 'nissan.altima', qx50: 'nissan.altima', qx60: 'nissan.altima', qx80: 'nissan.altima'
+    }
+  },
+  // --- Chevrolet cross-references (Buick) ---
+  buick: {
+    specs: { oil: { viscosity: '5W-30', type: 'Dexos Full Synthetic', capacity: '5.0 qt' }, transmission: { type: 'Dexron VI', capacity: '4.0 qt' }, coolant: { type: 'Dex-Cool Orange' }, brakeFluid: { type: 'DOT 3' }, tirePressure: { psi: 34 }, sparkPlugs: { type: 'Iridium', gap: '0.040 in' }, battery: { groupSize: 'Group 48' } },
+    models: {
+      enclave: 'chevrolet.silverado', envision: 'chevrolet.silverado', encore: 'chevrolet.silverado', lacrosse: 'chevrolet.silverado'
+    }
+  },
+
+  // --- Electric Forklift (Hyster e-series — battery/charging maintenance) ---
+  'hyster-e': {
+    specs: { battery: { type: 'Lead-acid / Lithium-ion', voltage: '36V - 80V', capacity: '500-1200 Ah' }, charger: { type: 'Industrial HF / SCR' }, tirePressure: { psi: 'Varies by tire type' } },
+    models: {
+      'e30': [
+        { service: 'Battery Watering', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 5 charge cycles (lead-acid). Check electrolyte levels. Use distilled water only.' },
+        { service: 'Battery Charge Check', intervalMiles: 0, intervalMonths: 0, severity: 'medium', description: 'Daily. Check charge status after each shift. Never discharge below 20%.' },
+        { service: 'Connector Inspection', intervalMiles: 0, intervalMonths: 0, severity: 'medium', description: 'Weekly. Inspect battery connectors and charger cables for damage.' },
+        { service: 'Equalization Charge', intervalMiles: 0, intervalMonths: 0, severity: 'medium', description: 'Every 30 charge cycles (lead-acid). Equalization charge prevents sulfation.' },
+        { service: 'Brake Inspection', intervalMiles: 0, intervalMonths: 0, severity: 'medium', description: 'Every 500 hours. Check brake pads, discs, and regenerative braking.' },
+        { service: 'Tire Inspection', intervalMiles: 0, intervalMonths: 0, severity: 'low', description: 'Every 250 hours. Check tire condition and pressure. Solid tires need rotation.' },
+        { service: 'Coolant Check (Charger)', intervalMiles: 0, intervalMonths: 6, severity: 'low', description: 'Check charger cooling system every 6 months. Clean cooling fans.' },
+        { service: 'Inspection', intervalMiles: 0, intervalMonths: 0, severity: 'low', description: 'Every 250 hours. Full PM: mast, forks, hydraulics, safety systems.' },
+      ],
+      'e40': 'hyster-e.e30', 'e50': 'hyster-e.e30', 'e60': 'hyster-e.e30',
+      'e80': 'hyster-e.e30', 'e100': 'hyster-e.e30',
+      'j30': 'hyster-e.e30', 'j40': 'hyster-e.e30', 'j50': 'hyster-e.e30'
+    }
+  },
+
   default: {
     specs: { oil: { viscosity: '5W-30', type: 'Conventional/Synthetic Blend', capacity: '5.0 qt' }, transmission: { type: "Check owner's manual" }, coolant: { type: 'Universal OAT' }, brakeFluid: { type: 'DOT 3' }, tirePressure: { psi: 34 }, sparkPlugs: { type: 'Iridium', gap: '0.044 in' }, battery: { groupSize: 'Group 35' } },
     services: [
