@@ -90,48 +90,76 @@ export default async function handler(req, res) {
         .single();
 
       const vehicleCount = vehicles?.length || 0;
+      // Helper: calculate monthly lease allowance
+      const getLeaseMonthlyAllowance = (v) => {
+        if (!v.isLeased || !v.leaseMileageLimit || !v.leaseEndDate) return null;
+        const now = new Date();
+        const end = new Date(v.leaseEndDate);
+        if (end <= now) return null;
+        const monthsRemaining = Math.max(1, (end.getFullYear() - now.getFullYear()) * 12 + (end.getMonth() - now.getMonth()));
+        const milesRemaining = Math.max(0, v.leaseMileageLimit - (v.mileage || 0));
+        const monthlyAllowance = Math.round(milesRemaining / monthsRemaining);
+        // Determine if they're over or under pace
+        // Use purchase data to estimate actual monthly usage
+        let actualMonthly = null;
+        let statusColor = '#10b981'; // green
+        let statusText = 'on track to stay under your limit';
+        if (v.purchaseDate && v.purchaseMileage >= 0) {
+          const monthsSince = Math.max(1, (now.getFullYear() - new Date(v.purchaseDate).getFullYear()) * 12 + (now.getMonth() - new Date(v.purchaseDate).getMonth()));
+          const milesDriven = Math.max(0, (v.mileage || 0) - v.purchaseMileage);
+          if (monthsSince > 0 && milesDriven > 0) {
+            actualMonthly = Math.round(milesDriven / monthsSince);
+            const projectedOver = (actualMonthly * monthsRemaining) > milesRemaining;
+            if (projectedOver) {
+              const overage = Math.round((actualMonthly * monthsRemaining) - milesRemaining);
+              statusColor = '#ef4444';
+              statusText = `at this pace, you'll exceed your limit by ${overage.toLocaleString()} mi`;
+            }
+          }
+        }
+        return { monthlyAllowance, monthsRemaining, milesRemaining, statusColor, statusText, actualMonthly };
+      };
+
+      // Text-based vehicle list (for display in email)
       const vehicleList = vehicles?.map(v => {
         const base = `${v.year} ${v.make} ${v.model} (${v.name}) — ${v.mileage?.toLocaleString() || '?'} mi`;
         if (v.isLeased && v.leaseMileageLimit) {
-          // Calculate projected mileage vs limit if we have purchase data
-          let leaseMsg = '';
-          if (v.purchaseDate && v.purchaseMileage >= 0) {
-            const daysSince = Math.floor((Date.now() - new Date(v.purchaseDate).getTime()) / (24 * 60 * 60 * 1000));
-            if (daysSince > 0) {
-              const dailyAvg = Math.max(0, (v.mileage - v.purchaseMileage) / daysSince);
-              if (dailyAvg > 0 && v.leaseEndDate) {
-                const daysToEnd = Math.max(0, Math.floor((new Date(v.leaseEndDate).getTime() - Date.now()) / (24 * 60 * 60 * 1000)));
-                const projected = Math.round(v.mileage + dailyAvg * daysToEnd);
-                const overUnder = projected > v.leaseMileageLimit
-                  ? `<span style="color:#ef4444;">⚠ ${(projected - v.leaseMileageLimit).toLocaleString()} mi over</span>`
-                  : `<span style="color:#10b981;">${(v.leaseMileageLimit - projected).toLocaleString()} mi remaining</span>`;
-                leaseMsg = ` — <strong>Lease:</strong> ${v.leaseMileageLimit.toLocaleString()} mi limit, projected ${projected.toLocaleString()} mi (${overUnder})`;
-              }
-            }
+          const allowance = getLeaseMonthlyAllowance(v);
+          if (allowance) {
+            const statusIcon = allowance.statusColor === '#ef4444' ? '⚠' : '✓';
+            return `${base}<br><span style="color:${allowance.statusColor};font-size:12px;">${statusIcon} Lease: ${allowance.monthlyAllowance.toLocaleString()} mi/month remaining — ${allowance.statusText}</span>`;
           }
-          if (!leaseMsg) {
-            leaseMsg = ` — <strong>Lease:</strong> ${v.leaseMileageLimit.toLocaleString()} mi limit`;
-          }
-          return base + leaseMsg;
+          return `${base}<br><span style="color:#64748b;font-size:12px;">Lease: ${v.leaseMileageLimit.toLocaleString()} mi limit</span>`;
         }
         return base;
       }).join('<br>') || 'No vehicles added yet.';
 
-      // Per-vehicle CTA buttons with deep-links to select the vehicle in the app
+      // Per-vehicle CTA rows with deep-links
       const vehicleCtas = vehicles?.map(v => {
-        const ctaUrl = `${appUrl}/?vehicle=${encodeURIComponent(v.id)}`;
+        const ctaUrl = `${appUrl}/dashboard?update-mileage=${encodeURIComponent(v.id)}`;
+        let leaseHtml = '';
+        if (v.isLeased && v.leaseMileageLimit) {
+          const allowance = getLeaseMonthlyAllowance(v);
+          if (allowance) {
+            const statusIcon = allowance.statusColor === '#ef4444' ? '⚠ ' : '✓ ';
+            leaseHtml = `<br><span style="color:${allowance.statusColor}; font-size: 11px;">${statusIcon}Lease: ${allowance.monthlyAllowance.toLocaleString()} mi/month remaining — ${allowance.statusText}</span>`;
+          } else {
+            leaseHtml = `<br><span style="color:#64748b; font-size: 11px;">Lease: ${v.leaseMileageLimit.toLocaleString()} mi limit</span>`;
+          }
+        }
         return `
           <tr>
-            <td style="padding: 8px 0; border-bottom: 1px solid #f1f5f9;">
+            <td style="padding: 10px 0; border-bottom: 1px solid #f1f5f9;">
               <table width="100%" cellpadding="0" cellspacing="0">
                 <tr>
                   <td style="font-size: 13px; color: #334155; line-height: 1.6;">
                     <strong>${v.year} ${v.make} ${v.model}</strong> — ${v.name}<br>
                     <span style="color: #64748b; font-size: 12px;">Current: ${v.mileage?.toLocaleString() || '?'} mi</span>
+                    ${leaseHtml}
                   </td>
-                  <td width="140" style="text-align: right;">
-                    <a href="${ctaUrl}" style="display: inline-block; background: #2563eb; color: #ffffff; padding: 8px 16px; border-radius: 8px; text-decoration: none; font-size: 13px; font-weight: 600;">
-                      Update Mileage
+                  <td width="130" style="text-align: right; vertical-align: middle;">
+                    <a href="${ctaUrl}" style="display: inline-block; background: #2563eb; color: #ffffff; padding: 7px 14px; border-radius: 6px; text-decoration: none; font-size: 12px; font-weight: 600; white-space: nowrap;">
+                      Update Mileage →
                     </a>
                   </td>
                 </tr>
@@ -150,7 +178,7 @@ export default async function handler(req, res) {
         await transporter.sendMail({
           from: process.env.SMTP_USER,
           to: email,
-          subject: `📅 Time to update your mileage — MTXtrkr`,
+          subject: `📅 Mileage check-in for your ${vehicleCount} ${vehicleCount === 1 ? 'vehicle' : 'vehicles'} — MTXtrkr`,
           html: `
             <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 560px; margin: 0 auto; background: #f8fafc; border-radius: 16px; overflow: hidden;">
               <div style="background: linear-gradient(135deg, #1e3a5f, #0f172a); padding: 32px 24px; text-align: center;">
@@ -184,10 +212,20 @@ export default async function handler(req, res) {
                 </div>
                 ${vehicles?.some(v => v.isLeased) ? `
                 <div style="background: #fef3c7; border-radius: 8px; padding: 12px; margin: 16px 0; border: 1px solid #fcd34d;">
-                  <p style="color: #92400e; font-size: 12px; margin: 0; line-height: 1.5;">
-                    <strong>🔑 Lease Mileage Alert:</strong> You have ${vehicles.filter(v => v.isLeased).length} leased vehicle(s). 
-                    Keep your mileage current to avoid over-mileage charges at lease end.
-                  </p>
+                  ${vehicles.filter(v => v.isLeased && v.leaseMileageLimit && v.leaseEndDate).map(v => {
+                    const allowance = getLeaseMonthlyAllowance(v);
+                    if (!allowance) return '';
+                    const isOver = allowance.statusColor === '#ef4444';
+                    return `
+                      <p style="color: #92400e; font-size: 12px; margin: 0 0 4px; line-height: 1.5;">
+                        <strong>🔑 ${v.name} (${v.year} ${v.make} ${v.model}):</strong><br>
+                        ${isOver
+                          ? `<span style="color:#dc2626;">⚠ At this pace, you'll exceed your ${v.leaseMileageLimit.toLocaleString()} mi limit</span>`
+                          : `<span style="color:#16a34a;">✓ You're on track to stay under your ${v.leaseMileageLimit.toLocaleString()} mi limit</span>`
+                        }<br>
+                        <span style="font-size:11px;">Monthly allowance: ${allowance.monthlyAllowance.toLocaleString()} mi/month over ${allowance.monthsRemaining} month${allowance.monthsRemaining > 1 ? 's' : ''}</span>
+                      </p>`;
+                  }).join('')}
                 </div>
                 ` : ''}
               </div>
