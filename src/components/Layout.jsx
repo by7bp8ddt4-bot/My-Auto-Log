@@ -36,7 +36,10 @@ export default function Layout({ currentPage, onNavigate, onLogout, children }) 
         <div className="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <img src={iconImg} alt="MTXtrkr" className="w-8 h-8 rounded-lg" />
-            <img src={logoImg} alt="MTXtrkr" className="h-5 hidden sm:block" />
+            <div>
+              <img src={logoImg} alt="MTXtrkr" className="h-5 hidden sm:block" />
+              <span className="text-[9px] text-slate-500 italic hidden sm:block -mt-0.5">MaintenX Tracker</span>
+            </div>
             <span className="font-bold text-lg tracking-tight sm:hidden">
               <span className="text-white">MTX</span>
               <span className="text-blue-400">tr</span>
