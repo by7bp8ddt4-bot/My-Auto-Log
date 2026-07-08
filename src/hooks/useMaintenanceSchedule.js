@@ -17,7 +17,7 @@ function parseLocalDate(dateStr) {
  * Check if two service names refer to the same service.
  * Uses word-level matching to handle "Oil Change" vs "Oil & Filter Change".
  */
-function isSameService(scheduleName, logServiceType) {
+export function isSameService(scheduleName, logServiceType) {
   const a = scheduleName.toLowerCase().trim();
   const b = logServiceType.toLowerCase().trim();
   
@@ -61,7 +61,7 @@ function isSameService(scheduleName, logServiceType) {
  * Get all service types from a log entry.
  * Handles both old single-type (serviceType string) and new multi-type (serviceTypes array).
  */
-function getLogServiceTypes(log) {
+export function getLogServiceTypes(log) {
   if (Array.isArray(log.serviceTypes) && log.serviceTypes.length > 0) return log.serviceTypes;
   if (log.serviceType) return [log.serviceType];
   return ['Other'];
