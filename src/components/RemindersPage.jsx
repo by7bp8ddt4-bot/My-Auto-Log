@@ -492,73 +492,85 @@ export default function RemindersPage({ reminders, vehicles, logs, onAdd, onUpda
         </div>
       </FolderTab>
 
-      {/* 2. Lease Reminders */}
+      {/* 2. Lease Reminders — Educational Section */}
       <FolderTab
         icon={Calendar}
         title="Lease Reminders"
-        count={leaseReminders.length}
+        count=""
         isExpanded={expandedTabs.lease}
         onToggle={() => toggleTab('lease')}
       >
-        {leaseReminders.length > 0 ? (
-          leaseReminders.map(lr => (
-            <div key={lr.vehicleId} className="p-4 rounded-xl bg-amber-950/30 border border-amber-500/20">
-              <div className="flex items-start justify-between mb-3">
-                <div>
-                  <div className="text-sm font-medium text-white">{lr.vehicleName}</div>
-                  <span className="text-[10px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-400">
-                    {lr.vehicleMake} {lr.vehicleModel}
-                  </span>
-                </div>
-                <span className="text-[10px] px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-300 font-medium">
-                  {lr.daysRemaining > 0 ? `${lr.daysRemaining}d remaining` : 'Lease ended'}
-                </span>
-              </div>
-              <div className="space-y-2 mb-3">
-                <div className="flex justify-between text-xs">
-                  <span className="text-slate-400">Current mileage</span>
-                  <span className="text-white font-medium">{formatNumber(lr.mileage)} mi</span>
-                </div>
-                <div className="flex justify-between text-xs">
-                  <span className="text-slate-400">Projected at turn-in</span>
-                  <span className={lr.overUnder > 0 ? 'text-amber-300 font-medium' : 'text-emerald-300 font-medium'}>
-                    {formatNumber(lr.projectedMileage)} mi
-                  </span>
-                </div>
-                <div className="flex justify-between text-xs">
-                  <span className="text-slate-400">Lease limit</span>
-                  <span className="text-white font-medium">{formatNumber(lr.leaseLimit)} mi</span>
-                </div>
-              </div>
-              <div className="pt-3 border-t border-amber-500/20">
-                <div className="flex justify-between text-[10px] text-slate-500 mb-1">
-                  <span>Usage: {lr.leaseLimit > 0 ? `${Math.round((lr.mileage / lr.leaseLimit) * 100)}%` : 'N/A'}</span>
-                  <span>Limit: 100%</span>
-                </div>
-                <div className="w-full h-2 rounded-full bg-slate-800 overflow-hidden">
-                  <div
-                    className={`h-full rounded-full ${lr.overUnder > 0 ? 'bg-gradient-to-r from-amber-500 to-red-500' : 'bg-gradient-to-r from-emerald-500 to-blue-500'}`}
-                    style={{ width: `${lr.leaseLimit > 0 ? Math.min(100, (lr.mileage / lr.leaseLimit) * 100) : 0}%` }}
-                  />
-                </div>
-                {lr.overUnder > 0 ? (
-                  <p className="text-[10px] text-amber-400 mt-1 font-medium">
-                    ⚠️ Projected {formatNumber(lr.overUnder)} mi over limit — adjust driving or plan early turn-in
-                  </p>
-                ) : (
-                  <p className="text-[10px] text-emerald-400 mt-1 font-medium">
-                    ✅ On track — {formatNumber(Math.abs(lr.overUnder))} mi under limit
-                  </p>
-                )}
-              </div>
-            </div>
-          ))
-        ) : (
-          <div className="text-center py-8 bg-slate-900/30 rounded-xl border border-slate-800">
-            <p className="text-xs text-slate-500">No leased vehicles tracked</p>
-            <p className="text-[10px] text-slate-600 mt-1">Add a vehicle and mark it as leased to see lease reminders</p>
+        <div className="space-y-4">
+          {/* WHAT */}
+          <div className="p-4 rounded-xl bg-slate-900/60 border border-slate-700/50">
+            <h4 className="flex items-center gap-2 text-sm font-semibold text-white mb-2">
+              <Info className="w-4 h-4 text-blue-400" />
+              What Are Lease Projection Emails?
+            </h4>
+            <p className="text-xs text-slate-400 leading-relaxed">
+              MTXtrkr sends you monthly lease mileage projection emails that compare your
+              actual driving pace against your lease mileage limit. Every month, you'll
+              see whether you're on track, approaching your limit, or at risk of going
+              over — so there are no surprises at turn-in.
+            </p>
           </div>
-        )}
+
+          {/* WHEN */}
+          <div className="p-4 rounded-xl bg-slate-900/60 border border-slate-700/50">
+            <h4 className="flex items-center gap-2 text-sm font-semibold text-white mb-2">
+              <Clock className="w-4 h-4 text-blue-400" />
+              When Do We Send Lease Alerts?
+            </h4>
+            <p className="text-xs text-slate-400 leading-relaxed">
+              Lease projection emails are sent <strong className="text-slate-200">monthly</strong> for each vehicle marked
+              as leased in your account. Each email calculates your daily average mileage
+              and projects your odometer reading at your lease end date — comparing it
+              against your mileage limit so you know exactly where you stand.
+            </p>
+          </div>
+
+          {/* WHY */}
+          <div className="p-4 rounded-xl bg-slate-900/60 border border-slate-700/50">
+            <h4 className="flex items-center gap-2 text-sm font-semibold text-white mb-2">
+              <TrendingUp className="w-4 h-4 text-emerald-400" />
+              Why Lease Tracking Matters
+            </h4>
+            <ul className="space-y-2 mt-2">
+              {[
+                'Average overage fee: $0.25/mile — 5,000 miles over = $1,250',
+                'Monthly awareness prevents last-minute surprises at turn-in',
+                'Plan ahead: reduce driving, carpool, or arrange early turn-in',
+                'Accurate projection based on YOUR driving patterns, not guesses',
+                'Free basic tracking included — Premium adds monthly email alerts',
+              ].map((item, i) => (
+                <li key={i} className="flex items-start gap-2 text-xs text-slate-400">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 mt-0.5 shrink-0" />
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Check Lease Status CTA */}
+          <div className="p-4 rounded-xl bg-gradient-to-r from-amber-600/10 to-orange-600/10 border border-amber-500/20">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center shrink-0">
+                <Calendar className="w-5 h-5 text-amber-400" />
+              </div>
+              <div className="flex-1">
+                <h4 className="text-sm font-semibold text-white">Check Your Lease Status</h4>
+                <p className="text-xs text-slate-400">See your mileage projection and remaining allowance</p>
+              </div>
+              <button
+                onClick={() => onNavigate('dashboard')}
+                className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-amber-600 hover:bg-amber-500 text-white text-xs font-medium transition-all"
+              >
+                <ArrowRight className="w-3.5 h-3.5" />
+                Dashboard
+              </button>
+            </div>
+          </div>
+        </div>
       </FolderTab>
 
       {/* 3. Maintenance Reminders */}

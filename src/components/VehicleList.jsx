@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { X, Car, Plus, Pencil, Trash2, ChevronRight, ScanLine, Loader2, CheckCircle2, AlertCircle, Tractor, Package, Ship, Anchor, Cog } from 'lucide-react';
 import { formatNumber } from '../utils/helpers';
 import { ManufacturerBadge } from '../utils/manufacturerBranding.jsx';
@@ -13,12 +13,27 @@ export default function VehicleList({ vehicles, onAdd, onEdit, onDelete, isPremi
   const [showForm, setShowForm] = useState(false);
   const [editingVehicle, setEditingVehicle] = useState(null);
   const [vehicleType, setVehicleType] = useState('car');
+  const [focusMileage, setFocusMileage] = useState(false);
   const [expandedTypes, setExpandedTypes] = useState(() => {
     // Start with all types expanded
     const init = {};
     VEHICLE_TYPES.forEach(t => { init[t.id] = true; });
     return init;
   });
+
+  // Check for pending edit from mileage update deep-link
+  useEffect(() => {
+    const pendingId = sessionStorage.getItem('mtxtrkr_pending_edit_vehicle');
+    if (pendingId) {
+      sessionStorage.removeItem('mtxtrkr_pending_edit_vehicle');
+      const target = vehicles.find(v => v.id === pendingId);
+      if (target) {
+        setEditingVehicle(target);
+        setFocusMileage(true);
+        setShowForm(true);
+      }
+    }
+  }, [vehicles]);
 
   const toggleType = (typeId) => {
     setExpandedTypes(prev => ({ ...prev, [typeId]: !prev[typeId] }));
@@ -208,14 +223,15 @@ export default function VehicleList({ vehicles, onAdd, onEdit, onDelete, isPremi
           vehicle={editingVehicle}
           initialType={vehicleType}
           onSave={handleSubmit}
-          onClose={() => { setShowForm(false); setEditingVehicle(null); }}
+          onClose={() => { setShowForm(false); setEditingVehicle(null); setFocusMileage(false); }}
+          focusMileage={focusMileage}
         />
       )}
     </div>
   );
 }
 
-function VehicleFormModal({ vehicle, onSave, onClose, initialType = 'car' }) {
+function VehicleFormModal({ vehicle, onSave, onClose, initialType = 'car', focusMileage = false }) {
   const [form, setForm] = useState({
     name: vehicle?.name || '',
     make: vehicle?.make || '',
@@ -450,6 +466,7 @@ function VehicleFormModal({ vehicle, onSave, onClose, initialType = 'car' }) {
                 type="number"
                 value={form.mileage}
                 onChange={e => setForm(f => ({ ...f, mileage: e.target.value === '' ? '' : parseInt(e.target.value) || '' }))}
+                autoFocus={focusMileage}
                 className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
               />
             </div>
