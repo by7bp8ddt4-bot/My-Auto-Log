@@ -21,10 +21,14 @@ export default function LandingPage({ onGetStarted, onViewPremium }) {
 
         <div className="max-w-6xl mx-auto px-4 pt-16 pb-24 relative">
           <div className="flex flex-col items-center text-center">
-            {/* Badge */}
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-300 text-xs font-medium mb-8">
-              <Star className="w-3.5 h-3.5" />
-              Smart Vehicle Maintenance Tracker
+            {/* Brand Name + Tagline */}
+            <div className="mb-8">
+              <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white tracking-tight">
+                MTXtrkr
+              </h2>
+              <p className="text-lg sm:text-xl text-slate-400 italic mt-1">
+                MaintenX Tracker
+              </p>
             </div>
 
             {/* Headline */}
