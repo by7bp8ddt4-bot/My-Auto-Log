@@ -307,7 +307,7 @@ export default function LandingPage({ onGetStarted, onViewPremium }) {
             </div>
           </div>
 
-          {/* Testimonial 2 — DIY Enthusiast */}
+          {/* Testimonial 2 — Multi-Vehicle Owner */}
           <div className="group p-6 rounded-2xl bg-slate-900/60 border border-slate-800 hover:border-blue-500/30 transition-all duration-300">
             <div className="flex items-center gap-1 mb-4">
               {[...Array(5)].map((_, i) => (
@@ -317,38 +317,38 @@ export default function LandingPage({ onGetStarted, onViewPremium }) {
               ))}
             </div>
             <blockquote className="text-sm text-slate-300 leading-relaxed mb-6 min-h-[80px]">
-              "I've got a Miata project car and a Civic daily driver — keeping track of parts, services, and mileage for both used to be a spreadsheet nightmare. MTXtrkr handles everything: I scan receipts at the parts store, log my weekend work with the AI Co-Pilot, and get reminded when the daily needs tires. Premium was a no-brainer for multiple vehicles."
+              "I needed one place to track the daily driver and the project car. The Datsun doesn't have a computer — it doesn't tell me anything. I just snap a photo of every part I buy for it, type 'installed new carb' into the AI thing, and it logs it for me. The Tucson is the opposite — I just scan the oil change receipts and it handles the rest. Two totally different cars, one app. That's all I needed."
             </blockquote>
             <div className="flex items-center gap-3 pt-4 border-t border-slate-800">
               <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500/30 to-pink-500/30 flex items-center justify-center text-sm font-bold text-purple-300">
-                JM
+                CP
               </div>
               <div>
-                <p className="text-sm font-semibold text-white">Jake Morrison</p>
-                <p className="text-xs text-slate-500">'97 Mazda Miata + '20 Honda Civic · Portland, OR</p>
+                <p className="text-sm font-semibold text-white">Chris Park</p>
+                <p className="text-xs text-slate-500">2022 Hyundai Tucson + 1972 Datsun 240Z · Seattle, WA</p>
               </div>
             </div>
           </div>
 
-          {/* Testimonial 3 — Fleet Manager */}
+          {/* Testimonial 3 — Small Business Owner */}
           <div className="group p-6 rounded-2xl bg-slate-900/60 border border-slate-800 hover:border-blue-500/30 transition-all duration-300">
             <div className="flex items-center gap-1 mb-4">
-              {[...Array(5)].map((_, i) => (
+              {[...Array(4)].map((_, i) => (
                 <svg key={i} className="w-4 h-4 text-amber-400 fill-current" viewBox="0 0 20 20">
                   <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                 </svg>
               ))}
             </div>
             <blockquote className="text-sm text-slate-300 leading-relaxed mb-6 min-h-[80px]">
-              "I run 5 F-150s, 2 tractors, and a forklift for my landscaping business. Before MTXtrkr, I had three different spreadsheets and still missed oil changes. Now everything lives in one dashboard — different vehicle types, different schedules, all tracked. My mechanic even commented that our fleet records are the best he's ever seen from a small business."
+              "I run a landscaping company with three work vans and a tractor. Before MTXtrkr I had a binder full of handwritten oil change dates and a sticky note system. My mechanic literally asked me last month, 'Did you hire a fleet manager?' Nope. Just the app. It tracks the vans and the tractor differently because they're not the same thing — the tractor doesn't even have a VIN. That kind of detail matters when you're trying to keep equipment running."
             </blockquote>
             <div className="flex items-center gap-3 pt-4 border-t border-slate-800">
               <div className="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-500/30 to-teal-500/30 flex items-center justify-center text-sm font-bold text-emerald-300">
-                TC
+                LK
               </div>
               <div>
-                <p className="text-sm font-semibold text-white">Trevor Chen</p>
-                <p className="text-xs text-slate-500">Fleet Manager — GreenScape Landscaping · Denver, CO</p>
+                <p className="text-sm font-semibold text-white">Lisa Kim</p>
+                <p className="text-xs text-slate-500">3 Ford Transit vans + 1 Kubota tractor · Portland, OR</p>
               </div>
             </div>
           </div>
