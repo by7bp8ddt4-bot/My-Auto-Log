@@ -123,6 +123,29 @@ export default function App() {
       }
       // else: keep the URL param so this effect re-runs when auth loads
     }
+
+    // Mileage update deep-link — e.g. https://mtxtrkr.vercel.app/?update-mileage=VEHICLE_ID
+    // Navigates to vehicles page and opens the edit form for that vehicle, pre-focused on mileage
+    const updateMileageId = params.get('update-mileage');
+    if (updateMileageId) {
+      // Store the target vehicle ID in sessionStorage for VehicleList to pick up
+      sessionStorage.setItem('mtxtrkr_pending_edit_vehicle', updateMileageId);
+      setPage('vehicles');
+      // Only clear URL when auth is ready to avoid losing the param on redirect
+      if (auth.user?.id) {
+        window.history.replaceState({}, '', window.location.pathname);
+      }
+    }
+
+    // Per-vehicle deep-link from email — selects a specific vehicle & navigates to dashboard
+    // Used by: mileage reminder email per-vehicle CTAs
+    if (params.get('vehicle')) {
+      const vehicleId = params.get('vehicle');
+      handleSelectVehicle(vehicleId);
+      setPage('dashboard');
+      // Clear the URL param so it doesn't re-select on subsequent renders
+      window.history.replaceState({}, '', window.location.pathname);
+    }
   }, [auth.user?.id]);
 
   // Auto-navigate to auth page when password recovery is detected

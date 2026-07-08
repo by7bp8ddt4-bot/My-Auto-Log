@@ -117,6 +117,29 @@ export default async function handler(req, res) {
         return base;
       }).join('<br>') || 'No vehicles added yet.';
 
+      // Per-vehicle CTA buttons with deep-links to select the vehicle in the app
+      const vehicleCtas = vehicles?.map(v => {
+        const ctaUrl = `${appUrl}/?vehicle=${encodeURIComponent(v.id)}`;
+        return `
+          <tr>
+            <td style="padding: 8px 0; border-bottom: 1px solid #f1f5f9;">
+              <table width="100%" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td style="font-size: 13px; color: #334155; line-height: 1.6;">
+                    <strong>${v.year} ${v.make} ${v.model}</strong> — ${v.name}<br>
+                    <span style="color: #64748b; font-size: 12px;">Current: ${v.mileage?.toLocaleString() || '?'} mi</span>
+                  </td>
+                  <td width="140" style="text-align: right;">
+                    <a href="${ctaUrl}" style="display: inline-block; background: #2563eb; color: #ffffff; padding: 8px 16px; border-radius: 8px; text-decoration: none; font-size: 13px; font-weight: 600;">
+                      Update Mileage
+                    </a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>`;
+      }).join('') || '';
+
       const lastLogMileage = recentLog?.mileage
         ? `${recentLog.mileage.toLocaleString()} mi on ${recentLog.date}`
         : 'No service logs yet.';
@@ -144,19 +167,14 @@ export default async function handler(req, res) {
                   <h3 style="color: #0f172a; font-size: 13px; margin: 0 0 8px; text-transform: uppercase; letter-spacing: 0.5px;">
                     Your Vehicles (${vehicleCount})
                   </h3>
-                  <div style="font-size: 13px; color: #334155; line-height: 1.8;">
-                    ${vehicleList}
-                  </div>
+                  <table width="100%" cellpadding="0" cellspacing="0">
+                    ${vehicleCtas}
+                  </table>
                   <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 12px 0;" />
                   <div style="font-size: 12px; color: #64748b;">
                     <strong>Last service logged:</strong><br>
                     ${lastLogMileage}
                   </div>
-                </div>
-                <div style="text-align: center; margin: 24px 0;">
-                  <a href="${appUrl}" style="display: inline-block; background: linear-gradient(135deg, #2563eb, #06b6d4); color: #ffffff; padding: 14px 32px; border-radius: 12px; text-decoration: none; font-size: 15px; font-weight: 600; box-shadow: 0 4px 12px rgba(37,99,235,0.3);">
-                    Update Mileage Now
-                  </a>
                 </div>
                 <div style="background: #f1f5f9; border-radius: 8px; padding: 12px; margin: 16px 0;">
                   <p style="color: #475569; font-size: 12px; margin: 0; line-height: 1.5;">
