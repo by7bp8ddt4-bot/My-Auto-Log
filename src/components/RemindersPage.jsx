@@ -291,8 +291,8 @@ export default function RemindersPage({ reminders, vehicles, logs, onAdd, onUpda
     return remindersWithStatus.filter(r => r.intervalMiles > 0);
   }, [remindersWithStatus]);
 
-  const otherReminders = useMemo(() => {
-    return remindersWithStatus.filter(r => !r.intervalMiles || r.intervalMiles <= 0);
+  const allReminders = useMemo(() => {
+    return remindersWithStatus;
   }, [remindersWithStatus]);
 
   // Lease reminders: build from leased vehicles
@@ -396,7 +396,7 @@ export default function RemindersPage({ reminders, vehicles, logs, onAdd, onUpda
         <div>
           <h2 className="text-xl font-bold text-white">Reminders</h2>
           <p className="text-sm text-slate-400 mt-0.5">
-            {mileageReminders.length + maintenanceReminders.length + leaseReminders.length + otherReminders.length} total items
+            {mileageReminders.length + maintenanceReminders.length + leaseReminders.length + allReminders.length} total items
           </p>
         </div>
         <button
@@ -412,29 +412,84 @@ export default function RemindersPage({ reminders, vehicles, logs, onAdd, onUpda
         </button>
       </div>
 
-      {/* 1. Mileage Reminders */}
+      {/* 1. Mileage Reminders — Educational Section */}
       <FolderTab
         icon={Gauge}
         title="Mileage Reminders"
-        count={mileageReminders.length}
+        count=""
         isExpanded={expandedTabs.mileage}
         onToggle={() => toggleTab('mileage')}
       >
-        {mileageReminders.length > 0 ? (
-          mileageReminders.map(r => (
-            <ReminderCard
-              key={r.id}
-              reminder={r}
-              vehicleName={r.vehicleName}
-              onToggle={onUpdate}
-              onDelete={onDelete}
-            />
-          ))
-        ) : (
-          <div className="text-center py-8 bg-slate-900/30 rounded-xl border border-slate-800">
-            <p className="text-xs text-slate-500">No mileage-based reminders yet</p>
+        <div className="space-y-4">
+          {/* WHAT */}
+          <div className="p-4 rounded-xl bg-slate-900/60 border border-slate-700/50">
+            <h4 className="flex items-center gap-2 text-sm font-semibold text-white mb-2">
+              <Info className="w-4 h-4 text-blue-400" />
+              What Are Mileage Reminder Emails?
+            </h4>
+            <p className="text-xs text-slate-400 leading-relaxed">
+              MTXtrkr sends you periodic mileage update requests via email so we can keep
+              your maintenance predictions accurate. When we ask, simply reply with your
+              current odometer reading — or log in to update it instantly.
+            </p>
           </div>
-        )}
+
+          {/* WHEN */}
+          <div className="p-4 rounded-xl bg-slate-900/60 border border-slate-700/50">
+            <h4 className="flex items-center gap-2 text-sm font-semibold text-white mb-2">
+              <Clock className="w-4 h-4 text-blue-400" />
+              When Do We Send Updates?
+            </h4>
+            <p className="text-xs text-slate-400 leading-relaxed">
+              Mileage reminder emails are triggered based on your driving activity. You'll
+              receive a request if we haven't seen a mileage update in over 30 days, or
+              when a scheduled maintenance item is approaching its due mileage. You can
+              also proactively update your mileage at any time.
+            </p>
+          </div>
+
+          {/* WHY */}
+          <div className="p-4 rounded-xl bg-slate-900/60 border border-slate-700/50">
+            <h4 className="flex items-center gap-2 text-sm font-semibold text-white mb-2">
+              <TrendingUp className="w-4 h-4 text-emerald-400" />
+              Why Keeping Mileage Current Matters
+            </h4>
+            <ul className="space-y-2 mt-2">
+              {[
+                'Accurate prediction of upcoming maintenance needs',
+                'Lease mileage tracking — avoid costly overage fees',
+                'Precise schedule timing for oil, tires, and more',
+                'Realistic resale value estimates for your vehicle',
+                'Timely alerts when you\'re approaching a service threshold',
+              ].map((item, i) => (
+                <li key={i} className="flex items-start gap-2 text-xs text-slate-400">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 mt-0.5 shrink-0" />
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Update Mileage CTA */}
+          <div className="p-4 rounded-xl bg-gradient-to-r from-blue-600/10 to-cyan-600/10 border border-blue-500/20">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center shrink-0">
+                <Gauge className="w-5 h-5 text-blue-400" />
+              </div>
+              <div className="flex-1">
+                <h4 className="text-sm font-semibold text-white">Update Your Mileage</h4>
+                <p className="text-xs text-slate-400">Keep your predictions accurate — update now</p>
+              </div>
+              <button
+                onClick={() => onNavigate('dashboard')}
+                className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-xs font-medium transition-all"
+              >
+                <ArrowRight className="w-3.5 h-3.5" />
+                Dashboard
+              </button>
+            </div>
+          </div>
+        </div>
       </FolderTab>
 
       {/* 2. Lease Reminders */}
@@ -578,16 +633,30 @@ export default function RemindersPage({ reminders, vehicles, logs, onAdd, onUpda
         )}
       </FolderTab>
 
-      {/* 4. Other Reminders */}
+      {/* 4. Other Reminders — All user-created custom reminders */}
       <FolderTab
         icon={Bell}
         title="Other Reminders"
-        count={otherReminders.length}
+        count={allReminders.length}
         isExpanded={expandedTabs.other}
         onToggle={() => toggleTab('other')}
       >
-        {otherReminders.length > 0 ? (
-          otherReminders.map(r => (
+        {/* Add reminder button inside the tab */}
+        <div className="flex justify-end mb-3">
+          <button
+            onClick={() => {
+              if (vehicles.length === 0) return;
+              setShowForm(true);
+            }}
+            disabled={vehicles.length === 0}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 disabled:bg-slate-700 disabled:text-slate-500 text-white text-[10px] font-medium transition-all"
+          >
+            <Plus className="w-3 h-3" />
+            Create Custom Reminder
+          </button>
+        </div>
+        {allReminders.length > 0 ? (
+          allReminders.map(r => (
             <ReminderCard
               key={r.id}
               reminder={r}
@@ -598,7 +667,8 @@ export default function RemindersPage({ reminders, vehicles, logs, onAdd, onUpda
           ))
         ) : (
           <div className="text-center py-8 bg-slate-900/30 rounded-xl border border-slate-800">
-            <p className="text-xs text-slate-500">No other reminders</p>
+            <p className="text-xs text-slate-500">No custom reminders yet</p>
+            <p className="text-[10px] text-slate-600 mt-1">Create reminders for anything: "Wash the truck", "Check tire pressure before road trip", etc.</p>
           </div>
         )}
       </FolderTab>
