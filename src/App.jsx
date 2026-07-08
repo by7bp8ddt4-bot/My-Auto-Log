@@ -4,7 +4,7 @@ import LandingPage from './components/LandingPage.jsx';
 import Dashboard from './components/Dashboard.jsx';
 import VehicleList from './components/VehicleList.jsx';
 import MaintenanceLog from './components/MaintenanceLog.jsx';
-import RemindersList from './components/RemindersList.jsx';
+import RemindersPage from './components/RemindersPage.jsx';
 import PremiumPaywall from './components/PremiumPaywall.jsx';
 import Settings from './components/Settings.jsx';
 import SyncIndicator from './components/SyncIndicator.jsx';
@@ -423,9 +423,10 @@ export default function App() {
       isPremium={premium}
       selectedVehicleId={selectedVehicleId}
     />,
-    reminders: <RemindersList
+    reminders: <RemindersPage
       reminders={remindersStore.data}
       vehicles={vehiclesStore.data}
+      logs={logsStore.data}
       onAdd={addReminder}
       onUpdate={(id, updates) => {
         remindersStore.updateItem(id, updates);
