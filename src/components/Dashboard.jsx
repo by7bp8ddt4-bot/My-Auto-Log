@@ -63,10 +63,25 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
 
   // Lease Mileage Projector — state & computed values
   const [targetDate, setTargetDate] = useState(() => {
+    // Auto-populate from lease end date if available, otherwise default to 3 years
+    if (activeVehicle?.isLeased && activeVehicle?.leaseEndDate) {
+      return activeVehicle.leaseEndDate;
+    }
     const d = new Date();
     d.setFullYear(d.getFullYear() + 3);
     return d.toISOString().split('T')[0];
   });
+
+  // Re-sync target date when active vehicle changes (for lease auto-populate)
+  useEffect(() => {
+    if (activeVehicle?.isLeased && activeVehicle?.leaseEndDate) {
+      setTargetDate(activeVehicle.leaseEndDate);
+    } else {
+      const d = new Date();
+      d.setFullYear(d.getFullYear() + 3);
+      setTargetDate(d.toISOString().split('T')[0]);
+    }
+  }, [activeVehicle?.id, activeVehicle?.isLeased]);
   const daysSincePurchase = activeVehicle?.purchaseDate
     ? Math.floor((Date.now() - new Date(activeVehicle.purchaseDate).getTime()) / (24 * 60 * 60 * 1000))
     : 1;
