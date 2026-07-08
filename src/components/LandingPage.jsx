@@ -1,7 +1,8 @@
 import {
   Car, Bell, Cloud, Shield, Star, CheckCircle, ChevronRight, ArrowRight,
   Smartphone, Wifi, BarChart3, DollarSign, Clock, Upload,
-  Crown, Gauge, Calendar, TrendingUp
+  Crown, Gauge, Calendar, TrendingUp, Brain, Sparkles, Save, Wrench, Lightbulb,
+  AlertTriangle, Tractor, Package, Ship, Anchor, Cog, Truck, Building
 } from 'lucide-react';
 import heroImage from '/assets/hero.png';
 import vehicleMgmtImg from '/assets/features/vehicle-mgmt.png';
@@ -39,9 +40,11 @@ export default function LandingPage({ onGetStarted, onViewPremium }) {
             </h1>
 
             <p className="text-lg sm:text-xl text-slate-400 max-w-2xl mb-10 leading-relaxed">
-              The smartest way to track your vehicle's maintenance history,
-              get mileage-based reminders, and maximize resale value — all
-              from your phone, even offline.
+              Modern cars tell you when to change your oil —<br />
+              <span className="text-white/80">then they go silent.</span>
+            </p>
+            <p className="text-base sm:text-lg text-slate-500 max-w-2xl mb-10 leading-relaxed -mt-6">
+              MTXtrkr translates your vehicle's engineering into plain English — so you know when a <strong className="text-slate-300">transmission flush</strong>, a <strong className="text-slate-300">differential service</strong>, or a <strong className="text-slate-300">coolant exchange</strong> is actually due. No more nodding along at the mechanic. No more costly breakdowns from what you didn't know you were missing.
             </p>
 
             {/* CTA Buttons */}
@@ -101,7 +104,7 @@ export default function LandingPage({ onGetStarted, onViewPremium }) {
           {[
             { title: 'Vehicle Management', desc: 'Track all your vehicles in one place with detailed specs, photos, and license info.', img: vehicleMgmtImg },
             { title: 'Smart Reminders', desc: 'Mileage & time-based alerts that learn your driving patterns.', img: remindersImg },
-            { title: 'AI Co-Pilot', desc: 'Convert informal notes into structured maintenance records instantly.', img: aiCopilotImg },
+            { title: 'AI Co-Pilot', desc: 'Ask it anything — "engine is squeaking when I turn the AC on" or "did the oil thing in my driveway." Our AI translates your informal notes into professional maintenance records, specs-matched to your exact vehicle.', img: aiCopilotImg },
             { title: 'Expense Analytics', desc: 'Track costs per vehicle, per month, with beautiful charts.', img: analyticsImg },
             { title: 'Document Storage', desc: 'Upload and store receipts, photos, and service documents in the cloud.', img: documentsImg },
             { title: 'Service History', desc: 'Generate a complete digital health record to boost resale value.', img: serviceLogImg },
@@ -118,6 +121,149 @@ export default function LandingPage({ onGetStarted, onViewPremium }) {
               </div>
             );
           })}
+        </div>
+      </div>
+
+      {/* Beyond Oil Changes Section */}
+      <div className="max-w-6xl mx-auto px-4 py-20">
+        <div className="text-center mb-12">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-300 text-xs font-medium mb-4">
+            <AlertTriangle className="w-3 h-3" />
+            Your Car's Computer Only Knows Oil
+          </div>
+          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
+            We Cover What Modern Cars Don't
+          </h2>
+          <p className="text-slate-400 max-w-2xl mx-auto">
+            Modern cars alert you about oil changes — but that's where they stop. 
+            MTXtrkr tracks everything else that keeps your vehicle running.
+          </p>
+        </div>
+
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-4xl mx-auto">
+          {[
+            { icon: Gauge, label: 'Transmission Fluid', desc: 'Flushes and filter changes — most cars don\'t track this' },
+            { icon: Gauge, label: 'Differential Oil', desc: 'Front and rear gear oil for trucks and 4x4s' },
+            { icon: Gauge, label: 'Coolant Exchange', desc: 'Prevents overheating and internal corrosion' },
+            { icon: Gauge, label: 'Brake Fluid Flush', desc: 'Moisture absorption reduces stopping power' },
+            { icon: Gauge, label: 'Transfer Case Fluid', desc: 'Essential for 4WD and AWD systems' },
+            { icon: Gauge, label: 'Gearbox Oil', desc: 'Manual transmission and gearbox-specific fluids' },
+            { icon: Gauge, label: 'Timing Belt / Chain', desc: 'Catastrophic failure if missed — miles ahead' },
+            { icon: Gauge, label: 'Cabin Air Filter', desc: 'Your car won\'t tell you, but your allergies will' },
+            { icon: Gauge, label: 'Spark Plugs', desc: 'Modern plugs last 100k+ miles — but not forever' },
+          ].map((item, i) => (
+            <div key={i} className="flex items-start gap-3 p-4 rounded-xl bg-slate-900/40 border border-slate-800 hover:border-blue-500/20 transition-all">
+              <div className="w-9 h-9 rounded-lg bg-blue-500/10 flex items-center justify-center shrink-0">
+                <item.icon className="w-4 h-4 text-blue-400" />
+              </div>
+              <div>
+                <h4 className="text-sm font-semibold text-white mb-0.5">{item.label}</h4>
+                <p className="text-xs text-slate-500 leading-relaxed">{item.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* AI Co-Pilot Section — Ask It Anything */}
+      <div className="max-w-6xl mx-auto px-4 py-20">
+        <div className="bg-gradient-to-br from-purple-600/5 to-blue-600/5 border border-purple-500/20 rounded-3xl p-8 md:p-12">
+          <div className="flex flex-col md:flex-row items-start gap-10">
+            <div className="flex-1">
+              {/* Badge */}
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-300 text-xs font-medium mb-4">
+                <Brain className="w-3 h-3" />
+                AI Co-Pilot — Ask It Anything
+              </div>
+
+              {/* Headline */}
+              <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">
+                "My engine is making a weird noise."
+                <br />
+                <span className="bg-gradient-to-r from-purple-400 to-blue-300 bg-clip-text text-transparent">
+                  MTXtrkr knows exactly what you mean.
+                </span>
+              </h2>
+
+              <p className="text-slate-400 leading-relaxed mb-6">
+                Type it like you'd tell a friend. Our AI reads your vehicle's specs — oil type, transmission fluid, 
+                brake fluid, tire pressure, spark plug gap — and translates your informal note into a professional 
+                maintenance record, complete with estimated costs.
+              </p>
+
+              {/* Feature List */}
+              <div className="grid sm:grid-cols-2 gap-3 mb-8">
+                {[
+                  { icon: Brain, label: 'Understands plain English, not mechanic-speak' },
+                  { icon: Wrench, label: 'Vehicle-specific diagnosis & costs' },
+                  { icon: Save, label: 'One-click save to your maintenance log' },
+                  { icon: Lightbulb, label: 'Proactive guidance for upcoming services' },
+                ].map((feat, i) => {
+                  const Icon = feat.icon;
+                  return (
+                    <div key={i} className="flex items-start gap-2.5">
+                      <div className="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center shrink-0">
+                        <Icon className="w-4 h-4 text-purple-400" />
+                      </div>
+                      <div>
+                        <p className="text-sm text-slate-300 font-medium">{feat.label}</p>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* CTA */}
+              <button
+                onClick={onGetStarted}
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-purple-600 to-blue-500 text-white font-semibold shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 transition-all text-sm"
+              >
+                <Sparkles className="w-4 h-4" />
+                Try the AI Co-Pilot
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
+
+            {/* Visual — Text Box Mockup */}
+            <div className="flex-1 w-full max-w-sm">
+              <div className="bg-slate-800/50 rounded-2xl p-4 border border-slate-700/50">
+                <div className="space-y-3">
+                  <div className="flex items-center gap-2 text-xs text-slate-400 mb-1">
+                    <Brain className="w-3.5 h-3.5 text-purple-400" />
+                    <span className="font-medium text-purple-300">Ask It Anything</span>
+                  </div>
+                  <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-700/50">
+                    <div className="flex items-center gap-2 mb-3">
+                      <div className="w-6 h-6 rounded-full bg-gradient-to-br from-purple-500/30 to-blue-500/30 flex items-center justify-center text-[8px] font-bold text-purple-300">AI</div>
+                      <span className="text-[10px] text-slate-500">Type naturally — no mechanic-speak required</span>
+                    </div>
+                    {/* Text Area Mockup */}
+                    <div className="p-3 rounded-xl bg-slate-950 border border-slate-700/50 mb-3">
+                      <p className="text-xs text-slate-400 italic leading-relaxed">
+                        "my engine is making a high-pitched squeal when I turn on the AC"
+                      </p>
+                    </div>
+                    {/* AI Response Mockup */}
+                    <div className="p-3 rounded-xl bg-purple-500/5 border border-purple-500/20">
+                      <div className="flex items-center gap-1.5 mb-2">
+                        <Sparkles className="w-3 h-3 text-purple-400" />
+                        <span className="text-[10px] font-medium text-purple-300">AI Translation</span>
+                        <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 font-medium ml-auto">MEDIUM</span>
+                      </div>
+                      <p className="text-[11px] text-slate-300 leading-relaxed">
+                        Serpentine Belt / Accessory Drive Noise — Inspect belt tension and pulley bearings. 
+                        Your vehicle uses standard multi-rib belt. Estimated cost: $120–$250.
+                      </p>
+                      <div className="mt-2 pt-2 border-t border-purple-500/10 flex items-center gap-2">
+                        <Save className="w-3 h-3 text-emerald-400" />
+                        <span className="text-[10px] text-emerald-400 font-medium">Save to Maintenance Log</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -330,17 +476,17 @@ export default function LandingPage({ onGetStarted, onViewPremium }) {
             </div>
           </div>
 
-          {/* Testimonial 3 — Small Business Owner */}
+          {/* Testimonial 3 — Small Business Owner / Fleet Manager */}
           <div className="group p-6 rounded-2xl bg-slate-900/60 border border-slate-800 hover:border-blue-500/30 transition-all duration-300">
             <div className="flex items-center gap-1 mb-4">
-              {[...Array(4)].map((_, i) => (
+              {[...Array(5)].map((_, i) => (
                 <svg key={i} className="w-4 h-4 text-amber-400 fill-current" viewBox="0 0 20 20">
                   <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                 </svg>
               ))}
             </div>
             <blockquote className="text-sm text-slate-300 leading-relaxed mb-6 min-h-[80px]">
-              "I run a landscaping company with three work vans and a tractor. Before MTXtrkr I had a binder full of handwritten oil change dates and a sticky note system. My mechanic literally asked me last month, 'Did you hire a fleet manager?' Nope. Just the app. It tracks the vans and the tractor differently because they're not the same thing — the tractor doesn't even have a VIN. That kind of detail matters when you're trying to keep equipment running."
+              "I run a landscaping company with three Transit vans, a GMC 2500 AT4, a Kubota tractor, and a Polaris ATV — six vehicles, four different types. Before MTXtrkr I had a binder full of handwritten oil change dates and sticky notes. Now all six are in one app, each tracked differently because they're not the same thing. The tractor and ATV run on hours, the vans and truck run on miles, and MTXtrkr handles both. My mechanic asked if I hired a fleet manager. Nope. Just the app."
             </blockquote>
             <div className="flex items-center gap-3 pt-4 border-t border-slate-800">
               <div className="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-500/30 to-teal-500/30 flex items-center justify-center text-sm font-bold text-emerald-300">
@@ -348,10 +494,58 @@ export default function LandingPage({ onGetStarted, onViewPremium }) {
               </div>
               <div>
                 <p className="text-sm font-semibold text-white">Lisa Kim</p>
-                <p className="text-xs text-slate-500">3 Ford Transit vans + 1 Kubota tractor · Portland, OR</p>
+                <p className="text-xs text-slate-500">3 Ford Transit vans + 1 GMC 2500 AT4 + 1 Kubota tractor + 1 Polaris ATV · Portland, OR</p>
               </div>
             </div>
           </div>
+        </div>
+      </div>
+
+      {/* Vehicle Types Section — One App, Every Vehicle */}
+      <div className="max-w-6xl mx-auto px-4 py-20 border-t border-slate-800/50">
+        <div className="text-center mb-12">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 text-xs font-medium mb-4">
+            <Wrench className="w-3 h-3" />
+            One App, Every Vehicle You Own
+          </div>
+          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
+            From Cars to Tractors to Semi-Trucks
+          </h2>
+          <p className="text-slate-400 max-w-2xl mx-auto">
+            MTXtrkr handles 9 different vehicle types — each with its own maintenance rules, 
+            measurement units, and identification system. All in one dashboard.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-4 max-w-4xl mx-auto">
+          {[
+            { icon: Car, label: 'Car / Truck', color: 'bg-blue-600/20 text-blue-400' },
+            { icon: 'Motorcycle', label: 'Motorcycle', color: 'bg-slate-800/60 text-slate-300' },
+            { icon: 'Tractor', label: 'Ag Equipment', color: 'bg-green-700/20 text-green-400' },
+            { icon: 'Package', label: 'Forklift', color: 'bg-amber-700/20 text-amber-400' },
+            { icon: 'Ship', label: 'Watercraft', color: 'bg-cyan-700/20 text-cyan-400' },
+            { icon: 'Anchor', label: 'Outboard', color: 'bg-teal-700/20 text-teal-400' },
+            { icon: 'Cog', label: 'Marine Diesel', color: 'bg-indigo-700/20 text-indigo-400' },
+            { icon: 'Truck', label: 'Semi-Truck', color: 'bg-red-700/20 text-red-400' },
+            { icon: 'Building', label: 'RV', color: 'bg-purple-700/20 text-purple-400' },
+          ].map((vt, i) => {
+            const Icon = typeof vt.icon === 'string' ? null : vt.icon;
+            return (
+              <div key={i} className="flex flex-col items-center gap-2 p-4 rounded-xl bg-slate-900/40 border border-slate-800 hover:border-blue-500/20 transition-all group">
+                <div className={`w-10 h-10 rounded-xl ${vt.color} flex items-center justify-center group-hover:scale-110 transition-transform`}>
+                  {Icon ? <Icon className="w-5 h-5" /> : <span className="text-[10px] font-bold">{vt.icon}</span>}
+                </div>
+                <span className="text-[10px] text-slate-400 font-medium text-center leading-tight">{vt.label}</span>
+              </div>
+            );
+          })}
+        </div>
+        <div className="text-center mt-8">
+          <p className="text-xs text-slate-600 max-w-xl mx-auto">
+            Each type gets its own form fields — VIN for cars and trucks, HIN for watercraft, 
+            engine hours for equipment, serial numbers for marine engines. License plates show 
+            where they're needed, hide where they're not. All tracked in one unified fleet dashboard.
+          </p>
         </div>
       </div>
 
