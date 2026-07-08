@@ -94,6 +94,8 @@ export const VEHICLE_TYPES = [
   { id: 'watercraft', label: 'Personal Watercraft', icon: 'Ship', plural: 'Personal Watercraft', color: 'bg-cyan-700 hover:bg-cyan-600', border: 'border-cyan-600', badgeColor: 'bg-cyan-700' },
   { id: 'outboard', label: 'Outboard Engine', icon: 'Anchor', color: 'bg-teal-700 hover:bg-teal-600', border: 'border-teal-600', badgeColor: 'bg-teal-700' },
   { id: 'marine-diesel', label: 'Marine Diesel Engine', icon: 'Cog', color: 'bg-indigo-700 hover:bg-indigo-600', border: 'border-indigo-600', badgeColor: 'bg-indigo-700' },
+  { id: 'semi-truck', label: 'Semi-Truck', icon: 'SemiTruck', color: 'bg-red-700 hover:bg-red-600', border: 'border-red-600', badgeColor: 'bg-red-700' },
+  { id: 'rv', label: 'RV', icon: 'RV', color: 'bg-purple-700 hover:bg-purple-600', border: 'border-purple-600', badgeColor: 'bg-purple-700' },
 ];
 
 export const SERVICE_TYPES = [
