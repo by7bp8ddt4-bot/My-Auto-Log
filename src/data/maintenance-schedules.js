@@ -452,6 +452,277 @@ export const MAINTENANCE_SCHEDULES = {
       '50': 'hyster.h50', 'h50a': 'hyster.h50', 'h50b': 'hyster.h50', 'h50c': 'hyster.h50'
     }
   },
+  // --- Semi-Trucks ---
+  freightliner: {
+    specs: { oil: { viscosity: '15W-40', type: 'Diesel Engine Oil CJ-4', capacity: '12.0 gal' }, transmission: { type: 'Eaton Fuller / Allison', capacity: '4.0 gal' }, coolant: { type: 'Fleetguard ES Compleat OAT', capacity: '8.0 gal' }, brakeFluid: { type: 'DOT 5' }, tirePressure: { psi: 100 }, fuelFilters: { type: 'Primary + Secondary spin-on' }, airFilter: { type: 'Heavy-duty Donaldson' }, battery: { groupSize: 'Group 31 (4x)' } },
+    models: {
+      cascadia: [
+        { service: 'Oil & Filter Change', intervalMiles: 25000, intervalMonths: 6, severity: 'high', description: 'Detroit Diesel engine. Use CJ-4 15W-40. Change every 25k miles or 6 months.' },
+        { service: 'Fuel Filter Replacement', intervalMiles: 25000, intervalMonths: 6, severity: 'high', description: 'Replace primary and secondary fuel filters. Critical for fuel system health.' },
+        { service: 'Air Filter Replacement', intervalMiles: 50000, intervalMonths: 12, severity: 'medium', description: 'Check restriction indicator. Replace as needed for optimal fuel economy.' },
+        { service: 'Coolant Exchange', intervalMiles: 150000, intervalMonths: 36, severity: 'high', description: 'Drain and refill with Fleetguard ES Compleat. Protects against freezing and corrosion.' },
+        { service: 'Transmission Fluid Change', intervalMiles: 100000, intervalMonths: 24, severity: 'high', description: 'Eaton Fuller or Allison transmission. Use recommended synthetic gear oil.' },
+        { service: 'Differential Fluid', intervalMiles: 100000, intervalMonths: 24, severity: 'medium', description: 'Drive axle differentials. Prevents gear wear under heavy loads.' },
+        { service: 'Brake Inspection', intervalMiles: 25000, intervalMonths: 6, severity: 'high', description: 'Check air brake system, slack adjusters, and brake linings.' },
+        { service: 'Tire Rotation', intervalMiles: 25000, intervalMonths: 6, severity: 'low', description: 'Steer, drive, and trailer tires. Even wear extends tire life.' },
+        { service: 'Inspection', intervalMiles: 25000, intervalMonths: 6, severity: 'low', description: 'Full PM inspection: belts, hoses, lights, brakes, suspension.' },
+      ],
+      m2: 'freightliner.cascadia', coronado: 'freightliner.cascadia', '114sd': 'freightliner.cascadia'
+    }
+  },
+  kenworth: {
+    specs: { oil: { viscosity: '15W-40', type: 'Diesel Engine Oil CJ-4', capacity: '11.0 gal' }, transmission: { type: 'Eaton Fuller / PACCAR', capacity: '4.0 gal' }, coolant: { type: 'PACCAR Extended Life Coolant', capacity: '8.0 gal' }, brakeFluid: { type: 'DOT 5' }, tirePressure: { psi: 105 }, fuelFilters: { type: 'PACCAR primary + secondary' }, airFilter: { type: 'PACCAR heavy-duty' }, battery: { groupSize: 'Group 31 (4x)' } },
+    models: {
+      t680: [
+        { service: 'Oil & Filter Change', intervalMiles: 25000, intervalMonths: 6, severity: 'high', description: 'PACCAR MX engine. Use CJ-4 15W-40. The backbone of your truck.' },
+        { service: 'Fuel Filter Replacement', intervalMiles: 25000, intervalMonths: 6, severity: 'high', description: 'Replace PACCAR primary and secondary fuel filters. Don\'t skip.' },
+        { service: 'Air Filter Replacement', intervalMiles: 50000, intervalMonths: 12, severity: 'medium', description: 'When restriction indicator lights up, it\'s time.' },
+        { service: 'Coolant Exchange', intervalMiles: 150000, intervalMonths: 36, severity: 'high', description: 'PACCAR Extended Life Coolant. Protects your engine from extreme temps.' },
+        { service: 'Transmission Fluid Change', intervalMiles: 100000, intervalMonths: 24, severity: 'high', description: 'Eaton Fuller 10/13/18-speed. Use synthetic gear oil.' },
+        { service: 'Differential Fluid', intervalMiles: 100000, intervalMonths: 24, severity: 'medium', description: 'Front and rear differentials. Prevents costly axle failures.' },
+        { service: 'Brake Inspection', intervalMiles: 25000, intervalMonths: 6, severity: 'high', description: 'Air brake system check. Linings, drums, slack adjusters.' },
+        { service: 'Inspection', intervalMiles: 25000, intervalMonths: 6, severity: 'low', description: 'Complete PM. Check steering, suspension, tires, lights.' },
+      ],
+      t880: 'kenworth.t680', w900: 'kenworth.t680', t440: 'kenworth.t680'
+    }
+  },
+  peterbilt: {
+    specs: { oil: { viscosity: '15W-40', type: 'Diesel Engine Oil CJ-4', capacity: '11.0 gal' }, transmission: { type: 'Eaton Fuller / Allison', capacity: '4.0 gal' }, coolant: { type: 'PACCAR Extended Life Coolant', capacity: '8.0 gal' }, brakeFluid: { type: 'DOT 5' }, tirePressure: { psi: 100 }, fuelFilters: { type: 'Primary + Secondary' }, airFilter: { type: 'Peterbilt heavy-duty' }, battery: { groupSize: 'Group 31 (4x)' } },
+    models: {
+      '579': [
+        { service: 'Oil & Filter Change', intervalMiles: 25000, intervalMonths: 6, severity: 'high', description: 'PACCAR MX-13 engine. CJ-4 15W-40 diesel oil.' },
+        { service: 'Fuel Filter Replacement', intervalMiles: 25000, intervalMonths: 6, severity: 'high', description: 'Replace both primary and secondary fuel filters.' },
+        { service: 'Air Filter Replacement', intervalMiles: 50000, intervalMonths: 12, severity: 'medium', description: 'Replace when restriction gauge indicates.' },
+        { service: 'Coolant Exchange', intervalMiles: 150000, intervalMonths: 36, severity: 'high', description: 'Extended life coolant protects against cavitation and freezing.' },
+        { service: 'Transmission Service', intervalMiles: 100000, intervalMonths: 24, severity: 'high', description: 'Eaton Fuller automated or manual transmission.' },
+        { service: 'Brake Inspection', intervalMiles: 25000, intervalMonths: 6, severity: 'high', description: 'Air disc or drum brake inspection.' },
+        { service: 'Inspection', intervalMiles: 25000, intervalMonths: 6, severity: 'low', description: 'Level 1 PM: all fluid levels, belts, hoses, lights.' },
+      ],
+      '389': 'peterbilt.579', '567': 'peterbilt.579', '520': 'peterbilt.579'
+    }
+  },
+  'volvo-trucks': {
+    specs: { oil: { viscosity: '15W-40', type: 'Diesel Engine Oil VDS-5', capacity: '11.0 gal' }, transmission: { type: 'Volvo I-Shift / AT', capacity: '4.0 gal' }, coolant: { type: 'Volvo VCS OAT', capacity: '8.0 gal' }, brakeFluid: { type: 'DOT 5' }, tirePressure: { psi: 100 }, fuelFilters: { type: 'Volvo original' }, airFilter: { type: 'Volvo heavy-duty' }, battery: { groupSize: 'Group 31 (4x)' } },
+    models: {
+      vnl: [
+        { service: 'Oil & Filter Change', intervalMiles: 25000, intervalMonths: 6, severity: 'high', description: 'Volvo D13 engine. VDS-5 approved 15W-40 oil. Critical for engine life.' },
+        { service: 'Fuel Filter Replacement', intervalMiles: 25000, intervalMonths: 6, severity: 'high', description: 'Volvo fuel filters. Essential for high-pressure fuel system.' },
+        { service: 'Air Filter Replacement', intervalMiles: 50000, intervalMonths: 12, severity: 'medium', description: 'Replace based on restriction indicator.' },
+        { service: 'Coolant Exchange', intervalMiles: 150000, intervalMonths: 36, severity: 'high', description: 'Volvo VCS OAT coolant. Protects D13 engine.' },
+        { service: 'I-Shift Transmission Service', intervalMiles: 100000, intervalMonths: 24, severity: 'high', description: 'Volvo I-Shift automated transmission. Use genuine Volvo fluid.' },
+        { service: 'Brake Inspection', intervalMiles: 25000, intervalMonths: 6, severity: 'high', description: 'Check air disc brakes and electronic braking system.' },
+        { service: 'Inspection', intervalMiles: 25000, intervalMonths: 6, severity: 'low', description: 'Full PM. Volvo recommends dealer inspection every 25k.' },
+      ],
+      vnr: 'volvo-trucks.vnl', vnx: 'volvo-trucks.vnl', vhd: 'volvo-trucks.vnl'
+    }
+  },
+  mack: {
+    specs: { oil: { viscosity: '15W-40', type: 'Diesel Engine Oil EOS-4.5', capacity: '11.0 gal' }, transmission: { type: 'Mack mDRIVE / Allison', capacity: '4.0 gal' }, coolant: { type: 'Mack Extended Life Coolant', capacity: '8.0 gal' }, brakeFluid: { type: 'DOT 5' }, tirePressure: { psi: 100 }, fuelFilters: { type: 'Mack original' }, airFilter: { type: 'Mack heavy-duty' }, battery: { groupSize: 'Group 31 (4x)' } },
+    models: {
+      anthem: [
+        { service: 'Oil & Filter Change', intervalMiles: 25000, intervalMonths: 6, severity: 'high', description: 'Mack MP8 or MP7 engine. EOS-4.5 15W-40. Built to last.' },
+        { service: 'Fuel Filter Replacement', intervalMiles: 25000, intervalMonths: 6, severity: 'high', description: 'Replace Mack fuel filters. Critical for MP engine fuel system.' },
+        { service: 'Air Filter Replacement', intervalMiles: 50000, intervalMonths: 12, severity: 'medium', description: 'Replace when restriction indicator shows.' },
+        { service: 'Coolant Exchange', intervalMiles: 150000, intervalMonths: 36, severity: 'high', description: 'Mack Extended Life Coolant. Protects your Bulldog engine.' },
+        { service: 'mDRIVE Service', intervalMiles: 100000, intervalMonths: 24, severity: 'high', description: 'Mack mDRIVE automated transmission. Use genuine Mack fluid.' },
+        { service: 'Brake Inspection', intervalMiles: 25000, intervalMonths: 6, severity: 'high', description: 'Air brake system. Linings, drums, chambers.' },
+        { service: 'Inspection', intervalMiles: 25000, intervalMonths: 6, severity: 'low', description: 'PM inspection. All fluids, belts, hoses, chassis.' },
+      ],
+      pinnacle: 'mack.anthem', granite: 'mack.anthem', lr: 'mack.anthem'
+    }
+  },
+  international: {
+    specs: { oil: { viscosity: '15W-40', type: 'Diesel Engine Oil CJ-4', capacity: '11.0 gal' }, transmission: { type: 'Eaton Fuller / Allison', capacity: '4.0 gal' }, coolant: { type: 'Navistar Extended Life Coolant', capacity: '8.0 gal' }, brakeFluid: { type: 'DOT 5' }, tirePressure: { psi: 100 }, fuelFilters: { type: 'International original' }, airFilter: { type: 'International heavy-duty' }, battery: { groupSize: 'Group 31 (4x)' } },
+    models: {
+      lt: [
+        { service: 'Oil & Filter Change', intervalMiles: 25000, intervalMonths: 6, severity: 'high', description: 'International A26 or N13 engine. CJ-4 15W-40 diesel oil.' },
+        { service: 'Fuel Filter Replacement', intervalMiles: 25000, intervalMonths: 6, severity: 'high', description: 'Replace diamond-plate fuel filters.' },
+        { service: 'Air Filter Replacement', intervalMiles: 50000, intervalMonths: 12, severity: 'medium', description: 'Replace when restriction gauge indicates.' },
+        { service: 'Coolant Exchange', intervalMiles: 150000, intervalMonths: 36, severity: 'high', description: 'Navistar ELC coolant. Prevents liner pitting.' },
+        { service: 'Transmission Fluid Change', intervalMiles: 100000, intervalMonths: 24, severity: 'high', description: 'Eaton Fuller or Allison transmission.' },
+        { service: 'Brake Inspection', intervalMiles: 25000, intervalMonths: 6, severity: 'high', description: 'Inspect air brake system components.' },
+        { service: 'Inspection', intervalMiles: 25000, intervalMonths: 6, severity: 'low', description: 'Full PM. Diamond Check inspection process.' },
+      ],
+      rh: 'international.lt', lonestar: 'international.lt', mv: 'international.lt'
+    }
+  },
+  'western-star': {
+    specs: { oil: { viscosity: '15W-40', type: 'Diesel Engine Oil CJ-4', capacity: '11.0 gal' }, transmission: { type: 'Detroit DT12 / Allison', capacity: '4.0 gal' }, coolant: { type: 'Detroit ELC', capacity: '8.0 gal' }, brakeFluid: { type: 'DOT 5' }, tirePressure: { psi: 100 }, fuelFilters: { type: 'Detroit Diesel original' }, airFilter: { type: 'Western Star heavy-duty' }, battery: { groupSize: 'Group 31 (4x)' } },
+    models: {
+      '4700': [
+        { service: 'Oil & Filter Change', intervalMiles: 25000, intervalMonths: 6, severity: 'high', description: 'Detroit DD13/DD15 engine. CJ-4 15W-40. Keep your Western Star on the road.' },
+        { service: 'Fuel Filter Replacement', intervalMiles: 25000, intervalMonths: 6, severity: 'high', description: 'Replace Detroit Diesel fuel filters.' },
+        { service: 'Air Filter Replacement', intervalMiles: 50000, intervalMonths: 12, severity: 'medium', description: 'Replace when restriction indicator shows.' },
+        { service: 'Coolant Exchange', intervalMiles: 150000, intervalMonths: 36, severity: 'high', description: 'Detroit ELC coolant. Protects against extreme conditions.' },
+        { service: 'DT12 Transmission Service', intervalMiles: 100000, intervalMonths: 24, severity: 'high', description: 'Detroit DT12 automated transmission. Use genuine Detroit fluid.' },
+        { service: 'Brake Inspection', intervalMiles: 25000, intervalMonths: 6, severity: 'high', description: 'Air brake system. Linings, drums, slack adjusters.' },
+        { service: 'Inspection', intervalMiles: 25000, intervalMonths: 6, severity: 'low', description: 'Full PM. Check all systems for safety and reliability.' },
+      ],
+      '4900': 'western-star.4700', '5700': 'western-star.4700', '6900': 'western-star.4700'
+    }
+  },
+
+  // --- RVs (Ford F-53 chassis-based) ---
+  winnebago: {
+    specs: { oil: { viscosity: '5W-20', type: 'Full Synthetic', capacity: '6.0 qt' }, transmission: { type: 'Ford TorqShift / Mercon LV', capacity: '4.0 qt' }, coolant: { type: 'Motorcraft Orange', capacity: '3.0 gal' }, brakeFluid: { type: 'DOT 4' }, tirePressure: { psi: 80 }, sparkPlugs: { type: 'Iridium', gap: '0.049 in' }, battery: { groupSize: 'Group 65 (chassis) + house batteries' }, generator: { note: 'Onan generator — service every 150 hours' } },
+    models: {
+      vista: [
+        { service: 'Oil & Filter Change', intervalMiles: 5000, intervalMonths: 6, severity: 'high', description: 'Ford F-53 chassis. 5W-20 full synthetic. RV weight means extra wear.' },
+        { service: 'Tire Rotation', intervalMiles: 5000, intervalMonths: 6, severity: 'low', description: 'Heavy RV tires need regular rotation to prevent blowouts.' },
+        { service: 'Generator Service', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 150 hours. Onan generator oil and filter change.' },
+        { service: 'Engine Air Filter', intervalMiles: 15000, intervalMonths: 12, severity: 'medium', description: 'Motorcraft air filter. RVs kick up dust at campgrounds.' },
+        { service: 'Transmission Fluid', intervalMiles: 30000, intervalMonths: 24, severity: 'high', description: 'Ford TorqShift transmission. Mercon LV. Towing stresses transmission.' },
+        { service: 'Coolant Exchange', intervalMiles: 100000, intervalMonths: 60, severity: 'high', description: 'Motorcraft Orange coolant. Prevents overheating on long grades.' },
+        { service: 'Brake Fluid Flush', intervalMiles: 30000, intervalMonths: 24, severity: 'medium', description: 'DOT 4 brake fluid. Heavy RV braking generates heat.' },
+        { service: 'Slide-Out Lubrication', intervalMiles: 0, intervalMonths: 6, severity: 'medium', description: 'Lubricate slide-out mechanisms every 6 months. Keeps them moving smoothly.' },
+        { service: 'Roof Inspection', intervalMiles: 0, intervalMonths: 12, severity: 'medium', description: 'Inspect RV roof sealant and seams annually. Prevents leaks.' },
+        { service: 'Inspection', intervalMiles: 5000, intervalMonths: 6, severity: 'low', description: 'Full RV inspection: chassis, generator, house systems, tires.' },
+      ],
+      travato: 'winnebago.vista', solis: 'winnebago.vista', ekko: 'winnebago.vista'
+    }
+  },
+  thor: {
+    specs: { oil: { viscosity: '5W-20', type: 'Full Synthetic', capacity: '6.0 qt' }, transmission: { type: 'Ford TorqShift / Mercon LV', capacity: '4.0 qt' }, coolant: { type: 'Motorcraft Orange', capacity: '3.0 gal' }, brakeFluid: { type: 'DOT 4' }, tirePressure: { psi: 80 }, sparkPlugs: { type: 'Iridium', gap: '0.049 in' }, battery: { groupSize: 'Group 65 (chassis) + house' }, generator: { note: 'Onan/Cummins generator — service every 150 hours' } },
+    models: {
+      'four winds': [
+        { service: 'Oil & Filter Change', intervalMiles: 5000, intervalMonths: 6, severity: 'high', description: 'Ford F-53 chassis. 5W-20 synthetic. Protects under heavy load.' },
+        { service: 'Tire Rotation', intervalMiles: 5000, intervalMonths: 6, severity: 'low', description: 'Regular rotation extends tire life on heavy RVs.' },
+        { service: 'Generator Service', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 150 hours. Onan/Cummins generator maintenance.' },
+        { service: 'Engine Air Filter', intervalMiles: 15000, intervalMonths: 12, severity: 'medium', description: 'Motorcraft air filter for Ford chassis.' },
+        { service: 'Transmission Fluid', intervalMiles: 30000, intervalMonths: 24, severity: 'high', description: 'TorqShift transmission. Essential for towing.' },
+        { service: 'Slide-Out Maintenance', intervalMiles: 0, intervalMonths: 6, severity: 'medium', description: 'Lubricate and inspect slide-out mechanisms.' },
+        { service: 'Roof Sealant Check', intervalMiles: 0, intervalMonths: 12, severity: 'medium', description: 'Inspect and reseal roof seams as needed.' },
+        { service: 'Inspection', intervalMiles: 5000, intervalMonths: 6, severity: 'low', description: 'PM: chassis, generator, house systems, tires.' },
+      ],
+      ace: 'thor.four winds', chateau: 'thor.four winds', tellaro: 'thor.four winds'
+    }
+  },
+  'forest-river': {
+    specs: { oil: { viscosity: '5W-20', type: 'Full Synthetic', capacity: '6.0 qt' }, transmission: { type: 'Ford TorqShift / Mercon LV', capacity: '4.0 qt' }, coolant: { type: 'Motorcraft Orange', capacity: '3.0 gal' }, brakeFluid: { type: 'DOT 4' }, tirePressure: { psi: 80 }, sparkPlugs: { type: 'Iridium', gap: '0.049 in' }, generator: { note: 'Onan generator — service every 150 hours' } },
+    models: {
+      sunseeker: [
+        { service: 'Oil & Filter Change', intervalMiles: 5000, intervalMonths: 6, severity: 'high', description: 'Ford F-53 chassis. 5W-20 full synthetic. Regular changes prevent engine wear.' },
+        { service: 'Tire Rotation', intervalMiles: 5000, intervalMonths: 6, severity: 'low', description: 'Heavy Class C motorhome. Rotate to prevent irregular wear.' },
+        { service: 'Generator Service', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 150 hours. Onan generator oil and filter.' },
+        { service: 'Engine Air Filter', intervalMiles: 15000, intervalMonths: 12, severity: 'medium', description: 'Replace Ford chassis air filter.' },
+        { service: 'Transmission Fluid', intervalMiles: 30000, intervalMonths: 24, severity: 'high', description: 'TorqShift transmission fluid change.' },
+        { service: 'Slide-Out Lubrication', intervalMiles: 0, intervalMonths: 6, severity: 'medium', description: 'Keep slide mechanisms lubricated.' },
+        { service: 'Inspection', intervalMiles: 5000, intervalMonths: 6, severity: 'low', description: 'Full RV inspection.' },
+      ],
+      forester: 'forest-river.sunseeker', berkshire: 'forest-river.sunseeker', georgetown: 'forest-river.sunseeker'
+    }
+  },
+  jayco: {
+    specs: { oil: { viscosity: '5W-20', type: 'Full Synthetic', capacity: '6.0 qt' }, transmission: { type: 'Ford TorqShift / Mercon LV', capacity: '4.0 qt' }, coolant: { type: 'Motorcraft Orange', capacity: '3.0 gal' }, brakeFluid: { type: 'DOT 4' }, tirePressure: { psi: 80 }, sparkPlugs: { type: 'Iridium', gap: '0.049 in' }, generator: { note: 'Onan generator — service every 150 hours' } },
+    models: {
+      greyhawk: [
+        { service: 'Oil & Filter Change', intervalMiles: 5000, intervalMonths: 6, severity: 'high', description: 'Ford F-53 chassis. 5W-20 full synthetic. Trust Jayco engineering.' },
+        { service: 'Tire Rotation', intervalMiles: 5000, intervalMonths: 6, severity: 'low', description: 'Regular rotation extends tire life.' },
+        { service: 'Generator Service', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 150 hours. Onan generator maintenance.' },
+        { service: 'Engine Air Filter', intervalMiles: 15000, intervalMonths: 12, severity: 'medium', description: 'Motorcraft air filter replacement.' },
+        { service: 'Transmission Fluid', intervalMiles: 30000, intervalMonths: 24, severity: 'high', description: 'Ford TorqShift transmission fluid.' },
+        { service: 'Slide-Out Lubrication', intervalMiles: 0, intervalMonths: 6, severity: 'medium', description: 'Keep Jayco slide mechanisms operating smoothly.' },
+        { service: 'Inspection', intervalMiles: 5000, intervalMonths: 6, severity: 'low', description: 'Full RV PM inspection.' },
+      ],
+      redhawk: 'jayco.greyhawk', alante: 'jayco.greyhawk', precept: 'jayco.greyhawk'
+    }
+  },
+  airstream: {
+    specs: { oil: { viscosity: '5W-20', type: 'Full Synthetic', capacity: '6.0 qt' }, transmission: { type: 'Ford TorqShift / Mercon LV', capacity: '4.0 qt' }, coolant: { type: 'Motorcraft Orange', capacity: '3.0 gal' }, brakeFluid: { type: 'DOT 4' }, tirePressure: { psi: 80 }, sparkPlugs: { type: 'Iridium', gap: '0.049 in' }, battery: { groupSize: 'Group 65 (chassis) + lithium house' }, generator: { note: 'Onan generator — service every 150 hours' } },
+    models: {
+      classic: [
+        { service: 'Oil & Filter Change', intervalMiles: 5000, intervalMonths: 6, severity: 'high', description: 'Ford E-Transit or RAM Promaster chassis. Use recommended oil.' },
+        { service: 'Tire Rotation', intervalMiles: 5000, intervalMonths: 6, severity: 'low', description: 'Keep your Airstream rolling smoothly.' },
+        { service: 'Generator Service', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 150 hours. Onan generator maintenance.' },
+        { service: 'Engine Air Filter', intervalMiles: 15000, intervalMonths: 12, severity: 'medium', description: 'Replace chassis air filter.' },
+        { service: 'Transmission Fluid', intervalMiles: 30000, intervalMonths: 24, severity: 'high', description: 'Chassis transmission fluid change.' },
+        { service: 'Roof AC Service', intervalMiles: 0, intervalMonths: 12, severity: 'medium', description: 'Clean and inspect roof A/C units annually.' },
+        { service: 'Inspection', intervalMiles: 5000, intervalMonths: 6, severity: 'low', description: 'Full RV inspection: chassis, house systems, propane.' },
+      ],
+      interstate: 'airstream.classic', atlas: 'airstream.classic', bambi: 'airstream.classic'
+    }
+  },
+  newmar: {
+    specs: { oil: { viscosity: '15W-40', type: 'Diesel Engine Oil CJ-4 (Diesel Pusher)', capacity: '11.0 gal' }, transmission: { type: 'Allison 3000 / 4000', capacity: '4.0 gal' }, coolant: { type: 'Extended Life OAT', capacity: '8.0 gal' }, brakeFluid: { type: 'DOT 5' }, tirePressure: { psi: 110 }, fuelFilters: { type: 'Primary + Secondary' }, airFilter: { type: 'Heavy-duty' }, battery: { groupSize: 'Group 31 (chassis) + 8D house' }, generator: { note: 'Cummins/Onan — service every 150 hours' } },
+    models: {
+      'bay star': [
+        { service: 'Oil & Filter Change', intervalMiles: 15000, intervalMonths: 6, severity: 'high', description: 'Diesel pusher chassis. CJ-4 15W-40. Newmar luxury demands attention.' },
+        { service: 'Fuel Filter Replacement', intervalMiles: 15000, intervalMonths: 6, severity: 'high', description: 'Replace diesel fuel filters. Clean fuel is critical.' },
+        { service: 'Generator Service', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 150 hours. Cummins/Onan generator oil and filter.' },
+        { service: 'Air Filter Replacement', intervalMiles: 30000, intervalMonths: 12, severity: 'medium', description: 'Replace when restriction indicator shows.' },
+        { service: 'Transmission Fluid Change', intervalMiles: 60000, intervalMonths: 24, severity: 'high', description: 'Allison 3000/4000. Use genuine Allison TES 295.' },
+        { service: 'Coolant Exchange', intervalMiles: 100000, intervalMonths: 60, severity: 'high', description: 'Extended life OAT coolant for diesel engine.' },
+        { service: 'Slide-Out Service', intervalMiles: 0, intervalMonths: 6, severity: 'medium', description: 'Lubricate and adjust Newmar slide mechanisms.' },
+        { service: 'Roof Inspection', intervalMiles: 0, intervalMonths: 12, severity: 'medium', description: 'Inspect roof sealant, AC units, and satellite dome.' },
+        { service: 'Inspection', intervalMiles: 15000, intervalMonths: 6, severity: 'low', description: 'Full luxury RV inspection. Chassis, generator, house systems.' },
+      ],
+      ventana: 'newmar.bay star', 'dutch star': 'newmar.bay star', 'london aire': 'newmar.bay star'
+    }
+  },
+  'grand-design': {
+    specs: { oil: { viscosity: '5W-20', type: 'Full Synthetic', capacity: '6.0 qt' }, transmission: { type: 'Ford TorqShift / Mercon LV', capacity: '4.0 qt' }, coolant: { type: 'Motorcraft Orange', capacity: '3.0 gal' }, brakeFluid: { type: 'DOT 4' }, tirePressure: { psi: 80 }, sparkPlugs: { type: 'Iridium', gap: '0.049 in' } },
+    models: {
+      solitude: [
+        { service: 'Oil & Filter Change', intervalMiles: 5000, intervalMonths: 6, severity: 'high', description: 'Ford F-53 chassis. 5W-20 full synthetic. Grand Design durability.' },
+        { service: 'Tire Rotation', intervalMiles: 5000, intervalMonths: 6, severity: 'low', description: 'Fifth wheel and motorhome. Rotate for even wear.' },
+        { service: 'Generator Service', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 150 hours if equipped with generator.' },
+        { service: 'Engine Air Filter', intervalMiles: 15000, intervalMonths: 12, severity: 'medium', description: 'Ford chassis air filter.' },
+        { service: 'Transmission Fluid', intervalMiles: 30000, intervalMonths: 24, severity: 'high', description: 'TorqShift transmission fluid change.' },
+        { service: 'Slide-Out Lubrication', intervalMiles: 0, intervalMonths: 6, severity: 'medium', description: 'Grand Design slide mechanisms. Lubricate every 6 months.' },
+        { service: 'Inspection', intervalMiles: 5000, intervalMonths: 6, severity: 'low', description: 'Full RV inspection. Includes chassis, house, propane systems.' },
+      ],
+      reflection: 'grand-design.solitude', imagine: 'grand-design.solitude', momentum: 'grand-design.solitude'
+    }
+  },
+
+  // --- Watercraft (engine hours) ---
+  seadoo: {
+    specs: { oil: { viscosity: '5W-40', type: 'Synthetic 2-Stroke / 4-Tec', capacity: '3.0 qt' }, gearOil: { type: 'Sea-Doo synthetic gear oil' }, coolant: { type: 'Sea-Doo XPS', capacity: '1.5 gal' }, sparkPlugs: { type: 'NGK Iridium', gap: '0.028 in' }, impeller: { note: 'Jet pump impeller — inspect annually' }, battery: { groupSize: 'Group 16 (Li-ion or AGM)' } },
+    models: {
+      gtx: [
+        { service: 'Oil & Filter Change', intervalMiles: 0, intervalMonths: 6, severity: 'high', description: 'Every 50 hours or annually. Rotax 4-TEC engine. Sea-Doo XPS 5W-40.' },
+        { service: 'Supercharger Service', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 100 hours. Inspect and rebuild supercharger. Critical for 4-TEC.' },
+        { service: 'Spark Plugs', intervalMiles: 0, intervalMonths: 0, severity: 'medium', description: 'Every 100 hours. NGK Iridium plugs. Prevents misfire on water.' },
+        { service: 'Jet Pump Inspection', intervalMiles: 0, intervalMonths: 6, severity: 'high', description: 'Inspect impeller and wear ring annually. Debris damages pump.' },
+        { service: 'Gear Oil Change', intervalMiles: 0, intervalMonths: 12, severity: 'medium', description: 'Every 100 hours or annually. Sea-Doo synthetic gear oil.' },
+        { service: 'Coolant Exchange', intervalMiles: 0, intervalMonths: 24, severity: 'medium', description: 'Every 2 years. Sea-Doo XPS coolant. Prevents corrosion.' },
+        { service: 'Battery Check', intervalMiles: 0, intervalMonths: 6, severity: 'low', description: 'Check battery and terminals before each season.' },
+        { service: 'Winterization', intervalMiles: 0, intervalMonths: 12, severity: 'high', description: 'Annually before storage. Fog engine, stabilize fuel, drain water.' },
+      ],
+      rxp: 'seadoo.gtx', gti: 'seadoo.gtx', rxt: 'seadoo.gtx', spark: 'seadoo.gtx'
+    }
+  },
+  'yamaha-wc': {
+    specs: { oil: { viscosity: '10W-40', type: 'Yamalube 4T Marine', capacity: '3.5 qt' }, gearOil: { type: 'Yamaha Marine Gear Oil' }, coolant: { type: 'Yamaha Long Life Coolant' }, sparkPlugs: { type: 'NGK Iridium', gap: '0.032 in' }, impeller: { note: 'Jet pump impeller — inspect annually' }, battery: { groupSize: 'Group 16 (AGM)' } },
+    models: {
+      'fx cruiser': [
+        { service: 'Oil & Filter Change', intervalMiles: 0, intervalMonths: 6, severity: 'high', description: 'Every 50 hours or annually. Yamaha 1.8L marine engine. Yamalube 10W-40.' },
+        { service: 'Spark Plugs', intervalMiles: 0, intervalMonths: 0, severity: 'medium', description: 'Every 100 hours. NGK Iridium plugs for reliable starting.' },
+        { service: 'Jet Pump Inspection', intervalMiles: 0, intervalMonths: 6, severity: 'high', description: 'Inspect impeller and wear ring for damage. Debris causes vibration.' },
+        { service: 'Gear Oil Change', intervalMiles: 0, intervalMonths: 12, severity: 'medium', description: 'Every 100 hours or annually. Yamaha Marine Gear Oil.' },
+        { service: 'Coolant Exchange', intervalMiles: 0, intervalMonths: 24, severity: 'medium', description: 'Every 2 years. Yamaha Long Life Coolant.' },
+        { service: 'Battery Check', intervalMiles: 0, intervalMonths: 6, severity: 'low', description: 'AGM battery check. Top up charge before season.' },
+        { service: 'Winterization', intervalMiles: 0, intervalMonths: 12, severity: 'high', description: 'Annually: fog engine, antifreeze, stabilize fuel.' },
+      ],
+      vx: 'yamaha-wc.fx cruiser', ex: 'yamaha-wc.fx cruiser', gp: 'yamaha-wc.fx cruiser', svho: 'yamaha-wc.fx cruiser'
+    }
+  },
+  'kawasaki-wc': {
+    specs: { oil: { viscosity: '10W-40', type: 'Kawasaki 4-Stroke Marine Oil', capacity: '3.5 qt' }, gearOil: { type: 'Kawasaki Marine Gear Oil' }, coolant: { type: 'Kawasaki Long Life Coolant' }, sparkPlugs: { type: 'NGK Iridium', gap: '0.032 in' }, impeller: { note: 'Jet pump impeller — inspect annually' }, battery: { groupSize: 'Group 16 (AGM)' } },
+    models: {
+      'ultra 310': [
+        { service: 'Oil & Filter Change', intervalMiles: 0, intervalMonths: 6, severity: 'high', description: 'Every 50 hours or annually. Kawasaki 1.5L supercharged engine. 10W-40.' },
+        { service: 'Supercharger Service', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 100 hours. Inspect and rebuild supercharger clutch.' },
+        { service: 'Spark Plugs', intervalMiles: 0, intervalMonths: 0, severity: 'medium', description: 'Every 100 hours. NGK Iridium plugs.' },
+        { service: 'Jet Pump Inspection', intervalMiles: 0, intervalMonths: 6, severity: 'high', description: 'Inspect impeller and wear ring for damage.' },
+        { service: 'Gear Oil Change', intervalMiles: 0, intervalMonths: 12, severity: 'medium', description: 'Every 100 hours or annually. Kawasaki Marine Gear Oil.' },
+        { service: 'Coolant Exchange', intervalMiles: 0, intervalMonths: 24, severity: 'medium', description: 'Every 2 years. Kawasaki Long Life Coolant.' },
+        { service: 'Winterization', intervalMiles: 0, intervalMonths: 12, severity: 'high', description: 'Annually: fog engine, drain water, stabilize fuel.' },
+      ],
+      'stx 160': 'kawasaki-wc.ultra 310', 'sx-r': 'kawasaki-wc.ultra 310'
+    }
+  },
+
   default: {
     specs: { oil: { viscosity: '5W-30', type: 'Conventional/Synthetic Blend', capacity: '5.0 qt' }, transmission: { type: "Check owner's manual" }, coolant: { type: 'Universal OAT' }, brakeFluid: { type: 'DOT 3' }, tirePressure: { psi: 34 }, sparkPlugs: { type: 'Iridium', gap: '0.044 in' }, battery: { groupSize: 'Group 35' } },
     services: [
