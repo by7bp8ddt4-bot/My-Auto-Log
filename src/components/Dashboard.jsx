@@ -761,8 +761,7 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
         </div>
       </div>
 
-      {isPremium && (
-        {/* Contact Support */}
+      {isPremium ? (
         <div className="mt-6 p-5 rounded-2xl bg-slate-900/60 border border-slate-800">
           <div className="flex items-center gap-3 mb-3">
             <div className="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center">
@@ -781,7 +780,7 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
             Issues? Contact our engineering team
           </button>
         </div>
-      )}
+      ) : null}
     </div>
   );
 }
