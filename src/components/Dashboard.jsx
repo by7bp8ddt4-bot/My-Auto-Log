@@ -760,6 +760,26 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
           })}
         </div>
       </div>
+
+      {/* Contact Support */}
+      <div className="mt-6 p-5 rounded-2xl bg-slate-900/60 border border-slate-800">
+        <div className="flex items-center gap-3 mb-3">
+          <div className="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center">
+            <svg className="w-5 h-5 text-blue-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="2" y="2" width="20" height="16" rx="2"/><path d="M22 6l-10 7L2 6"/></svg>
+          </div>
+          <div>
+            <h3 className="text-sm font-semibold text-white">Need Help?</h3>
+            <p className="text-xs text-slate-500">Contact our engineering team</p>
+          </div>
+        </div>
+        <button
+          onClick={() => onNavigate('contact')}
+          className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-semibold shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:scale-[1.01] transition-all duration-200"
+        >
+          <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="2" y="2" width="20" height="16" rx="2"/><path d="M22 6l-10 7L2 6"/></svg>
+          Issues? Contact our engineering team
+        </button>
+      </div>
     </div>
   );
 }
