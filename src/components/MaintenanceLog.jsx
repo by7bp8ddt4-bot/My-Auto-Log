@@ -186,6 +186,7 @@ export default function MaintenanceLog({ logs, vehicles, onAdd, onUpdate, onDele
               {sortedGroups.map((group, index) => {
                 const config = getServiceConfig(group.type);
                 const isActive = activeFolder === group.type;
+                const isAfterActive = index > 0 && sortedGroups[index - 1]?.type === activeFolder;
 
                 return (
                   <div
@@ -200,7 +201,8 @@ export default function MaintenanceLog({ logs, vehicles, onAdd, onUpdate, onDele
                         ? 'border-slate-700 -translate-y-2 scale-[1.01] shadow-[0_-12px_24px_rgba(2,6,23,0.6),_0_20px_30px_rgba(0,0,0,0.5)]'
                         : 'border-slate-800 hover:border-slate-700 shadow-[0_-4px_12px_rgba(0,0,0,0.3)]'
                       }
-                      ${index > 0 ? '-mt-10 sm:-mt-12' : ''}
+                      ${index > 0 && !isAfterActive ? '-mt-10 sm:-mt-12' : ''}
+                      ${isAfterActive ? 'mt-10 sm:mt-12' : ''}
                     `}
                   >
                     {/* The Tab — physically protruding from top of card */}
@@ -536,7 +538,7 @@ function MaintenanceFormModal({ vehicles, initialData, initialVehicleId, isEditi
             </select>
           </div>
 
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 gap-3">
             <div>
               <label className="block text-xs text-slate-400 mb-1.5 font-medium">Date</label>
               <input type="date" value={form.date} onChange={e => setForm(f => ({ ...f, date: e.target.value }))}
