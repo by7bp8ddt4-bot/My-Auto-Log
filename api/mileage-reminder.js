@@ -188,14 +188,17 @@ export default async function handler(req, res) {
         const now = new Date();
         const expiry = new Date(doc.expiry_date);
         const daysUntil = Math.ceil((expiry - now) / (1000 * 60 * 60 * 24));
-        const vehicleName = vehicles?.find(v => v.id === doc.vehicle_id)?.name || 'Vehicle';
+        const vehicle = vehicles?.find(v => v.id === doc.vehicle_id);
+        const vehicleLabel = vehicle
+          ? `${vehicle.year} ${vehicle.make} ${vehicle.model} (${vehicle.name})`
+          : 'Vehicle';
         
         // Check which reminders should be sent (90, 60, 30 days)
         const thresholds = [90, 60, 30];
         const sentBefore = doc.reminders_sent || [];
         const toSend = thresholds.filter(t => daysUntil <= t && !sentBefore.includes(t));
         
-        return { doc, vehicleName, daysUntil, expiry, toSend };
+        return { doc, vehicleLabel, daysUntil, expiry, toSend };
       }).filter(r => r.daysUntil <= 90 && r.daysUntil >= 0);
 
       // Build HTML for registration renewal alerts
@@ -206,17 +209,14 @@ export default async function handler(req, res) {
           </p>
           ${regRenewals.map(r => {
             const statusColor = r.daysUntil <= 30 ? '#dc2626' : r.daysUntil <= 60 ? '#d97706' : '#2563eb';
-            const statusIcon = r.daysUntil <= 30 ? '🔴' : r.daysUntil <= 60 ? '🟡' : '🔵';
+            const dueDate = r.expiry.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
             return `
-              <p style="color: ${statusColor}; font-size: 12px; margin: 0 0 4px; line-height: 1.5;">
-                <strong>${statusIcon} ${r.vehicleName}:</strong>
-                ${r.doc.name || 'Registration'} renews in <strong>${r.daysUntil} days</strong>
-                (due ${r.expiry.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })})
+              <p style="color: #334155; font-size: 12px; margin: 0 0 8px; line-height: 1.6;">
+                <strong style="color: ${statusColor};">${r.vehicleLabel}</strong><br>
+                Registration renews in <strong>${r.daysUntil} days</strong> — due by <strong>${dueDate}</strong>.<br>
+                <span style="color: #64748b;">Renew online at your state DMV website.</span>
               </p>`;
           }).join('')}
-          <p style="color: #64748b; font-size: 10px; margin: 8px 0 0;">
-            Update or upload your registration documents in the MTXtrkr app.
-          </p>
         </div>
       ` : '';
 
