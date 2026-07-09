@@ -1,4 +1,4 @@
-import { Settings2, Download, Trash2, RefreshCw, Database, User, Crown, ChevronRight, LogOut } from 'lucide-react';
+import { Settings2, Download, Trash2, RefreshCw, Database, User, Crown, ChevronRight, LogOut, Mail } from 'lucide-react';
 import { getSubscriptionData } from './SubscriptionManagement.jsx';
 
 export default function Settings({ onReset, onExport, vehicles, logs, reminders, isAuthenticated, isPremium, onNavigate, onLogout }) {
@@ -144,6 +144,27 @@ export default function Settings({ onReset, onExport, vehicles, logs, reminders,
           <p className="text-xs text-slate-500">
             {isAuthenticated ? 'Your data is securely synced to the cloud and available across all your devices.' : 'Data is currently stored locally in your browser.'} Offline changes are saved and sync automatically when you're back online.
           </p>
+        </div>
+
+        {/* Contact Support */}
+        <div className="p-5 rounded-2xl bg-slate-900/60 border border-slate-800">
+          <div className="flex items-center gap-3 mb-3">
+            <div className="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center">
+              <Mail className="w-5 h-5 text-blue-400" />
+            </div>
+            <div>
+              <h3 className="text-sm font-semibold text-white">Need Help?</h3>
+              <p className="text-xs text-slate-500">Contact our support team</p>
+            </div>
+          </div>
+          <button
+            onClick={() => onNavigate('contact')}
+            className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-sm font-medium transition-all"
+          >
+            <Mail className="w-4 h-4" />
+            Contact Support
+            <ChevronRight className="w-4 h-4" />
+          </button>
         </div>
       </div>
     </div>
