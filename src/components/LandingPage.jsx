@@ -109,7 +109,7 @@ export default function LandingPage({ onGetStarted, onViewPremium }) {
             { title: 'Smart Reminders', desc: 'Mileage & time-based alerts that learn your driving patterns.', img: remindersImg },
             { title: 'AI Co-Pilot', desc: 'Ask it anything — "engine is squeaking when I turn on the AC" or "the car shuttered when I pulled away from the stoplight". Our AI will give you a detailed assessment and send you in the right direction; not to mention keep you from getting swindled. Backed by maintenance schedules from 55+ manufacturers — from Ford and Toyota to CAT, Cummins, and Yamaha.', img: aiCopilotImg },
             { title: 'Expense Analytics', desc: 'Track costs per vehicle, per month, with beautiful charts.', img: analyticsImg },
-            { title: 'Document Storage', desc: 'Upload and store receipts, photos, and service documents in the cloud.', img: documentsImg },
+            { title: 'Document Storage', desc: 'Organize purchase records, insurance, photos, and registration in one place. Get automatic renewal reminders 90, 60, and 30 days before your registration expires.', img: documentsImg },
             { title: 'Service History', desc: 'Generate a complete digital health record to boost resale value.', img: serviceLogImg },
           ].map(feat => {
             return (
