@@ -104,7 +104,7 @@ export default function LandingPage({ onGetStarted, onViewPremium }) {
           {[
             { title: 'Vehicle Management', desc: 'Track all your vehicles in one place with detailed specs, maintenance charts, records, registrations, photos, and more.', img: vehicleMgmtImg },
             { title: 'Smart Reminders', desc: 'Mileage & time-based alerts that learn your driving patterns.', img: remindersImg },
-            { title: 'AI Co-Pilot', desc: 'Ask it anything — "engine is squeaking when I turn on the AC" or "the car shuttered when I pulled away from the stoplight". Our AI will give you a detailed assessment and send you in the right direction; not to mention keep you from getting swindled.', img: aiCopilotImg },
+            { title: 'AI Co-Pilot', desc: 'Ask it anything — "engine is squeaking when I turn on the AC" or "the car shuttered when I pulled away from the stoplight". Our AI will give you a detailed assessment and send you in the right direction; not to mention keep you from getting swindled. Backed by maintenance schedules from 55+ manufacturers — from Ford and Toyota to CAT, Cummins, and Yamaha.', img: aiCopilotImg },
             { title: 'Expense Analytics', desc: 'Track costs per vehicle, per month, with beautiful charts.', img: analyticsImg },
             { title: 'Document Storage', desc: 'Upload and store receipts, photos, and service documents in the cloud.', img: documentsImg },
             { title: 'Service History', desc: 'Generate a complete digital health record to boost resale value.', img: serviceLogImg },
@@ -121,114 +121,6 @@ export default function LandingPage({ onGetStarted, onViewPremium }) {
               </div>
             );
           })}
-        </div>
-      </div>
-
-      {/* AI Co-Pilot Section — Ask It Anything */}
-      <div className="max-w-6xl mx-auto px-4 py-20">
-        <div className="bg-gradient-to-br from-purple-600/5 to-blue-600/5 border border-purple-500/20 rounded-3xl p-8 md:p-12">
-          <div className="flex flex-col md:flex-row items-start gap-10">
-            <div className="flex-1">
-              {/* Badge */}
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-300 text-xs font-medium mb-4">
-                <Brain className="w-3 h-3" />
-                AI Co-Pilot — Ask It Anything
-              </div>
-
-              {/* Headline */}
-              <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">
-                "My engine is making a weird noise."
-                <br />
-                <span className="bg-gradient-to-r from-purple-400 to-blue-300 bg-clip-text text-transparent">
-                  MTXtrkr knows exactly what you mean.
-                </span>
-              </h2>
-
-              <p className="text-slate-400 leading-relaxed mb-6">
-                Type it like you'd tell a friend. Our AI reads your vehicle's specs — oil type, transmission fluid, 
-                brake fluid, tire pressure, spark plug gap — and translates your informal note into a professional 
-                maintenance record, complete with estimated costs.
-              </p>
-
-              <p className="text-xs text-slate-500 mb-6 flex items-center gap-2">
-                <Database className="w-3.5 h-3.5 text-blue-400 shrink-0" />
-                Backed by maintenance schedules from <strong className="text-slate-300">55+ manufacturers</strong>
-                — from Ford and Toyota to CAT, Cummins, and Yamaha.
-              </p>
-
-              {/* Feature List */}
-              <div className="grid sm:grid-cols-2 gap-3 mb-8">
-                {[
-                  { icon: Brain, label: 'Understands plain English, not mechanic-speak' },
-                  { icon: Wrench, label: 'Vehicle-specific diagnosis & costs' },
-                  { icon: Save, label: 'One-click save to your maintenance log' },
-                  { icon: Lightbulb, label: 'Proactive guidance for upcoming services' },
-                ].map((feat, i) => {
-                  const Icon = feat.icon;
-                  return (
-                    <div key={i} className="flex items-start gap-2.5">
-                      <div className="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center shrink-0">
-                        <Icon className="w-4 h-4 text-purple-400" />
-                      </div>
-                      <div>
-                        <p className="text-sm text-slate-300 font-medium">{feat.label}</p>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-
-              {/* CTA */}
-              <button
-                onClick={onGetStarted}
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-purple-600 to-blue-500 text-white font-semibold shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 transition-all text-sm"
-              >
-                <Sparkles className="w-4 h-4" />
-                Try the AI Co-Pilot
-                <ArrowRight className="w-4 h-4" />
-              </button>
-            </div>
-
-            {/* Visual — Text Box Mockup */}
-            <div className="flex-1 w-full max-w-sm">
-              <div className="bg-slate-800/50 rounded-2xl p-4 border border-slate-700/50">
-                <div className="space-y-3">
-                  <div className="flex items-center gap-2 text-xs text-slate-400 mb-1">
-                    <Brain className="w-3.5 h-3.5 text-purple-400" />
-                    <span className="font-medium text-purple-300">Ask It Anything</span>
-                  </div>
-                  <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-700/50">
-                    <div className="flex items-center gap-2 mb-3">
-                      <div className="w-6 h-6 rounded-full bg-gradient-to-br from-purple-500/30 to-blue-500/30 flex items-center justify-center text-[8px] font-bold text-purple-300">AI</div>
-                      <span className="text-[10px] text-slate-500">Type naturally — no mechanic-speak required</span>
-                    </div>
-                    {/* Text Area Mockup */}
-                    <div className="p-3 rounded-xl bg-slate-950 border border-slate-700/50 mb-3">
-                      <p className="text-xs text-slate-400 italic leading-relaxed">
-                        "my engine is making a high-pitched squeal when I turn on the AC"
-                      </p>
-                    </div>
-                    {/* AI Response Mockup */}
-                    <div className="p-3 rounded-xl bg-purple-500/5 border border-purple-500/20">
-                      <div className="flex items-center gap-1.5 mb-2">
-                        <Sparkles className="w-3 h-3 text-purple-400" />
-                        <span className="text-[10px] font-medium text-purple-300">AI Translation</span>
-                        <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 font-medium ml-auto">MEDIUM</span>
-                      </div>
-                      <p className="text-[11px] text-slate-300 leading-relaxed">
-                        Serpentine Belt / Accessory Drive Noise — Inspect belt tension and pulley bearings. 
-                        Your vehicle uses standard multi-rib belt. Estimated cost: $120–$250.
-                      </p>
-                      <div className="mt-2 pt-2 border-t border-purple-500/10 flex items-center gap-2">
-                        <Save className="w-3 h-3 text-emerald-400" />
-                        <span className="text-[10px] text-emerald-400 font-medium">Save to Maintenance Log</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
 
