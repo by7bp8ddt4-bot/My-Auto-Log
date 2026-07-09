@@ -2,7 +2,8 @@ import {
   Car, Bell, Cloud, Shield, Star, CheckCircle, ChevronRight, ArrowRight,
   Smartphone, Wifi, BarChart3, DollarSign, Clock, Upload,
   Crown, Gauge, Calendar, TrendingUp, Brain, Sparkles, Save, Wrench, Lightbulb,
-  AlertTriangle, Tractor, Package, Ship, Anchor, Cog, Truck, Building, Database
+  AlertTriangle, Tractor, Package, Ship, Anchor, Cog, Truck, Building, Database,
+  Bike
 } from 'lucide-react';
 import heroImage from '/assets/hero.png';
 import vehicleMgmtImg from '/assets/features/vehicle-mgmt.png';
@@ -380,16 +381,16 @@ export default function LandingPage({ onGetStarted, onViewPremium }) {
         <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-4 max-w-4xl mx-auto">
           {[
             { icon: Car, label: 'Car / Truck', color: 'bg-blue-600/20 text-blue-400' },
-            { icon: 'Motorcycle', label: 'Motorcycle', color: 'bg-slate-800/60 text-slate-300' },
-            { icon: 'Tractor', label: 'Ag Equipment', color: 'bg-green-700/20 text-green-400' },
-            { icon: 'Package', label: 'Forklift', color: 'bg-amber-700/20 text-amber-400' },
-            { icon: 'Ship', label: 'Watercraft', color: 'bg-cyan-700/20 text-cyan-400' },
-            { icon: 'Anchor', label: 'Outboard', color: 'bg-teal-700/20 text-teal-400' },
-            { icon: 'Cog', label: 'Marine Diesel', color: 'bg-indigo-700/20 text-indigo-400' },
-            { icon: 'Truck', label: 'Semi-Truck', color: 'bg-red-700/20 text-red-400' },
-            { icon: 'Building', label: 'RV', color: 'bg-purple-700/20 text-purple-400' },
+            { icon: Bike, label: 'Motorcycle', color: 'bg-slate-800/60 text-slate-300' },
+            { icon: Tractor, label: 'Ag Equipment', color: 'bg-green-700/20 text-green-400' },
+            { icon: Package, label: 'Forklift', color: 'bg-amber-700/20 text-amber-400' },
+            { icon: Ship, label: 'Watercraft', color: 'bg-cyan-700/20 text-cyan-400' },
+            { icon: Anchor, label: 'Outboard', color: 'bg-teal-700/20 text-teal-400' },
+            { icon: Cog, label: 'Marine Diesel', color: 'bg-indigo-700/20 text-indigo-400' },
+            { icon: Truck, label: 'Semi-Truck', color: 'bg-red-700/20 text-red-400' },
+            { icon: Building, label: 'RV', color: 'bg-purple-700/20 text-purple-400' },
           ].map((vt, i) => {
-            const Icon = typeof vt.icon === 'string' ? null : vt.icon;
+            const Icon = vt.icon;
             return (
               <div key={i} className="flex flex-col items-center gap-2 p-4 rounded-xl bg-slate-900/40 border border-slate-800 hover:border-blue-500/20 transition-all group">
                 <div className={`w-10 h-10 rounded-xl ${vt.color} flex items-center justify-center group-hover:scale-110 transition-transform`}>
@@ -441,16 +442,13 @@ export default function LandingPage({ onGetStarted, onViewPremium }) {
                 <span className="text-sm font-semibold text-white">{faq.q}</span>
                 <ChevronRight className="w-4 h-4 text-slate-500 group-open:rotate-90 transition-transform" />
               </summary>
-              <div className="px-6 pb-6 text-sm text-slate-400 leading-relaxed border-t border-slate-800/50 pt-4">
-                {faq.a}
-              </div>
+              <div className="px-6 pb-6 text-sm text-slate-400 leading-relaxed border-t border-slate-800/50 pt-4" dangerouslySetInnerHTML={{ __html: faq.a }}></div>
             </details>
           ))}
         </div>
       </div>
 
-      {
-/* Footer */}
+      {/* Footer */}
       <footer className="border-t border-slate-800 py-8">
         <div className="max-w-6xl mx-auto px-4 text-center text-xs text-slate-600">
           © 2026 MTXtrkr. All rights reserved. Built with ❤️ for car enthusiasts.
