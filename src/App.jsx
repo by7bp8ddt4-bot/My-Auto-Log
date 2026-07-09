@@ -14,6 +14,7 @@ import MaintenanceSchedule from './components/MaintenanceSchedule.jsx';
 import FuelLog from './components/FuelLog.jsx';
 import MileageChart from './components/MileageChart.jsx';
 import Modifications from './components/Modifications.jsx';
+import ContactSupport from './components/ContactSupport.jsx';
 import SubscriptionManagement, { setSubscriptionData } from './components/SubscriptionManagement.jsx';
 import { useSupabaseData, useSupabaseAuth } from './hooks/useSupabaseData.js';
 import { useLocalStorage, useSyncStatus } from './hooks/useLocalStorage.js';
@@ -504,6 +505,9 @@ export default function App() {
       isPremium={premium}
       onNavigate={navigate}
       trackEvent={analytics.track}
+    />,
+    contact: <ContactSupport
+      onNavigate={navigate}
     />,
     auth: <AuthPage onAuth={auth} />,
   };
