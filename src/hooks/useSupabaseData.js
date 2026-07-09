@@ -62,12 +62,20 @@ export function useSupabaseData(tableName, userId, filterColumn = 'user_id') {
 
       if (err) throw err;
       const camelData = keysToCamel(result || []);
-      setData(camelData);
-      // Only overwrite cache if we got results, or if cache was already empty
-      // This prevents realtime race conditions from wiping valid cached data
       const prevCache = JSON.parse(localStorage.getItem(`supabase_${tableName}`) || '[]');
-      if (camelData.length > 0 || prevCache.length === 0) {
+      
+      // If Supabase returned data, use it (latest from server)
+      // If Supabase returned empty but we have cached data, keep the cache
+      // to prevent data loss from Supabase resets
+      if (camelData.length > 0) {
+        setData(camelData);
         cacheData(camelData);
+      } else if (prevCache.length > 0) {
+        // Supabase is empty but cache has data — keep cache as fallback
+        setData(prevCache);
+      } else {
+        setData([]);
+        cacheData([]);
       }
       setError(null);
     } catch (err) {
@@ -316,10 +324,8 @@ export function useSupabaseAuth() {
     await supabase.auth.signOut();
     setUser(null);
     setSession(null);
-    // Clear cached data on logout
-    ['vehicles', 'maintenance_logs', 'reminders'].forEach(key => {
-      localStorage.removeItem(`supabase_${key}`);
-    });
+    // Keep cached data intact — it serves as a local backup
+    // if Supabase data is unavailable on next sign-in
   }, []);
 
   return { user, session, loading, isRecovery, clearRecovery: () => setIsRecovery(false), signUp, signIn, signInWithGoogle, signInWithApple, signOut, checkPremium, setPremiumStatus, resetPassword, updatePassword };
