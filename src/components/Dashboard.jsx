@@ -244,7 +244,7 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
       </div>
 
       {/* Lease Mileage Projector — Premium */}
-      {isPremium && activeVehicle?.purchaseDate && activeVehicle?.purchaseMileage >= 0 ? (
+      {isPremium && activeVehicle?.isLeased && activeVehicle?.purchaseDate && activeVehicle?.purchaseMileage >= 0 ? (
         <div className="mb-8 p-5 rounded-2xl bg-gradient-to-r from-violet-600/5 to-purple-600/5 border border-violet-500/20">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-sm font-semibold text-white flex items-center gap-2">
@@ -335,7 +335,7 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
             </div>
           )}
         </div>
-      ) : !isPremium && activeVehicle?.purchaseDate && activeVehicle?.purchaseMileage >= 0 ? (
+      ) : !isPremium && activeVehicle?.isLeased && activeVehicle?.purchaseDate && activeVehicle?.purchaseMileage >= 0 ? (
         /* Free user sees blurred preview with upgrade CTA */
         <div className="mb-8 p-5 rounded-2xl bg-gradient-to-r from-violet-600/5 to-purple-600/5 border border-violet-500/20 relative overflow-hidden">
           <div className="filter blur-sm pointer-events-none select-none">
