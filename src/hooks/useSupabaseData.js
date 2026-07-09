@@ -180,17 +180,21 @@ export function useSupabaseData(tableName, userId, filterColumn = 'user_id') {
         .eq(filterColumn, userId);
 
       if (err) throw err;
-      const newData = data.filter(item => item.id !== id);
-      setData(newData);
-      cacheData(newData);
+      setData(prev => {
+        const newData = prev.filter(item => item.id !== id);
+        cacheData(newData);
+        return newData;
+      });
     } catch (err) {
       console.error(`Error deleting from ${tableName}:`, err);
       // Fallback to local delete
-      const newData = data.filter(item => item.id !== id);
-      setData(newData);
-      cacheData(newData);
+      setData(prev => {
+        const newData = prev.filter(item => item.id !== id);
+        cacheData(newData);
+        return newData;
+      });
     }
-  }, [tableName, userId, data, cacheData]);
+  }, [tableName, userId, cacheData]);
 
   // Update entire dataset (for reset)
   const update = useCallback((newData) => {
