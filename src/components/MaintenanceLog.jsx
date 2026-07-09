@@ -13,6 +13,7 @@ import brakeIcon from '../assets/folder-icons/brake.svg';
 import engineIcon from '../assets/folder-icons/engine.svg';
 import transIcon from '../assets/folder-icons/transmission.svg';
 import allIcon from '../assets/folder-icons/archive-drawer.svg';
+import batteryIcon from '../assets/folder-icons/battery.svg';
 
 // Folder config — only 6 folders. Each SERVICE_TYPE maps to one of these.
 const FOLDER_DEFS = [
@@ -22,13 +23,14 @@ const FOLDER_DEFS = [
   { type: 'Driveline Service', icon: transIcon,     tabBorder: 'border-purple-500/20', tabBg: 'bg-purple-600',      accent: 'text-purple-400', bodyBg: 'bg-purple-500/5' },
   { type: 'Brakes Service',    icon: brakeIcon,     tabBorder: 'border-red-500/20',    tabBg: 'bg-red-600',         accent: 'text-red-400',    bodyBg: 'bg-red-500/5' },
   { type: 'Tires',             icon: tireIcon,      tabBorder: 'border-blue-500/20',   tabBg: 'bg-blue-600',        accent: 'text-blue-400',   bodyBg: 'bg-blue-500/5' },
+  { type: 'Battery',           icon: batteryIcon,   tabBorder: 'border-lime-500/20',   tabBg: 'bg-lime-600',        accent: 'text-lime-400',   bodyBg: 'bg-lime-500/5' },
 ];
 
 // Map every SERVICE_TYPE to its parent folder
 const FOLDER_MAP = {
   'Oil & Filter Change': 'Oil & Filter Change',
   'Engine Service': 'Engine Service',
-  'Battery Replacement': 'Engine Service',
+  'Battery Replacement': 'Battery',
   'Filter Replacement': 'Engine Service',
   'Cabin Air Filter': 'Engine Service',
   'Fluid Check/Top-Up': 'Engine Service',
@@ -161,20 +163,21 @@ export default function MaintenanceLog({ logs, vehicles, onAdd, onUpdate, onDele
             </p>
           </div>
 
-          {filteredLogs.length === 0 ? (
-            <div className="text-center py-12 bg-slate-900/30 rounded-2xl border border-slate-800">
-              <ClipboardList className="w-10 h-10 text-slate-600 mx-auto mb-3" />
+          {filteredLogs.length === 0 && (
+            <div className="text-center py-6 bg-slate-900/30 rounded-2xl border border-slate-800 mb-4">
+              <ClipboardList className="w-8 h-8 text-slate-600 mx-auto mb-2" />
               <p className="text-sm text-slate-400">No service logs yet</p>
               <button
                 onClick={() => setShowForm(true)}
-                className="mt-3 inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-medium"
+                className="mt-2 inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-medium"
               >
                 <Plus className="w-3.5 h-3.5" />
                 Log your first service
               </button>
             </div>
-          ) : (
-            /* Cabinet Drawer Container — per design spec */
+          )}
+
+          {/* Cabinet Drawer Container — always visible, even when empty */}
             <div className="relative flex flex-col py-2 rounded-3xl bg-slate-950/20 border border-slate-900/60 shadow-inner">
               {sortedGroups.map((group, index) => {
                 const config = getServiceConfig(group.type);
@@ -395,7 +398,7 @@ export default function MaintenanceLog({ logs, vehicles, onAdd, onUpdate, onDele
                 );
               })}
             </div>
-          )}
+
         </>
       )}
 
