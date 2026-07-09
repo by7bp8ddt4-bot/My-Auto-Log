@@ -496,7 +496,6 @@ export default function App() {
       selectedVehicleId={selectedVehicleId}
     />,
     documents: <DocumentsPage
-      logs={logsStore.data}
       vehicles={vehiclesStore.data}
       onNavigate={navigate}
     />,
