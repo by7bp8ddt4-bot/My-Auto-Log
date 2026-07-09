@@ -204,6 +204,73 @@ export default function App() {
     }
   }, [isAuthenticated, supabaseProfile.data, premium]);
 
+  // Migrate localStorage data to Supabase when user signs in with existing local data
+  const migrationRanKey = 'mtxtrkr_migration_ran';
+  useEffect(() => {
+    if (!isAuthenticated || !auth.user?.id) return;
+    // Only run once per user session
+    if (localStorage.getItem(migrationRanKey)) return;
+
+    const migrations = [
+      { store: supabaseVehicles, key: STORAGE_KEYS.VEHICLES },
+      { store: supabaseLogs, key: STORAGE_KEYS.MAINTENANCE_LOGS },
+      { store: supabaseReminders, key: STORAGE_KEYS.REMINDERS },
+      { store: supabaseFuelLogs, key: 'mtxtrkr_fuel_logs' },
+      { store: supabaseMods, key: 'mtxtrkr_modifications' },
+    ];
+
+    let hasLocalData = false;
+    for (const { key } of migrations) {
+      const raw = localStorage.getItem(key);
+      if (raw) {
+        const items = JSON.parse(raw);
+        if (Array.isArray(items) && items.length > 0) {
+          hasLocalData = true;
+          break;
+        }
+      }
+    }
+
+    if (!hasLocalData) {
+      localStorage.setItem(migrationRanKey, 'true');
+      return;
+    }
+
+    // Check if Supabase already has data — if so, skip migration to avoid duplicates
+    let supabaseHasData = false;
+    for (const { store } of migrations) {
+      if (store.data && store.data.length > 0) {
+        supabaseHasData = true;
+        break;
+      }
+    }
+    if (supabaseHasData) {
+      localStorage.setItem(migrationRanKey, 'true');
+      return;
+    }
+
+    // Perform the migration
+    (async () => {
+      for (const { store, key } of migrations) {
+        try {
+          const raw = localStorage.getItem(key);
+          if (raw) {
+            const items = JSON.parse(raw);
+            if (Array.isArray(items) && items.length > 0) {
+              for (const item of items) {
+                const { id, createdAt, updatedAt, ...cleanItem } = item;
+                await store.add(cleanItem);
+              }
+            }
+          }
+        } catch (e) {
+          console.warn(`[SignIn Migration] Could not migrate ${key}:`, e);
+        }
+      }
+      localStorage.setItem(migrationRanKey, 'true');
+    })();
+  }, [isAuthenticated, auth.user?.id]);
+
   const sync = useSyncStatus();
 
   // Override online status when force offline is toggled
