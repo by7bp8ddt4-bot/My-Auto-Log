@@ -5,6 +5,7 @@ import Dashboard from './components/Dashboard.jsx';
 import VehicleList from './components/VehicleList.jsx';
 import MaintenanceLog from './components/MaintenanceLog.jsx';
 import RemindersPage from './components/RemindersPage.jsx';
+import DocumentsPage from './components/DocumentsPage.jsx';
 import PremiumPaywall from './components/PremiumPaywall.jsx';
 import Settings from './components/Settings.jsx';
 import SyncIndicator from './components/SyncIndicator.jsx';
@@ -493,6 +494,11 @@ export default function App() {
       onNavigate={navigate}
       isPremium={premium}
       selectedVehicleId={selectedVehicleId}
+    />,
+    documents: <DocumentsPage
+      logs={logsStore.data}
+      vehicles={vehiclesStore.data}
+      onNavigate={navigate}
     />,
     subscription: <SubscriptionManagement
       userId={auth.user?.id}
