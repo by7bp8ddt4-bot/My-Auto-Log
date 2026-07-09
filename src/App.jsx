@@ -174,6 +174,37 @@ export default function App() {
   const localFuelLogs = useLocalStorage('mtxtrkr_fuel_logs', []);
   const localMods = useLocalStorage('mtxtrkr_modifications', []);
 
+  // One-time migration: old Supabase cache keys → new localStorage keys
+  // The old useSupabaseData hook cached under 'supabase_*' keys.
+  // We now use localStorage as primary store under 'mtxtrkr_*' keys.
+  // Migrate any data from old cache to new keys to prevent data loss.
+  const cacheMigrationKey = 'mtxtrkr_cache_migrated';
+  useEffect(() => {
+    if (localStorage.getItem(cacheMigrationKey)) return;
+    const oldToNew = {
+      'supabase_vehicles': STORAGE_KEYS.VEHICLES,
+      'supabase_maintenance_logs': STORAGE_KEYS.MAINTENANCE_LOGS,
+      'supabase_reminders': STORAGE_KEYS.REMINDERS,
+      'supabase_fuel_logs': 'mtxtrkr_fuel_logs',
+      'supabase_modifications': 'mtxtrkr_modifications',
+    };
+    for (const [oldKey, newKey] of Object.entries(oldToNew)) {
+      const oldData = localStorage.getItem(oldKey);
+      if (oldData) {
+        const parsed = JSON.parse(oldData);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          const existing = localStorage.getItem(newKey);
+          const existingParsed = existing ? JSON.parse(existing) : [];
+          // Only copy if new key is empty or has less data
+          if (existingParsed.length < parsed.length) {
+            localStorage.setItem(newKey, JSON.stringify(parsed));
+          }
+        }
+      }
+    }
+    localStorage.setItem(cacheMigrationKey, 'true');
+  }, []);
+
   // Always use localStorage as the primary store — data persists forever
   // Supabase is only used for cloud sync (background) and cross-device portability
   const vehiclesStore = localVehicles;
@@ -239,6 +270,7 @@ export default function App() {
   }, [isAuthenticated, auth.user?.id, supabaseVehicles.data, supabaseLogs.data, supabaseReminders.data, supabaseFuelLogs.data, supabaseMods.data]);
 
   // Continuous background sync: push local data to Supabase when it changes
+  // Syncs individual items by comparing IDs — pushes only what's missing from Supabase
   const lastSyncRef = useRef(0);
   useEffect(() => {
     if (!isAuthenticated || !auth.user?.id) return;
@@ -247,16 +279,18 @@ export default function App() {
     if (now - lastSyncRef.current < 5000) return; // throttle: max once per 5s
     lastSyncRef.current = now;
 
-    for (const { local, supabase, key } of syncStores) {
+    for (const { local, supabase } of syncStores) {
       const localData = local.data;
       const supabaseData = supabase.data || [];
 
-      if (localData.length === 0 && supabaseData.length === 0) continue;
+      if (localData.length === 0) continue;
 
-      // If local has data and Supabase doesn't, push local to Supabase
-      if (localData.length > 0 && supabaseData.length === 0) {
+      const supabaseIds = new Set(supabaseData.map(s => s.id));
+      const itemsToSync = localData.filter(item => !supabaseIds.has(item.id));
+
+      if (itemsToSync.length > 0) {
         (async () => {
-          for (const item of localData) {
+          for (const item of itemsToSync) {
             const { id, createdAt, updatedAt, ...cleanItem } = item;
             await supabase.add(cleanItem);
           }
