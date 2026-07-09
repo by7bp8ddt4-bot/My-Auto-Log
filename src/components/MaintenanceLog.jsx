@@ -31,7 +31,8 @@ const FOLDER_MAP = {
   'Oil & Filter Change': 'Oil & Filter Change',
   'Engine Service': 'Engine Service',
   'Battery Replacement': 'Battery',
-  'Filter Replacement': 'Engine Service',
+  'Spark Plugs': 'Engine Service',
+  'Air Filter': 'Engine Service',
   'Cabin Air Filter': 'Engine Service',
   'Fluid Check/Top-Up': 'Engine Service',
   'Wiper Blades': 'Engine Service',
@@ -39,6 +40,9 @@ const FOLDER_MAP = {
   'Repair': 'Engine Service',
   'Other': 'Engine Service',
   'Transmission Service': 'Driveline Service',
+  'Transfer Case Service': 'Driveline Service',
+  'Front Differential Service': 'Driveline Service',
+  'Rear Differential Service': 'Driveline Service',
   'Brake Service': 'Brakes Service',
   'Tire Rotation': 'Tires',
   'New Tires': 'Tires',
@@ -551,7 +555,7 @@ function MaintenanceFormModal({ vehicles, initialData, initialVehicleId, isEditi
             <label className="block text-xs text-slate-400 mb-1.5 font-medium">
               Service Type(s) * <span className="text-slate-500 font-normal">(select one or more)</span>
             </label>
-            <div className="grid grid-cols-2 gap-1.5 max-h-48 overflow-y-auto p-1 rounded-xl bg-slate-900/50 border border-slate-800">
+            <div className="grid grid-cols-1 gap-1.5 max-h-48 overflow-y-auto p-1 rounded-xl bg-slate-900/50 border border-slate-800">
               {SERVICE_TYPES.map(type => {
                 const config = getServiceConfig(type);
                 const isSelected = form.serviceTypes.includes(type);
