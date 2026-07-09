@@ -174,11 +174,57 @@ export default async function handler(req, res) {
 
       const appUrl = 'https://mtxtrkr.com';
 
+      // Get registration documents due for renewal
+      const { data: regDocs } = await supabase
+        .from('documents')
+        .select('id, name, expiry_date, vehicle_id, reminders_sent')
+        .eq('user_id', profile.id)
+        .eq('folder', 'registration')
+        .not('expiry_date', 'is', null)
+        .order('expiry_date', { ascending: true });
+
+      // Build registration renewal alerts for documents due within 90 days
+      const regRenewals = (regDocs || []).map(doc => {
+        const now = new Date();
+        const expiry = new Date(doc.expiry_date);
+        const daysUntil = Math.ceil((expiry - now) / (1000 * 60 * 60 * 24));
+        const vehicleName = vehicles?.find(v => v.id === doc.vehicle_id)?.name || 'Vehicle';
+        
+        // Check which reminders should be sent (90, 60, 30 days)
+        const thresholds = [90, 60, 30];
+        const sentBefore = doc.reminders_sent || [];
+        const toSend = thresholds.filter(t => daysUntil <= t && !sentBefore.includes(t));
+        
+        return { doc, vehicleName, daysUntil, expiry, toSend };
+      }).filter(r => r.daysUntil <= 90 && r.daysUntil >= 0);
+
+      // Build HTML for registration renewal alerts
+      const regAlertHtml = regRenewals.length > 0 ? `
+        <div style="background: #e0f2fe; border-radius: 8px; padding: 12px; margin: 16px 0; border: 1px solid #7dd3fc;">
+          <p style="color: #0369a1; font-size: 12px; margin: 0 0 8px; font-weight: 600;">
+            📋 Registration Renewals Due
+          </p>
+          ${regRenewals.map(r => {
+            const statusColor = r.daysUntil <= 30 ? '#dc2626' : r.daysUntil <= 60 ? '#d97706' : '#2563eb';
+            const statusIcon = r.daysUntil <= 30 ? '🔴' : r.daysUntil <= 60 ? '🟡' : '🔵';
+            return `
+              <p style="color: ${statusColor}; font-size: 12px; margin: 0 0 4px; line-height: 1.5;">
+                <strong>${statusIcon} ${r.vehicleName}:</strong>
+                ${r.doc.name || 'Registration'} renews in <strong>${r.daysUntil} days</strong>
+                (due ${r.expiry.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })})
+              </p>`;
+          }).join('')}
+          <p style="color: #64748b; font-size: 10px; margin: 8px 0 0;">
+            Update or upload your registration documents in the MTXtrkr app.
+          </p>
+        </div>
+      ` : '';
+
       try {
         await transporter.sendMail({
           from: process.env.SMTP_USER,
           to: email,
-          subject: `📅 Mileage check-in for your ${vehicleCount} ${vehicleCount === 1 ? 'vehicle' : 'vehicles'} — MTXtrkr`,
+          subject: `📅 ${vehicleCount > 0 ? `Mileage check-in for your ${vehicleCount} ${vehicleCount === 1 ? 'vehicle' : 'vehicles'}` : 'MTXtrkr Monthly Update'}${regRenewals.length > 0 ? ` + ${regRenewals.length} registration renewal${regRenewals.length > 1 ? 's' : ''}` : ''} — MTXtrkr`,
           html: `
             <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 560px; margin: 0 auto; background: #f8fafc; border-radius: 16px; overflow: hidden;">
               <div style="background: linear-gradient(135deg, #1e3a5f, #0f172a); padding: 32px 24px; text-align: center;">
@@ -228,6 +274,7 @@ export default async function handler(req, res) {
                   }).join('')}
                 </div>
                 ` : ''}
+                ${regAlertHtml}
               </div>
               <div style="background: #f1f5f9; padding: 20px 24px; text-align: center; border-top: 1px solid #e2e8f0;">
                 <p style="color: #94a3b8; font-size: 11px; margin: 0; line-height: 1.5;">
@@ -238,6 +285,18 @@ export default async function handler(req, res) {
             </div>
           `,
         });
+
+        // After successful send, update reminders_sent for registration documents
+        if (regRenewals.length > 0) {
+          for (const r of regRenewals) {
+            if (r.toSend.length > 0) {
+              const updatedSent = [...(r.doc.reminders_sent || []), ...r.toSend];
+              await supabase.from('documents')
+                .update({ reminders_sent: updatedSent })
+                .eq('id', r.doc.id);
+            }
+          }
+        }
 
         return { userId: profile.id, email, status: 'sent' };
       } catch (sendError) {

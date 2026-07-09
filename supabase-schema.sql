@@ -130,8 +130,28 @@ CREATE TABLE IF NOT EXISTS analytics_events (
 );
 
 -- ============================================
+-- DOCUMENTS TABLE
+-- ============================================
+CREATE TABLE IF NOT EXISTS documents (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
+  folder TEXT NOT NULL DEFAULT 'purchase',
+  name TEXT NOT NULL DEFAULT 'Untitled',
+  file_url TEXT,
+  notes TEXT,
+  date DATE,
+  expiry_date DATE,
+  vehicle_id UUID REFERENCES vehicles(id) ON DELETE SET NULL,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  reminders_sent INTEGER[] DEFAULT '{}'
+);
+
+-- ============================================
 -- INDEXES
 -- ============================================
+CREATE INDEX IF NOT EXISTS idx_documents_user_id ON documents(user_id);
+CREATE INDEX IF NOT EXISTS idx_documents_expiry_date ON documents(expiry_date);
+CREATE INDEX IF NOT EXISTS idx_documents_folder ON documents(folder);
 CREATE INDEX IF NOT EXISTS idx_vehicles_user_id ON vehicles(user_id);
 CREATE INDEX IF NOT EXISTS idx_maintenance_logs_user_id ON maintenance_logs(user_id);
 CREATE INDEX IF NOT EXISTS idx_maintenance_logs_vehicle_id ON maintenance_logs(vehicle_id);
@@ -148,6 +168,7 @@ CREATE INDEX IF NOT EXISTS idx_analytics_events_timestamp ON analytics_events(ti
 -- ============================================
 -- ROW LEVEL SECURITY
 -- ============================================
+ALTER TABLE documents ENABLE ROW LEVEL SECURITY;
 ALTER TABLE vehicles ENABLE ROW LEVEL SECURITY;
 ALTER TABLE maintenance_logs ENABLE ROW LEVEL SECURITY;
 ALTER TABLE reminders ENABLE ROW LEVEL SECURITY;
@@ -239,6 +260,20 @@ CREATE POLICY "Users can update their own modifications"
   USING (auth.uid() = user_id);
 CREATE POLICY "Users can delete their own modifications"
   ON modifications FOR DELETE
+  USING (auth.uid() = user_id);
+
+-- Documents
+CREATE POLICY "Users can view their own documents"
+  ON documents FOR SELECT
+  USING (auth.uid() = user_id);
+CREATE POLICY "Users can insert their own documents"
+  ON documents FOR INSERT
+  WITH CHECK (auth.uid() = user_id);
+CREATE POLICY "Users can update their own documents"
+  ON documents FOR UPDATE
+  USING (auth.uid() = user_id);
+CREATE POLICY "Users can delete their own documents"
+  ON documents FOR DELETE
   USING (auth.uid() = user_id);
 
 -- Analytics events
