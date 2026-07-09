@@ -1,8 +1,7 @@
 import { useState, useMemo } from 'react';
 import {
   FileText, FileUp, Camera, Shield, Image, ChevronRight,
-  Plus, X, Trash2, Calendar, Download, ExternalLink,
-  Search, AlertCircle, Info
+  Plus, X, Trash2, Calendar, Download, Search, ClipboardList
 } from 'lucide-react';
 import { formatDate, formatNumber, generateId } from '../utils/helpers';
 
@@ -260,8 +259,8 @@ function AddDocumentModal({ folder, onClose, onSave, vehicles }) {
             />
           </div>
 
-          {/* Expiry Date (for Insurance) */}
-          {folder === 'insurance' && (
+          {/* Expiry Date (for Insurance & Registration) */}
+          {(folder === 'insurance' || folder === 'registration') && (
             <div>
               <label className="block text-sm text-slate-400 mb-1.5">Expiry Date</label>
               <input
@@ -300,13 +299,13 @@ function AddDocumentModal({ folder, onClose, onSave, vehicles }) {
 }
 
 // ---------- Main DocumentsPage Component ----------
-export default function DocumentsPage({ logs, vehicles, onNavigate }) {
+export default function DocumentsPage({ vehicles, onNavigate }) {
   const [documents, setDocuments] = useState(loadDocuments);
   const [expandedTabs, setExpandedTabs] = useState({
-    service: true,
-    purchase: false,
+    purchase: true,
     insurance: false,
     photos: false,
+    registration: false,
   });
   const [showModal, setShowModal] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
@@ -328,10 +327,10 @@ export default function DocumentsPage({ logs, vehicles, onNavigate }) {
   };
 
   // Filter documents by folder
-  const serviceDocs = documents.filter(d => d.folder === 'service');
   const purchaseDocs = documents.filter(d => d.folder === 'purchase');
   const insuranceDocs = documents.filter(d => d.folder === 'insurance');
   const photoDocs = documents.filter(d => d.folder === 'photos');
+  const registrationDocs = documents.filter(d => d.folder === 'registration');
 
   // Filter by search term
   const filterBySearch = (docs) => {
@@ -352,7 +351,7 @@ export default function DocumentsPage({ logs, vehicles, onNavigate }) {
         </div>
         <div>
           <h1 className="text-xl font-bold text-white">Documents</h1>
-          <p className="text-sm text-slate-400">Store receipts, photos, and service records</p>
+          <p className="text-sm text-slate-400">Store purchase records, insurance, photos, and registration</p>
         </div>
       </div>
 
@@ -371,10 +370,10 @@ export default function DocumentsPage({ logs, vehicles, onNavigate }) {
       {/* Summary Stats */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         {[
-          { label: 'Service Records', count: serviceDocs.length, icon: FileText, color: 'from-blue-500/20 to-cyan-500/20' },
-          { label: 'Purchase & Reg', count: purchaseDocs.length, icon: FileUp, color: 'from-emerald-500/20 to-teal-500/20' },
+          { label: 'Purchase Records', count: purchaseDocs.length, icon: FileUp, color: 'from-emerald-500/20 to-teal-500/20' },
           { label: 'Insurance', count: insuranceDocs.length, icon: Shield, color: 'from-amber-500/20 to-orange-500/20' },
           { label: 'Photos', count: photoDocs.length, icon: Image, color: 'from-purple-500/20 to-pink-500/20' },
+          { label: 'Registration', count: registrationDocs.length, icon: ClipboardList, color: 'from-blue-500/20 to-cyan-500/20' },
         ].map(stat => (
           <div key={stat.label} className="rounded-xl bg-slate-800/30 border border-slate-700/50 p-3">
             <div className={`w-8 h-8 rounded-lg bg-gradient-to-br ${stat.color} flex items-center justify-center mb-2`}>
@@ -386,77 +385,24 @@ export default function DocumentsPage({ logs, vehicles, onNavigate }) {
         ))}
       </div>
 
-      {/* Service Records Tab */}
-      <FolderTab
-        icon={FileText}
-        title="Service Records"
-        count={serviceDocs.length + (logs?.length || 0)}
-        isExpanded={expandedTabs.service}
-        onToggle={() => toggleTab('service')}
-      >
-        {/* Existing maintenance logs */}
-        {logs && logs.length > 0 && (
-          <div className="space-y-2">
-            <p className="text-xs font-medium text-slate-400 uppercase tracking-wider">Maintenance Logs</p>
-            {logs.slice(0, 10).map(log => (
-              <div
-                key={log.id}
-                className="bg-slate-800/40 rounded-xl border border-slate-700/50 p-3 cursor-pointer hover:bg-slate-700/40 transition-all"
-                onClick={() => { onNavigate('logs'); }}
-              >
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 rounded-full bg-blue-400 shrink-0" />
-                  <div className="min-w-0 flex-1">
-                    <p className="text-sm text-white truncate">
-                      {log.serviceTypes?.[0] || log.serviceType || 'Service'} — {vehicles?.find(v => v.id === log.vehicleId)?.name || 'Vehicle'}
-                    </p>
-                    <p className="text-xs text-slate-400">
-                      {log.date ? formatDate(log.date) : ''} {log.odometer ? `• ${formatNumber(log.odometer)} mi` : ''}
-                    </p>
-                  </div>
-                  <ChevronRight className="w-4 h-4 text-slate-500 shrink-0" />
-                </div>
-              </div>
-            ))}
-            {logs.length > 10 && (
-              <p className="text-xs text-slate-500 text-center">
-                +{logs.length - 10} more logs — <button onClick={() => onNavigate('logs')} className="text-blue-400 hover:underline">View all</button>
-              </p>
-            )}
-          </div>
-        )}
-
-        {/* Uploaded service documents */}
-        {filterBySearch(serviceDocs).length > 0 && (
-          <div className="space-y-2">
-            <p className="text-xs font-medium text-slate-400 uppercase tracking-wider">Uploaded Documents</p>
-            {filterBySearch(serviceDocs).map(doc => (
-              <DocumentItem key={doc.id} doc={doc} onDelete={handleDelete} showVehicleName vehicles={vehicles} />
-            ))}
-          </div>
-        )}
-
-        {filterBySearch(serviceDocs).length === 0 && (!logs || logs.length === 0) && (
-          <p className="text-sm text-slate-500 text-center py-4">No service records yet. Add a maintenance log or upload a document.</p>
-        )}
-
-        <button
-          onClick={() => setShowModal('service')}
-          className="w-full py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-slate-300 text-sm hover:bg-slate-700 transition-all flex items-center justify-center gap-2"
-        >
-          <Plus className="w-4 h-4" />
-          Upload Service Document
-        </button>
-      </FolderTab>
-
-      {/* Purchase & Registration Tab */}
+      {/* Purchase Records Tab */}
       <FolderTab
         icon={FileUp}
-        title="Purchase & Registration"
+        title="Purchase Records"
         count={purchaseDocs.length}
         isExpanded={expandedTabs.purchase}
         onToggle={() => toggleTab('purchase')}
       >
+        <div className="text-xs text-slate-400 space-y-1 mb-2">
+          <p className="font-medium text-slate-300">Suggested documents:</p>
+          <ul className="list-disc list-inside space-y-0.5">
+            <li>Window sticker / Monroney label</li>
+            <li>Purchase receipt / bill of sale</li>
+            <li>Dealership add-ons receipts</li>
+            <li>Accessory purchases (floor mats, bed liners, roof racks, etc.)</li>
+          </ul>
+        </div>
+
         {filterBySearch(purchaseDocs).length > 0 ? (
           <div className="space-y-2">
             {filterBySearch(purchaseDocs).map(doc => (
@@ -464,7 +410,7 @@ export default function DocumentsPage({ logs, vehicles, onNavigate }) {
             ))}
           </div>
         ) : (
-          <p className="text-sm text-slate-500 text-center py-4">No purchase documents yet. Upload your bill of sale, title, or registration.</p>
+          <p className="text-sm text-slate-500 text-center py-4">No purchase records yet. Upload your window sticker, purchase receipt, or accessory receipts.</p>
         )}
 
         <button
@@ -472,7 +418,7 @@ export default function DocumentsPage({ logs, vehicles, onNavigate }) {
           className="w-full py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-slate-300 text-sm hover:bg-slate-700 transition-all flex items-center justify-center gap-2"
         >
           <Plus className="w-4 h-4" />
-          Upload Purchase Document
+          Upload Purchase Record
         </button>
       </FolderTab>
 
@@ -546,6 +492,77 @@ export default function DocumentsPage({ logs, vehicles, onNavigate }) {
           <Plus className="w-4 h-4" />
           <Camera className="w-4 h-4" />
           Add Photo
+        </button>
+      </FolderTab>
+
+      {/* Registration Tab */}
+      <FolderTab
+        icon={ClipboardList}
+        title="Registration"
+        count={registrationDocs.length}
+        isExpanded={expandedTabs.registration}
+        onToggle={() => toggleTab('registration')}
+      >
+        <div className="text-xs text-slate-400 space-y-1 mb-2">
+          <p className="font-medium text-slate-300">Suggested documents:</p>
+          <ul className="list-disc list-inside space-y-0.5">
+            <li>Vehicle registration documents</li>
+            <li>Registration renewal reminders</li>
+            <li>Emissions / smog check certificates</li>
+          </ul>
+        </div>
+
+        {/* Upcoming Renewals */}
+        {registrationDocs.filter(d => d.expiryDate).length > 0 && (
+          <div className="mb-3 p-3 rounded-xl bg-amber-500/5 border border-amber-500/20">
+            <p className="text-xs font-medium text-amber-300 mb-2 flex items-center gap-1.5">
+              <Calendar className="w-3.5 h-3.5" />
+              Upcoming Renewals
+            </p>
+            <div className="space-y-2">
+              {registrationDocs
+                .filter(d => d.expiryDate)
+                .sort((a, b) => new Date(a.expiryDate) - new Date(b.expiryDate))
+                .map(doc => {
+                  const daysUntil = Math.ceil((new Date(doc.expiryDate) - new Date()) / (1000 * 60 * 60 * 24));
+                  const vehicle = vehicles?.find(v => v.id === doc.vehicleId);
+                  return (
+                    <div key={doc.id} className="flex items-center justify-between text-xs">
+                      <div>
+                        <span className="text-slate-300">{vehicle?.name || vehicle?.make || 'Vehicle'}</span>
+                        <span className="text-slate-500 ml-2">Renews {formatDate(doc.expiryDate)}</span>
+                      </div>
+                      <span className={`font-medium ${
+                        daysUntil <= 30 ? 'text-red-400' :
+                        daysUntil <= 60 ? 'text-amber-400' :
+                        daysUntil <= 90 ? 'text-blue-400' :
+                        'text-slate-400'
+                      }`}>
+                        {daysUntil <= 0 ? 'OVERDUE' : `${daysUntil} days`}
+                      </span>
+                    </div>
+                  );
+                })}
+            </div>
+            <p className="text-[10px] text-slate-500 mt-2">Reminders sent at 90, 60, and 30 days before renewal.</p>
+          </div>
+        )}
+          {filterBySearch(registrationDocs).length > 0 ? (
+          <div className="space-y-2">
+            {filterBySearch(registrationDocs).map(doc => (
+              <DocumentItem key={doc.id} doc={doc} onDelete={handleDelete} showVehicleName vehicles={vehicles} />
+            ))}
+          </div>
+        ) : (
+          <p className="text-sm text-slate-500 text-center py-4">No registration documents yet. Upload your registration or renewal reminders.</p>
+        )}
+
+        <button
+          onClick={() => setShowModal('registration')}
+          className="w-full py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-slate-300 text-sm hover:bg-slate-700 transition-all flex items-center justify-center gap-2"
+        >
+          <Plus className="w-4 h-4" />
+          Upload Registration Document
         </button>
       </FolderTab>
 
