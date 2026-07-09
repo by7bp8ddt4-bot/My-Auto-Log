@@ -124,47 +124,6 @@ export default function LandingPage({ onGetStarted, onViewPremium }) {
         </div>
       </div>
 
-      {/* Beyond Oil Changes Section */}
-      <div className="max-w-6xl mx-auto px-4 py-20">
-        <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-300 text-xs font-medium mb-4">
-            <AlertTriangle className="w-3 h-3" />
-            Your Car's Computer Only Knows Oil
-          </div>
-          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
-            We Cover What Modern Cars Don't
-          </h2>
-          <p className="text-slate-400 max-w-2xl mx-auto">
-            Modern cars alert you about oil changes — but that's where they stop. 
-            MTXtrkr tracks everything else that keeps your vehicle running.
-          </p>
-        </div>
-
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-4xl mx-auto">
-          {[
-            { icon: Gauge, label: 'Transmission Fluid', desc: 'Flushes and filter changes — most cars don\'t track this' },
-            { icon: Gauge, label: 'Differential Oil', desc: 'Front and rear gear oil for trucks and 4x4s' },
-            { icon: Gauge, label: 'Coolant Exchange', desc: 'Prevents overheating and internal corrosion' },
-            { icon: Gauge, label: 'Brake Fluid Flush', desc: 'Moisture absorption reduces stopping power' },
-            { icon: Gauge, label: 'Transfer Case Fluid', desc: 'Essential for 4WD and AWD systems' },
-            { icon: Gauge, label: 'Gearbox Oil', desc: 'Manual transmission and gearbox-specific fluids' },
-            { icon: Gauge, label: 'Timing Belt / Chain', desc: 'Catastrophic failure if missed — miles ahead' },
-            { icon: Gauge, label: 'Cabin Air Filter', desc: 'Your car won\'t tell you, but your allergies will' },
-            { icon: Gauge, label: 'Spark Plugs', desc: 'Modern plugs last 100k+ miles — but not forever' },
-          ].map((item, i) => (
-            <div key={i} className="flex items-start gap-3 p-4 rounded-xl bg-slate-900/40 border border-slate-800 hover:border-blue-500/20 transition-all">
-              <div className="w-9 h-9 rounded-lg bg-blue-500/10 flex items-center justify-center shrink-0">
-                <item.icon className="w-4 h-4 text-blue-400" />
-              </div>
-              <div>
-                <h4 className="text-sm font-semibold text-white mb-0.5">{item.label}</h4>
-                <p className="text-xs text-slate-500 leading-relaxed">{item.desc}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
       {/* AI Co-Pilot Section — Ask It Anything */}
       <div className="max-w-6xl mx-auto px-4 py-20">
         <div className="bg-gradient-to-br from-purple-600/5 to-blue-600/5 border border-purple-500/20 rounded-3xl p-8 md:p-12">
