@@ -104,7 +104,7 @@ export default function LandingPage({ onGetStarted, onViewPremium }) {
           {[
             { title: 'Vehicle Management', desc: 'Track all your vehicles in one place with detailed specs, maintenance charts, records, registrations, photos, and more.', img: vehicleMgmtImg },
             { title: 'Smart Reminders', desc: 'Mileage & time-based alerts that learn your driving patterns.', img: remindersImg },
-            { title: 'AI Co-Pilot', desc: 'Ask it anything — "engine is squeaking when I turn the AC on" or "did the oil thing in my driveway." Our AI translates your informal notes into professional maintenance records, specs-matched to your exact vehicle.', img: aiCopilotImg },
+            { title: 'AI Co-Pilot', desc: 'Ask it anything — "engine is squeaking when I turn on the AC" or "the car shuttered when I pulled away from the stoplight". Our AI will give you a detailed assessment and send you in the right direction; not to mention keep you from getting swindled.', img: aiCopilotImg },
             { title: 'Expense Analytics', desc: 'Track costs per vehicle, per month, with beautiful charts.', img: analyticsImg },
             { title: 'Document Storage', desc: 'Upload and store receipts, photos, and service documents in the cloud.', img: documentsImg },
             { title: 'Service History', desc: 'Generate a complete digital health record to boost resale value.', img: serviceLogImg },
