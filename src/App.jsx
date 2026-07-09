@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import Layout from './components/Layout.jsx';
 import LandingPage from './components/LandingPage.jsx';
 import Dashboard from './components/Dashboard.jsx';
@@ -174,12 +174,13 @@ export default function App() {
   const localFuelLogs = useLocalStorage('mtxtrkr_fuel_logs', []);
   const localMods = useLocalStorage('mtxtrkr_modifications', []);
 
-  // Use Supabase when authenticated, localStorage when not
-  const vehiclesStore = isAuthenticated ? supabaseVehicles : localVehicles;
-  const logsStore = isAuthenticated ? supabaseLogs : localLogs;
-  const remindersStore = isAuthenticated ? supabaseReminders : localReminders;
-  const fuelLogsStore = isAuthenticated ? supabaseFuelLogs : localFuelLogs;
-  const modsStore = isAuthenticated ? supabaseMods : localMods;
+  // Always use localStorage as the primary store — data persists forever
+  // Supabase is only used for cloud sync (background) and cross-device portability
+  const vehiclesStore = localVehicles;
+  const logsStore = localLogs;
+  const remindersStore = localReminders;
+  const fuelLogsStore = localFuelLogs;
+  const modsStore = localMods;
 
   // Sync premium status between Supabase and localStorage
   // Priority: localStorage -> Supabase (write local to DB on detection)
@@ -204,72 +205,68 @@ export default function App() {
     }
   }, [isAuthenticated, supabaseProfile.data, premium]);
 
-  // Migrate localStorage data to Supabase when user signs in with existing local data
-  const migrationRanKey = 'mtxtrkr_migration_ran';
+  // Sync localStorage ↔ Supabase for data persistence
+  // localStorage is always the primary source. Supabase is cloud backup.
+  // Direction: local → Supabase (push on save)
+  //            Supabase → local (pull on sign-in if local is empty — for cross-device)
+  const syncStores = [
+    { local: localVehicles, supabase: supabaseVehicles, key: STORAGE_KEYS.VEHICLES },
+    { local: localLogs, supabase: supabaseLogs, key: STORAGE_KEYS.MAINTENANCE_LOGS },
+    { local: localReminders, supabase: supabaseReminders, key: STORAGE_KEYS.REMINDERS },
+    { local: localFuelLogs, supabase: supabaseFuelLogs, key: 'mtxtrkr_fuel_logs' },
+    { local: localMods, supabase: supabaseMods, key: 'mtxtrkr_modifications' },
+  ];
+
+  const syncRanKey = 'mtxtrkr_sync_ran';
+
+  // On sign-in: load Supabase data into localStorage if local is empty (cross-device)
   useEffect(() => {
     if (!isAuthenticated || !auth.user?.id) return;
-    // Only run once per user session
-    if (localStorage.getItem(migrationRanKey)) return;
+    if (localStorage.getItem(syncRanKey)) return;
 
-    const migrations = [
-      { store: supabaseVehicles, key: STORAGE_KEYS.VEHICLES },
-      { store: supabaseLogs, key: STORAGE_KEYS.MAINTENANCE_LOGS },
-      { store: supabaseReminders, key: STORAGE_KEYS.REMINDERS },
-      { store: supabaseFuelLogs, key: 'mtxtrkr_fuel_logs' },
-      { store: supabaseMods, key: 'mtxtrkr_modifications' },
-    ];
+    for (const { local, supabase, key } of syncStores) {
+      const localRaw = localStorage.getItem(key);
+      const localEmpty = !localRaw || JSON.parse(localRaw).length === 0;
+      const supabaseHasData = supabase.data && supabase.data.length > 0;
 
-    let hasLocalData = false;
-    for (const { key } of migrations) {
-      const raw = localStorage.getItem(key);
-      if (raw) {
-        const items = JSON.parse(raw);
-        if (Array.isArray(items) && items.length > 0) {
-          hasLocalData = true;
-          break;
-        }
+      if (localEmpty && supabaseHasData) {
+        // Supabase has data, local is empty — load from cloud (new device)
+        localStorage.setItem(key, JSON.stringify(supabase.data));
+        local.setData(supabase.data);
       }
     }
+    localStorage.setItem(syncRanKey, 'true');
+  }, [isAuthenticated, auth.user?.id, supabaseVehicles.data, supabaseLogs.data, supabaseReminders.data, supabaseFuelLogs.data, supabaseMods.data]);
 
-    if (!hasLocalData) {
-      localStorage.setItem(migrationRanKey, 'true');
-      return;
-    }
+  // Continuous background sync: push local data to Supabase when it changes
+  const lastSyncRef = useRef(0);
+  useEffect(() => {
+    if (!isAuthenticated || !auth.user?.id) return;
 
-    // Check if Supabase already has data — if so, skip migration to avoid duplicates
-    let supabaseHasData = false;
-    for (const { store } of migrations) {
-      if (store.data && store.data.length > 0) {
-        supabaseHasData = true;
-        break;
-      }
-    }
-    if (supabaseHasData) {
-      localStorage.setItem(migrationRanKey, 'true');
-      return;
-    }
+    const now = Date.now();
+    if (now - lastSyncRef.current < 5000) return; // throttle: max once per 5s
+    lastSyncRef.current = now;
 
-    // Perform the migration
-    (async () => {
-      for (const { store, key } of migrations) {
-        try {
-          const raw = localStorage.getItem(key);
-          if (raw) {
-            const items = JSON.parse(raw);
-            if (Array.isArray(items) && items.length > 0) {
-              for (const item of items) {
-                const { id, createdAt, updatedAt, ...cleanItem } = item;
-                await store.add(cleanItem);
-              }
-            }
+    for (const { local, supabase, key } of syncStores) {
+      const localData = local.data;
+      const supabaseData = supabase.data || [];
+
+      if (localData.length === 0 && supabaseData.length === 0) continue;
+
+      // If local has data and Supabase doesn't, push local to Supabase
+      if (localData.length > 0 && supabaseData.length === 0) {
+        (async () => {
+          for (const item of localData) {
+            const { id, createdAt, updatedAt, ...cleanItem } = item;
+            await supabase.add(cleanItem);
           }
-        } catch (e) {
-          console.warn(`[SignIn Migration] Could not migrate ${key}:`, e);
-        }
+        })();
       }
-      localStorage.setItem(migrationRanKey, 'true');
-    })();
-  }, [isAuthenticated, auth.user?.id]);
+    }
+  }, [isAuthenticated, auth.user?.id,
+    localVehicles.data, localLogs.data, localReminders.data,
+    localFuelLogs.data, localMods.data
+  ]);
 
   const sync = useSyncStatus();
 
