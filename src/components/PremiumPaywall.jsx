@@ -1,5 +1,6 @@
 import {
-  Star, Crown, CheckCircle, X, ArrowRight, Sparkles, Zap, Shield, Cloud, BarChart3, Upload
+  Star, Crown, CheckCircle, X, ArrowRight, Sparkles, Zap, Shield, Cloud, BarChart3, Upload,
+  Calendar, TrendingUp, FileText, Bell
 } from 'lucide-react';
 import { setSubscriptionData } from './SubscriptionManagement.jsx';
 
@@ -7,6 +8,8 @@ export default function PremiumPaywall({ onClose, onUpgrade, userId, trackEvent 
   const features = [
     { icon: Star, label: 'Unlimited Vehicles', desc: 'Track your entire fleet' },
     { icon: Zap, label: 'AI Mileage Predictions', desc: 'Auto-detect from fuel receipts*' },
+    { icon: Calendar, label: 'Registration Renewal Alerts', desc: 'Never miss a registration deadline' },
+    { icon: TrendingUp, label: 'Lease Mileage Monitoring', desc: 'Track pace vs lease limit' },
     { icon: BarChart3, label: 'Advanced Analytics', desc: 'Expense breakdowns & charts' },
     { icon: Cloud, label: 'Cloud Document Storage', desc: 'Store receipts & PDFs' },
     { icon: Shield, label: 'Premium Resale Reports', desc: 'Full service history PDF' },
@@ -38,6 +41,56 @@ export default function PremiumPaywall({ onClose, onUpgrade, userId, trackEvent 
           <p className="text-slate-400 text-sm">
             Unlock the full power of MTXtrkr
           </p>
+        </div>
+
+        {/* Free vs Premium Comparison */}
+        <div className="grid grid-cols-2 gap-3 mb-6">
+          {/* Free Tier */}
+          <div className="rounded-2xl bg-slate-900/60 border border-slate-800 p-4">
+            <h3 className="text-sm font-bold text-white mb-1">Free</h3>
+            <p className="text-2xl font-bold text-white mb-3">$0</p>
+            <ul className="space-y-2">
+              {[
+                '1 Vehicle',
+                'Basic service logging',
+                'Manual mileage updates',
+                'Standard reminders',
+                'Email support',
+              ].map(f => (
+                <li key={f} className="flex items-start gap-2 text-xs text-slate-300">
+                  <CheckCircle className="w-3.5 h-3.5 text-emerald-400 mt-0.5 shrink-0" />
+                  {f}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Premium Tier */}
+          <div className="rounded-2xl bg-gradient-to-b from-blue-600/10 to-cyan-600/5 border border-blue-500/30 p-4 relative">
+            <div className="absolute -top-2.5 left-1/2 -translate-x-1/2 px-2.5 py-0.5 rounded-full bg-gradient-to-r from-blue-500 to-cyan-400 text-[9px] font-bold text-white whitespace-nowrap shadow-lg">
+              MOST POPULAR
+            </div>
+            <h3 className="text-sm font-bold text-white mb-1 mt-1">Premium</h3>
+            <p className="text-2xl font-bold text-white mb-3">$4.99<span className="text-xs text-slate-500 font-normal">/mo</span></p>
+            <ul className="space-y-2">
+              {[
+                'Unlimited Vehicles',
+                'AI mileage predictions',
+                'Auto mileage from receipts',
+                'Registration renewal alerts',
+                'Lease mileage monitoring',
+                'Advanced expense analytics',
+                'Cloud document storage',
+                'Premium resale reports',
+                'Priority support',
+              ].map(f => (
+                <li key={f} className="flex items-start gap-2 text-xs text-slate-300">
+                  <CheckCircle className="w-3.5 h-3.5 text-blue-400 mt-0.5 shrink-0" />
+                  {f}
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
 
         {/* Pricing */}
