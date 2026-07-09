@@ -154,7 +154,7 @@ export default function Settings({ onReset, onExport, vehicles, logs, reminders,
             </div>
             <div>
               <h3 className="text-sm font-semibold text-white">Need Help?</h3>
-              <p className="text-xs text-slate-500">Contact our support team</p>
+              <p className="text-xs text-slate-500">Contact our engineering team</p>
             </div>
           </div>
           <button
@@ -162,7 +162,7 @@ export default function Settings({ onReset, onExport, vehicles, logs, reminders,
             className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-sm font-medium transition-all"
           >
             <Mail className="w-4 h-4" />
-            Contact Support
+            Issues? Contact our engineering team
             <ChevronRight className="w-4 h-4" />
           </button>
         </div>
