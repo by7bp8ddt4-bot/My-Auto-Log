@@ -551,7 +551,7 @@ function VehicleFormModal({ vehicle, onSave, onClose, initialType = 'car', focus
               </div>
 
               {form.isLeased && (
-            <div className="grid grid-cols-2 gap-3 p-4 rounded-xl bg-amber-500/5 border border-amber-500/20">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 p-4 rounded-xl bg-amber-500/5 border border-amber-500/20">
               <div>
                 <label className="block text-xs text-slate-400 mb-1.5 font-medium">Lease End Date</label>
                 <input
