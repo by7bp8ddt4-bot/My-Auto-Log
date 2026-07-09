@@ -566,7 +566,7 @@ function VehicleFormModal({ vehicle, onSave, onClose, initialType = 'car', focus
                 <input
                   type="number"
                   value={form.leaseMileageLimit}
-                  onChange={e => setForm(f => ({ ...f, leaseMileageLimit: e.target.value === '' ? '' : parseInt(e.target.value) || '' }))}
+                  onChange={e => setForm(f => ({ ...f, leaseMileageLimit: e.target.value === '' ? '' : (isNaN(parseInt(e.target.value)) ? '' : parseInt(e.target.value)) }))}
                   placeholder="e.g. 36000"
                   className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500/50"
                 />
