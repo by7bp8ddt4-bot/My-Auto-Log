@@ -43,15 +43,7 @@ export const DEFAULT_REMINDER_TEMPLATES = [
     icon: 'Wind',
   },
   {
-    id: 'spark-plugs',
-    title: 'Spark Plugs',
-    description: 'Replace spark plugs',
-    intervalMiles: 30000,
-    intervalDays: 730,
-    icon: 'Zap',
-  },
-  {
-    id: 'transfer-case',
+          id: 'transfer-case',
     title: 'Transfer Case Service',
     description: 'Replace transfer case fluid',
     intervalMiles: 50000,
