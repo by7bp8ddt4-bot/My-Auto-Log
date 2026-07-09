@@ -2,7 +2,7 @@ import {
   Car, Bell, Cloud, Shield, Star, CheckCircle, ChevronRight, ArrowRight,
   Smartphone, Wifi, BarChart3, DollarSign, Clock, Upload,
   Crown, Gauge, Calendar, TrendingUp, Brain, Sparkles, Save, Wrench, Lightbulb,
-  AlertTriangle, Tractor, Package, Ship, Anchor, Cog, Truck, Building
+  AlertTriangle, Tractor, Package, Ship, Anchor, Cog, Truck, Building, Database
 } from 'lucide-react';
 import heroImage from '/assets/hero.png';
 import vehicleMgmtImg from '/assets/features/vehicle-mgmt.png';
@@ -189,6 +189,12 @@ export default function LandingPage({ onGetStarted, onViewPremium }) {
                 Type it like you'd tell a friend. Our AI reads your vehicle's specs — oil type, transmission fluid, 
                 brake fluid, tire pressure, spark plug gap — and translates your informal note into a professional 
                 maintenance record, complete with estimated costs.
+              </p>
+
+              <p className="text-xs text-slate-500 mb-6 flex items-center gap-2">
+                <Database className="w-3.5 h-3.5 text-blue-400 shrink-0" />
+                Backed by maintenance schedules from <strong className="text-slate-300">55+ manufacturers</strong>
+                — from Ford and Toyota to CAT, Cummins, and Yamaha.
               </p>
 
               {/* Feature List */}
