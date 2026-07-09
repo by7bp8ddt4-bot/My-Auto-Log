@@ -39,13 +39,16 @@ export default function LandingPage({ onGetStarted, onViewPremium }) {
               <span className="text-white"> Again</span>
             </h1>
 
-            <p className="text-lg sm:text-xl text-slate-400 max-w-2xl mb-10 leading-relaxed">
-              Modern cars tell you when to change your oil —<br />
-              <span className="text-white/80">then they go silent.</span>
-            </p>
-            <p className="text-base sm:text-lg text-slate-500 max-w-2xl mb-10 leading-relaxed -mt-6">
-              MTXtrkr translates your vehicle's engineering into plain English — so you know when a <strong className="text-slate-300">transmission flush</strong>, a <strong className="text-slate-300">differential service</strong>, or a <strong className="text-slate-300">coolant exchange</strong> is actually due. No more nodding along at the mechanic. No more costly breakdowns from what you didn't know you were missing.
-            </p>
+            {/* Text Block */}
+            <div className="bg-slate-900/80 backdrop-blur-sm border border-slate-800/50 rounded-2xl p-6 sm:p-8 mb-10 max-w-2xl w-full">
+              <p className="text-lg sm:text-xl text-slate-400 leading-relaxed mb-4">
+                Modern cars tell you when to change your oil —<br />
+                <span className="text-white/80">then they go silent.</span>
+              </p>
+              <p className="text-base sm:text-lg text-slate-500 leading-relaxed">
+                MTXtrkr translates your vehicle's engineering into plain English — so you know when a <strong className="text-slate-300">transmission flush</strong>, a <strong className="text-slate-300">differential service</strong>, or a <strong className="text-slate-300">coolant exchange</strong> is actually due. No more nodding along at the mechanic. No more costly breakdowns from what you didn't know you were missing.
+              </p>
+            </div>
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 mb-16">
