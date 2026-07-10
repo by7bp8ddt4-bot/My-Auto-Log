@@ -308,8 +308,8 @@ export default function MaintenanceLog({ logs, vehicles, onAdd, onUpdate, onDele
                                   )}
                                 </div>
 
-                                {/* Multi-job type tags */}
-                                {isMultiJob && (
+                                {/* Service type tags — always shown */}
+                                {logTypes.length > 0 && (
                                   <div className="flex flex-wrap gap-1 mb-2">
                                     {logTypes.map(t => {
                                       const cfg = getServiceConfig(t);

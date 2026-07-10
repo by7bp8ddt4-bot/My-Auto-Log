@@ -254,7 +254,7 @@ function VehicleFormModal({ vehicle, onSave, onClose, initialType = 'car', focus
 
   // Per-type form helpers
   const usesHours = ['ag-equipment', 'forklift', 'watercraft', 'outboard', 'marine-diesel'].includes(form.type);
-  const hasVinDecoder = ['car', 'motorcycle', 'semi-truck', 'rv'].includes(form.type);
+  const hasVinDecoder = ['car', 'motorcycle', 'semi-truck', 'rv', 'ag-equipment', 'forklift'].includes(form.type);
   const hasLicensePlate = ['car', 'motorcycle', 'watercraft', 'semi-truck', 'rv'].includes(form.type);
 
   const mileageLabel = usesHours ? 'Engine Hours' : 'Current Mileage';
@@ -346,7 +346,7 @@ function VehicleFormModal({ vehicle, onSave, onClose, initialType = 'car', focus
   return (
     <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center">
       <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} />
-      <div className="relative w-full sm:max-w-md bg-slate-900 border border-slate-800 rounded-t-2xl sm:rounded-2xl p-6 shadow-2xl animate-slide-up">
+      <div className="relative w-full sm:max-w-md bg-slate-900 border border-slate-800 rounded-t-2xl sm:rounded-2xl p-6 shadow-2xl animate-slide-up max-h-[90vh] overflow-y-auto">
         <div className="flex items-center justify-between mb-6">
           <h3 className="text-lg font-bold text-white">
             {vehicle ? 'Edit Vehicle' : `Add ${(() => { const vt = VEHICLE_TYPES.find(t => t.id === form.type) || VEHICLE_TYPES[0]; return vt.label; })()}`}
@@ -497,12 +497,12 @@ function VehicleFormModal({ vehicle, onSave, onClose, initialType = 'car', focus
             <div>
               <label className="block text-xs text-slate-400 mb-1.5 font-medium">Purchase Date</label>
               <input
-                type="date"
-                value={form.purchaseDate}
-                onChange={e => setForm(f => ({ ...f, purchaseDate: e.target.value }))}
-                max={(() => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`; })()}
-                className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
-              />
+                                type="date"
+                                value={form.purchaseDate}
+                                onChange={e => setForm(f => ({ ...f, purchaseDate: e.target.value }))}
+                                max={(() => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`; })()}
+                                className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all min-w-0"
+                              />
             </div>
             <div>
               <label className="block text-xs text-slate-400 mb-1.5 font-medium">{purchaseMileageLabel}</label>
@@ -551,14 +551,14 @@ function VehicleFormModal({ vehicle, onSave, onClose, initialType = 'car', focus
               </div>
 
               {form.isLeased && (
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 p-4 rounded-xl bg-amber-500/5 border border-amber-500/20">
+            <div className="grid grid-cols-1 gap-3 p-4 rounded-xl bg-amber-500/5 border border-amber-500/20">
               <div>
                 <label className="block text-xs text-slate-400 mb-1.5 font-medium">Lease End Date</label>
                 <input
                   type="date"
                   value={form.leaseEndDate}
                   onChange={e => setForm(f => ({ ...f, leaseEndDate: e.target.value }))}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm focus:outline-none focus:ring-2 focus:ring-amber-500/50"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm focus:outline-none focus:ring-2 focus:ring-amber-500/50 min-w-0"
                 />
               </div>
               <div>
@@ -568,7 +568,7 @@ function VehicleFormModal({ vehicle, onSave, onClose, initialType = 'car', focus
                   value={form.leaseMileageLimit}
                   onChange={e => setForm(f => ({ ...f, leaseMileageLimit: e.target.value === '' ? '' : (isNaN(parseInt(e.target.value)) ? '' : parseInt(e.target.value)) }))}
                   placeholder="e.g. 36000"
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500/50"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500/50 min-w-0"
                 />
               </div>
               <p className="col-span-2 text-[10px] text-amber-400/70">
