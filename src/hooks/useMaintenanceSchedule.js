@@ -119,14 +119,30 @@ export function useMaintenanceSchedule(vehicle, logs = []) {
       }
     }
 
+    // DEBUG: Log schedule items and log service types
+    console.log('[DEBUG] Vehicle:', vehicle.make, vehicle.model, vehicle.year, '| ID:', vehicle.id);
+    console.log('[DEBUG] Schedule items:', schedule.map(s => `"${s.service}"`));
+    console.log('[DEBUG] Vehicle logs count:', vehicleLogs.length);
+    vehicleLogs.forEach(log => {
+      const types = getLogServiceTypes(log);
+      console.log('[DEBUG] Log:', log.id, 'types:', types, 'mileage:', log.mileage);
+    });
+
     return schedule.map(item => {
       // Find the last time this specific service was performed
       // We look for logs that contain the service name in their serviceType, serviceTypes, or description
       const lastService = vehicleLogs
         .filter(log => {
           const serviceTypes = getLogServiceTypes(log);
-          return serviceTypes.some(type => isSameService(item.service, type)) ||
-            log.description?.toLowerCase().includes(item.service.toLowerCase());
+          const match = serviceTypes.some(type => {
+            const result = isSameService(item.service, type);
+            console.log('[DEBUG] isSameService:', `"${item.service}"`, 'vs', `"${type}"`, '=', result);
+            return result;
+          }) || log.description?.toLowerCase().includes(item.service.toLowerCase());
+          if (!match && log.description) {
+            console.log('[DEBUG] desc check:', `"${log.description}"`, 'includes', `"${item.service}"`, '=', log.description.toLowerCase().includes(item.service.toLowerCase()));
+          }
+          return match;
         })
         .sort((a, b) => (b.mileage || 0) - (a.mileage || 0))[0];
 
