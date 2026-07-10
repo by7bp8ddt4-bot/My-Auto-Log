@@ -493,16 +493,16 @@ function VehicleFormModal({ vehicle, onSave, onClose, initialType = 'car', focus
               />
             </div>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 overflow-hidden">
             <div>
               <label className="block text-xs text-slate-400 mb-1.5 font-medium">Purchase Date</label>
               <input
-                                type="date"
-                                value={form.purchaseDate}
-                                onChange={e => setForm(f => ({ ...f, purchaseDate: e.target.value }))}
-                                max={(() => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`; })()}
-                                className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all min-w-0"
-                              />
+                type="date"
+                value={form.purchaseDate}
+                onChange={e => setForm(f => ({ ...f, purchaseDate: e.target.value }))}
+                max={(() => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`; })()}
+                className="w-full max-w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all min-w-0"
+              />
             </div>
             <div>
               <label className="block text-xs text-slate-400 mb-1.5 font-medium">{purchaseMileageLabel}</label>
@@ -558,7 +558,7 @@ function VehicleFormModal({ vehicle, onSave, onClose, initialType = 'car', focus
                   type="date"
                   value={form.leaseEndDate}
                   onChange={e => setForm(f => ({ ...f, leaseEndDate: e.target.value }))}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm focus:outline-none focus:ring-2 focus:ring-amber-500/50 min-w-0"
+                  className="w-full max-w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm focus:outline-none focus:ring-2 focus:ring-amber-500/50 min-w-0"
                 />
               </div>
               <div>
