@@ -5,6 +5,8 @@ import {
     } from 'lucide-react';
 import { formatDate, formatCurrency, formatNumber, getLocalDateString } from '../utils/helpers';
 import { SERVICE_TYPES } from '../utils/constants';
+import { getScheduleForVehicle } from '../data/maintenance-schedules';
+import { isSameService } from '../hooks/useMaintenanceSchedule';
 import ReceiptScanner from './ReceiptScanner.jsx';
 
 import oilIcon from '../assets/folder-icons/oil-drop.svg';
@@ -457,6 +459,19 @@ function MaintenanceFormModal({ vehicles, initialData, initialVehicleId, isEditi
   const [documents, setDocuments] = useState(initialData?.documents || []);
   const [uploadProgress, setUploadProgress] = useState(null);
   const [uploadComplete, setUploadComplete] = useState(false);
+  const [customService, setCustomService] = useState('');
+
+  const selectedVehicle = vehicles.find(v => v.id === form.vehicleId);
+  const schedule = selectedVehicle ? getScheduleForVehicle(selectedVehicle.make, selectedVehicle.model) : [];
+  const scheduledTypes = schedule.map(s => s.service);
+  const alwaysShown = ['New Tires', 'Battery Replacement'];
+
+  // Filter SERVICE_TYPES to show only items matching the vehicle's schedule, plus always-shown ones
+  const filteredServiceTypes = SERVICE_TYPES.filter(type =>
+    alwaysShown.includes(type) || scheduledTypes.some(st => isSameService(st, type))
+  );
+  // Always include any service types already selected (e.g. from editing)
+  const allDisplayTypes = [...new Set([...filteredServiceTypes, ...form.serviceTypes])];
 
   const toggleServiceType = (type) => {
     setForm(f => {
@@ -559,31 +574,67 @@ function MaintenanceFormModal({ vehicles, initialData, initialVehicleId, isEditi
             </div>
           </div>
 
-          {/* Multi-Job Service Types — Checkboxes grid */}
+          {/* Multi-Job Service Types — Checkboxes grid, filtered by schedule */}
           <div>
             <label className="block text-xs text-slate-400 mb-1.5 font-medium">
               Service Type(s) * <span className="text-slate-500 font-normal">(select one or more)</span>
             </label>
-            <div className="grid grid-cols-1 gap-1.5 max-h-48 overflow-y-auto p-1 rounded-xl bg-slate-900/50 border border-slate-800">
-              {SERVICE_TYPES.map(type => {
-                const config = getServiceConfig(type);
-                const isSelected = form.serviceTypes.includes(type);
-                return (
-                  <label
-                    key={type}
-                    className={`flex items-center gap-2 px-3 py-2 rounded-lg cursor-pointer transition-all text-xs ${
-                      isSelected
-                        ? `${config.bodyBg} ${config.tabBorder} border`
-                        : 'text-slate-400 hover:bg-slate-800/60 border border-transparent'
-                    }`}
-                  >
-                    <input type="checkbox" checked={isSelected} onChange={() => toggleServiceType(type)}
-                      className="w-3.5 h-3.5 rounded border-slate-600 text-blue-600 focus:ring-blue-500/30 bg-slate-800" />
-                    <span className={isSelected ? config.accent : ''}>{type}</span>
-                  </label>
-                );
-              })}
-            </div>
+            {!selectedVehicle ? (
+              <div className="p-3 rounded-xl bg-slate-800/50 border border-slate-700/50 text-slate-500 text-xs italic">
+                Select a vehicle to see recommended service types
+              </div>
+            ) : (
+              <>
+                <div className="grid grid-cols-1 gap-1.5 max-h-48 overflow-y-auto p-1 rounded-xl bg-slate-900/50 border border-slate-800">
+                  {allDisplayTypes.map(type => {
+                    const config = getServiceConfig(type);
+                    const isSelected = form.serviceTypes.includes(type);
+                    const isCustom = !SERVICE_TYPES.includes(type);
+                    return (
+                      <label
+                        key={type}
+                        className={`flex items-center gap-2 px-3 py-2 rounded-lg cursor-pointer transition-all text-xs ${
+                          isSelected
+                            ? `${config.bodyBg} ${config.tabBorder} border`
+                            : 'text-slate-400 hover:bg-slate-800/60 border border-transparent'
+                        }`}
+                      >
+                        <input type="checkbox" checked={isSelected} onChange={() => toggleServiceType(type)}
+                          className="w-3.5 h-3.5 rounded border-slate-600 text-blue-600 focus:ring-blue-500/30 bg-slate-800" />
+                        <span className={isSelected ? config.accent : ''}>
+                          {type}
+                          {isCustom && <span className="text-[9px] text-slate-500 ml-1.5 italic">(custom)</span>}
+                        </span>
+                      </label>
+                    );
+                  })}
+                </div>
+
+                {/* Custom Service */}
+                <div className="border-t border-slate-800 pt-3 mt-3">
+                  <div className="flex items-center gap-2 mb-2">
+                    <input
+                      type="checkbox"
+                      checked={customService.trim() !== '' && form.serviceTypes.includes(customService.trim())}
+                      onChange={() => {
+                        const trimmed = customService.trim();
+                        if (trimmed) toggleServiceType(trimmed);
+                      }}
+                      disabled={!customService.trim()}
+                      className="w-3.5 h-3.5 rounded border-slate-600 text-blue-600 focus:ring-blue-500/30 bg-slate-800 shrink-0"
+                    />
+                    <span className="text-xs text-slate-400">Custom Service</span>
+                  </div>
+                  <input
+                    type="text"
+                    value={customService}
+                    onChange={e => setCustomService(e.target.value)}
+                    placeholder="e.g. Rust Undercoating, Ceramic Coating..."
+                    className="w-full px-3 py-2 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+                  />
+                </div>
+              </>
+            )}
             {form.serviceTypes.length > 0 && (
               <div className="flex flex-wrap gap-1 mt-2">
                 {form.serviceTypes.map(t => {
