@@ -257,12 +257,12 @@ export default function LandingPage({ onGetStarted, onViewPremium }) {
             {
               step: '01',
               title: 'Add Your Vehicle',
-              desc: 'Scan your VIN or select your make/model. We instantly load your manufacturer’s exact maintenance schedule.'
+              desc: 'Copy & Paste your VIN into "add vehicle" or select your make/model/engine/drivetrain. We instantly load your manufacturer’s exact maintenance schedule.'
             },
             {
               step: '02',
               title: 'Log with Ease',
-              desc: 'Log services in seconds. Use our AI Co-Pilot to translate informal notes into professional records—even offline.'
+              desc: 'Log services in seconds. Use our AI Co-Pilot to navigate issues or translate informal notes into professional records—or—simply upload a receipt and have a service record auto populate a log—even offline.'
             },
             {
               step: '03',
