@@ -460,6 +460,9 @@ function MaintenanceFormModal({ vehicles, initialData, initialVehicleId, isEditi
   const [uploadProgress, setUploadProgress] = useState(null);
   const [uploadComplete, setUploadComplete] = useState(false);
   const [customService, setCustomService] = useState('');
+  const [customFolder, setCustomFolder] = useState('Engine Service');
+
+  const folderOptions = FOLDER_DEFS.filter(f => f.type !== 'All Records');
 
   const selectedVehicle = vehicles.find(v => v.id === form.vehicleId);
   const schedule = selectedVehicle ? getScheduleForVehicle(selectedVehicle.make, selectedVehicle.model) : [];
@@ -522,6 +525,13 @@ function MaintenanceFormModal({ vehicles, initialData, initialVehicleId, isEditi
     if (!form.vehicleId || form.serviceTypes.length === 0) return;
     const serviceTypes = form.serviceTypes;
     const serviceType = serviceTypes[0];
+    
+    // Register custom service type in FOLDER_MAP so it routes to the right folder
+    const customTrimmed = customService.trim();
+    if (customTrimmed && form.serviceTypes.includes(customTrimmed)) {
+      FOLDER_MAP[customTrimmed] = customFolder;
+    }
+    
     onSave({
       ...form,
       serviceTypes,
@@ -625,13 +635,24 @@ function MaintenanceFormModal({ vehicles, initialData, initialVehicleId, isEditi
                     />
                     <span className="text-xs text-slate-400">Custom Service</span>
                   </div>
-                  <input
-                    type="text"
-                    value={customService}
-                    onChange={e => setCustomService(e.target.value)}
-                    placeholder="e.g. Rust Undercoating, Ceramic Coating..."
-                    className="w-full px-3 py-2 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50"
-                  />
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      value={customService}
+                      onChange={e => setCustomService(e.target.value)}
+                      placeholder="e.g. Rust Undercoating, Ceramic Coating..."
+                      className="flex-1 px-3 py-2 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+                    />
+                    <select
+                      value={customFolder}
+                      onChange={e => setCustomFolder(e.target.value)}
+                      className="shrink-0 px-2 py-2 rounded-xl bg-slate-800 border border-slate-700 text-white text-xs focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+                    >
+                      {folderOptions.map(f => (
+                        <option key={f.type} value={f.type}>{f.type}</option>
+                      ))}
+                    </select>
+                  </div>
                 </div>
               </>
             )}
