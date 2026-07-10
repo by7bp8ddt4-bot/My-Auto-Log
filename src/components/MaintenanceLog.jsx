@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import {
-  X, Plus, ClipboardList, Trash2, FileText, Upload, Calendar, DollarSign,
-  Gauge, CheckCircle2, Loader2, Pencil, Cloud, ScanLine
-} from 'lucide-react';
+      X, Plus, ClipboardList, Trash2, FileText, Upload, Calendar, DollarSign,
+      Gauge, CheckCircle2, Loader2, Pencil, Cloud, ScanLine, ChevronUp
+    } from 'lucide-react';
 import { formatDate, formatCurrency, formatNumber, getLocalDateString } from '../utils/helpers';
 import { SERVICE_TYPES } from '../utils/constants';
 import ReceiptScanner from './ReceiptScanner.jsx';
@@ -17,14 +17,14 @@ import batteryIcon from '../assets/folder-icons/battery.svg';
 
 // Folder config — only 6 folders. Each SERVICE_TYPE maps to one of these.
 const FOLDER_DEFS = [
-  { type: 'All Records',       icon: allIcon,       tabBorder: 'border-indigo-500/20', tabBg: 'bg-indigo-600',      accent: 'text-indigo-400', bodyBg: 'bg-indigo-500/5' },
-  { type: 'Oil & Filter Change', icon: oilIcon,     tabBorder: 'border-amber-500/20',  tabBg: 'bg-amber-600',       accent: 'text-amber-400',  bodyBg: 'bg-amber-500/5' },
-  { type: 'Engine Service',    icon: engineIcon,    tabBorder: 'border-yellow-500/20', tabBg: 'bg-yellow-600',      accent: 'text-yellow-400', bodyBg: 'bg-yellow-500/5' },
-  { type: 'Driveline Service', icon: transIcon,     tabBorder: 'border-purple-500/20', tabBg: 'bg-purple-600',      accent: 'text-purple-400', bodyBg: 'bg-purple-500/5' },
-  { type: 'Brakes Service',    icon: brakeIcon,     tabBorder: 'border-red-500/20',    tabBg: 'bg-red-600',         accent: 'text-red-400',    bodyBg: 'bg-red-500/5' },
-  { type: 'Tires',             icon: tireIcon,      tabBorder: 'border-blue-500/20',   tabBg: 'bg-blue-600',        accent: 'text-blue-400',   bodyBg: 'bg-blue-500/5' },
-  { type: 'Battery',           icon: batteryIcon,   tabBorder: 'border-lime-500/20',   tabBg: 'bg-lime-600',        accent: 'text-lime-400',   bodyBg: 'bg-lime-500/5' },
-];
+      { type: 'All Records',       icon: allIcon,       tabBorder: 'border-indigo-500/20', tabBg: 'bg-indigo-600',      accent: 'text-indigo-400', bodyBg: 'bg-indigo-500/5' },
+      { type: 'Battery',           icon: batteryIcon,   tabBorder: 'border-lime-500/20',   tabBg: 'bg-lime-600',        accent: 'text-lime-400',   bodyBg: 'bg-lime-500/5' },
+      { type: 'Oil & Filter Change', icon: oilIcon,     tabBorder: 'border-amber-500/20',  tabBg: 'bg-amber-600',       accent: 'text-amber-400',  bodyBg: 'bg-amber-500/5' },
+      { type: 'Engine Service',    icon: engineIcon,    tabBorder: 'border-yellow-500/20', tabBg: 'bg-yellow-600',      accent: 'text-yellow-400', bodyBg: 'bg-yellow-500/5' },
+      { type: 'Driveline Service', icon: transIcon,     tabBorder: 'border-purple-500/20', tabBg: 'bg-purple-600',      accent: 'text-purple-400', bodyBg: 'bg-purple-500/5' },
+      { type: 'Brakes Service',    icon: brakeIcon,     tabBorder: 'border-red-500/20',    tabBg: 'bg-red-600',         accent: 'text-red-400',    bodyBg: 'bg-red-500/5' },
+      { type: 'Tires',             icon: tireIcon,      tabBorder: 'border-blue-500/20',   tabBg: 'bg-blue-600',        accent: 'text-blue-400',   bodyBg: 'bg-blue-500/5' },
+    ];
 
 // Map every SERVICE_TYPE to its parent folder
 const FOLDER_MAP = {
@@ -116,8 +116,11 @@ export default function MaintenanceLog({ logs, vehicles, onAdd, onUpdate, onDele
       : null,
   };
 
-  const sortedGroups = Object.values(groupedLogs).sort((a, b) => new Date(b.lastDate || 0) - new Date(a.lastDate || 0));
-  sortedGroups.unshift(allRecordsGroup);
+  const sortedGroups = FOLDER_DEFS.map(def => {
+    if (def.type === 'All Records') return allRecordsGroup;
+    const group = groupedLogs[def.type];
+    return group || { type: def.type, logs: [], totalCost: 0, lastDate: null };
+  });
 
   return (
     <div>
@@ -244,9 +247,13 @@ export default function MaintenanceLog({ logs, vehicles, onAdd, onUpdate, onDele
                         <h3 className="text-sm font-bold text-white flex items-center gap-2">
                           {group.type}
                           {isActive && (
-                            <span className="text-[10px] text-emerald-400 bg-emerald-400/10 px-2 py-0.5 rounded-full border border-emerald-400/20 font-mono">
-                              ACTIVE FOLDER
-                            </span>
+                            <button
+                              onClick={(e) => { e.stopPropagation(); setActiveFolder(null); }}
+                              className="ml-1 p-1 rounded-lg hover:bg-slate-700/50 text-slate-400 hover:text-white transition-all"
+                              title="Collapse folder"
+                            >
+                              <ChevronUp className="w-3.5 h-3.5" />
+                            </button>
                           )}
                         </h3>
                         <p className="text-[10px] text-slate-500 mt-1">
