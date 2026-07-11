@@ -18,6 +18,15 @@ CREATE TABLE IF NOT EXISTS vehicles (
   mileage INTEGER NOT NULL DEFAULT 0,
   purchase_date DATE,
   purchase_mileage INTEGER NOT NULL DEFAULT 0,
+  vin TEXT,
+  type TEXT DEFAULT 'car',
+  trim TEXT,
+  engine_size TEXT,
+  drivetrain TEXT,
+  is_leased BOOLEAN NOT NULL DEFAULT false,
+  lease_end_date DATE,
+  lease_mileage_limit INTEGER,
+  engine_serial TEXT,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
@@ -30,12 +39,14 @@ CREATE TABLE IF NOT EXISTS maintenance_logs (
   user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
   vehicle_id UUID NOT NULL REFERENCES vehicles(id) ON DELETE CASCADE,
   service_type TEXT NOT NULL,
+  service_types JSONB DEFAULT '[]'::jsonb,
   description TEXT,
   mileage INTEGER NOT NULL DEFAULT 0,
   cost DECIMAL(10,2) NOT NULL DEFAULT 0,
   date DATE NOT NULL DEFAULT CURRENT_DATE,
   documents JSONB DEFAULT '[]'::jsonb,
   source TEXT DEFAULT 'manual',
+  raw_ocr_text TEXT,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );

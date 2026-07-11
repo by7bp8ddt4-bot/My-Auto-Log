@@ -9,6 +9,44 @@ import { SERVICE_TYPES } from '../utils/constants';
 import { getLocalDateString } from '../utils/helpers';
 
 /**
+ * Compress a base64 image to a reasonable size before storing.
+ * Resizes to max 800px on the longest side and compresses to JPEG quality 0.7.
+ * This prevents storing massive 4-7MB base64 blobs in localStorage and Supabase.
+ */
+function compressImage(dataUrl, maxWidth = 800, quality = 0.7) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => {
+      let width = img.width;
+      let height = img.height;
+
+      // Scale down if larger than maxWidth
+      if (width > maxWidth || height > maxWidth) {
+        if (width > height) {
+          height = Math.round((height / width) * maxWidth);
+          width = maxWidth;
+        } else {
+          width = Math.round((width / height) * maxWidth);
+          height = maxWidth;
+        }
+      }
+
+      const canvas = document.createElement('canvas');
+      canvas.width = width;
+      canvas.height = height;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, width, height);
+
+      // Output as JPEG with quality setting
+      const compressed = canvas.toDataURL('image/jpeg', quality);
+      resolve(compressed);
+    };
+    img.onerror = () => reject(new Error('Failed to load image for compression'));
+    img.src = dataUrl;
+  });
+}
+
+/**
  * Parse OCR text to extract maintenance-relevant fields.
  * Uses pattern matching (dates, costs, service keywords, shop names).
  */
@@ -172,10 +210,17 @@ export default function ReceiptScanner({ vehicles, onSave, onClose, isPremium })
       setImage(imgData);
       setStep('processing');
       setStatus('loading');
-      setStatusMessage('Running OCR on receipt...');
-      setProgress(0);
+      setStatusMessage('Compressing image...');
+      setProgress(10);
 
       try {
+        // Compress image before storing to prevent massive base64 blobs (4-7MB)
+        const compressedImage = await compressImage(imgData, 800, 0.7);
+        setImage(compressedImage);
+        setProgress(30);
+
+        setStatusMessage('Running OCR on receipt...');
+
         // Initialize Tesseract worker
         const worker = await createWorker('eng', 1, {
           logger: (m) => {
@@ -186,7 +231,7 @@ export default function ReceiptScanner({ vehicles, onSave, onClose, isPremium })
         });
 
         setStatusMessage('Reading text from receipt...');
-        const { data } = await worker.recognize(imgData);
+        const { data } = await worker.recognize(compressedImage);
         const text = data.text;
         setRawText(text);
         await worker.terminate();

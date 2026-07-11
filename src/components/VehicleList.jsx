@@ -238,6 +238,9 @@ function VehicleFormModal({ vehicle, onSave, onClose, initialType = 'car', focus
     name: vehicle?.name || '',
     make: vehicle?.make || '',
     model: vehicle?.model || '',
+    trim: vehicle?.trim || '',
+    engineSize: vehicle?.engineSize || '',
+    drivetrain: vehicle?.drivetrain || '',
     year: vehicle?.year || new Date().getFullYear(),
     licensePlate: vehicle?.licensePlate || '',
     mileage: vehicle?.mileage || '',
@@ -279,6 +282,9 @@ function VehicleFormModal({ vehicle, onSave, onClose, initialType = 'car', focus
         make: result.data.make || f.make,
         model: result.data.model || f.model,
         year: result.data.year || f.year,
+        trim: result.data.trim || f.trim,
+        engineSize: result.data.engineSize || f.engineSize,
+        drivetrain: result.data.drivetrain || f.drivetrain,
         vinDecoded: result.data,
       }));
       setVinState({
@@ -472,6 +478,54 @@ function VehicleFormModal({ vehicle, onSave, onClose, initialType = 'car', focus
               />
             </div>
           </div>
+
+          {/* Vehicle Trim & Engine Size */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label className="block text-xs text-slate-400 mb-1.5 font-medium">Vehicle Trim</label>
+              <input
+                type="text"
+                value={form.trim}
+                onChange={e => setForm(f => ({ ...f, trim: e.target.value }))}
+                placeholder="e.g. SE, LE, Z71, Lariat"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
+              />
+            </div>
+            <div>
+              <label className="block text-xs text-slate-400 mb-1.5 font-medium">Engine Size</label>
+              <input
+                type="text"
+                value={form.engineSize}
+                onChange={e => setForm(f => ({ ...f, engineSize: e.target.value }))}
+                placeholder="e.g. 2.0L Turbo, 5.3L V8"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
+              />
+            </div>
+          </div>
+
+          {/* Drivetrain */}
+          <div>
+            <label className="block text-xs text-slate-400 mb-1.5 font-medium">Drivetrain</label>
+            <div className="relative">
+              <select
+                value={form.drivetrain}
+                onChange={e => setForm(f => ({ ...f, drivetrain: e.target.value }))}
+                className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 appearance-none cursor-pointer"
+              >
+                <option value="">Select One</option>
+                <option value="FWD">FWD (Front-Wheel Drive)</option>
+                <option value="RWD">RWD (Rear-Wheel Drive)</option>
+                <option value="AWD">AWD (All-Wheel Drive)</option>
+                <option value="4WD">4WD (Four-Wheel Drive)</option>
+              </select>
+              <div className="absolute inset-y-0 right-3.5 flex items-center pointer-events-none text-slate-400">
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                </svg>
+              </div>
+            </div>
+          </div>
+
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <label className="block text-xs text-slate-400 mb-1.5 font-medium">Year</label>
