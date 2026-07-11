@@ -135,13 +135,16 @@ export function useSupabaseData(tableName, userId, filterColumn = 'user_id') {
       // Fallback: add to local state
       const fallback = { ...item, id: item.id || crypto.randomUUID(), userId, createdAt: new Date().toISOString() };
       setData(prev => {
+        // Check if item already exists in data to prevent duplicates
+        const exists = prev.find(p => p.id === fallback.id);
+        if (exists) return prev;
         const newData = [fallback, ...prev];
         cacheData(newData);
         return newData;
       });
       return fallback;
     }
-  }, [tableName, userId, data, cacheData]);
+  }, [tableName, userId, cacheData]);
 
   // Update a record
   const updateItem = useCallback(async (id, updates) => {
@@ -168,7 +171,7 @@ export function useSupabaseData(tableName, userId, filterColumn = 'user_id') {
         item.id === id ? { ...item, ...updates, updatedAt: new Date().toISOString() } : item
       ));
     }
-  }, [tableName, userId, data, cacheData]);
+  }, [tableName, userId, cacheData]);
 
   // Delete a record
   const remove = useCallback(async (id) => {

@@ -291,8 +291,9 @@ export default function App() {
       if (itemsToSync.length > 0) {
         (async () => {
           for (const item of itemsToSync) {
-            const { id, createdAt, updatedAt, ...cleanItem } = item;
-            await supabase.add(cleanItem);
+            // Preserve the original id so the fallback in add() doesn't create a new UUID
+            const { createdAt, updatedAt, ...syncItem } = item;
+            await supabase.add(syncItem);
           }
         })();
       }
@@ -426,7 +427,8 @@ export default function App() {
             if (Array.isArray(items) && items.length > 0) {
               // Insert each item using the store's .add() method
               for (const item of items) {
-                const { id, createdAt, updatedAt, ...cleanItem } = item;
+                // Preserve id so the add() fallback doesn't create a new UUID
+                const { createdAt, updatedAt, ...cleanItem } = item;
                 await store.add(cleanItem);
               }
             }
