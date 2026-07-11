@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
       X, Plus, ClipboardList, Trash2, FileText, Upload, Calendar, DollarSign,
       Gauge, CheckCircle2, Loader2, Pencil, Cloud, ScanLine, ChevronUp
     } from 'lucide-react';
-import { formatDate, formatCurrency, formatNumber, getLocalDateString } from '../utils/helpers';
+import { formatDate, formatCurrency, formatNumber } from '../utils/helpers';
 import { SERVICE_TYPES } from '../utils/constants';
 import { getScheduleForVehicle } from '../data/maintenance-schedules';
 import { isSameService } from '../hooks/useMaintenanceSchedule';
@@ -74,6 +74,23 @@ export default function MaintenanceLog({ logs, vehicles, onAdd, onUpdate, onDele
   const [editingLog, setEditingLog] = useState(null);
   const [showScanner, setShowScanner] = useState(false);
   const [activeFolder, setActiveFolder] = useState(null);
+  // Pending service type from schedule "+" button — pre-fills service type, leaves date/mileage empty
+  const [pendingServiceType, setPendingServiceType] = useState(null);
+
+  // Check sessionStorage for pending schedule service (set by Dashboard "+" button)
+  useEffect(() => {
+    const pending = sessionStorage.getItem('mtxtrkr_pending_schedule_service');
+    if (pending) {
+      sessionStorage.removeItem('mtxtrkr_pending_schedule_service');
+      try {
+        const data = JSON.parse(pending);
+        setPendingServiceType(data.serviceType);
+        setShowForm(true);
+      } catch (e) {
+        console.warn('Invalid pending schedule service:', e);
+      }
+    }
+  }, []);
 
   const filteredLogs = selectedVehicleId
     ? logs.filter(l => l.vehicleId === selectedVehicleId)
@@ -422,12 +439,13 @@ export default function MaintenanceLog({ logs, vehicles, onAdd, onUpdate, onDele
           vehicles={vehicles}
           initialData={editingLog}
           initialVehicleId={selectedVehicleId}
+          initialServiceType={pendingServiceType}
           isEditing={!!editingLog}
           onSave={editingLog
             ? (data) => { onUpdate(editingLog.id, data); setShowForm(false); setEditingLog(null); }
             : (data) => { onAdd(data); setShowForm(false); }
           }
-          onClose={() => { setShowForm(false); setEditingLog(null); }}
+          onClose={() => { setShowForm(false); setEditingLog(null); setPendingServiceType(null); }}
         />
       )}
 
@@ -444,15 +462,16 @@ export default function MaintenanceLog({ logs, vehicles, onAdd, onUpdate, onDele
   );
 }
 
-function MaintenanceFormModal({ vehicles, initialData, initialVehicleId, isEditing, onSave, onClose }) {
+function MaintenanceFormModal({ vehicles, initialData, initialVehicleId, initialServiceType, isEditing, onSave, onClose }) {
   const [form, setForm] = useState({
     vehicleId: initialData?.vehicleId || initialVehicleId || vehicles[0]?.id || '',
-    date: initialData?.date || getLocalDateString(),
+    date: initialData?.date || '',
     mileage: initialData?.mileage?.toString() || '',
     // Support both old single-type and new multi-type
     serviceTypes: initialData?.serviceTypes
       ? [...initialData.serviceTypes]
-      : (initialData?.serviceType ? [initialData.serviceType] : []),
+      : (initialData?.serviceType ? [initialData.serviceType]
+        : (initialServiceType ? [initialServiceType] : [])),
     description: initialData?.description || '',
     cost: initialData?.cost?.toString() || '',
   });

@@ -431,15 +431,15 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
                     />
                   </div>
                   <button 
-                    onClick={() => onAddLog({
-                      vehicleId: activeVehicle.id,
-                      serviceType: item.service,
-                      date: getLocalDateString(),
-                      mileage: activeVehicle.mileage,
-                      description: `Manufacturer scheduled maintenance: ${item.service}`,
-                      source: 'schedule'
-                    })}
+                    onClick={() => {
+                      sessionStorage.setItem('mtxtrkr_pending_schedule_service', JSON.stringify({
+                        vehicleId: activeVehicle.id,
+                        serviceType: item.service,
+                      }));
+                      onNavigate('logs');
+                    }}
                     className="p-1.5 rounded-lg bg-blue-600/20 hover:bg-blue-600/40 text-blue-400 transition-all"
+                    title="Log this service"
                   >
                     <Plus className="w-3.5 h-3.5" />
                   </button>
