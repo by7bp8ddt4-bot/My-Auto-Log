@@ -7,11 +7,15 @@ export default function MileageChart({ logs, vehicles, isPremium }) {
   // Build initial data points from vehicles' purchase info (always available)
   const initialData = useMemo(() => {
     return vehicles
-      .filter(v => v.purchaseDate && (v.purchaseMileage || v.mileage))
+      .filter(v => {
+        // Include if has purchase date or purchase mileage or any mileage data
+        const hasPurchaseData = v.purchaseDate || v.purchaseMileage || v.mileage;
+        return hasPurchaseData;
+      })
       .map(v => ({
-        date: v.purchaseDate?.slice(0, 7) || 'Purchase',
-        [v.name || 'Vehicle']: v.purchaseMileage || v.mileage || 0,
-        sortKey: new Date(v.purchaseDate).getTime() || 0,
+        date: v.purchaseDate?.slice(0, 7) || v.createdAt?.slice(0, 7) || 'Purchase',
+        [v.name || 'Vehicle']: v.purchaseMileage ?? v.mileage ?? 0,
+        sortKey: v.purchaseDate ? new Date(v.purchaseDate).getTime() : v.createdAt ? new Date(v.createdAt).getTime() : 0,
         _vehicleName: v.name || 'Vehicle',
         _isPurchase: true,
       }));
@@ -49,6 +53,25 @@ export default function MileageChart({ logs, vehicles, isPremium }) {
           _vehicleName: vehicle?.name || 'Vehicle',
         });
       });
+    });
+
+    // Add current mileage as the latest data point for each vehicle
+    const todayKey = new Date().toISOString().slice(0, 7);
+    vehicles.forEach(v => {
+      if (v.mileage > 0) {
+        // Only add if the vehicle doesn't already have a data point this month
+        const hasCurrentMonth = result.some(d =>
+          d._vehicleName === (v.name || 'Vehicle') && d.date === todayKey
+        );
+        if (!hasCurrentMonth) {
+          result.push({
+            date: todayKey,
+            [v.name || 'Vehicle']: v.mileage,
+            sortKey: Date.now(),
+            _vehicleName: v.name || 'Vehicle',
+          });
+        }
+      }
     });
 
     // Sort combined data by date
@@ -104,7 +127,9 @@ export default function MileageChart({ logs, vehicles, isPremium }) {
     );
   }
 
-  if (chartData.length === 1 && chartData[0]._isPurchase) {
+  if (chartData.length <= 1 && chartData[0]?._isPurchase) {
+    // Single vehicle with only purchase data — show the card view
+    const singlePoint = chartData[0];
     return (
       <div className="p-5 rounded-2xl bg-slate-900/60 border border-slate-800">
         <div className="flex items-center gap-2 mb-3">
@@ -117,6 +142,36 @@ export default function MileageChart({ logs, vehicles, isPremium }) {
           <p className="text-xs text-slate-500">Purchase mileage — {chartData[0].date}</p>
           <p className="text-xs text-slate-500 mt-3">Log services with mileage to build your trend</p>
         </div>
+      </div>
+    );
+  }
+
+  // Check if all data points are purchase-only (no service logs or current mileage data)
+  const allPurchaseOnly = chartData.length > 0 && chartData.every(d => d._isPurchase);
+
+  if (allPurchaseOnly && chartData.length > 1) {
+    // Multiple vehicles with purchase-only data — show a summary card per vehicle
+    return (
+      <div className="p-5 rounded-2xl bg-slate-900/60 border border-slate-800">
+        <div className="flex items-center gap-2 mb-4">
+          <div className="w-8 h-8 rounded-lg bg-cyan-500/10 flex items-center justify-center">
+            <TrendingUp className="w-4 h-4 text-cyan-400" />
+          </div>
+          <div>
+            <h3 className="text-sm font-semibold text-white">Mileage Over Time</h3>
+            <p className="text-[10px] text-slate-500">Purchase snapshot</p>
+          </div>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          {chartData.map((d, i) => (
+            <div key={d._vehicleName || i} className="p-4 rounded-xl bg-slate-800/50 border border-slate-700/50 text-center">
+              <p className="text-xs text-slate-400 mb-1">{d._vehicleName}</p>
+              <p className="text-lg font-bold text-white">{formatNumber(d[d._vehicleName])} mi</p>
+              <p className="text-[10px] text-slate-500 mt-1">Purchase — {d.date}</p>
+            </div>
+          ))}
+        </div>
+        <p className="text-xs text-slate-500 text-center mt-4">Log services with mileage to build your trend</p>
       </div>
     );
   }
