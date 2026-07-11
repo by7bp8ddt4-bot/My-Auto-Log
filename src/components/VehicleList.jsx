@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { X, Car, Plus, Pencil, Trash2, ChevronRight, ScanLine, Loader2, CheckCircle2, AlertCircle, Tractor, Package, Ship, Anchor, Cog } from 'lucide-react';
 import { formatNumber } from '../utils/helpers';
 import { ManufacturerBadge } from '../utils/manufacturerBranding.jsx';
-import { decodeVin, isValidVin } from '../utils/vinDecoder.js';
+import { decodeVin, isValidVin, isValidPin } from '../utils/vinDecoder.js';
 import { VEHICLE_TYPES } from '../utils/constants.js';
 import MotorcycleIcon from './MotorcycleIcon';
 import SemiTruckIcon from './SemiTruckIcon';
@@ -258,6 +258,7 @@ function VehicleFormModal({ vehicle, onSave, onClose, initialType = 'car', focus
   // Per-type form helpers
   const usesHours = ['ag-equipment', 'forklift', 'watercraft', 'outboard', 'marine-diesel'].includes(form.type);
   const hasVinDecoder = ['car', 'motorcycle', 'semi-truck', 'rv', 'ag-equipment', 'forklift'].includes(form.type);
+  const usesPin = ['ag-equipment', 'forklift'].includes(form.type); // Shorter Product ID Numbers (11-17 chars)
   const hasLicensePlate = ['car', 'motorcycle', 'watercraft', 'semi-truck', 'rv'].includes(form.type);
 
   const mileageLabel = usesHours ? 'Engine Hours' : 'Current Mileage';
@@ -266,6 +267,32 @@ function VehicleFormModal({ vehicle, onSave, onClose, initialType = 'car', focus
 
   const handleDecodeVin = async () => {
     const vin = form.vin?.trim().toUpperCase();
+    
+    // For Ag Equipment / Forklift — shorter PINs, skip NHTSA
+    if (usesPin) {
+      if (!vin || vin.length < 11) {
+        setVinState({ status: 'error', message: 'Enter at least 11 characters for the Product ID Number', data: null });
+        return;
+      }
+      if (!isValidPin(vin)) {
+        setVinState({ status: 'error', message: 'PIN contains invalid characters (no I, O, Q)', data: null });
+        return;
+      }
+      // No NHTSA lookup for equipment — just store the PIN as a reference identifier
+      const pinned = { type: 'equipment-pin', pin: vin };
+      setForm(f => ({
+        ...f,
+        vinDecoded: pinned,
+        vin,
+      }));
+      setVinState({
+        status: 'success',
+        message: `PIN stored: ${vin}`,
+        data: pinned,
+      });
+      return;
+    }
+    
     if (!vin || vin.length < 17) {
       setVinState({ status: 'error', message: 'Enter a 17-character VIN first', data: null });
       return;
@@ -298,7 +325,8 @@ function VehicleFormModal({ vehicle, onSave, onClose, initialType = 'car', focus
   };
 
   const handleVinChange = (value) => {
-    const cleaned = value.toUpperCase().replace(/[^A-HJ-NPR-Z0-9]/g, '').slice(0, 17);
+    const maxLen = usesPin ? 17 : 17; // Equipment PINs can be up to 17 chars too
+    const cleaned = value.toUpperCase().replace(/[^A-HJ-NPR-Z0-9]/g, '').slice(0, maxLen);
     setForm(f => ({ ...f, vin: cleaned }));
     if (vinState.status !== 'idle') {
       setVinState({ status: 'idle', message: '', data: null });
@@ -409,24 +437,27 @@ function VehicleFormModal({ vehicle, onSave, onClose, initialType = 'car', focus
               />
             </div>
           ) : (
-            /* VIN Decoder — for road vehicles */
+            /* VIN Decoder — for road vehicles; PIN input for Ag Equipment / Forklift */
             <div>
               <label className="block text-xs text-slate-400 mb-1 font-medium">
-                VIN Decoder <span className="text-slate-600 font-normal">(free NHTSA lookup)</span>
+                {usesPin ? 'Product ID Number (PIN)' : 'VIN Decoder'}
+                <span className="text-slate-600 font-normal">
+                  {usesPin ? ' (equipment identifier, no NHTSA lookup)' : ' (free NHTSA lookup)'}
+                </span>
               </label>
               <div className="flex gap-2">
                 <input
                   type="text"
                   value={form.vin}
                   onChange={e => handleVinChange(e.target.value)}
-                  placeholder="e.g. 1HGCM82633A004352"
+                  placeholder={usesPin ? 'e.g. 1RW0048EXSJ072345' : 'e.g. 1HGCM82633A004352'}
                   maxLength={17}
                   className="flex-1 px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm font-mono tracking-wider placeholder:text-slate-600 placeholder:tracking-normal focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all uppercase"
                 />
                 <button
                   type="button"
                   onClick={handleDecodeVin}
-                  disabled={vinState.status === 'loading' || form.vin.length < 17}
+                  disabled={vinState.status === 'loading' || form.vin.length < (usesPin ? 11 : 17)}
                   className="shrink-0 flex items-center gap-1.5 px-3 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 disabled:bg-slate-700 disabled:text-slate-500 text-white text-xs font-medium transition-all"
                 >
                   {vinState.status === 'loading' ? (
@@ -434,9 +465,14 @@ function VehicleFormModal({ vehicle, onSave, onClose, initialType = 'car', focus
                   ) : (
                     <ScanLine className="w-3.5 h-3.5" />
                   )}
-                  Decode
+                  {usesPin ? 'Store PIN' : 'Decode'}
                 </button>
               </div>
+              {usesPin && (
+                <p className="text-[10px] text-slate-500 mt-1">
+                  Agricultural equipment PINs are typically 11-17 characters. No NHTSA lookup — stored as a reference identifier.
+                </p>
+              )}
               <div className="mt-1 min-h-[18px]">
                 {renderVinStatus()}
               </div>

@@ -105,6 +105,16 @@ export function isValidVin(vin) {
 }
 
 /**
+ * Validate a Product Identification Number (PIN) for Ag Equipment / Forklift.
+ * These are shorter than road-vehicle VINs (typically 11-17 chars).
+ */
+export function isValidPin(pin) {
+  if (!pin) return false;
+  const trimmed = pin.trim();
+  return trimmed.length >= 11 && /^[A-HJ-NPR-Z0-9]{11,17}$/i.test(trimmed);
+}
+
+/**
  * Format a VIN for display (uppercase, grouped).
  */
 export function formatVin(vin) {
