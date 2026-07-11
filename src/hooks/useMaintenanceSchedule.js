@@ -97,14 +97,13 @@ export function useMaintenanceSchedule(vehicle, logs = []) {
             { service: 'Rear Differential Fluid', intervalMiles: 50000, intervalMonths: 48, severity: 'medium', description: 'Fresh fluid prevents rear axle gear wear.' },
           );
         }
-        // Transfer case for 4x4 specifically
-        if (dt.includes('4wd') || dt.includes('4-wheel') || dt.includes('4x4')) {
-          const hasTransferCase = schedule.some(s => s.service.toLowerCase().includes('transfer case'));
-          if (!hasTransferCase) {
-            schedule.push(
-              { service: 'Transfer Case Fluid', intervalMiles: 50000, intervalMonths: 48, severity: 'medium', description: 'Keeps 4x4 transfer case operating smoothly.' },
-            );
-          }
+        // Transfer case for AWD and 4WD vehicles
+        // is4wd already covers AWD (Subaru, Audi, Honda CR-V, Toyota RAV4 all have transfer cases/center diffs)
+        const hasTransferCase = schedule.some(s => s.service.toLowerCase().includes('transfer case'));
+        if (!hasTransferCase) {
+          schedule.push(
+            { service: 'Transfer Case Fluid', intervalMiles: 50000, intervalMonths: 48, severity: 'medium', description: 'Keeps transfer case operating smoothly.' },
+          );
         }
       }
     }
