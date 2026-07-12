@@ -11,43 +11,23 @@ import remindersImg from '/assets/features/reminders.png';
 import aiCopilotImg from '/assets/features/ai-copilot.png';
 import analyticsImg from '/assets/features/analytics.png';
 import documentsImg from '/assets/features/documents.png';
-import serviceLogImg from '/assets/features/service-log.png';
+import MechanicalBackground, {
+  SchematicDial, GearTrainSchematic, CylinderSchematic,
+  SuspensionSchematic, DrivetrainSchematic
+} from './MechanicalBackground.jsx';
 
 export default function LandingPage({ onGetStarted, onViewPremium }) {
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 relative overflow-hidden">
-      {/* Dynamic Blueprint Engineering Grid Background - Dialed down to let mechanical graphics dominate */}
-      <div className="absolute inset-0 pointer-events-none z-0">
-        <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" className="w-full h-full opacity-10">
-          <defs>
-            <pattern id="sub-grid" width="20" height="20" patternUnits="userSpaceOnUse">
-              <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(148, 163, 184, 0.01)" strokeWidth="0.5" />
-            </pattern>
-            <pattern id="main-grid" width="100" height="100" patternUnits="userSpaceOnUse">
-              <rect width="100%" height="100%" fill="url(#sub-grid)" />
-              <path d="M 100 0 L 0 0 0 100" fill="none" stroke="rgba(148, 163, 184, 0.025)" strokeWidth="1" />
-              <path d="M 0 4 L 0 -4 M -4 0 L 4 0 M 100 4 L 100 -4 M 96 0 L 104 0 M 0 104 L 0 96" fill="none" stroke="rgba(59, 130, 246, 0.08)" strokeWidth="0.75" />
-            </pattern>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#main-grid)" />
-        </svg>
-      </div>
-
-      {/* Absolutely Positioned Schematic Artwork - Prominent, staggered side-to-side mechanical schematics */}
+      {/* Dynamic Blueprint Engineering Grid + Mechanical Schematics Background */}
+      <MechanicalBackground />
+      
+      {/* Hover/scale effects for schematics on landing page (shared component has static positioning) */}
       <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
-        {/* Graphic 1: Rotary Assembly / Dial - Top Right behind Hero */}
         <SchematicDial className="absolute top-[3%] right-0 sm:right-0 lg:right-16 xl:right-32 w-48 h-48 sm:w-[420px] sm:h-[420px] opacity-50 sm:opacity-50 hover:opacity-75 hover:scale-[1.03] transition-all duration-700" />
-
-        {/* Graphic 1b: Interlocking Gear Train - Left Upper Section */}
         <GearTrainSchematic className="absolute top-[16%] left-0 sm:-left-20 lg:left-0 xl:left-12 w-48 h-auto sm:w-72 opacity-50 sm:opacity-50 hover:opacity-75 hover:scale-[1.03] transition-all duration-700" />
-
-        {/* Graphic 2: Combustion Cylinder - Right margin behind Features */}
         <CylinderSchematic className="absolute top-[32%] right-0 sm:-right-20 lg:right-0 xl:right-12 w-48 h-auto sm:w-64 opacity-50 sm:opacity-50 hover:opacity-75 hover:scale-[1.03] transition-all duration-700" />
-
-        {/* Graphic 3: Coil Spring Suspension - Left margin behind Lease Section */}
         <SuspensionSchematic className="absolute top-[52%] left-0 sm:-left-20 lg:left-0 xl:left-12 w-48 h-auto sm:w-64 opacity-50 sm:opacity-50 hover:opacity-75 hover:scale-[1.03] transition-all duration-700" />
-
-        {/* Graphic 4: AWD Drivetrain Layout - Right margin behind Testimonials/FAQ */}
         <DrivetrainSchematic className="absolute top-[72%] right-0 sm:-right-20 lg:right-0 xl:right-12 w-48 h-auto sm:w-64 opacity-50 sm:opacity-50 hover:opacity-75 hover:scale-[1.03] transition-all duration-700" />
       </div>
 
