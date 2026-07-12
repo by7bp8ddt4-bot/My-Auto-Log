@@ -16,9 +16,9 @@ import serviceLogImg from '/assets/features/service-log.png';
 export default function LandingPage({ onGetStarted, onViewPremium }) {
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 relative overflow-hidden">
-      {/* Dynamic Blueprint Engineering Grid Background */}
+      {/* Dynamic Blueprint Engineering Grid Background - Dialed down to let mechanical graphics dominate */}
       <div className="absolute inset-0 pointer-events-none z-0">
-        <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" className="w-full h-full opacity-35">
+        <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" className="w-full h-full opacity-10">
           <defs>
             <pattern id="sub-grid" width="20" height="20" patternUnits="userSpaceOnUse">
               <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(148, 163, 184, 0.01)" strokeWidth="0.5" />
@@ -33,19 +33,22 @@ export default function LandingPage({ onGetStarted, onViewPremium }) {
         </svg>
       </div>
 
-      {/* Absolutely Positioned Schematic Artwork */}
+      {/* Absolutely Positioned Schematic Artwork - Prominent, staggered side-to-side mechanical schematics */}
       <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
         {/* Graphic 1: Rotary Assembly / Dial - Top Right behind Hero */}
-        <SchematicDial className="absolute top-[3%] -right-24 sm:right-0 lg:right-16 xl:right-32 w-72 h-72 sm:w-[420px] sm:h-[420px]" />
+        <SchematicDial className="absolute top-[3%] -right-24 sm:right-0 lg:right-16 xl:right-32 w-72 h-72 sm:w-[420px] sm:h-[420px] opacity-25 sm:opacity-30 hover:opacity-50 hover:scale-[1.03] transition-all duration-700" />
 
-        {/* Graphic 2: Combustion Cylinder - Left margin behind Features */}
-        <CylinderSchematic className="absolute top-[28%] -left-32 sm:-left-20 lg:left-0 xl:left-12 w-64 h-auto" />
+        {/* Graphic 1b: Interlocking Gear Train - Left Upper Section */}
+        <GearTrainSchematic className="absolute top-[16%] -left-32 sm:-left-20 lg:left-0 xl:left-12 w-72 h-auto opacity-25 sm:opacity-30 hover:opacity-50 hover:scale-[1.03] transition-all duration-700" />
 
-        {/* Graphic 3: Coil Spring Suspension - Right margin behind Lease Section */}
-        <SuspensionSchematic className="absolute top-[52%] -right-32 sm:-right-20 lg:right-0 xl:right-12 w-64 h-auto" />
+        {/* Graphic 2: Combustion Cylinder - Right margin behind Features */}
+        <CylinderSchematic className="absolute top-[32%] -right-32 sm:-right-20 lg:right-0 xl:right-12 w-64 h-auto opacity-25 sm:opacity-30 hover:opacity-50 hover:scale-[1.03] transition-all duration-700" />
 
-        {/* Graphic 4: AWD Drivetrain Layout - Left margin behind Testimonials/FAQ */}
-        <DrivetrainSchematic className="absolute top-[75%] -left-32 sm:-left-20 lg:left-0 xl:left-12 w-64 h-auto" />
+        {/* Graphic 3: Coil Spring Suspension - Left margin behind Lease Section */}
+        <SuspensionSchematic className="absolute top-[52%] -left-32 sm:-left-20 lg:left-0 xl:left-12 w-64 h-auto opacity-25 sm:opacity-30 hover:opacity-50 hover:scale-[1.03] transition-all duration-700" />
+
+        {/* Graphic 4: AWD Drivetrain Layout - Right margin behind Testimonials/FAQ */}
+        <DrivetrainSchematic className="absolute top-[72%] -right-32 sm:-right-20 lg:right-0 xl:right-12 w-64 h-auto opacity-25 sm:opacity-30 hover:opacity-50 hover:scale-[1.03] transition-all duration-700" />
       </div>
 
       {/* Landing Page Content is wrapped in relative z-10 container to stay on top */}
@@ -501,7 +504,7 @@ export default function LandingPage({ onGetStarted, onViewPremium }) {
 
 function SchematicDial({ className }) {
   return (
-    <svg className={`pointer-events-none select-none opacity-15 transition-opacity duration-1000 hover:opacity-25 ${className}`} width="400" height="400" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg className={`pointer-events-none select-none ${className}`} width="400" height="400" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
       <circle cx="200" cy="200" r="180" stroke="currentColor" strokeWidth="0.5" strokeDasharray="4,8" className="text-slate-800" />
       <circle cx="200" cy="200" r="150" stroke="currentColor" strokeWidth="1" className="text-slate-900" />
       <circle cx="200" cy="200" r="120" stroke="currentColor" strokeWidth="0.5" strokeDasharray="12,12" className="text-slate-800" />
@@ -547,7 +550,7 @@ function SchematicDial({ className }) {
 
 function CylinderSchematic({ className }) {
   return (
-    <svg className={`pointer-events-none select-none opacity-15 ${className}`} width="300" height="500" viewBox="0 0 300 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg className={`pointer-events-none select-none ${className}`} width="300" height="500" viewBox="0 0 300 500" fill="none" xmlns="http://www.w3.org/2000/svg">
       {/* Centerline */}
       <line x1="150" y1="10" x2="150" y2="490" stroke="currentColor" strokeWidth="0.5" strokeDasharray="2,6" className="text-slate-800" />
       
@@ -596,7 +599,7 @@ function CylinderSchematic({ className }) {
 
 function SuspensionSchematic({ className }) {
   return (
-    <svg className={`pointer-events-none select-none opacity-15 ${className}`} width="260" height="500" viewBox="0 0 260 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg className={`pointer-events-none select-none ${className}`} width="260" height="500" viewBox="0 0 260 500" fill="none" xmlns="http://www.w3.org/2000/svg">
       {/* Centerline */}
       <line x1="130" y1="10" x2="130" y2="490" stroke="currentColor" strokeWidth="0.5" strokeDasharray="2,6" className="text-slate-800" />
 
@@ -642,7 +645,7 @@ function SuspensionSchematic({ className }) {
 
 function DrivetrainSchematic({ className }) {
   return (
-    <svg className={`pointer-events-none select-none opacity-15 ${className}`} width="300" height="480" viewBox="0 0 300 480" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg className={`pointer-events-none select-none ${className}`} width="300" height="480" viewBox="0 0 300 480" fill="none" xmlns="http://www.w3.org/2000/svg">
       {/* Centerline */}
       <line x1="150" y1="10" x2="150" y2="470" stroke="currentColor" strokeWidth="0.5" strokeDasharray="2,6" className="text-slate-800" />
 
@@ -691,6 +694,77 @@ function DrivetrainSchematic({ className }) {
       <text x="180" y="335" fill="currentColor" className="text-slate-500/25 font-mono" style={{ fontSize: '8px' }}>REAR DIFFERENTIAL</text>
 
       <text x="80" y="460" fill="currentColor" className="text-slate-700/15 font-mono" style={{ fontSize: '8px' }}>DRIVETRAIN LAYOUT: AWD (4WD-LOCK)</text>
+    </svg>
+  );
+}
+
+function GearTrainSchematic({ className }) {
+  return (
+    <svg className={`pointer-events-none select-none ${className}`} width="400" height="300" viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+      {/* Gear 1 (Large - Left) */}
+      <g transform="translate(130, 150)">
+        <circle cx="0" cy="0" r="90" stroke="currentColor" strokeWidth="1" className="text-slate-900" />
+        <circle cx="0" cy="0" r="70" stroke="currentColor" strokeWidth="0.5" strokeDasharray="3,3" className="text-slate-800" />
+        <circle cx="0" cy="0" r="30" stroke="currentColor" strokeWidth="1" className="text-slate-800" />
+        <circle cx="0" cy="0" r="10" stroke="currentColor" strokeWidth="1.5" className="text-blue-500/20" />
+        
+        {/* Gear Teeth for Gear 1 (24 teeth) */}
+        {[...Array(24)].map((_, i) => {
+          const angle = (i * 15 * Math.PI) / 180;
+          const x1 = 88 * Math.cos(angle);
+          const y1 = 88 * Math.sin(angle);
+          const x2 = 100 * Math.cos(angle);
+          const y2 = 100 * Math.sin(angle);
+          return <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="currentColor" strokeWidth="2" className="text-slate-800" />;
+        })}
+        
+        {/* Structural spokes */}
+        {[...Array(6)].map((_, i) => {
+          const angle = (i * 60 * Math.PI) / 180;
+          const x1 = 30 * Math.cos(angle);
+          const y1 = 30 * Math.sin(angle);
+          const x2 = 90 * Math.cos(angle);
+          const y2 = 90 * Math.sin(angle);
+          return <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="currentColor" strokeWidth="0.75" className="text-slate-800/60" />;
+        })}
+        <text x="35" y="-10" fill="currentColor" className="text-slate-700/30 font-mono text-[8px]" style={{ fontSize: '7px' }}>GEAR_01: Z=24</text>
+      </g>
+
+      {/* Gear 2 (Medium - Right) */}
+      {/* Centered to mesh with Gear 1 */}
+      <g transform="translate(290, 150)">
+        <circle cx="0" cy="0" r="60" stroke="currentColor" strokeWidth="1" className="text-slate-900" />
+        <circle cx="0" cy="0" r="45" stroke="currentColor" strokeWidth="0.5" strokeDasharray="3,3" className="text-slate-800" />
+        <circle cx="0" cy="0" r="20" stroke="currentColor" strokeWidth="1" className="text-slate-800" />
+        <circle cx="0" cy="0" r="8" stroke="currentColor" strokeWidth="1.5" className="text-slate-800/60" />
+        
+        {/* Gear Teeth for Gear 2 (16 teeth, offset by 7.5 deg to mesh) */}
+        {[...Array(16)].map((_, i) => {
+          const angle = ((i * 22.5 + 7.5) * Math.PI) / 180;
+          const x1 = 58 * Math.cos(angle);
+          const y1 = 58 * Math.sin(angle);
+          const x2 = 68 * Math.cos(angle);
+          const y2 = 68 * Math.sin(angle);
+          return <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="currentColor" strokeWidth="2.2" className="text-slate-800" />;
+        })}
+        
+        {/* Spokes */}
+        {[...Array(4)].map((_, i) => {
+          const angle = (i * 90 * Math.PI) / 180;
+          const x1 = 20 * Math.cos(angle);
+          const y1 = 20 * Math.sin(angle);
+          const x2 = 60 * Math.cos(angle);
+          const y2 = 60 * Math.sin(angle);
+          return <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="currentColor" strokeWidth="0.75" className="text-slate-800/60" />;
+        })}
+        <text x="-55" y="-25" fill="currentColor" className="text-slate-700/30 font-mono text-[8px]" style={{ fontSize: '7px' }}>GEAR_02: Z=16</text>
+        <text x="-55" y="-15" fill="currentColor" className="text-blue-500/20 font-mono text-[8px]" style={{ fontSize: '7px' }}>RPM_RATIO: 1.5</text>
+      </g>
+
+      {/* Meshing contact details */}
+      <path d="M 194 150 L 194 130 M 194 150 L 210 150" stroke="currentColor" strokeWidth="0.5" className="text-blue-500/30" />
+      <circle cx="194" cy="150" r="3" fill="currentColor" className="text-blue-500/35" />
+      <text x="182" y="120" fill="currentColor" className="text-blue-400/25 font-mono text-[7px]" style={{ fontSize: '6.5px' }}>MESH_POINT</text>
     </svg>
   );
 }
