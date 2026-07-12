@@ -324,11 +324,11 @@ export default function MechanicalBackground({ isAppPage = false, showSchematics
       {/* Schematic Artwork - staggered side-to-side */}
       {showSchematics && (
         <div className={`absolute inset-0 ${opacity}`}>
-          <SchematicDial className="absolute top-[2%] sm:top-[3%] -right-16 sm:right-0 lg:right-16 xl:right-32 w-72 h-72 sm:w-[420px] sm:h-[420px]" />
-          <GearTrainSchematic className="absolute top-[12%] sm:top-[16%] -left-16 sm:-left-20 lg:left-0 xl:left-12 w-72 h-auto sm:w-72" />
-          <CylinderSchematic className="absolute top-[24%] sm:top-[32%] -right-12 sm:-right-20 lg:right-0 xl:right-12 w-64 h-auto sm:w-64" />
-          <SuspensionSchematic className="absolute top-[38%] sm:top-[52%] -left-12 sm:-left-20 lg:left-0 xl:left-12 w-64 h-auto sm:w-64" />
-          <DrivetrainSchematic className="absolute top-[55%] sm:top-[72%] -right-12 sm:-right-20 lg:right-0 xl:right-12 w-64 h-auto sm:w-64" />
+          <SchematicDial className="absolute top-[0%] sm:top-[3%] -right-12 sm:right-0 lg:right-16 xl:right-32 w-60 h-60 sm:w-[420px] sm:h-[420px]" />
+          <GearTrainSchematic className="absolute top-[10%] sm:top-[16%] -left-12 sm:-left-20 lg:left-0 xl:left-12 w-60 h-auto sm:w-72" />
+          <CylinderSchematic className="absolute top-[20%] sm:top-[32%] -right-10 sm:-right-20 lg:right-0 xl:right-12 w-56 h-auto sm:w-64" />
+          <SuspensionSchematic className="absolute top-[30%] sm:top-[52%] -left-10 sm:-left-20 lg:left-0 xl:left-12 w-56 h-auto sm:w-64" />
+          <DrivetrainSchematic className="absolute top-[40%] sm:top-[72%] -right-10 sm:-right-20 lg:right-0 xl:right-12 w-56 h-auto sm:w-64" />
         </div>
       )}
     </div>

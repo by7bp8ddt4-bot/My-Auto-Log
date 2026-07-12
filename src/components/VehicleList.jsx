@@ -3,6 +3,7 @@ import { X, Car, Plus, Pencil, Trash2, ChevronRight, ScanLine, Loader2, CheckCir
 import { formatNumber } from '../utils/helpers';
 import { ManufacturerBadge } from '../utils/manufacturerBranding.jsx';
 import { decodeVin, isValidVin, isValidPin } from '../utils/vinDecoder.js';
+import { decodeHin, isValidHin, validateOutboardSerial, validateMarineDieselSerial, formatHin } from '../utils/watercraftDecoder.js';
 import { VEHICLE_TYPES } from '../utils/constants.js';
 import MotorcycleIcon from './MotorcycleIcon';
 import SemiTruckIcon from './SemiTruckIcon';
@@ -254,6 +255,7 @@ function VehicleFormModal({ vehicle, onSave, onClose, initialType = 'car', focus
     leaseMileageLimit: vehicle?.leaseMileageLimit || '',
   });
   const [vinState, setVinState] = useState({ status: 'idle', message: '', data: null }); // idle | loading | success | error
+  const [serialState, setSerialState] = useState({ status: 'idle', message: '', data: null }); // for outboard/marine diesel serial validation
 
   // Per-type form helpers
   const usesHours = ['ag-equipment', 'forklift', 'watercraft', 'outboard', 'marine-diesel'].includes(form.type);
@@ -333,6 +335,63 @@ function VehicleFormModal({ vehicle, onSave, onClose, initialType = 'car', focus
     }
   };
 
+  const handleDecodeHin = async () => {
+    const hin = form.vin?.trim().toUpperCase();
+    if (!hin || hin.length < 12) {
+      setVinState({ status: 'error', message: 'Enter a 12-character HIN first', data: null });
+      return;
+    }
+    if (!isValidHin(hin)) {
+      setVinState({ status: 'error', message: 'HIN contains invalid characters (no I, O, Q)', data: null });
+      return;
+    }
+    setVinState({ status: 'loading', message: 'Decoding HIN...', data: null });
+    const result = await decodeHin(hin);
+    if (result.success) {
+      const d = result.data;
+      setForm(f => ({
+        ...f,
+        make: d.make || f.make,
+        year: d.modelYear || f.year,
+        vinDecoded: d,
+        vin: d.hin,
+      }));
+      setVinState({
+        status: 'success',
+        message: `${d.make || 'Unknown manufacturer'}${d.modelYear ? ` — ${d.modelYear}` : ''}${d.manufactureDate ? ` (mfg ${d.manufactureDate})` : ''}`,
+        data: d,
+      });
+    } else {
+      setVinState({ status: 'error', message: result.error, data: null });
+    }
+  };
+
+  const handleValidateSerial = async () => {
+    const serial = form.engineSerial?.trim().toUpperCase();
+    if (!serial) {
+      setSerialState({ status: 'error', message: 'Enter a serial number first', data: null });
+      return;
+    }
+    const isOutboard = form.type === 'outboard';
+    const result = isOutboard
+      ? validateOutboardSerial(serial)
+      : validateMarineDieselSerial(serial);
+    if (result.valid) {
+      setForm(f => ({
+        ...f,
+        make: result.make || f.make,
+        engineSerial: result.serial || f.engineSerial,
+      }));
+      setSerialState({
+        status: 'success',
+        message: `${result.make || 'Unknown manufacturer'} — ${result.note || 'stored as reference'}`,
+        data: result,
+      });
+    } else {
+      setSerialState({ status: 'error', message: result.error, data: null });
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!form.name || !form.make || !form.model) return;
@@ -377,6 +436,34 @@ function VehicleFormModal({ vehicle, onSave, onClose, initialType = 'car', focus
     }
   };
 
+  const renderSerialStatus = () => {
+    switch (serialState.status) {
+      case 'loading':
+        return (
+          <div className="flex items-center gap-2 text-xs text-blue-400">
+            <Loader2 className="w-3.5 h-3.5 animate-spin" />
+            {serialState.message}
+          </div>
+        );
+      case 'success':
+        return (
+          <div className="flex items-center gap-2 text-xs text-emerald-400">
+            <CheckCircle2 className="w-3.5 h-3.5" />
+            {serialState.message}
+          </div>
+        );
+      case 'error':
+        return (
+          <div className="flex items-center gap-2 text-xs text-red-400">
+            <AlertCircle className="w-3.5 h-3.5" />
+            {serialState.message}
+          </div>
+        );
+      default:
+        return null;
+    }
+  };
+
   return (
     <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center">
       <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} />
@@ -407,34 +494,102 @@ function VehicleFormModal({ vehicle, onSave, onClose, initialType = 'car', focus
                 <span className="text-xs">No VIN required for this vehicle type</span>
               </div>
             </div>
-          ) : form.type === 'marine-diesel' || form.type === 'outboard' ? (
-            /* Engine Serial Number — for marine/outboard engines */
+          ) : form.type === 'outboard' ? (
+            /* Outboard Engine Serial Number — validate and store */
             <div>
               <label className="block text-xs text-slate-400 mb-1 font-medium">
-                Engine Serial Number <span className="text-slate-600 font-normal">(for lookup)</span>
+                Outboard Engine Serial Number <span className="text-slate-600 font-normal">(validate & store)</span>
               </label>
-              <input
-                type="text"
-                value={form.engineSerial}
-                onChange={e => setForm(f => ({ ...f, engineSerial: e.target.value.toUpperCase() }))}
-                placeholder="e.g. CAT 7.1 SERIAL #"
-                className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm font-mono tracking-wider placeholder:text-slate-600 placeholder:tracking-normal focus:outline-none focus:ring-2 focus:ring-indigo-500/50 transition-all"
-              />
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  value={form.engineSerial}
+                  onChange={e => { setForm(f => ({ ...f, engineSerial: e.target.value.toUpperCase() })); if (serialState.status !== 'idle') setSerialState({ status: 'idle', message: '', data: null }); }}
+                  placeholder="e.g. 6G5X1000"
+                  className="flex-1 px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm font-mono tracking-wider placeholder:text-slate-600 placeholder:tracking-normal focus:outline-none focus:ring-2 focus:ring-indigo-500/50 transition-all uppercase"
+                />
+                <button
+                  type="button"
+                  onClick={handleValidateSerial}
+                  disabled={serialState.status === 'loading' || !form.engineSerial || form.engineSerial.length < 5}
+                  className="shrink-0 flex items-center gap-1.5 px-3 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 disabled:bg-slate-700 disabled:text-slate-500 text-white text-xs font-medium transition-all"
+                >
+                  {serialState.status === 'loading' ? (
+                    <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                  ) : (
+                    <ScanLine className="w-3.5 h-3.5" />
+                  )}
+                  Validate
+                </button>
+              </div>
+              <div className="mt-1 min-h-[18px]">
+                {renderSerialStatus()}
+              </div>
+            </div>
+          ) : form.type === 'marine-diesel' ? (
+            /* Marine Diesel Serial Number — validate and store */
+            <div>
+              <label className="block text-xs text-slate-400 mb-1 font-medium">
+                Marine Diesel Engine Serial Number <span className="text-slate-600 font-normal">(validate & store)</span>
+              </label>
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  value={form.engineSerial}
+                  onChange={e => { setForm(f => ({ ...f, engineSerial: e.target.value.toUpperCase() })); if (serialState.status !== 'idle') setSerialState({ status: 'idle', message: '', data: null }); }}
+                  placeholder="e.g. CAT 7.1 SERIAL #"
+                  className="flex-1 px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm font-mono tracking-wider placeholder:text-slate-600 placeholder:tracking-normal focus:outline-none focus:ring-2 focus:ring-amber-500/50 transition-all uppercase"
+                />
+                <button
+                  type="button"
+                  onClick={handleValidateSerial}
+                  disabled={serialState.status === 'loading' || !form.engineSerial || form.engineSerial.length < 4}
+                  className="shrink-0 flex items-center gap-1.5 px-3 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-500 disabled:bg-slate-700 disabled:text-slate-500 text-white text-xs font-medium transition-all"
+                >
+                  {serialState.status === 'loading' ? (
+                    <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                  ) : (
+                    <ScanLine className="w-3.5 h-3.5" />
+                  )}
+                  Validate
+                </button>
+              </div>
+              <div className="mt-1 min-h-[18px]">
+                {renderSerialStatus()}
+              </div>
             </div>
           ) : form.type === 'watercraft' ? (
             /* HIN Decoder — for personal watercraft */
             <div>
               <label className="block text-xs text-slate-400 mb-1 font-medium">
-                HIN (Hull Identification Number) <span className="text-slate-600 font-normal">(for lookup)</span>
+                HIN (Hull Identification Number) <span className="text-slate-600 font-normal">(MIC database lookup)</span>
               </label>
-              <input
-                type="text"
-                value={form.vin}
-                onChange={e => setForm(f => ({ ...f, vin: e.target.value.toUpperCase().slice(0, 12) }))}
-                placeholder="e.g. USCCP1234J899"
-                maxLength={12}
-                className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm font-mono tracking-wider placeholder:text-slate-600 placeholder:tracking-normal focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all uppercase"
-              />
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  value={form.vin}
+                  onChange={e => { setForm(f => ({ ...f, vin: e.target.value.toUpperCase().slice(0, 12) })); if (vinState.status !== 'idle') setVinState({ status: 'idle', message: '', data: null }); }}
+                  placeholder="e.g. USCCP1234J899"
+                  maxLength={12}
+                  className="flex-1 px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm font-mono tracking-wider placeholder:text-slate-600 placeholder:tracking-normal focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all uppercase"
+                />
+                <button
+                  type="button"
+                  onClick={handleDecodeHin}
+                  disabled={vinState.status === 'loading' || !form.vin || form.vin.length < 12}
+                  className="shrink-0 flex items-center gap-1.5 px-3 py-2.5 rounded-xl bg-cyan-600 hover:bg-cyan-500 disabled:bg-slate-700 disabled:text-slate-500 text-white text-xs font-medium transition-all"
+                >
+                  {vinState.status === 'loading' ? (
+                    <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                  ) : (
+                    <ScanLine className="w-3.5 h-3.5" />
+                  )}
+                  Decode HIN
+                </button>
+              </div>
+              <div className="mt-1 min-h-[18px]">
+                {renderVinStatus()}
+              </div>
             </div>
           ) : (
             /* VIN Decoder — for road vehicles; PIN input for Ag Equipment / Forklift */
