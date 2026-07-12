@@ -353,12 +353,13 @@ function VehicleFormModal({ vehicle, onSave, onClose, initialType = 'car', focus
         ...f,
         make: d.make || f.make,
         year: d.modelYear || f.year,
+        engineSize: d.engineSize || f.engineSize,
         vinDecoded: d,
         vin: d.hin,
       }));
       setVinState({
         status: 'success',
-        message: `${d.make || 'Unknown manufacturer'}${d.modelYear ? ` — ${d.modelYear}` : ''}${d.manufactureDate ? ` (mfg ${d.manufactureDate})` : ''}`,
+        message: `${d.make || 'Unknown manufacturer'}${d.modelYear ? ` — ${d.modelYear}` : ''}${d.engineSize ? ` · ${d.engineSize}` : ''}${d.manufactureDate ? ` (mfg ${d.manufactureDate})` : ''}`,
         data: d,
       });
     } else {
