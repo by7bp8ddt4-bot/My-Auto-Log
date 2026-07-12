@@ -20,15 +20,15 @@ export default function LandingPage({ onGetStarted, onViewPremium }) {
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 relative overflow-hidden">
       {/* Dynamic Blueprint Engineering Grid + Mechanical Schematics Background */}
-      <MechanicalBackground />
+      <MechanicalBackground showSchematics={false} />
       
       {/* Hover/scale effects for schematics on landing page (shared component has static positioning) */}
       <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
-        <SchematicDial className="absolute top-[3%] right-0 sm:right-0 lg:right-16 xl:right-32 w-48 h-48 sm:w-[420px] sm:h-[420px] opacity-50 sm:opacity-50 hover:opacity-75 hover:scale-[1.03] transition-all duration-700" />
-        <GearTrainSchematic className="absolute top-[16%] left-0 sm:-left-20 lg:left-0 xl:left-12 w-48 h-auto sm:w-72 opacity-50 sm:opacity-50 hover:opacity-75 hover:scale-[1.03] transition-all duration-700" />
-        <CylinderSchematic className="absolute top-[32%] right-0 sm:-right-20 lg:right-0 xl:right-12 w-48 h-auto sm:w-64 opacity-50 sm:opacity-50 hover:opacity-75 hover:scale-[1.03] transition-all duration-700" />
-        <SuspensionSchematic className="absolute top-[52%] left-0 sm:-left-20 lg:left-0 xl:left-12 w-48 h-auto sm:w-64 opacity-50 sm:opacity-50 hover:opacity-75 hover:scale-[1.03] transition-all duration-700" />
-        <DrivetrainSchematic className="absolute top-[72%] right-0 sm:-right-20 lg:right-0 xl:right-12 w-48 h-auto sm:w-64 opacity-50 sm:opacity-50 hover:opacity-75 hover:scale-[1.03] transition-all duration-700" />
+        <SchematicDial className="absolute top-[2%] sm:top-[3%] -right-16 sm:right-0 lg:right-16 xl:right-32 w-72 h-72 sm:w-[420px] sm:h-[420px] opacity-50 sm:opacity-50 hover:opacity-75 hover:scale-[1.03] transition-all duration-700" />
+        <GearTrainSchematic className="absolute top-[12%] sm:top-[16%] -left-16 sm:-left-20 lg:left-0 xl:left-12 w-72 h-auto sm:w-72 opacity-50 sm:opacity-50 hover:opacity-75 hover:scale-[1.03] transition-all duration-700" />
+        <CylinderSchematic className="absolute top-[24%] sm:top-[32%] -right-12 sm:-right-20 lg:right-0 xl:right-12 w-64 h-auto sm:w-64 opacity-50 sm:opacity-50 hover:opacity-75 hover:scale-[1.03] transition-all duration-700" />
+        <SuspensionSchematic className="absolute top-[38%] sm:top-[52%] -left-12 sm:-left-20 lg:left-0 xl:left-12 w-64 h-auto sm:w-64 opacity-50 sm:opacity-50 hover:opacity-75 hover:scale-[1.03] transition-all duration-700" />
+        <DrivetrainSchematic className="absolute top-[55%] sm:top-[72%] -right-12 sm:-right-20 lg:right-0 xl:right-12 w-64 h-auto sm:w-64 opacity-50 sm:opacity-50 hover:opacity-75 hover:scale-[1.03] transition-all duration-700" />
       </div>
 
       {/* Landing Page Content is wrapped in relative z-10 container to stay on top */}

@@ -310,7 +310,7 @@ export function GearTrainSchematic({ className }) {
 // COMPOSITE: MechanicalBackground — places all schematics + grid in a container
 // Optimized for app pages (lower opacity) vs landing page (higher opacity)
 // ============================================================================
-export default function MechanicalBackground({ isAppPage = false }) {
+export default function MechanicalBackground({ isAppPage = false, showSchematics = true }) {
   const opacity = isAppPage ? 'opacity-20' : '';
   const gridOpacity = isAppPage ? 'opacity-5' : 'opacity-10';
   
@@ -322,13 +322,15 @@ export default function MechanicalBackground({ isAppPage = false }) {
       </div>
       
       {/* Schematic Artwork - staggered side-to-side */}
-      <div className={`absolute inset-0 ${opacity}`}>
-        <SchematicDial className="absolute top-[3%] right-0 sm:right-0 lg:right-16 xl:right-32 w-48 h-48 sm:w-[420px] sm:h-[420px]" />
-        <GearTrainSchematic className="absolute top-[16%] left-0 sm:-left-20 lg:left-0 xl:left-12 w-48 h-auto sm:w-72" />
-        <CylinderSchematic className="absolute top-[32%] right-0 sm:-right-20 lg:right-0 xl:right-12 w-48 h-auto sm:w-64" />
-        <SuspensionSchematic className="absolute top-[52%] left-0 sm:-left-20 lg:left-0 xl:left-12 w-48 h-auto sm:w-64" />
-        <DrivetrainSchematic className="absolute top-[72%] right-0 sm:-right-20 lg:right-0 xl:right-12 w-48 h-auto sm:w-64" />
-      </div>
+      {showSchematics && (
+        <div className={`absolute inset-0 ${opacity}`}>
+          <SchematicDial className="absolute top-[2%] sm:top-[3%] -right-16 sm:right-0 lg:right-16 xl:right-32 w-72 h-72 sm:w-[420px] sm:h-[420px]" />
+          <GearTrainSchematic className="absolute top-[12%] sm:top-[16%] -left-16 sm:-left-20 lg:left-0 xl:left-12 w-72 h-auto sm:w-72" />
+          <CylinderSchematic className="absolute top-[24%] sm:top-[32%] -right-12 sm:-right-20 lg:right-0 xl:right-12 w-64 h-auto sm:w-64" />
+          <SuspensionSchematic className="absolute top-[38%] sm:top-[52%] -left-12 sm:-left-20 lg:left-0 xl:left-12 w-64 h-auto sm:w-64" />
+          <DrivetrainSchematic className="absolute top-[55%] sm:top-[72%] -right-12 sm:-right-20 lg:right-0 xl:right-12 w-64 h-auto sm:w-64" />
+        </div>
+      )}
     </div>
   );
 }
