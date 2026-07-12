@@ -1128,7 +1128,7 @@ export const MAINTENANCE_SCHEDULES = {
       'j30': 'hyster-e.e30', 'j40': 'hyster-e.e30', 'j50': 'hyster-e.e30'
     }
   },
-,
+
   'yamaha-waverunner': {
     specs: { oil: { type: 'Yamalube 4W (2-stroke) or Yamalube 4M (4-stroke)', capacity: '1.0 gal' }, sparkPlugs: { type: 'NGK Iridium' }, battery: { groupSize: 'Marine Group 24' } },
     models: {
