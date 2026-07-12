@@ -1,0 +1,90 @@
+import re
+
+with open("/home/team/shared/myautolog-app/src/data/maintenance-schedules.js", "r") as f:
+    content = f.read()
+
+# Build the new manufacturers block
+new_manus = []
+new_manus.append('  polaris: {')
+new_manus.append("    specs: { oil: { viscosity: '10W-40', type: 'Polaris PS-4 Full Synthetic', capacity: '2.0 qt' }, transmission: { type: 'Polaris PVT (CVT) / Gearcase' }, coolant: { type: 'Polaris Extended Life Coolant' }, brakeFluid: { type: 'DOT 4' }, tirePressure: { psi: 14 }, battery: { groupSize: 'Group 16' }, cvt: { note: 'Polaris Variable Transmission - belt driven' } },")
+new_manus.append('    models: {')
+new_manus.append("      rzr: [")
+new_manus.append("        { service: 'Oil & Filter Change', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 100 hours or annually. Polaris ProStar engine. PS-4 10W-40 full synthetic.' },")
+new_manus.append("        { service: 'CVT Belt Inspection', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 100 hours. Inspect PVT drive belt. Off-road abuse wears belts fast.' },")
+new_manus.append("        { service: 'Air Filter Cleaning', intervalMiles: 0, intervalMonths: 0, severity: 'medium', description: 'Every 50 hours in dusty conditions. Clean foam pre-filter and main filter.' },")
+new_manus.append("        { service: 'Gearcase Oil Change', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 100 hours. Polaris gearcase oil. Front and rear differentials.' },")
+new_manus.append("        { service: 'Brake Fluid Flush', intervalMiles: 0, intervalMonths: 12, severity: 'medium', description: 'Every 2 years. DOT 4. RZR brakes work hard in mud.' },")
+new_manus.append("        { service: 'Coolant Exchange', intervalMiles: 0, intervalMonths: 24, severity: 'medium', description: 'Every 2 years. Polaris Extended Life Coolant.' },")
+new_manus.append("        { service: 'Spark Plugs', intervalMiles: 0, intervalMonths: 0, severity: 'medium', description: 'Every 200 hours. NGK Iridium plugs for ProStar engine.' },")
+new_manus.append("        { service: 'Suspension Inspection', intervalMiles: 0, intervalMonths: 0, severity: 'medium', description: 'Every 50 hours. Check A-arms, bushings, shocks. Off-road takes a toll.' },")
+new_manus.append("      ],")
+new_manus.append("      sportsman: 'polaris.rzr', ranger: 'polaris.rzr',")
+new_manus.append("      general: 'polaris.rzr', 'rzr pro': 'polaris.rzr'")
+new_manus.append('    }')
+new_manus.append('  },')
+
+new_manus.append("  'can-am': {")
+new_manus.append("    specs: { oil: { viscosity: '5W-40', type: 'Rotax XPS Full Synthetic', capacity: '3.5 qt' }, transmission: { type: 'Can-Am CVT (pDrive) / Gearcase' }, coolant: { type: 'Rotax XPS Coolant' }, brakeFluid: { type: 'DOT 4' }, tirePressure: { psi: 10 }, battery: { groupSize: 'Group 16' }, cvt: { note: 'Can-Am pDrive clutch system' } },")
+new_manus.append('    models: {')
+new_manus.append("      maverick: [")
+new_manus.append("        { service: 'Oil & Filter Change', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 100 hours or annually. Rotax engine. XPS 5W-40 full synthetic.' },")
+new_manus.append("        { service: 'CVT Belt Inspection', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 100 hours. Inspect pDrive belt. Mud and water kill belts.' },")
+new_manus.append("        { service: 'Air Filter Cleaning', intervalMiles: 0, intervalMonths: 0, severity: 'medium', description: 'Every 50 hours off-road. Clean foam pre-filter. Dusty conditions clog fast.' },")
+new_manus.append("        { service: 'Front & Rear Diff Oil', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 100 hours. Can-Am gearcase oil. Critical for 4WD system.' },")
+new_manus.append("        { service: 'Brake Fluid Flush', intervalMiles: 0, intervalMonths: 12, severity: 'medium', description: 'Every 2 years. DOT 4.' },")
+new_manus.append("        { service: 'Spark Plugs', intervalMiles: 0, intervalMonths: 0, severity: 'medium', description: 'Every 200 hours. NGK Iridium plugs for Rotax engine.' },")
+new_manus.append("        { service: 'Coolant Exchange', intervalMiles: 0, intervalMonths: 24, severity: 'medium', description: 'Every 2 years. Rotax XPS coolant.' },")
+new_manus.append("        { service: 'Suspension Check', intervalMiles: 0, intervalMonths: 0, severity: 'medium', description: 'Every 50 hours. Check Fox shocks, A-arms, and trailing arms.' },")
+new_manus.append("      ],")
+new_manus.append("      outlander: 'can-am.maverick', renegade: 'can-am.maverick',")
+new_manus.append("      defender: 'can-am.maverick', commander: 'can-am.maverick'")
+new_manus.append('    }')
+new_manus.append('  },')
+
+new_manus.append('  cfmoto: {')
+new_manus.append("    specs: { oil: { viscosity: '10W-40', type: 'CFMOTO Premium 4T', capacity: '2.0 qt' }, transmission: { type: 'CFMOTO CVT / Gearcase' }, coolant: { type: 'CFMOTO Long Life Coolant' }, brakeFluid: { type: 'DOT 4' }, tirePressure: { psi: 10 }, battery: { groupSize: 'Group 16' }, cvt: { note: 'CVT belt drive' } },")
+new_manus.append('    models: {')
+new_manus.append("      zforce: [")
+new_manus.append("        { service: 'Oil & Filter Change', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 100 hours or annually. CFMOTO engine. Premium 10W-40 4T oil.' },")
+new_manus.append("        { service: 'CVT Belt Inspection', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 100 hours. Inspect CVT drive belt. Replace if glazed or cracked.' },")
+new_manus.append("        { service: 'Air Filter Cleaning', intervalMiles: 0, intervalMonths: 0, severity: 'medium', description: 'Every 50 hours off-road. Clean foam pre-filter and paper main filter.' },")
+new_manus.append("        { service: 'Gearcase Oil Change', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 100 hours. Front and rear gearcase oil.' },")
+new_manus.append("        { service: 'Brake Fluid Flush', intervalMiles: 0, intervalMonths: 12, severity: 'medium', description: 'Every 2 years. DOT 4.' },")
+new_manus.append("        { service: 'Spark Plugs', intervalMiles: 0, intervalMonths: 0, severity: 'medium', description: 'Every 200 hours. NGK spark plugs.' },")
+new_manus.append("        { service: 'Coolant Exchange', intervalMiles: 0, intervalMonths: 24, severity: 'medium', description: 'Every 2 years. CFMOTO Long Life Coolant.' },")
+new_manus.append("        { service: 'Inspection', intervalMiles: 0, intervalMonths: 0, severity: 'low', description: 'Every 50 hours. Check suspension, tires, steering, and safety systems.' },")
+new_manus.append("      ],")
+new_manus.append("      uforce: 'cfmoto.zforce', 'cforce': 'cfmoto.zforce'")
+new_manus.append('    }')
+new_manus.append('  },')
+
+new_manus.append('  hisun: {')
+new_manus.append("    specs: { oil: { viscosity: '10W-40', type: 'Hisun 4-Stroke Engine Oil', capacity: '2.0 qt' }, transmission: { type: 'Hisun CVT / Gearcase' }, coolant: { type: 'Hisun Long Life Coolant' }, brakeFluid: { type: 'DOT 4' }, tirePressure: { psi: 10 }, battery: { groupSize: 'Group 16' }, cvt: { note: 'CVT belt drive' } },")
+new_manus.append('    models: {')
+new_manus.append("      sector: [")
+new_manus.append("        { service: 'Oil & Filter Change', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 100 hours or annually. Hisun 4-stroke engine. 10W-40 oil.' },")
+new_manus.append("        { service: 'CVT Belt Inspection', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 100 hours. Inspect CVT belt for glazing and wear.' },")
+new_manus.append("        { service: 'Air Filter Cleaning', intervalMiles: 0, intervalMonths: 0, severity: 'medium', description: 'Every 50 hours in dusty conditions. Clean foam pre-filter.' },")
+new_manus.append("        { service: 'Gearcase Oil Change', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 100 hours. Front and rear gearcase oil for 4WD models.' },")
+new_manus.append("        { service: 'Brake Fluid Flush', intervalMiles: 0, intervalMonths: 12, severity: 'medium', description: 'Every 2 years. DOT 4.' },")
+new_manus.append("        { service: 'Spark Plugs', intervalMiles: 0, intervalMonths: 0, severity: 'medium', description: 'Every 200 hours. Standard spark plug.' },")
+new_manus.append("        { service: 'Coolant Exchange', intervalMiles: 0, intervalMonths: 24, severity: 'medium', description: 'Every 2 years. Hisun Long Life Coolant.' },")
+new_manus.append("        { service: 'Inspection', intervalMiles: 0, intervalMonths: 0, severity: 'low', description: 'Every 50 hours. Check drivetrain, suspension, tires, and safety systems.' },")
+new_manus.append("      ],")
+new_manus.append("      axis: 'hisun.sector', 'tacker': 'hisun.sector', 'hamer': 'hisun.sector',")
+new_manus.append("      'trailblazer': 'hisun.sector', 'mega 500': 'hisun.sector'")
+new_manus.append('    }')
+new_manus.append('  },')
+
+block = '\n'.join(new_manus) + '\n\n'
+
+# Find position to insert (before lincoln)
+lincoln_pos = content.find("// --- Ford cross-references (Lincoln) ---")
+if lincoln_pos < 0:
+    print("ERROR: lincoln not found")
+else:
+    # Find the last "  },\n" before lincoln and insert after it
+    new_content = content[:lincoln_pos] + block + content[lincoln_pos:]
+    with open("/home/team/shared/myautolog-app/src/data/maintenance-schedules.js", "w") as f:
+        f.write(new_content)
+    print("SUCCESS: Added polaris, can-am, cfmoto, hisun")

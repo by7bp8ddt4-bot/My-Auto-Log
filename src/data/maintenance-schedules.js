@@ -391,45 +391,59 @@ export const MAINTENANCE_SCHEDULES = {
         { service: 'Inspection', intervalMiles: 0, intervalMonths: 0, severity: 'low', description: 'Every 250 hours. Full inspection of belts, hoses, controls.' },
       ],
       '5r': 'john-deere.6r', '7r': 'john-deere.6r', '8r': 'john-deere.6r',
-      '9r': 'john-deere.6r'
-    }
-  },
-  kubota: {
-    specs: { oil: { viscosity: '10W-30', type: 'Kubota UDT / Super UDT', capacity: '3.5 gal' }, transmission: { type: 'Kubota Super UDT2' }, coolant: { type: 'Kubota Long Life Coolant' },
-      fuelFilters: { type: 'Kubota original' }, oilFilters: { type: 'Kubota original' },
-      airFilter: { type: 'Kubota heavy-duty dry' }, battery: { groupSize: 'Group 27' } },
-    models: {
-      'lx3310': [
-        { service: 'Oil & Filter Change', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 200 hours. Kubota UDT or Super UDT 10W-30.' },
-        { service: 'Fuel Filter Replacement', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 400 hours. Replace Kubota original fuel filter.' },
-        { service: 'Transmission Fluid Change', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 400 hours. Kubota Super UDT2 hydraulic/transmission fluid.' },
-        { service: 'Coolant Exchange', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 2000 hours. Kubota Long Life Coolant.' },
-        { service: 'Air Filter Replacement', intervalMiles: 0, intervalMonths: 0, severity: 'medium', description: 'Every 400 hours or when indicator shows restricted.' },
+      '9r': 'john-deere.6r',
+      '3038e': [
+        { service: 'Oil & Filter Change', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 200 hours. John Deere Plus-50 II 15W-40. Compact tractor needs fresh oil.' },
+        { service: 'Fuel Filter Replacement', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 400 hours. Replace fuel filter. Diesel fuel quality matters.' },
+        { service: 'Hydraulic Oil Change', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 1000 hours. John Deere Hy-Gard hydraulic/transmission oil.' },
+        { service: 'Air Filter Cleaning', intervalMiles: 0, intervalMonths: 0, severity: 'medium', description: 'Every 100 hours. Clean foam pre-filter more often in dusty conditions.' },
+        { service: 'Coolant Exchange', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 2000 hours or 3 years. Cool-Gard II.' },
         { service: 'Battery Check', intervalMiles: 0, intervalMonths: 6, severity: 'low', description: 'Check terminals and charge every 6 months.' },
-        { service: 'Inspection', intervalMiles: 0, intervalMonths: 0, severity: 'low', description: 'Every 200 hours. Check belts, hoses, fluid levels.' },
+        { service: 'Inspection', intervalMiles: 0, intervalMonths: 0, severity: 'low', description: 'Every 200 hours. Check belts, hoses, PTO, and 3-point hitch.' },
       ],
-      'l4701': 'kubota.lx3310', 'mx5200': 'kubota.lx3310',
-      'b2601': 'kubota.lx3310', 'z700': 'kubota.lx3310'
+      '3046r': 'john-deere.3038e', '4044m': 'john-deere.3038e', '4066r': 'john-deere.3038e',
+      '5055e': 'john-deere.3038e', '5065e': 'john-deere.3038e', '5075e': 'john-deere.3038e',
+      'gator 825i': [
+        { service: 'Oil & Filter Change', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 100 hours or annually. John Deere Plus-50 II 15W-40.' },
+        { service: 'Air Filter Cleaning', intervalMiles: 0, intervalMonths: 0, severity: 'medium', description: 'Every 50 hours in dusty conditions. Clean foam and paper filters.' },
+        { service: 'Fuel Filter Replacement', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 200 hours. Replace Gator fuel filter.' },
+        { service: 'Transmission Fluid Change', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 400 hours. John Deere Hy-Gard transmission/hydraulic oil.' },
+        { service: 'Brake Fluid Flush', intervalMiles: 0, intervalMonths: 12, severity: 'medium', description: 'Every 2 years. DOT 4 brake fluid.' },
+        { service: 'Coolant Exchange', intervalMiles: 0, intervalMonths: 24, severity: 'medium', description: 'Every 2 years. Cool-Gard II extended life.' },
+        { service: 'Spark Plugs', intervalMiles: 0, intervalMonths: 0, severity: 'medium', description: 'Every 300 hours. NGK spark plugs for Kawasaki gasoline engine.' },
+        { service: 'Inspection', intervalMiles: 0, intervalMonths: 0, severity: 'low', description: 'Every 100 hours. Check belts, tires, steering, and brakes.' },
+      ],
+      'xuv 835': 'john-deere.gator 825i', 'xuv 845': 'john-deere.gator 825i', 'xuv 855': 'john-deere.gator 825i'
     }
   },
-  yanmar: {
-    specs: { oil: { viscosity: '15W-40', type: 'Diesel Engine Oil CF-4/CH-4', capacity: '4.0 gal' }, transmission: { type: 'ZF Marine / Yanmar KM series' }, coolant: { type: 'Yanmar Long Life Coolant' },
-      fuelFilters: { type: 'Yanmar Y-1001 primary / Y-1002 secondary' }, oilFilters: { type: 'Yanmar Y-2001' },
-      zincAnodes: { note: 'Inspect annually' }, impeller: { note: 'Raw water pump impeller' } },
+
+  'new-holland': {
+    specs: { oil: { viscosity: '15W-40', type: 'New Holland NH 300 / Ambra Master', capacity: '5.0 gal' }, transmission: { type: 'New Holland Multi-G / Hydraulic Oil' }, coolant: { type: 'New Holland Extended Life' },
+      fuelFilters: { type: 'New Holland original' }, oilFilters: { type: 'New Holland original' },
+      airFilter: { type: 'New Holland heavy-duty' }, battery: { groupSize: 'Group 94R' }, tirePressure: { psi: 28 } },
     models: {
-      '4jh': [
-        { service: 'Oil & Filter Change', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 250 hours. Diesel engine oil CF-4/CH-4 15W-40.' },
-        { service: 'Fuel Filter Replacement', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 500 hours. Replace primary and secondary Yanmar fuel filters.' },
-        { service: 'Coolant Exchange', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 2000 hours or 2 years. Yanmar Long Life Coolant.' },
-        { service: 'Raw Water Impeller', intervalMiles: 0, intervalMonths: 12, severity: 'high', description: 'Replace annually. Critical for saltwater cooling.' },
-        { service: 'Zinc Anode Replacement', intervalMiles: 0, intervalMonths: 6, severity: 'medium', description: 'Inspect every 6 months. Replace if 50% consumed.' },
-        { service: 'Valve Adjustment', intervalMiles: 0, intervalMonths: 0, severity: 'medium', description: 'Every 1000 hours. Check and adjust valve clearance.' },
-        { service: 'Inspection', intervalMiles: 0, intervalMonths: 0, severity: 'low', description: 'Every 250 hours. Check seawater system, hoses, belts.' },
+      'workmaster': [
+        { service: 'Oil & Filter Change', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 200 hours. New Holland NH 300 15W-40 diesel oil.' },
+        { service: 'Fuel Filter Replacement', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 400 hours. Replace primary and secondary fuel filters.' },
+        { service: 'Hydraulic Oil Change', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 1000 hours. New Holland Multi-G hydraulic/transmission oil.' },
+        { service: 'Air Filter Replacement', intervalMiles: 0, intervalMonths: 0, severity: 'medium', description: 'Every 500 hours or when indicator shows restricted.' },
+        { service: 'Coolant Exchange', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 2000 hours or 3 years. New Holland Extended Life Coolant.' },
+        { service: 'Battery Check', intervalMiles: 0, intervalMonths: 6, severity: 'low', description: 'Check terminals, charge, and electrolyte levels every 6 months.' },
+        { service: 'Inspection', intervalMiles: 0, intervalMonths: 0, severity: 'low', description: 'Every 200 hours. Check PTO, 3-point hitch, belts, hoses, and tires.' },
       ],
-      '3ym30': 'yanmar.4jh', '4jh5': 'yanmar.4jh', '6lp': 'yanmar.4jh',
-      '6ly': 'yanmar.4jh'
+      'boomer': 'new-holland.workmaster', 't4': 'new-holland.workmaster', 't6': 'new-holland.workmaster',
+      'tc33d': [
+        { service: 'Oil & Filter Change', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 150 hours. New Holland Ambra Master 15W-40. Compact diesel.' },
+        { service: 'Fuel Filter Replacement', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 300 hours. Replace fuel filter and water separator.' },
+        { service: 'Hydraulic Oil Change', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 600 hours. New Holland hydraulic oil for compact tractors.' },
+        { service: 'Air Filter Cleaning', intervalMiles: 0, intervalMonths: 0, severity: 'medium', description: 'Every 100 hours. Clean foam pre-filter.' },
+        { service: 'Coolant Exchange', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 1500 hours or 2 years. New Holland Extended Life Coolant.' },
+        { service: 'Battery Check', intervalMiles: 0, intervalMonths: 6, severity: 'low', description: 'Check terminals and charge every 6 months.' },
+        { service: 'Inspection', intervalMiles: 0, intervalMonths: 0, severity: 'low', description: 'Every 150 hours. Check belts, hoses, and safety systems.' },
+      ]
     }
   },
+
   hyster: {
     specs: { oil: { viscosity: '15W-40', type: 'Diesel Engine Oil CF-4/CH-4', capacity: '3.0 gal' }, transmission: { type: 'Hyster Powershift / Hydrostatic' }, coolant: { type: 'Universal OAT' },
       fuelFilters: { type: 'Hyster original' }, oilFilters: { type: 'Hyster original' },
@@ -837,7 +851,126 @@ export const MAINTENANCE_SCHEDULES = {
     }
   },
 
-  // --- Ford cross-references (Lincoln) ---
+  ducati: {
+    specs: { oil: { viscosity: '15W-50', type: 'Ducati Full Synthetic Eni i-Ride', capacity: '3.4 qt' }, transmission: { type: 'Ducati 15W-50 (shared with engine)' }, brakeFluid: { type: 'DOT 4' }, tirePressure: { psi: 33 }, battery: { groupSize: 'Group 12' }, chain: { type: '525/520 O-ring chain' }, desmo: { note: 'Desmodromic valve system — special service required' } },
+    models: {
+      monster: [
+        { service: 'Oil & Filter Change', intervalMiles: 7500, intervalMonths: 12, severity: 'high', description: 'Ducati Testastretta engine. Eni i-Ride 15W-50 full synthetic.' },
+        { service: 'Chain Lube & Adjustment', intervalMiles: 600, intervalMonths: 0, severity: 'medium', description: 'Every 600 miles. 525 chain needs regular attention.' },
+        { service: 'Brake Fluid Flush', intervalMiles: 15000, intervalMonths: 12, severity: 'medium', description: 'DOT 4. Ducati brakes are high-performance.' },
+        { service: 'Desmo Service (Valve Check)', intervalMiles: 15000, intervalMonths: 24, severity: 'high', description: 'Ducati Desmodromic valve adjustment. Dealer-only job.' },
+        { service: 'Spark Plugs', intervalMiles: 24000, intervalMonths: 24, severity: 'medium', description: 'NGK Iridium plugs. Critical for Ducati twin performance.' },
+        { service: 'Coolant Exchange', intervalMiles: 30000, intervalMonths: 48, severity: 'medium', description: 'Ducati specific coolant.' },
+        { service: 'Tire Inspection', intervalMiles: 3000, intervalMonths: 0, severity: 'low', description: 'Sport tires wear fast. Check tread and pressure.' },
+      ],
+      panigale: 'ducati.monster', multistrada: 'ducati.monster',
+      'streetfighter': 'ducati.monster', supersport: 'ducati.monster', scrambler: 'ducati.monster'
+    }
+  },
+  ktm: {
+    specs: { oil: { viscosity: '10W-50', type: 'Motorex Power Synt 4T', capacity: '3.0 qt' }, transmission: { type: 'KTM 10W-50 (shared with engine)' }, brakeFluid: { type: 'DOT 4' }, tirePressure: { psi: 32 }, battery: { groupSize: 'Group 12' }, chain: { type: '520 O-ring chain' } },
+    models: {
+      '390 duke': [
+        { service: 'Oil & Filter Change', intervalMiles: 4500, intervalMonths: 6, severity: 'high', description: 'KTM single-cylinder LC4c engine. Motorex 10W-50. Ready to Race.' },
+        { service: 'Chain Lube & Adjustment', intervalMiles: 500, intervalMonths: 0, severity: 'medium', description: 'Every 500 miles. 520 O-ring chain needs care.' },
+        { service: 'Brake Fluid Flush', intervalMiles: 15000, intervalMonths: 12, severity: 'medium', description: 'DOT 4. BYBRE brakes need fresh fluid.' },
+        { service: 'Spark Plugs', intervalMiles: 18000, intervalMonths: 24, severity: 'medium', description: 'NGK Iridium plug for single-cylinder.' },
+        { service: 'Valve Clearance Check', intervalMiles: 18000, intervalMonths: 24, severity: 'high', description: 'KTM recommends valve check every 18k miles.' },
+        { service: 'Coolant Exchange', intervalMiles: 30000, intervalMonths: 48, severity: 'medium', description: 'KTM specific coolant. Single-cylinders run hot.' },
+        { service: 'Air Filter Cleaning', intervalMiles: 6000, intervalMonths: 12, severity: 'low', description: 'Clean foam air filter every 6k miles.' },
+      ],
+      '1290 super adventure': 'ktm.390 duke',
+      '890 adventure': 'ktm.390 duke', '790 adventure': 'ktm.390 duke',
+      'rc 390': 'ktm.390 duke', '250 duke': 'ktm.390 duke'
+    }
+  },
+  triumph: {
+    specs: { oil: { viscosity: "10W-40", type: "Triumph Full Synthetic", capacity: "3.8 qt" }, transmission: { type: "Triumph 10W-40 (shared with engine)" }, brakeFluid: { type: "DOT 4" }, tirePressure: { psi: 34 }, battery: { groupSize: "Group 12" }, chain: { type: "525/530 O-ring chain" } },
+    models: {
+      bonneville: [
+        { service: "Oil & Filter Change", intervalMiles: 6000, intervalMonths: 12, severity: "high", description: "Triumph Bonneville parallel twin. 10W-40 full synthetic." },
+        { service: "Chain Lube & Adjustment", intervalMiles: 600, intervalMonths: 0, severity: "medium", description: "Every 600 miles. 525 O-ring chain." },
+        { service: "Brake Fluid Flush", intervalMiles: 15000, intervalMonths: 12, severity: "medium", description: "DOT 4. Nissin brakes." },
+        { service: "Valve Clearance Check", intervalMiles: 12000, intervalMonths: 24, severity: "high", description: "Triumph recommends valve check every 12k miles." },
+        { service: "Spark Plugs", intervalMiles: 24000, intervalMonths: 24, severity: "medium", description: "NGK Iridium plugs." },
+        { service: "Coolant Exchange", intervalMiles: 30000, intervalMonths: 48, severity: "medium", description: "Triumph specific coolant." },
+        { service: "Tire Inspection", intervalMiles: 4000, intervalMonths: 0, severity: "low", description: "Check tire condition and pressure." },
+      ],
+      "street triple": "triumph.bonneville", tiger: "triumph.bonneville",
+      "speed triple": "triumph.bonneville", "rocket 3": "triumph.bonneville",
+      "scrambler 900": "triumph.bonneville", "trident 660": "triumph.bonneville"
+    }
+  },
+
+      polaris: {
+    specs: { oil: { viscosity: '10W-40', type: 'Polaris PS-4 Full Synthetic', capacity: '2.0 qt' }, transmission: { type: 'Polaris PVT (CVT) / Gearcase' }, coolant: { type: 'Polaris Extended Life Coolant' }, brakeFluid: { type: 'DOT 4' }, tirePressure: { psi: 14 }, battery: { groupSize: 'Group 16' }, cvt: { note: 'Polaris Variable Transmission - belt driven' } },
+    models: {
+      rzr: [
+        { service: 'Oil & Filter Change', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 100 hours or annually. Polaris ProStar engine. PS-4 10W-40 full synthetic.' },
+        { service: 'CVT Belt Inspection', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 100 hours. Inspect PVT drive belt. Off-road abuse wears belts fast.' },
+        { service: 'Air Filter Cleaning', intervalMiles: 0, intervalMonths: 0, severity: 'medium', description: 'Every 50 hours in dusty conditions. Clean foam pre-filter and main filter.' },
+        { service: 'Gearcase Oil Change', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 100 hours. Polaris gearcase oil. Front and rear differentials.' },
+        { service: 'Brake Fluid Flush', intervalMiles: 0, intervalMonths: 12, severity: 'medium', description: 'Every 2 years. DOT 4. RZR brakes work hard in mud.' },
+        { service: 'Coolant Exchange', intervalMiles: 0, intervalMonths: 24, severity: 'medium', description: 'Every 2 years. Polaris Extended Life Coolant.' },
+        { service: 'Spark Plugs', intervalMiles: 0, intervalMonths: 0, severity: 'medium', description: 'Every 200 hours. NGK Iridium plugs for ProStar engine.' },
+        { service: 'Suspension Inspection', intervalMiles: 0, intervalMonths: 0, severity: 'medium', description: 'Every 50 hours. Check A-arms, bushings, shocks. Off-road takes a toll.' },
+      ],
+      sportsman: 'polaris.rzr', ranger: 'polaris.rzr',
+      general: 'polaris.rzr', 'rzr pro': 'polaris.rzr'
+    }
+  },
+  'can-am': {
+    specs: { oil: { viscosity: '5W-40', type: 'Rotax XPS Full Synthetic', capacity: '3.5 qt' }, transmission: { type: 'Can-Am CVT (pDrive) / Gearcase' }, coolant: { type: 'Rotax XPS Coolant' }, brakeFluid: { type: 'DOT 4' }, tirePressure: { psi: 10 }, battery: { groupSize: 'Group 16' }, cvt: { note: 'Can-Am pDrive clutch system' } },
+    models: {
+      maverick: [
+        { service: 'Oil & Filter Change', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 100 hours or annually. Rotax engine. XPS 5W-40 full synthetic.' },
+        { service: 'CVT Belt Inspection', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 100 hours. Inspect pDrive belt. Mud and water kill belts.' },
+        { service: 'Air Filter Cleaning', intervalMiles: 0, intervalMonths: 0, severity: 'medium', description: 'Every 50 hours off-road. Clean foam pre-filter. Dusty conditions clog fast.' },
+        { service: 'Front & Rear Diff Oil', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 100 hours. Can-Am gearcase oil. Critical for 4WD system.' },
+        { service: 'Brake Fluid Flush', intervalMiles: 0, intervalMonths: 12, severity: 'medium', description: 'Every 2 years. DOT 4.' },
+        { service: 'Spark Plugs', intervalMiles: 0, intervalMonths: 0, severity: 'medium', description: 'Every 200 hours. NGK Iridium plugs for Rotax engine.' },
+        { service: 'Coolant Exchange', intervalMiles: 0, intervalMonths: 24, severity: 'medium', description: 'Every 2 years. Rotax XPS coolant.' },
+        { service: 'Suspension Check', intervalMiles: 0, intervalMonths: 0, severity: 'medium', description: 'Every 50 hours. Check Fox shocks, A-arms, and trailing arms.' },
+      ],
+      outlander: 'can-am.maverick', renegade: 'can-am.maverick',
+      defender: 'can-am.maverick', commander: 'can-am.maverick'
+    }
+  },
+  cfmoto: {
+    specs: { oil: { viscosity: '10W-40', type: 'CFMOTO Premium 4T', capacity: '2.0 qt' }, transmission: { type: 'CFMOTO CVT / Gearcase' }, coolant: { type: 'CFMOTO Long Life Coolant' }, brakeFluid: { type: 'DOT 4' }, tirePressure: { psi: 10 }, battery: { groupSize: 'Group 16' }, cvt: { note: 'CVT belt drive' } },
+    models: {
+      zforce: [
+        { service: 'Oil & Filter Change', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 100 hours or annually. CFMOTO engine. Premium 10W-40 4T oil.' },
+        { service: 'CVT Belt Inspection', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 100 hours. Inspect CVT drive belt. Replace if glazed or cracked.' },
+        { service: 'Air Filter Cleaning', intervalMiles: 0, intervalMonths: 0, severity: 'medium', description: 'Every 50 hours off-road. Clean foam pre-filter and paper main filter.' },
+        { service: 'Gearcase Oil Change', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 100 hours. Front and rear gearcase oil.' },
+        { service: 'Brake Fluid Flush', intervalMiles: 0, intervalMonths: 12, severity: 'medium', description: 'Every 2 years. DOT 4.' },
+        { service: 'Spark Plugs', intervalMiles: 0, intervalMonths: 0, severity: 'medium', description: 'Every 200 hours. NGK spark plugs.' },
+        { service: 'Coolant Exchange', intervalMiles: 0, intervalMonths: 24, severity: 'medium', description: 'Every 2 years. CFMOTO Long Life Coolant.' },
+        { service: 'Inspection', intervalMiles: 0, intervalMonths: 0, severity: 'low', description: 'Every 50 hours. Check suspension, tires, steering, and safety systems.' },
+      ],
+      uforce: 'cfmoto.zforce', 'cforce': 'cfmoto.zforce'
+    }
+  },
+  hisun: {
+    specs: { oil: { viscosity: '10W-40', type: 'Hisun 4-Stroke Engine Oil', capacity: '2.0 qt' }, transmission: { type: 'Hisun CVT / Gearcase' }, coolant: { type: 'Hisun Long Life Coolant' }, brakeFluid: { type: 'DOT 4' }, tirePressure: { psi: 10 }, battery: { groupSize: 'Group 16' }, cvt: { note: 'CVT belt drive' } },
+    models: {
+      sector: [
+        { service: 'Oil & Filter Change', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 100 hours or annually. Hisun 4-stroke engine. 10W-40 oil.' },
+        { service: 'CVT Belt Inspection', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 100 hours. Inspect CVT belt for glazing and wear.' },
+        { service: 'Air Filter Cleaning', intervalMiles: 0, intervalMonths: 0, severity: 'medium', description: 'Every 50 hours in dusty conditions. Clean foam pre-filter.' },
+        { service: 'Gearcase Oil Change', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 100 hours. Front and rear gearcase oil for 4WD models.' },
+        { service: 'Brake Fluid Flush', intervalMiles: 0, intervalMonths: 12, severity: 'medium', description: 'Every 2 years. DOT 4.' },
+        { service: 'Spark Plugs', intervalMiles: 0, intervalMonths: 0, severity: 'medium', description: 'Every 200 hours. Standard spark plug.' },
+        { service: 'Coolant Exchange', intervalMiles: 0, intervalMonths: 24, severity: 'medium', description: 'Every 2 years. Hisun Long Life Coolant.' },
+        { service: 'Inspection', intervalMiles: 0, intervalMonths: 0, severity: 'low', description: 'Every 50 hours. Check drivetrain, suspension, tires, and safety systems.' },
+      ],
+      axis: 'hisun.sector', 'tacker': 'hisun.sector', 'hamer': 'hisun.sector',
+      'trailblazer': 'hisun.sector', 'mega 500': 'hisun.sector'
+    }
+  },
+
+// --- Ford cross-references (Lincoln) ---
   lincoln: {
     specs: { oil: { viscosity: '5W-20', type: 'Ford Motorcraft Full Synthetic', capacity: '6.0 qt' }, transmission: { type: 'Mercon LV', capacity: '4.0 qt' }, coolant: { type: 'Motorcraft Orange' }, brakeFluid: { type: 'DOT 4' }, tirePressure: { psi: 36 }, sparkPlugs: { type: 'Iridium', gap: '0.049 in' }, battery: { groupSize: 'Group 65' } },
     models: {
