@@ -6,6 +6,7 @@ import VehicleList from './components/VehicleList.jsx';
 import MaintenanceLog from './components/MaintenanceLog.jsx';
 import RemindersPage from './components/RemindersPage.jsx';
 import DocumentsPage from './components/DocumentsPage.jsx';
+import WiringDiagramsPage from './components/WiringDiagramsPage.jsx';
 import PremiumPaywall from './components/PremiumPaywall.jsx';
 import Settings from './components/Settings.jsx';
 import SyncIndicator from './components/SyncIndicator.jsx';
@@ -599,6 +600,11 @@ export default function App() {
     documents: <DocumentsPage
       vehicles={vehiclesStore.data}
       onNavigate={navigate}
+    />,
+    wiring: <WiringDiagramsPage
+      vehicles={vehiclesStore.data}
+      onNavigate={navigate}
+      isPremium={premium}
     />,
     subscription: <SubscriptionManagement
       userId={auth.user?.id}

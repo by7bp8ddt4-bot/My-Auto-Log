@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import logoImg from '/assets/logo.png';
 import iconImg from '/assets/icon-1024.png';
-import { LayoutDashboard, Car, ClipboardList, Bell, Settings, LogOut, ChevronRight, Calendar, Fuel, Wrench, Grid3X3, X, FileText } from 'lucide-react';
+import { LayoutDashboard, Car, ClipboardList, Bell, Settings, LogOut, ChevronRight, Calendar, Fuel, Wrench, Grid3X3, X, FileText, GitMerge } from 'lucide-react';
 import MechanicalBackground from './MechanicalBackground.jsx';
 
 const allNavItems = [
@@ -12,6 +12,7 @@ const allNavItems = [
   { id: 'logs', label: 'Service Logs', icon: ClipboardList },
   { id: 'mods', label: 'Performance Mods', icon: Wrench },
   { id: 'documents', label: 'Documents', icon: FileText },
+  { id: 'wiring', label: 'Wiring Diagrams', icon: GitMerge },
   { id: 'reminders', label: 'Reminders', icon: Bell },
 ];
 
@@ -20,7 +21,7 @@ const primaryNavItems = allNavItems.filter(i =>
   ['dashboard', 'vehicles', 'schedule', 'logs'].includes(i.id)
 );
 const moreNavItems = allNavItems.filter(i =>
-  ['fuel', 'mods', 'documents', 'reminders'].includes(i.id)
+  ['fuel', 'mods', 'documents', 'wiring', 'reminders'].includes(i.id)
 );
 
 export default function Layout({ currentPage, onNavigate, onLogout, children }) {
