@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import logoImg from '/assets/logo.png';
 import iconImg from '/assets/icon-1024.png';
-import { LayoutDashboard, Car, ClipboardList, Bell, Settings, LogOut, ChevronRight, Calendar, Fuel, Wrench, Grid3X3, X, FileText, GitMerge } from 'lucide-react';
+import { LayoutDashboard, Car, ClipboardList, Bell, Settings, LogOut, ChevronRight, Calendar, Fuel, Wrench, Grid3X3, X, FileText, GitGraph } from 'lucide-react';
 import MechanicalBackground from './MechanicalBackground.jsx';
 
 const allNavItems = [
@@ -12,7 +12,7 @@ const allNavItems = [
   { id: 'logs', label: 'Service Logs', icon: ClipboardList },
   { id: 'mods', label: 'Performance Mods', icon: Wrench },
   { id: 'documents', label: 'Documents', icon: FileText },
-  { id: 'wiring', label: 'Wiring Diagrams', icon: GitMerge },
+  { id: 'wiring', label: 'Wiring Diagrams', icon: GitGraph },
   { id: 'reminders', label: 'Reminders', icon: Bell },
 ];
 

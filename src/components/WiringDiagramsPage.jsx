@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 import {
-  GitMerge, Image, Plus, X, Trash2, Search, ChevronRight, ZoomIn, ZoomOut, Maximize
+  GitGraph, Image, Plus, X, Trash2, Search, ChevronRight, ZoomIn, ZoomOut, Maximize
 } from 'lucide-react';
 import { formatDate, generateId } from '../utils/helpers';
 
