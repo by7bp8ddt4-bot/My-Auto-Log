@@ -403,6 +403,17 @@ export const MAINTENANCE_SCHEDULES = {
       ],
       '3046r': 'john-deere.3038e', '4044m': 'john-deere.3038e', '4066r': 'john-deere.3038e',
       '5055e': 'john-deere.3038e', '5065e': 'john-deere.3038e', '5075e': 'john-deere.3038e',
+      '3032e': 'john-deere.3038e',
+      '4105': [
+        { service: 'Oil & Filter Change', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 250 hours. John Deere Plus-50 II 15W-40. Utility tractor.' },
+        { service: 'Fuel Filter Replacement', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 500 hours. Replace primary and secondary fuel filters.' },
+        { service: 'Hydraulic Oil Change', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 1200 hours. John Deere Hy-Gard hydraulic/transmission oil.' },
+        { service: 'Air Filter Replacement', intervalMiles: 0, intervalMonths: 0, severity: 'medium', description: 'Every 500 hours or when indicator shows restricted.' },
+        { service: 'Coolant Exchange', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 2000 hours or 3 years. Cool-Gard II.' },
+        { service: 'Battery Check', intervalMiles: 0, intervalMonths: 6, severity: 'low', description: 'Check terminals and charge every 6 months.' },
+        { service: 'Inspection', intervalMiles: 0, intervalMonths: 0, severity: 'low', description: 'Every 250 hours. Check belts, hoses, PTO, and 3-point hitch.' },
+      ],
+      '4120': 'john-deere.4105',
       'gator 825i': [
         { service: 'Oil & Filter Change', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 100 hours or annually. John Deere Plus-50 II 15W-40.' },
         { service: 'Air Filter Cleaning', intervalMiles: 0, intervalMonths: 0, severity: 'medium', description: 'Every 50 hours in dusty conditions. Clean foam and paper filters.' },
@@ -413,7 +424,8 @@ export const MAINTENANCE_SCHEDULES = {
         { service: 'Spark Plugs', intervalMiles: 0, intervalMonths: 0, severity: 'medium', description: 'Every 300 hours. NGK spark plugs for Kawasaki gasoline engine.' },
         { service: 'Inspection', intervalMiles: 0, intervalMonths: 0, severity: 'low', description: 'Every 100 hours. Check belts, tires, steering, and brakes.' },
       ],
-      'xuv 835': 'john-deere.gator 825i', 'xuv 845': 'john-deere.gator 825i', 'xuv 855': 'john-deere.gator 825i'
+      'xuv 835': 'john-deere.gator 825i', 'xuv 845': 'john-deere.gator 825i', 'xuv 855': 'john-deere.gator 825i',
+      'gator 825m': 'john-deere.gator 825i'
     }
   },
 
