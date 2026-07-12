@@ -39,7 +39,8 @@ export default function Layout({ currentPage, onNavigate, onLogout, children }) 
             <img src={iconImg} alt="MTXtrkr" className="w-8 h-8 rounded-lg" />
             <div>
               <img src={logoImg} alt="MTXtrkr" className="h-5 hidden sm:block" />
-              <span className="text-[9px] text-slate-500 italic hidden sm:block -mt-0.5">MaintenX Tracker</span>
+              <span className="text-[9px] text-slate-500 italic hidden sm:block -mt-0.5">Maintenance Tracker</span>
+              <span className="text-[8px] text-slate-600 italic hidden sm:block">— Your Owner's Manual Simplified</span>
             </div>
             <span className="font-bold text-lg tracking-tight sm:hidden">
               <span className="text-white">MTX</span>

@@ -29,7 +29,10 @@ export default function LandingPage({ onGetStarted, onViewPremium }) {
                 MTXtrkr
               </h2>
               <p className="text-lg sm:text-xl text-slate-400 italic mt-1">
-                MaintenX Tracker
+                Maintenance Tracker
+              </p>
+              <p className="text-sm sm:text-base text-slate-500 italic">
+                — Your Owner's Manual Simplified
               </p>
             </div>
 
