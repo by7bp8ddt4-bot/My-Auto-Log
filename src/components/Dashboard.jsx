@@ -777,7 +777,7 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
             className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-semibold shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:scale-[1.01] transition-all duration-200"
           >
             <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="2" y="2" width="20" height="16" rx="2"/><path d="M22 6l-10 7L2 6"/></svg>
-            Issues? Contact our engineering team
+            Issues? Contact Support
           </button>
         </div>
       ) : null}
