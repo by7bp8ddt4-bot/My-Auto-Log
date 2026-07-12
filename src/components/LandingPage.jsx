@@ -36,19 +36,19 @@ export default function LandingPage({ onGetStarted, onViewPremium }) {
       {/* Absolutely Positioned Schematic Artwork - Prominent, staggered side-to-side mechanical schematics */}
       <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
         {/* Graphic 1: Rotary Assembly / Dial - Top Right behind Hero */}
-        <SchematicDial className="absolute top-[3%] -right-24 sm:right-0 lg:right-16 xl:right-32 w-72 h-72 sm:w-[420px] sm:h-[420px] opacity-40 sm:opacity-50 hover:opacity-75 hover:scale-[1.03] transition-all duration-700" />
+        <SchematicDial className="absolute top-[3%] right-0 sm:right-0 lg:right-16 xl:right-32 w-48 h-48 sm:w-[420px] sm:h-[420px] opacity-50 sm:opacity-50 hover:opacity-75 hover:scale-[1.03] transition-all duration-700" />
 
         {/* Graphic 1b: Interlocking Gear Train - Left Upper Section */}
-        <GearTrainSchematic className="absolute top-[16%] -left-32 sm:-left-20 lg:left-0 xl:left-12 w-72 h-auto opacity-40 sm:opacity-50 hover:opacity-75 hover:scale-[1.03] transition-all duration-700" />
+        <GearTrainSchematic className="absolute top-[16%] left-0 sm:-left-20 lg:left-0 xl:left-12 w-48 h-auto sm:w-72 opacity-50 sm:opacity-50 hover:opacity-75 hover:scale-[1.03] transition-all duration-700" />
 
         {/* Graphic 2: Combustion Cylinder - Right margin behind Features */}
-        <CylinderSchematic className="absolute top-[32%] -right-32 sm:-right-20 lg:right-0 xl:right-12 w-64 h-auto opacity-40 sm:opacity-50 hover:opacity-75 hover:scale-[1.03] transition-all duration-700" />
+        <CylinderSchematic className="absolute top-[32%] right-0 sm:-right-20 lg:right-0 xl:right-12 w-48 h-auto sm:w-64 opacity-50 sm:opacity-50 hover:opacity-75 hover:scale-[1.03] transition-all duration-700" />
 
         {/* Graphic 3: Coil Spring Suspension - Left margin behind Lease Section */}
-        <SuspensionSchematic className="absolute top-[52%] -left-32 sm:-left-20 lg:left-0 xl:left-12 w-64 h-auto opacity-40 sm:opacity-50 hover:opacity-75 hover:scale-[1.03] transition-all duration-700" />
+        <SuspensionSchematic className="absolute top-[52%] left-0 sm:-left-20 lg:left-0 xl:left-12 w-48 h-auto sm:w-64 opacity-50 sm:opacity-50 hover:opacity-75 hover:scale-[1.03] transition-all duration-700" />
 
         {/* Graphic 4: AWD Drivetrain Layout - Right margin behind Testimonials/FAQ */}
-        <DrivetrainSchematic className="absolute top-[72%] -right-32 sm:-right-20 lg:right-0 xl:right-12 w-64 h-auto opacity-40 sm:opacity-50 hover:opacity-75 hover:scale-[1.03] transition-all duration-700" />
+        <DrivetrainSchematic className="absolute top-[72%] right-0 sm:-right-20 lg:right-0 xl:right-12 w-48 h-auto sm:w-64 opacity-50 sm:opacity-50 hover:opacity-75 hover:scale-[1.03] transition-all duration-700" />
       </div>
 
       {/* Landing Page Content is wrapped in relative z-10 container to stay on top */}
