@@ -1040,6 +1040,67 @@ export const MAINTENANCE_SCHEDULES = {
       'j30': 'hyster-e.e30', 'j40': 'hyster-e.e30', 'j50': 'hyster-e.e30'
     }
   },
+,
+  'yamaha-waverunner': {
+    specs: { oil: { type: 'Yamalube 4W (2-stroke) or Yamalube 4M (4-stroke)', capacity: '1.0 gal' }, sparkPlugs: { type: 'NGK Iridium' }, battery: { groupSize: 'Marine Group 24' } },
+    models: {
+      'fx-series': [
+        { service: 'Oil Change', intervalMiles: 0, intervalHours: 100, intervalMonths: 12, severity: 'medium', description: 'Use Yamalube 4W or 4M as specified for your engine.' },
+        { service: 'Spark Plugs', intervalMiles: 0, intervalHours: 200, intervalMonths: 24, severity: 'medium', description: 'Replace with NGK Iridium plugs for best performance.' },
+        { service: 'Jet Pump Inspection', intervalMiles: 0, intervalHours: 100, intervalMonths: 12, severity: 'high', description: 'Check for debris, wear, and proper clearance.' },
+        { service: 'Impeller Check', intervalMiles: 0, intervalHours: 200, intervalMonths: 24, severity: 'medium', description: 'Inspect for pitting, cavitation damage, and wear.' },
+        { service: 'Battery Check', intervalMiles: 0, intervalHours: 0, intervalMonths: 6, severity: 'medium', description: 'Test voltage, clean terminals, and top up water levels.' },
+        { service: 'Carbon Seal Inspection', intervalMiles: 0, intervalHours: 100, intervalMonths: 12, severity: 'high', description: 'Prevents water ingress into the hull.' },
+        { service: 'Coolant Exchange', intervalMiles: 0, intervalHours: 200, intervalMonths: 24, severity: 'high', description: 'Required for supercharged models — prevents overheating.' },
+      ],
+      'vx-series': 'fx-series',
+      'gp-series': 'fx-series',
+      'ex-series': 'fx-series',
+      superjet: [
+        { service: 'Oil Change', intervalMiles: 0, intervalHours: 100, intervalMonths: 12, severity: 'medium', description: 'Stand-up models need regular oil changes too.' },
+        { service: 'Spark Plugs', intervalMiles: 0, intervalHours: 200, intervalMonths: 24, severity: 'medium', description: 'Keep fresh plugs for quick starts.' },
+        { service: 'Jet Pump Inspection', intervalMiles: 0, intervalHours: 100, intervalMonths: 12, severity: 'high', description: 'Inspect for wear and debris in the pump.' },
+        { service: 'Carbon Seal Inspection', intervalMiles: 0, intervalHours: 100, intervalMonths: 12, severity: 'high', description: 'Critical for preventing water intrusion.' },
+      ],
+    },
+  },
+
+  seadoo: {
+    specs: { oil: { type: 'BRP Synthetic XPS', capacity: '1.0 gal' }, sparkPlugs: { type: 'NGK DCPR8E' }, battery: { groupSize: 'Marine Group 24' } },
+    models: {
+      gtx: [
+        { service: 'Oil Change', intervalMiles: 0, intervalHours: 100, intervalMonths: 12, severity: 'medium', description: 'Use BRP XPS synthetic oil for optimal performance.' },
+        { service: 'Spark Plugs', intervalMiles: 0, intervalHours: 100, intervalMonths: 12, severity: 'medium', description: 'NGK DCPR8E — critical for Rotax engines.' },
+        { service: 'Jet Pump Service', intervalMiles: 0, intervalHours: 100, intervalMonths: 12, severity: 'high', description: 'Grease bearings, check wear ring, inspect impeller.' },
+        { service: 'Battery Check', intervalMiles: 0, intervalHours: 0, intervalMonths: 6, severity: 'medium', description: 'Marine batteries need regular voltage checks.' },
+        { service: 'Supercharger Service', intervalMiles: 0, intervalHours: 200, intervalMonths: 24, severity: 'high', description: 'SC models only — rebuild or replace supercharger.' },
+        { service: 'Intercooler Inspection', intervalMiles: 0, intervalHours: 200, intervalMonths: 24, severity: 'medium', description: 'Check for leaks and debris in the intercooler core.' },
+      ],
+      gti: 'gtx',
+      rxp: 'gtx',
+      rxt: 'gtx',
+      wake: 'gtx',
+    },
+  },
+
+  'kawasaki-pwc': {
+    specs: { oil: { type: 'Kawasaki Performance 4-stroke', capacity: '0.8 gal' }, sparkPlugs: { type: 'NGK CR9E' }, battery: { groupSize: 'Marine Group 24' } },
+    models: {
+      ultra: [
+        { service: 'Oil Change', intervalMiles: 0, intervalHours: 100, intervalMonths: 12, severity: 'medium', description: 'Use Kawasaki Performance 4-stroke oil.' },
+        { service: 'Spark Plugs', intervalMiles: 0, intervalHours: 200, intervalMonths: 24, severity: 'medium', description: 'NGK CR9E plugs for reliable ignition.' },
+        { service: 'Jet Pump Service', intervalMiles: 0, intervalHours: 100, intervalMonths: 12, severity: 'high', description: 'Inspect impeller, wear ring, and pump bearings.' },
+        { service: 'Battery Check', intervalMiles: 0, intervalHours: 0, intervalMonths: 6, severity: 'medium', description: 'Test and maintain marine battery.' },
+        { service: 'Supercharger Service', intervalMiles: 0, intervalHours: 200, intervalMonths: 24, severity: 'high', description: 'Ultra 310 models — supercharger rebuild required.' },
+      ],
+      stx: [
+        { service: 'Oil Change', intervalMiles: 0, intervalHours: 100, intervalMonths: 12, severity: 'medium', description: 'Standard maintenance for STX models.' },
+        { service: 'Spark Plugs', intervalMiles: 0, intervalHours: 200, intervalMonths: 24, severity: 'medium', description: 'Replace with NGK CR9E.' },
+        { service: 'Jet Pump Service', intervalMiles: 0, intervalHours: 100, intervalMonths: 12, severity: 'high', description: 'Keep the pump in top shape.' },
+        { service: 'Battery Check', intervalMiles: 0, intervalHours: 0, intervalMonths: 6, severity: 'medium', description: 'Regular battery maintenance.' },
+      ],
+    },
+  },
 
   default: {
     specs: { oil: { viscosity: '5W-30', type: 'Conventional/Synthetic Blend', capacity: '5.0 qt' }, transmission: { type: "Check owner's manual" }, coolant: { type: 'Universal OAT' }, brakeFluid: { type: 'DOT 3' }, tirePressure: { psi: 34 }, sparkPlugs: { type: 'Iridium', gap: '0.044 in' }, battery: { groupSize: 'Group 35' } },
