@@ -1,7 +1,7 @@
 {
   "version": 2,
   "framework": "vite",
-  "buildCommand": "vite build",
+  "buildCommand": "NODE_OPTIONS=\"--max-old-space-size=4096\" vite build",
   "outputDirectory": "dist",
   "installCommand": "npm install",
   "rewrites": [
