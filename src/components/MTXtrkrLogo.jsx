@@ -10,7 +10,7 @@ export default function MTXtrkrLogo({ className = '' }) {
       {/* Main Logo Row: MT + Crossed Combo Wrenches X + trkr */}
       <div className="flex items-center justify-center gap-0">
         {/* "MT" */}
-        <span className="text-4xl sm:text-5xl md:text-6xl font-bold text-white tracking-tight">
+        <span className="text-4xl sm:text-5xl md:text-6xl font-bold text-zinc-400 tracking-tight">
           MT
         </span>
 
@@ -43,26 +43,26 @@ export default function MTXtrkrLogo({ className = '' }) {
             <circle cx="40" cy="68" r="6" stroke="currentColor" strokeWidth="1.5" className="text-blue-300/30" />
           </g>
 
-          {/* Combo Wrench 2 (top-right to bottom-left, -45° rotation, cyan) — forms the / of the X */}
+          {/* Combo Wrench 2 (top-right to bottom-left, -45° rotation, blue) — forms the / of the X */}
           <g transform="rotate(-45, 40, 40)">
             {/* Wrench handle */}
-            <rect x="35" y="6" width="10" height="46" rx="3" className="fill-cyan-400" />
+            <rect x="35" y="6" width="10" height="46" rx="3" className="fill-blue-400" />
             {/* Handle highlight */}
-            <rect x="38" y="8" width="2" height="42" rx="1" className="fill-cyan-300/50" />
+            <rect x="38" y="8" width="2" height="42" rx="1" className="fill-blue-300/50" />
 
             {/* Open-end jaw (top — fork shape) */}
             <path
               d="M 30 52 L 22 60 L 24 62 L 32 56 L 34 56 Z"
-              className="fill-cyan-400"
+              className="fill-blue-400"
             />
             <path
               d="M 50 52 L 58 60 L 56 62 L 48 56 L 46 56 Z"
-              className="fill-cyan-400"
+              className="fill-blue-400"
             />
 
             {/* Box-end / closed ring (bottom) */}
-            <circle cx="40" cy="68" r="12" stroke="currentColor" strokeWidth="2.5" className="text-cyan-400" />
-            <circle cx="40" cy="68" r="6" stroke="currentColor" strokeWidth="1.5" className="text-cyan-300/30" />
+            <circle cx="40" cy="68" r="12" stroke="currentColor" strokeWidth="2.5" className="text-blue-400" />
+            <circle cx="40" cy="68" r="6" stroke="currentColor" strokeWidth="1.5" className="text-blue-300/30" />
           </g>
         </svg>
 
