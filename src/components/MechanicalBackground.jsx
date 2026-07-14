@@ -298,10 +298,227 @@ export function GearTrainSchematic({ className }) {
         <text x="-55" y="-15" fill="currentColor" className="text-blue-400/40 font-mono text-[8px]" style={{ fontSize: '7px' }}>RPM_RATIO: 1.5</text>
       </g>
 
+      {/* Gear 3 (Small - Top, meshing with Gear 2) */}
+      <g transform="translate(290, 60)">
+        <circle cx="0" cy="0" r="30" stroke="currentColor" strokeWidth="1" className="text-slate-500" />
+        <circle cx="0" cy="0" r="22" stroke="currentColor" strokeWidth="0.5" strokeDasharray="2,2" className="text-slate-400" />
+        <circle cx="0" cy="0" r="10" stroke="currentColor" strokeWidth="1" className="text-slate-400" />
+        <circle cx="0" cy="0" r="4" stroke="currentColor" strokeWidth="1.5" className="text-blue-400/40" />
+        
+        {/* Gear Teeth for Gear 3 (8 teeth, offset to mesh) */}
+        {[...Array(8)].map((_, i) => {
+          const angle = ((i * 45 + 22.5) * Math.PI) / 180;
+          const x1 = 28 * Math.cos(angle);
+          const y1 = 28 * Math.sin(angle);
+          const x2 = 36 * Math.cos(angle);
+          const y2 = 36 * Math.sin(angle);
+          return <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="currentColor" strokeWidth="2.5" className="text-slate-400" />;
+        })}
+        <text x="20" y="-15" fill="currentColor" className="text-slate-400/40 font-mono text-[8px]" style={{ fontSize: '7px' }}>GEAR_03: Z=8</text>
+      </g>
+
+      {/* Gear 4 (Medium - Bottom, meshing with Gear 1) */}
+      <g transform="translate(130, 280)">
+        <circle cx="0" cy="0" r="40" stroke="currentColor" strokeWidth="1" className="text-slate-500" />
+        <circle cx="0" cy="0" r="30" stroke="currentColor" strokeWidth="0.5" strokeDasharray="3,3" className="text-slate-400" />
+        <circle cx="0" cy="0" r="14" stroke="currentColor" strokeWidth="1" className="text-slate-400" />
+        <circle cx="0" cy="0" r="5" stroke="currentColor" strokeWidth="1.5" className="text-slate-400/40" />
+        
+        {/* Gear Teeth for Gear 4 (12 teeth, offset to mesh) */}
+        {[...Array(12)].map((_, i) => {
+          const angle = ((i * 30 + 15) * Math.PI) / 180;
+          const x1 = 38 * Math.cos(angle);
+          const y1 = 38 * Math.sin(angle);
+          const x2 = 46 * Math.cos(angle);
+          const y2 = 46 * Math.sin(angle);
+          return <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="currentColor" strokeWidth="2.2" className="text-slate-400" />;
+        })}
+        <text x="25" y="5" fill="currentColor" className="text-slate-400/40 font-mono text-[8px]" style={{ fontSize: '7px' }}>GEAR_04: Z=12</text>
+      </g>
+
       {/* Meshing contact details */}
       <path d="M 194 150 L 194 130 M 194 150 L 210 150" stroke="currentColor" strokeWidth="0.5" className="text-blue-400/40" />
       <circle cx="194" cy="150" r="3" fill="currentColor" className="text-blue-400/40" />
-      <text x="182" y="120" fill="currentColor" className="text-blue-300/50 font-mono text-[7px]" style={{ fontSize: '6.5px' }}>MESH_POINT</text>
+      <text x="182" y="120" fill="currentColor" className="text-blue-300/50 font-mono text-[7px]" style={{ fontSize: '6.5px' }}>MESH_POINT_A</text>
+
+      {/* Meshing contact point for Gear 2 & Gear 3 */}
+      <circle cx="290" cy="105" r="2.5" fill="currentColor" className="text-blue-400/40" />
+      <path d="M 290 105 L 340 105 L 340 120" stroke="currentColor" strokeWidth="0.5" className="text-blue-400/40" />
+      <text x="315" y="98" fill="currentColor" className="text-blue-300/50 font-mono text-[6.5px]" style={{ fontSize: '6.5px' }}>MESH_POINT_B</text>
+
+      {/* Meshing contact point for Gear 1 & Gear 4 */}
+      <circle cx="130" cy="240" r="2.5" fill="currentColor" className="text-blue-400/40" />
+      <path d="M 130 240 L 70 240 L 70 255" stroke="currentColor" strokeWidth="0.5" className="text-blue-400/40" />
+      <text x="45" y="252" fill="currentColor" className="text-blue-300/50 font-mono text-[6.5px]" style={{ fontSize: '6.5px' }}>MESH_POINT_C</text>
+    </svg>
+  );
+}
+
+// ============================================================================
+// SCHEMATIC 6: Planetary Gear System (Complex, high density)
+// ============================================================================
+export function PlanetaryGearSchematic({ className }) {
+  return (
+    <svg className={`pointer-events-none select-none ${className}`} width="400" height="400" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+      {/* Outer Ring Gear */}
+      <g transform="translate(200, 200)">
+        <circle cx="0" cy="0" r="130" stroke="currentColor" strokeWidth="1.5" className="text-slate-500" />
+        <circle cx="0" cy="0" r="120" stroke="currentColor" strokeWidth="1" className="text-slate-400" />
+        <circle cx="0" cy="0" r="110" stroke="currentColor" strokeWidth="0.5" strokeDasharray="3,3" className="text-slate-400" />
+        
+        {/* Ring Gear Internal Teeth (36 teeth) */}
+        {[...Array(36)].map((_, i) => {
+          const angle = (i * 10 * Math.PI) / 180;
+          const x1 = 110 * Math.cos(angle);
+          const y1 = 110 * Math.sin(angle);
+          const x2 = 120 * Math.cos(angle);
+          const y2 = 120 * Math.sin(angle);
+          return <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="currentColor" strokeWidth="1.2" className="text-slate-400/60" />;
+        })}
+        
+        {/* Central Sun Gear */}
+        <circle cx="0" cy="0" r="40" stroke="currentColor" strokeWidth="1" className="text-slate-500" />
+        <circle cx="0" cy="0" r="30" stroke="currentColor" strokeWidth="0.5" strokeDasharray="2,2" className="text-slate-400" />
+        <circle cx="0" cy="0" r="14" stroke="currentColor" strokeWidth="1" className="text-slate-400" />
+        <circle cx="0" cy="0" r="6" fill="currentColor" className="text-blue-400/30" />
+        
+        {/* Sun Gear Teeth (12 teeth) */}
+        {[...Array(12)].map((_, i) => {
+          const angle = (i * 30 * Math.PI) / 180;
+          const x1 = 38 * Math.cos(angle);
+          const y1 = 38 * Math.sin(angle);
+          const x2 = 44 * Math.cos(angle);
+          const y2 = 44 * Math.sin(angle);
+          return <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="currentColor" strokeWidth="2" className="text-slate-400" />;
+        })}
+        
+        {/* 4 Planet Gears at offset distance of 80 */}
+        {/* Planet 1 (Top) */}
+        <g transform="translate(0, -80)">
+          <circle cx="0" cy="0" r="40" stroke="currentColor" strokeWidth="1" className="text-slate-500" />
+          <circle cx="0" cy="0" r="14" stroke="currentColor" strokeWidth="1" className="text-slate-400" />
+          {/* Teeth (12 teeth) */}
+          {[...Array(12)].map((_, i) => {
+            const angle = ((i * 30 + 15) * Math.PI) / 180;
+            const x1 = 38 * Math.cos(angle);
+            const y1 = 38 * Math.sin(angle);
+            const x2 = 44 * Math.cos(angle);
+            const y2 = 44 * Math.sin(angle);
+            return <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="currentColor" strokeWidth="2" className="text-slate-400" />;
+          })}
+        </g>
+        
+        {/* Planet 2 (Bottom) */}
+        <g transform="translate(0, 80)">
+          <circle cx="0" cy="0" r="40" stroke="currentColor" strokeWidth="1" className="text-slate-500" />
+          <circle cx="0" cy="0" r="14" stroke="currentColor" strokeWidth="1" className="text-slate-400" />
+          {/* Teeth (12 teeth) */}
+          {[...Array(12)].map((_, i) => {
+            const angle = ((i * 30 + 15) * Math.PI) / 180;
+            const x1 = 38 * Math.cos(angle);
+            const y1 = 38 * Math.sin(angle);
+            const x2 = 44 * Math.cos(angle);
+            const y2 = 44 * Math.sin(angle);
+            return <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="currentColor" strokeWidth="2" className="text-slate-400" />;
+          })}
+        </g>
+
+        {/* Planet 3 (Left) */}
+        <g transform="translate(-80, 0)">
+          <circle cx="0" cy="0" r="40" stroke="currentColor" strokeWidth="1" className="text-slate-500" />
+          <circle cx="0" cy="0" r="14" stroke="currentColor" strokeWidth="1" className="text-slate-400" />
+          {/* Teeth (12 teeth) */}
+          {[...Array(12)].map((_, i) => {
+            const angle = ((i * 30 + 15) * Math.PI) / 180;
+            const x1 = 38 * Math.cos(angle);
+            const y1 = 38 * Math.sin(angle);
+            const x2 = 44 * Math.cos(angle);
+            const y2 = 44 * Math.sin(angle);
+            return <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="currentColor" strokeWidth="2" className="text-slate-400" />;
+          })}
+        </g>
+
+        {/* Planet 4 (Right) */}
+        <g transform="translate(80, 0)">
+          <circle cx="0" cy="0" r="40" stroke="currentColor" strokeWidth="1" className="text-slate-500" />
+          <circle cx="0" cy="0" r="14" stroke="currentColor" strokeWidth="1" className="text-slate-400" />
+          {/* Teeth (12 teeth) */}
+          {[...Array(12)].map((_, i) => {
+            const angle = ((i * 30 + 15) * Math.PI) / 180;
+            const x1 = 38 * Math.cos(angle);
+            const y1 = 38 * Math.sin(angle);
+            const x2 = 44 * Math.cos(angle);
+            const y2 = 44 * Math.sin(angle);
+            return <line key={i} x1={x1} y1={x2} x2={x2} y2={y2} stroke="currentColor" strokeWidth="2" className="text-slate-400" />;
+          })}
+        </g>
+
+        {/* Planet Carrier Frame (Cross Structure Overlay) */}
+        <line x1="0" y1="-80" x2="0" y2="80" stroke="currentColor" strokeWidth="1.5" className="text-blue-400/40" />
+        <line x1="-80" y1="0" x2="80" y2="0" stroke="currentColor" strokeWidth="1.5" className="text-blue-400/40" />
+        <circle cx="0" cy="-80" r="5" fill="currentColor" className="text-blue-400/60" />
+        <circle cx="0" cy="80" r="5" fill="currentColor" className="text-blue-400/60" />
+        <circle cx="-80" cy="0" r="5" fill="currentColor" className="text-blue-400/60" />
+        <circle cx="80" cy="0" r="5" fill="currentColor" className="text-blue-400/60" />
+        
+        {/* Technical Callouts */}
+        <path d="M 80 0 L 130 50 L 160 50" stroke="currentColor" strokeWidth="0.5" className="text-blue-400/50" />
+        <text x="165" y="53" fill="currentColor" className="text-blue-300/60 font-mono text-[7px]" style={{ fontSize: '7px' }}>PLANET_CARRIER</text>
+        
+        <path d="M 0 -80 L -50 -130 L -80 -130" stroke="currentColor" strokeWidth="0.5" className="text-blue-400/50" />
+        <text x="-155" y="-127" fill="currentColor" className="text-blue-300/60 font-mono text-[7px]" style={{ fontSize: '7px' }}>PLANETARY_Z=36/12</text>
+      </g>
+    </svg>
+  );
+}
+
+// ============================================================================
+// SCHEMATIC 7: Spur Gears (Compact dual gears for filling gaps)
+// ============================================================================
+export function SpurGearsSchematic({ className }) {
+  return (
+    <svg className={`pointer-events-none select-none ${className}`} width="200" height="150" viewBox="0 0 200 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+      {/* Gear A (Medium - Left) */}
+      <g transform="translate(60, 75)">
+        <circle cx="0" cy="0" r="45" stroke="currentColor" strokeWidth="1" className="text-slate-500" />
+        <circle cx="0" cy="0" r="35" stroke="currentColor" strokeWidth="0.5" strokeDasharray="2,2" className="text-slate-400" />
+        <circle cx="0" cy="0" r="10" stroke="currentColor" strokeWidth="1" className="text-slate-400" />
+        
+        {/* Teeth (12 teeth) */}
+        {[...Array(12)].map((_, i) => {
+          const angle = (i * 30 * Math.PI) / 180;
+          const x1 = 43 * Math.cos(angle);
+          const y1 = 43 * Math.sin(angle);
+          const x2 = 50 * Math.cos(angle);
+          const y2 = 50 * Math.sin(angle);
+          return <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="currentColor" strokeWidth="2" className="text-slate-400" />;
+        })}
+      </g>
+
+      {/* Gear B (Small - Right, meshed) */}
+      <g transform="translate(135, 75)">
+        <circle cx="0" cy="0" r="30" stroke="currentColor" strokeWidth="1" className="text-slate-500" />
+        <circle cx="0" cy="0" r="22" stroke="currentColor" strokeWidth="0.5" strokeDasharray="2,2" className="text-slate-400" />
+        <circle cx="0" cy="0" r="8" stroke="currentColor" strokeWidth="1" className="text-slate-400" />
+        
+        {/* Teeth (8 teeth, offset) */}
+        {[...Array(8)].map((_, i) => {
+          const angle = ((i * 45 + 22.5) * Math.PI) / 180;
+          const x1 = 28 * Math.cos(angle);
+          const y1 = 28 * Math.sin(angle);
+          const x2 = 35 * Math.cos(angle);
+          const y2 = 35 * Math.sin(angle);
+          return <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="currentColor" strokeWidth="2.2" className="text-slate-400" />;
+        })}
+      </g>
+
+      {/* Connection shaft line and center hubs */}
+      <line x1="60" y1="75" x2="135" y2="75" stroke="currentColor" strokeWidth="0.5" strokeDasharray="3,3" className="text-blue-400/40" />
+      <circle cx="60" cy="75" r="2" fill="currentColor" className="text-blue-400/40" />
+      <circle cx="135" cy="75" r="2" fill="currentColor" className="text-blue-400/40" />
+      
+      {/* Label */}
+      <text x="50" y="130" fill="currentColor" className="text-slate-400/40 font-mono text-[6px]" style={{ fontSize: '5.5px' }}>DRIVE_SYSTEM: RATIO 1.5</text>
     </svg>
   );
 }
@@ -309,6 +526,7 @@ export function GearTrainSchematic({ className }) {
 // ============================================================================
 // COMPOSITE: MechanicalBackground — places all schematics + grid in a container
 // Optimized for app pages (lower opacity) vs landing page (higher opacity)
+// High-density layout packed with various mechanical & gearing elements
 // ============================================================================
 export default function MechanicalBackground({ isAppPage = false }) {
   const opacity = isAppPage ? 'opacity-35' : 'opacity-[0.80]';
@@ -321,13 +539,30 @@ export default function MechanicalBackground({ isAppPage = false }) {
         <BlueprintGrid />
       </div>
       
-      {/* Schematic Artwork - staggered side-to-side */}
+      {/* Schematic Artwork - staggered and packed for rich blueprint density */}
       <div className={`absolute inset-0 ${opacity}`}>
+        {/* ROW 1: Dial + Small Spurs */}
         <SchematicDial className="absolute top-[3%] right-0 sm:right-0 lg:right-16 xl:right-32 w-48 h-48 sm:w-[420px] sm:h-[420px]" />
+        <SpurGearsSchematic className="absolute top-[10%] right-10 sm:right-24 w-36 sm:w-44 h-auto opacity-30" />
+        
+        {/* ROW 2: Gear Train + Planetary Gears */}
         <GearTrainSchematic className="absolute top-[15%] left-0 sm:-left-20 lg:left-0 xl:left-12 w-48 h-auto sm:w-72" />
+        <PlanetaryGearSchematic className="absolute top-[23%] left-[1rem] sm:left-12 w-48 h-auto sm:w-64" />
+        
+        {/* ROW 3: Cylinder + Duplicated Gear Train */}
         <CylinderSchematic className="absolute top-[28%] right-0 sm:-right-20 lg:right-0 xl:right-12 w-48 h-auto sm:w-64" />
-        <SuspensionSchematic className="absolute top-[44%] left-0 sm:-left-20 lg:left-0 xl:left-12 w-48 h-auto sm:w-64" />
+        <GearTrainSchematic className="absolute top-[36%] right-0 sm:-right-20 lg:right-0 xl:right-12 w-48 h-auto sm:w-72" />
+        
+        {/* ROW 4: Suspension + Planetary Gears Right */}
+        <SuspensionSchematic className="absolute top-[44%] left-[-5rem] sm:-left-20 lg:left-0 xl:left-12 w-48 h-auto sm:w-64 opacity-20 sm:opacity-100" />
+        <PlanetaryGearSchematic className="absolute top-[52%] right-[-3rem] sm:-right-24 lg:right-0 xl:right-24 w-48 h-auto sm:w-64" />
+        
+        {/* ROW 5: Drivetrain + Spur Gears Left */}
         <DrivetrainSchematic className="absolute top-[62%] right-0 sm:-right-20 lg:right-0 xl:right-12 w-48 h-auto sm:w-64" />
+        <SpurGearsSchematic className="absolute top-[72%] left-[-2rem] sm:left-12 w-48 h-auto" />
+        
+        {/* ROW 6: Gear Train Bottom Right */}
+        <GearTrainSchematic className="absolute top-[80%] right-[-2rem] sm:right-16 w-48 h-auto sm:w-72" />
       </div>
     </div>
   );

@@ -13,7 +13,8 @@ import analyticsImg from '/assets/features/analytics.png';
 import documentsImg from '/assets/features/documents.png';
 import MechanicalBackground, {
   SchematicDial, GearTrainSchematic, CylinderSchematic,
-  SuspensionSchematic, DrivetrainSchematic
+  SuspensionSchematic, DrivetrainSchematic,
+  PlanetaryGearSchematic, SpurGearsSchematic
 } from './MechanicalBackground.jsx';
 
 export default function LandingPage({ onGetStarted, onViewPremium }) {
@@ -21,7 +22,7 @@ export default function LandingPage({ onGetStarted, onViewPremium }) {
     <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 relative overflow-hidden">
       {/* Blueprint Background Image Texture */}
       <div 
-        className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat opacity-[0.12] mix-blend-screen pointer-events-none"
+        className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat opacity-[0.25] mix-blend-screen pointer-events-none"
         style={{ backgroundImage: "url('/assets/blueprint-bg.png')" }}
       />
       
@@ -30,11 +31,28 @@ export default function LandingPage({ onGetStarted, onViewPremium }) {
       
       {/* Hover/scale effects for schematics on landing page (shared component has static positioning) */}
       <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
-        <SchematicDial className="absolute top-[3%] right-0 sm:right-0 lg:right-16 xl:right-32 w-48 h-48 sm:w-[420px] sm:h-[420px] opacity-50 sm:opacity-50 hover:opacity-75 hover:scale-[1.03] transition-all duration-700" />
-        <GearTrainSchematic className="absolute top-[16%] left-0 sm:-left-20 lg:left-0 xl:left-12 w-48 h-auto sm:w-72 opacity-50 sm:opacity-50 hover:opacity-75 hover:scale-[1.03] transition-all duration-700" />
-        <CylinderSchematic className="absolute top-[32%] right-0 sm:-right-20 lg:right-0 xl:right-12 w-48 h-auto sm:w-64 opacity-50 sm:opacity-50 hover:opacity-75 hover:scale-[1.03] transition-all duration-700" />
-        <SuspensionSchematic className="absolute top-[52%] left-0 sm:-left-20 lg:left-0 xl:left-12 w-48 h-auto sm:w-64 opacity-50 sm:opacity-50 hover:opacity-75 hover:scale-[1.03] transition-all duration-700" />
-        <DrivetrainSchematic className="absolute top-[72%] right-0 sm:-right-20 lg:right-0 xl:right-12 w-48 h-auto sm:w-64 opacity-50 sm:opacity-50 hover:opacity-75 hover:scale-[1.03] transition-all duration-700" />
+        {/* ROW 1: Dial + Small Spurs */}
+        <SchematicDial className="absolute top-[3%] right-0 sm:right-0 lg:right-16 xl:right-32 w-48 h-48 sm:w-[420px] sm:h-[420px] opacity-[0.80] sm:opacity-[0.80] hover:opacity-100 hover:scale-[1.04] transition-all duration-700" />
+        <SpurGearsSchematic className="absolute top-[10%] right-10 sm:right-24 w-36 sm:w-44 h-auto opacity-30 hover:opacity-100 hover:scale-[1.04] transition-all duration-700" />
+        
+        {/* ROW 2: Gear Train + Planetary Gears */}
+        <GearTrainSchematic className="absolute top-[15%] left-0 sm:-left-20 lg:left-0 xl:left-12 w-48 h-auto sm:w-72 opacity-[0.80] sm:opacity-[0.80] hover:opacity-100 hover:scale-[1.04] transition-all duration-700" />
+        <PlanetaryGearSchematic className="absolute top-[23%] left-[1rem] sm:left-12 w-48 h-auto sm:w-64 opacity-[0.80] sm:opacity-[0.80] hover:opacity-100 hover:scale-[1.04] transition-all duration-700" />
+        
+        {/* ROW 3: Cylinder + Duplicated Gear Train */}
+        <CylinderSchematic className="absolute top-[28%] right-0 sm:-right-20 lg:right-0 xl:right-12 w-48 h-auto sm:w-64 opacity-[0.80] sm:opacity-[0.80] hover:opacity-100 hover:scale-[1.04] transition-all duration-700" />
+        <GearTrainSchematic className="absolute top-[36%] right-0 sm:-right-20 lg:right-0 xl:right-12 w-48 h-auto sm:w-72 opacity-[0.80] sm:opacity-[0.80] hover:opacity-100 hover:scale-[1.04] transition-all duration-700" />
+        
+        {/* ROW 4: Suspension + Planetary Gears Right */}
+        <SuspensionSchematic className="absolute top-[44%] left-[-5rem] sm:-left-20 lg:left-0 xl:left-12 w-48 h-auto sm:w-64 opacity-20 sm:opacity-[0.80] hover:opacity-100 hover:scale-[1.04] transition-all duration-700" />
+        <PlanetaryGearSchematic className="absolute top-[52%] right-[-3rem] sm:-right-24 lg:right-0 xl:right-24 w-48 h-auto sm:w-64 opacity-20 sm:opacity-[0.80] hover:opacity-100 hover:scale-[1.04] transition-all duration-700" />
+        
+        {/* ROW 5: Drivetrain + Spur Gears Left */}
+        <DrivetrainSchematic className="absolute top-[62%] right-0 sm:-right-20 lg:right-0 xl:right-12 w-48 h-auto sm:w-64 opacity-[0.80] sm:opacity-[0.80] hover:opacity-100 hover:scale-[1.04] transition-all duration-700" />
+        <SpurGearsSchematic className="absolute top-[72%] left-[-2rem] sm:left-12 w-48 h-auto opacity-20 sm:opacity-[0.80] hover:opacity-100 hover:scale-[1.04] transition-all duration-700" />
+        
+        {/* ROW 6: Gear Train Bottom Right */}
+        <GearTrainSchematic className="absolute top-[80%] right-[-2rem] sm:right-16 w-48 h-auto sm:w-72 opacity-20 sm:opacity-[0.80] hover:opacity-100 hover:scale-[1.04] transition-all duration-700" />
       </div>
 
       {/* Landing Page Content is wrapped in relative z-10 container to stay on top */}
