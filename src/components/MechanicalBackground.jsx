@@ -10,13 +10,13 @@ export function BlueprintGrid({ className = '' }) {
   return (
     <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" className={`w-full h-full ${className}`}>
       <defs>
-        <pattern id="sub-grid" width="20" height="20" patternUnits="userSpaceOnUse">
-          <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(148, 163, 184, 0.01)" strokeWidth="0.5" />
+        <pattern id="sub-grid" width="15" height="15" patternUnits="userSpaceOnUse">
+          <path d="M 15 0 L 0 0 0 15" fill="none" stroke="rgba(59, 130, 246, 0.12)" strokeWidth="0.5" />
         </pattern>
-        <pattern id="main-grid" width="100" height="100" patternUnits="userSpaceOnUse">
+        <pattern id="main-grid" width="75" height="75" patternUnits="userSpaceOnUse">
           <rect width="100%" height="100%" fill="url(#sub-grid)" />
-          <path d="M 100 0 L 0 0 0 100" fill="none" stroke="rgba(148, 163, 184, 0.025)" strokeWidth="1" />
-          <path d="M 0 4 L 0 -4 M -4 0 L 4 0 M 100 4 L 100 -4 M 96 0 L 104 0 M 0 104 L 0 96" fill="none" stroke="rgba(59, 130, 246, 0.08)" strokeWidth="0.75" />
+          <path d="M 75 0 L 0 0 0 75" fill="none" stroke="rgba(59, 130, 246, 0.25)" strokeWidth="1" />
+          <path d="M 0 4 L 0 -4 M -4 0 L 4 0 M 75 4 L 75 -4 M 71 0 L 79 0 M 0 79 L 0 71" fill="none" stroke="rgba(59, 130, 246, 0.45)" strokeWidth="0.75" />
         </pattern>
       </defs>
       <rect width="100%" height="100%" fill="url(#main-grid)" />
@@ -311,8 +311,8 @@ export function GearTrainSchematic({ className }) {
 // Optimized for app pages (lower opacity) vs landing page (higher opacity)
 // ============================================================================
 export default function MechanicalBackground({ isAppPage = false }) {
-  const opacity = isAppPage ? 'opacity-20' : '';
-  const gridOpacity = isAppPage ? 'opacity-5' : 'opacity-10';
+  const opacity = isAppPage ? 'opacity-35' : 'opacity-[0.80]';
+  const gridOpacity = isAppPage ? 'opacity-15' : 'opacity-60';
   
   return (
     <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
@@ -324,10 +324,10 @@ export default function MechanicalBackground({ isAppPage = false }) {
       {/* Schematic Artwork - staggered side-to-side */}
       <div className={`absolute inset-0 ${opacity}`}>
         <SchematicDial className="absolute top-[3%] right-0 sm:right-0 lg:right-16 xl:right-32 w-48 h-48 sm:w-[420px] sm:h-[420px]" />
-        <GearTrainSchematic className="absolute top-[16%] left-0 sm:-left-20 lg:left-0 xl:left-12 w-48 h-auto sm:w-72" />
-        <CylinderSchematic className="absolute top-[32%] right-0 sm:-right-20 lg:right-0 xl:right-12 w-48 h-auto sm:w-64" />
-        <SuspensionSchematic className="absolute top-[52%] left-0 sm:-left-20 lg:left-0 xl:left-12 w-48 h-auto sm:w-64" />
-        <DrivetrainSchematic className="absolute top-[72%] right-0 sm:-right-20 lg:right-0 xl:right-12 w-48 h-auto sm:w-64" />
+        <GearTrainSchematic className="absolute top-[15%] left-0 sm:-left-20 lg:left-0 xl:left-12 w-48 h-auto sm:w-72" />
+        <CylinderSchematic className="absolute top-[28%] right-0 sm:-right-20 lg:right-0 xl:right-12 w-48 h-auto sm:w-64" />
+        <SuspensionSchematic className="absolute top-[44%] left-0 sm:-left-20 lg:left-0 xl:left-12 w-48 h-auto sm:w-64" />
+        <DrivetrainSchematic className="absolute top-[62%] right-0 sm:-right-20 lg:right-0 xl:right-12 w-48 h-auto sm:w-64" />
       </div>
     </div>
   );
