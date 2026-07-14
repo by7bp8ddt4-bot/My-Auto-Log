@@ -11,12 +11,12 @@ export function BlueprintGrid({ className = '' }) {
     <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" className={`w-full h-full ${className}`}>
       <defs>
         <pattern id="sub-grid" width="15" height="15" patternUnits="userSpaceOnUse">
-          <path d="M 15 0 L 0 0 0 15" fill="none" stroke="rgba(59, 130, 246, 0.12)" strokeWidth="0.5" />
+          <path d="M 15 0 L 0 0 0 15" fill="none" stroke="rgba(59, 130, 246, 0.13)" strokeWidth="0.5" />
         </pattern>
         <pattern id="main-grid" width="75" height="75" patternUnits="userSpaceOnUse">
           <rect width="100%" height="100%" fill="url(#sub-grid)" />
-          <path d="M 75 0 L 0 0 0 75" fill="none" stroke="rgba(59, 130, 246, 0.25)" strokeWidth="1" />
-          <path d="M 0 4 L 0 -4 M -4 0 L 4 0 M 75 4 L 75 -4 M 71 0 L 79 0 M 0 79 L 0 71" fill="none" stroke="rgba(59, 130, 246, 0.45)" strokeWidth="0.75" />
+          <path d="M 75 0 L 0 0 0 75" fill="none" stroke="rgba(59, 130, 246, 0.28)" strokeWidth="1" />
+          <path d="M 0 4 L 0 -4 M -4 0 L 4 0 M 75 4 L 75 -4 M 71 0 L 79 0 M 0 79 L 0 71" fill="none" stroke="rgba(59, 130, 246, 0.50)" strokeWidth="0.75" />
         </pattern>
       </defs>
       <rect width="100%" height="100%" fill="url(#main-grid)" />
@@ -233,7 +233,7 @@ export function DrivetrainSchematic({ className }) {
 }
 
 // ============================================================================
-// SCHEMATIC 5: Interlocking Gear Train
+// SCHEMATIC 5: Interlocking Gear Train (2-gear mesh)
 // ============================================================================
 export function GearTrainSchematic({ className }) {
   return (
@@ -268,7 +268,6 @@ export function GearTrainSchematic({ className }) {
       </g>
 
       {/* Gear 2 (Medium - Right) */}
-      {/* Centered to mesh with Gear 1 */}
       <g transform="translate(290, 150)">
         <circle cx="0" cy="0" r="60" stroke="currentColor" strokeWidth="1" className="text-slate-500" />
         <circle cx="0" cy="0" r="45" stroke="currentColor" strokeWidth="0.5" strokeDasharray="3,3" className="text-slate-400" />
@@ -349,7 +348,6 @@ export function PlanetaryGearSchematic({ className }) {
         <g transform="translate(0, -80)">
           <circle cx="0" cy="0" r="40" stroke="currentColor" strokeWidth="1" className="text-slate-500" />
           <circle cx="0" cy="0" r="14" stroke="currentColor" strokeWidth="1" className="text-slate-400" />
-          {/* Teeth (12 teeth) */}
           {[...Array(12)].map((_, i) => {
             const angle = ((i * 30 + 15) * Math.PI) / 180;
             const x1 = 38 * Math.cos(angle);
@@ -364,7 +362,6 @@ export function PlanetaryGearSchematic({ className }) {
         <g transform="translate(0, 80)">
           <circle cx="0" cy="0" r="40" stroke="currentColor" strokeWidth="1" className="text-slate-500" />
           <circle cx="0" cy="0" r="14" stroke="currentColor" strokeWidth="1" className="text-slate-400" />
-          {/* Teeth (12 teeth) */}
           {[...Array(12)].map((_, i) => {
             const angle = ((i * 30 + 15) * Math.PI) / 180;
             const x1 = 38 * Math.cos(angle);
@@ -379,7 +376,6 @@ export function PlanetaryGearSchematic({ className }) {
         <g transform="translate(-80, 0)">
           <circle cx="0" cy="0" r="40" stroke="currentColor" strokeWidth="1" className="text-slate-500" />
           <circle cx="0" cy="0" r="14" stroke="currentColor" strokeWidth="1" className="text-slate-400" />
-          {/* Teeth (12 teeth) */}
           {[...Array(12)].map((_, i) => {
             const angle = ((i * 30 + 15) * Math.PI) / 180;
             const x1 = 38 * Math.cos(angle);
@@ -394,7 +390,6 @@ export function PlanetaryGearSchematic({ className }) {
         <g transform="translate(80, 0)">
           <circle cx="0" cy="0" r="40" stroke="currentColor" strokeWidth="1" className="text-slate-500" />
           <circle cx="0" cy="0" r="14" stroke="currentColor" strokeWidth="1" className="text-slate-400" />
-          {/* Teeth (12 teeth) */}
           {[...Array(12)].map((_, i) => {
             const angle = ((i * 30 + 15) * Math.PI) / 180;
             const x1 = 38 * Math.cos(angle);
@@ -469,20 +464,216 @@ export function SpurGearsSchematic({ className }) {
 }
 
 // ============================================================================
+// SCHEMATIC 8: Camshaft Lobe Profile Drawing
+// ============================================================================
+export function CamshaftSchematic({ className }) {
+  return (
+    <svg className={`pointer-events-none select-none ${className}`} width="400" height="260" viewBox="0 0 400 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+      {/* Centerline (camshaft axis) */}
+      <line x1="10" y1="130" x2="390" y2="130" stroke="currentColor" strokeWidth="0.5" strokeDasharray="3,6" className="text-slate-400/30" />
+
+      {/* Camshaft base circle */}
+      <circle cx="120" cy="130" r="50" stroke="currentColor" strokeWidth="1" className="text-slate-500" />
+      <circle cx="120" cy="130" r="12" stroke="currentColor" strokeWidth="1" className="text-slate-400" />
+      <circle cx="120" cy="130" r="6" fill="currentColor" className="text-blue-400/30" />
+
+      {/* Lobe 1 - Intake lobe (larger, pointing up) */}
+      <path d="M 88 85 C 88 55, 96 50, 120 50 C 144 50, 152 55, 152 85" stroke="currentColor" strokeWidth="1.2" className="text-slate-400" fill="rgba(30, 41, 59, 0.2)" />
+      <path d="M 120 50 L 120 35" stroke="currentColor" strokeWidth="0.75" strokeDasharray="2,2" className="text-blue-400/40" />
+      <text x="125" y="33" fill="currentColor" className="text-blue-300/50 font-mono" style={{ fontSize: '7px' }}>LIFT: 11.2mm</text>
+
+      {/* Lobe 2 - Exhaust lobe (smaller, pointing down-right) */}
+      <path d="M 152 155 C 155 180, 160 188, 140 190 C 120 192, 110 185, 108 168" stroke="currentColor" strokeWidth="1.2" className="text-slate-400" fill="rgba(30, 41, 59, 0.2)" />
+
+      {/* Journal bearing */}
+      <rect x="105" y="125" width="30" height="10" rx="2" stroke="currentColor" strokeWidth="0.75" className="text-slate-500" />
+      <path d="M 105 130 L 80 130" stroke="currentColor" strokeWidth="0.5" className="text-slate-400/40" />
+      <text x="60" y="128" fill="currentColor" className="text-slate-400/40 font-mono" style={{ fontSize: '6px' }}>JOURNAL</text>
+
+      {/* Second cam lobe set (offset to the right, showing timing) */}
+      <g transform="translate(200, 0)">
+        <circle cx="120" cy="130" r="50" stroke="currentColor" strokeWidth="1" strokeDasharray="4,4" className="text-slate-400/30" />
+        <circle cx="120" cy="130" r="12" stroke="currentColor" strokeWidth="1" className="text-slate-400" />
+        {/* Lobe pointing up-right */}
+        <path d="M 100 90 C 115 70, 130 60, 148 80 C 160 95, 165 110, 155 125" stroke="currentColor" strokeWidth="1.2" className="text-slate-500" fill="rgba(30, 41, 59, 0.2)" />
+        {/* Lobe pointing down-left */}
+        <path d="M 80 138 C 65 145, 60 165, 78 178 C 92 185, 110 180, 118 165" stroke="currentColor" strokeWidth="1.2" className="text-slate-500" fill="rgba(30, 41, 59, 0.2)" />
+      </g>
+
+      {/* Timing chain indicator */}
+      <path d="M 250 130 L 280 130" stroke="currentColor" strokeWidth="0.75" className="text-blue-400/40" />
+      <circle cx="280" cy="130" r="4" fill="currentColor" className="text-blue-400/40" />
+      <text x="285" y="133" fill="currentColor" className="text-blue-300/50 font-mono" style={{ fontSize: '7px' }}>TIMING MARK 0°</text>
+
+      {/* Phase angle arcs */}
+      <path d="M 145 80 A 65 65 0 0 1 170 120" stroke="currentColor" strokeWidth="0.5" className="text-slate-400/40" />
+      <text x="172" y="95" fill="currentColor" className="text-slate-400/40 font-mono" style={{ fontSize: '6px' }}>DURATION: 270°</text>
+
+      {/* Spec block */}
+      <text x="20" y="220" fill="currentColor" className="text-slate-500/30 font-mono" style={{ fontSize: '7px' }}>CAMSHAFT SPEC: DUAL OVERHEAD (DOHC)</text>
+      <text x="20" y="232" fill="currentColor" className="text-slate-500/30 font-mono" style={{ fontSize: '7px' }}>INTAKE: 11.2mm LIFT @ 270° DURATION</text>
+      <text x="20" y="244" fill="currentColor" className="text-slate-500/30 font-mono" style={{ fontSize: '7px' }}>EXHAUST: 10.8mm LIFT @ 260° DURATION</text>
+    </svg>
+  );
+}
+
+// ============================================================================
+// SCHEMATIC 9: Engine Block Exploded / Cross-Section View
+// ============================================================================
+export function EngineBlockSchematic({ className }) {
+  return (
+    <svg className={`pointer-events-none select-none ${className}`} width="400" height="500" viewBox="0 0 400 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+      {/* Centerline */}
+      <line x1="200" y1="10" x2="200" y2="490" stroke="currentColor" strokeWidth="0.5" strokeDasharray="2,6" className="text-slate-400/30" />
+
+      {/* Engine Block Outer Profile (V6 cross-section) */}
+      <path d="M 70 100 L 70 380 L 100 420 L 300 420 L 330 380 L 330 100 Z" stroke="currentColor" strokeWidth="1.5" className="text-slate-500" fill="rgba(30, 41, 59, 0.15)" />
+      
+      {/* Deck surface */}
+      <line x1="70" y1="100" x2="330" y2="100" stroke="currentColor" strokeWidth="1.5" className="text-slate-400" />
+
+      {/* Cylinder Bores (3 visible in cross-section of one bank) */}
+      {/* Cylinder 1 */}
+      <rect x="90" y="120" width="60" height="180" rx="4" stroke="currentColor" strokeWidth="1" className="text-slate-400" />
+      {/* Cylinder 1 Piston */}
+      <rect x="94" y="200" width="52" height="40" rx="2" stroke="currentColor" strokeWidth="1" className="text-slate-500" />
+      <line x1="94" y1="210" x2="146" y2="210" stroke="currentColor" strokeWidth="0.75" strokeDasharray="2,2" className="text-slate-500" />
+      <line x1="94" y1="218" x2="146" y2="218" stroke="currentColor" strokeWidth="0.75" strokeDasharray="2,2" className="text-slate-500" />
+      {/* Connecting rod */}
+      <line x1="120" y1="240" x2="120" y2="300" stroke="currentColor" strokeWidth="2" className="text-slate-400" />
+      <circle cx="120" cy="300" r="10" stroke="currentColor" strokeWidth="1" className="text-slate-400" />
+
+      {/* Cylinder 2 */}
+      <rect x="170" y="120" width="60" height="180" rx="4" stroke="currentColor" strokeWidth="1" className="text-slate-400" />
+      {/* Cylinder 2 Piston (different position) */}
+      <rect x="174" y="160" width="52" height="40" rx="2" stroke="currentColor" strokeWidth="1" className="text-slate-500" />
+      <line x1="174" y1="170" x2="226" y2="170" stroke="currentColor" strokeWidth="0.75" strokeDasharray="2,2" className="text-slate-500" />
+      <line x1="174" y1="178" x2="226" y2="178" stroke="currentColor" strokeWidth="0.75" strokeDasharray="2,2" className="text-slate-500" />
+      <line x1="200" y1="200" x2="200" y2="310" stroke="currentColor" strokeWidth="2" className="text-slate-400" />
+      <circle cx="200" cy="310" r="10" stroke="currentColor" strokeWidth="1" className="text-slate-400" />
+
+      {/* Cylinder 3 */}
+      <rect x="250" y="120" width="60" height="180" rx="4" stroke="currentColor" strokeWidth="1" className="text-slate-400" />
+      {/* Cylinder 3 Piston (lowest) */}
+      <rect x="254" y="240" width="52" height="40" rx="2" stroke="currentColor" strokeWidth="1" className="text-slate-500" />
+      <line x1="254" y1="250" x2="306" y2="250" stroke="currentColor" strokeWidth="0.75" strokeDasharray="2,2" className="text-slate-500" />
+      <line x1="254" y1="258" x2="306" y2="258" stroke="currentColor" strokeWidth="0.75" strokeDasharray="2,2" className="text-slate-500" />
+      <line x1="280" y1="280" x2="280" y2="320" stroke="currentColor" strokeWidth="2" className="text-slate-400" />
+      <circle cx="280" cy="320" r="10" stroke="currentColor" strokeWidth="1" className="text-slate-400" />
+
+      {/* Crankshaft (main bearing line) */}
+      <line x1="80" y1="310" x2="320" y2="310" stroke="currentColor" strokeWidth="1.5" className="text-slate-400" />
+      <circle cx="120" cy="310" r="6" fill="currentColor" className="text-blue-400/30" />
+      <circle cx="200" cy="310" r="6" fill="currentColor" className="text-blue-400/30" />
+      <circle cx="280" cy="310" r="6" fill="currentColor" className="text-blue-400/30" />
+
+      {/* Water jacket (cooling passages) */}
+      <path d="M 75 150 Q 65 200, 75 250" stroke="currentColor" strokeWidth="1" strokeDasharray="3,4" className="text-slate-400/40" />
+      <path d="M 325 150 Q 335 200, 325 250" stroke="currentColor" strokeWidth="1" strokeDasharray="3,4" className="text-slate-400/40" />
+      <text x="10" y="200" fill="currentColor" className="text-slate-400/40 font-mono" style={{ fontSize: '6px' }}>WATER JACKET</text>
+
+      {/* Oil pan */}
+      <path d="M 100 380 L 100 420 L 140 450 L 260 450 L 300 420 L 300 380" stroke="currentColor" strokeWidth="1" className="text-slate-400" fill="rgba(30, 41, 59, 0.2)" />
+      <text x="170" y="435" fill="currentColor" className="text-slate-400/40 font-mono" style={{ fontSize: '7px' }}>OIL PAN</text>
+
+      {/* Head gasket line */}
+      <line x1="70" y1="100" x2="330" y2="100" stroke="currentColor" strokeWidth="0.5" strokeDasharray="2,2" className="text-blue-400/40" />
+      <text x="335" y="103" fill="currentColor" className="text-blue-300/50 font-mono" style={{ fontSize: '6px' }}>HEAD GASKET</text>
+
+      {/* Head bolt holes */}
+      {[85, 115, 155, 185, 215, 245, 285, 315].map((x, i) => (
+        <circle key={i} cx={x} cy={95} r="3" stroke="currentColor" strokeWidth="0.75" className="text-slate-500" />
+      ))}
+
+      {/* Spec block */}
+      <text x="100" y="475" fill="currentColor" className="text-slate-500/30 font-mono" style={{ fontSize: '7px' }}>ENGINE BLOCK: 3.0L V6 DOHC</text>
+      <text x="100" y="487" fill="currentColor" className="text-slate-500/30 font-mono" style={{ fontSize: '7px' }}>BORE: 89.0mm STROKE: 79.5mm CR: 10.5:1</text>
+    </svg>
+  );
+}
+
+// ============================================================================
+// SCHEMATIC 10: Bevel Gear Differential (another gear-set variety)
+// ============================================================================
+export function BevelGearSchematic({ className }) {
+  return (
+    <svg className={`pointer-events-none select-none ${className}`} width="300" height="350" viewBox="0 0 300 350" fill="none" xmlns="http://www.w3.org/2000/svg">
+      {/* Centerline */}
+      <line x1="150" y1="10" x2="150" y2="340" stroke="currentColor" strokeWidth="0.5" strokeDasharray="2,4" className="text-slate-400/30" />
+      <line x1="30" y1="175" x2="270" y2="175" stroke="currentColor" strokeWidth="0.5" strokeDasharray="2,4" className="text-slate-400/30" />
+
+      {/* Ring Gear (large bevel gear - seen from side) */}
+      <ellipse cx="150" cy="175" rx="90" ry="60" stroke="currentColor" strokeWidth="1.5" className="text-slate-500" fill="rgba(30, 41, 59, 0.15)" />
+      <ellipse cx="150" cy="175" rx="70" ry="45" stroke="currentColor" strokeWidth="0.5" strokeDasharray="3,3" className="text-slate-400" />
+      <ellipse cx="150" cy="175" rx="30" ry="20" stroke="currentColor" strokeWidth="1" className="text-slate-400" />
+      <circle cx="150" cy="175" r="8" fill="currentColor" className="text-blue-400/30" />
+
+      {/* Ring gear teeth (indicated by radial lines around the ellipse) */}
+      {[...Array(20)].map((_, i) => {
+        const angle = (i * 18 * Math.PI) / 180;
+        const x1 = 150 + 85 * Math.cos(angle);
+        const y1 = 175 + 55 * Math.sin(angle);
+        const x2 = 150 + 95 * Math.cos(angle);
+        const y2 = 175 + 65 * Math.sin(angle);
+        return <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="currentColor" strokeWidth="1.5" className="text-slate-400" />;
+      })}
+
+      {/* Pinion Gear (small bevel gear - meshing from side) */}
+      <ellipse cx="150" cy="130" rx="35" ry="20" stroke="currentColor" strokeWidth="1.2" className="text-slate-500" fill="rgba(30, 41, 59, 0.2)" />
+      <ellipse cx="150" cy="130" rx="15" ry="8" stroke="currentColor" strokeWidth="0.75" className="text-slate-400" />
+      {/* Pinion teeth */}
+      {[...Array(10)].map((_, i) => {
+        const angle = (i * 36 * Math.PI) / 180;
+        const x1 = 150 + 32 * Math.cos(angle);
+        const y1 = 130 + 18 * Math.sin(angle);
+        const x2 = 150 + 40 * Math.cos(angle);
+        const y2 = 130 + 24 * Math.sin(angle);
+        return <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="currentColor" strokeWidth="1.5" className="text-slate-400" />;
+      })}
+
+      {/* Pinion shaft */}
+      <line x1="150" y1="50" x2="150" y2="130" stroke="currentColor" strokeWidth="2" className="text-slate-400" />
+      <circle cx="150" cy="50" r="4" fill="currentColor" className="text-blue-400/40" />
+
+      {/* Axle shafts (left and right) */}
+      <line x1="60" y1="175" x2="150" y2="175" stroke="currentColor" strokeWidth="2" className="text-slate-400" />
+      <line x1="150" y1="175" x2="240" y2="175" stroke="currentColor" strokeWidth="2" className="text-slate-400" />
+      <rect x="35" y="168" width="25" height="14" rx="2" stroke="currentColor" strokeWidth="0.75" className="text-slate-500" />
+      <rect x="240" y="168" width="25" height="14" rx="2" stroke="currentColor" strokeWidth="0.75" className="text-slate-500" />
+
+      {/* Spider gears (cross shaft) */}
+      <line x1="130" y1="155" x2="170" y2="195" stroke="currentColor" strokeWidth="1" strokeDasharray="2,2" className="text-blue-400/40" />
+      <line x1="130" y1="195" x2="170" y2="155" stroke="currentColor" strokeWidth="1" strokeDasharray="2,2" className="text-blue-400/40" />
+      <circle cx="150" cy="175" r="2" fill="currentColor" className="text-blue-400/40" />
+
+      {/* Callouts */}
+      <path d="M 230 140 L 230 120 L 245 120" stroke="currentColor" strokeWidth="0.5" className="text-blue-400/40" />
+      <text x="248" y="123" fill="currentColor" className="text-blue-300/50 font-mono" style={{ fontSize: '7px' }}>PINION GEAR</text>
+
+      <path d="M 80 230 L 80 250 L 60 250" stroke="currentColor" strokeWidth="0.5" className="text-slate-400/40" />
+      <text x="30" y="253" fill="currentColor" className="text-slate-400/40 font-mono" style={{ fontSize: '7px' }}>RING GEAR Z=40</text>
+
+      <text x="100" y="320" fill="currentColor" className="text-slate-500/30 font-mono" style={{ fontSize: '8px' }}>DIFFERENTIAL: BEVEL GEAR SET</text>
+      <text x="100" y="332" fill="currentColor" className="text-slate-500/30 font-mono" style={{ fontSize: '7px' }}>RATIO: 3.73:1 (FINAL DRIVE)</text>
+    </svg>
+  );
+}
+
+// ============================================================================
 // COMPOSITE: MechanicalBackground — places all schematics + grid in a container
 // ============================================================================
 export default function MechanicalBackground({ isAppPage = false }) {
   // For app pages (Layout), use lower opacity so content remains readable
   // For landing page, use full opacity
   const schematicOpacity = isAppPage ? 'opacity-20' : 'opacity-50 sm:opacity-50';
-  const gridOpacity = isAppPage ? 'opacity-10' : 'opacity-15';
+  const gridOpacity = isAppPage ? 'opacity-[0.12]' : 'opacity-[0.18]';
   const hoverEffects = isAppPage ? '' : 'hover:opacity-75 hover:scale-[1.03] transition-all duration-700';
 
   return (
     <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
       {/* Blueprint Grid */}
       <div className={`absolute inset-0 ${gridOpacity}`}>
-        <BlueprintGrid className="opacity-60" />
+        <BlueprintGrid className="opacity-[0.70]" />
       </div>
 
       {/* Mechanical Schematic Artwork */}
@@ -501,6 +692,15 @@ export default function MechanicalBackground({ isAppPage = false }) {
 
         {/* Graphic 4: AWD Drivetrain Layout - Right margin behind Testimonials/FAQ */}
         <DrivetrainSchematic className={`absolute top-[72%] right-0 sm:-right-20 lg:right-0 xl:right-12 w-48 h-auto sm:w-64 ${hoverEffects}`} />
+
+        {/* NEW: Camshaft Schematic - Bottom Left behind footer */}
+        <CamshaftSchematic className={`absolute top-[82%] left-0 sm:-left-16 lg:left-0 xl:left-12 w-48 h-auto sm:w-72 ${hoverEffects}`} />
+
+        {/* NEW: Engine Block Cross-Section - Mid-left behind How It Works */}
+        <EngineBlockSchematic className={`absolute top-[40%] left-0 sm:-left-24 lg:left-0 xl:left-8 w-48 h-auto sm:w-64 ${hoverEffects}`} />
+
+        {/* NEW: Bevel Gear Differential - Right margin behind Features midpoint */}
+        <BevelGearSchematic className={`absolute top-[22%] right-0 sm:-right-24 lg:right-0 xl:right-24 w-48 h-auto sm:w-64 ${hoverEffects}`} />
       </div>
     </div>
   );
