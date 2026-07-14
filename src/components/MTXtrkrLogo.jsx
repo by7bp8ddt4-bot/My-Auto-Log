@@ -47,14 +47,14 @@ export default function MTXtrkrLogo({ className = '' }) {
               d="M 31,12 L 31,4 Q 31,2 32,0 L 48,0 Q 49,2 49,4 L 49,12 Z"
               className="fill-red-600"
             />
-            {/* Left prong — single path: curved outer bevels forward, straight inner, U-shape at bottom */}
+            {/* Left prong — curved outer bevels forward, STRAIGHT inner edge, U-gap */}
             <path
-              d="M 31,4 Q 27,-2 26,-6 L 28,-6 Q 29,-3 31,1 L 34,7"
+              d="M 31,4 Q 27,-2 26,-6 L 28,-6 L 31,1 L 34,7"
               className="fill-red-600"
             />
-            {/* Right prong — single path: curved outer bevels forward, straight inner */}
+            {/* Right prong — curved outer bevels forward, STRAIGHT inner edge */}
             <path
-              d="M 49,4 Q 53,-2 54,-6 L 52,-6 Q 51,-3 49,1 L 46,7"
+              d="M 49,4 Q 53,-2 54,-6 L 52,-6 L 49,1 L 46,7"
               className="fill-red-600"
             />
             {/* U-shaped opening connecting bottom of inner edges */}
@@ -108,11 +108,11 @@ export default function MTXtrkrLogo({ className = '' }) {
               className="fill-red-600"
             />
             <path
-              d="M 31,62 Q 27,68 26,72 L 28,72 Q 29,69 31,65 L 34,59"
+              d="M 31,62 Q 27,68 26,72 L 28,72 L 31,65 L 34,59"
               className="fill-red-600"
             />
             <path
-              d="M 49,62 Q 53,68 54,72 L 52,72 Q 51,69 49,65 L 46,59"
+              d="M 49,62 Q 53,68 54,72 L 52,72 L 49,65 L 46,59"
               className="fill-red-600"
             />
             <path d="M 34,59 Q 38,55 40,55 Q 42,55 46,59" className="fill-red-600" />
