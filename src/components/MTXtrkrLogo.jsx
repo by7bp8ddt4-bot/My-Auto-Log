@@ -7,7 +7,7 @@
  * - Wrench 2 (SHORTER, -45°, inverted): box-end at top-right, open-end at bottom-left — forms the /
  * 
  * Realistic features:
- * - Subtly contoured handle (narrow at ends, slightly wider at grip center)
+ * - Straight handle with rounded ends
  * - Open-end jaw with angled gripping surfaces and visible teeth
  * - Thin 12-point star box-end interior
  * - Multi-layer chrome/metallic highlights
@@ -31,65 +31,24 @@ export default function MTXtrkrLogo({ className = '' }) {
               Rotated 45° (\). Extends from y≈0 to y≈76.
               ═══════════════════════════════════════════════════════════ */}
           <g transform="rotate(45, 40, 40)">
-            {/* ── HANDLE with subtle contour ── */}
-            {/* Main body: narrower at ends, slightly wider at grip center */}
+            {/* ── STRAIGHT HANDLE — simple rectangle with rounded ends ── */}
             <path
-              d="M 37,12 
-                 Q 35,20 34,30 
-                 Q 33.5,35 34,40 
-                 Q 35,45 36,50 
-                 Q 36.5,54 37,58 
-                 L 43,58 
-                 Q 43.5,54 44,50 
-                 Q 45,45 46,40 
-                 Q 46.5,35 46,30 
-                 Q 45,20 43,12 
-                 Z"
+              d="M 36,12 Q 36,10 38,10 L 42,10 Q 44,10 44,12 L 44,58 Q 44,60 42,60 L 38,60 Q 36,60 36,58 Z"
               className="fill-red-600"
             />
-            {/* Bright chrome center stripe */}
+            {/* Chrome center stripe */}
             <path
-              d="M 39,12 
-                 Q 37.5,20 37,30 
-                 Q 36.5,35 37,40 
-                 Q 37.5,45 38,50 
-                 Q 38.5,54 39,58 
-                 L 41,58 
-                 Q 41.5,54 42,50 
-                 Q 42.5,45 43,40 
-                 Q 43.5,35 43,30 
-                 Q 42.5,20 41,12 
-                 Z"
+              d="M 39,10 L 41,10 L 41,60 L 39,60 Z"
               className="fill-white/35"
             />
             {/* Secondary chrome highlight */}
             <path
-              d="M 38,12 
-                 Q 36.5,20 36,30 
-                 Q 35.5,35 36,40 
-                 Q 36.5,45 37,50 
-                 Q 37.5,54 38,58 
-                 L 39,58 
-                 Q 38.5,54 38,50 
-                 Q 37.5,45 37,40 
-                 Q 36.5,35 37,30 
-                 Q 37.5,20 38.5,12 
-                 Z"
+              d="M 38,10 L 39,10 L 39,60 L 38,60 Z"
               className="fill-slate-300/30"
             />
             {/* Left edge highlight */}
             <path
-              d="M 37,12 
-                 Q 35,20 34,30 
-                 Q 33.5,35 34,40 
-                 Q 35,45 36,50 
-                 Q 36.5,54 37,58 
-                 L 37.5,58 
-                 Q 37,54 36.5,50 
-                 Q 35.5,45 34.5,40 
-                 Q 34,35 34.5,30 
-                 Q 35.5,20 37.5,12 
-                 Z"
+              d="M 36,12 L 36,58 L 38.5,60 L 38.5,10 Z"
               className="fill-red-400/30"
             />
 
@@ -161,64 +120,24 @@ export default function MTXtrkrLogo({ className = '' }) {
               Shorter — extends from y≈-8 to y≈68.
               ═══════════════════════════════════════════════════════════ */}
           <g transform="rotate(-45, 40, 40)">
-            {/* ── HANDLE with subtle contour ── */}
+            {/* ── STRAIGHT HANDLE — simple rectangle with rounded ends ── */}
             <path
-              d="M 37,8 
-                 Q 35,16 34,26 
-                 Q 33.5,31 34,36 
-                 Q 35,41 36,46 
-                 Q 36.5,50 37,54 
-                 L 43,54 
-                 Q 43.5,50 44,46 
-                 Q 45,41 46,36 
-                 Q 46.5,31 46,26 
-                 Q 45,16 43,8 
-                 Z"
+              d="M 36,8 Q 36,6 38,6 L 42,6 Q 44,6 44,8 L 44,54 Q 44,56 42,56 L 38,56 Q 36,56 36,54 Z"
               className="fill-red-600"
             />
             {/* Chrome center stripe */}
             <path
-              d="M 39,8 
-                 Q 37.5,16 37,26 
-                 Q 36.5,31 37,36 
-                 Q 37.5,41 38,46 
-                 Q 38.5,50 39,54 
-                 L 41,54 
-                 Q 41.5,50 42,46 
-                 Q 42.5,41 43,36 
-                 Q 43.5,31 43,26 
-                 Q 42.5,16 41,8 
-                 Z"
+              d="M 39,6 L 41,6 L 41,56 L 39,56 Z"
               className="fill-white/35"
             />
             {/* Secondary chrome */}
             <path
-              d="M 38,8 
-                 Q 36.5,16 36,26 
-                 Q 35.5,31 36,36 
-                 Q 36.5,41 37,46 
-                 Q 37.5,50 38,54 
-                 L 39,54 
-                 Q 38.5,50 38,46 
-                 Q 37.5,41 37,36 
-                 Q 36.5,31 37,26 
-                 Q 37.5,16 38.5,8 
-                 Z"
+              d="M 38,6 L 39,6 L 39,56 L 38,56 Z"
               className="fill-slate-300/30"
             />
             {/* Edge highlight */}
             <path
-              d="M 37,8 
-                 Q 35,16 34,26 
-                 Q 33.5,31 34,36 
-                 Q 35,41 36,46 
-                 Q 36.5,50 37,54 
-                 L 37.5,54 
-                 Q 37,50 36.5,46 
-                 Q 35.5,41 34.5,36 
-                 Q 34,31 34.5,26 
-                 Q 35.5,16 37.5,8 
-                 Z"
+              d="M 36,8 L 36,54 L 38.5,56 L 38.5,6 Z"
               className="fill-red-400/30"
             />
 
