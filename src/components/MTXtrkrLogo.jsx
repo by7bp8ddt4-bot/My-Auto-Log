@@ -16,7 +16,7 @@ export default function MTXtrkrLogo({ className = '' }) {
   return (
     <div className={`flex flex-col items-center ${className}`}>
       <div className="flex items-center justify-center gap-0">
-        <span className="text-4xl sm:text-5xl md:text-6xl font-bold text-zinc-400 tracking-tight">
+        <span className="text-4xl sm:text-5xl md:text-6xl font-bold italic text-zinc-400 tracking-tight">
           MT
         </span>
 
