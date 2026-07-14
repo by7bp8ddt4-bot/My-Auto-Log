@@ -7,7 +7,7 @@ import {
 import { formatCurrency, formatNumber, formatDate, getLocalDateString } from '../utils/helpers';
 import { calculateReminderStatus } from '../utils/helpers';
 import { generateResaleReport } from '../utils/generateReport';
-import MileageChart from './MileageChart.jsx';
+import MileageTracker from './MileageTracker.jsx';
 import AICopilot from './AICopilot.jsx';
 import GettingStarted from './GettingStarted.jsx';
 import { useMaintenanceSchedule } from '../hooks/useMaintenanceSchedule';
@@ -222,12 +222,13 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
         ))}
       </div>
 
-      {/* Mileage Chart Section */}
+      {/* Mileage Tracker Section */}
       <div className="mb-8">
-        <MileageChart 
-          logs={vehicleLogs} 
-          vehicles={vehicles} 
-          isPremium={isPremium} 
+        <MileageTracker
+          activeVehicle={activeVehicle}
+          vehicleLogs={vehicleLogs}
+          isPremium={isPremium}
+          onNavigate={onNavigate}
         />
       </div>
 
