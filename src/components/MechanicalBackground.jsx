@@ -660,6 +660,66 @@ export function BevelGearSchematic({ className }) {
 }
 
 // ============================================================================
+// SCHEMATIC 11: Crankshaft / Crank Throw Assembly
+// ============================================================================
+export function CrankshaftSchematic({ className }) {
+  return (
+    <svg className={`pointer-events-none select-none ${className}`} width="400" height="300" viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+      {/* Centerline (main bearing axis) */}
+      <line x1="10" y1="150" x2="390" y2="150" stroke="currentColor" strokeWidth="0.5" strokeDasharray="3,6" className="text-slate-400/30" />
+
+      {/* Main bearing journals (support points along shaft) */}
+      <rect x="30" y="143" width="40" height="14" rx="2" stroke="currentColor" strokeWidth="1" className="text-slate-500" />
+      <rect x="126" y="143" width="40" height="14" rx="2" stroke="currentColor" strokeWidth="1" className="text-slate-500" />
+      <rect x="234" y="143" width="40" height="14" rx="2" stroke="currentColor" strokeWidth="1" className="text-slate-500" />
+      <rect x="330" y="143" width="40" height="14" rx="2" stroke="currentColor" strokeWidth="1" className="text-slate-500" />
+
+      {/* Crank Throw 1 (offset up) */}
+      <line x1="70" y1="150" x2="85" y2="150" stroke="currentColor" strokeWidth="3" className="text-slate-400" />
+      <line x1="85" y1="150" x2="85" y2="100" stroke="currentColor" strokeWidth="3" className="text-slate-400" />
+      <circle cx="85" cy="100" r="6" fill="currentColor" className="text-blue-400/40" />
+      <circle cx="85" cy="100" r="14" stroke="currentColor" strokeWidth="1.2" className="text-slate-500" />
+      <line x1="85" y1="150" x2="100" y2="150" stroke="currentColor" strokeWidth="3" className="text-slate-400" />
+      <path d="M 75 160 Q 85 190, 100 160" stroke="currentColor" strokeWidth="1" className="text-slate-400" fill="rgba(30, 41, 59, 0.2)" />
+
+      {/* Crank Throw 2 (offset down - 180° out of phase) */}
+      <line x1="166" y1="150" x2="181" y2="150" stroke="currentColor" strokeWidth="3" className="text-slate-400" />
+      <line x1="181" y1="150" x2="181" y2="200" stroke="currentColor" strokeWidth="3" className="text-slate-400" />
+      <circle cx="181" cy="200" r="6" fill="currentColor" className="text-blue-400/40" />
+      <circle cx="181" cy="200" r="14" stroke="currentColor" strokeWidth="1.2" className="text-slate-500" />
+      <line x1="181" y1="150" x2="196" y2="150" stroke="currentColor" strokeWidth="3" className="text-slate-400" />
+      <path d="M 171 140 Q 181 110, 196 140" stroke="currentColor" strokeWidth="1" className="text-slate-400" fill="rgba(30, 41, 59, 0.2)" />
+
+      {/* Crank Throw 3 (offset up again - same phase as #1) */}
+      <line x1="274" y1="150" x2="289" y2="150" stroke="currentColor" strokeWidth="3" className="text-slate-400" />
+      <line x1="289" y1="150" x2="289" y2="100" stroke="currentColor" strokeWidth="3" className="text-slate-400" />
+      <circle cx="289" cy="100" r="6" fill="currentColor" className="text-blue-400/40" />
+      <circle cx="289" cy="100" r="14" stroke="currentColor" strokeWidth="1.2" className="text-slate-500" />
+      <line x1="289" y1="150" x2="304" y2="150" stroke="currentColor" strokeWidth="3" className="text-slate-400" />
+      <path d="M 279 160 Q 289 190, 304 160" stroke="currentColor" strokeWidth="1" className="text-slate-400" fill="rgba(30, 41, 59, 0.2)" />
+
+      {/* Flywheel flange (right end) */}
+      <rect x="355" y="130" width="25" height="40" rx="3" stroke="currentColor" strokeWidth="1.2" className="text-slate-500" fill="rgba(30, 41, 59, 0.2)" />
+      <circle cx="368" cy="150" r="15" stroke="currentColor" strokeWidth="0.75" strokeDasharray="2,3" className="text-slate-400" />
+      <text x="360" y="125" fill="currentColor" className="text-slate-400/40 font-mono" style={{ fontSize: '6px' }}>FLYWHEEL</text>
+
+      {/* Stroke dimension annotation */}
+      <path d="M 85 85 L 85 78 M 181 85 L 181 78" stroke="currentColor" strokeWidth="0.5" className="text-blue-400/40" />
+      <line x1="85" y1="82" x2="181" y2="82" stroke="currentColor" strokeWidth="0.5" className="text-blue-400/40" />
+      <text x="110" y="78" fill="currentColor" className="text-blue-300/50 font-mono" style={{ fontSize: '7px' }}>STROKE: 85.0mm</text>
+
+      {/* Phase angle indicator */}
+      <path d="M 85 114 A 50 50 0 0 1 181 214" stroke="currentColor" strokeWidth="0.5" strokeDasharray="2,2" className="text-slate-400/40" />
+      <text x="115" y="195" fill="currentColor" className="text-slate-400/40 font-mono" style={{ fontSize: '6px' }}>PHASE: 180°</text>
+
+      {/* Spec block */}
+      <text x="30" y="275" fill="currentColor" className="text-slate-500/30 font-mono" style={{ fontSize: '7px' }}>CRANKSHAFT: 3-THROW, 4-MAIN JOURNAL</text>
+      <text x="30" y="287" fill="currentColor" className="text-slate-500/30 font-mono" style={{ fontSize: '7px' }}>FORGED STEEL, CROSS-DRILLED OIL PASSAGES</text>
+    </svg>
+  );
+}
+
+// ============================================================================
 // COMPOSITE: MechanicalBackground — places all schematics + grid in a container
 // ============================================================================
 export default function MechanicalBackground({ isAppPage = false }) {
@@ -687,8 +747,8 @@ export default function MechanicalBackground({ isAppPage = false }) {
         {/* Graphic 2: Combustion Cylinder - Right margin behind Features */}
         <CylinderSchematic className={`absolute top-[32%] right-0 sm:-right-20 lg:right-0 xl:right-12 w-48 h-auto sm:w-64 ${hoverEffects}`} />
 
-        {/* Graphic 3: Coil Spring Suspension - Left margin behind Lease Section */}
-        <SuspensionSchematic className={`absolute top-[52%] left-0 sm:-left-20 lg:left-0 xl:left-12 w-48 h-auto sm:w-64 ${hoverEffects}`} />
+        {/* Graphic 3: Coil Spring Suspension - Left margin behind Lease Section (pushed further left to avoid content overlap) */}
+        <SuspensionSchematic className={`absolute top-[52%] -left-24 sm:-left-32 lg:left-0 xl:left-8 w-48 h-auto sm:w-64 ${hoverEffects}`} />
 
         {/* Graphic 4: AWD Drivetrain Layout - Right margin behind Testimonials/FAQ */}
         <DrivetrainSchematic className={`absolute top-[72%] right-0 sm:-right-20 lg:right-0 xl:right-12 w-48 h-auto sm:w-64 ${hoverEffects}`} />
@@ -701,6 +761,9 @@ export default function MechanicalBackground({ isAppPage = false }) {
 
         {/* NEW: Bevel Gear Differential - Right margin behind Features midpoint */}
         <BevelGearSchematic className={`absolute top-[22%] right-0 sm:-right-24 lg:right-0 xl:right-24 w-48 h-auto sm:w-64 ${hoverEffects}`} />
+
+        {/* NEW: Crankshaft Assembly - Bottom Right behind footer */}
+        <CrankshaftSchematic className={`absolute top-[80%] right-0 sm:-right-16 lg:right-0 xl:right-16 w-48 h-auto sm:w-72 ${hoverEffects}`} />
       </div>
     </div>
   );
