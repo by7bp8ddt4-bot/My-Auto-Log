@@ -19,6 +19,12 @@ import MechanicalBackground, {
 export default function LandingPage({ onGetStarted, onViewPremium }) {
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 relative overflow-hidden">
+      {/* Blueprint Background Image Texture */}
+      <div 
+        className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat opacity-[0.12] mix-blend-screen pointer-events-none"
+        style={{ backgroundImage: "url('/assets/blueprint-bg.png')" }}
+      />
+      
       {/* Dynamic Blueprint Engineering Grid + Mechanical Schematics Background */}
       <MechanicalBackground />
       
@@ -127,7 +133,7 @@ export default function LandingPage({ onGetStarted, onViewPremium }) {
           {[
             { title: 'Vehicle Management', desc: 'Track all your vehicles in one place with detailed specs, maintenance charts, records, registrations, photos, and more.', img: vehicleMgmtImg },
             { title: 'Smart Reminders', desc: 'Mileage & time-based alerts that learn your driving patterns.', img: remindersImg },
-            { title: 'AI Co-Pilot', desc: 'Ask it anything — "engine is squeaking when I turn on the AC" or "the car shuttered when I pulled away from the stoplight". Our AI will give you a detailed assessment and send you in the right direction; not to mention keep you from getting swindled. Backed by maintenance schedules from 55+ manufacturers — from Ford and Toyota to CAT, Cummins, and Yamaha.', img: aiCopilotImg },
+            { title: 'AI Co-Pilot', desc: 'Ask it anything — "When is my next oil change?" or "What maintenance should I do at 60k miles?" or "Am I on track with my lease?" Our AI analyzes your vehicle\'s actual data — maintenance schedule, service history, mileage, and specs — to give you precise answers. Switch to Translate mode for symptoms: "engine is squeaking when I turn on the AC" and get a professional diagnosis with estimated costs. Backed by maintenance schedules from 55+ manufacturers — from Ford and Toyota to CAT, Cummins, and Yamaha.', img: aiCopilotImg },
             { title: 'Expense Analytics', desc: 'Track costs per vehicle, per month, with beautiful charts.', img: analyticsImg },
             { title: 'Document Storage', desc: 'Organize purchase records, insurance, photos, and registration in one place. Get automatic renewal reminders 90, 60, and 30 days before your registration expires.', img: documentsImg },
             { title: 'Service History', desc: 'Generate a complete digital health record to boost resale value.', img: serviceLogImg },
