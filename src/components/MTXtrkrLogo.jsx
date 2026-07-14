@@ -41,40 +41,30 @@ export default function MTXtrkrLogo({ className = '' }) {
             <path d="M 38,10 L 39,10 L 39,60 L 38,60 Z" className="fill-slate-300/30" />
             <path d="M 36,12 L 36,58 L 38.5,60 L 38.5,10 Z" className="fill-red-400/30" />
 
-            {/* ── OPEN-END JAW (top) — curved outer, straight inner, U-gap ── */}
-            {/* Jaw head base */}
+            {/* ── OPEN-END JAW (top) — curved outer bevels forward, straight inner, U-gap ── */}
+            {/* Jaw head base — wider section connecting prongs */}
             <path
               d="M 31,12 L 31,4 Q 31,2 32,0 L 48,0 Q 49,2 49,4 L 49,12 Z"
               className="fill-red-600"
             />
-            {/* Left prong — curved outer that tapers/bevels forward */}
+            {/* Left prong — single path: curved outer bevels forward, straight inner, U-shape at bottom */}
             <path
-              d="M 31,4 Q 28,-2 27,-5 L 29,-5 Q 30,-2 32,1 L 31,4 Z"
+              d="M 31,4 Q 27,-2 26,-6 L 28,-6 Q 29,-3 31,1 L 34,7"
               className="fill-red-600"
             />
-            {/* Left prong — straight inner edge */}
+            {/* Right prong — single path: curved outer bevels forward, straight inner */}
             <path
-              d="M 29,-5 L 32,1 L 34,7"
-              className="fill-red-600"
-            />
-            {/* Right prong — curved outer that tapers/bevels forward */}
-            <path
-              d="M 49,4 Q 52,-2 53,-5 L 51,-5 Q 50,-2 48,1 L 49,4 Z"
-              className="fill-red-600"
-            />
-            {/* Right prong — straight inner edge */}
-            <path
-              d="M 53,-5 L 48,1 L 46,7"
+              d="M 49,4 Q 53,-2 54,-6 L 52,-6 Q 51,-3 49,1 L 46,7"
               className="fill-red-600"
             />
             {/* U-shaped opening connecting bottom of inner edges */}
             <path
-              d="M 34,7 Q 37,10 40,10 Q 43,10 46,7"
+              d="M 34,7 Q 38,11 40,11 Q 42,11 46,7"
               className="fill-red-600"
             />
             {/* Jaw chrome highlights */}
-            <path d="M 32,2 Q 30,-1 29,-3 L 30,-4 Q 31,-2 33,0 Z" className="fill-white/25" />
-            <path d="M 48,2 Q 50,-1 51,-3 L 50,-4 Q 49,-2 47,0 Z" className="fill-white/25" />
+            <path d="M 32,2 Q 29,-1 28,-4 L 29,-5 Q 30,-2 33,0 Z" className="fill-white/25" />
+            <path d="M 48,2 Q 51,-1 52,-4 L 51,-5 Q 50,-2 47,0 Z" className="fill-white/25" />
 
             {/* ── THIN BOX-END (bottom) — r=8 outer, 12-point star ── */}
             <circle cx="40" cy="72" r="8" className="fill-red-600" />
@@ -112,24 +102,22 @@ export default function MTXtrkrLogo({ className = '' }) {
             <circle cx="40" cy="2" r="2.5" className="fill-slate-950" />
             <path d="M 33,4 A 7 7 0 0 1 47,4" fill="none" className="stroke-white/20" strokeWidth="1" />
 
-            {/* ── OPEN-END JAW (bottom — inverted) — curved outer, straight inner, U-gap ── */}
+            {/* ── OPEN-END JAW (bottom — inverted) — curved outer bevels forward, straight inner, U-gap ── */}
             <path
               d="M 31,54 L 31,62 Q 31,64 32,66 L 48,66 Q 49,64 49,62 L 49,54 Z"
               className="fill-red-600"
             />
             <path
-              d="M 31,62 Q 28,68 27,71 L 29,71 Q 30,68 32,65 L 31,62 Z"
+              d="M 31,62 Q 27,68 26,72 L 28,72 Q 29,69 31,65 L 34,59"
               className="fill-red-600"
             />
-            <path d="M 27,71 L 32,65 L 34,59" className="fill-red-600" />
             <path
-              d="M 49,62 Q 52,68 53,71 L 51,71 Q 50,68 48,65 L 49,62 Z"
+              d="M 49,62 Q 53,68 54,72 L 52,72 Q 51,69 49,65 L 46,59"
               className="fill-red-600"
             />
-            <path d="M 53,71 L 48,65 L 46,59" className="fill-red-600" />
-            <path d="M 34,59 Q 37,56 40,56 Q 43,56 46,59" className="fill-red-600" />
-            <path d="M 32,64 Q 30,67 29,69 L 30,70 Q 31,68 33,66 Z" className="fill-white/25" />
-            <path d="M 48,64 Q 50,67 51,69 L 50,70 Q 49,68 47,66 Z" className="fill-white/25" />
+            <path d="M 34,59 Q 38,55 40,55 Q 42,55 46,59" className="fill-red-600" />
+            <path d="M 32,64 Q 29,67 28,70 L 29,71 Q 30,68 33,66 Z" className="fill-white/25" />
+            <path d="M 48,64 Q 51,67 52,70 L 51,71 Q 50,68 47,66 Z" className="fill-white/25" />
           </g>
         </svg>
 
