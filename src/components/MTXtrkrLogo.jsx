@@ -1,28 +1,25 @@
 /**
- * MTXtrkr Logo — Crossed Combo Wrenches "X"
+ * MTXtrkr Logo — Realistic Crossed Combo Wrenches "X"
+ * Based on reference image study of real combination wrenches.
  * 
  * Two crossed combo wrenches:
  * - Wrench 1 (LONGER, 45°): open-end at top-left, box-end at bottom-right — forms the \
- *   Sticks DOWN FURTHER so the "\" wrench extends lower at bottom-right.
  * - Wrench 2 (SHORTER, -45°, inverted): box-end at top-right, open-end at bottom-left — forms the /
  * 
- * Features:
- * - Straight handles (simple rectangles with rounded ends)
- * - Straight open-end jaws (no offset, inline with handle)
- * - Thin 12-point star box-end interiors
- * - Chrome/metallic highlights in white/silver
+ * Realistic features:
+ * - Subtly contoured handle (narrow at ends, slightly wider at grip center)
+ * - Open-end jaw with angled gripping surfaces and visible teeth
+ * - Thin 12-point star box-end interior
+ * - Multi-layer chrome/metallic highlights
  */
 export default function MTXtrkrLogo({ className = '' }) {
   return (
     <div className={`flex flex-col items-center ${className}`}>
-      {/* Main Logo Row: MT + Crossed Wrenches X + trkr */}
       <div className="flex items-center justify-center gap-0">
-        {/* "MT" — gunmetal grey */}
         <span className="text-4xl sm:text-5xl md:text-6xl font-bold text-zinc-400 tracking-tight">
           MT
         </span>
 
-        {/* Two Crossed Combo Wrenches — slightly larger than "MT" text */}
         <svg
           viewBox="0 0 80 80"
           className="w-14 h-14 sm:w-20 sm:h-20 md:w-24 md:h-24 mx-1 sm:mx-1.5"
@@ -31,161 +28,256 @@ export default function MTXtrkrLogo({ className = '' }) {
         >
           {/* ═══════════════════════════════════════════════════════════
               WRENCH 1 — LONGER, open-end at top-left, box-end at bottom-right
-              Rotated 45° (\). Extends from y≈-2 to y≈74 — sticks down further.
+              Rotated 45° (\). Extends from y≈0 to y≈76.
               ═══════════════════════════════════════════════════════════ */}
           <g transform="rotate(45, 40, 40)">
-            {/* ── STRAIGHT HANDLE — simple rectangle ── */}
+            {/* ── HANDLE with subtle contour ── */}
+            {/* Main body: narrower at ends, slightly wider at grip center */}
             <path
-              d="M 36,12 Q 36,10 38,10 L 42,10 Q 44,10 44,12 L 44,56 Q 44,58 42,58 L 38,58 Q 36,58 36,56 Z"
+              d="M 37,12 
+                 Q 35,20 34,30 
+                 Q 33.5,35 34,40 
+                 Q 35,45 36,50 
+                 Q 36.5,54 37,58 
+                 L 43,58 
+                 Q 43.5,54 44,50 
+                 Q 45,45 46,40 
+                 Q 46.5,35 46,30 
+                 Q 45,20 43,12 
+                 Z"
               className="fill-red-600"
             />
-            {/* Chrome center stripe */}
+            {/* Bright chrome center stripe */}
             <path
-              d="M 39,10 L 41,10 L 41,58 L 39,58 Z"
+              d="M 39,12 
+                 Q 37.5,20 37,30 
+                 Q 36.5,35 37,40 
+                 Q 37.5,45 38,50 
+                 Q 38.5,54 39,58 
+                 L 41,58 
+                 Q 41.5,54 42,50 
+                 Q 42.5,45 43,40 
+                 Q 43.5,35 43,30 
+                 Q 42.5,20 41,12 
+                 Z"
               className="fill-white/35"
+            />
+            {/* Secondary chrome highlight */}
+            <path
+              d="M 38,12 
+                 Q 36.5,20 36,30 
+                 Q 35.5,35 36,40 
+                 Q 36.5,45 37,50 
+                 Q 37.5,54 38,58 
+                 L 39,58 
+                 Q 38.5,54 38,50 
+                 Q 37.5,45 37,40 
+                 Q 36.5,35 37,30 
+                 Q 37.5,20 38.5,12 
+                 Z"
+              className="fill-slate-300/30"
             />
             {/* Left edge highlight */}
             <path
-              d="M 36,12 Q 36,10 38,10 L 38.5,10 L 38.5,58 L 36,58 Q 36,58 36,56 Z"
+              d="M 37,12 
+                 Q 35,20 34,30 
+                 Q 33.5,35 34,40 
+                 Q 35,45 36,50 
+                 Q 36.5,54 37,58 
+                 L 37.5,58 
+                 Q 37,54 36.5,50 
+                 Q 35.5,45 34.5,40 
+                 Q 34,35 34.5,30 
+                 Q 35.5,20 37.5,12 
+                 Z"
               className="fill-red-400/30"
             />
 
-            {/* ── STRAIGHT OPEN-END JAW (top) — no offset ── */}
-            {/* Jaw head — wider base */}
+            {/* ── OPEN-END JAW (top) — realistic gripping surfaces ── */}
+            {/* Jaw head base — wider section */}
             <path
-              d="M 33,12 L 33,6 Q 33,4 34,2 L 46,2 Q 47,4 47,6 L 47,12 Z"
+              d="M 32,12 L 32,5 Q 32,3 33,1 L 47,1 Q 48,3 48,5 L 48,12 Z"
               className="fill-red-600"
             />
-            {/* Left prong — outer */}
+            {/* Left prong — outer shape */}
             <path
-              d="M 33,6 Q 31,0 29,-2 L 27,-2 Q 28,0 30,4 L 33,8 Z"
+              d="M 32,5 Q 30,-1 29,-4 L 27,-4 Q 28,-2 30,1 L 32,5 Z"
               className="fill-red-600"
             />
-            {/* Left prong — gripping tooth */}
+            {/* Left prong — angled gripping surface with teeth */}
             <path
-              d="M 30,4 L 28,1 L 27,4 Z"
+              d="M 32,5 L 30,1 Q 29,-1 28,-3 L 28,-2 L 29,-1 L 28,0 L 29,1 L 28,2 L 30,4 Z"
               className="fill-red-600"
             />
-            {/* Right prong — outer */}
+            {/* Right prong — outer shape */}
             <path
-              d="M 47,6 Q 49,0 51,-2 L 53,-2 Q 52,0 50,4 L 47,8 Z"
+              d="M 48,5 Q 50,-1 51,-4 L 53,-4 Q 52,-2 50,1 L 48,5 Z"
               className="fill-red-600"
             />
-            {/* Right prong — gripping tooth */}
+            {/* Right prong — angled gripping surface with teeth */}
             <path
-              d="M 50,4 L 52,1 L 53,4 Z"
+              d="M 48,5 L 50,1 Q 51,-1 52,-3 L 52,-2 L 51,-1 L 52,0 L 51,1 L 52,2 L 50,4 Z"
               className="fill-red-600"
             />
             {/* U-shaped opening */}
             <path
-              d="M 33,8 Q 36,11 40,11 Q 44,11 47,8"
+              d="M 32,8 Q 35,11 40,11 Q 45,11 48,8"
               className="fill-red-600"
             />
             {/* Jaw chrome highlights */}
             <path
-              d="M 34,4 Q 33,2 31,0 L 32,-1 Q 33,0 34,2 Z"
+              d="M 33,3 Q 32,1 31,-1 L 32,-2 Q 33,0 34,2 Z"
               className="fill-white/25"
             />
             <path
-              d="M 46,4 Q 47,2 49,0 L 48,-1 Q 47,0 46,2 Z"
+              d="M 47,3 Q 48,1 49,-1 L 48,-2 Q 47,0 46,2 Z"
               className="fill-white/25"
             />
 
-            {/* ── BOX-END (bottom) with thin 12-point star wall ── */}
+            {/* ── BOX-END (bottom) — thin 12-point star ── */}
             {/* Outer ring */}
-            <circle cx="40" cy="66" r="10" className="fill-red-600" />
-            {/* 12-point star interior — single polygon */}
+            <circle cx="40" cy="68" r="10" className="fill-red-600" />
+            {/* Outer ring chrome */}
+            <circle cx="40" cy="68" r="9" className="fill-red-500/40" />
+            {/* 12-point star interior */}
             <polygon
-              points="40,57.5 42,60.5 47,61 43.5,63.5 44.5,68.5 40,66 35.5,68.5 36.5,63.5 33,61 38,60.5"
+              points="40,59.5 42,62.5 47,63 43.5,65.5 44.5,70.5 40,68 35.5,70.5 36.5,65.5 33,63 38,62.5"
               className="fill-red-900"
             />
             {/* Center hole */}
-            <circle cx="40" cy="63.5" r="3.5" className="fill-slate-950" />
-            {/* Edge chrome */}
-            <circle cx="40" cy="66" r="9" className="fill-red-500/40" />
+            <circle cx="40" cy="65.5" r="3.5" className="fill-slate-950" />
+            {/* Edge chrome highlight */}
+            <path
+              d="M 31,68 A 9 9 0 0 1 49,68"
+              fill="none"
+              className="stroke-white/20"
+              strokeWidth="1.5"
+            />
           </g>
 
           {/* ═══════════════════════════════════════════════════════════
               WRENCH 2 — SHORTER, box-end at top-right, open-end at bottom-left
               Rotated -45° (/). Inverted: box-end at top, open-end at bottom.
-              Shorter — extends from y≈-8 to y≈66.
+              Shorter — extends from y≈-8 to y≈68.
               ═══════════════════════════════════════════════════════════ */}
           <g transform="rotate(-45, 40, 40)">
-            {/* ── STRAIGHT HANDLE — simple rectangle ── */}
+            {/* ── HANDLE with subtle contour ── */}
             <path
-              d="M 36,8 Q 36,6 38,6 L 42,6 Q 44,6 44,8 L 44,54 Q 44,56 42,56 L 38,56 Q 36,56 36,54 Z"
+              d="M 37,8 
+                 Q 35,16 34,26 
+                 Q 33.5,31 34,36 
+                 Q 35,41 36,46 
+                 Q 36.5,50 37,54 
+                 L 43,54 
+                 Q 43.5,50 44,46 
+                 Q 45,41 46,36 
+                 Q 46.5,31 46,26 
+                 Q 45,16 43,8 
+                 Z"
               className="fill-red-600"
             />
             {/* Chrome center stripe */}
             <path
-              d="M 39,6 L 41,6 L 41,56 L 39,56 Z"
+              d="M 39,8 
+                 Q 37.5,16 37,26 
+                 Q 36.5,31 37,36 
+                 Q 37.5,41 38,46 
+                 Q 38.5,50 39,54 
+                 L 41,54 
+                 Q 41.5,50 42,46 
+                 Q 42.5,41 43,36 
+                 Q 43.5,31 43,26 
+                 Q 42.5,16 41,8 
+                 Z"
               className="fill-white/35"
             />
-            {/* Left edge highlight */}
+            {/* Secondary chrome */}
             <path
-              d="M 36,8 Q 36,6 38,6 L 38.5,6 L 38.5,56 L 36,56 Q 36,56 36,54 Z"
+              d="M 38,8 
+                 Q 36.5,16 36,26 
+                 Q 35.5,31 36,36 
+                 Q 36.5,41 37,46 
+                 Q 37.5,50 38,54 
+                 L 39,54 
+                 Q 38.5,50 38,46 
+                 Q 37.5,41 37,36 
+                 Q 36.5,31 37,26 
+                 Q 37.5,16 38.5,8 
+                 Z"
+              className="fill-slate-300/30"
+            />
+            {/* Edge highlight */}
+            <path
+              d="M 37,8 
+                 Q 35,16 34,26 
+                 Q 33.5,31 34,36 
+                 Q 35,41 36,46 
+                 Q 36.5,50 37,54 
+                 L 37.5,54 
+                 Q 37,50 36.5,46 
+                 Q 35.5,41 34.5,36 
+                 Q 34,31 34.5,26 
+                 Q 35.5,16 37.5,8 
+                 Z"
               className="fill-red-400/30"
             />
 
             {/* ── BOX-END (top) ── */}
             <circle cx="40" cy="-2" r="10" className="fill-red-600" />
+            <circle cx="40" cy="-2" r="9" className="fill-red-500/40" />
             <polygon
               points="40,-10.5 42,-7.5 47,-7 43.5,-4.5 44.5,0.5 40,-2 35.5,0.5 36.5,-4.5 33,-7 38,-7.5"
               className="fill-red-900"
             />
             <circle cx="40" cy="-4.5" r="3.5" className="fill-slate-950" />
-            <circle cx="40" cy="-2" r="9" className="fill-red-500/40" />
+            <path
+              d="M 31,-2 A 9 9 0 0 1 49,-2"
+              fill="none"
+              className="stroke-white/20"
+              strokeWidth="1.5"
+            />
 
-            {/* ── STRAIGHT OPEN-END JAW (bottom — inverted) ── */}
-            {/* Jaw head base */}
+            {/* ── OPEN-END JAW (bottom — inverted) ── */}
             <path
-              d="M 33,54 L 33,60 Q 33,62 34,64 L 46,64 Q 47,62 47,60 L 47,54 Z"
+              d="M 32,54 L 32,61 Q 32,63 33,65 L 47,65 Q 48,63 48,61 L 48,54 Z"
               className="fill-red-600"
             />
-            {/* Left prong outer */}
             <path
-              d="M 33,60 Q 31,66 29,68 L 27,68 Q 28,66 30,62 L 33,58 Z"
+              d="M 32,61 Q 30,67 29,70 L 27,70 Q 28,68 30,65 L 32,61 Z"
               className="fill-red-600"
             />
-            {/* Left prong gripping tooth */}
             <path
-              d="M 30,62 L 28,65 L 27,62 Z"
+              d="M 32,61 L 30,65 Q 29,67 28,69 L 28,68 L 29,67 L 28,66 L 29,65 L 28,64 L 30,62 Z"
               className="fill-red-600"
             />
-            {/* Right prong outer */}
             <path
-              d="M 47,60 Q 49,66 51,68 L 53,68 Q 52,66 50,62 L 47,58 Z"
+              d="M 48,61 Q 50,67 51,70 L 53,70 Q 52,68 50,65 L 48,61 Z"
               className="fill-red-600"
             />
-            {/* Right prong gripping tooth */}
             <path
-              d="M 50,62 L 52,65 L 53,62 Z"
+              d="M 48,61 L 50,65 Q 51,67 52,69 L 52,68 L 51,67 L 52,66 L 51,65 L 52,64 L 50,62 Z"
               className="fill-red-600"
             />
-            {/* U-opening */}
             <path
-              d="M 33,58 Q 36,55 40,55 Q 44,55 47,58"
+              d="M 32,58 Q 35,55 40,55 Q 45,55 48,58"
               className="fill-red-600"
             />
-            {/* Jaw chrome highlights */}
             <path
-              d="M 34,62 Q 33,64 31,66 L 32,67 Q 33,66 34,64 Z"
+              d="M 33,63 Q 32,65 31,67 L 32,68 Q 33,66 34,64 Z"
               className="fill-white/25"
             />
             <path
-              d="M 46,62 Q 47,64 49,66 L 48,67 Q 47,66 46,64 Z"
+              d="M 47,63 Q 48,65 49,67 L 48,68 Q 47,66 46,64 Z"
               className="fill-white/25"
             />
           </g>
         </svg>
 
-        {/* "trkr" — white */}
         <span className="text-4xl sm:text-5xl md:text-6xl font-bold text-white tracking-tight">
           trkr
         </span>
       </div>
 
-      {/* Taglines */}
       <p className="text-lg sm:text-xl text-slate-400 italic mt-1">
         Mainten<span className="text-red-600">X</span> Tracker
       </p>
