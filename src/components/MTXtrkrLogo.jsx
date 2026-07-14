@@ -3,7 +3,7 @@
  * 
  * Two crossed combo wrenches:
  * - Wrench 1 (LONGER, 45°): open-end at top-left, box-end at bottom-right — forms the \
- *   Sticks DOWN FURTHER so the "\" wrench extends lower at bottom-right.
+ *   Sticks DOWN FURTHER at bottom-right.
  * - Wrench 2 (SHORTER, -45°, inverted): box-end at top-right, open-end at bottom-left — forms the /
  * 
  * Features:
@@ -46,7 +46,7 @@ export default function MTXtrkrLogo({ className = '' }) {
             />
             {/* Left edge highlight */}
             <path
-              d="M 36,12 Q 36,10 38,10 L 38.5,10 L 38.5,58 L 36,58 Q 36,58 36,56 Z"
+              d="M 36,12 L 36,56 L 38.5,58 L 38.5,10 Z"
               className="fill-red-400/30"
             />
 
@@ -56,24 +56,24 @@ export default function MTXtrkrLogo({ className = '' }) {
               d="M 33,12 L 33,6 Q 33,4 34,2 L 46,2 Q 47,4 47,6 L 47,12 Z"
               className="fill-red-600"
             />
-            {/* Left prong — outer */}
+            {/* Left prong */}
             <path
-              d="M 33,6 Q 31,0 29,-2 L 27,-2 Q 28,0 30,4 L 33,8 Z"
+              d="M 33,6 Q 31,0 30,-2 L 28,-2 Q 29,0 31,4 L 33,8 Z"
               className="fill-red-600"
             />
-            {/* Left prong — gripping tooth */}
+            {/* Left prong gripping tooth */}
             <path
-              d="M 30,4 L 28,1 L 27,4 Z"
+              d="M 31,4 L 29,1 L 28,4 Z"
               className="fill-red-600"
             />
-            {/* Right prong — outer */}
+            {/* Right prong */}
             <path
-              d="M 47,6 Q 49,0 51,-2 L 53,-2 Q 52,0 50,4 L 47,8 Z"
+              d="M 47,6 Q 49,0 50,-2 L 52,-2 Q 51,0 49,4 L 47,8 Z"
               className="fill-red-600"
             />
-            {/* Right prong — gripping tooth */}
+            {/* Right prong gripping tooth */}
             <path
-              d="M 50,4 L 52,1 L 53,4 Z"
+              d="M 49,4 L 51,1 L 52,4 Z"
               className="fill-red-600"
             />
             {/* U-shaped opening */}
@@ -83,25 +83,21 @@ export default function MTXtrkrLogo({ className = '' }) {
             />
             {/* Jaw chrome highlights */}
             <path
-              d="M 34,4 Q 33,2 31,0 L 32,-1 Q 33,0 34,2 Z"
+              d="M 34,4 Q 33,2 32,0 L 33,-1 Q 34,0 35,2 Z"
               className="fill-white/25"
             />
             <path
-              d="M 46,4 Q 47,2 49,0 L 48,-1 Q 47,0 46,2 Z"
+              d="M 46,4 Q 47,2 48,0 L 47,-1 Q 46,0 45,2 Z"
               className="fill-white/25"
             />
 
             {/* ── BOX-END (bottom) with thin 12-point star wall ── */}
-            {/* Outer ring */}
             <circle cx="40" cy="66" r="10" className="fill-red-600" />
-            {/* 12-point star interior — single polygon */}
             <polygon
               points="40,57.5 42,60.5 47,61 43.5,63.5 44.5,68.5 40,66 35.5,68.5 36.5,63.5 33,61 38,60.5"
               className="fill-red-900"
             />
-            {/* Center hole */}
             <circle cx="40" cy="63.5" r="3.5" className="fill-slate-950" />
-            {/* Edge chrome */}
             <circle cx="40" cy="66" r="9" className="fill-red-500/40" />
           </g>
 
@@ -123,7 +119,7 @@ export default function MTXtrkrLogo({ className = '' }) {
             />
             {/* Left edge highlight */}
             <path
-              d="M 36,8 Q 36,6 38,6 L 38.5,6 L 38.5,56 L 36,56 Q 36,56 36,54 Z"
+              d="M 36,8 L 36,54 L 38.5,56 L 38.5,6 Z"
               className="fill-red-400/30"
             />
 
@@ -137,43 +133,36 @@ export default function MTXtrkrLogo({ className = '' }) {
             <circle cx="40" cy="-2" r="9" className="fill-red-500/40" />
 
             {/* ── STRAIGHT OPEN-END JAW (bottom — inverted) ── */}
-            {/* Jaw head base */}
             <path
               d="M 33,54 L 33,60 Q 33,62 34,64 L 46,64 Q 47,62 47,60 L 47,54 Z"
               className="fill-red-600"
             />
-            {/* Left prong outer */}
             <path
-              d="M 33,60 Q 31,66 29,68 L 27,68 Q 28,66 30,62 L 33,58 Z"
+              d="M 33,60 Q 31,66 30,68 L 28,68 Q 29,66 31,62 L 33,58 Z"
               className="fill-red-600"
             />
-            {/* Left prong gripping tooth */}
             <path
-              d="M 30,62 L 28,65 L 27,62 Z"
+              d="M 31,62 L 29,65 L 28,62 Z"
               className="fill-red-600"
             />
-            {/* Right prong outer */}
             <path
-              d="M 47,60 Q 49,66 51,68 L 53,68 Q 52,66 50,62 L 47,58 Z"
+              d="M 47,60 Q 49,66 50,68 L 52,68 Q 51,66 49,62 L 47,58 Z"
               className="fill-red-600"
             />
-            {/* Right prong gripping tooth */}
             <path
-              d="M 50,62 L 52,65 L 53,62 Z"
+              d="M 49,62 L 51,65 L 52,62 Z"
               className="fill-red-600"
             />
-            {/* U-opening */}
             <path
               d="M 33,58 Q 36,55 40,55 Q 44,55 47,58"
               className="fill-red-600"
             />
-            {/* Jaw chrome highlights */}
             <path
-              d="M 34,62 Q 33,64 31,66 L 32,67 Q 33,66 34,64 Z"
+              d="M 34,62 Q 33,64 32,66 L 33,67 Q 34,66 35,64 Z"
               className="fill-white/25"
             />
             <path
-              d="M 46,62 Q 47,64 49,66 L 48,67 Q 47,66 46,64 Z"
+              d="M 46,62 Q 47,64 48,66 L 47,67 Q 46,66 45,64 Z"
               className="fill-white/25"
             />
           </g>
