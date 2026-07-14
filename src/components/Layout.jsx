@@ -2,6 +2,7 @@ import { useState } from 'react';
 import logoImg from '/assets/logo.png';
 import iconImg from '/assets/icon-1024.png';
 import { LayoutDashboard, Car, ClipboardList, Bell, Settings, LogOut, ChevronRight, Calendar, Fuel, Wrench, Grid3X3, X, FileText } from 'lucide-react';
+import MechanicalBackground from './MechanicalBackground.jsx';
 
 const allNavItems = [
   { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
@@ -32,6 +33,11 @@ export default function Layout({ currentPage, onNavigate, onLogout, children }) 
 
   return (
     <div className="min-h-screen bg-slate-950 flex flex-col">
+      {/* Mechanical Schematic Background (lower opacity for readability) */}
+      <MechanicalBackground isAppPage />
+
+      {/* Main Content wrapper */}
+      <div className="relative z-10 flex flex-col min-h-screen">
       {/* Top Header */}
       <header className="bg-slate-900/80 backdrop-blur-md border-b border-slate-800 sticky top-0 z-40">
         <div className="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
@@ -171,6 +177,7 @@ export default function Layout({ currentPage, onNavigate, onLogout, children }) 
           <p className="text-[10px] text-slate-600 px-3">MTXtrkr v1.0</p>
         </div>
       </aside>
+      </div> {/* Close relative z-10 wrapper */}
     </div>
   );
 }
