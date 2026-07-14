@@ -6,6 +6,7 @@ import {
   Bike
 } from 'lucide-react';
 import MechanicalBackground from './MechanicalBackground';
+import MTXtrkrLogo from './MTXtrkrLogo';
 import heroImage from '/assets/hero.png';
 import vehicleMgmtImg from '/assets/features/vehicle-mgmt.png';
 import remindersImg from '/assets/features/reminders.png';
@@ -28,18 +29,8 @@ export default function LandingPage({ onGetStarted, onViewPremium }) {
 
           <div className="max-w-6xl mx-auto px-4 pt-16 pb-24 relative">
           <div className="flex flex-col items-center text-center">
-            {/* Brand Name + Tagline */}
-            <div className="mb-8">
-              <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white tracking-tight">
-                MTXtrkr
-              </h2>
-              <p className="text-lg sm:text-xl text-slate-400 italic mt-1">
-                Maintenance Tracker
-              </p>
-              <p className="text-sm sm:text-base text-slate-500 italic">
-                — Your Owner's Manual Simplified
-              </p>
-            </div>
+            {/* Brand Name + Tagline — SVG Logo with Wrench/Ratchet X */}
+            <MTXtrkrLogo className="mb-8" />
 
             {/* Headline */}
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight leading-tight mb-6">
