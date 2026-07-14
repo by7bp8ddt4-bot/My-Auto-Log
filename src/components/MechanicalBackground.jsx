@@ -11,12 +11,12 @@ export function BlueprintGrid({ className = '' }) {
     <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" className={`w-full h-full ${className}`}>
       <defs>
         <pattern id="sub-grid" width="15" height="15" patternUnits="userSpaceOnUse">
-          <path d="M 15 0 L 0 0 0 15" fill="none" stroke="rgba(59, 130, 246, 0.13)" strokeWidth="0.5" />
+          <path d="M 15 0 L 0 0 0 15" fill="none" stroke="rgba(59, 130, 246, 0.16)" strokeWidth="0.5" />
         </pattern>
         <pattern id="main-grid" width="75" height="75" patternUnits="userSpaceOnUse">
           <rect width="100%" height="100%" fill="url(#sub-grid)" />
-          <path d="M 75 0 L 0 0 0 75" fill="none" stroke="rgba(59, 130, 246, 0.28)" strokeWidth="1" />
-          <path d="M 0 4 L 0 -4 M -4 0 L 4 0 M 75 4 L 75 -4 M 71 0 L 79 0 M 0 79 L 0 71" fill="none" stroke="rgba(59, 130, 246, 0.50)" strokeWidth="0.75" />
+          <path d="M 75 0 L 0 0 0 75" fill="none" stroke="rgba(59, 130, 246, 0.34)" strokeWidth="1" />
+          <path d="M 0 4 L 0 -4 M -4 0 L 4 0 M 75 4 L 75 -4 M 71 0 L 79 0 M 0 79 L 0 71" fill="none" stroke="rgba(59, 130, 246, 0.60)" strokeWidth="0.75" />
         </pattern>
       </defs>
       <rect width="100%" height="100%" fill="url(#main-grid)" />
@@ -720,20 +720,227 @@ export function CrankshaftSchematic({ className }) {
 }
 
 // ============================================================================
+// SCHEMATIC 12: Turbocharger Cutaway
+// ============================================================================
+export function TurbochargerSchematic({ className }) {
+  return (
+    <svg className={`pointer-events-none select-none ${className}`} width="360" height="300" viewBox="0 0 360 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+      {/* Centerline */}
+      <line x1="10" y1="150" x2="350" y2="150" stroke="currentColor" strokeWidth="0.5" strokeDasharray="3,6" className="text-slate-400/30" />
+
+      {/* Center Housing (bearing housing) */}
+      <rect x="130" y="100" width="80" height="100" rx="6" stroke="currentColor" strokeWidth="1.5" className="text-slate-500" fill="rgba(30, 41, 59, 0.15)" />
+      <text x="148" y="155" fill="currentColor" className="text-slate-400/40 font-mono" style={{ fontSize: '7px' }}>CENTER</text>
+      <text x="145" y="167" fill="currentColor" className="text-slate-400/40 font-mono" style={{ fontSize: '7px' }}>HOUSING</text>
+
+      {/* Turbine Housing (left side - hot side) */}
+      <path d="M 50 120 C 30 120, 30 180, 50 180 L 130 180 L 130 120 Z" stroke="currentColor" strokeWidth="1.5" className="text-slate-500" fill="rgba(30, 41, 59, 0.15)" />
+      <text x="55" y="165" fill="currentColor" className="text-slate-400/40 font-mono" style={{ fontSize: '6px' }}>TURBINE</text>
+
+      {/* Compressor Housing (right side - cold side) */}
+      <path d="M 210 120 C 260 110, 290 130, 300 150 C 290 170, 260 190, 210 180 L 210 120 Z" stroke="currentColor" strokeWidth="1.5" className="text-slate-500" fill="rgba(30, 41, 59, 0.15)" />
+      <text x="240" y="165" fill="currentColor" className="text-slate-400/40 font-mono" style={{ fontSize: '6px' }}>COMPRESSOR</text>
+
+      {/* Turbine Wheel (left) */}
+      <circle cx="120" cy="150" r="30" stroke="currentColor" strokeWidth="1" className="text-slate-400" />
+      <circle cx="120" cy="150" r="10" stroke="currentColor" strokeWidth="1" className="text-slate-400" />
+      {[...Array(12)].map((_, i) => {
+        const angle = (i * 30 * Math.PI) / 180;
+        const x1 = 120 + 28 * Math.cos(angle);
+        const y1 = 150 + 28 * Math.sin(angle);
+        const x2 = 120 + 34 * Math.cos(angle);
+        const y2 = 150 + 34 * Math.sin(angle);
+        return <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="currentColor" strokeWidth="1.5" className="text-slate-400" />;
+      })}
+
+      {/* Compressor Wheel (right) */}
+      <circle cx="200" cy="150" r="25" stroke="currentColor" strokeWidth="1" className="text-slate-400" />
+      <circle cx="200" cy="150" r="8" stroke="currentColor" strokeWidth="1" className="text-slate-400" />
+      {[...Array(10)].map((_, i) => {
+        const angle = ((i * 36 + 10) * Math.PI) / 180;
+        const x1 = 200 + 23 * Math.cos(angle);
+        const y1 = 150 + 23 * Math.sin(angle);
+        const x2 = 200 + 29 * Math.cos(angle);
+        const y2 = 150 + 29 * Math.sin(angle);
+        return <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="currentColor" strokeWidth="1.5" className="text-slate-400" />;
+      })}
+
+      {/* Shaft connecting turbine to compressor */}
+      <line x1="120" y1="150" x2="200" y2="150" stroke="currentColor" strokeWidth="2.5" className="text-slate-400" />
+
+      {/* Exhaust inlet (left) */}
+      <path d="M 20 130 L 50 130" stroke="currentColor" strokeWidth="1.5" className="text-slate-400/40" />
+      <path d="M 20 170 L 50 170" stroke="currentColor" strokeWidth="1.5" className="text-slate-400/40" />
+      <text x="5" y="155" fill="currentColor" className="text-slate-400/40 font-mono" style={{ fontSize: '6px' }}>EXH IN</text>
+
+      {/* Intake outlet (right) */}
+      <path d="M 300 140 L 340 140" stroke="currentColor" strokeWidth="1.5" className="text-slate-400/40" />
+      <path d="M 300 160 L 340 160" stroke="currentColor" strokeWidth="1.5" className="text-slate-400/40" />
+      <text x="320" y="135" fill="currentColor" className="text-slate-400/40 font-mono" style={{ fontSize: '6px' }}>BOOST OUT</text>
+
+      {/* Wastegate actuator */}
+      <path d="M 80 100 L 80 80 L 110 80" stroke="currentColor" strokeWidth="0.75" strokeDasharray="2,2" className="text-blue-400/40" />
+      <circle cx="110" cy="80" r="8" stroke="currentColor" strokeWidth="0.75" className="text-blue-400/40" />
+      <text x="115" y="83" fill="currentColor" className="text-blue-300/50 font-mono" style={{ fontSize: '6px' }}>WG</text>
+
+      {/* Spec block */}
+      <text x="80" y="260" fill="currentColor" className="text-slate-500/30 font-mono" style={{ fontSize: '7px' }}>TURBOCHARGER: T04E SINGLE SCROLL</text>
+      <text x="80" y="272" fill="currentColor" className="text-slate-500/30 font-mono" style={{ fontSize: '7px' }}>TRIM: 60 A/R: 0.63 BOOST: 14psi</text>
+    </svg>
+  );
+}
+
+// ============================================================================
+// SCHEMATIC 13: Clutch Assembly Exploded View
+// ============================================================================
+export function ClutchAssemblySchematic({ className }) {
+  return (
+    <svg className={`pointer-events-none select-none ${className}`} width="300" height="350" viewBox="0 0 300 350" fill="none" xmlns="http://www.w3.org/2000/svg">
+      {/* Centerline */}
+      <line x1="150" y1="10" x2="150" y2="340" stroke="currentColor" strokeWidth="0.5" strokeDasharray="2,4" className="text-slate-400/30" />
+
+      {/* Flywheel (left/largest) */}
+      <rect x="60" y="40" width="180" height="30" rx="4" stroke="currentColor" strokeWidth="1.5" className="text-slate-500" fill="rgba(30, 41, 59, 0.15)" />
+      <text x="130" y="60" fill="currentColor" className="text-slate-400/40 font-mono" style={{ fontSize: '7px' }}>FLYWHEEL</text>
+      {/* Ring gear teeth on flywheel */}
+      {[...Array(20)].map((_, i) => (
+        <line key={i} x1={60 + i * 9} y1={40} x2={60 + i * 9} y2={35} stroke="currentColor" strokeWidth="1" className="text-slate-400/40" />
+      ))}
+
+      {/* Clutch Disc (friction plate) */}
+      <rect x="70" y="80" width="160" height="20" rx="3" stroke="currentColor" strokeWidth="1.2" className="text-slate-400" fill="rgba(30, 41, 59, 0.2)" />
+      <text x="120" y="94" fill="currentColor" className="text-slate-400/40 font-mono" style={{ fontSize: '7px' }}>CLUTCH DISC</text>
+      {/* Friction material segments */}
+      {[80, 100, 120, 140, 160, 180, 200, 220].map((x, i) => (
+        <rect key={i} x={x} y={82} width="8" height="16" rx="1" stroke="currentColor" strokeWidth="0.5" className="text-slate-500" />
+      ))}
+      {/* Hub splines */}
+      <circle cx="150" cy="90" r="10" stroke="currentColor" strokeWidth="1" className="text-slate-400" />
+      <circle cx="150" cy="90" r="5" stroke="currentColor" strokeWidth="0.5" strokeDasharray="2,2" className="text-slate-400" />
+
+      {/* Pressure Plate */}
+      <rect x="65" y="115" width="170" height="25" rx="4" stroke="currentColor" strokeWidth="1.2" className="text-slate-500" fill="rgba(30, 41, 59, 0.15)" />
+      <text x="115" y="132" fill="currentColor" className="text-slate-400/40 font-mono" style={{ fontSize: '7px' }}>PRESSURE PLATE</text>
+
+      {/* Diaphragm spring (conical shape) */}
+      <path d="M 100 155 L 150 140 L 200 155" stroke="currentColor" strokeWidth="1.5" className="text-slate-400" />
+      <path d="M 80 165 L 150 145 L 220 165" stroke="currentColor" strokeWidth="1" className="text-slate-400" />
+      <text x="110" y="170" fill="currentColor" className="text-slate-400/40 font-mono" style={{ fontSize: '6px' }}>DIAPHRAGM SPRING</text>
+
+      {/* Release bearing (throwout bearing) */}
+      <rect x="135" y="185" width="30" height="15" rx="3" stroke="currentColor" strokeWidth="1" className="text-slate-500" fill="rgba(30, 41, 59, 0.2)" />
+      <text x="125" y="210" fill="currentColor" className="text-slate-400/40 font-mono" style={{ fontSize: '6px' }}>RELEASE BEARING</text>
+
+      {/* Input shaft */}
+      <line x1="150" y1="200" x2="150" y2="250" stroke="currentColor" strokeWidth="2.5" className="text-slate-400" />
+      {/* Spline detail on shaft */}
+      {[140, 145, 150, 155, 160].map((x, i) => (
+        <line key={i} x1={x} y1="230" x2={x} y2="250" stroke="currentColor" strokeWidth="0.75" className="text-slate-400/40" />
+      ))}
+
+      {/* Clutch fork */}
+      <path d="M 180 195 L 220 195 L 230 205" stroke="currentColor" strokeWidth="1" strokeDasharray="2,2" className="text-blue-400/40" />
+      <circle cx="230" cy="205" r="3" fill="currentColor" className="text-blue-400/40" />
+      <text x="233" y="208" fill="currentColor" className="text-blue-300/50 font-mono" style={{ fontSize: '6px' }}>FORK</text>
+
+      {/* Spec block */}
+      <text x="60" y="290" fill="currentColor" className="text-slate-500/30 font-mono" style={{ fontSize: '7px' }}>CLUTCH: SINGLE DRY DISC</text>
+      <text x="60" y="302" fill="currentColor" className="text-slate-500/30 font-mono" style={{ fontSize: '7px' }}>DIA: 240mm SPLINE: 23T</text>
+    </svg>
+  );
+}
+
+// ============================================================================
+// SCHEMATIC 14: Valvetrain / Overhead Valve Diagram
+// ============================================================================
+export function ValvetrainSchematic({ className }) {
+  return (
+    <svg className={`pointer-events-none select-none ${className}`} width="300" height="400" viewBox="0 0 300 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+      {/* Centerline */}
+      <line x1="150" y1="10" x2="150" y2="390" stroke="currentColor" strokeWidth="0.5" strokeDasharray="2,6" className="text-slate-400/30" />
+
+      {/* Camshaft (top) */}
+      <circle cx="150" cy="40" r="20" stroke="currentColor" strokeWidth="1.5" className="text-slate-500" />
+      <circle cx="150" cy="40" r="8" stroke="currentColor" strokeWidth="1" className="text-slate-400" />
+      <circle cx="150" cy="40" r="3" fill="currentColor" className="text-blue-400/30" />
+      {/* Cam lobe pointing down */}
+      <path d="M 142 55 C 142 70, 158 70, 158 55" stroke="currentColor" strokeWidth="1.2" className="text-slate-400" fill="rgba(30, 41, 59, 0.2)" />
+      <text x="170" y="43" fill="currentColor" className="text-slate-400/40 font-mono" style={{ fontSize: '6px' }}>CAMSHAFT</text>
+
+      {/* Rocker arm */}
+      <path d="M 120 85 L 150 75 L 180 95" stroke="currentColor" strokeWidth="1.5" className="text-slate-400" />
+      <circle cx="150" cy="75" r="4" fill="currentColor" className="text-blue-400/40" />
+      <text x="155" y="78" fill="currentColor" className="text-blue-300/50 font-mono" style={{ fontSize: '6px' }}>PIVOT</text>
+
+      {/* Valve spring (left) */}
+      <line x1="120" y1="85" x2="120" y2="130" stroke="currentColor" strokeWidth="2" className="text-slate-400" />
+      {[...Array(5)].map((_, i) => {
+        const y = 95 + i * 10;
+        return (
+          <path key={i} d={`M 110 ${y} Q 120 ${y + 5}, 130 ${y}`} stroke="currentColor" strokeWidth="1.5" className="text-slate-500" />
+        );
+      })}
+      <text x="95" y="140" fill="currentColor" className="text-slate-400/40 font-mono" style={{ fontSize: '6px' }}>VALVE SPRING</text>
+
+      {/* Valve stem (left) */}
+      <line x1="120" y1="130" x2="120" y2="180" stroke="currentColor" strokeWidth="1.5" className="text-slate-400" />
+      <text x="105" y="195" fill="currentColor" className="text-slate-400/40 font-mono" style={{ fontSize: '6px' }}>VALVE STEM</text>
+
+      {/* Valve head (left) */}
+      <path d="M 105 180 L 105 200 L 80 210 L 80 220 L 160 220 L 160 210 L 135 200 L 135 180" stroke="currentColor" strokeWidth="1.2" className="text-slate-500" fill="rgba(30, 41, 59, 0.15)" />
+      <text x="100" y="235" fill="currentColor" className="text-slate-400/40 font-mono" style={{ fontSize: '6px' }}>VALVE HEAD</text>
+
+      {/* Valve seat (left) */}
+      <path d="M 80 220 L 75 225 L 165 225 L 160 220" stroke="currentColor" strokeWidth="0.75" className="text-slate-500" />
+      <text x="170" y="228" fill="currentColor" className="text-slate-400/40 font-mono" style={{ fontSize: '6px' }}>SEAT</text>
+
+      {/* Combustion chamber */}
+      <path d="M 75 225 L 70 240 L 170 240 L 165 225" stroke="currentColor" strokeWidth="1" className="text-slate-400" fill="rgba(30, 41, 59, 0.2)" />
+      <text x="100" y="255" fill="currentColor" className="text-slate-400/40 font-mono" style={{ fontSize: '6px' }}>COMBUSTION</text>
+      <text x="100" y="265" fill="currentColor" className="text-slate-400/40 font-mono" style={{ fontSize: '6px' }}>CHAMBER</text>
+
+      {/* Exhaust valve (right side) */}
+      <line x1="180" y1="95" x2="180" y2="130" stroke="currentColor" strokeWidth="2" className="text-slate-400" />
+      {[...Array(4)].map((_, i) => {
+        const y = 100 + i * 10;
+        return (
+          <path key={i} d={`M 170 ${y} Q 180 ${y + 5}, 190 ${y}`} stroke="currentColor" strokeWidth="1.5" className="text-slate-500" />
+        );
+      })}
+      <line x1="180" y1="130" x2="180" y2="180" stroke="currentColor" strokeWidth="1.5" className="text-slate-400" />
+      <path d="M 168 180 L 168 200 L 160 210 L 160 220 L 200 220 L 200 210 L 192 200 L 192 180" stroke="currentColor" strokeWidth="1.2" className="text-slate-500" fill="rgba(30, 41, 59, 0.15)" />
+      <text x="195" y="140" fill="currentColor" className="text-slate-400/40 font-mono" style={{ fontSize: '6px' }}>EXHAUST</text>
+
+      {/* Intake port */}
+      <path d="M 70 190 L 40 190 L 40 200 L 80 200" stroke="currentColor" strokeWidth="1" strokeDasharray="2,2" className="text-slate-400/40" />
+      <text x="20" y="200" fill="currentColor" className="text-slate-400/40 font-mono" style={{ fontSize: '6px' }}>INTAKE</text>
+
+      {/* Exhaust port */}
+      <path d="M 200 190 L 240 190 L 240 200 L 200 200" stroke="currentColor" strokeWidth="1" strokeDasharray="2,2" className="text-slate-400/40" />
+      <text x="242" y="200" fill="currentColor" className="text-slate-400/40 font-mono" style={{ fontSize: '6px' }}>EXHAUST</text>
+
+      {/* Spec block */}
+      <text x="60" y="320" fill="currentColor" className="text-slate-500/30 font-mono" style={{ fontSize: '7px' }}>VALVETRAIN: DOHC 4-VALVE PER CYL</text>
+      <text x="60" y="332" fill="currentColor" className="text-slate-500/30 font-mono" style={{ fontSize: '7px' }}>VALVE DIA: 35mm INT / 30mm EXH</text>
+    </svg>
+  );
+}
+
+// ============================================================================
 // COMPOSITE: MechanicalBackground — places all schematics + grid in a container
 // ============================================================================
 export default function MechanicalBackground({ isAppPage = false }) {
   // For app pages (Layout), use lower opacity so content remains readable
   // For landing page, use full opacity
   const schematicOpacity = isAppPage ? 'opacity-20' : 'opacity-50 sm:opacity-50';
-  const gridOpacity = isAppPage ? 'opacity-[0.12]' : 'opacity-[0.18]';
+  const gridOpacity = isAppPage ? 'opacity-[0.14]' : 'opacity-[0.22]';
   const hoverEffects = isAppPage ? '' : 'hover:opacity-75 hover:scale-[1.03] transition-all duration-700';
 
   return (
     <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
       {/* Blueprint Grid */}
       <div className={`absolute inset-0 ${gridOpacity}`}>
-        <BlueprintGrid className="opacity-[0.70]" />
+        <BlueprintGrid className="opacity-[0.84]" />
       </div>
 
       {/* Mechanical Schematic Artwork */}
@@ -744,11 +951,20 @@ export default function MechanicalBackground({ isAppPage = false }) {
         {/* Graphic 1b: Interlocking Gear Train - Left Upper Section */}
         <GearTrainSchematic className={`absolute top-[16%] left-0 sm:-left-20 lg:left-0 xl:left-12 w-48 h-auto sm:w-72 ${hoverEffects}`} />
 
+        {/* Graphic 1c: Valvetrain Diagram - Left behind Hero */}
+        <ValvetrainSchematic className={`absolute top-[8%] left-0 sm:-left-24 lg:left-0 xl:left-8 w-48 h-auto sm:w-64 ${hoverEffects}`} />
+
         {/* Graphic 2: Combustion Cylinder - Right margin behind Features */}
         <CylinderSchematic className={`absolute top-[32%] right-0 sm:-right-20 lg:right-0 xl:right-12 w-48 h-auto sm:w-64 ${hoverEffects}`} />
 
         {/* Graphic 3: Coil Spring Suspension - Left margin behind Lease Section (pushed further left to avoid content overlap) */}
         <SuspensionSchematic className={`absolute top-[52%] -left-24 sm:-left-32 lg:left-0 xl:left-8 w-48 h-auto sm:w-64 ${hoverEffects}`} />
+
+        {/* Graphic 3b: Turbocharger Cutaway - Right margin behind Lease */}
+        <TurbochargerSchematic className={`absolute top-[58%] right-0 sm:-right-20 lg:right-0 xl:right-12 w-48 h-auto sm:w-72 ${hoverEffects}`} />
+
+        {/* Graphic 3c: Clutch Assembly - Right margin behind mid-content */}
+        <ClutchAssemblySchematic className={`absolute top-[45%] right-0 sm:-right-24 lg:right-0 xl:right-8 w-48 h-auto sm:w-64 ${hoverEffects}`} />
 
         {/* Graphic 4: AWD Drivetrain Layout - Right margin behind Testimonials/FAQ */}
         <DrivetrainSchematic className={`absolute top-[72%] right-0 sm:-right-20 lg:right-0 xl:right-12 w-48 h-auto sm:w-64 ${hoverEffects}`} />
