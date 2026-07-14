@@ -2,6 +2,7 @@ import { useState } from 'react';
 import logoImg from '/assets/logo.png';
 import iconImg from '/assets/icon-1024.png';
 import { LayoutDashboard, Car, ClipboardList, Bell, Settings, LogOut, ChevronRight, Calendar, Fuel, Wrench, Grid3X3, X, FileText } from 'lucide-react';
+import MechanicalBackground from './MechanicalBackground';
 
 const allNavItems = [
   { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
@@ -32,6 +33,9 @@ export default function Layout({ currentPage, onNavigate, onLogout, children }) 
 
   return (
     <div className="min-h-screen bg-slate-950 flex flex-col">
+      {/* Mechanical Blueprint Background — subtle, shared component */}
+      <MechanicalBackground isAppPage={true} />
+
       {/* Top Header */}
       <header className="bg-slate-900/80 backdrop-blur-md border-b border-slate-800 sticky top-0 z-40">
         <div className="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
