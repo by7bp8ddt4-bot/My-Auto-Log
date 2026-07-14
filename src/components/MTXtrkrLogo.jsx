@@ -24,45 +24,45 @@ export default function MTXtrkrLogo({ className = '' }) {
           {/* Combo Wrench 1 (top-left to bottom-right, 45° rotation, red) — forms the \ of the X */}
           <g transform="rotate(45, 40, 40)">
             {/* Wrench handle */}
-            <rect x="35" y="6" width="10" height="46" rx="3" className="fill-red-400" />
+            <rect x="35" y="6" width="10" height="46" rx="3" className="fill-red-600" />
             {/* Handle highlight */}
-            <rect x="38" y="8" width="2" height="42" rx="1" className="fill-red-300/50" />
+            <rect x="38" y="8" width="2" height="42" rx="1" className="fill-red-500/50" />
 
             {/* Open-end jaw (top — fork shape) */}
             <path
               d="M 30 52 L 22 60 L 24 62 L 32 56 L 34 56 Z"
-              className="fill-red-400"
+              className="fill-red-600"
             />
             <path
               d="M 50 52 L 58 60 L 56 62 L 48 56 L 46 56 Z"
-              className="fill-red-400"
+              className="fill-red-600"
             />
 
             {/* Box-end / closed ring (bottom) */}
-            <circle cx="40" cy="68" r="12" stroke="currentColor" strokeWidth="2.5" className="text-red-400" />
-            <circle cx="40" cy="68" r="6" stroke="currentColor" strokeWidth="1.5" className="text-red-300/30" />
+            <circle cx="40" cy="68" r="12" stroke="currentColor" strokeWidth="2.5" className="text-red-600" />
+            <circle cx="40" cy="68" r="6" stroke="currentColor" strokeWidth="1.5" className="text-red-500/30" />
           </g>
 
           {/* Combo Wrench 2 (top-right to bottom-left, -45° rotation, red) — forms the / of the X */}
           <g transform="rotate(-45, 40, 40)">
             {/* Wrench handle */}
-            <rect x="35" y="6" width="10" height="46" rx="3" className="fill-red-400" />
+            <rect x="35" y="6" width="10" height="46" rx="3" className="fill-red-600" />
             {/* Handle highlight */}
-            <rect x="38" y="8" width="2" height="42" rx="1" className="fill-red-300/50" />
+            <rect x="38" y="8" width="2" height="42" rx="1" className="fill-red-500/50" />
 
             {/* Open-end jaw (top — fork shape) */}
             <path
               d="M 30 52 L 22 60 L 24 62 L 32 56 L 34 56 Z"
-              className="fill-red-400"
+              className="fill-red-600"
             />
             <path
               d="M 50 52 L 58 60 L 56 62 L 48 56 L 46 56 Z"
-              className="fill-red-400"
+              className="fill-red-600"
             />
 
             {/* Box-end / closed ring (bottom) */}
-            <circle cx="40" cy="68" r="12" stroke="currentColor" strokeWidth="2.5" className="text-red-400" />
-            <circle cx="40" cy="68" r="6" stroke="currentColor" strokeWidth="1.5" className="text-red-300/30" />
+            <circle cx="40" cy="68" r="12" stroke="currentColor" strokeWidth="2.5" className="text-red-600" />
+            <circle cx="40" cy="68" r="6" stroke="currentColor" strokeWidth="1.5" className="text-red-500/30" />
           </g>
         </svg>
 
@@ -74,7 +74,7 @@ export default function MTXtrkrLogo({ className = '' }) {
 
       {/* Taglines */}
       <p className="text-lg sm:text-xl text-slate-400 italic mt-1">
-        Mainten<span className="text-red-400">X</span> Tracker
+        Mainten<span className="text-red-600">X</span> Tracker
       </p>
       <p className="text-sm sm:text-base text-slate-500 italic">
         — Your Owner's Manual Simplified
