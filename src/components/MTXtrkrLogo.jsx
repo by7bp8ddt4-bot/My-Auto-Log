@@ -11,7 +11,7 @@ export default function MTXtrkrLogo({ className = '' }) {
       {/* Main Logo Row: MT + Crossed Combo Wrenches X + trkr */}
       <div className="flex items-center justify-center gap-0">
         {/* "MT" — gunmetal grey */}
-        <span className="text-4xl sm:text-5xl md:text-6xl font-bold text-zinc-400 tracking-tight">
+        <span className="text-4xl sm:text-5xl md:text-6xl font-bold italic text-zinc-400 tracking-tight">
           MT
         </span>
 
