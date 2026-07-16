@@ -5,7 +5,6 @@ import {
   AlertTriangle, Tractor, Package, Ship, Anchor, Cog, Truck, Building, Database,
   Bike
 } from 'lucide-react';
-import MechanicalBackground from './MechanicalBackground';
 import MTXtrkrLogo from './MTXtrkrLogo';
 import heroImage from '/assets/hero.png';
 import vehicleMgmtImg from '/assets/features/vehicle-mgmt.png';
@@ -18,10 +17,7 @@ import serviceLogImg from '/assets/features/service-log.png';
 export default function LandingPage({ onGetStarted, onViewPremium }) {
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 relative overflow-hidden">
-      {/* Mechanical Blueprint Background — shared component with SVG schematics */}
-      <MechanicalBackground />
-
-      {/* Landing Page Content is wrapped in relative z-10 container to stay on top */}
+      {/* Landing Page Content */}
       <div className="relative z-10">
         {/* Hero Section */}
         <div className="relative overflow-hidden">
