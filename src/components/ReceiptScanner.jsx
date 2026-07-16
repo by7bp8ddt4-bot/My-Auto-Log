@@ -10,10 +10,11 @@ import { getLocalDateString } from '../utils/helpers';
 
 /**
  * Compress a base64 image to a reasonable size before storing.
- * Resizes to max 800px on the longest side and compresses to JPEG quality 0.7.
- * This prevents storing massive 4-7MB base64 blobs in localStorage and Supabase.
+ * Resizes to max 600px on the longest side and compresses to JPEG quality 0.5.
+ * This produces ~80-150KB blobs (vs 200-500KB at 800px/0.7q) to stay well
+ * within the 5MB localStorage limit across many receipt scans.
  */
-function compressImage(dataUrl, maxWidth = 800, quality = 0.7) {
+function compressImage(dataUrl, maxWidth = 600, quality = 0.5) {
   return new Promise((resolve, reject) => {
     const img = new Image();
     img.onload = () => {
@@ -214,8 +215,8 @@ export default function ReceiptScanner({ vehicles, onSave, onClose, isPremium })
       setProgress(10);
 
       try {
-        // Compress image before storing to prevent massive base64 blobs (4-7MB)
-        const compressedImage = await compressImage(imgData, 800, 0.7);
+        // Compress image before storing to prevent massive base64 blobs (now ~80-150KB)
+        const compressedImage = await compressImage(imgData, 600, 0.5);
         setImage(compressedImage);
         setProgress(30);
 
