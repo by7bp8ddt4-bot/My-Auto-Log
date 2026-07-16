@@ -54,36 +54,13 @@ export function useSupabaseData(tableName, userId, filterColumn = 'user_id') {
     }
     try {
       setLoading(true);
-      
-      // Attempt query with order('created_at') — fall back to no order if column missing
-      let result;
-      let queryErr;
-      
-      try {
-        const response = await supabase
-          .from(tableName)
-          .select('*')
-          .eq(filterColumn, userId)
-          .order('created_at', { ascending: false });
-        result = response.data;
-        queryErr = response.error;
-      } catch (e) {
-        queryErr = e;
-      }
-      
-      // If order() failed due to missing created_at column, retry without ordering
-      if (queryErr && queryErr.message && queryErr.message.includes('created_at')) {
-        console.warn(`Table ${tableName} may lack created_at — retrying without order`);
-        const retryResponse = await supabase
-          .from(tableName)
-          .select('*')
-          .eq(filterColumn, userId);
-        if (retryResponse.error) throw retryResponse.error;
-        result = retryResponse.data;
-      } else if (queryErr) {
-        throw queryErr;
-      }
-      
+      const { data: result, error: err } = await supabase
+        .from(tableName)
+        .select('*')
+        .eq(filterColumn, userId)
+        .order('created_at', { ascending: false });
+
+      if (err) throw err;
       const camelData = keysToCamel(result || []);
       const prevCache = JSON.parse(localStorage.getItem(`supabase_${tableName}`) || '[]');
       
