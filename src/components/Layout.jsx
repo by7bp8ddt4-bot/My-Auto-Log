@@ -33,8 +33,8 @@ export default function Layout({ currentPage, onNavigate, onLogout, children }) 
 
   return (
     <div className="min-h-screen bg-slate-950 flex flex-col">
-      {/* Mechanical Blueprint Background — subtle, shared component */}
-      <MechanicalBackground isAppPage={true} />
+      {/* Blueprint background — only on Dashboard for readability */}
+      {currentPage === 'dashboard' && <MechanicalBackground isAppPage={true} />}
 
       {/* Top Header */}
       <header className="bg-slate-900/80 backdrop-blur-md border-b border-slate-800 sticky top-0 z-40">
