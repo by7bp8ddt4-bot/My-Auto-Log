@@ -30,19 +30,19 @@ export default function LandingPage({ onGetStarted, onViewPremium }) {
 
             {/* Headline */}
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight leading-tight mb-6">
-              <span className="text-white">Never Miss a </span>
-              <span className="bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent">Service</span>
-              <span className="text-white"> Again</span>
+              <span className="text-white">Your Car's Health,</span>
+              <br />
+              <span className="bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent">Explained.</span>
             </h1>
 
             {/* Text Block */}
             <div className="bg-slate-900/80 backdrop-blur-sm border border-slate-800/50 rounded-2xl p-6 sm:p-8 mb-10 max-w-2xl w-full">
               <p className="text-lg sm:text-xl text-slate-400 leading-relaxed mb-4">
-                Modern cars tell you when to change your oil —<br />
-                <span className="text-white/80">then they go silent.</span>
+                Turns cryptic mechanic-speak and casual driver notes<br />
+                <span className="text-white/80">into a living digital health record for your car.</span>
               </p>
               <p className="text-base sm:text-lg text-slate-500 leading-relaxed">
-                MTXtrkr translates your vehicle's engineering into plain English — so you know when a <strong className="text-slate-300">transmission flush</strong>, a <strong className="text-slate-300">differential service</strong>, or a <strong className="text-slate-300">coolant exchange</strong> is actually due. No more nodding along at the mechanic. No more costly breakdowns from what you didn't know you were missing.
+                MTXtrkr decodes your vehicle's exact engineering specs and delivers hyper-specific, jargon-free maintenance timelines — telling you <strong className="text-slate-300">what</strong> needs attention, <strong className="text-slate-300">when</strong>, and <strong className="text-slate-300">why</strong>. No more nodding along at the mechanic. No more costly breakdowns from what you didn't know you were missing.
               </p>
             </div>
 
@@ -103,7 +103,7 @@ export default function LandingPage({ onGetStarted, onViewPremium }) {
           {[
             { title: 'Vehicle Management', desc: 'Track all your vehicles in one place with detailed specs, maintenance charts, records, registrations, photos, and more.', img: vehicleMgmtImg },
             { title: 'Smart Reminders', desc: 'Mileage & time-based alerts that learn your driving patterns.', img: remindersImg },
-            { title: 'AI Co-Pilot', desc: 'Ask it anything — "engine is squeaking when I turn on the AC" or "the car shuttered when I pulled away from the stoplight". Our AI will give you a detailed assessment and send you in the right direction; not to mention keep you from getting swindled. Backed by maintenance schedules from 55+ manufacturers — from Ford and Toyota to CAT, Cummins, and Yamaha.', img: aiCopilotImg },
+            { title: 'AI Co-Pilot', desc: 'Describe any issue in plain English — "weird clunking on left turns" or "did the oil thing yesterday." Our AI decodes 20+ common symptoms, translates 40+ mechanic terms (CVT, PTU, timing belt…), and logs it professionally. Backed by maintenance schedules from 55+ manufacturers.', img: aiCopilotImg },
             { title: 'Expense Analytics', desc: 'Track costs per vehicle, per month, with beautiful charts.', img: analyticsImg },
             { title: 'Document Storage', desc: 'Organize purchase records, insurance, photos, and registration in one place. Get automatic renewal reminders 90, 60, and 30 days before your registration expires.', img: documentsImg },
             { title: 'Service History', desc: 'Generate a complete digital health record to boost resale value.', img: serviceLogImg },
