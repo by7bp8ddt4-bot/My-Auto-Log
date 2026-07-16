@@ -488,24 +488,34 @@ export default function App() {
 
   // Delete account — remove all data and sign out
   const handleDeleteAccount = useCallback(async () => {
-    if (!window.confirm('This will permanently delete ALL your data and account. This cannot be undone. Continue?')) return;
-    // Delete all cloud data
-    if (auth.user?.id) {
-      await supabase.from('vehicles').delete().eq('user_id', auth.user.id).catch(e => console.error(e));
-      await supabase.from('maintenance_logs').delete().eq('user_id', auth.user.id).catch(e => console.error(e));
-      await supabase.from('reminders').delete().eq('user_id', auth.user.id).catch(e => console.error(e));
-      await supabase.from('fuel_logs').delete().eq('user_id', auth.user.id).catch(e => console.error(e));
-      await supabase.from('modifications').delete().eq('user_id', auth.user.id).catch(e => console.error(e));
-      await supabase.from('profiles').delete().eq('id', auth.user.id).catch(e => console.error(e));
+    try {
+      if (!window.confirm('This will permanently delete ALL your data and account. This cannot be undone. Continue?')) return;
+      console.log('[DeleteAccount] Starting deletion...');
+      // Delete all cloud data
+      if (auth.user?.id) {
+        await Promise.allSettled([
+          supabase.from('vehicles').delete().eq('user_id', auth.user.id),
+          supabase.from('maintenance_logs').delete().eq('user_id', auth.user.id),
+          supabase.from('reminders').delete().eq('user_id', auth.user.id),
+          supabase.from('fuel_logs').delete().eq('user_id', auth.user.id),
+          supabase.from('modifications').delete().eq('user_id', auth.user.id),
+          supabase.from('profiles').delete().eq('id', auth.user.id),
+        ]);
+        console.log('[DeleteAccount] Cloud data deleted');
+      }
+      // Clear all local data
+      for (let i = localStorage.length - 1; i >= 0; i--) {
+        const key = localStorage.key(i);
+        if (key && key.startsWith('mtxtrkr_')) localStorage.removeItem(key);
+      }
+      console.log('[DeleteAccount] Local data cleared');
+      // Sign out
+      await auth.signOut();
+      setPage('landing');
+      console.log('[DeleteAccount] Signed out');
+    } catch (e) {
+      console.error('[DeleteAccount] Error:', e);
     }
-    // Clear all local data
-    for (let i = localStorage.length - 1; i >= 0; i--) {
-      const key = localStorage.key(i);
-      if (key && key.startsWith('mtxtrkr_')) localStorage.removeItem(key);
-    }
-    // Sign out
-    await auth.signOut();
-    setPage('landing');
   }, [auth, analytics]);
 
   // Upgrade to premium — migrate localStorage data to Supabase, then activate
