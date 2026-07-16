@@ -331,6 +331,9 @@ export default function App() {
   const lastSyncRef = useRef(0);
   useEffect(() => {
     if (!isAuthenticated || !auth.user?.id) return;
+    // Wait for all Supabase stores to finish loading so we don't duplicate data
+    // by pushing items that Supabase already has but hasn't loaded yet.
+    if (supabaseVehicles.loading || supabaseLogs.loading || supabaseReminders.loading || supabaseFuelLogs.loading || supabaseMods.loading) return;
 
     const now = Date.now();
     if (now - lastSyncRef.current < 5000) return; // throttle: max once per 5s
