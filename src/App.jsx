@@ -25,6 +25,7 @@ import { generateAutoReminders, summarizeAutoReminders } from './utils/autoRemin
 import { supabase } from './lib/supabase.js';
 
 // Migration: myautolog_ → mtxtrkr_ localStorage keys (runs once on import)
+try {
 (function migrateStorageKeys() {
   const OLD_PREFIX = 'myautolog_';
   const NEW_PREFIX = 'mtxtrkr_';
@@ -45,6 +46,9 @@ import { supabase } from './lib/supabase.js';
   }
   keysToRemove.forEach(k => localStorage.removeItem(k));
 })();
+} catch (e) {
+  console.warn('[Storage] Migration failed (corrupted data?):', e);
+}
 
 export default function App() {
   // Global error handlers — logs uncaught errors/unhandled rejections to console
@@ -195,17 +199,21 @@ export default function App() {
       'supabase_modifications': 'mtxtrkr_modifications',
     };
     for (const [oldKey, newKey] of Object.entries(oldToNew)) {
-      const oldData = localStorage.getItem(oldKey);
-      if (oldData) {
-        const parsed = JSON.parse(oldData);
-        if (Array.isArray(parsed) && parsed.length > 0) {
-          const existing = localStorage.getItem(newKey);
-          const existingParsed = existing ? JSON.parse(existing) : [];
-          // Only copy if new key is empty or has less data
-          if (existingParsed.length < parsed.length) {
-            localStorage.setItem(newKey, JSON.stringify(parsed));
+      try {
+        const oldData = localStorage.getItem(oldKey);
+        if (oldData) {
+          const parsed = JSON.parse(oldData);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            const existing = localStorage.getItem(newKey);
+            const existingParsed = existing ? JSON.parse(existing) : [];
+            // Only copy if new key is empty or has less data
+            if (existingParsed.length < parsed.length) {
+              localStorage.setItem(newKey, JSON.stringify(parsed));
+            }
           }
         }
+      } catch (e) {
+        console.warn(`[Cache migration] Failed to migrate ${oldKey}:`, e);
       }
     }
     localStorage.setItem(cacheMigrationKey, 'true');
@@ -280,8 +288,14 @@ export default function App() {
     if (initialSyncDone) return;
 
     for (const { local, supabase, key } of syncStores) {
-      const localRaw = localStorage.getItem(key);
-      const localEmpty = !localRaw || JSON.parse(localRaw).length === 0;
+      let localEmpty = true;
+      try {
+        const localRaw = localStorage.getItem(key);
+        localEmpty = !localRaw || JSON.parse(localRaw).length === 0;
+      } catch (e) {
+        console.warn(`[Sync] Failed to parse localStorage key "${key}":`, e);
+        localEmpty = true;
+      }
       const supabaseHasData = supabase.data && supabase.data.length > 0;
 
       if (localEmpty && supabaseHasData) {
@@ -308,7 +322,7 @@ export default function App() {
     lastSyncRef.current = now;
 
     for (const { local, supabase } of syncStores) {
-      const localData = local.data;
+      const localData = local.data || [];
       const supabaseData = supabase.data || [];
 
       if (localData.length === 0) continue;
