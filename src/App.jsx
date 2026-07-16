@@ -60,6 +60,9 @@ export default function App() {
     return localStorage.getItem(STORAGE_KEYS.PREMIUM_STATUS) === 'true';
   });
   const [forceOffline, setForceOffline] = useState(false);
+  // Tracks whether initial Supabase→localStorage sync has completed.
+  // Resets when the user changes (sign-in/out) so sync re-runs on every session.
+  const [initialSyncDone, setInitialSyncDone] = useState(false);
 
   // Global selected vehicle — persists across pages, saved to localStorage
   const [selectedVehicleId, setSelectedVehicleId] = useState(() => {
@@ -218,6 +221,10 @@ export default function App() {
   //          : Supabase -> localStorage (restore from DB when local is missing)
   useEffect(() => {
     if (!isAuthenticated) return;
+    // Wait for the profile fetch to finish before checking DB premium status.
+    // Without this guard, the effect fires when supabaseProfile.data is still []
+    // and never re-runs because 'loading' wasn't in the dependency array.
+    if (supabaseProfile.loading) return;
 
     if (supabaseProfile.data.length > 0) {
       const dbPremium = supabaseProfile.data[0].premium;
@@ -234,7 +241,7 @@ export default function App() {
       // No profile row yet but localStorage says premium — create one
       supabase.from('profiles').upsert({ id: auth.user.id, premium: true });
     }
-  }, [isAuthenticated, supabaseProfile.data, premium]);
+  }, [isAuthenticated, supabaseProfile.data, supabaseProfile.loading, premium]);
 
   // Sync localStorage ↔ Supabase for data persistence
   // localStorage is always the primary source. Supabase is cloud backup.
@@ -248,12 +255,26 @@ export default function App() {
     { local: localMods, supabase: supabaseMods, key: 'mtxtrkr_modifications' },
   ];
 
-  const syncRanKey = 'mtxtrkr_sync_ran';
+  // Reset initialSyncDone when the user changes (signs in, signs out, or switches accounts)
+  // This ensures the sync effect re-runs for every new auth session.
+  useEffect(() => {
+    setInitialSyncDone(false);
+  }, [auth.user?.id]);
 
   // On sign-in: load Supabase data into localStorage if local is empty (cross-device)
+  // Uses React state (not localStorage) so the guard resets when the user changes.
+  // Waits for ALL Supabase stores to finish loading before syncing — fixes the race
+  // condition where the effect fires before data arrives and sets a permanent flag.
   useEffect(() => {
     if (!isAuthenticated || !auth.user?.id) return;
-    if (localStorage.getItem(syncRanKey)) return;
+    
+    // Wait for all Supabase stores to finish fetching before attempting sync.
+    // Without this, supabaseVehicles.data is still [] when the effect fires,
+    // the sync finds nothing to pull, and the flag prevents any future retry.
+    const allLoaded = !supabaseVehicles.loading && !supabaseLogs.loading && !supabaseReminders.loading && !supabaseFuelLogs.loading && !supabaseMods.loading;
+    if (!allLoaded) return;
+
+    if (initialSyncDone) return;
 
     for (const { local, supabase, key } of syncStores) {
       const localRaw = localStorage.getItem(key);
@@ -266,8 +287,12 @@ export default function App() {
         local.setData(supabase.data);
       }
     }
-    localStorage.setItem(syncRanKey, 'true');
-  }, [isAuthenticated, auth.user?.id, supabaseVehicles.data, supabaseLogs.data, supabaseReminders.data, supabaseFuelLogs.data, supabaseMods.data]);
+    setInitialSyncDone(true);
+  }, [
+    isAuthenticated, auth.user?.id, initialSyncDone,
+    supabaseVehicles.loading, supabaseLogs.loading, supabaseReminders.loading, supabaseFuelLogs.loading, supabaseMods.loading,
+    supabaseVehicles.data, supabaseLogs.data, supabaseReminders.data, supabaseFuelLogs.data, supabaseMods.data
+  ]);
 
   // Continuous background sync: push local data to Supabase when it changes
   // Syncs individual items by comparing IDs — pushes only what's missing from Supabase
