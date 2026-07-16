@@ -16,6 +16,7 @@ import MileageChart from './components/MileageChart.jsx';
 import Modifications from './components/Modifications.jsx';
 import ContactSupport from './components/ContactSupport.jsx';
 import SubscriptionManagement, { setSubscriptionData } from './components/SubscriptionManagement.jsx';
+import ErrorBoundary, { setupGlobalErrorHandlers } from './components/ErrorBoundary.jsx';
 import { useSupabaseData, useSupabaseAuth } from './hooks/useSupabaseData.js';
 import { useLocalStorage, useSyncStatus } from './hooks/useLocalStorage.js';
 import useAnalytics from './hooks/useAnalytics.js';
@@ -46,6 +47,8 @@ import { supabase } from './lib/supabase.js';
 })();
 
 export default function App() {
+  // Global error handlers — logs uncaught errors/unhandled rejections to console
+  setupGlobalErrorHandlers();
   const [page, setPage] = useState(() => {
     // Show auth page if URL path is /auth or /auth.html or recovery hash detected
     if (window.location.pathname === '/auth' || window.location.pathname === '/auth.html') return 'auth';
@@ -499,7 +502,7 @@ export default function App() {
   // Render pages
   if (page === 'landing') {
     return (
-      <>
+      <ErrorBoundary>
         <LandingPage
           onGetStarted={() => { analytics.track('landing_get_started'); setPage('auth'); }}
           onViewPremium={() => { analytics.track('landing_view_premium'); setPage('premium'); }}
@@ -512,18 +515,20 @@ export default function App() {
           forceOffline={forceOffline}
           setForceOffline={setForceOffline}
         />
-      </>
+      </ErrorBoundary>
     );
   }
 
   if (page === 'premium') {
     return (
-      <PremiumPaywall
+      <ErrorBoundary>
+        <PremiumPaywall
         onClose={() => { analytics.track('premium_paywall_closed'); setPage('dashboard'); }}
         onUpgrade={handleUpgrade}
         userId={auth.user?.id}
         trackEvent={analytics.track}
       />
+      </ErrorBoundary>
     );
   }
 
@@ -641,7 +646,7 @@ export default function App() {
   };
 
   return (
-    <>
+    <ErrorBoundary>
       <Layout currentPage={page} onNavigate={navigate} onLogout={handleLogout}>
         {pages[page] || pages.dashboard}
       </Layout>
@@ -653,6 +658,6 @@ export default function App() {
         forceOffline={forceOffline}
         setForceOffline={setForceOffline}
       />
-    </>
+    </ErrorBoundary>
   );
 }
