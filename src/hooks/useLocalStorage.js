@@ -9,7 +9,7 @@ import { generateId } from '../utils/helpers';
  * from the localStorage snapshot. Images are re-fetched from Supabase on
  * cross-device sign-in.
  */
-function sanitizeForStorage(data) {
+export function sanitizeForStorage(data) {
   if (!Array.isArray(data)) return data;
   return data.map(item => {
     if (!item) return item;

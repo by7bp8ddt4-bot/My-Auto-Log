@@ -18,7 +18,7 @@ import ContactSupport from './components/ContactSupport.jsx';
 import SubscriptionManagement, { setSubscriptionData } from './components/SubscriptionManagement.jsx';
 import ErrorBoundary, { setupGlobalErrorHandlers } from './components/ErrorBoundary.jsx';
 import { useSupabaseData, useSupabaseAuth } from './hooks/useSupabaseData.js';
-import { useLocalStorage, useSyncStatus } from './hooks/useLocalStorage.js';
+import { useLocalStorage, useSyncStatus, sanitizeForStorage } from './hooks/useLocalStorage.js';
 import useAnalytics from './hooks/useAnalytics.js';
 import { STORAGE_KEYS } from './utils/constants.js';
 import { generateAutoReminders, summarizeAutoReminders } from './utils/autoReminders.js';
@@ -300,7 +300,22 @@ export default function App() {
 
       if (localEmpty && supabaseHasData) {
         // Supabase has data, local is empty — load from cloud (new device)
-        localStorage.setItem(key, JSON.stringify(supabase.data));
+        try {
+          localStorage.setItem(key, JSON.stringify(supabase.data));
+        } catch (e) {
+          // If quota exceeded (receipt images too large), try sanitized version
+          if (e.name === 'QuotaExceededError' || e.code === 22) {
+            console.warn(`[Sync] Quota exceeded for "${key}", trying sanitized...`);
+            try {
+              const sanitized = sanitizeForStorage(supabase.data);
+              localStorage.setItem(key, JSON.stringify(sanitized));
+            } catch (e2) {
+              console.warn(`[Sync] Still too large after sanitization for "${key}", keeping in memory only`, e2);
+            }
+          } else {
+            console.warn(`[Sync] Failed to write "${key}" to localStorage:`, e);
+          }
+        }
         local.setData(supabase.data);
       }
     }
