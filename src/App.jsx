@@ -251,13 +251,15 @@ export default function App() {
     { local: localMods, supabase: supabaseMods, key: 'mtxtrkr_modifications' },
   ];
 
+  const [initialSyncDone, setInitialSyncDone] = useState(false);
+
   // On sign-in: load Supabase data into localStorage if local is empty (cross-device)
   // Waits for ALL supabase stores to finish loading before syncing.
   // This prevents a race condition where supabase data hasn't arrived yet
-  // but the sync is marked "done" early, causing data loss on fresh login.
-  // No "done" flag — the effect is idempotent and re-runs whenever stores load.
+  // but the sync "ran" flag is already set, causing data loss on fresh login.
   useEffect(() => {
     if (!isAuthenticated || !auth.user?.id) return;
+    if (initialSyncDone) return;
 
     // Wait for all supabase stores to finish loading
     const allLoaded = !supabaseVehicles.loading && !supabaseLogs.loading && 
@@ -276,9 +278,12 @@ export default function App() {
         local.setData(supabase.data);
       }
     }
-  }, [isAuthenticated, auth.user?.id,
+    setInitialSyncDone(true);
+  }, [isAuthenticated, auth.user?.id, initialSyncDone,
       supabaseVehicles.loading, supabaseLogs.loading, supabaseReminders.loading,
-      supabaseFuelLogs.loading, supabaseMods.loading]);
+      supabaseFuelLogs.loading, supabaseMods.loading,
+      supabaseVehicles.data, supabaseLogs.data, supabaseReminders.data,
+      supabaseFuelLogs.data, supabaseMods.data]);
 
   // Continuous background sync: push local data to Supabase when it changes
   // Syncs individual items by comparing IDs — pushes only what's missing from Supabase
