@@ -1,7 +1,7 @@
 import { Settings2, Download, Trash2, RefreshCw, Database, User, Crown, ChevronRight, LogOut, Mail } from 'lucide-react';
 import { getSubscriptionData } from './SubscriptionManagement.jsx';
 
-export default function Settings({ onReset, onExport, vehicles, logs, reminders, isAuthenticated, isPremium, onNavigate, onLogout, onDeleteAccount }) {
+export default function Settings({ onReset, onExport, vehicles, logs, reminders, isAuthenticated, isPremium, onNavigate, onLogout, onDeleteAccount, showCancelSubDialog, onDismissCancelSub }) {
   const sub = getSubscriptionData();
   const handleExport = () => {
     const exportData = {
@@ -186,6 +186,40 @@ export default function Settings({ onReset, onExport, vehicles, logs, reminders,
               <Trash2 className="w-4 h-4" />
               Delete Account
             </button>
+          </div>
+        )}
+
+        {/* Cancel Subscription First Dialog */}
+        {showCancelSubDialog && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+            <div className="w-full max-w-md rounded-2xl bg-slate-900 border border-slate-800 shadow-2xl p-6">
+              <div className="flex items-start gap-4">
+                <div className="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center shrink-0">
+                  <Crown className="w-5 h-5 text-amber-400" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-sm font-semibold text-white">Cancel Subscription First</h3>
+                  <p className="mt-2 text-sm text-slate-400 leading-relaxed">
+                    You have an active Premium subscription. You need to cancel it before you can delete your account. Once cancelled, you can return here to complete the deletion.
+                  </p>
+                </div>
+              </div>
+              <div className="mt-6 flex flex-col sm:flex-row gap-3">
+                <button
+                  onClick={() => { onDismissCancelSub(); onNavigate('subscription'); }}
+                  className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-500 text-white text-sm font-medium transition-all"
+                >
+                  <Crown className="w-4 h-4" />
+                  Go to Subscription Management
+                </button>
+                <button
+                  onClick={onDismissCancelSub}
+                  className="flex-1 py-2.5 rounded-xl border border-slate-700 text-slate-300 hover:bg-slate-800 text-sm font-medium transition-all"
+                >
+                  Go Back
+                </button>
+              </div>
+            </div>
           </div>
         )}
       </div>

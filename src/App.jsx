@@ -15,7 +15,7 @@ import FuelLog from './components/FuelLog.jsx';
 import MileageChart from './components/MileageChart.jsx';
 import Modifications from './components/Modifications.jsx';
 import ContactSupport from './components/ContactSupport.jsx';
-import SubscriptionManagement, { setSubscriptionData } from './components/SubscriptionManagement.jsx';
+import SubscriptionManagement, { setSubscriptionData, getSubscriptionData } from './components/SubscriptionManagement.jsx';
 import ErrorBoundary, { setupGlobalErrorHandlers } from './components/ErrorBoundary.jsx';
 import { useSupabaseData, useSupabaseAuth } from './hooks/useSupabaseData.js';
 import { useLocalStorage, useSyncStatus, sanitizeForStorage } from './hooks/useLocalStorage.js';
@@ -67,6 +67,7 @@ export default function App() {
     return localStorage.getItem(STORAGE_KEYS.PREMIUM_STATUS) === 'true';
   });
   const [forceOffline, setForceOffline] = useState(false);
+  const [cancelSubDialog, setCancelSubDialog] = useState(false);
   // Tracks whether initial Supabase→localStorage sync has completed.
   // Resets when the user changes (sign-in/out) so sync re-runs on every session.
   const [initialSyncDone, setInitialSyncDone] = useState(false);
@@ -489,6 +490,13 @@ export default function App() {
   // Delete account — remove all data and sign out
   const handleDeleteAccount = useCallback(async () => {
     try {
+      // Pre-check: if user has an active subscription, block deletion
+      const sub = getSubscriptionData();
+      if (sub?.status === 'active' || sub?.status === 'trialing') {
+        setCancelSubDialog(true);
+        return;
+      }
+
       if (!window.confirm('This will permanently delete ALL your data and account. This cannot be undone. Continue?')) return;
       console.log('[DeleteAccount] Starting deletion...');
 
@@ -701,6 +709,8 @@ export default function App() {
       isPremium={premium}
       onNavigate={navigate}
       onLogout={handleLogout}
+      showCancelSubDialog={cancelSubDialog}
+      onDismissCancelSub={() => setCancelSubDialog(false)}
     />,
     mileage: <div className="p-4 max-w-4xl mx-auto">
       <MileageChart logs={logsStore.data} vehicles={vehiclesStore.data} isPremium={premium} />
