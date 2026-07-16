@@ -18,7 +18,7 @@ export const MAINTENANCE_SCHEDULES = {
         { service: 'Coolant Exchange', intervalMiles: 100000, intervalMonths: 120, severity: 'high', description: 'Coolant prevents your engine from overheating.' },
         { service: 'Spark Plugs', intervalMiles: 120000, intervalMonths: 144, severity: 'medium', description: 'Fresh plugs help your car start fast and run smooth.' },
       ],
-      corolla: 'camry', rav4: 'camry',
+      corolla: 'camry', rav4: 'camry', highlander: 'camry',
       tacoma: [
         { service: 'Oil & Filter Change', intervalMiles: 5000, intervalMonths: 6, severity: 'medium', description: 'Trucks work hard. Fresh oil prevents wear.' },
         { service: 'Tire Rotation', intervalMiles: 5000, intervalMonths: 6, severity: 'low', description: 'Even wear is crucial for truck tires.' },
@@ -116,7 +116,7 @@ export const MAINTENANCE_SCHEDULES = {
   },
   kia: {
     specs: { oil: { viscosity: '5W-30', type: 'Full Synthetic', capacity: '5.1 qt' }, transmission: { type: 'SP-IV / ATF', capacity: '4.0 qt' }, coolant: { type: 'Hyundai/Kia Long Life' }, brakeFluid: { type: 'DOT 3' }, tirePressure: { psi: 34 }, sparkPlugs: { type: 'Iridium', gap: '0.044 in' }, battery: { groupSize: 'Group 47' } },
-    models: { forte: 'hyundai.elantra', k5: 'hyundai.elantra', sportage: 'hyundai.elantra', sorento: 'hyundai.elantra' }
+    models: { forte: 'hyundai.elantra', k5: 'hyundai.elantra', sportage: 'hyundai.elantra', sorento: 'hyundai.elantra', soul: 'hyundai.elantra' }
   },
   nissan: {
     specs: { oil: { viscosity: '0W-20', type: 'Full Synthetic', capacity: '5.0 qt' }, transmission: { type: 'NS-3 (CVT) / Matic S', capacity: '4.0 qt' }, coolant: { type: 'Nissan Blue' }, brakeFluid: { type: 'DOT 3' }, tirePressure: { psi: 34 }, sparkPlugs: { type: 'Iridium', gap: '0.044 in' }, battery: { groupSize: 'Group 35' } },
