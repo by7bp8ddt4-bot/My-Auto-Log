@@ -2,6 +2,30 @@ import { useCallback, useEffect, useState } from 'react';
 import { STORAGE_KEYS } from '../utils/constants';
 import { generateId } from '../utils/helpers';
 
+/**
+ * Strip large binary dataUrl fields from entries before writing to localStorage.
+ * This prevents QuotaExceededError when receipt scan images accumulate.
+ * The full dataUrl is preserved in memory (for Supabase sync) but stripped
+ * from the localStorage snapshot. Images are re-fetched from Supabase on
+ * cross-device sign-in.
+ */
+function sanitizeForStorage(data) {
+  if (!Array.isArray(data)) return data;
+  return data.map(item => {
+    if (!item) return item;
+    const sanitized = { ...item };
+    // Strip dataUrl from documents array (receipt scan images, etc.)
+    if (Array.isArray(sanitized.documents)) {
+      sanitized.documents = sanitized.documents.map(doc => {
+        if (!doc || !doc.dataUrl) return doc;
+        const { dataUrl, ...docWithoutImage } = doc;
+        return docWithoutImage;
+      });
+    }
+    return sanitized;
+  });
+}
+
 // Generic hook for localStorage CRUD operations with offline-first sync simulation
 function useLocalStorage(key, initialValue = []) {
   const [data, setData] = useState(() => {
@@ -14,7 +38,21 @@ function useLocalStorage(key, initialValue = []) {
   });
 
   useEffect(() => {
-    localStorage.setItem(key, JSON.stringify(data));
+    try {
+      // Sanitize data before writing to localStorage — strip large binary fields
+      // (like receipt image dataUrl) that would trigger QuotaExceededError.
+      // The full data is preserved in memory for Supabase sync.
+      const storageSafe = sanitizeForStorage(data);
+      localStorage.setItem(key, JSON.stringify(storageSafe));
+    } catch (e) {
+      // localStorage quota exceeded (usually due to large base64 receipt images).
+      // Fall back to in-memory state only — no crash, no data loss.
+      if (e.name === 'QuotaExceededError' || e.code === 22) {
+        console.warn(`[useLocalStorage] Quota exceeded for key "${key}". Data kept in memory only.`);
+      } else {
+        console.warn(`[useLocalStorage] Failed to write key "${key}":`, e);
+      }
+    }
   }, [key, data]);
 
   const update = useCallback((newData) => {
