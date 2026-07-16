@@ -477,11 +477,11 @@ export default function App() {
     analytics.track('data_reset', {});
     // Also delete cloud data if authenticated
     if (auth.user?.id) {
-      supabase.from('vehicles').delete().eq('user_id', auth.user.id).then().catch(() => {});
-      supabase.from('maintenance_logs').delete().eq('user_id', auth.user.id).then().catch(() => {});
-      supabase.from('reminders').delete().eq('user_id', auth.user.id).then().catch(() => {});
-      supabase.from('fuel_logs').delete().eq('user_id', auth.user.id).then().catch(() => {});
-      supabase.from('modifications').delete().eq('user_id', auth.user.id).then().catch(() => {});
+      supabase.from('vehicles').delete().eq('user_id', auth.user.id).then(r => { if (r.error) console.error('[Reset] Failed to delete vehicles:', r.error); }).catch(e => console.error('[Reset] Error deleting vehicles:', e));
+      supabase.from('maintenance_logs').delete().eq('user_id', auth.user.id).then(r => { if (r.error) console.error('[Reset] Failed to delete logs:', r.error); }).catch(e => console.error('[Reset] Error deleting logs:', e));
+      supabase.from('reminders').delete().eq('user_id', auth.user.id).then(r => { if (r.error) console.error('[Reset] Failed to delete reminders:', r.error); }).catch(e => console.error('[Reset] Error deleting reminders:', e));
+      supabase.from('fuel_logs').delete().eq('user_id', auth.user.id).then(r => { if (r.error) console.error('[Reset] Failed to delete fuel logs:', r.error); }).catch(e => console.error('[Reset] Error deleting fuel logs:', e));
+      supabase.from('modifications').delete().eq('user_id', auth.user.id).then(r => { if (r.error) console.error('[Reset] Failed to delete modifications:', r.error); }).catch(e => console.error('[Reset] Error deleting modifications:', e));
     }
     sync.markChanged();
   }, [vehiclesStore, logsStore, remindersStore, fuelLogsStore, modsStore, sync, analytics, auth.user?.id]);
