@@ -1,13 +1,26 @@
 {
-  "version": 2,
-  "framework": "vite",
-  "buildCommand": "vite build",
-  "outputDirectory": "dist",
-  "installCommand": "npm install",
-  "rewrites": [
-    { "source": "/api/(.*)", "destination": "/api/$1" },
-    { "source": "/activate-premium.html", "destination": "/activate-premium.html" },
-    { "source": "/auth.html", "destination": "/auth.html" },
-    { "source": "/(.*)", "destination": "/index.html" }
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "mtxtrkr.vercel.app"
+        }
+      ],
+      "destination": "https://www.mtxtrkr.com/$1",
+      "permanent": true
+    },
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "mtxtrkr.com"
+        }
+      ],
+      "destination": "https://www.mtxtrkr.com/$1",
+      "permanent": true
+    }
   ]
 }
