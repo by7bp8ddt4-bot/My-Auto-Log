@@ -460,15 +460,31 @@ export default function App() {
 
   // Reset all data
   const handleReset = useCallback(() => {
+    if (!window.confirm('Are you sure? This will permanently delete ALL your data from both the app and the cloud. This cannot be undone.')) return;
     vehiclesStore.update([]);
     logsStore.update([]);
     remindersStore.update([]);
+    fuelLogsStore.update([]);
+    modsStore.update([]);
     localStorage.removeItem(STORAGE_KEYS.LAST_SYNC);
     localStorage.removeItem(STORAGE_KEYS.PREMIUM_STATUS);
+    // Clear all mtxtrkr_ keys from localStorage
+    for (let i = localStorage.length - 1; i >= 0; i--) {
+      const key = localStorage.key(i);
+      if (key && key.startsWith('mtxtrkr_')) localStorage.removeItem(key);
+    }
     setPremium(false);
     analytics.track('data_reset', {});
+    // Also delete cloud data if authenticated
+    if (auth.user?.id) {
+      supabase.from('vehicles').delete().eq('user_id', auth.user.id).then().catch(() => {});
+      supabase.from('maintenance_logs').delete().eq('user_id', auth.user.id).then().catch(() => {});
+      supabase.from('reminders').delete().eq('user_id', auth.user.id).then().catch(() => {});
+      supabase.from('fuel_logs').delete().eq('user_id', auth.user.id).then().catch(() => {});
+      supabase.from('modifications').delete().eq('user_id', auth.user.id).then().catch(() => {});
+    }
     sync.markChanged();
-  }, [vehiclesStore, logsStore, remindersStore, sync, analytics]);
+  }, [vehiclesStore, logsStore, remindersStore, fuelLogsStore, modsStore, sync, analytics, auth.user?.id]);
 
   // Upgrade to premium — migrate localStorage data to Supabase, then activate
   const handleUpgrade = useCallback(async () => {
