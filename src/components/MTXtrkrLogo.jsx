@@ -2,6 +2,7 @@
  * MTXtrkr Logo — Photo-realistic PNG
  * Uses a generated PNG image of crossed Craftsman-style combo wrenches
  * instead of hand-coded SVG paths (which never looked realistic enough).
+ * Domain: www.MTXtrkr.com
  */
 import logoImage from '/assets/mtxtrkr-logo.png';
 
