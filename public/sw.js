@@ -1,4 +1,4 @@
-const CACHE_NAME = 'mtxtrkr-v1';
+const CACHE_NAME = 'mtxtrkr-v2';
 const STATIC_ASSETS = [
   '/',
   '/index.html',
@@ -42,7 +42,7 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// Fetch event: cache-first for static assets, network-first for API
+// Fetch event: cache-first for versioned assets, network-first for HTML
 self.addEventListener('fetch', (event) => {
   const { request } = event;
   const url = new URL(request.url);
@@ -58,7 +58,6 @@ self.addEventListener('fetch', (event) => {
     event.respondWith(
       fetch(request)
         .then((response) => {
-          // Cache the successful response
           const clone = response.clone();
           caches.open(CACHE_NAME).then((cache) => {
             cache.put(request, clone);
@@ -66,7 +65,6 @@ self.addEventListener('fetch', (event) => {
           return response;
         })
         .catch(() => {
-          // Fallback to cache if network fails
           return caches.match(request).then((cached) => {
             return cached || new Response('Offline', { status: 503 });
           });
@@ -75,11 +73,37 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Cache-first for static assets (JS, CSS, images, fonts)
+  // Network-first for HTML navigation requests (root / and /index.html)
+  // This ensures users always get the latest HTML which references the
+  // latest JS/CSS bundle hashes. Falls back to cache if offline.
+  if (url.pathname === '/' || url.pathname === '/index.html' || request.mode === 'navigate') {
+    event.respondWith(
+      fetch(request)
+        .then((response) => {
+          if (response && response.status === 200) {
+            const clone = response.clone();
+            caches.open(CACHE_NAME).then((cache) => {
+              cache.put(request, clone);
+            });
+          }
+          return response;
+        })
+        .catch(() => {
+          // Offline — fall back to cached HTML
+          return caches.match(request).then((cached) => {
+            return cached || caches.match('/') || new Response('Offline', { status: 503 });
+          });
+        })
+    );
+    return;
+  }
+
+  // Cache-first for versioned assets (JS, CSS, images, fonts with hashes)
+  // These are immutable — safe to cache aggressively.
   event.respondWith(
     caches.match(request).then((cached) => {
       if (cached) {
-        // Return cached version, then update cache in background
+        // Return cached, update in background
         fetch(request)
           .then((response) => {
             if (response && response.status === 200) {
@@ -89,15 +113,12 @@ self.addEventListener('fetch', (event) => {
               });
             }
           })
-          .catch(() => {
-            // Network failed, cached version is fine
-          });
+          .catch(() => {});
         return cached;
       }
 
       // Not in cache, fetch from network
       return fetch(request).then((response) => {
-        // Cache successful responses
         if (response && response.status === 200) {
           const clone = response.clone();
           caches.open(CACHE_NAME).then((cache) => {
@@ -106,7 +127,6 @@ self.addEventListener('fetch', (event) => {
         }
         return response;
       }).catch(() => {
-        // If navigation request, return offline fallback
         if (request.mode === 'navigate') {
           return caches.match('/');
         }
