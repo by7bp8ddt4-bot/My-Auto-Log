@@ -348,12 +348,15 @@ export default function App() {
 
   // Logout
   const handleLogout = useCallback(async () => {
-    setPage('landing');
     if (isAuthenticated) {
       analytics.track('user_logout', { page: 'settings' });
       analytics.logoutAnalytics();
       await auth.signOut();
     }
+    // Set page to landing AFTER sign-out completes, so the auto-redirect
+    // effect doesn't fire while isAuthenticated is still true and redirect
+    // the user back to dashboard before the sign-out finishes.
+    setPage('landing');
   }, [auth, isAuthenticated, analytics]);
 
   // Add vehicle
