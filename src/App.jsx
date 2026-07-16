@@ -492,10 +492,21 @@ export default function App() {
       if (!window.confirm('This will permanently delete ALL your data and account. This cannot be undone. Continue?')) return;
       console.log('[DeleteAccount] Starting deletion...');
 
+      // Get the current session access token for auth
+      const sessionResponse = await supabase.auth.getSession();
+      const accessToken = sessionResponse?.data?.session?.access_token;
+      if (!accessToken) {
+        alert('You must be signed in to delete your account.');
+        return;
+      }
+
       // Call the serverless API to delete the user
       const response = await fetch('/api/delete-account', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${accessToken}`,
+        },
         body: JSON.stringify({ userId: auth.user?.id }),
       });
       const result = await response.json();

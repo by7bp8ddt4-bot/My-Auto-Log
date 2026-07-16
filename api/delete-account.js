@@ -13,9 +13,32 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
+  // Authenticate: verify caller via Bearer token
+  const authHeader = req.headers['authorization'];
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return res.status(401).json({ error: 'Missing or invalid Authorization header' });
+  }
+  const token = authHeader.split(' ')[1];
+
+  let callerUserId;
+  try {
+    const { data: { user }, error: userError } = await supabase.auth.getUser(token);
+    if (userError || !user) {
+      return res.status(401).json({ error: 'Invalid or expired auth token' });
+    }
+    callerUserId = user.id;
+  } catch (e) {
+    return res.status(401).json({ error: 'Failed to verify auth token' });
+  }
+
   const { userId } = req.body;
   if (!userId) {
     return res.status(400).json({ error: 'Missing userId' });
+  }
+
+  // Enforce: caller can only delete their own account
+  if (callerUserId !== userId) {
+    return res.status(403).json({ error: 'Forbidden: you can only delete your own account' });
   }
 
   try {
