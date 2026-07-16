@@ -49,7 +49,11 @@ export function useSupabaseData(tableName, userId, filterColumn = 'user_id') {
   // Fetch data from Supabase
   const fetchData = useCallback(async () => {
     if (!userId) {
-      setLoading(false);
+      // Don't set loading=false here — the initial state is already
+      // loading=true (data not ready). Setting loading=false would make
+      // the sync effect in App.jsx think data is available when it's not,
+      // triggering a premature sync with empty data that permanently
+      // blocks the actual sync from ever running.
       return;
     }
     try {
