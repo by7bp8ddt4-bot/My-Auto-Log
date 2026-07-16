@@ -8,8 +8,8 @@
           "value": "mtxtrkr.vercel.app"
         }
       ],
-      "destination": "https://www.mtxtrkr.com/$1",
-      "permanent": true
+      "destination": "https://www.mtxtrkr.com/:path*",
+      "permanent": false
     },
     {
       "source": "/(.*)",
@@ -19,8 +19,8 @@
           "value": "mtxtrkr.com"
         }
       ],
-      "destination": "https://www.mtxtrkr.com/$1",
-      "permanent": true
+      "destination": "https://www.mtxtrkr.com/:path*",
+      "permanent": false
     }
   ]
 }

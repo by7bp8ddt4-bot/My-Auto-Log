@@ -1,7 +1,7 @@
 import { Settings2, Download, Trash2, RefreshCw, Database, User, Crown, ChevronRight, LogOut, Mail } from 'lucide-react';
 import { getSubscriptionData } from './SubscriptionManagement.jsx';
 
-export default function Settings({ onReset, onExport, vehicles, logs, reminders, isAuthenticated, isPremium, onNavigate, onLogout }) {
+export default function Settings({ onReset, onExport, vehicles, logs, reminders, isAuthenticated, isPremium, onNavigate, onLogout, onDeleteAccount }) {
   const sub = getSubscriptionData();
   const handleExport = () => {
     const exportData = {
@@ -166,6 +166,28 @@ export default function Settings({ onReset, onExport, vehicles, logs, reminders,
             <ChevronRight className="w-4 h-4" />
           </button>
         </div>
+
+        {/* Delete Account */}
+        {isAuthenticated && (
+          <div className="p-5 rounded-2xl bg-red-900/10 border border-red-800/20">
+            <div className="flex items-center gap-3 mb-3">
+              <div className="w-10 h-10 rounded-xl bg-red-500/10 flex items-center justify-center">
+                <Trash2 className="w-5 h-5 text-red-400" />
+              </div>
+              <div>
+                <h3 className="text-sm font-semibold text-white">Delete Account</h3>
+                <p className="text-xs text-slate-500">Permanently delete all data and account</p>
+              </div>
+            </div>
+            <button
+              onClick={() => onDeleteAccount()}
+              className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl border border-red-500/30 text-sm text-red-400 hover:bg-red-500/10 transition-all"
+            >
+              <Trash2 className="w-4 h-4" />
+              Delete Account
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
