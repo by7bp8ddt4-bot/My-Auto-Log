@@ -125,7 +125,7 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
         <div>
           <h2 className="text-xl font-bold text-white">Dashboard</h2>
           <p className="text-sm text-slate-400 mt-0.5">
-            {vehicles.length} {vehicles.length === 1 ? 'vehicle' : 'vehicles'} • {logs.length} service records
+            {vehicles.length} {vehicles.length === 1 ? 'vehicle' : 'vehicles'} • {vehicleLogs.length} service records
           </p>
         </div>
         <button 
