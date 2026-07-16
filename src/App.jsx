@@ -256,8 +256,6 @@ export default function App() {
   // This prevents a race condition where supabase data hasn't arrived yet
   // but the sync is marked "done" early, causing data loss on fresh login.
   // No "done" flag — the effect is idempotent and re-runs whenever stores load.
-  // Deps include both .loading AND .data to ensure re-firing when data changes
-  // after stores have finished loading.
   useEffect(() => {
     if (!isAuthenticated || !auth.user?.id) return;
 
@@ -280,9 +278,7 @@ export default function App() {
     }
   }, [isAuthenticated, auth.user?.id,
       supabaseVehicles.loading, supabaseLogs.loading, supabaseReminders.loading,
-      supabaseFuelLogs.loading, supabaseMods.loading,
-      supabaseVehicles.data, supabaseLogs.data, supabaseReminders.data,
-      supabaseFuelLogs.data, supabaseMods.data]);
+      supabaseFuelLogs.loading, supabaseMods.loading]);
 
   // Continuous background sync: push local data to Supabase when it changes
   // Syncs individual items by comparing IDs — pushes only what's missing from Supabase
