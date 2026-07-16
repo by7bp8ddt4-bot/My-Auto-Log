@@ -491,18 +491,25 @@ export default function App() {
     try {
       if (!window.confirm('This will permanently delete ALL your data and account. This cannot be undone. Continue?')) return;
       console.log('[DeleteAccount] Starting deletion...');
-      // Delete all cloud data
-      if (auth.user?.id) {
-        await Promise.allSettled([
-          supabase.from('vehicles').delete().eq('user_id', auth.user.id),
-          supabase.from('maintenance_logs').delete().eq('user_id', auth.user.id),
-          supabase.from('reminders').delete().eq('user_id', auth.user.id),
-          supabase.from('fuel_logs').delete().eq('user_id', auth.user.id),
-          supabase.from('modifications').delete().eq('user_id', auth.user.id),
-          supabase.from('profiles').delete().eq('id', auth.user.id),
-        ]);
-        console.log('[DeleteAccount] Cloud data deleted');
+
+      // Call the serverless API to delete the user
+      const response = await fetch('/api/delete-account', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId: auth.user?.id }),
+      });
+      const result = await response.json();
+
+      if (!response.ok) {
+        if (result.error === 'cancel_subscription_first') {
+          alert('Please cancel your subscription first via the Stripe dashboard before deleting your account.');
+          return;
+        }
+        throw new Error(result.error || 'Failed to delete account');
       }
+
+      console.log('[DeleteAccount] Cloud data deleted, result:', result);
+
       // Clear all local data
       for (let i = localStorage.length - 1; i >= 0; i--) {
         const key = localStorage.key(i);
@@ -515,6 +522,7 @@ export default function App() {
       console.log('[DeleteAccount] Signed out');
     } catch (e) {
       console.error('[DeleteAccount] Error:', e);
+      alert('Failed to delete account: ' + (e.message || 'Unknown error'));
     }
   }, [auth, analytics]);
 
