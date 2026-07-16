@@ -1,12 +1,114 @@
 import { useState, useCallback } from 'react';
 import {
   Brain, Sparkles, Save, CheckCircle2, Loader2,
-  Lightbulb, Wrench, Calendar, Zap, AlertTriangle
+  Lightbulb, Wrench, Calendar, Zap, AlertTriangle, BookOpen, Search
 } from 'lucide-react';
 import { formatNumber, formatDate, getLocalDateString } from '../utils/helpers';
 import { useMaintenanceSchedule } from '../hooks/useMaintenanceSchedule';
 import { getManufacturerColor, ManufacturerBadge } from '../utils/manufacturerBranding.jsx';
 import { getSpecsForVehicle, isEV } from '../data/maintenance-schedules.js';
+import { findBestSymptomMatch } from '../data/symptom-decoder.js';
+import { translateJargon, extractJargon } from '../data/jargon-translator.js';
+
+// --- Jargon Decoder Sub-component ---
+function JargonDecoder() {
+  const [jargonInput, setJargonInput] = useState('');
+  const [jargonResult, setJargonResult] = useState(null);
+  const [jargonSearching, setJargonSearching] = useState(false);
+
+  const handleJargonLookup = () => {
+    if (!jargonInput.trim()) return;
+    setJargonSearching(true);
+    setTimeout(() => {
+      const result = translateJargon(jargonInput);
+      setJargonResult(result);
+      setJargonSearching(false);
+    }, 400);
+  };
+
+  return (
+    <div className="p-5 rounded-2xl bg-gradient-to-br from-emerald-600/5 to-teal-600/5 border border-emerald-500/20">
+      <div className="flex items-center gap-3 mb-4">
+        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500/20 to-teal-500/20 flex items-center justify-center">
+          <BookOpen className="w-5 h-5 text-emerald-400" />
+        </div>
+        <div>
+          <h3 className="text-sm font-semibold text-white">Mechanic Jargon Decoder</h3>
+          <p className="text-xs text-slate-500">Translate mechanic-speak into plain English</p>
+        </div>
+      </div>
+
+      <div className="flex gap-2">
+        <input
+          type="text"
+          value={jargonInput}
+          onChange={(e) => { setJargonInput(e.target.value); setJargonResult(null); }}
+          onKeyDown={(e) => e.key === 'Enter' && handleJargonLookup()}
+          placeholder={`e.g. "CVT", "timing belt", "PTU"...`}
+          className="flex-1 px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all"
+        />
+        <button
+          onClick={handleJargonLookup}
+          disabled={!jargonInput.trim() || jargonSearching}
+          className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center gap-1.5"
+        >
+          {jargonSearching ? <Loader2 className="w-4 h-4 animate-spin" /> : <Search className="w-4 h-4" />}
+          Look up
+        </button>
+      </div>
+
+      {/* Jargon Results */}
+      {jargonResult && (
+        <div className="mt-4 p-4 rounded-xl bg-slate-900 border border-slate-700/50 space-y-3">
+          {Array.isArray(jargonResult) ? (
+            jargonResult.length === 0 ? (
+              <p className="text-xs text-slate-500">No matching terms found.</p>
+            ) : (
+              <div className="space-y-3 max-h-60 overflow-y-auto">
+                {jargonResult.slice(0, 5).map((t, i) => (
+                  <div key={i} className="pb-3 border-b border-slate-800 last:border-0 last:pb-0">
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="text-xs font-semibold text-emerald-400">{t.term}</span>
+                      {t.standsFor && <span className="text-[10px] text-slate-500">({t.standsFor})</span>}
+                    </div>
+                    <p className="text-xs text-slate-300 leading-relaxed">{t.plainEnglish}</p>
+                    {t.commonFailures && (
+                      <p className="text-[10px] text-slate-500 mt-1">⚠ Common issues: {t.commonFailures}</p>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )
+          ) : (
+            <div>
+              <div className="flex items-center gap-2 mb-1">
+                <span className="text-xs font-semibold text-emerald-400">{jargonResult.term}</span>
+                {jargonResult.standsFor && <span className="text-[10px] text-slate-500">({jargonResult.standsFor})</span>}
+              </div>
+              <p className="text-xs text-slate-300 leading-relaxed">{jargonResult.plainEnglish}</p>
+              {jargonResult.commonFailures && (
+                <p className="text-[10px] text-slate-500 mt-1">⚠ Common issues: {jargonResult.commonFailures}</p>
+              )}
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Quick-reference: common terms */}
+      <div className="mt-4 flex flex-wrap gap-1.5">
+        {['ABS', 'CVT', 'timing belt', 'PTU', 'AFM', 'O2 sensor', 'EVAP'].map(term => (
+          <button
+            key={term}
+            onClick={() => { setJargonInput(term); setJargonResult(null); }}
+            className="px-2 py-1 text-[10px] rounded-lg bg-slate-800 border border-slate-700 text-slate-400 hover:text-white hover:border-emerald-500/40 transition-all"
+          >
+            {term}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 // Vehicle-aware translation that pulls specs from the database
 function aiTranslate(input, vehicle) {
@@ -122,6 +224,25 @@ function aiTranslate(input, vehicle) {
     };
   }
 
+  // Symptom Decoder fallback — check specialist's symptom database
+  const symptomMatch = findBestSymptomMatch(lower);
+  if (symptomMatch && symptomMatch.causes.length > 0) {
+    const topCause = symptomMatch.causes[0];
+    return {
+      diagnosis: symptomMatch.symptom,
+      severity: topCause.severity.includes('🔴') ? 'High' : topCause.severity.includes('⚠️') ? 'Medium' : 'Low',
+      action: `${topCause.cause}. ${topCause.urgency}`,
+      estimatedCost: topCause.estimatedCost,
+      loggable: topCause.severity !== '✅ Normal' ? {
+        serviceType: symptomMatch.symptom,
+        description: `Diagnosed: ${symptomMatch.symptom} on ${make} ${model}. ${topCause.cause}. Action: ${topCause.urgency}`,
+        mileage
+      } : null,
+      allCauses: symptomMatch.causes,
+      source: 'symptom-decoder',
+    };
+  }
+
   // Default fallback
   const psi = specs?.tirePressure?.psi || 34;
   return {
@@ -131,7 +252,7 @@ function aiTranslate(input, vehicle) {
     estimatedCost: '$0–$50 (inspection fee)',
     loggable: { serviceType: 'Inspection', description: `Concern reported: "${input}". General inspection performed on ${make} ${model}.`, mileage }
   };
-}
+  }
 
 export default function AICopilot({ vehicles, logs, onAddLog, onNavigate, isPremium, activeVehicleId }) {
   const [inputText, setInputText] = useState('');
@@ -308,6 +429,21 @@ export default function AICopilot({ vehicles, logs, onAddLog, onNavigate, isPrem
                   <span className="text-emerald-400 font-medium">{translation.estimatedCost}</span>
                 </div>
               )}
+              {translation.allCauses && translation.allCauses.length > 1 && (
+                <div>
+                  <span className="text-[10px] font-medium text-slate-500 uppercase tracking-wider mb-1 block">Other Possible Causes</span>
+                  <div className="space-y-1">
+                    {translation.allCauses.slice(1).map((c, i) => (
+                      <div key={i} className="flex items-start gap-1.5 text-xs">
+                        <span className={`mt-0.5 w-1.5 h-1.5 rounded-full flex-shrink-0 ${
+                          c.severity.includes('🔴') ? 'bg-red-400' : c.severity.includes('⚠️') ? 'bg-amber-400' : 'bg-emerald-400'
+                        }`} />
+                        <span className="text-slate-400">{c.cause} — <span className="text-slate-500">{c.estimatedCost}</span></span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
               {translation.loggable && (
                 <button onClick={handleSaveToLog} className="w-full flex items-center justify-center gap-2 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-medium transition-all">
                   <Save className="w-3.5 h-3.5" /> Save to Maintenance Log
@@ -329,6 +465,9 @@ export default function AICopilot({ vehicles, logs, onAddLog, onNavigate, isPrem
           </div>
         )}
       </div>
+
+      {/* Feature 1.5: Mechanic Jargon Decoder */}
+      <JargonDecoder />
 
       {/* Feature 2: Proactive Guidance */}
       {urgentItem && (

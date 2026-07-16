@@ -1,0 +1,532 @@
+{
+  "schemaVersion": "1.0",
+  "generatedAt": "2025-07-16",
+  "description": "Symptom decoder — maps common driver-described symptoms to likely causes in plain English. Helps the app translate 'that weird sound' into actionable next steps.",
+  "symptoms": [
+    {
+      "symptom": "Squealing when braking",
+      "plainEnglish": "A high-pitched squeal or screech when you press the brake pedal",
+      "likelyCauses": [
+        {
+          "cause": "Worn brake pads — wear indicator tab is scraping the rotor",
+          "severity": "⚠️ Medium",
+          "urgency": "Schedule service soon — you still have some pad life but not much",
+          "estimatedCost": "$150–$300 per axle",
+          "commonVehicles": ["All"]
+        },
+        {
+          "cause": "Glazed brake pads — hard braking has hardened the pad surface",
+          "severity": "⚠️ Low",
+          "urgency": "Can continue driving — might improve with normal braking",
+          "estimatedCost": "$150–$300 per axle",
+          "commonVehicles": ["All"]
+        },
+        {
+          "cause": "Rust on brake rotors — surface rust from sitting overnight or rain",
+          "severity": "✅ Normal",
+          "urgency": "No action needed — will disappear after a few stops",
+          "estimatedCost": "$0",
+          "commonVehicles": ["All"]
+        }
+      ]
+    },
+    {
+      "symptom": "Grinding when braking",
+      "plainEnglish": "A deep metal-on-metal grinding or growling sound when you brake",
+      "likelyCauses": [
+        {
+          "cause": "Brake pads completely worn down — metal backing plate is grinding against the rotor",
+          "severity": "🔴 High",
+          "urgency": "Stop driving immediately. You have no friction material left and are damaging the rotors (and possibly calipers)",
+          "estimatedCost": "$300–$600 per axle",
+          "commonVehicles": ["All"]
+        }
+      ]
+    },
+    {
+      "symptom": "Squealing when turning",
+      "plainEnglish": "A high-pitched squeal that happens as you turn the steering wheel",
+      "likelyCauses": [
+        {
+          "cause": "Low power steering fluid — pump is starving for fluid",
+          "severity": "⚠️ Medium",
+          "urgency": "Check fluid level. A leak might be present",
+          "estimatedCost": "$100–$400",
+          "commonVehicles": ["Older models"]
+        },
+        {
+          "cause": "Worn serpentine belt — belt slipping on power steering pulley",
+          "severity": "⚠️ Medium",
+          "urgency": "Replace belt soon — if it snaps, you lose power steering and alternator",
+          "estimatedCost": "$150–$300",
+          "commonVehicles": ["All"]
+        },
+        {
+          "cause": "Power steering pump failing",
+          "severity": "🔴 High",
+          "urgency": "Get diagnosed soon — pump failure can leave you without power steering",
+          "estimatedCost": "$400–$800",
+          "commonVehicles": ["All with hydraulic PS"]
+        }
+      ]
+    },
+    {
+      "symptom": "Clunking when turning",
+      "plainEnglish": "A dull thud or clunk sound from the front of the car when you turn",
+      "likelyCauses": [
+        {
+          "cause": "Worn CV joint — the rubber boot likely tore, letting dirt in and grease out",
+          "severity": "🔴 High",
+          "urgency": "Replace soon — if it fails completely, the axle can separate and your car won't move",
+          "estimatedCost": "$400–$800 per side",
+          "commonVehicles": ["Front-wheel drive vehicles", "Honda Civic", "Toyota Camry", "Nissan Altima"]
+        },
+        {
+          "cause": "Worn ball joint or tie rod end — suspension component with play",
+          "severity": "🔴 High",
+          "urgency": "Get inspected immediately — failure can cause loss of steering control",
+          "estimatedCost": "$200–$600 per side",
+          "commonVehicles": ["All"]
+        },
+        {
+          "cause": "Loose sway bar link — stabilizer bar link has worn out",
+          "severity": "⚠️ Medium",
+          "urgency": "Annoying but not immediately dangerous — replace when convenient",
+          "estimatedCost": "$150–$300 per pair",
+          "commonVehicles": ["All"]
+        }
+      ]
+    },
+    {
+      "symptom": "Check Engine Light is on",
+      "plainEnglish": "The yellow engine-shaped warning light on your dashboard is lit up",
+      "likelyCauses": [
+        {
+          "cause": "Loose or faulty gas cap — the most common cause",
+          "severity": "✅ Low",
+          "urgency": "Tighten the gas cap. If light clears after 2-3 drives, no further action needed",
+          "estimatedCost": "$0–$25",
+          "commonVehicles": ["All"]
+        },
+        {
+          "cause": "Oxygen sensor failure — sensor reading exhaust gases has failed",
+          "severity": "⚠️ Medium",
+          "urgency": "Replace soon — affects fuel economy, can damage catalytic converter if ignored",
+          "estimatedCost": "$200–$500",
+          "commonVehicles": ["All"]
+        },
+        {
+          "cause": "Catalytic converter failure — emissions device is clogged or failing",
+          "severity": "🔴 High",
+          "urgency": "Get diagnosed — car may fail emissions test and lose power",
+          "estimatedCost": "$1,000–$2,500",
+          "commonVehicles": ["All"]
+        },
+        {
+          "cause": "Mass airflow sensor dirty — sensor measuring incoming air needs cleaning",
+          "severity": "⚠️ Low",
+          "urgency": "Can try cleaning with MAF cleaner first — cheap fix",
+          "estimatedCost": "$50–$200",
+          "commonVehicles": ["All"]
+        },
+        {
+          "cause": "Ignition coil or spark plug failure — cylinder misfire",
+          "severity": "⚠️ Medium",
+          "urgency": "Replace soon — driving with a misfire can damage the catalytic converter",
+          "estimatedCost": "$200–$600",
+          "commonVehicles": ["All"]
+        }
+      ]
+    },
+    {
+      "symptom": "Check Engine Light is flashing",
+      "plainEnglish": "The yellow engine light is blinking rapidly, not staying steady",
+      "likelyCauses": [
+        {
+          "cause": "Catalyst-damaging misfire — a cylinder is not firing at all, sending raw fuel into the exhaust",
+          "severity": "🔴 HIGH — PULL OVER",
+          "urgency": "Stop driving immediately. A flashing CEL means you're destroying the catalytic converter. Tow to a mechanic",
+          "estimatedCost": "$200–$1,500+",
+          "commonVehicles": ["All"]
+        }
+      ]
+    },
+    {
+      "symptom": "Car shakes or vibrates at highway speeds",
+      "plainEnglish": "The steering wheel or seat vibrates noticeably when driving 60+ mph",
+      "likelyCauses": [
+        {
+          "cause": "Wheels out of balance — tire weights fell off",
+          "severity": "⚠️ Low",
+          "urgency": "Get tires balanced — inexpensive fix, prevents uneven tire wear",
+          "estimatedCost": "$40–$80",
+          "commonVehicles": ["All"]
+        },
+        {
+          "cause": "Bent wheel — hit a pothole and bent the rim",
+          "severity": "⚠️ Medium",
+          "urgency": "Get inspected — may need replacement or repair",
+          "estimatedCost": "$100–$300",
+          "commonVehicles": ["All"]
+        },
+        {
+          "cause": "Tire separation or bubble — internal tire damage",
+          "severity": "🔴 High",
+          "urgency": "Replace immediately — tire could blow out at speed",
+          "estimatedCost": "$100–$300 per tire",
+          "commonVehicles": ["All"]
+        }
+      ]
+    },
+    {
+      "symptom": "Car pulls to one side while driving",
+      "plainEnglish": "You have to hold the steering wheel at an angle to go straight",
+      "likelyCauses": [
+        {
+          "cause": "Wheel alignment out of spec",
+          "severity": "⚠️ Low",
+          "urgency": "Schedule alignment — causes uneven tire wear",
+          "estimatedCost": "$80–$150",
+          "commonVehicles": ["All"]
+        },
+        {
+          "cause": "Uneven tire pressure — one tire is low",
+          "severity": "✅ Low",
+          "urgency": "Check and inflate all tires to spec",
+          "estimatedCost": "$0",
+          "commonVehicles": ["All"]
+        },
+        {
+          "cause": "Stuck brake caliper — brake not fully releasing on one wheel",
+          "severity": "🔴 High",
+          "urgency": "Get inspected soon — can overheat and damage the wheel bearing",
+          "estimatedCost": "$200–$500",
+          "commonVehicles": ["All"]
+        }
+      ]
+    },
+    {
+      "symptom": "Thumping or rhythmic noise that gets faster with speed",
+      "plainEnglish": "A repetitive 'womp womp womp' sound that speeds up as you accelerate",
+      "likelyCauses": [
+        {
+          "cause": "Flat spot on tire or tire cupping — worn suspension causing uneven tire wear",
+          "severity": "⚠️ Medium",
+          "urgency": "Get tires inspected — may need replacement and suspension check",
+          "estimatedCost": "$100–$800",
+          "commonVehicles": ["All"]
+        },
+        {
+          "cause": "Nail or object stuck in tire",
+          "severity": "⚠️ Medium",
+          "urgency": "Get tire patched — temporary fix possible with plug kit",
+          "estimatedCost": "$20–$40",
+          "commonVehicles": ["All"]
+        }
+      ]
+    },
+    {
+      "symptom": "Whining noise from engine that changes with RPM",
+      "plainEnglish": "A high-pitched whine that goes up and down as you press the gas",
+      "likelyCauses": [
+        {
+          "cause": "Alternator bearing failing — alternator is grinding internally",
+          "severity": "🔴 High",
+          "urgency": "Get diagnosed — if alternator fails, battery dies and car won't start",
+          "estimatedCost": "$300–$600",
+          "commonVehicles": ["All"]
+        },
+        {
+          "cause": "Low power steering fluid — pump whining because it's starved",
+          "severity": "⚠️ Medium",
+          "urgency": "Check fluid level and top off — look for leaks",
+          "estimatedCost": "$100–$400",
+          "commonVehicles": ["Older vehicles with hydraulic PS"]
+        },
+        {
+          "cause": "Serpentine belt tensioner failing — belt is slipping",
+          "severity": "⚠️ Medium",
+          "urgency": "Replace belt and tensioner soon",
+          "estimatedCost": "$200–$400",
+          "commonVehicles": ["All"]
+        }
+      ]
+    },
+    {
+      "symptom": "Car won't start — clicking noise",
+      "plainEnglish": "You turn the key or push the button and hear rapid clicking, but the engine doesn't turn over",
+      "likelyCauses": [
+        {
+          "cause": "Dead battery — not enough power to turn the starter",
+          "severity": "⚠️ Medium",
+          "urgency": "Jump start the car. If it starts, drive to a parts store for a free battery test",
+          "estimatedCost": "$100–$200",
+          "commonVehicles": ["All"]
+        },
+        {
+          "cause": "Corroded or loose battery terminals",
+          "severity": "✅ Low",
+          "urgency": "Clean terminals with a wire brush and tighten connections",
+          "estimatedCost": "$0–$10",
+          "commonVehicles": ["All"]
+        },
+        {
+          "cause": "Faulty starter motor — starter is not engaging the flywheel",
+          "severity": "🔴 High",
+          "urgency": "Needs replacement — tap starter with a hammer as a temporary trick",
+          "estimatedCost": "$300–$600",
+          "commonVehicles": ["All"]
+        }
+      ]
+    },
+    {
+      "symptom": "Car won't start — no sound at all",
+      "plainEnglish": "You turn the key and nothing happens — no clicking, no cranking, just silence",
+      "likelyCauses": [
+        {
+          "cause": "Completely dead battery — no power at all",
+          "severity": "⚠️ Medium",
+          "urgency": "Jump start or replace battery. Check if lights work to confirm",
+          "estimatedCost": "$100–$200",
+          "commonVehicles": ["All"]
+        },
+        {
+          "cause": "Faulty ignition switch or starter relay",
+          "severity": "🔴 High",
+          "urgency": "Needs diagnostic — may need towing",
+          "estimatedCost": "$150–$400",
+          "commonVehicles": ["All"]
+        },
+        {
+          "cause": "Security system immobilizer — chip in key not recognized",
+          "severity": "⚠️ Medium",
+          "urgency": "Try spare key. If that works, original key's chip may be damaged",
+          "estimatedCost": "$100–$400",
+          "commonVehicles": ["All modern vehicles"]
+        }
+      ]
+    },
+    {
+      "symptom": "Car overheats — temperature gauge near red",
+      "plainEnglish": "The temperature gauge on the dashboard is reading high, or you see steam from under the hood",
+      "likelyCauses": [
+        {
+          "cause": "Low coolant level — leak in the cooling system",
+          "severity": "🔴 HIGH — PULL OVER",
+          "urgency": "Stop driving immediately. Turn on heater full blast to help cool engine. Check coolant reservoir when cool",
+          "estimatedCost": "$100–$1,000+",
+          "commonVehicles": ["All"]
+        },
+        {
+          "cause": "Thermostat stuck closed — coolant not circulating through radiator",
+          "severity": "🔴 High",
+          "urgency": "Needs replacement — relatively cheap fix",
+          "estimatedCost": "$200–$400",
+          "commonVehicles": ["All"]
+        },
+        {
+          "cause": "Cooling fan not working — fan relay or motor failed",
+          "severity": "🔴 High",
+          "urgency": "Will overheat at idle/stop-and-go. Get fixed soon",
+          "estimatedCost": "$300–$600",
+          "commonVehicles": ["All"]
+        },
+        {
+          "cause": "Water pump failure — coolant not circulating",
+          "severity": "🔴 High",
+          "urgency": "Needs immediate replacement — can cause engine damage",
+          "estimatedCost": "$400–$1,200",
+          "commonVehicles": ["All"]
+        }
+      ]
+    },
+    {
+      "symptom": "Burning smell from vents",
+      "plainEnglish": "An acrid or sweet smell coming through the air vents when you use the heater or AC",
+      "likelyCauses": [
+        {
+          "cause": "Oil or coolant leak dripping onto hot exhaust manifold",
+          "severity": "🔴 High",
+          "urgency": "Get inspected — could be a gasket leak. Sweet smell = coolant (head gasket?), burning oil smell = valve cover gasket",
+          "estimatedCost": "$150–$1,500",
+          "commonVehicles": ["All"]
+        },
+        {
+          "cause": "Heater core leaking — coolant leaking inside the cabin",
+          "severity": "🔴 High",
+          "urgency": "Sweet smell + foggy windows = leaking heater core. Needs replacement",
+          "estimatedCost": "$500–$1,200",
+          "commonVehicles": ["All"]
+        },
+        {
+          "cause": "Clutch burning (manual) — riding the clutch while driving",
+          "severity": "⚠️ Medium",
+          "urgency": "Adjust driving habits — if smell persists, clutch may need replacement",
+          "estimatedCost": "$1,000–$2,500",
+          "commonVehicles": ["Manual transmission vehicles"]
+        }
+      ]
+    },
+    {
+      "symptom": "Vibration when braking",
+      "plainEnglish": "The steering wheel or brake pedal pulsates/pulses when you apply the brakes",
+      "likelyCauses": [
+        {
+          "cause": "Warped brake rotors — rotors are no longer perfectly flat from heat",
+          "severity": "⚠️ Medium",
+          "urgency": "Rotors need resurfacing or replacement. Can be driven but will worsen",
+          "estimatedCost": "$300–$600 per axle",
+          "commonVehicles": ["All"]
+        }
+      ]
+    },
+    {
+      "symptom": "Transmission slipping",
+      "plainEnglish": "Engine revs but the car doesn't accelerate as expected — feels like the transmission is 'catching up'",
+      "likelyCauses": [
+        {
+          "cause": "Low transmission fluid — leak or hasn't been changed",
+          "severity": "🔴 High",
+          "urgency": "Check fluid level immediately. Continuing to drive can destroy the transmission",
+          "estimatedCost": "$100–$200 (refill) or $3k–$5k (replacement)",
+          "commonVehicles": ["All"]
+        },
+        {
+          "cause": "Worn transmission bands or clutches — internal wear",
+          "severity": "🔴 High",
+          "urgency": "Needs transmission service or rebuild — expensive repair",
+          "estimatedCost": "$2,000–$5,000",
+          "commonVehicles": ["All", "Especially Nissan CVTs (2013-2018)"]
+        },
+        {
+          "cause": "Faulty transmission control module (TCM) — electronic issue",
+          "severity": "⚠️ Medium",
+          "urgency": "May need reprogramming or replacement — cheaper than a mechanical rebuild",
+          "estimatedCost": "$500–$1,000",
+          "commonVehicles": ["All modern vehicles"]
+        }
+      ]
+    },
+    {
+      "symptom": "Rattling noise from engine",
+      "plainEnglish": "A metallic rattling sound coming from under the hood, especially on acceleration",
+      "likelyCauses": [
+        {
+          "cause": "Engine knocking / pinging — using fuel with too low octane rating",
+          "severity": "⚠️ Medium",
+          "urgency": "Try higher octane fuel. If it persists, could be carbon buildup or ignition timing issue",
+          "estimatedCost": "$0 (fuel change) to $500+",
+          "commonVehicles": ["All"]
+        },
+        {
+          "cause": "Loose heat shield — metal shield over exhaust manifold is loose",
+          "severity": "✅ Low",
+          "urgency": "Annoying but not dangerous — can be re-secured with a hose clamp or wrench",
+          "estimatedCost": "$50–$150",
+          "commonVehicles": ["All"]
+        },
+        {
+          "cause": "Timing chain tensioner failing — chain slapping against guides",
+          "severity": "🔴 High",
+          "urgency": "Get diagnosed immediately — if timing chain jumps, engine can be destroyed",
+          "estimatedCost": "$800–$2,000",
+          "commonVehicles": ["Ford 3.5L EcoBoost", "Chevy 5.3L/6.2L with AFM"]
+        }
+      ]
+    },
+    {
+      "symptom": "Humming noise that changes with speed",
+      "plainEnglish": "A low droning or humming sound that gets louder or changes pitch as you accelerate",
+      "likelyCauses": [
+        {
+          "cause": "Worn wheel bearing — bearing inside the hub is failing",
+          "severity": "🔴 High",
+          "urgency": "Replace soon — if it fails, wheel can separate. The noise will get louder when turning one direction",
+          "estimatedCost": "$300–$600 per wheel",
+          "commonVehicles": ["All"]
+        },
+        {
+          "cause": "Cupped / unevenly worn tires — suspension issue causing tire wear pattern",
+          "severity": "⚠️ Medium",
+          "urgency": "May need new tires and alignment check",
+          "estimatedCost": "$400–$800",
+          "commonVehicles": ["All"]
+        }
+      ]
+    },
+    {
+      "symptom": "White smoke from exhaust",
+      "plainEnglish": "White or light gray smoke coming from the tailpipe, especially when warm",
+      "likelyCauses": [
+        {
+          "cause": "Normal condensation — water vapor from cold start (disappears after warming up)",
+          "severity": "✅ Normal",
+          "urgency": "No action needed — completely normal in cold weather",
+          "estimatedCost": "$0",
+          "commonVehicles": ["All"]
+        },
+        {
+          "cause": "Coolant burning — head gasket failure allowing coolant into combustion chamber",
+          "severity": "🔴 HIGH — PULL OVER",
+          "urgency": "Sweet-smelling white smoke = head gasket failure. Stop driving to avoid engine damage",
+          "estimatedCost": "$1,500–$3,000",
+          "commonVehicles": ["All"]
+        },
+        {
+          "cause": "Cracked engine block or cylinder head",
+          "severity": "🔴 HIGH — PULL OVER",
+          "urgency": "Engine likely needs replacement — severe issue",
+          "estimatedCost": "$4,000–$8,000+",
+          "commonVehicles": ["All"]
+        }
+      ]
+    },
+    {
+      "symptom": "Blue or gray smoke from exhaust",
+      "plainEnglish": "Bluish or gray smoke coming from the tailpipe, especially on acceleration or startup",
+      "likelyCauses": [
+        {
+          "cause": "Oil burning — worn piston rings or valve seals letting oil into combustion chamber",
+          "severity": "🔴 High",
+          "urgency": "Check oil level frequently. Will need engine rebuild or replacement eventually",
+          "estimatedCost": "$2,000–$5,000+",
+          "commonVehicles": ["Older vehicles", "Nissan Altima 2.5L (QR25DE)", "BMW N54"]
+        },
+        {
+          "cause": "Turbocharger seals failing — oil leaking past turbo seals into exhaust",
+          "severity": "🔴 High",
+          "urgency": "Turbo needs rebuild or replacement — can cause runaway engine if severe",
+          "estimatedCost": "$1,500–$3,500",
+          "commonVehicles": ["Turbocharged vehicles"]
+        }
+      ]
+    },
+    {
+      "symptom": "Fuel smell",
+      "plainEnglish": "A strong gasoline smell, either inside the cabin or outside the car",
+      "likelyCauses": [
+        {
+          "cause": "Loose gas cap — most common cause",
+          "severity": "✅ Low",
+          "urgency": "Tighten gas cap until it clicks",
+          "estimatedCost": "$0",
+          "commonVehicles": ["All"]
+        },
+        {
+          "cause": "Fuel injector leak — fuel leaking from injector seal",
+          "severity": "🔴 HIGH",
+          "urgency": "Get inspected immediately — fire risk",
+          "estimatedCost": "$200–$600",
+          "commonVehicles": ["All"]
+        },
+        {
+          "cause": "EVAP system leak — fuel vapor recovery system has a leak",
+          "severity": "⚠️ Medium",
+          "urgency": "Can trigger check engine light. Get diagnosed",
+          "estimatedCost": "$150–$500",
+          "commonVehicles": ["All"]
+        }
+      ]
+    }
+  ]
+}
