@@ -879,6 +879,27 @@ export const MAINTENANCE_SCHEDULES = {
     }
   },
 
+  // --- Ag Equipment (hours-based) ---
+  'john-deere': {
+    specs: { oil: { viscosity: '15W-40', type: 'John Deere Plus-50 II', capacity: '5.0 gal' }, transmission: { type: 'Hy-Gard Transmission & Hydraulic Oil' }, coolant: { type: 'John Deere Cool-Gard II' },
+      fuelFilters: { type: 'John Deere original' }, oilFilters: { type: 'John Deere original' },
+      airFilter: { type: 'John Deere heavy-duty' }, battery: { groupSize: 'Group 94R' }, tirePressure: { psi: 30 } },
+    models: {
+      '6r': [
+        { service: 'Oil & Filter Change', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 250 hours. John Deere Plus-50 II 15W-40 diesel oil.' },
+        { service: 'Fuel Filter Replacement', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 500 hours. Replace both primary and secondary fuel filters.' },
+        { service: 'Hydraulic Oil Change', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 1500 hours. John Deere Hy-Gard hydraulic/transmission oil.' },
+        { service: 'Coolant Exchange', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 2000 hours. Cool-Gard II extended life coolant.' },
+        { service: 'Air Filter Replacement', intervalMiles: 0, intervalMonths: 0, severity: 'medium', description: 'Every 500 hours or when air restriction indicator shows.' },
+        { service: 'Battery Check', intervalMiles: 0, intervalMonths: 6, severity: 'low', description: 'Check terminals and charge every 6 months.' },
+        { service: 'Tire Pressure Check', intervalMiles: 0, intervalMonths: 0, severity: 'low', description: 'Check daily for proper inflation. 30 PSI typical for ag tires.' },
+        { service: 'Inspection', intervalMiles: 0, intervalMonths: 0, severity: 'low', description: 'Every 250 hours. Full inspection of belts, hoses, controls, and PTO.' },
+      ],
+      '5r': 'john-deere.6r', '7r': 'john-deere.6r', '8r': 'john-deere.6r',
+      '9r': 'john-deere.6r'
+    }
+  },
+
   default: {
     specs: { oil: { viscosity: '5W-30', type: 'Conventional/Synthetic Blend', capacity: '5.0 qt' }, transmission: { type: "Check owner's manual" }, coolant: { type: 'Universal OAT' }, brakeFluid: { type: 'DOT 3' }, tirePressure: { psi: 34 }, sparkPlugs: { type: 'Iridium', gap: '0.044 in' }, battery: { groupSize: 'Group 35' } },
     services: [
