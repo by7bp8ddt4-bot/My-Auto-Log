@@ -487,6 +487,32 @@ export default function App() {
     sync.markChanged();
   }, [vehiclesStore, logsStore, remindersStore, fuelLogsStore, modsStore, sync, analytics, auth.user?.id]);
 
+  // Force sync from cloud — overwrites local data with Supabase data
+  // Used when switching devices or when cross-device sync didn't trigger automatically
+  const handleSyncFromCloud = useCallback(async () => {
+    if (!auth.user?.id) return;
+    const syncStores = [
+      { local: localVehicles, supabase: supabaseVehicles, key: STORAGE_KEYS.VEHICLES },
+      { local: localLogs, supabase: supabaseLogs, key: STORAGE_KEYS.MAINTENANCE_LOGS },
+      { local: localReminders, supabase: supabaseReminders, key: STORAGE_KEYS.REMINDERS },
+      { local: localFuelLogs, supabase: supabaseFuelLogs, key: 'mtxtrkr_fuel_logs' },
+      { local: localMods, supabase: supabaseMods, key: 'mtxtrkr_modifications' },
+    ];
+    for (const { local, supabase, key } of syncStores) {
+      // Re-fetch from Supabase first
+      await supabase.refetch();
+      // Wait a tick for state to settle
+      await new Promise(r => setTimeout(r, 100));
+      const supabaseData = supabase.data || [];
+      if (supabaseData.length > 0) {
+        localStorage.setItem(key, JSON.stringify(supabaseData));
+        local.setData(supabaseData);
+      }
+    }
+    analytics.track('sync_from_cloud', {});
+    sync.markChanged();
+  }, [auth.user?.id, localVehicles, localLogs, localReminders, localFuelLogs, localMods, supabaseVehicles, supabaseLogs, supabaseReminders, supabaseFuelLogs, supabaseMods, sync, analytics]);
+
   // Delete account — remove all data and sign out
   const handleDeleteAccount = useCallback(async () => {
     try {
@@ -711,6 +737,7 @@ export default function App() {
       onLogout={handleLogout}
       showCancelSubDialog={cancelSubDialog}
       onDismissCancelSub={() => setCancelSubDialog(false)}
+      onSyncFromCloud={handleSyncFromCloud}
     />,
     mileage: <div className="p-4 max-w-4xl mx-auto">
       <MileageChart logs={logsStore.data} vehicles={vehiclesStore.data} isPremium={premium} />
