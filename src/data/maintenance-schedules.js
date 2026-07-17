@@ -375,25 +375,6 @@ export const MAINTENANCE_SCHEDULES = {
       'optipop': 'mercury.verado'
     }
   },
-  'john-deere': {
-    specs: { oil: { viscosity: '15W-40', type: 'John Deere Plus-50 II', capacity: '5.0 gal' }, transmission: { type: 'Hy-Gard Transmission & Hydraulic Oil' }, coolant: { type: 'John Deere Cool-Gard II' },
-      fuelFilters: { type: 'John Deere original' }, oilFilters: { type: 'John Deere original' },
-      airFilter: { type: 'John Deere heavy-duty' }, battery: { groupSize: 'Group 94R' }, tirePressure: { psi: 30 } },
-    models: {
-      '6r': [
-        { service: 'Oil & Filter Change', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 250 hours. John Deere Plus-50 II 15W-40.' },
-        { service: 'Fuel Filter Replacement', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 500 hours. Replace both primary and secondary filters.' },
-        { service: 'Hydraulic Oil Change', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 1500 hours. John Deere Hy-Gard hydraulic/transmission oil.' },
-        { service: 'Coolant Exchange', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 2000 hours. Cool-Gard II extended life.' },
-        { service: 'Air Filter Replacement', intervalMiles: 0, intervalMonths: 0, severity: 'medium', description: 'Every 500 hours or when indicator says so.' },
-        { service: 'Battery Check', intervalMiles: 0, intervalMonths: 6, severity: 'low', description: 'Check terminals and charge every 6 months.' },
-        { service: 'Tire Pressure Check', intervalMiles: 0, intervalMonths: 0, severity: 'low', description: 'Check daily for proper inflation.' },
-        { service: 'Inspection', intervalMiles: 0, intervalMonths: 0, severity: 'low', description: 'Every 250 hours. Full inspection of belts, hoses, controls.' },
-      ],
-      '5r': 'john-deere.6r', '7r': 'john-deere.6r', '8r': 'john-deere.6r',
-      '9r': 'john-deere.6r'
-    }
-  },
   kubota: {
     specs: { oil: { viscosity: '10W-30', type: 'Kubota UDT / Super UDT', capacity: '3.5 gal' }, transmission: { type: 'Kubota Super UDT2' }, coolant: { type: 'Kubota Long Life Coolant' },
       fuelFilters: { type: 'Kubota original' }, oilFilters: { type: 'Kubota original' },
@@ -885,6 +866,7 @@ export const MAINTENANCE_SCHEDULES = {
       fuelFilters: { type: 'John Deere original' }, oilFilters: { type: 'John Deere original' },
       airFilter: { type: 'John Deere heavy-duty' }, battery: { groupSize: 'Group 94R' }, tirePressure: { psi: 30 } },
     models: {
+      // R-Series large row-crop tractors (diesel, hours-based)
       '6r': [
         { service: 'Oil & Filter Change', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 250 hours. John Deere Plus-50 II 15W-40 diesel oil.' },
         { service: 'Fuel Filter Replacement', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 500 hours. Replace both primary and secondary fuel filters.' },
@@ -895,8 +877,59 @@ export const MAINTENANCE_SCHEDULES = {
         { service: 'Tire Pressure Check', intervalMiles: 0, intervalMonths: 0, severity: 'low', description: 'Check daily for proper inflation. 30 PSI typical for ag tires.' },
         { service: 'Inspection', intervalMiles: 0, intervalMonths: 0, severity: 'low', description: 'Every 250 hours. Full inspection of belts, hoses, controls, and PTO.' },
       ],
-      '5r': 'john-deere.6r', '7r': 'john-deere.6r', '8r': 'john-deere.6r',
-      '9r': 'john-deere.6r'
+      '5r': 'john-deere.6r', '7r': 'john-deere.6r', '8r': 'john-deere.6r', '9r': 'john-deere.6r',
+
+      // 3000 Series compact tractors (diesel)
+      '3000': [
+        { service: 'Oil & Filter Change', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 200 hours. John Deere Plus-50 II 15W-40. 3-cylinder diesel.' },
+        { service: 'Fuel Filter Replacement', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 400 hours. Replace fuel filter and water separator.' },
+        { service: 'Hydraulic/Transmission Fluid', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 1000 hours. John Deere Hy-Gard.' },
+        { service: 'Coolant Exchange', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 1500 hours. Cool-Gard II coolant.' },
+        { service: 'Air Filter Replacement', intervalMiles: 0, intervalMonths: 0, severity: 'medium', description: 'Every 400 hours or when restriction indicator shows.' },
+        { service: 'Battery Check', intervalMiles: 0, intervalMonths: 6, severity: 'low', description: 'Check terminals and charge every 6 months.' },
+        { service: 'Inspection', intervalMiles: 0, intervalMonths: 0, severity: 'low', description: 'Every 200 hours. Check belts, hoses, tire pressure, and 3-point hitch.' },
+      ],
+      '3032e': 'john-deere.3000', '3038e': 'john-deere.3000', '3039r': 'john-deere.3000', '3046r': 'john-deere.3000',
+
+      // 4000 Series compact utility tractors (diesel)
+      '4000': [
+        { service: 'Oil & Filter Change', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 250 hours. John Deere Plus-50 II 15W-40. 4-cylinder diesel.' },
+        { service: 'Fuel Filter Replacement', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 500 hours. Replace fuel filter and water separator.' },
+        { service: 'Hydraulic/Transmission Fluid', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 1200 hours. John Deere Hy-Gard.' },
+        { service: 'Coolant Exchange', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 2000 hours. Cool-Gard II coolant.' },
+        { service: 'Air Filter Replacement', intervalMiles: 0, intervalMonths: 0, severity: 'medium', description: 'Every 500 hours. Replace inner and outer elements.' },
+        { service: 'Battery Check', intervalMiles: 0, intervalMonths: 6, severity: 'low', description: 'Check terminals and charge every 6 months.' },
+        { service: 'Inspection', intervalMiles: 0, intervalMonths: 0, severity: 'low', description: 'Every 250 hours. Check belts, hoses, and loader mounts.' },
+      ],
+      '4105': 'john-deere.4000', '4120': 'john-deere.4000', '4044m': 'john-deere.4000', '4052m': 'john-deere.4000', '4066m': 'john-deere.4000',
+
+      // 5000 Series utility tractors (diesel)
+      '5000': [
+        { service: 'Oil & Filter Change', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 250 hours. John Deere Plus-50 II 15W-40. PowerTech diesel.' },
+        { service: 'Fuel Filter Replacement', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 500 hours. Replace fuel filter and water separator.' },
+        { service: 'Hydraulic/Transmission Fluid', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 1500 hours. John Deere Hy-Gard.' },
+        { service: 'Coolant Exchange', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 2000 hours. Cool-Gard II extended life.' },
+        { service: 'Air Filter Replacement', intervalMiles: 0, intervalMonths: 0, severity: 'medium', description: 'Every 500 hours when restriction indicator shows.' },
+        { service: 'Battery Check', intervalMiles: 0, intervalMonths: 6, severity: 'low', description: 'Check terminals and charge every 6 months.' },
+        { service: 'Inspection', intervalMiles: 0, intervalMonths: 0, severity: 'low', description: 'Every 250 hours. Check tires, PTO, brakes, and safety systems.' },
+      ],
+      '5045e': 'john-deere.5000', '5055e': 'john-deere.5000', '5065e': 'john-deere.5000', '5075e': 'john-deere.5000',
+
+      // XUV Utility Vehicles & Gators (gasoline/small diesel)
+      'xuv': [
+        { service: 'Oil & Filter Change', intervalMiles: 0, intervalMonths: 6, severity: 'high', description: 'Every 100 hours or annually. 10W-30 (gas) or 15W-40 (diesel).' },
+        { service: 'Engine Air Filter', intervalMiles: 0, intervalMonths: 12, severity: 'medium', description: 'Every 200 hours or annually. Replace pre-cleaner and main filter.' },
+        { service: 'Fuel Filter Replacement', intervalMiles: 0, intervalMonths: 12, severity: 'high', description: 'Every 200 hours or annually. Replace inline fuel filter.' },
+        { service: 'Spark Plug Replacement', intervalMiles: 0, intervalMonths: 0, severity: 'medium', description: 'Every 300 hours (gasoline models). NGK or Champion equivalent.' },
+        { service: 'Transmission/Hydro Fluid', intervalMiles: 0, intervalMonths: 24, severity: 'high', description: 'Every 500 hours or 2 years. John Deere Hy-Gard.' },
+        { service: 'Coolant Exchange', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 1000 hours. 50/50 ethylene glycol mix.' },
+        { service: 'Brake Inspection', intervalMiles: 0, intervalMonths: 6, severity: 'medium', description: 'Every 100 hours or annually. Check pads and fluid.' },
+        { service: 'Battery Check', intervalMiles: 0, intervalMonths: 6, severity: 'low', description: 'Check terminals and charge before storage season.' },
+        { service: 'Tire Pressure Check', intervalMiles: 0, intervalMonths: 0, severity: 'low', description: 'Check before each use. 10-15 PSI typical.' },
+        { service: 'Inspection', intervalMiles: 0, intervalMonths: 6, severity: 'low', description: 'Every 100 hours or annually. Check belts, hoses, and chassis.' },
+      ],
+      'xuv825m': 'john-deere.xuv', 'xuv865m': 'john-deere.xuv', 'xuv590e': 'john-deere.xuv', 'xuv560e': 'john-deere.xuv',
+      'gator-xuv-835': 'john-deere.xuv', 'gator-hpx': 'john-deere.xuv', 'gator-te': 'john-deere.xuv', 'gator-tx': 'john-deere.xuv'
     }
   },
 
@@ -916,7 +949,7 @@ export const MAINTENANCE_SCHEDULES = {
 
 export function getSpecsForVehicle(make, model) {
   if (!make) return MAINTENANCE_SCHEDULES.default.specs;
-  const m = make.toLowerCase().trim();
+  const m = make.toLowerCase().trim().replace(/\s+/g, '-');
   const mo = model?.toLowerCase().trim();
   const d = MAINTENANCE_SCHEDULES[m];
   if (d?.specs) return d.specs;
@@ -932,7 +965,7 @@ export function getSpecsForVehicle(make, model) {
 
 export function getScheduleForVehicle(make, model) {
   if (!make) return MAINTENANCE_SCHEDULES.default.services || MAINTENANCE_SCHEDULES.default;
-  const m = make.toLowerCase().trim();
+  const m = make.toLowerCase().trim().replace(/\s+/g, '-');
   const mo = model?.toLowerCase().trim();
   const d = MAINTENANCE_SCHEDULES[m];
   if (!d) return MAINTENANCE_SCHEDULES.default.services || MAINTENANCE_SCHEDULES.default;
@@ -946,7 +979,7 @@ export function getScheduleForVehicle(make, model) {
 
 export function isEV(make, model) {
   if (!make) return false;
-  const m = make.toLowerCase().trim();
+  const m = make.toLowerCase().trim().replace(/\s+/g, '-');
   const mo = model?.toLowerCase().trim();
   const evMakes = ['tesla', 'rivian', 'lucid', 'polestar'];
   const evModels = ['id.4', 'id.3', 'ev6', 'ev9', 'ioniq 5', 'ioniq 6', 'mustang mach-e', 'f-150 lightning', 'bolt', 'bolt euv', 'leaf'];
