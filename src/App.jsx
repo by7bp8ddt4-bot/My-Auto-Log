@@ -273,6 +273,11 @@ export default function App() {
     setInitialSyncDone(false);
   }, [auth.user?.id]);
 
+  // Reset pushed IDs when the user changes — new session, fresh sync
+  useEffect(() => {
+    pushedIdsRef.current = {};
+  }, [auth.user?.id]);
+
   // On sign-in: load Supabase data into localStorage if local is empty (cross-device)
   // Uses React state (not localStorage) so the guard resets when the user changes.
   // Waits for ALL Supabase stores to finish loading before syncing — fixes the race
@@ -329,36 +334,63 @@ export default function App() {
 
   // Continuous background sync: push local data to Supabase when it changes
   // Syncs individual items by comparing IDs — pushes only what's missing from Supabase
-  const lastSyncRef = useRef(0);
+  // Tracks pushed IDs in a ref to avoid duplicates even if Supabase hasn't loaded yet
+  const pushedIdsRef = useRef({});
   useEffect(() => {
     if (!isAuthenticated || !auth.user?.id) return;
-    // Wait for all Supabase stores to finish loading so we don't duplicate data
-    // by pushing items that Supabase already has but hasn't loaded yet.
-    if (supabaseVehicles.loading || supabaseLogs.loading || supabaseReminders.loading || supabaseFuelLogs.loading || supabaseMods.loading) return;
-
-    const now = Date.now();
-    if (now - lastSyncRef.current < 5000) return; // throttle: max once per 5s
-    lastSyncRef.current = now;
 
     for (const { local, supabase } of syncStores) {
       const localData = local.data || [];
-      const supabaseData = supabase.data || [];
-
       if (localData.length === 0) continue;
 
-      const supabaseIds = new Set(supabaseData.map(s => s.id));
-      const itemsToSync = localData.filter(item => !supabaseIds.has(item.id));
+      const itemsToSync = localData.filter(item => !pushedIdsRef.current[item.id]);
+      if (itemsToSync.length === 0) continue;
 
-      if (itemsToSync.length > 0) {
-        (async () => {
-          for (const item of itemsToSync) {
-            // Preserve the original id so the fallback in add() doesn't create a new UUID
-            const { createdAt, updatedAt, ...syncItem } = item;
+      (async () => {
+        for (const item of itemsToSync) {
+          // Mark as pushed immediately to prevent duplicate attempts
+          pushedIdsRef.current[item.id] = true;
+          const { createdAt, updatedAt, ...syncItem } = item;
+          try {
             await supabase.add(syncItem);
+          } catch (e) {
+            console.error(`[Sync] Failed to push ${item.id}:`, e);
+            // Allow retry on failure
+            delete pushedIdsRef.current[item.id];
           }
-        })();
-      }
+        }
+      })();
     }
+  }, [isAuthenticated, auth.user?.id,
+    localVehicles.data, localLogs.data, localReminders.data,
+    localFuelLogs.data, localMods.data
+  ]);
+
+  // Auto-push to cloud when the app is closed or tab becomes hidden
+  // Uses visibilitychange which fires on both mobile (app switch, lock) and desktop (close tab, navigate away)
+  useEffect(() => {
+    if (!isAuthenticated || !auth.user?.id) return;
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'hidden') {
+        // Push any unsynced items to Supabase
+        for (const { local, supabase } of syncStores) {
+          const localData = local.data || [];
+          if (localData.length === 0) continue;
+          const itemsToSync = localData.filter(item => !pushedIdsRef.current[item.id]);
+          if (itemsToSync.length === 0) continue;
+          for (const item of itemsToSync) {
+            pushedIdsRef.current[item.id] = true;
+            const { createdAt, updatedAt, ...syncItem } = item;
+            supabase.add(syncItem).catch(e => {
+              console.error('[VisibilitySync] Push failed:', e);
+              delete pushedIdsRef.current[item.id];
+            });
+          }
+        }
+      }
+    };
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    return () => document.removeEventListener('visibilitychange', handleVisibilityChange);
   }, [isAuthenticated, auth.user?.id,
     localVehicles.data, localLogs.data, localReminders.data,
     localFuelLogs.data, localMods.data
@@ -491,25 +523,85 @@ export default function App() {
   // Used when switching devices or when cross-device sync didn't trigger automatically
   const handleSyncFromCloud = useCallback(async () => {
     if (!auth.user?.id) return;
-    const syncStores = [
-      { local: localVehicles, supabase: supabaseVehicles, key: STORAGE_KEYS.VEHICLES },
-      { local: localLogs, supabase: supabaseLogs, key: STORAGE_KEYS.MAINTENANCE_LOGS },
-      { local: localReminders, supabase: supabaseReminders, key: STORAGE_KEYS.REMINDERS },
-      { local: localFuelLogs, supabase: supabaseFuelLogs, key: 'mtxtrkr_fuel_logs' },
-      { local: localMods, supabase: supabaseMods, key: 'mtxtrkr_modifications' },
+    const tables = [
+      { table: 'vehicles', local: localVehicles, key: STORAGE_KEYS.VEHICLES },
+      { table: 'maintenance_logs', local: localLogs, key: STORAGE_KEYS.MAINTENANCE_LOGS },
+      { table: 'reminders', local: localReminders, key: STORAGE_KEYS.REMINDERS },
+      { table: 'fuel_logs', local: localFuelLogs, key: 'mtxtrkr_fuel_logs' },
+      { table: 'modifications', local: localMods, key: 'mtxtrkr_modifications' },
     ];
-    for (const { local, supabase, key } of syncStores) {
-      // Re-fetch from Supabase first
-      await supabase.refetch();
-      // Wait a tick for state to settle
-      await new Promise(r => setTimeout(r, 100));
-      const supabaseData = supabase.data || [];
-      if (supabaseData.length > 0) {
-        localStorage.setItem(key, JSON.stringify(supabaseData));
-        local.setData(supabaseData);
+    // Helper to convert snake_case keys to camelCase
+    const toCamel = (str) => str.replace(/([-_][a-z])/g, group => group.toUpperCase().replace('-', '').replace('_', ''));
+    const keysToCamel = (obj) => {
+      if (!obj || typeof obj !== 'object') return obj;
+      if (Array.isArray(obj)) return obj.map(keysToCamel);
+      const newObj = {};
+      for (const key in obj) {
+        newObj[toCamel(key)] = obj[key];
+      }
+      return newObj;
+    };
+    for (const { table, local, key } of tables) {
+      try {
+        const { data, error } = await supabase
+          .from(table)
+          .select('*')
+          .eq('user_id', auth.user.id)
+          .order('created_at', { ascending: false });
+        if (error) throw error;
+        const camelData = keysToCamel(data || []);
+        if (camelData.length > 0) {
+          localStorage.setItem(key, JSON.stringify(camelData));
+          local.setData(camelData);
+        }
+      } catch (err) {
+        console.error(`[SyncFromCloud] Error fetching ${table}:`, err);
       }
     }
+    // Also sync premium status from Supabase
+    try {
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('premium')
+        .eq('id', auth.user.id)
+        .single();
+      if (profile?.premium === true) {
+        localStorage.setItem(STORAGE_KEYS.PREMIUM_STATUS, 'true');
+        setPremium(true);
+      }
+    } catch (err) {
+      console.error('[SyncFromCloud] Error fetching premium status:', err);
+    }
     analytics.track('sync_from_cloud', {});
+    sync.markChanged();
+  }, [auth.user?.id, localVehicles, localLogs, localReminders, localFuelLogs, localMods, sync, analytics]);
+
+  // Force push to cloud — sends local data to Supabase
+  // Used when the background sync didn't trigger automatically
+  const handlePushToCloud = useCallback(async () => {
+    if (!auth.user?.id) return;
+    const stores = [
+      { local: localVehicles, supabase: supabaseVehicles, table: 'vehicles' },
+      { local: localLogs, supabase: supabaseLogs, table: 'maintenance_logs' },
+      { local: localReminders, supabase: supabaseReminders, table: 'reminders' },
+      { local: localFuelLogs, supabase: supabaseFuelLogs, table: 'fuel_logs' },
+      { local: localMods, supabase: supabaseMods, table: 'modifications' },
+    ];
+    for (const { local, supabase, table } of stores) {
+      const localData = local.data || [];
+      if (localData.length === 0) continue;
+      const supabaseIds = new Set((supabase.data || []).map(s => s.id));
+      const itemsToSync = localData.filter(item => !supabaseIds.has(item.id));
+      if (itemsToSync.length === 0) continue;
+      for (const item of itemsToSync) {
+        const { createdAt, updatedAt, ...syncItem } = item;
+        await supabase.add(syncItem);
+      }
+    }
+    // Also push premium status
+    localStorage.setItem(STORAGE_KEYS.PREMIUM_STATUS, 'true');
+    await supabase.from('profiles').upsert({ id: auth.user.id, premium: true });
+    analytics.track('push_to_cloud', {});
     sync.markChanged();
   }, [auth.user?.id, localVehicles, localLogs, localReminders, localFuelLogs, localMods, supabaseVehicles, supabaseLogs, supabaseReminders, supabaseFuelLogs, supabaseMods, sync, analytics]);
 
@@ -676,6 +768,9 @@ export default function App() {
       isPremium={premium}
       selectedVehicleId={selectedVehicleId}
       onSelectVehicle={handleSelectVehicle}
+      isAuthenticated={isAuthenticated}
+      onSyncFromCloud={handleSyncFromCloud}
+      onPushToCloud={handlePushToCloud}
     />,
     vehicles: <VehicleList
       vehicles={vehiclesStore.data}

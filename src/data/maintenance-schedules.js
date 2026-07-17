@@ -26,6 +26,37 @@ export const MAINTENANCE_SCHEDULES = {
         { service: 'Cabin Air Filter', intervalMiles: 15000, intervalMonths: 12, severity: 'low', description: 'Keeps the trail dust out of your lungs.' },
         { service: 'Engine Air Filter', intervalMiles: 30000, intervalMonths: 36, severity: 'low', description: 'Clean air means better fuel economy for your truck.' },
         { service: 'Spark Plugs', intervalMiles: 120000, intervalMonths: 144, severity: 'medium', description: 'Ensures reliable ignition even in tough conditions.' },
+      ],
+      tundra: [
+        { service: 'Oil & Filter Change', intervalMiles: 5000, intervalMonths: 6, severity: 'medium', description: 'Full-size truck. i-Force V6 or V8. 0W-20 full synthetic.' },
+        { service: 'Tire Rotation', intervalMiles: 5000, intervalMonths: 6, severity: 'low', description: 'Crucial for heavy truck tires.' },
+        { service: 'Differential Fluid', intervalMiles: 30000, intervalMonths: 36, severity: 'medium', description: 'Heavy towing needs fresh diff fluid.' },
+        { service: 'Transmission Fluid', intervalMiles: 60000, intervalMonths: 48, severity: 'high', description: '10-speed automatic. Towing demands fresh fluid.' },
+        { service: 'Engine Air Filter', intervalMiles: 30000, intervalMonths: 36, severity: 'low', description: 'Clean air for towing power.' },
+        { service: 'Spark Plugs', intervalMiles: 120000, intervalMonths: 144, severity: 'medium', description: 'Reliable V8 ignition.' },
+      ],
+      '4runner': 'toyota.tundra',
+      sienna: [
+        { service: 'Oil & Filter Change', intervalMiles: 5000, intervalMonths: 6, severity: 'medium', description: 'Family hauler. 0W-20 full synthetic. Maintains reliability.' },
+        { service: 'Tire Rotation', intervalMiles: 5000, intervalMonths: 6, severity: 'low', description: 'Even wear for minivan safety.' },
+        { service: 'Cabin Air Filter', intervalMiles: 15000, intervalMonths: 12, severity: 'low', description: 'Clean air for passengers.' },
+        { service: 'Engine Air Filter', intervalMiles: 30000, intervalMonths: 36, severity: 'low', description: 'Better fuel economy on road trips.' },
+        { service: 'Brake Fluid Flush', intervalMiles: 30000, intervalMonths: 36, severity: 'medium', description: 'Safe stops for family.' },
+      ],
+      'camry hybrid': 'toyota.camry',
+      'gr86': [
+        { service: 'Oil & Filter Change', intervalMiles: 5000, intervalMonths: 6, severity: 'medium', description: 'Subaru boxer engine. 0W-20. High-revving sports car.' },
+        { service: 'Tire Rotation', intervalMiles: 5000, intervalMonths: 6, severity: 'low', description: 'Performance tires wear fast.' },
+        { service: 'Brake Fluid Flush', intervalMiles: 30000, intervalMonths: 36, severity: 'medium', description: 'Track-ready braking.' },
+        { service: 'Spark Plugs', intervalMiles: 60000, intervalMonths: 72, severity: 'medium', description: 'Boxer engine spark plugs.' },
+      ],
+      'bz4x': [
+        { service: 'Tire Rotation', intervalMiles: 6250, intervalMonths: 0, severity: 'low', description: 'EV weight requires regular rotations.' },
+        { service: 'Cabin Air Filter', intervalMiles: 0, intervalMonths: 24, severity: 'low', description: 'Replace every 2 years.' },
+        { service: 'Brake Fluid Test', intervalMiles: 0, intervalMonths: 24, severity: 'medium', description: 'Test for moisture every 2 years.' },
+        { service: 'Coolant Exchange', intervalMiles: 100000, intervalMonths: 120, severity: 'high', description: 'EV battery thermal management coolant.' },
+        { service: 'Reduction Gear Oil', intervalMiles: 60000, intervalMonths: 48, severity: 'medium', description: 'EV gearbox fluid change.' },
+        { service: 'Vehicle Inspection', intervalMiles: 0, intervalMonths: 12, severity: 'low', description: 'Annual EV system check.' },
       ]
     }
   },
@@ -54,7 +85,34 @@ export const MAINTENANCE_SCHEDULES = {
         { service: 'Coolant Exchange', intervalMiles: 100000, intervalMonths: 72, severity: 'high', description: 'Protects against overheating.' },
         { service: 'Spark Plugs', intervalMiles: 100000, intervalMonths: 72, severity: 'medium', description: 'Prevents misfires.' },
       ],
-      escape: 'f-150', explorer: 'f-150', mustang: 'f-150'
+      escape: 'f-150', explorer: 'f-150', mustang: 'f-150',
+      edge: [
+        { service: 'Oil & Filter Change', intervalMiles: 7500, intervalMonths: 6, severity: 'medium', description: 'Ford crossover. 5W-20 full synthetic. Reliable EcoBoost.' },
+        { service: 'Tire Rotation', intervalMiles: 7500, intervalMonths: 6, severity: 'low', description: 'Even wear for AWD crossover.' },
+        { service: 'Engine Air Filter', intervalMiles: 30000, intervalMonths: 24, severity: 'low', description: 'Better fuel economy.' },
+        { service: 'Spark Plugs', intervalMiles: 100000, intervalMonths: 72, severity: 'medium', description: 'EcoBoost engines need fresh plugs.' },
+      ],
+      bronco: [
+        { service: 'Oil & Filter Change', intervalMiles: 7500, intervalMonths: 6, severity: 'medium', description: 'Off-road legend. 2.3L EcoBoost or 2.7L V6.' },
+        { service: 'Tire Rotation', intervalMiles: 7500, intervalMonths: 6, severity: 'low', description: 'Off-road tires wear unevenly.' },
+        { service: 'Cabin Air Filter', intervalMiles: 20000, intervalMonths: 24, severity: 'low', description: 'Keeps trail dust out.' },
+        { service: 'Transfer Case Fluid', intervalMiles: 30000, intervalMonths: 36, severity: 'high', description: '4x4 system essential maintenance.' },
+        { service: 'Differential Fluid', intervalMiles: 30000, intervalMonths: 36, severity: 'medium', description: 'Front and rear diff. Off-road use accelerates wear.' },
+      ],
+      ranger: [
+        { service: 'Oil & Filter Change', intervalMiles: 7500, intervalMonths: 6, severity: 'medium', description: 'Mid-size truck. 2.3L EcoBoost. 5W-20 full synthetic.' },
+        { service: 'Tire Rotation', intervalMiles: 7500, intervalMonths: 6, severity: 'low', description: 'Truck tires need regular rotation.' },
+        { service: 'Engine Air Filter', intervalMiles: 30000, intervalMonths: 24, severity: 'low', description: 'Dusty job sites need clean filters.' },
+        { service: 'Transmission Fluid', intervalMiles: 150000, intervalMonths: 120, severity: 'high', description: '10-speed automatic. Towing stresses transmission.' },
+      ],
+      transit: 'ford.edge',
+      maverick: [
+        { service: 'Oil & Filter Change', intervalMiles: 7500, intervalMonths: 6, severity: 'medium', description: 'Compact truck. 2.5L hybrid or 2.0L EcoBoost.' },
+        { service: 'Tire Rotation', intervalMiles: 7500, intervalMonths: 6, severity: 'low', description: 'Truck tires need regular rotation.' },
+        { service: 'Cabin Air Filter', intervalMiles: 20000, intervalMonths: 24, severity: 'low', description: 'Clean cabin air.' },
+        { service: 'Spark Plugs', intervalMiles: 100000, intervalMonths: 72, severity: 'medium', description: 'EcoBoost needs fresh plugs.' },
+      ],
+      focus: 'ford.edge'
     }
   },
   chevrolet: {
@@ -72,7 +130,33 @@ export const MAINTENANCE_SCHEDULES = {
         { service: 'Spark Plugs', intervalMiles: 97500, intervalMonths: 96, severity: 'medium', description: 'Maintains engine performance.' },
         { service: 'Coolant Exchange', intervalMiles: 100000, intervalMonths: 60, severity: 'high', description: 'Prevents overheating and corrosion.' },
       ],
-      equinox: 'silverado', malibu: 'silverado'
+      equinox: 'silverado', malibu: 'silverado',
+      tahoe: [
+        { service: 'Oil & Filter Change', intervalMiles: 7500, intervalMonths: 12, severity: 'medium', description: 'Full-size SUV. Dexos 5W-30. Essential for heavy loads.' },
+        { service: 'Tire Rotation', intervalMiles: 7500, intervalMonths: 12, severity: 'low', description: 'Important for heavy SUV tire life.' },
+        { service: 'Engine Air Filter', intervalMiles: 22500, intervalMonths: 24, severity: 'low', description: 'Clean air for better towing power.' },
+        { service: 'Brake Fluid Flush', intervalMiles: 45000, intervalMonths: 36, severity: 'medium', description: 'Safe stopping for a big SUV.' },
+        { service: 'Transmission Fluid', intervalMiles: 45000, intervalMonths: 48, severity: 'high', description: 'Hydra-Matic transmission. Towing stresses the gearbox.' },
+        { service: 'Transfer Case Fluid', intervalMiles: 50000, intervalMonths: 48, severity: 'medium', description: '4WD system needs fresh fluid.' },
+        { service: 'Spark Plugs', intervalMiles: 97500, intervalMonths: 96, severity: 'medium', description: 'Maintains V8 performance.' },
+      ],
+      suburban: 'chevrolet.tahoe', traverse: 'chevrolet.tahoe',
+      colorado: [
+        { service: 'Oil & Filter Change', intervalMiles: 7500, intervalMonths: 12, severity: 'medium', description: 'Mid-size truck needs Dexos oil. 5W-30 full synthetic.' },
+        { service: 'Tire Rotation', intervalMiles: 7500, intervalMonths: 12, severity: 'low', description: 'Even wear for truck tires.' },
+        { service: 'Engine Air Filter', intervalMiles: 22500, intervalMonths: 24, severity: 'low', description: 'Off-road use needs clean filters.' },
+        { service: 'Brake Fluid Flush', intervalMiles: 45000, intervalMonths: 36, severity: 'medium', description: 'Important for towing safety.' },
+        { service: 'Transmission Fluid', intervalMiles: 45000, intervalMonths: 48, severity: 'high', description: '8-speed automatic. Keep it cool.' },
+      ],
+      camaro: [
+        { service: 'Oil & Filter Change', intervalMiles: 7500, intervalMonths: 12, severity: 'medium', description: 'LT1 or V6. Dexos full synthetic for performance.' },
+        { service: 'Tire Rotation', intervalMiles: 7500, intervalMonths: 12, severity: 'low', description: 'Performance tires need even wear.' },
+        { service: 'Cabin Air Filter', intervalMiles: 22500, intervalMonths: 24, severity: 'low', description: 'Fresh air for the cockpit.' },
+        { service: 'Brake Fluid Flush', intervalMiles: 45000, intervalMonths: 36, severity: 'medium', description: 'Track-ready brakes need fresh fluid.' },
+        { service: 'Spark Plugs', intervalMiles: 97500, intervalMonths: 96, severity: 'medium', description: 'Maximum V8 performance.' },
+      ],
+      trax: 'chevrolet.equinox',
+      blazer: 'chevrolet.tahoe'
     }
   },
   bmw: {
@@ -111,7 +195,34 @@ export const MAINTENANCE_SCHEDULES = {
         { service: 'Brake Fluid Flush', intervalMiles: 45000, intervalMonths: 48, severity: 'medium', description: 'Prevents moisture buildup.' },
         { service: 'Spark Plugs', intervalMiles: 100000, intervalMonths: 120, severity: 'medium', description: 'Long-lasting plugs.' },
       ],
-      sonata: 'elantra', tucson: 'elantra', 'santa fe': 'elantra'
+      sonata: 'elantra', tucson: 'elantra', 'santa fe': 'elantra',
+      palisade: [
+        { service: 'Oil & Filter Change', intervalMiles: 7500, intervalMonths: 12, severity: 'medium', description: '3.8L V6. 5W-30 full synthetic. Hyundai flagship SUV.' },
+        { service: 'Tire Rotation', intervalMiles: 7500, intervalMonths: 12, severity: 'low', description: 'Heavy SUV needs even tire wear.' },
+        { service: 'Cabin Air Filter', intervalMiles: 15000, intervalMonths: 12, severity: 'low', description: 'Clean air for passengers.' },
+        { service: 'Engine Air Filter', intervalMiles: 30000, intervalMonths: 36, severity: 'low', description: 'Maintains V6 efficiency.' },
+        { service: 'Brake Fluid Flush', intervalMiles: 45000, intervalMonths: 48, severity: 'medium', description: 'Safe SUV braking.' },
+        { service: 'Spark Plugs', intervalMiles: 100000, intervalMonths: 120, severity: 'medium', description: 'Long-life iridium plugs.' },
+      ],
+      kona: 'hyundai.elantra',
+      'ioniq 5': [
+        { service: 'Tire Rotation', intervalMiles: 6250, intervalMonths: 0, severity: 'low', description: 'EV weight needs regular rotations.' },
+        { service: 'Cabin Air Filter', intervalMiles: 0, intervalMonths: 24, severity: 'low', description: 'Replace every 2 years.' },
+        { service: 'Brake Fluid Flush', intervalMiles: 0, intervalMonths: 24, severity: 'medium', description: 'Regen braking maintenance.' },
+        { service: 'Reduction Gear Oil', intervalMiles: 60000, intervalMonths: 48, severity: 'medium', description: 'EV gearbox fluid.' },
+        { service: 'Coolant Exchange', intervalMiles: 100000, intervalMonths: 120, severity: 'high', description: 'Battery thermal management.' },
+        { service: 'Battery Health Check', intervalMiles: 0, intervalMonths: 12, severity: 'low', description: 'Annual EV diagnostic.' },
+        { service: 'Inspection', intervalMiles: 0, intervalMonths: 12, severity: 'low', description: 'Annual EV system check.' },
+      ],
+      'ioniq 6': 'hyundai.ioniq 5',
+      venue: 'hyundai.elantra',
+      'santa cruz': [
+        { service: 'Oil & Filter Change', intervalMiles: 7500, intervalMonths: 12, severity: 'medium', description: 'Compact truck. 2.5L or turbo. 5W-30 full synthetic.' },
+        { service: 'Tire Rotation', intervalMiles: 7500, intervalMonths: 12, severity: 'low', description: 'Truck tires need even wear.' },
+        { service: 'Cabin Air Filter', intervalMiles: 15000, intervalMonths: 12, severity: 'low', description: 'Fresh cabin air.' },
+        { service: 'Engine Air Filter', intervalMiles: 30000, intervalMonths: 36, severity: 'low', description: 'Truck use needs clean filters.' },
+        { service: 'Spark Plugs', intervalMiles: 100000, intervalMonths: 120, severity: 'medium', description: 'Maintains performance.' },
+      ]
     }
   },
   kia: {
@@ -128,7 +239,33 @@ export const MAINTENANCE_SCHEDULES = {
         { service: 'CVT Transmission Fluid', intervalMiles: 60000, intervalMonths: 48, severity: 'high', description: 'Nissan CVTs need fresh fluid.' },
         { service: 'Brake Fluid Flush', intervalMiles: 20000, intervalMonths: 24, severity: 'medium', description: 'Keeps brakes safe.' },
       ],
-      rogue: 'altima', sentra: 'altima', pathfinder: 'altima'
+      rogue: 'altima', sentra: 'altima', pathfinder: 'altima',
+      frontier: [
+        { service: 'Oil & Filter Change', intervalMiles: 5000, intervalMonths: 6, severity: 'medium', description: 'Mid-size truck. 3.8L V6. 0W-20 full synthetic.' },
+        { service: 'Tire Rotation', intervalMiles: 5000, intervalMonths: 6, severity: 'low', description: 'Truck tires need even wear.' },
+        { service: 'Engine Air Filter', intervalMiles: 30000, intervalMonths: 36, severity: 'low', description: 'Off-road use needs clean filters.' },
+        { service: 'Differential Fluid', intervalMiles: 30000, intervalMonths: 36, severity: 'medium', description: '4x4 diff fluid. Towing accelerates wear.' },
+        { service: 'Spark Plugs', intervalMiles: 105000, intervalMonths: 84, severity: 'medium', description: 'Endurance V6 reliability.' },
+      ],
+      murano: 'nissan.altima',
+      versa: 'nissan.altima',
+      kicks: 'nissan.altima',
+      armada: [
+        { service: 'Oil & Filter Change', intervalMiles: 5000, intervalMonths: 6, severity: 'medium', description: 'Full-size SUV. 5.6L V8. 0W-20 full synthetic.' },
+        { service: 'Tire Rotation', intervalMiles: 5000, intervalMonths: 6, severity: 'low', description: 'Heavy SUV needs regular rotation.' },
+        { service: 'Engine Air Filter', intervalMiles: 30000, intervalMonths: 36, severity: 'low', description: 'V8 needs clean air.' },
+        { service: 'Transmission Fluid', intervalMiles: 60000, intervalMonths: 48, severity: 'high', description: '7-speed automatic. Towing stresses gearbox.' },
+        { service: 'Differential Fluid', intervalMiles: 30000, intervalMonths: 36, severity: 'medium', description: '4WD diff. Heavy duty.' },
+        { service: 'Spark Plugs', intervalMiles: 105000, intervalMonths: 84, severity: 'medium', description: 'Endurance V8 spark plugs.' },
+      ],
+      leaf: [
+        { service: 'Tire Rotation', intervalMiles: 7500, intervalMonths: 0, severity: 'low', description: 'EV weight requires regular rotations.' },
+        { service: 'Cabin Air Filter', intervalMiles: 0, intervalMonths: 24, severity: 'low', description: 'Replace every 2 years.' },
+        { service: 'Brake Fluid Flush', intervalMiles: 0, intervalMonths: 24, severity: 'medium', description: 'Regen braking uses pads less, but fluid still ages.' },
+        { service: 'Reduction Gear Oil', intervalMiles: 60000, intervalMonths: 48, severity: 'medium', description: 'EV gearbox fluid.' },
+        { service: 'Battery Health Check', intervalMiles: 0, intervalMonths: 12, severity: 'low', description: 'Annual EV battery diagnostic.' },
+        { service: 'Inspection', intervalMiles: 0, intervalMonths: 12, severity: 'low', description: 'Annual EV system check.' },
+      ]
     }
   },
   subaru: {
@@ -282,7 +419,15 @@ export const MAINTENANCE_SCHEDULES = {
         { service: 'Engine Air Filter', intervalMiles: 30000, intervalMonths: 24, severity: 'low', description: 'Maximum power.' },
         { service: 'Spark Plugs', intervalMiles: 100000, intervalMonths: 120, severity: 'medium', description: 'Quick starts every time.' },
       ],
-      challenger: 'charger', durango: 'charger'
+      challenger: 'charger', durango: 'charger',
+      'grand caravan': [
+        { service: 'Oil & Filter Change', intervalMiles: 8000, intervalMonths: 6, severity: 'medium', description: 'Family minivan needs reliable oil changes. Pentastar V6.' },
+        { service: 'Tire Rotation', intervalMiles: 8000, intervalMonths: 6, severity: 'low', description: 'Even wear for safe family travel.' },
+        { service: 'Cabin Air Filter', intervalMiles: 20000, intervalMonths: 24, severity: 'low', description: 'Fresh air for the whole family.' },
+        { service: 'Transmission Fluid', intervalMiles: 60000, intervalMonths: 48, severity: 'high', description: 'ZF 9-speed or 6-speed. Fresh fluid prevents rough shifts.' },
+        { service: 'Spark Plugs', intervalMiles: 100000, intervalMonths: 120, severity: 'medium', description: 'Smooth engine performance.' },
+      ],
+      journey: 'charger'
     }
   },
   chrysler: {

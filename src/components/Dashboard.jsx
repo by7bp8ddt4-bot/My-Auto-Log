@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import {
   Car, AlertTriangle, Clock, DollarSign, Bell, Gauge,
   TrendingUp, Wrench, ArrowUpRight, Calendar, Plus, Fuel,
-  FileText, Download, CheckCircle
+  FileText, Download, CheckCircle, Cloud, RefreshCw
 } from 'lucide-react';
 import { formatCurrency, formatNumber, formatDate, getLocalDateString } from '../utils/helpers';
 import { calculateReminderStatus } from '../utils/helpers';
@@ -13,7 +13,11 @@ import GettingStarted from './GettingStarted.jsx';
 import { useMaintenanceSchedule } from '../hooks/useMaintenanceSchedule';
 import { ManufacturerBadge } from '../utils/manufacturerBranding.jsx';
 
-export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], onNavigate, onAddLog, isPremium, selectedVehicleId, onSelectVehicle }) {
+export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], onNavigate, onAddLog, isPremium, selectedVehicleId, onSelectVehicle, isAuthenticated, onSyncFromCloud, onPushToCloud }) {
+  const [syncing, setSyncing] = useState(false);
+  const [syncDone, setSyncDone] = useState(false);
+  const [pushing, setPushing] = useState(false);
+  const [pushDone, setPushDone] = useState(false);
   // Derive active vehicle from global prop — fall back to first if invalid
   const effectiveVehicleId = (vehicles.find(v => v.id === selectedVehicleId) ? selectedVehicleId : vehicles[0]?.id) || null;
   const activeVehicle = vehicles.find(v => v.id === effectiveVehicleId) || vehicles[0] || null;
@@ -136,6 +140,85 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
           Fuel Tracking
         </button>
       </div>
+
+      {/* Sync from Cloud banner — shows at top when signed in */}
+      {isAuthenticated && (
+        <div className="mb-4 flex flex-col sm:flex-row gap-2">
+          <button
+            onClick={async () => {
+              setSyncing(true);
+              setSyncDone(false);
+              await onSyncFromCloud();
+              setSyncing(false);
+              setSyncDone(true);
+              setTimeout(() => setSyncDone(false), 4000);
+            }}
+            disabled={syncing}
+            className={`flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl border text-sm font-medium transition-all ${
+              syncDone
+                ? 'border-emerald-500/30 bg-emerald-500/10 text-emerald-400'
+                : syncing
+                  ? 'border-blue-500/30 bg-blue-500/10 text-blue-400'
+                  : 'border-slate-700/60 bg-slate-900/80 text-slate-400 hover:border-slate-600 hover:text-slate-300'
+            }`}
+          >
+            {syncing ? (
+              <>
+                <RefreshCw className="w-4 h-4 animate-spin" />
+                Pulling from Cloud...
+              </>
+            ) : syncDone ? (
+              <>
+                <CheckCircle className="w-4 h-4" />
+                Pulled from Cloud
+              </>
+            ) : (
+              <>
+                <Cloud className="w-4 h-4" />
+                <span>Pull from Cloud</span>
+              </>
+            )}
+          </button>
+          <button
+            onClick={async () => {
+              setPushing(true);
+              setPushDone(false);
+              await onPushToCloud();
+              setPushing(false);
+              setPushDone(true);
+              setTimeout(() => setPushDone(false), 4000);
+            }}
+            disabled={pushing}
+            className={`flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl border text-sm font-medium transition-all ${
+              pushDone
+                ? 'border-emerald-500/30 bg-emerald-500/10 text-emerald-400'
+                : pushing
+                  ? 'border-blue-500/30 bg-blue-500/10 text-blue-400'
+                  : 'border-slate-700/60 bg-slate-900/80 text-slate-400 hover:border-slate-600 hover:text-slate-300'
+            }`}
+          >
+            {pushing ? (
+              <>
+                <RefreshCw className="w-4 h-4 animate-spin" />
+                Pushing to Cloud...
+              </>
+            ) : pushDone ? (
+              <>
+                <CheckCircle className="w-4 h-4" />
+                Pushed to Cloud
+              </>
+            ) : (
+              <>
+                <ArrowUpRight className="w-4 h-4" />
+                <span>Push to Cloud</span>
+              </>
+            )}
+          </button>
+          <p className="text-[10px] text-slate-500 text-center sm:text-left col-span-full -mt-1">
+            Not seeing your data from another device? <strong>Push</strong> from the device that has it, then <strong>Pull</strong> on this device.
+          </p>
+        </div>
+      )}
 
       {/* Vehicle Tab Bar — premium only, 2+ vehicles */}
       {isPremium && vehicles.length > 1 && (
