@@ -241,6 +241,9 @@ function VehicleFormModal({ vehicle, onSave, onClose, initialType = 'car', focus
     trim: vehicle?.trim || '',
     engineSize: vehicle?.engineSize || '',
     drivetrain: vehicle?.drivetrain || '',
+    transmission: vehicle?.transmission || '',
+    fuelType: vehicle?.fuelType || '',
+    bodyClass: vehicle?.bodyClass || '',
     year: vehicle?.year || new Date().getFullYear(),
     licensePlate: vehicle?.licensePlate || '',
     mileage: vehicle?.mileage || '',
@@ -312,6 +315,9 @@ function VehicleFormModal({ vehicle, onSave, onClose, initialType = 'car', focus
         trim: result.data.trim || f.trim,
         engineSize: result.data.engineSize || f.engineSize,
         drivetrain: result.data.drivetrain || f.drivetrain,
+        transmission: result.data.transmission || f.transmission,
+        fuelType: result.data.engine?.fuelType || f.fuelType,
+        bodyClass: result.data.bodyClass || f.bodyClass,
         vinDecoded: result.data,
       }));
       setVinState({
@@ -560,6 +566,42 @@ function VehicleFormModal({ vehicle, onSave, onClose, initialType = 'car', focus
                 </svg>
               </div>
             </div>
+          </div>
+
+          {/* Transmission & Fuel Type */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label className="block text-xs text-slate-400 mb-1.5 font-medium">Transmission</label>
+              <input
+                type="text"
+                value={form.transmission}
+                onChange={e => setForm(f => ({ ...f, transmission: e.target.value }))}
+                placeholder="e.g. Automatic, CVT, 8-Speed Automatic, Manual"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
+              />
+            </div>
+            <div>
+              <label className="block text-xs text-slate-400 mb-1.5 font-medium">Fuel Type</label>
+              <input
+                type="text"
+                value={form.fuelType}
+                onChange={e => setForm(f => ({ ...f, fuelType: e.target.value }))}
+                placeholder="e.g. Gasoline, Diesel, Electric, Hybrid"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
+              />
+            </div>
+          </div>
+
+          {/* Body Class */}
+          <div>
+            <label className="block text-xs text-slate-400 mb-1.5 font-medium">Body Class</label>
+            <input
+              type="text"
+              value={form.bodyClass}
+              onChange={e => setForm(f => ({ ...f, bodyClass: e.target.value }))}
+              placeholder="e.g. Sedan, SUV, Coupe, Pickup"
+              className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
+            />
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
