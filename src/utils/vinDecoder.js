@@ -63,17 +63,28 @@ export async function decodeVin(vin) {
       model,
       year: year ? parseInt(year, 10) : null,
       
+      // Trim / Series
+      trim: clean(results.Trim) || clean(results.Series) || null,
+      
       // Engine specs
       engine: {
         cylinders: clean(results.EngineCylinders) || null,
         displacement: clean(results.DisplacementCC) || null,
+        displacementL: clean(results.DisplacementL) || null,
         horsepower: clean(results.EngineHP) || null,
         fuelType: clean(results.FuelTypePrimary) || null,
+        engineModel: clean(results.EngineModel) || null,
       },
+      
+      // Engine size as formatted string (e.g. "2.0L", "3.5L V6")
+      engineSize: clean(results.DisplacementL)
+        ? `${results.DisplacementL}L${results.EngineCylinders ? ` ${results.EngineCylinders}-cyl` : ''}`
+        : null,
       
       // Transmission & drivetrain
       transmission: clean(results.TransmissionStyle) || null,
       driveType: clean(results.DriveType) || null,
+      drivetrain: clean(results.DriveType) || null,
       
       // Vehicle type
       vehicleType: clean(results.VehicleType) || null,
