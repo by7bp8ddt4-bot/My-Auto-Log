@@ -260,13 +260,13 @@ function VehicleFormModal({ vehicle, onSave, onClose, initialType = 'car', focus
 
   // Per-type form helpers
   const usesHours = ['ag-equipment', 'forklift', 'watercraft', 'outboard', 'marine-diesel'].includes(form.type);
-  const hasVinDecoder = ['car', 'motorcycle', 'semi-truck', 'rv', 'ag-equipment', 'forklift'].includes(form.type);
+  const hasVinDecoder = ['car', 'motorcycle', 'atv', 'semi-truck', 'rv', 'ag-equipment', 'forklift'].includes(form.type);
   const usesPin = ['ag-equipment', 'forklift'].includes(form.type); // Shorter Product ID Numbers (11-17 chars)
-  const hasLicensePlate = ['car', 'motorcycle', 'watercraft', 'semi-truck', 'rv'].includes(form.type);
+  const hasLicensePlate = ['car', 'motorcycle', 'atv', 'watercraft', 'semi-truck', 'rv'].includes(form.type);
 
   const mileageLabel = usesHours ? 'Engine Hours' : 'Current Mileage';
   const purchaseMileageLabel = usesHours ? 'Hours at Purchase' : 'Mileage at Purchase';
-  const canLease = ['car', 'motorcycle', 'semi-truck', 'rv'].includes(form.type);
+  const canLease = ['car', 'motorcycle', 'atv', 'semi-truck', 'rv'].includes(form.type);
 
   const handleDecodeVin = async () => {
     const vin = form.vin?.trim().toUpperCase();
