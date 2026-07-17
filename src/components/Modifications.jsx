@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Wrench, Plus, X, ShoppingBag, Tag, Calendar, Gauge, DollarSign, ChevronDown, ChevronRight, Car, Zap, ArrowUpDown, Lightbulb, Speaker, Package } from 'lucide-react';
+import { Wrench, Plus, X, ShoppingBag, Tag, Calendar, Gauge, DollarSign, ChevronDown, ChevronRight, Car, Zap, ArrowUpDown, Lightbulb, Speaker, Package, Shield, Gift } from 'lucide-react';
 import { formatDate, formatCurrency, formatNumber, getLocalDateString } from '../utils/helpers';
 
 const CATEGORIES = [
@@ -11,6 +11,9 @@ const CATEGORIES = [
   { id: 'lighting', label: 'Lighting', icon: Lightbulb, color: 'text-yellow-400', bg: 'bg-yellow-400/10', border: 'border-yellow-400/20' },
   { id: 'audio', label: 'Audio/Electronics', icon: Speaker, color: 'text-pink-400', bg: 'bg-pink-400/10', border: 'border-pink-400/20' },
   { id: 'other', label: 'Other', icon: Package, color: 'text-slate-400', bg: 'bg-slate-400/10', border: 'border-slate-400/20' },
+  { id: 'under-hood', label: 'Under the Hood', icon: Wrench, color: 'text-orange-400', bg: 'bg-orange-400/10', border: 'border-orange-400/20' },
+  { id: 'exterior-accessories', label: 'Exterior Accessories', icon: Shield, color: 'text-teal-400', bg: 'bg-teal-400/10', border: 'border-teal-400/20' },
+  { id: 'interior-accessories', label: 'Interior Accessories', icon: Gift, color: 'text-rose-400', bg: 'bg-rose-400/10', border: 'border-rose-400/20' },
 ];
 
 const CATEGORY_MAP = Object.fromEntries(CATEGORIES.map(c => [c.id, c]));
