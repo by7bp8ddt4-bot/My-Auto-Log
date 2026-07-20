@@ -478,6 +478,7 @@ function MaintenanceFormModal({ vehicles, initialData, initialVehicleId, initial
   const [documents, setDocuments] = useState(initialData?.documents || []);
   const [uploadProgress, setUploadProgress] = useState(null);
   const [uploadComplete, setUploadComplete] = useState(false);
+  const [serviceMode, setServiceMode] = useState('predetermined');
   const [customService, setCustomService] = useState('');
   const [customFolder, setCustomFolder] = useState('Engine Service');
 
@@ -603,7 +604,7 @@ function MaintenanceFormModal({ vehicles, initialData, initialVehicleId, initial
             </div>
           </div>
 
-          {/* Multi-Job Service Types — Checkboxes grid, filtered by schedule */}
+          {/* Multi-Job Service Types — Predetermined / Custom toggle */}
           <div>
             <label className="block text-xs text-slate-400 mb-1.5 font-medium">
               Service Type(s) * <span className="text-slate-500 font-normal">(select one or more)</span>
@@ -614,65 +615,101 @@ function MaintenanceFormModal({ vehicles, initialData, initialVehicleId, initial
               </div>
             ) : (
               <>
-                <div className="grid grid-cols-1 gap-1.5 max-h-48 overflow-y-auto p-1 rounded-xl bg-slate-900/50 border border-slate-800">
-                  {allDisplayTypes.map(type => {
-                    const config = getServiceConfig(type);
-                    const isSelected = form.serviceTypes.includes(type);
-                    const isCustom = !SERVICE_TYPES.includes(type);
-                    return (
-                      <label
-                        key={type}
-                        className={`flex items-center gap-2 px-3 py-2 rounded-lg cursor-pointer transition-all text-xs ${
-                          isSelected
-                            ? `${config.bodyBg} ${config.tabBorder} border`
-                            : 'text-slate-400 hover:bg-slate-800/60 border border-transparent'
-                        }`}
-                      >
-                        <input type="checkbox" checked={isSelected} onChange={() => toggleServiceType(type)}
-                          className="w-3.5 h-3.5 rounded border-slate-600 text-blue-600 focus:ring-blue-500/30 bg-slate-800" />
-                        <span className={isSelected ? config.accent : ''}>
-                          {type}
-                          {isCustom && <span className="text-[9px] text-slate-500 ml-1.5 italic">(custom)</span>}
-                        </span>
-                      </label>
-                    );
-                  })}
+                {/* Mode Toggle — Predetermined vs Custom */}
+                <div className="flex gap-2 mb-3">
+                  <button
+                    type="button"
+                    onClick={() => { setServiceMode('predetermined'); setForm(f => ({ ...f, serviceTypes: [] })); setCustomService(''); }}
+                    className={`flex-1 py-2 rounded-lg text-xs font-medium transition-all border ${
+                      serviceMode === 'predetermined'
+                        ? 'bg-blue-600/20 border-blue-500/50 text-blue-300'
+                        : 'bg-slate-800 border-slate-700 text-slate-400 hover:border-slate-600'
+                    }`}
+                  >
+                    Predetermined
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => { setServiceMode('custom'); setForm(f => ({ ...f, serviceTypes: [] })); }}
+                    className={`flex-1 py-2 rounded-lg text-xs font-medium transition-all border ${
+                      serviceMode === 'custom'
+                        ? 'bg-purple-600/20 border-purple-500/50 text-purple-300'
+                        : 'bg-slate-800 border-slate-700 text-slate-400 hover:border-slate-600'
+                    }`}
+                  >
+                    Custom Service
+                  </button>
                 </div>
 
-                {/* Custom Service */}
-                <div className="border-t border-slate-800 pt-3 mt-3">
-                  <div className="flex items-center gap-2 mb-2">
-                    <input
-                      type="checkbox"
-                      checked={customService.trim() !== '' && form.serviceTypes.includes(customService.trim())}
-                      onChange={() => {
-                        const trimmed = customService.trim();
-                        if (trimmed) toggleServiceType(trimmed);
-                      }}
-                      disabled={!customService.trim()}
-                      className="w-3.5 h-3.5 rounded border-slate-600 text-blue-600 focus:ring-blue-500/30 bg-slate-800 shrink-0"
-                    />
-                    <span className="text-xs text-slate-400">Custom Service</span>
+                {/* Predetermined Mode — Checkbox Grid */}
+                {serviceMode === 'predetermined' && (
+                  <div className="grid grid-cols-1 gap-1.5 max-h-48 overflow-y-auto p-1 rounded-xl bg-slate-900/50 border border-slate-800">
+                    {allDisplayTypes.map(type => {
+                      const config = getServiceConfig(type);
+                      const isSelected = form.serviceTypes.includes(type);
+                      return (
+                        <label
+                          key={type}
+                          className={`flex items-center gap-2 px-3 py-2 rounded-lg cursor-pointer transition-all text-xs ${
+                            isSelected
+                              ? `${config.bodyBg} ${config.tabBorder} border`
+                              : 'text-slate-400 hover:bg-slate-800/60 border border-transparent'
+                          }`}
+                        >
+                          <input type="checkbox" checked={isSelected} onChange={() => toggleServiceType(type)}
+                            className="w-3.5 h-3.5 rounded border-slate-600 text-blue-600 focus:ring-blue-500/30 bg-slate-800" />
+                          <span className={isSelected ? config.accent : ''}>{type}</span>
+                        </label>
+                      );
+                    })}
                   </div>
-                  <div className="flex gap-2">
-                    <input
-                      type="text"
-                      value={customService}
-                      onChange={e => setCustomService(e.target.value)}
-                      placeholder="e.g. Rust Undercoating, Ceramic Coating..."
-                      className="flex-1 px-3 py-2 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50"
-                    />
-                    <select
-                      value={customFolder}
-                      onChange={e => setCustomFolder(e.target.value)}
-                      className="shrink-0 px-2 py-2 rounded-xl bg-slate-800 border border-slate-700 text-white text-xs focus:outline-none focus:ring-2 focus:ring-blue-500/50"
-                    >
-                      {folderOptions.map(f => (
-                        <option key={f.type} value={f.type}>{f.type}</option>
-                      ))}
-                    </select>
+                )}
+
+                {/* Custom Mode — Text Input + File Under */}
+                {serviceMode === 'custom' && (
+                  <div className="space-y-3 p-3 rounded-xl bg-slate-900/50 border border-slate-800">
+                    <div>
+                      <label className="block text-xs text-slate-400 mb-1.5">Service Name</label>
+                      <input
+                        type="text"
+                        value={customService}
+                        onChange={e => setCustomService(e.target.value)}
+                        placeholder="e.g. Rust Undercoating, Ceramic Coating..."
+                        className="w-full px-3 py-2 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs text-slate-400 mb-1.5">File Under</label>
+                      <select
+                        value={customFolder}
+                        onChange={e => setCustomFolder(e.target.value)}
+                        className="w-full px-3 py-2 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+                      >
+                        {folderOptions.map(f => (
+                          <option key={f.type} value={f.type}>{f.type}</option>
+                        ))}
+                      </select>
+                    </div>
+                    {customService.trim() && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const trimmed = customService.trim();
+                          if (trimmed && !form.serviceTypes.includes(trimmed)) {
+                            FOLDER_MAP[trimmed] = customFolder;
+                            toggleServiceType(trimmed);
+                          }
+                        }}
+                        disabled={form.serviceTypes.includes(customService.trim())}
+                        className="w-full py-2 rounded-lg bg-purple-600 hover:bg-purple-500 disabled:bg-slate-700 disabled:text-slate-500 text-white text-xs font-medium transition-all"
+                      >
+                        {form.serviceTypes.includes(customService.trim())
+                          ? '✓ Added'
+                          : `Add "${customService.trim()}"`}
+                      </button>
+                    )}
                   </div>
-                </div>
+                )}
               </>
             )}
             {form.serviceTypes.length > 0 && (
