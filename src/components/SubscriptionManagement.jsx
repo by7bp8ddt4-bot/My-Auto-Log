@@ -4,6 +4,7 @@ import {
   CreditCard, Calendar, Shield, Zap, ChevronRight, ExternalLink
 } from 'lucide-react';
 import { formatDate } from '../utils/helpers';
+import { isCapacitorIOS } from '../utils/platform.js';
 
 const SUBSCRIPTION_KEYS = {
   PLAN: 'mtxtrkr_subscription_plan',
@@ -52,9 +53,11 @@ const STRIPE_URLS = {
 };
 
 export default function SubscriptionManagement({ userId, isPremium, onNavigate, trackEvent }) {
+  const isIOS = isCapacitorIOS();
   const sub = getSubscriptionData();
   const [showCancelConfirm, setShowCancelConfirm] = useState(false);
   const [cancelled, setCancelled] = useState(sub.status === 'cancelled');
+  const [showIOSNotice, setShowIOSNotice] = useState(false);
 
   const plan = sub.plan || 'monthly';
   const status = cancelled ? 'cancelled' : sub.status;
@@ -74,6 +77,7 @@ export default function SubscriptionManagement({ userId, isPremium, onNavigate, 
   };
 
   const handleReactivate = () => {
+    if (isIOS) { setShowIOSNotice(true); return; }
     const stripeUrl = STRIPE_URLS[plan];
     const url = userId ? `${stripeUrl}?client_reference_id=${userId}&prefilled_email=${userId}` : stripeUrl;
     trackEvent?.('subscription_reactivate_started', { plan, userId });
@@ -81,6 +85,7 @@ export default function SubscriptionManagement({ userId, isPremium, onNavigate, 
   };
 
   const handleUpgradeToYearly = () => {
+    if (isIOS) { setShowIOSNotice(true); return; }
     const url = userId
       ? `${STRIPE_URLS.yearly}?client_reference_id=${userId}&prefilled_email=${userId}`
       : STRIPE_URLS.yearly;
@@ -241,6 +246,29 @@ export default function SubscriptionManagement({ userId, isPremium, onNavigate, 
             )}
           </div>
         </div>
+
+        {/* iOS Notice — App Store §3.1.1 prohibits external payment links */}
+        {showIOSNotice && (
+          <div className="p-5 rounded-2xl bg-blue-600/10 border border-blue-500/30">
+            <div className="flex items-start gap-3">
+              <div className="w-10 h-10 rounded-xl bg-blue-500/20 flex items-center justify-center shrink-0">
+                <ExternalLink className="w-5 h-5 text-blue-400" />
+              </div>
+              <div className="flex-1">
+                <h3 className="text-sm font-semibold text-white mb-1">Manage on the Web</h3>
+                <p className="text-xs text-slate-400 leading-relaxed mb-3">
+                  Premium management (upgrades, plan changes) is available at <strong className="text-blue-300">www.MTXtrkr.com</strong>. Visit on any desktop or mobile browser to manage your subscription.
+                </p>
+                <button
+                  onClick={() => setShowIOSNotice(false)}
+                  className="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-xs font-medium transition-all"
+                >
+                  Got it
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Plan Details */}
         <div className="p-5 rounded-2xl bg-slate-900/60 border border-slate-800">

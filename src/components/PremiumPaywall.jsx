@@ -3,8 +3,10 @@ import {
   Calendar, TrendingUp, FileText, Bell
 } from 'lucide-react';
 import { setSubscriptionData } from './SubscriptionManagement.jsx';
+import { isCapacitorIOS } from '../utils/platform.js';
 
 export default function PremiumPaywall({ onClose, onUpgrade, userId, trackEvent }) {
+  const isIOS = isCapacitorIOS();
   const features = [
     { icon: Star, label: 'Unlimited Vehicles', desc: 'Track your entire fleet' },
     { icon: Zap, label: 'AI Mileage Predictions', desc: 'Auto-detect from fuel receipts*' },
@@ -114,6 +116,7 @@ export default function PremiumPaywall({ onClose, onUpgrade, userId, trackEvent 
                 const nextBilling = new Date(Date.now() + 30 * 86400000).toISOString().split('T')[0];
                 setSubscriptionData({ plan: 'monthly', status: 'active', nextBilling });
                 await onUpgrade();
+                if (isIOS) return; // iOS: no external payment links (App Store §3.1.1)
                 window.location.href = getStripeUrl('https://buy.stripe.com/6oU9AT5ko1Ob6GV36b0sU00');
               }}
               className="w-full py-3 rounded-xl bg-slate-800 group-hover:bg-blue-600 text-white font-semibold transition-all duration-200 flex items-center justify-center gap-2"
@@ -150,6 +153,7 @@ export default function PremiumPaywall({ onClose, onUpgrade, userId, trackEvent 
                 const nextBilling = new Date(Date.now() + 365 * 86400000).toISOString().split('T')[0];
                 setSubscriptionData({ plan: 'yearly', status: 'active', nextBilling });
                 await onUpgrade();
+                if (isIOS) return; // iOS: no external payment links (App Store §3.1.1)
                 window.location.href = getStripeUrl('https://buy.stripe.com/eVq00j1480K77KZayD0sU01');
               }}
               className="w-full py-3 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-semibold shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 transition-all duration-200 flex items-center justify-center gap-2"
@@ -162,7 +166,7 @@ export default function PremiumPaywall({ onClose, onUpgrade, userId, trackEvent 
           
           <div className="flex items-center justify-center gap-1.5 text-slate-500">
             <Shield className="w-3.5 h-3.5" />
-            <p className="text-[10px] font-medium">Your purchase will be processed securely by Stripe</p>
+            <p className="text-[10px] font-medium">Payment processing is handled securely.</p>
           </div>
         </div>
 
