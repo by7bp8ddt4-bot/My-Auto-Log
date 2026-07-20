@@ -7,9 +7,10 @@ import { VEHICLE_TYPES } from '../utils/constants.js';
 import MotorcycleIcon from './MotorcycleIcon';
 import SemiTruckIcon from './SemiTruckIcon';
 import RVIcon from './RVIcon';
+import ATVIcon from './ATVIcon';
 
 // Map icon names to lucide-react components
-const TYPE_ICONS = { Car, Motorcycle: MotorcycleIcon, Tractor, Package, Ship, Anchor, Cog, SemiTruck: SemiTruckIcon, RV: RVIcon };
+const TYPE_ICONS = { Car, Motorcycle: MotorcycleIcon, ATV: ATVIcon, Tractor, Package, Ship, Anchor, Cog, SemiTruck: SemiTruckIcon, RV: RVIcon };
 
 export default function VehicleList({ vehicles, onAdd, onEdit, onDelete, isPremium, vehicleCount, onNavigate }) {
   const [showForm, setShowForm] = useState(false);
@@ -241,6 +242,9 @@ function VehicleFormModal({ vehicle, onSave, onClose, initialType = 'car', focus
     trim: vehicle?.trim || '',
     engineSize: vehicle?.engineSize || '',
     drivetrain: vehicle?.drivetrain || '',
+    transmission: vehicle?.transmission || '',
+    fuelType: vehicle?.fuelType || '',
+    bodyClass: vehicle?.bodyClass || '',
     year: vehicle?.year || new Date().getFullYear(),
     licensePlate: vehicle?.licensePlate || '',
     mileage: vehicle?.mileage || '',
@@ -257,13 +261,13 @@ function VehicleFormModal({ vehicle, onSave, onClose, initialType = 'car', focus
 
   // Per-type form helpers
   const usesHours = ['ag-equipment', 'forklift', 'watercraft', 'outboard', 'marine-diesel'].includes(form.type);
-  const hasVinDecoder = ['car', 'motorcycle', 'semi-truck', 'rv', 'ag-equipment', 'forklift'].includes(form.type);
+  const hasVinDecoder = ['car', 'motorcycle', 'atv', 'semi-truck', 'rv', 'ag-equipment', 'forklift'].includes(form.type);
   const usesPin = ['ag-equipment', 'forklift'].includes(form.type); // Shorter Product ID Numbers (11-17 chars)
-  const hasLicensePlate = ['car', 'motorcycle', 'watercraft', 'semi-truck', 'rv'].includes(form.type);
+  const hasLicensePlate = ['car', 'motorcycle', 'atv', 'watercraft', 'semi-truck', 'rv'].includes(form.type);
 
   const mileageLabel = usesHours ? 'Engine Hours' : 'Current Mileage';
   const purchaseMileageLabel = usesHours ? 'Hours at Purchase' : 'Mileage at Purchase';
-  const canLease = ['car', 'motorcycle', 'semi-truck', 'rv'].includes(form.type);
+  const canLease = ['car', 'motorcycle', 'atv', 'semi-truck', 'rv'].includes(form.type);
 
   const handleDecodeVin = async () => {
     const vin = form.vin?.trim().toUpperCase();
@@ -312,6 +316,9 @@ function VehicleFormModal({ vehicle, onSave, onClose, initialType = 'car', focus
         trim: result.data.trim || f.trim,
         engineSize: result.data.engineSize || f.engineSize,
         drivetrain: result.data.drivetrain || f.drivetrain,
+        transmission: result.data.transmission || f.transmission,
+        fuelType: result.data.engine?.fuelType || f.fuelType,
+        bodyClass: result.data.bodyClass || f.bodyClass,
         vinDecoded: result.data,
       }));
       setVinState({
@@ -560,6 +567,42 @@ function VehicleFormModal({ vehicle, onSave, onClose, initialType = 'car', focus
                 </svg>
               </div>
             </div>
+          </div>
+
+          {/* Transmission & Fuel Type */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label className="block text-xs text-slate-400 mb-1.5 font-medium">Transmission</label>
+              <input
+                type="text"
+                value={form.transmission}
+                onChange={e => setForm(f => ({ ...f, transmission: e.target.value }))}
+                placeholder="e.g. Automatic, CVT, 8-Speed Automatic, Manual"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
+              />
+            </div>
+            <div>
+              <label className="block text-xs text-slate-400 mb-1.5 font-medium">Fuel Type</label>
+              <input
+                type="text"
+                value={form.fuelType}
+                onChange={e => setForm(f => ({ ...f, fuelType: e.target.value }))}
+                placeholder="e.g. Gasoline, Diesel, Electric, Hybrid"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
+              />
+            </div>
+          </div>
+
+          {/* Body Class */}
+          <div>
+            <label className="block text-xs text-slate-400 mb-1.5 font-medium">Body Class</label>
+            <input
+              type="text"
+              value={form.bodyClass}
+              onChange={e => setForm(f => ({ ...f, bodyClass: e.target.value }))}
+              placeholder="e.g. Sedan, SUV, Coupe, Pickup"
+              className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
+            />
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">

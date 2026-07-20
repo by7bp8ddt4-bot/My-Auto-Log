@@ -1,7 +1,10 @@
-import { Settings2, Download, Trash2, RefreshCw, Database, User, Crown, ChevronRight, LogOut, Mail } from 'lucide-react';
+import { Settings2, Download, Trash2, RefreshCw, Database, User, Crown, ChevronRight, LogOut, Mail, Cloud, CheckCircle2 } from 'lucide-react';
 import { getSubscriptionData } from './SubscriptionManagement.jsx';
+import { useState } from 'react';
 
-export default function Settings({ onReset, onExport, vehicles, logs, reminders, isAuthenticated, isPremium, onNavigate, onLogout, onDeleteAccount, showCancelSubDialog, onDismissCancelSub }) {
+export default function Settings({ onReset, onExport, vehicles, logs, reminders, isAuthenticated, isPremium, onNavigate, onLogout, onDeleteAccount, showCancelSubDialog, onDismissCancelSub, onSyncFromCloud }) {
+  const [syncing, setSyncing] = useState(false);
+  const [syncDone, setSyncDone] = useState(false);
   const sub = getSubscriptionData();
   const handleExport = () => {
     const exportData = {
@@ -114,6 +117,46 @@ export default function Settings({ onReset, onExport, vehicles, logs, reminders,
             </div>
           </div>
           <div className="space-y-2">
+            {isAuthenticated && (
+              <>
+                <button
+                  onClick={async () => {
+                    setSyncing(true);
+                    setSyncDone(false);
+                    await onSyncFromCloud();
+                    setSyncing(false);
+                    setSyncDone(true);
+                    setTimeout(() => setSyncDone(false), 3000);
+                  }}
+                  disabled={syncing}
+                  className={`w-full flex items-center justify-center gap-2 py-2.5 rounded-xl border text-sm font-medium transition-all ${
+                    syncDone
+                      ? 'border-emerald-500/30 bg-emerald-500/10 text-emerald-400'
+                      : syncing
+                        ? 'border-blue-500/30 bg-blue-500/10 text-blue-400'
+                        : 'border-slate-700 text-slate-300 hover:bg-slate-800'
+                  }`}
+                >
+                  {syncing ? (
+                    <>
+                      <RefreshCw className="w-4 h-4 animate-spin" />
+                      Syncing from Cloud...
+                    </>
+                  ) : syncDone ? (
+                    <>
+                      <CheckCircle2 className="w-4 h-4" />
+                      Synced Successfully
+                    </>
+                  ) : (
+                    <>
+                      <Cloud className="w-4 h-4" />
+                      Sync from Cloud
+                    </>
+                  )}
+                </button>
+                <p className="text-[11px] text-slate-500 text-center mt-1">Not seeing your recent changes?</p>
+              </>
+            )}
             <button
               onClick={handleExport}
               className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl border border-slate-700 text-sm text-slate-300 hover:bg-slate-800 transition-all"
