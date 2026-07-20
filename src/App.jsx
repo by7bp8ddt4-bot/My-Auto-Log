@@ -185,6 +185,23 @@ export default function App() {
   const localFuelLogs = useLocalStorage('mtxtrkr_fuel_logs', []);
   const localMods = useLocalStorage('mtxtrkr_modifications', []);
 
+  // One-time stale cache cleanup: wipe supabase_cache_* keys and reset migration
+  // flags so the migrations below re-run. The supabase_cache_* keys are only a
+  // fetch cache — the real data lives in mtxtrkr_* (primary store) and supabase_*
+  // (legacy cache). Wiping the stale fetch cache forces useSupabaseData to
+  // re-fetch from Supabase, which then triggers the sync effect.
+  const staleCleanupDone = 'mtxtrkr_stale_cache_cleaned';
+  useEffect(() => {
+    if (localStorage.getItem(staleCleanupDone)) return;
+    for (let i = localStorage.length - 1; i >= 0; i--) {
+      const key = localStorage.key(i);
+      if (key && key.startsWith('supabase_cache_')) localStorage.removeItem(key);
+    }
+    localStorage.removeItem('mtxtrkr_cache_migrated');
+    localStorage.removeItem('mtxtrkr_supabase_cache_migrated');
+    localStorage.setItem(staleCleanupDone, 'true');
+  }, []);
+
   // One-time migration: old Supabase cache keys → new localStorage keys
   // The old useSupabaseData hook cached under 'supabase_*' keys.
   // We now use localStorage as primary store under 'mtxtrkr_*' keys.
@@ -249,6 +266,35 @@ export default function App() {
         }
       } catch (e) {
         console.warn(`[Supabase cache migration] Failed for ${oldKey}:`, e);
+      }
+    }
+    // Recovery: if the mtxtrkr_ primary store was wiped during PR #35's collision
+    // window but data still survives in the old supabase_* cache keys, restore it.
+    // This is the one-time data recovery for users affected by the key collision.
+    const primaryRecoveryMap = {
+      'supabase_vehicles': STORAGE_KEYS.VEHICLES,
+      'supabase_maintenance_logs': STORAGE_KEYS.MAINTENANCE_LOGS,
+      'supabase_reminders': STORAGE_KEYS.REMINDERS,
+      'supabase_fuel_logs': 'mtxtrkr_fuel_logs',
+      'supabase_modifications': 'mtxtrkr_modifications',
+    };
+    for (const [oldKey, newKey] of Object.entries(primaryRecoveryMap)) {
+      try {
+        const existingData = localStorage.getItem(newKey);
+        const existingParsed = existingData ? JSON.parse(existingData) : [];
+        // Only recover if the primary store is empty (data was wiped)
+        if (!Array.isArray(existingParsed) || existingParsed.length === 0) {
+          const oldData = localStorage.getItem(oldKey);
+          if (oldData) {
+            const parsed = JSON.parse(oldData);
+            if (Array.isArray(parsed) && parsed.length > 0) {
+              localStorage.setItem(newKey, JSON.stringify(parsed));
+              console.log(`[Recovery] Restored ${parsed.length} items from ${oldKey} to ${newKey}`);
+            }
+          }
+        }
+      } catch (e) {
+        console.warn(`[Recovery] Failed for ${oldKey}:`, e);
       }
     }
     localStorage.setItem(supabaseCacheMigrationKey, 'true');
@@ -350,6 +396,9 @@ export default function App() {
     })();
 
     // Step 2: Pull Supabase data into localStorage (overwrites stale cache).
+    // Track whether any data was actually synced — if Supabase is empty (new account),
+    // don't mark sync as done so it retries when data arrives from another device.
+    let anySynced = false;
     for (const { local, supabase, key } of syncStores) {
       const supabaseHasData = supabase.data && supabase.data.length > 0;
 
@@ -371,9 +420,28 @@ export default function App() {
           }
         }
         local.setData(supabase.data);
+        anySynced = true;
+      } else {
+        // Fallback: if Supabase has no data but the migration restored data
+        // to localStorage (e.g. stale cache cleanup + re-migration), load it.
+        // This handles the case where mtxtrkr_* was wiped during PR #35 but
+        // supabase_* survived and was copied by the migration.
+        try {
+          const localRaw = localStorage.getItem(key);
+          const localParsed = localRaw ? JSON.parse(localRaw) : [];
+          if (Array.isArray(localParsed) && localParsed.length > 0 &&
+              (!local.data || local.data.length === 0)) {
+            local.setData(localParsed);
+            anySynced = true;
+          }
+        } catch (e) {
+          // Ignore corrupt localStorage
+        }
       }
     }
-    setInitialSyncDone(true);
+    if (anySynced) {
+      setInitialSyncDone(true);
+    }
   }, [
   isAuthenticated, auth.user?.id, initialSyncDone,
   supabaseVehicles.loading, supabaseLogs.loading, supabaseReminders.loading, supabaseFuelLogs.loading, supabaseMods.loading,
