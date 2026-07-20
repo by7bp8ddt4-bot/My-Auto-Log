@@ -61,18 +61,51 @@
       })();
     </script>
 
-    <!-- Service Worker Registration -->
+    <!-- Service Worker Registration with Auto-Update Detection -->
     <script>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
           navigator.serviceWorker.register('/sw.js')
             .then((reg) => {
               console.log('[SW] Registered successfully:', reg.scope);
+              
+              // Check for updates immediately (overrides browser's 24h throttle)
+              reg.update();
+              
+              // Listen for a new SW waiting to activate
+              reg.addEventListener('updatefound', () => {
+                const newSW = reg.installing;
+                console.log('[SW] New version detected, waiting for install...');
+                
+                newSW.addEventListener('statechange', () => {
+                  if (newSW.state === 'installed' && navigator.serviceWorker.controller) {
+                    // New SW is installed and waiting — force activate
+                    console.log('[SW] New version installed, reloading...');
+                    newSW.postMessage({ action: 'skipWaiting' });
+                  }
+                });
+              });
             })
             .catch((err) => {
               console.warn('[SW] Registration failed:', err);
             });
+            
+          // When a new SW takes control, reload the page to use fresh assets
+          navigator.serviceWorker.addEventListener('controllerchange', () => {
+            console.log('[SW] New controller activated, reloading...');
+            window.location.reload();
+          });
         });
+        
+        // Periodically check for SW updates (every 5 minutes)
+        setInterval(() => {
+          navigator.serviceWorker.getRegistration().then((reg) => {
+            if (reg) {
+              reg.update();
+              console.log('[SW] Periodic update check');
+            }
+          });
+        }, 5 * 60 * 1000);
       }
     </script>
 
