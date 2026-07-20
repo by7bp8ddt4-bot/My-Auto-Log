@@ -278,13 +278,15 @@ export default function App() {
     pushedIdsRef.current = {};
   }, [auth.user?.id]);
 
-  // On sign-in: load Supabase data into localStorage if local is empty (cross-device)
+  // On sign-in: load Supabase data into localStorage, overwriting any stale local cache.
+  // This ensures the user always sees their current cloud data when they log in,
+  // even if localStorage has old/corrupted data from a previous session.
   // Uses React state (not localStorage) so the guard resets when the user changes.
   // Waits for ALL Supabase stores to finish loading before syncing — fixes the race
   // condition where the effect fires before data arrives and sets a permanent flag.
   useEffect(() => {
     if (!isAuthenticated || !auth.user?.id) return;
-    
+
     // Wait for all Supabase stores to finish fetching before attempting sync.
     // Without this, supabaseVehicles.data is still [] when the effect fires,
     // the sync finds nothing to pull, and the flag prevents any future retry.
@@ -294,18 +296,13 @@ export default function App() {
     if (initialSyncDone) return;
 
     for (const { local, supabase, key } of syncStores) {
-      let localEmpty = true;
-      try {
-        const localRaw = localStorage.getItem(key);
-        localEmpty = !localRaw || JSON.parse(localRaw).length === 0;
-      } catch (e) {
-        console.warn(`[Sync] Failed to parse localStorage key "${key}":`, e);
-        localEmpty = true;
-      }
       const supabaseHasData = supabase.data && supabase.data.length > 0;
 
-      if (localEmpty && supabaseHasData) {
-        // Supabase has data, local is empty — load from cloud (new device)
+      if (supabaseHasData) {
+        // Supabase has data — always prefer cloud data on initial login.
+        // This fixes the bug where stale localStorage data (from a previous session
+        // or corrupted cache) prevented the cloud data from ever loading.
+        // The background sync (below) handles pushing any new local changes up.
         try {
           localStorage.setItem(key, JSON.stringify(supabase.data));
         } catch (e) {
@@ -327,10 +324,10 @@ export default function App() {
     }
     setInitialSyncDone(true);
   }, [
-    isAuthenticated, auth.user?.id, initialSyncDone,
-    supabaseVehicles.loading, supabaseLogs.loading, supabaseReminders.loading, supabaseFuelLogs.loading, supabaseMods.loading,
-    supabaseVehicles.data, supabaseLogs.data, supabaseReminders.data, supabaseFuelLogs.data, supabaseMods.data
-  ]);
+  isAuthenticated, auth.user?.id, initialSyncDone,
+  supabaseVehicles.loading, supabaseLogs.loading, supabaseReminders.loading, supabaseFuelLogs.loading, supabaseMods.loading,
+  supabaseVehicles.data, supabaseLogs.data, supabaseReminders.data, supabaseFuelLogs.data, supabaseMods.data
+]);
 
   // Continuous background sync: push local data to Supabase when it changes
   // Syncs individual items by comparing IDs — pushes only what's missing from Supabase
@@ -523,6 +520,8 @@ export default function App() {
   // Used when switching devices or when cross-device sync didn't trigger automatically
   const handleSyncFromCloud = useCallback(async () => {
     if (!auth.user?.id) return;
+    // Reset pushed IDs so the background sync re-tracks all items after cloud pull
+    pushedIdsRef.current = {};
     const tables = [
       { table: 'vehicles', local: localVehicles, key: STORAGE_KEYS.VEHICLES },
       { table: 'maintenance_logs', local: localLogs, key: STORAGE_KEYS.MAINTENANCE_LOGS },
