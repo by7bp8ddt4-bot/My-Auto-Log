@@ -2,8 +2,13 @@ import { useState, useEffect } from 'react';
 import {
   Car, AlertTriangle, Clock, DollarSign, Bell, Gauge,
   TrendingUp, Wrench, ArrowUpRight, Calendar, Plus, Fuel,
-  FileText, Download, CheckCircle, Cloud, RefreshCw
+  FileText, Download, CheckCircle, Cloud, RefreshCw,
+  Tractor, Package, Ship, Anchor, Cog
 } from 'lucide-react';
+import MotorcycleIcon from './MotorcycleIcon';
+import SemiTruckIcon from './SemiTruckIcon';
+import RVIcon from './RVIcon';
+import ATVIcon from './ATVIcon';
 import { formatCurrency, formatNumber, formatDate, getLocalDateString } from '../utils/helpers';
 import { calculateReminderStatus } from '../utils/helpers';
 import { generateResaleReport } from '../utils/generateReport';
@@ -12,6 +17,9 @@ import AICopilot from './AICopilot.jsx';
 import GettingStarted from './GettingStarted.jsx';
 import { useMaintenanceSchedule } from '../hooks/useMaintenanceSchedule';
 import { ManufacturerBadge } from '../utils/manufacturerBranding.jsx';
+
+// Map vehicle type to icon component
+const TYPE_ICONS = { Car, Motorcycle: MotorcycleIcon, ATV: ATVIcon, Tractor, Package, Ship, Anchor, Cog, SemiTruck: SemiTruckIcon, RV: RVIcon };
 
 export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], onNavigate, onAddLog, isPremium, selectedVehicleId, onSelectVehicle, isAuthenticated, onSyncFromCloud, onPushToCloud }) {
   const [syncing, setSyncing] = useState(false);
@@ -259,7 +267,7 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         {[
           {
-            icon: Car,
+            icon: TYPE_ICONS[activeVehicle?.type] || Car,
             label: 'Vehicles',
             value: vehicles.length,
             color: 'blue',
