@@ -24,7 +24,7 @@ import { STORAGE_KEYS } from './utils/constants.js';
 import { generateAutoReminders, summarizeAutoReminders } from './utils/autoReminders.js';
 import { supabase } from './lib/supabase.js';
 
-// Migration: myautolog_ → mtxtrkr_ localStorage keys (runs once on import)
+// Migration: legacy storage keys → mtxtrkr_ localStorage keys (runs once on import)
 try {
 (function migrateStorageKeys() {
   const OLD_PREFIX = 'myautolog_';
