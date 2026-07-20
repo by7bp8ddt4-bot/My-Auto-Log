@@ -220,6 +220,40 @@ export default function App() {
     localStorage.setItem(cacheMigrationKey, 'true');
   }, []);
 
+  // One-time migration: old Supabase cache keys → new supabase_cache_ namespace
+  // The useSupabaseData hook now uses 'supabase_cache_' prefix (separate from
+  // the 'mtxtrkr_' main store prefix) to avoid the collision introduced in PR #35.
+  // Migrate any stale 'supabase_*' cache data to the new namespace.
+  const supabaseCacheMigrationKey = 'mtxtrkr_supabase_cache_migrated';
+  useEffect(() => {
+    if (localStorage.getItem(supabaseCacheMigrationKey)) return;
+    const oldToCacheNew = {
+      'supabase_vehicles': 'supabase_cache_vehicles',
+      'supabase_maintenance_logs': 'supabase_cache_maintenance_logs',
+      'supabase_reminders': 'supabase_cache_reminders',
+      'supabase_fuel_logs': 'supabase_cache_fuel_logs',
+      'supabase_modifications': 'supabase_cache_modifications',
+    };
+    for (const [oldKey, newKey] of Object.entries(oldToCacheNew)) {
+      try {
+        const oldData = localStorage.getItem(oldKey);
+        if (oldData) {
+          const parsed = JSON.parse(oldData);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            const existing = localStorage.getItem(newKey);
+            const existingParsed = existing ? JSON.parse(existing) : [];
+            if (existingParsed.length < parsed.length) {
+              localStorage.setItem(newKey, JSON.stringify(parsed));
+            }
+          }
+        }
+      } catch (e) {
+        console.warn(`[Supabase cache migration] Failed for ${oldKey}:`, e);
+      }
+    }
+    localStorage.setItem(supabaseCacheMigrationKey, 'true');
+  }, []);
+
   // Always use localStorage as the primary store — data persists forever
   // Supabase is only used for cloud sync (background) and cross-device portability
   const vehiclesStore = localVehicles;
@@ -515,10 +549,10 @@ export default function App() {
     modsStore.update([]);
     localStorage.removeItem(STORAGE_KEYS.LAST_SYNC);
     localStorage.removeItem(STORAGE_KEYS.PREMIUM_STATUS);
-    // Clear all mtxtrkr_ keys from localStorage
+    // Clear all mtxtrkr_ and supabase_cache_ keys from localStorage
     for (let i = localStorage.length - 1; i >= 0; i--) {
       const key = localStorage.key(i);
-      if (key && key.startsWith('mtxtrkr_')) localStorage.removeItem(key);
+      if (key && (key.startsWith('mtxtrkr_') || key.startsWith('supabase_cache_') || key.startsWith('supabase_'))) localStorage.removeItem(key);
     }
     setPremium(false);
     analytics.track('data_reset', {});
@@ -666,7 +700,7 @@ export default function App() {
       // Clear all local data
       for (let i = localStorage.length - 1; i >= 0; i--) {
         const key = localStorage.key(i);
-        if (key && key.startsWith('mtxtrkr_')) localStorage.removeItem(key);
+        if (key && (key.startsWith('mtxtrkr_') || key.startsWith('supabase_cache_') || key.startsWith('supabase_'))) localStorage.removeItem(key);
       }
       console.log('[DeleteAccount] Local data cleared');
       // Sign out

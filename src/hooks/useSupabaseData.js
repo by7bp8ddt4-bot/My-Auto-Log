@@ -32,7 +32,7 @@ export function useSupabaseData(tableName, userId, filterColumn = 'user_id') {
   const [data, setData] = useState(() => {
     // Load from localStorage cache on init
     try {
-      const cached = localStorage.getItem(`mtxtrkr_${tableName}`);
+      const cached = localStorage.getItem(`supabase_cache_${tableName}`);
       return cached ? JSON.parse(cached) : [];
     } catch {
       return [];
@@ -43,7 +43,7 @@ export function useSupabaseData(tableName, userId, filterColumn = 'user_id') {
 
   // Cache data to localStorage
   const cacheData = useCallback((newData) => {
-    localStorage.setItem(`mtxtrkr_${tableName}`, JSON.stringify(newData));
+    localStorage.setItem(`supabase_cache_${tableName}`, JSON.stringify(newData));
   }, [tableName]);
 
   // Fetch data from Supabase
@@ -66,7 +66,7 @@ export function useSupabaseData(tableName, userId, filterColumn = 'user_id') {
 
       if (err) throw err;
       const camelData = keysToCamel(result || []);
-      const prevCache = JSON.parse(localStorage.getItem(`mtxtrkr_${tableName}`) || '[]');
+      const prevCache = JSON.parse(localStorage.getItem(`supabase_cache_${tableName}`) || '[]');
       
       // If Supabase returned data, use it (latest from server)
       // If Supabase returned empty but we have cached data, keep the cache
