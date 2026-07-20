@@ -185,6 +185,23 @@ export default function App() {
   const localFuelLogs = useLocalStorage('mtxtrkr_fuel_logs', []);
   const localMods = useLocalStorage('mtxtrkr_modifications', []);
 
+  // One-time stale cache cleanup: wipe supabase_cache_* keys and reset migration
+  // flags so the migrations below re-run. The supabase_cache_* keys are only a
+  // fetch cache — the real data lives in mtxtrkr_* (primary store) and supabase_*
+  // (legacy cache). Wiping the stale fetch cache forces useSupabaseData to
+  // re-fetch from Supabase, which then triggers the sync effect.
+  const staleCleanupDone = 'mtxtrkr_stale_cache_cleaned';
+  useEffect(() => {
+    if (localStorage.getItem(staleCleanupDone)) return;
+    for (let i = localStorage.length - 1; i >= 0; i--) {
+      const key = localStorage.key(i);
+      if (key && key.startsWith('supabase_cache_')) localStorage.removeItem(key);
+    }
+    localStorage.removeItem('mtxtrkr_cache_migrated');
+    localStorage.removeItem('mtxtrkr_supabase_cache_migrated');
+    localStorage.setItem(staleCleanupDone, 'true');
+  }, []);
+
   // One-time migration: old Supabase cache keys → new localStorage keys
   // The old useSupabaseData hook cached under 'supabase_*' keys.
   // We now use localStorage as primary store under 'mtxtrkr_*' keys.
@@ -379,6 +396,9 @@ export default function App() {
     })();
 
     // Step 2: Pull Supabase data into localStorage (overwrites stale cache).
+    // Track whether any data was actually synced — if Supabase is empty (new account),
+    // don't mark sync as done so it retries when data arrives from another device.
+    let anySynced = false;
     for (const { local, supabase, key } of syncStores) {
       const supabaseHasData = supabase.data && supabase.data.length > 0;
 
@@ -400,9 +420,28 @@ export default function App() {
           }
         }
         local.setData(supabase.data);
+        anySynced = true;
+      } else {
+        // Fallback: if Supabase has no data but the migration restored data
+        // to localStorage (e.g. stale cache cleanup + re-migration), load it.
+        // This handles the case where mtxtrkr_* was wiped during PR #35 but
+        // supabase_* survived and was copied by the migration.
+        try {
+          const localRaw = localStorage.getItem(key);
+          const localParsed = localRaw ? JSON.parse(localRaw) : [];
+          if (Array.isArray(localParsed) && localParsed.length > 0 &&
+              (!local.data || local.data.length === 0)) {
+            local.setData(localParsed);
+            anySynced = true;
+          }
+        } catch (e) {
+          // Ignore corrupt localStorage
+        }
       }
     }
-    setInitialSyncDone(true);
+    if (anySynced) {
+      setInitialSyncDone(true);
+    }
   }, [
   isAuthenticated, auth.user?.id, initialSyncDone,
   supabaseVehicles.loading, supabaseLogs.loading, supabaseReminders.loading, supabaseFuelLogs.loading, supabaseMods.loading,
