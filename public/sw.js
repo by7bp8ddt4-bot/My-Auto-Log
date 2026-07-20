@@ -1,4 +1,5 @@
-const CACHE_NAME = 'mtxtrkr-v2';
+const CACHE_NAME = 'mtxtrkr-v3';
+const BUILD_VERSION = '2026-07-20';
 const STATIC_ASSETS = [
   '/',
   '/index.html',
