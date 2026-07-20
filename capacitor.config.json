@@ -1,10 +1,10 @@
 {
-  "appId": "com.myautolog.app",
-  "appName": "MyAutoLog",
+  "appId": "com.mtxtrkr.app",
+  "appName": "MTXtrkr",
   "webDir": "dist",
   "server": {
     "androidScheme": "https",
-    "iosScheme": "myautolog"
+    "iosScheme": "mtxtrkr"
   },
   "ios": {
     "contentInset": "always",
