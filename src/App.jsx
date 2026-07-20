@@ -251,6 +251,35 @@ export default function App() {
         console.warn(`[Supabase cache migration] Failed for ${oldKey}:`, e);
       }
     }
+    // Recovery: if the mtxtrkr_ primary store was wiped during PR #35's collision
+    // window but data still survives in the old supabase_* cache keys, restore it.
+    // This is the one-time data recovery for users affected by the key collision.
+    const primaryRecoveryMap = {
+      'supabase_vehicles': STORAGE_KEYS.VEHICLES,
+      'supabase_maintenance_logs': STORAGE_KEYS.MAINTENANCE_LOGS,
+      'supabase_reminders': STORAGE_KEYS.REMINDERS,
+      'supabase_fuel_logs': 'mtxtrkr_fuel_logs',
+      'supabase_modifications': 'mtxtrkr_modifications',
+    };
+    for (const [oldKey, newKey] of Object.entries(primaryRecoveryMap)) {
+      try {
+        const existingData = localStorage.getItem(newKey);
+        const existingParsed = existingData ? JSON.parse(existingData) : [];
+        // Only recover if the primary store is empty (data was wiped)
+        if (!Array.isArray(existingParsed) || existingParsed.length === 0) {
+          const oldData = localStorage.getItem(oldKey);
+          if (oldData) {
+            const parsed = JSON.parse(oldData);
+            if (Array.isArray(parsed) && parsed.length > 0) {
+              localStorage.setItem(newKey, JSON.stringify(parsed));
+              console.log(`[Recovery] Restored ${parsed.length} items from ${oldKey} to ${newKey}`);
+            }
+          }
+        }
+      } catch (e) {
+        console.warn(`[Recovery] Failed for ${oldKey}:`, e);
+      }
+    }
     localStorage.setItem(supabaseCacheMigrationKey, 'true');
   }, []);
 
