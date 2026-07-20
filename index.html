@@ -1,6 +1,49 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <!-- ONE-TIME SERVICE WORKER NUKE: Runs before any SW can intercept.
+         This forces all stuck PWA clients to unregister old SWs and delete
+         stale caches, allowing the new SW with auto-update to take over.
+         After this runs once, the 'mtxtrkr_sw_nuked' flag prevents re-runs. -->
+    <script>
+      (function() {
+        try {
+          if (localStorage.getItem('mtxtrkr_sw_nuked')) return;
+          
+          // Show a brief message while nuking
+          var msg = document.createElement('div');
+          msg.id = 'sw-nuke-msg';
+          msg.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:#0f172a;color:#94a3b8;display:flex;align-items:center;justify-content:center;flex-direction:column;z-index:99999;font-family:system-ui,sans-serif;font-size:16px;';
+          msg.innerHTML = '<div style="margin-bottom:12px;width:32px;height:32px;border:3px solid #334155;border-top-color:#3b82f6;border-radius:50%;animation:spin 0.8s linear infinite;"></div><div>Refreshing application...</div><style>@keyframes spin{to{transform:rotate(360deg)}}</style>';
+          document.documentElement.appendChild(msg);
+          
+          // Nuke all service workers
+          if (navigator.serviceWorker) {
+            navigator.serviceWorker.getRegistrations().then(function(regs) {
+              regs.forEach(function(reg) { reg.unregister(); });
+            });
+          }
+          
+          // Nuke all caches
+          if (window.caches) {
+            caches.keys().then(function(keys) {
+              keys.forEach(function(key) { caches.delete(key); });
+            });
+          }
+          
+          // Mark as nuked so this only runs once
+          localStorage.setItem('mtxtrkr_sw_nuked', 'true');
+          
+          // Remove the message after a moment
+          setTimeout(function() {
+            var el = document.getElementById('sw-nuke-msg');
+            if (el) el.remove();
+          }, 2000);
+        } catch(e) {
+          console.warn('[SW Nuke] Error:', e);
+        }
+      })();
+    </script>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/png" href="/assets/favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />

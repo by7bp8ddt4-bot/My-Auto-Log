@@ -278,9 +278,11 @@ export default function App() {
     pushedIdsRef.current = {};
   }, [auth.user?.id]);
 
-  // On sign-in: load Supabase data into localStorage, overwriting any stale local cache.
-  // This ensures the user always sees their current cloud data when they log in,
-  // even if localStorage has old/corrupted data from a previous session.
+  // On sign-in: two-way sync between Supabase and localStorage.
+  // 1. Pushes any local data that Supabase doesn't have yet (cross-device data).
+  // 2. Pulls Supabase data into localStorage to overwrite stale cache.
+  // This ensures the user sees ALL their data (from any device) when they log in,
+  // without losing locally-added records that haven't been pushed yet.
   // Uses React state (not localStorage) so the guard resets when the user changes.
   // Waits for ALL Supabase stores to finish loading before syncing — fixes the race
   // condition where the effect fires before data arrives and sets a permanent flag.
@@ -295,14 +297,29 @@ export default function App() {
 
     if (initialSyncDone) return;
 
+    // Step 1: Push local data to Supabase FIRST, so it's not lost when we pull.
+    // This prevents the "disappearing logs" bug where Supabase data overwrites
+    // local records that were never pushed to the cloud.
+    (async () => {
+      for (const { local, supabase } of syncStores) {
+        const localData = local.data || [];
+        if (localData.length === 0) continue;
+        const supabaseIds = new Set((supabase.data || []).map(s => s.id));
+        const itemsToPush = localData.filter(item => !supabaseIds.has(item.id));
+        for (const item of itemsToPush) {
+          const { createdAt, updatedAt, ...syncItem } = item;
+          try { await supabase.add(syncItem); } catch (e) {
+            console.warn(`[Sync] Failed to push item to cloud:`, e);
+          }
+        }
+      }
+    })();
+
+    // Step 2: Pull Supabase data into localStorage (overwrites stale cache).
     for (const { local, supabase, key } of syncStores) {
       const supabaseHasData = supabase.data && supabase.data.length > 0;
 
       if (supabaseHasData) {
-        // Supabase has data — always prefer cloud data on initial login.
-        // This fixes the bug where stale localStorage data (from a previous session
-        // or corrupted cache) prevented the cloud data from ever loading.
-        // The background sync (below) handles pushing any new local changes up.
         try {
           localStorage.setItem(key, JSON.stringify(supabase.data));
         } catch (e) {
