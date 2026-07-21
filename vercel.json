@@ -22,5 +22,11 @@
       "destination": "https://www.mtxtrkr.com/:path*",
       "permanent": false
     }
+  ],
+  "rewrites": [
+    {
+      "source": "/((?!api/|_next/|_static/|assets/|favicon|manifest|sw\\.js|auth\\.html|activate-premium\\.html)[^.]*)",
+      "destination": "/index.html"
+    }
   ]
 }
