@@ -3,27 +3,35 @@ import { STORAGE_KEYS } from '../utils/constants';
 import { generateId } from '../utils/helpers';
 
 /**
- * Strip large binary dataUrl fields from entries before writing to localStorage.
- * This prevents QuotaExceededError when receipt scan images accumulate.
- * The full dataUrl is preserved in memory (for Supabase sync) but stripped
- * from the localStorage snapshot. Images are re-fetched from Supabase on
- * cross-device sign-in.
+ * Recursively strip dataUrl fields and base64 data URL strings from any object
+ * before writing to localStorage. This prevents QuotaExceededError when receipt
+ * scan images, document attachments, or other binary blobs accumulate — regardless
+ * of where they are nested in the data structure.
+ *
+ * The full data is preserved in memory (for Supabase sync) but stripped from the
+ * localStorage snapshot. Images are re-fetched from Supabase on cross-device sign-in.
  */
 export function sanitizeForStorage(data) {
-  if (!Array.isArray(data)) return data;
-  return data.map(item => {
-    if (!item) return item;
-    const sanitized = { ...item };
-    // Strip dataUrl from documents array (receipt scan images, etc.)
-    if (Array.isArray(sanitized.documents)) {
-      sanitized.documents = sanitized.documents.map(doc => {
-        if (!doc || !doc.dataUrl) return doc;
-        const { dataUrl, ...docWithoutImage } = doc;
-        return docWithoutImage;
-      });
+  if (data === null || data === undefined) return data;
+
+  if (Array.isArray(data)) {
+    return data.map(item => sanitizeForStorage(item));
+  }
+
+  if (typeof data === 'object') {
+    const sanitized = {};
+    for (const [key, value] of Object.entries(data)) {
+      // Strip any property explicitly named 'dataUrl'
+      if (key === 'dataUrl') continue;
+      // Strip any string value that looks like a base64 data URL
+      if (typeof value === 'string' && value.startsWith('data:')) continue;
+      // Recursively sanitize nested objects and arrays
+      sanitized[key] = sanitizeForStorage(value);
     }
     return sanitized;
-  });
+  }
+
+  return data;
 }
 
 // Generic hook for localStorage CRUD operations with offline-first sync simulation

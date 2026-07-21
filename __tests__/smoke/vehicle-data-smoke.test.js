@@ -45,19 +45,23 @@ const EXTENDED_KEYS = {
 
 // ── sanitizeForStorage (mirrors useLocalStorage.js) ────────────────
 function sanitizeForStorage(data) {
-  if (!Array.isArray(data)) return data;
-  return data.map(item => {
-    if (!item) return item;
-    const sanitized = { ...item };
-    if (Array.isArray(sanitized.documents)) {
-      sanitized.documents = sanitized.documents.map(doc => {
-        if (!doc || !doc.dataUrl) return doc;
-        const { dataUrl, ...docWithoutImage } = doc;
-        return docWithoutImage;
-      });
+  if (data === null || data === undefined) return data;
+
+  if (Array.isArray(data)) {
+    return data.map(item => sanitizeForStorage(item));
+  }
+
+  if (typeof data === 'object') {
+    const sanitized = {};
+    for (const [key, value] of Object.entries(data)) {
+      if (key === 'dataUrl') continue;
+      if (typeof value === 'string' && value.startsWith('data:')) continue;
+      sanitized[key] = sanitizeForStorage(value);
     }
     return sanitized;
-  });
+  }
+
+  return data;
 }
 
 // ── generateId (mirrors helpers.js) ────────────────────────────────
@@ -335,6 +339,115 @@ describe('Vehicle Data Smoke Tests', () => {
       expect(sanitized[0].documents[0].dataUrl).toBeUndefined();
       // Original un-sanitized data still has the dataUrl
       expect(data[0].documents[0].dataUrl).toBe(largeDataUrl);
+    });
+
+    it('should strip dataUrl at top level of a maintenance log entry', () => {
+      const data = [
+        {
+          id: 'log-001',
+          serviceType: 'Oil Change',
+          dataUrl: 'data:image/png;base64,iVBORw0KGgo...',
+          notes: 'Changed oil at 5000 miles',
+        },
+      ];
+
+      const sanitized = sanitizeForStorage(data);
+      expect(sanitized[0].dataUrl).toBeUndefined();
+      expect(sanitized[0].serviceType).toBe('Oil Change');
+      expect(sanitized[0].notes).toBe('Changed oil at 5000 miles');
+    });
+
+    it('should strip dataUrl from deeply nested objects', () => {
+      const data = [
+        {
+          id: 'v-001',
+          history: {
+            receipts: {
+              scan: {
+                name: 'scan.png',
+                dataUrl: 'data:image/png;base64,AAAA...',
+              },
+            },
+          },
+        },
+      ];
+
+      const sanitized = sanitizeForStorage(data);
+      expect(sanitized[0].history.receipts.scan.name).toBe('scan.png');
+      expect(sanitized[0].history.receipts.scan.dataUrl).toBeUndefined();
+    });
+
+    it('should strip dataUrl keys from items without a documents array', () => {
+      const data = [
+        {
+          id: 'item-1',
+          dataUrl: 'data:application/pdf;base64,AAAA...',
+          title: 'Receipt',
+        },
+      ];
+
+      const sanitized = sanitizeForStorage(data);
+      expect(sanitized[0].title).toBe('Receipt');
+      expect(sanitized[0].dataUrl).toBeUndefined();
+    });
+
+    it('should strip any string value that looks like a data: URL', () => {
+      const data = [
+        {
+          id: 'item-1',
+          attachment: 'data:image/png;base64,AAAA...',
+          signature: 'data:image/png;base64,BBBB...',
+          description: 'Regular text description',
+        },
+      ];
+
+      const sanitized = sanitizeForStorage(data);
+      expect(sanitized[0].attachment).toBeUndefined();
+      expect(sanitized[0].signature).toBeUndefined();
+      expect(sanitized[0].description).toBe('Regular text description');
+      expect(sanitized[0].id).toBe('item-1');
+    });
+
+    it('should handle non-array input (single object)', () => {
+      const data = {
+        id: 'v-001',
+        dataUrl: 'data:image/png;base64,AAAA...',
+        make: 'Toyota',
+        documents: [{ name: 'receipt.pdf', dataUrl: 'data:application/pdf;base64,BBBB...' }],
+      };
+
+      const sanitized = sanitizeForStorage(data);
+      expect(sanitized.dataUrl).toBeUndefined();
+      expect(sanitized.make).toBe('Toyota');
+      expect(sanitized.documents[0].name).toBe('receipt.pdf');
+      expect(sanitized.documents[0].dataUrl).toBeUndefined();
+    });
+
+    it('should handle arrays nested inside arrays', () => {
+      const data = [
+        {
+          id: 'v-001',
+          attachments: [
+            { name: 'photo1.png', dataUrl: 'data:image/png;base64,AAAA...' },
+            { name: 'photo2.png', dataUrl: 'data:image/png;base64,BBBB...' },
+            { name: 'notes.txt' },
+          ],
+        },
+      ];
+
+      const sanitized = sanitizeForStorage(data);
+      expect(sanitized[0].attachments[0].dataUrl).toBeUndefined();
+      expect(sanitized[0].attachments[0].name).toBe('photo1.png');
+      expect(sanitized[0].attachments[1].dataUrl).toBeUndefined();
+      expect(sanitized[0].attachments[2].name).toBe('notes.txt');
+    });
+
+    it('should preserve primitives unchanged', () => {
+      expect(sanitizeForStorage('hello')).toBe('hello');
+      expect(sanitizeForStorage(42)).toBe(42);
+      expect(sanitizeForStorage(true)).toBe(true);
+      expect(sanitizeForStorage(null)).toBeNull();
+      expect(sanitizeForStorage(undefined)).toBeUndefined();
     });
   });
 
