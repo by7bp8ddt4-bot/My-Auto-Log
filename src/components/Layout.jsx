@@ -66,7 +66,7 @@ export default function Layout({ currentPage, onNavigate, onLogout, children }) 
       </header>
 
       {/* Main Content */}
-      <main className="flex-1 max-w-5xl mx-auto w-full px-4 py-6 pb-24">
+      <main className="flex-1 max-w-5xl mx-auto w-full px-4 py-6 pb-24 md:ml-56">
         {children}
       </main>
 

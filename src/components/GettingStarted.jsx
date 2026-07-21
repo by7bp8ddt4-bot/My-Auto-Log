@@ -12,14 +12,16 @@ export default function GettingStarted({ onNavigate, hasVehicles, hasLogs, hasRe
       title: 'Add Your First Vehicle', 
       desc: 'Enter your car details to unlock its maintenance schedule.',
       icon: Car,
-      completed: hasVehicles
+      completed: hasVehicles,
+      action: () => onNavigate('vehicles')
     },
     { 
       id: 'log', 
       title: 'Log a Past Service', 
       desc: 'Add your last oil change to start your digital health record.',
       icon: Wrench,
-      completed: hasLogs
+      completed: hasLogs,
+      action: () => onNavigate('logs')
     },
     { 
       id: 'reminder', 
@@ -31,7 +33,8 @@ export default function GettingStarted({ onNavigate, hasVehicles, hasLogs, hasRe
         : hasReminders ? 'You have reminders set up. Review them anytime.'
         : 'Set up alerts so you never miss a service again.',
       icon: Bell,
-      completed: hasReminders
+      completed: hasReminders,
+      action: () => onNavigate('reminders')
     }
   ];
 
