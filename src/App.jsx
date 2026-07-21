@@ -580,8 +580,9 @@ export default function App() {
       analytics.track('auto_reminders_created', { count: autoReminders.length });
     }
     sync.markChanged();
-    // Redirect to dashboard so GettingStarted reflects step 1 complete
-    if (isFirstVehicle) setPage('dashboard');
+    // No longer redirect to dashboard on first vehicle — user stays on garage
+    // to see their new vehicle appear in the list.
+    // if (isFirstVehicle) setPage('dashboard');
   }, [premium, vehiclesStore, remindersStore, sync, analytics]);
 
   // Add maintenance log
