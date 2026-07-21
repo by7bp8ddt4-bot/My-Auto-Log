@@ -6,13 +6,13 @@ import {
   Bike
 } from 'lucide-react';
 import MTXtrkrLogo from './MTXtrkrLogo';
-import heroImage from '/assets/hero.png';
-import vehicleMgmtImg from '/assets/features/vehicle-mgmt.png';
-import remindersImg from '/assets/features/reminders.png';
-import aiCopilotImg from '/assets/features/ai-copilot.png';
-import analyticsImg from '/assets/features/analytics.png';
-import documentsImg from '/assets/features/documents.png';
-import serviceLogImg from '/assets/features/service-log.png';
+import heroImage from '/assets/hero.webp';
+import vehicleMgmtImg from '/assets/features/vehicle-mgmt.webp';
+import remindersImg from '/assets/features/reminders.webp';
+import aiCopilotImg from '/assets/features/ai-copilot.webp';
+import analyticsImg from '/assets/features/analytics.webp';
+import documentsImg from '/assets/features/documents.webp';
+import serviceLogImg from '/assets/features/service-log.webp';
 
 export default function LandingPage({ onGetStarted, onViewPremium }) {
   return (
@@ -81,7 +81,7 @@ export default function LandingPage({ onGetStarted, onViewPremium }) {
             </div>
             {/* Hero Image */}
             <div className="relative mt-16 max-w-5xl mx-auto rounded-3xl overflow-hidden border border-slate-800 shadow-2xl shadow-blue-500/20 group">
-              <img src={heroImage} alt="MTXtrkr Dashboard" className="w-full h-auto group-hover:scale-[1.01] transition-transform duration-700" />
+              <img src={heroImage} alt="MTXtrkr Dashboard" width="1200" height="675" fetchpriority="high" className="w-full h-auto group-hover:scale-[1.01] transition-transform duration-700" />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent" />
             </div>
           </div>
@@ -111,7 +111,7 @@ export default function LandingPage({ onGetStarted, onViewPremium }) {
             return (
               <div key={feat.title} className="group p-1 rounded-2xl bg-slate-900/40 border border-slate-800 hover:border-blue-500/30 hover:bg-slate-900/60 transition-all duration-300">
                 <div className="aspect-square rounded-xl overflow-hidden mb-4 bg-slate-950">
-                  <img src={feat.img} alt={feat.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 opacity-80 group-hover:opacity-100" />
+                  <img src={feat.img} alt={feat.title} loading="lazy" width="400" height="400" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 opacity-80 group-hover:opacity-100" />
                 </div>
                 <div className="p-4">
                   <h3 className="text-lg font-semibold text-white mb-2">{feat.title}</h3>
