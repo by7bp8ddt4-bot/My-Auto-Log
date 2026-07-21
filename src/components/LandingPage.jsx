@@ -6,6 +6,7 @@ import {
   Bike
 } from 'lucide-react';
 import MTXtrkrLogo from './MTXtrkrLogo';
+import ATVIcon from './ATVIcon';
 import heroImage from '/assets/hero.webp';
 import vehicleMgmtImg from '/assets/features/vehicle-mgmt.webp';
 import remindersImg from '/assets/features/reminders.webp';
@@ -368,15 +369,16 @@ export default function LandingPage({ onGetStarted, onViewPremium }) {
             From Cars to Tractors to Semi-Trucks
           </h2>
           <p className="text-slate-400 max-w-2xl mx-auto">
-            MTXtrkr handles 9 different vehicle types — each with its own maintenance rules, 
+            MTXtrkr handles 10 different vehicle types — each with its own maintenance rules, 
             measurement units, and identification system. All in one dashboard.
           </p>
         </div>
 
-        <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-4 max-w-4xl mx-auto">
+        <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-5 gap-4 max-w-4xl mx-auto">
           {[
             { icon: Car, label: 'Car / Truck', color: 'bg-blue-600/20 text-blue-400' },
             { icon: Bike, label: 'Motorcycle', color: 'bg-slate-800/60 text-slate-300' },
+            { icon: ATVIcon, label: 'ATV', color: 'bg-orange-700/20 text-orange-400' },
             { icon: Tractor, label: 'Ag Equipment', color: 'bg-green-700/20 text-green-400' },
             { icon: Package, label: 'Forklift', color: 'bg-amber-700/20 text-amber-400' },
             { icon: Ship, label: 'Watercraft', color: 'bg-cyan-700/20 text-cyan-400' },
