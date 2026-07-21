@@ -349,13 +349,20 @@ export default function App() {
 
   // Reset initialSyncDone when the user changes (signs in, signs out, or switches accounts)
   // This ensures the sync effect re-runs for every new auth session.
+  // Also clears stale localStorage data from a previous user to prevent
+  // data contamination across accounts on shared devices (QA testing, etc.).
   useEffect(() => {
     setInitialSyncDone(false);
-  }, [auth.user?.id]);
-
-  // Reset pushed IDs when the user changes — new session, fresh sync
-  useEffect(() => {
     pushedIdsRef.current = {};
+    // Clear stale localStorage data from previous user
+    if (auth.user?.id) {
+      for (let i = localStorage.length - 1; i >= 0; i--) {
+        const key = localStorage.key(i);
+        if (key && (key.startsWith('mtxtrkr_') || key.startsWith('supabase_cache_'))) {
+          localStorage.removeItem(key);
+        }
+      }
+    }
   }, [auth.user?.id]);
 
   // On sign-in: two-way sync between Supabase and localStorage.
@@ -396,6 +403,12 @@ export default function App() {
     })();
 
     // Step 2: Pull Supabase data into localStorage (overwrites stale cache).
+    // Clear supabase cache before pull to prevent stale data fallback
+    // from a previous user's session contaminating the current user's data.
+    for (const { key } of syncStores) {
+      const cacheKey = `supabase_cache_${key.replace('mtxtrkr_', '')}`;
+      localStorage.removeItem(cacheKey);
+    }
     // Track whether any data was actually synced — if Supabase is empty (new account),
     // don't mark sync as done so it retries when data arrives from another device.
     let anySynced = false;
