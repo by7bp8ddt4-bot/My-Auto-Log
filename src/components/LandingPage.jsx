@@ -6,10 +6,6 @@ import {
   Bike
 } from 'lucide-react';
 import MTXtrkrLogo from './MTXtrkrLogo';
-import MotorcycleIcon from './MotorcycleIcon';
-import SemiTruckIcon from './SemiTruckIcon';
-import RVIcon from './RVIcon';
-import ATVIcon from './ATVIcon';
 import heroImage from '/assets/hero.webp';
 import vehicleMgmtImg from '/assets/features/vehicle-mgmt.webp';
 import remindersImg from '/assets/features/reminders.webp';
@@ -124,39 +120,6 @@ export default function LandingPage({ onGetStarted, onViewPremium }) {
               </div>
             );
           })}
-        </div>
-      </div>
-
-      {/* 9 Vehicle Types Section */}
-      <div className="max-w-6xl mx-auto px-4 py-20">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
-            From Cars to Tractors to Semi-Trucks
-          </h2>
-          <p className="text-slate-400 max-w-xl mx-auto">
-            MTXtrkr handles 9 different vehicle types — each with its own maintenance rules, measurement units, and identification system. All in one dashboard.
-          </p>
-        </div>
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
-          {[
-            { icon: Car, label: 'Car / Truck' },
-            { icon: MotorcycleIcon, label: 'Motorcycle' },
-            { icon: ATVIcon, label: 'ATV' },
-            { icon: Tractor, label: 'Ag Equipment' },
-            { icon: Package, label: 'Forklift' },
-            { icon: Ship, label: 'Watercraft' },
-            { icon: Anchor, label: 'Outboard' },
-            { icon: Cog, label: 'Marine Diesel' },
-            { icon: SemiTruckIcon, label: 'Semi-Truck' },
-            { icon: RVIcon, label: 'RV' },
-          ].map(item => (
-            <div key={item.label} className="flex flex-col items-center gap-3 p-4 rounded-xl bg-slate-900/40 border border-slate-800 hover:border-blue-500/30 hover:bg-slate-900/60 transition-all duration-300 group">
-              <div className="w-12 h-12 rounded-xl bg-slate-800 flex items-center justify-center text-slate-400 group-hover:text-blue-400 group-hover:bg-slate-700 transition-colors">
-                <item.icon className="w-6 h-6" />
-              </div>
-              <span className="text-xs font-medium text-slate-400 group-hover:text-slate-300 text-center">{item.label}</span>
-            </div>
-          ))}
         </div>
       </div>
 
