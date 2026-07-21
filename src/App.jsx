@@ -637,16 +637,24 @@ export default function App() {
     }
     setPremium(false);
     analytics.track('data_reset', {});
-    // Also delete cloud data if authenticated
+    // Also delete cloud data if authenticated — await all deletions before returning
     if (auth.user?.id) {
-      supabase.from('vehicles').delete().eq('user_id', auth.user.id).then(r => { if (r.error) console.error('[Reset] Failed to delete vehicles:', r.error); }).catch(e => console.error('[Reset] Error deleting vehicles:', e));
-      supabase.from('maintenance_logs').delete().eq('user_id', auth.user.id).then(r => { if (r.error) console.error('[Reset] Failed to delete logs:', r.error); }).catch(e => console.error('[Reset] Error deleting logs:', e));
-      supabase.from('reminders').delete().eq('user_id', auth.user.id).then(r => { if (r.error) console.error('[Reset] Failed to delete reminders:', r.error); }).catch(e => console.error('[Reset] Error deleting reminders:', e));
-      supabase.from('fuel_logs').delete().eq('user_id', auth.user.id).then(r => { if (r.error) console.error('[Reset] Failed to delete fuel logs:', r.error); }).catch(e => console.error('[Reset] Error deleting fuel logs:', e));
-      supabase.from('modifications').delete().eq('user_id', auth.user.id).then(r => { if (r.error) console.error('[Reset] Failed to delete modifications:', r.error); }).catch(e => console.error('[Reset] Error deleting modifications:', e));
+      const tables = ['vehicles', 'maintenance_logs', 'reminders', 'fuel_logs', 'modifications'];
+      const results = await Promise.allSettled(
+        tables.map(table =>
+          supabase.from(table).delete().eq('user_id', auth.user.id)
+        )
+      );
+      results.forEach((r, i) => {
+        if (r.status === 'rejected') {
+          console.error(`[Reset] Failed to delete ${tables[i]}:`, r.reason);
+        } else if (r.value?.error) {
+          console.error(`[Reset] Failed to delete ${tables[i]}:`, r.value.error);
+        }
+      });
     }
     sync.markChanged();
-  }, [vehiclesStore, logsStore, remindersStore, fuelLogsStore, modsStore, sync, analytics, auth.user?.id]);
+    }, [vehiclesStore, logsStore, remindersStore, fuelLogsStore, modsStore, sync, analytics, auth.user?.id]);
 
   // Force sync from cloud — overwrites local data with Supabase data
   // Used when switching devices or when cross-device sync didn't trigger automatically
