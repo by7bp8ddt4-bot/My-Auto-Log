@@ -12,6 +12,7 @@ import ATVIcon from './ATVIcon';
 import { formatCurrency, formatNumber, formatDate, getLocalDateString } from '../utils/helpers';
 import { calculateReminderStatus } from '../utils/helpers';
 import { generateResaleReport } from '../utils/generateReport';
+import { predictMileage } from '../utils/mileagePrediction';
 import MileageTracker from './MileageTracker.jsx';
 import AICopilot from './AICopilot.jsx';
 import GettingStarted from './GettingStarted.jsx';
@@ -71,13 +72,9 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
     })
     .slice(0, 5);
 
-  // Premium AI Mileage Prediction
+  // Premium AI Mileage Prediction — real linear regression on fuel log data
   const aiMileagePrediction = isPremium && activeVehicle
-    ? {
-      predicted: Math.round(activeVehicle.mileage + Math.random() * 150 + 50),
-      weeklyAvg: Math.round(150 + Math.random() * 100),
-      confidence: 85 + Math.floor(Math.random() * 12),
-    }
+    ? predictMileage(fuelLogs, activeVehicle)
     : null;
 
   // Lease Mileage Projector — state & computed values
@@ -478,6 +475,75 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
           </div>
         </div>
       ) : null}
+
+      {/* AI Mileage Prediction Card — Premium */}
+      {isPremium && aiMileagePrediction && (
+        <div className="mb-8 p-5 rounded-2xl bg-gradient-to-r from-blue-600/5 to-cyan-600/5 border border-blue-500/20">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-sm font-semibold text-white flex items-center gap-2">
+              <TrendingUp className="w-4 h-4 text-blue-400" />
+              AI Mileage Prediction
+            </h3>
+            <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${
+              aiMileagePrediction.confidence >= 70 ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' :
+              aiMileagePrediction.confidence >= 40 ? 'bg-amber-500/10 text-amber-400 border border-amber-500/20' :
+              'bg-red-500/10 text-red-400 border border-red-500/20'
+            }`}>
+              {aiMileagePrediction.confidence}% confidence
+            </span>
+          </div>
+
+          <div className="grid grid-cols-3 gap-3 mb-3">
+            <div className="p-3 rounded-xl bg-slate-900/60 border border-slate-800 text-center">
+              <div className="text-[10px] text-slate-500 uppercase tracking-wider">Predicted (1yr)</div>
+              <div className="text-lg font-bold text-blue-400">
+                {formatNumber(aiMileagePrediction.predicted)} {mileageUnit}
+              </div>
+            </div>
+            <div className="p-3 rounded-xl bg-slate-900/60 border border-slate-800 text-center">
+              <div className="text-[10px] text-slate-500 uppercase tracking-wider">Weekly Avg</div>
+              <div className="text-lg font-bold text-blue-400">
+                {formatNumber(aiMileagePrediction.weeklyAvg)} {mileageUnit}
+              </div>
+            </div>
+            <div className="p-3 rounded-xl bg-slate-900/60 border border-slate-800 text-center">
+              <div className="text-[10px] text-slate-500 uppercase tracking-wider">Daily Rate</div>
+              <div className="text-lg font-bold text-blue-400">
+                {aiMileagePrediction.dailyRate} {mileageUnit}
+              </div>
+            </div>
+          </div>
+
+          {aiMileagePrediction.hasNegativeSlope && (
+            <div className="text-[10px] text-amber-400 mt-1 flex items-center gap-1">
+              <AlertTriangle className="w-3 h-3" /> Mileage trend appears flat or declining — verify your odometer entries.
+            </div>
+          )}
+
+          <p className="text-[10px] text-slate-600 mt-2">
+            Based on {aiMileagePrediction.dataPoints?.length || '?'} data points from your fuel logs and vehicle history.
+          </p>
+        </div>
+      )}
+
+      {isPremium && !aiMileagePrediction && vehicleFuelLogs.length === 0 && (
+        <div className="mb-8 p-5 rounded-2xl bg-gradient-to-r from-blue-600/5 to-cyan-600/5 border border-blue-500/20">
+          <div className="flex items-center gap-2 mb-2">
+            <TrendingUp className="w-4 h-4 text-blue-400" />
+            <h3 className="text-sm font-semibold text-white">AI Mileage Prediction</h3>
+          </div>
+          <p className="text-xs text-slate-400 mb-3">
+            Log your first fill-up to unlock real AI-powered mileage predictions based on your driving patterns.
+          </p>
+          <button
+            onClick={() => onNavigate('fuel')}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-blue-600/20 border border-blue-500/30 text-blue-400 text-xs font-medium hover:bg-blue-600/30 transition-all"
+          >
+            <Fuel className="w-3.5 h-3.5" />
+            Log Your First Fill-Up →
+          </button>
+        </div>
+      )}
 
       {/* Maintenance Schedule Card */}
       {activeVehicle && (
