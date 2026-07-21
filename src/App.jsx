@@ -935,6 +935,7 @@ export default function App() {
       }}
       onDelete={(id) => {
         vehiclesStore.remove(id);
+        supabaseVehicles.remove(id);
         sync.markChanged();
       }}
       isPremium={premium}
@@ -951,6 +952,7 @@ export default function App() {
       }}
       onDelete={(id) => {
         logsStore.remove(id);
+        supabaseLogs.remove(id);
         sync.markChanged();
       }}
       onNavigate={navigate}
@@ -968,6 +970,7 @@ export default function App() {
       }}
       onDelete={(id) => {
         remindersStore.remove(id);
+        supabaseReminders.remove(id);
         sync.markChanged();
       }}
       isPremium={premium}
@@ -1002,7 +1005,7 @@ export default function App() {
       logs={fuelLogsStore.data}
       vehicles={vehiclesStore.data}
       onAdd={(data) => { fuelLogsStore.add(data); sync.markChanged(); }}
-      onDelete={(id) => { fuelLogsStore.remove(id); sync.markChanged(); }}
+      onDelete={(id) => { supabaseFuelLogs.remove(id); fuelLogsStore.remove(id); sync.markChanged(); }}
       onUpdate={(id, data) => { fuelLogsStore.updateItem(id, data); sync.markChanged(); }}
       selectedVehicleId={selectedVehicleId}
     />,
@@ -1010,7 +1013,7 @@ export default function App() {
       mods={modsStore.data}
       vehicles={vehiclesStore.data}
       onAdd={(data) => { modsStore.add(data); sync.markChanged(); }}
-      onDelete={(id) => { modsStore.remove(id); sync.markChanged(); }}
+      onDelete={(id) => { supabaseMods.remove(id); modsStore.remove(id); sync.markChanged(); }}
       onNavigate={navigate}
       isPremium={premium}
       selectedVehicleId={selectedVehicleId}
