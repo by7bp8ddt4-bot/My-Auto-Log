@@ -1031,13 +1031,13 @@ export default function App() {
     contact: <ContactSupport
       onNavigate={navigate}
     />,
-    auth: <AuthPage onAuth={auth} />,
+    auth: <AuthPage onAuth={auth} onNavigate={navigate} />,
   };
 
   return (
     <ErrorBoundary>
       <Layout currentPage={page} onNavigate={navigate} onLogout={handleLogout}>
-        {pages[page] || pages.dashboard}
+        {(!isAuthenticated && !auth.loading && page !== 'landing' && page !== 'premium') ? pages.auth : (pages[page] || pages.dashboard)}
       </Layout>
       <SyncIndicator
         isOnline={effectiveOnline}

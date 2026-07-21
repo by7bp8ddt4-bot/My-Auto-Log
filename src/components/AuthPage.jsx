@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Car, Mail, Lock, Loader2, AlertCircle, Eye, EyeOff, Sparkles, ArrowLeft, KeyRound } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 
-export default function AuthPage({ onAuth }) {
+export default function AuthPage({ onAuth, onNavigate }) {
   const [mode, setMode] = useState(() => onAuth.isRecovery ? 'recovery' : 'signin');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -64,9 +64,18 @@ export default function AuthPage({ onAuth }) {
       }
 
       if (mode === 'signup') {
-        if (data?.session) return;
+        if (data?.session) {
+          onNavigate('dashboard');
+          return;
+        }
         setError('Check your email for a confirmation link!');
         setMode('signin');
+        return;
+      }
+
+      // Sign-in success
+      if (mode === 'signin' && data?.session) {
+        onNavigate('dashboard');
       }
     } catch (err) {
       setError('An unexpected error occurred. Please try again.');
