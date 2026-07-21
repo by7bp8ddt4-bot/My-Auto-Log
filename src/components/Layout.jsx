@@ -65,10 +65,41 @@ export default function Layout({ currentPage, onNavigate, onLogout, children }) 
         </div>
       </header>
 
-      {/* Main Content */}
-      <main className="flex-1 max-w-5xl mx-auto w-full px-4 py-6 pb-24 md:ml-56">
-        {children}
-      </main>
+      {/* Desktop layout: sidebar + main content in flex row */}
+      <div className="flex flex-1">
+        {/* Sidebar (Desktop) */}
+        <aside className="hidden md:flex w-56 bg-slate-900/50 border-r border-slate-800 flex-col p-3 shrink-0">
+          <nav className="flex-1 space-y-1">
+            {allNavItems.map(item => {
+              const Icon = item.icon;
+              const isActive = currentPage === item.id;
+              return (
+                <button
+                  key={item.id}
+                  onClick={() => onNavigate(item.id)}
+                  className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${
+                    isActive
+                      ? 'bg-blue-500/15 text-blue-400 shadow-sm'
+                      : 'text-slate-400 hover:text-white hover:bg-slate-800/50'
+                  }`}
+                >
+                  <Icon className="w-4.5 h-4.5" />
+                  <span>{item.label}</span>
+                  {isActive && <ChevronRight className="w-4 h-4 ml-auto" />}
+                </button>
+              );
+            })}
+          </nav>
+          <div className="pt-3 border-t border-slate-800">
+            <p className="text-[10px] text-slate-600 px-3">MTXtrkr v1.0</p>
+          </div>
+        </aside>
+
+        {/* Main Content */}
+        <main className="flex-1 max-w-5xl mx-auto w-full px-4 py-6 pb-24 md:pb-6">
+          {children}
+        </main>
+      </div>
 
       {/* Bottom Navigation (Mobile) */}
       <nav className="fixed bottom-0 left-0 right-0 bg-slate-900/95 backdrop-blur-md border-t border-slate-800 z-40 md:hidden">
@@ -143,34 +174,6 @@ export default function Layout({ currentPage, onNavigate, onLogout, children }) 
           </div>
         </div>
       )}
-
-      {/* Sidebar (Desktop) */}
-      <aside className="hidden md:flex fixed left-0 top-14 bottom-0 w-56 bg-slate-900/50 border-r border-slate-800 flex-col p-3">
-        <nav className="flex-1 space-y-1">
-          {allNavItems.map(item => {
-            const Icon = item.icon;
-            const isActive = currentPage === item.id;
-            return (
-              <button
-                key={item.id}
-                onClick={() => onNavigate(item.id)}
-                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${
-                  isActive
-                    ? 'bg-blue-500/15 text-blue-400 shadow-sm'
-                    : 'text-slate-400 hover:text-white hover:bg-slate-800/50'
-                }`}
-              >
-                <Icon className="w-4.5 h-4.5" />
-                <span>{item.label}</span>
-                {isActive && <ChevronRight className="w-4 h-4 ml-auto" />}
-              </button>
-            );
-          })}
-        </nav>
-        <div className="pt-3 border-t border-slate-800">
-          <p className="text-[10px] text-slate-600 px-3">MTXtrkr v1.0</p>
-        </div>
-      </aside>
     </div>
   );
 }
