@@ -624,7 +624,7 @@ export default function App() {
   }, [remindersStore, sync, analytics]);
 
   // Reset all data
-  const handleReset = useCallback(() => {
+  const handleReset = useCallback(async () => {
     if (!window.confirm('Are you sure? This will permanently delete ALL your data from both the app and the cloud. This cannot be undone.')) return;
     vehiclesStore.update([]);
     logsStore.update([]);
