@@ -362,6 +362,19 @@ export default function App() {
           localStorage.removeItem(key);
         }
       }
+      // One-time cleanup: remove contaminated maintenance_logs from Supabase
+      const CLEANUP_DONE_KEY = 'mtxtrkr_logs_cleanup_done';
+      if (!localStorage.getItem(CLEANUP_DONE_KEY)) {
+        (async () => {
+          const { error } = await supabase
+            .from('maintenance_logs')
+            .delete()
+            .eq('user_id', auth.user.id);
+          if (!error) {
+            localStorage.setItem(CLEANUP_DONE_KEY, 'true');
+          }
+        })();
+      }
     }
   }, [auth.user?.id]);
 
