@@ -69,6 +69,7 @@ export const MAINTENANCE_SCHEDULES = {
         { service: 'Cabin Air Filter', intervalMiles: 15000, intervalMonths: 12, severity: 'low', description: 'Filters out pollen and dust.' },
         { service: 'Brake Fluid Flush', intervalMiles: 30000, intervalMonths: 36, severity: 'medium', description: 'Prevents corrosion in your braking system.' },
         { service: 'Transmission Fluid', intervalMiles: 60000, intervalMonths: 48, severity: 'high', description: 'Fresh fluid prevents expensive repairs.' },
+        { service: 'Valve Adjustment', intervalMiles: 100000, intervalMonths: 96, severity: 'high', description: 'Inspect and adjust valve clearance. Required on K-series and J-series engines.' },
         { service: 'Spark Plugs', intervalMiles: 100000, intervalMonths: 84, severity: 'medium', description: 'Keeps your engine efficient and responsive.' },
       ],
       accord: 'civic', 'cr-v': 'civic', pilot: 'civic'
@@ -81,7 +82,8 @@ export const MAINTENANCE_SCHEDULES = {
         { service: 'Oil & Filter Change', intervalMiles: 7500, intervalMonths: 6, severity: 'medium', description: 'Heavy duty use requires regular oil changes.' },
         { service: 'Tire Rotation', intervalMiles: 7500, intervalMonths: 6, severity: 'low', description: 'Keeps your truck stable.' },
         { service: 'Engine Air Filter', intervalMiles: 30000, intervalMonths: 24, severity: 'low', description: 'Maintains power and fuel efficiency.' },
-        { service: 'Transmission Fluid', intervalMiles: 150000, intervalMonths: 120, severity: 'high', description: 'Modern Ford transmissions have long intervals.' },
+        { service: 'Transmission Fluid', intervalMiles: 150000, intervalMonths: 120, severity: 'high', description: 'Normal use only — see Severe Use schedule if you tow or haul.' },
+        { service: 'Transmission Fluid (Severe Use)', intervalMiles: 60000, intervalMonths: 48, severity: 'high', description: 'Required for trucks used for towing, hauling, off-road, or frequent stop-and-go. Severe-service interval per Ford specification.' },
         { service: 'Coolant Exchange', intervalMiles: 100000, intervalMonths: 72, severity: 'high', description: 'Protects against overheating.' },
         { service: 'Spark Plugs', intervalMiles: 100000, intervalMonths: 72, severity: 'medium', description: 'Prevents misfires.' },
       ],
@@ -167,6 +169,7 @@ export const MAINTENANCE_SCHEDULES = {
         { service: 'Microfilter (Cabin)', intervalMiles: 20000, intervalMonths: 24, severity: 'low', description: 'Keeps the luxury interior fresh.' },
         { service: 'Brake Fluid Flush', intervalMiles: 30000, intervalMonths: 24, severity: 'medium', description: 'Ensures high-performance brakes.' },
         { service: 'Spark Plugs', intervalMiles: 60000, intervalMonths: 72, severity: 'medium', description: 'Prevents performance drop-off.' },
+        { service: 'Transmission Fluid', intervalMiles: 60000, intervalMonths: 96, severity: 'high', description: 'ZF recommends 50,000–75,000 mile intervals. BMW claims "lifetime" but ZF (the transmission manufacturer) disagrees. Critical for 8HP longevity.' },
         { service: 'Vehicle Check', intervalMiles: 30000, intervalMonths: 24, severity: 'low', description: 'Comprehensive health check.' },
       ],
       '5 series': '3 series', x3: '3 series', x5: '3 series'
@@ -277,6 +280,8 @@ export const MAINTENANCE_SCHEDULES = {
         { service: 'Engine Air Filter', intervalMiles: 30000, intervalMonths: 30, severity: 'low', description: 'Keeps boxer engine breathing.' },
         { service: 'Brake Fluid Flush', intervalMiles: 30000, intervalMonths: 30, severity: 'medium', description: 'Maintains braking power.' },
         { service: 'Spark Plugs', intervalMiles: 60000, intervalMonths: 60, severity: 'medium', description: 'Ensures efficient combustion.' },
+        { service: 'Front Differential Fluid', intervalMiles: 30000, intervalMonths: 30, severity: 'high', description: 'Critical for AWD system longevity. Subaru symmetrical AWD depends on both differentials.' },
+        { service: 'Rear Differential Fluid', intervalMiles: 30000, intervalMonths: 30, severity: 'high', description: 'Critical for AWD system longevity.' },
       ],
       forester: 'outback', crosstrek: 'outback', impreza: 'outback'
     }
