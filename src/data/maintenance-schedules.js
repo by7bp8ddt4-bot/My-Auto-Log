@@ -70,6 +70,7 @@ export const MAINTENANCE_SCHEDULES = {
         { service: 'Brake Fluid Flush', intervalMiles: 30000, intervalMonths: 36, severity: 'medium', description: 'Prevents corrosion in your braking system.' },
         { service: 'Transmission Fluid', intervalMiles: 60000, intervalMonths: 48, severity: 'high', description: 'Fresh fluid prevents expensive repairs.' },
         { service: 'Valve Adjustment', intervalMiles: 100000, intervalMonths: 96, severity: 'high', description: 'Inspect and adjust valve clearance. Required on K-series and J-series engines.' },
+        { service: 'Coolant Exchange', intervalMiles: 120000, intervalMonths: 120, severity: 'high', description: 'Honda specifies first change at 120,000 miles / 10 years, then every 60,000 miles / 5 years.' },
         { service: 'Spark Plugs', intervalMiles: 100000, intervalMonths: 84, severity: 'medium', description: 'Keeps your engine efficient and responsive.' },
       ],
       accord: 'civic', 'cr-v': 'civic', pilot: 'civic'
@@ -197,6 +198,7 @@ export const MAINTENANCE_SCHEDULES = {
         { service: 'Cabin Air Filter', intervalMiles: 15000, intervalMonths: 12, severity: 'low', description: 'Keeps cabin air fresh.' },
         { service: 'Brake Fluid Flush', intervalMiles: 45000, intervalMonths: 48, severity: 'medium', description: 'Prevents moisture buildup.' },
         { service: 'Spark Plugs', intervalMiles: 100000, intervalMonths: 120, severity: 'medium', description: 'Long-lasting plugs.' },
+        { service: 'Coolant Exchange', intervalMiles: 120000, intervalMonths: 120, severity: 'high', description: 'Hyundai specifies first change at 120,000 miles / 10 years, then every 30,000 miles / 24 months.' },
       ],
       sonata: 'elantra', tucson: 'elantra', 'santa fe': 'elantra',
       palisade: [
@@ -282,6 +284,7 @@ export const MAINTENANCE_SCHEDULES = {
         { service: 'Spark Plugs', intervalMiles: 60000, intervalMonths: 60, severity: 'medium', description: 'Ensures efficient combustion.' },
         { service: 'Front Differential Fluid', intervalMiles: 30000, intervalMonths: 30, severity: 'high', description: 'Critical for AWD system longevity. Subaru symmetrical AWD depends on both differentials.' },
         { service: 'Rear Differential Fluid', intervalMiles: 30000, intervalMonths: 30, severity: 'high', description: 'Critical for AWD system longevity.' },
+        { service: 'Coolant Exchange', intervalMiles: 137500, intervalMonths: 132, severity: 'high', description: 'Subaru Super Coolant: first change at 137,500 miles / 11 years, then every 75,000 miles / 60 months. Boxer engines are sensitive to cooling system neglect.' },
       ],
       forester: 'outback', crosstrek: 'outback', impreza: 'outback'
     }
