@@ -122,7 +122,7 @@ export function useSupabaseData(tableName, userId, filterColumn = 'user_id') {
     try {
       const { data: result, error: err } = await supabase
         .from(tableName)
-        .insert([snakeItem])
+        .upsert([snakeItem], { onConflict: 'id' })
         .select()
         .single();
 

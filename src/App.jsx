@@ -449,8 +449,8 @@ export default function App() {
 ]);
 
   // Continuous background sync: push local data to Supabase when it changes
-  // Syncs individual items by comparing IDs — pushes only what's missing from Supabase
-  // Tracks pushed IDs in a ref to avoid duplicates even if Supabase hasn't loaded yet
+  // Tracks { id → lastPushedUpdatedAt } so updated items are re-pushed.
+  // Uses upsert (via supabase.add) so both new and modified items sync correctly.
   const pushedIdsRef = useRef({});
   useEffect(() => {
     if (!isAuthenticated || !auth.user?.id) return;
@@ -459,13 +459,20 @@ export default function App() {
       const localData = local.data || [];
       if (localData.length === 0) continue;
 
-      const itemsToSync = localData.filter(item => !pushedIdsRef.current[item.id]);
+      const itemsToSync = localData.filter(item => {
+        const lastPushed = pushedIdsRef.current[item.id];
+        if (!lastPushed) return true; // never pushed
+        // Re-push if item was updated after last push
+        const itemUpdated = item.updatedAt || item.createdAt || '';
+        return itemUpdated > lastPushed;
+      });
       if (itemsToSync.length === 0) continue;
 
       (async () => {
         for (const item of itemsToSync) {
+          const itemTimestamp = item.updatedAt || item.createdAt || new Date().toISOString();
           // Mark as pushed immediately to prevent duplicate attempts
-          pushedIdsRef.current[item.id] = true;
+          pushedIdsRef.current[item.id] = itemTimestamp;
           const { createdAt, updatedAt, ...syncItem } = item;
           try {
             await supabase.add(syncItem);
@@ -488,14 +495,20 @@ export default function App() {
     if (!isAuthenticated || !auth.user?.id) return;
     const handleVisibilityChange = () => {
       if (document.visibilityState === 'hidden') {
-        // Push any unsynced items to Supabase
+        // Push any unsynced (new or updated) items to Supabase
         for (const { local, supabase } of syncStores) {
           const localData = local.data || [];
           if (localData.length === 0) continue;
-          const itemsToSync = localData.filter(item => !pushedIdsRef.current[item.id]);
+          const itemsToSync = localData.filter(item => {
+            const lastPushed = pushedIdsRef.current[item.id];
+            if (!lastPushed) return true;
+            const itemUpdated = item.updatedAt || item.createdAt || '';
+            return itemUpdated > lastPushed;
+          });
           if (itemsToSync.length === 0) continue;
           for (const item of itemsToSync) {
-            pushedIdsRef.current[item.id] = true;
+            const itemTimestamp = item.updatedAt || item.createdAt || new Date().toISOString();
+            pushedIdsRef.current[item.id] = itemTimestamp;
             const { createdAt, updatedAt, ...syncItem } = item;
             supabase.add(syncItem).catch(e => {
               console.error('[VisibilitySync] Push failed:', e);
@@ -694,7 +707,7 @@ export default function App() {
     sync.markChanged();
   }, [auth.user?.id, localVehicles, localLogs, localReminders, localFuelLogs, localMods, sync, analytics]);
 
-  // Force push to cloud — sends local data to Supabase
+  // Force push to cloud — sends all local data to Supabase (new + updated items)
   // Used when the background sync didn't trigger automatically
   const handlePushToCloud = useCallback(async () => {
     if (!auth.user?.id) return;
@@ -708,20 +721,32 @@ export default function App() {
     for (const { local, supabase, table } of stores) {
       const localData = local.data || [];
       if (localData.length === 0) continue;
-      const supabaseIds = new Set((supabase.data || []).map(s => s.id));
-      const itemsToSync = localData.filter(item => !supabaseIds.has(item.id));
+      // Push items that are new OR updated since last cloud sync
+      const supabaseMap = new Map((supabase.data || []).map(s => [s.id, s]));
+      const itemsToSync = localData.filter(item => {
+        const cloud = supabaseMap.get(item.id);
+        if (!cloud) return true; // new item
+        const localUpdated = item.updatedAt || item.createdAt || '';
+        const cloudUpdated = cloud.updatedAt || cloud.createdAt || '';
+        return localUpdated > cloudUpdated; // locally updated
+      });
       if (itemsToSync.length === 0) continue;
+      const now = new Date().toISOString();
       for (const item of itemsToSync) {
         const { createdAt, updatedAt, ...syncItem } = item;
         await supabase.add(syncItem);
+        // Track in push ref so background sync doesn't re-push
+        pushedIdsRef.current[item.id] = item.updatedAt || item.createdAt || now;
       }
     }
-    // Also push premium status
-    localStorage.setItem(STORAGE_KEYS.PREMIUM_STATUS, 'true');
-    await supabase.from('profiles').upsert({ id: auth.user.id, premium: true });
+    // Also push premium status (only if already premium — don't escalate free users)
+    if (premium) {
+      localStorage.setItem(STORAGE_KEYS.PREMIUM_STATUS, 'true');
+      await supabase.from('profiles').upsert({ id: auth.user.id, premium: true });
+    }
     analytics.track('push_to_cloud', {});
     sync.markChanged();
-  }, [auth.user?.id, localVehicles, localLogs, localReminders, localFuelLogs, localMods, supabaseVehicles, supabaseLogs, supabaseReminders, supabaseFuelLogs, supabaseMods, sync, analytics]);
+  }, [auth.user?.id, premium, localVehicles, localLogs, localReminders, localFuelLogs, localMods, supabaseVehicles, supabaseLogs, supabaseReminders, supabaseFuelLogs, supabaseMods, sync, analytics]);
 
   // Delete account — remove all data and sign out
   const handleDeleteAccount = useCallback(async () => {
