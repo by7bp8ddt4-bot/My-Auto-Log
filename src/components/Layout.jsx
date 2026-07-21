@@ -68,7 +68,7 @@ export default function Layout({ currentPage, onNavigate, onLogout, children }) 
       {/* Desktop layout: sidebar + main content in flex row */}
       <div className="flex flex-1">
         {/* Sidebar (Desktop) */}
-        <aside className="hidden md:flex w-56 bg-slate-900/50 border-r border-slate-800 flex-col p-3 shrink-0">
+        <aside className="hidden md:flex w-56 bg-slate-900/50 border-r border-slate-800 flex-col p-3 shrink-0 relative z-10">
           <nav className="flex-1 space-y-1">
             {allNavItems.map(item => {
               const Icon = item.icon;
@@ -96,7 +96,7 @@ export default function Layout({ currentPage, onNavigate, onLogout, children }) 
         </aside>
 
         {/* Main Content */}
-        <main className="flex-1 max-w-5xl mx-auto md:mx-0 w-full px-4 py-6 pb-24 md:pb-6">
+        <main className="flex-1 max-w-5xl mx-auto md:mx-0 w-full px-4 py-6 pb-24 md:pb-6 overflow-x-hidden">
           {children}
         </main>
       </div>
