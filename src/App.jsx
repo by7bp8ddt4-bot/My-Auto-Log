@@ -563,6 +563,7 @@ export default function App() {
       setPage('premium');
       return;
     }
+    const isFirstVehicle = vehiclesStore.data.length === 0; // check before add
     const mileage = parseInt(data.mileage) || 0;
     const vehicleData = { ...data, mileage };
     vehiclesStore.add(vehicleData);
@@ -579,6 +580,8 @@ export default function App() {
       analytics.track('auto_reminders_created', { count: autoReminders.length });
     }
     sync.markChanged();
+    // Redirect to dashboard so GettingStarted reflects step 1 complete
+    if (isFirstVehicle) setPage('dashboard');
   }, [premium, vehiclesStore, remindersStore, sync, analytics]);
 
   // Add maintenance log

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import {
   Car, AlertTriangle, Clock, DollarSign, Bell, Gauge,
   TrendingUp, Wrench, ArrowUpRight, Calendar, Plus, Fuel,
@@ -26,6 +26,13 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
   const [syncDone, setSyncDone] = useState(false);
   const [pushing, setPushing] = useState(false);
   const [pushDone, setPushDone] = useState(false);
+  const [onboardingDismissed, setOnboardingDismissed] = useState(() =>
+    localStorage.getItem('mtxtrkr_onboarding_dismissed') === 'true'
+  );
+  const handleOnboardingDismiss = useCallback(() => {
+    localStorage.setItem('mtxtrkr_onboarding_dismissed', 'true');
+    setOnboardingDismissed(true);
+  }, []);
   // Derive active vehicle from global prop — fall back to first if invalid
   const effectiveVehicleId = (vehicles.find(v => v.id === selectedVehicleId) ? selectedVehicleId : vehicles[0]?.id) || null;
   const activeVehicle = vehicles.find(v => v.id === effectiveVehicleId) || vehicles[0] || null;
@@ -257,9 +264,16 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
       )}
 
       {/* Onboarding Wizard for new users */}
-      {vehicles.length === 0 && (
+      {!onboardingDismissed && !(vehicles.length > 0 && logs.length > 0 && reminders.length > 0) && (
         <div className="mb-8">
-          <GettingStarted onNavigate={onNavigate} />
+          <GettingStarted 
+            onNavigate={onNavigate} 
+            hasVehicles={vehicles.length > 0}
+            hasLogs={logs.length > 0}
+            hasReminders={reminders.length > 0}
+            autoReminderCount={reminders.filter(r => r.autoCreated).length}
+            onDismiss={handleOnboardingDismiss}
+          />
         </div>
       )}
 
