@@ -9,6 +9,7 @@ import { formatNumber, formatDate, generateId, calculateReminderStatus } from '.
 import { DEFAULT_REMINDER_TEMPLATES, VEHICLE_TYPES } from '../utils/constants';
 import { getScheduleForVehicle } from '../data/maintenance-schedules';
 import { isSameService, getLogServiceTypes } from '../hooks/useMaintenanceSchedule';
+import { enrichScheduleWithVinData } from '../utils/scheduleEnrichment';
 import MotorcycleIcon from './MotorcycleIcon';
 import SemiTruckIcon from './SemiTruckIcon';
 import RVIcon from './RVIcon';
@@ -22,41 +23,10 @@ const TYPE_ICONS = { Car, Motorcycle: MotorcycleIcon, ATV: ATVIcon, Tractor: Car
 function computeVehicleSchedule(vehicle, vehicleLogs) {
   if (!vehicle) return [];
   const baseSchedule = getScheduleForVehicle(vehicle.make, vehicle.model);
-
-  // Enrich with VIN data (same logic as useMaintenanceSchedule hook)
-  const schedule = [...baseSchedule];
   const vinData = vehicle.vinDecoded;
 
-  if (vinData?.driveType) {
-    const dt = vinData.driveType.toLowerCase();
-    const is4wd = dt.includes('4wd') || dt.includes('4-wheel') || dt.includes('4x4') || dt.includes('all-wheel') || dt.includes('awd');
-    if (is4wd) {
-      const hasDifferential = schedule.some(s => s.service.toLowerCase().includes('differential'));
-      if (!hasDifferential) {
-        schedule.push(
-          { service: 'Front Differential Fluid', intervalMiles: 50000, intervalMonths: 48, severity: 'medium', description: 'Protects front differential gears.' },
-          { service: 'Rear Differential Fluid', intervalMiles: 50000, intervalMonths: 48, severity: 'medium', description: 'Fresh fluid prevents rear axle gear wear.' },
-        );
-      }
-      if (dt.includes('4wd') || dt.includes('4-wheel') || dt.includes('4x4')) {
-        const hasTransferCase = schedule.some(s => s.service.toLowerCase().includes('transfer case'));
-        if (!hasTransferCase) {
-          schedule.push(
-            { service: 'Transfer Case Fluid', intervalMiles: 50000, intervalMonths: 48, severity: 'medium', description: 'Keeps 4x4 transfer case operating smoothly.' },
-          );
-        }
-      }
-    }
-  }
-
-  if (vinData?.transmission?.toLowerCase().includes('manual')) {
-    const hasClutch = schedule.some(s => s.service.toLowerCase().includes('clutch'));
-    if (!hasClutch) {
-      schedule.push(
-        { service: 'Clutch Inspection', intervalMiles: 60000, intervalMonths: 60, severity: 'medium', description: 'Check clutch wear and adjustment for manual transmission.' },
-      );
-    }
-  }
+  // Enrich with VIN data (shared logic with useMaintenanceSchedule hook)
+  const schedule = enrichScheduleWithVinData([...baseSchedule], vinData);
 
   function parseLocalDate(dateStr) {
     if (!dateStr) return new Date();

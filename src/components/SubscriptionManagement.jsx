@@ -15,7 +15,7 @@ const SUBSCRIPTION_KEYS = {
 export function getSubscriptionData() {
   return {
     plan: localStorage.getItem(SUBSCRIPTION_KEYS.PLAN) || 'monthly',
-    status: localStorage.getItem(SUBSCRIPTION_KEYS.STATUS) || 'active',
+    status: localStorage.getItem(SUBSCRIPTION_KEYS.STATUS) || null,
     nextBilling: localStorage.getItem(SUBSCRIPTION_KEYS.NEXT_BILLING) || null,
   };
 }

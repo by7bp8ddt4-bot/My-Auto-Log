@@ -332,7 +332,7 @@ function VehicleFormModal({ vehicle, onSave, onClose, initialType = 'car', focus
   };
 
   const handleVinChange = (value) => {
-    const maxLen = usesPin ? 17 : 17; // Equipment PINs can be up to 17 chars too
+    const maxLen = 17; // Equipment PINs can be up to 17 chars too
     const cleaned = value.toUpperCase().replace(/[^A-HJ-NPR-Z0-9]/g, '').slice(0, maxLen);
     setForm(f => ({ ...f, vin: cleaned }));
     if (vinState.status !== 'idle') {

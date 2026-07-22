@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0",
   "generatedAt": "2025-07-16",
-  "description": "Mechanic jargon translator — maps common automotive technical terms to plain English explanations. Helps the app turn cryptic mechanic-speak into something any driver can understand.",
+  "description": "Mechanic jargon translator \u2014 maps common automotive technical terms to plain English explanations. Helps the app turn cryptic mechanic-speak into something any driver can understand.",
   "terms": {
     "ABS": {
       "term": "ABS",
@@ -23,7 +23,7 @@
     },
     "Ball Joint": {
       "term": "Ball Joint",
-      "plainEnglish": "A ball-and-socket joint that connects your car's steering knuckle to the control arm. It lets the wheel move up and down AND turn left and right at the same time — like your hip joint.",
+      "plainEnglish": "A ball-and-socket joint that connects your car's steering knuckle to the control arm. It lets the wheel move up and down AND turn left and right at the same time \u2014 like your hip joint.",
       "commonFailures": "Worn = clunking noise, loose steering, uneven tire wear. Failure = wheel falls off."
     },
     "Blow-Off Valve": {
@@ -33,12 +33,12 @@
     },
     "Caliper": {
       "term": "Brake Caliper",
-      "plainEnglish": "The clamp-like component that squeezes your brake pads against the rotor when you press the brake pedal. It's like the clamp on a bicycle's hand brake — but hydraulic instead of cable-operated.",
+      "plainEnglish": "The clamp-like component that squeezes your brake pads against the rotor when you press the brake pedal. It's like the clamp on a bicycle's hand brake \u2014 but hydraulic instead of cable-operated.",
       "commonFailures": "Sticking (car pulls to one side), leaking, seized piston"
     },
     "Cam Phaser": {
       "term": "Cam Phaser / VVT Actuator",
-      "plainEnglish": "A device on the camshaft that adjusts valve timing on the fly — it helps the engine make more power when you accelerate and run smoother at idle. It's like variable timing on a sprinkler system.",
+      "plainEnglish": "A device on the camshaft that adjusts valve timing on the fly \u2014 it helps the engine make more power when you accelerate and run smoother at idle. It's like variable timing on a sprinkler system.",
       "commonFailures": "Rattling noise (especially on Ford 3.5L EcoBoost), Check Engine Light, reduced power"
     },
     "Catalytic Converter": {
@@ -54,13 +54,13 @@
     "CV Axle": {
       "term": "CV Axle / Half Shaft",
       "standsFor": "Constant Velocity Axle",
-      "plainEnglish": "A flexible driveshaft that transfers power from the transmission to the wheels while allowing the suspension to move up and down. The rubber boot protects the grease inside — if it tears, dirt gets in and the joint fails.",
+      "plainEnglish": "A flexible driveshaft that transfers power from the transmission to the wheels while allowing the suspension to move up and down. The rubber boot protects the grease inside \u2014 if it tears, dirt gets in and the joint fails.",
       "commonFailures": "Torn boot (clicking when turning), vibration on acceleration, complete axle failure"
     },
     "CVT": {
       "term": "CVT",
       "standsFor": "Continuously Variable Transmission",
-      "plainEnglish": "A type of automatic transmission that doesn't have fixed gears. Instead, it uses a belt and two pulleys that can change size infinitely, keeping the engine in its most efficient RPM range. It feels like a rubber band stretching — no shift points.",
+      "plainEnglish": "A type of automatic transmission that doesn't have fixed gears. Instead, it uses a belt and two pulleys that can change size infinitely, keeping the engine in its most efficient RPM range. It feels like a rubber band stretching \u2014 no shift points.",
       "commonFailures": "Belt slipping, transmission shudder, complete failure (especially Nissan, 2013-2018)"
     },
     "DI": {
@@ -72,13 +72,8 @@
     "DPF": {
       "term": "DPF",
       "standsFor": "Diesel Particulate Filter",
-      "plainEnglish": "A filter in the exhaust system of diesel vehicles that traps soot particles. It burns them off periodically in a process called 'regeneration' — you'll see a warning light if it's clogged.",
+      "plainEnglish": "A filter in the exhaust system of diesel vehicles that traps soot particles. It burns them off periodically in a process called \"regeneration\" \u2014 you will see a warning light if it is clogged.",
       "commonFailures": "Clogging (short trips prevent regeneration), expensive replacement"
-    },
-    "DPF": {
-      "term": "EcoBoost",
-      "plainEnglish": "Ford's name for their turbocharged, direct-injected gasoline engines. They use smaller displacement engines with turbocharging to get V8 power from a V6 (or V6 power from a 4-cylinder).",
-      "commonFailures": "Cam phaser rattle (3.5L), carbon buildup, intercooler condensation issues"
     },
     "ECT": {
       "term": "ECT Sensor",
@@ -105,7 +100,7 @@
     },
     "Head Gasket": {
       "term": "Head Gasket",
-      "plainEnglish": "A critical seal between the engine block and cylinder head that keeps oil, coolant, and combustion gases separate. When it fails, these fluids mix — often causing white smoke from the exhaust and milky oil.",
+      "plainEnglish": "A critical seal between the engine block and cylinder head that keeps oil, coolant, and combustion gases separate. When it fails, these fluids mix \u2014 often causing white smoke from the exhaust and milky oil.",
       "commonFailures": "Overheating, white smoke, milky oil, coolant loss, rough running"
     },
     "IAC": {
@@ -122,7 +117,7 @@
     },
     "Knock Sensor": {
       "term": "Knock Sensor",
-      "plainEnglish": "A sensor that listens for the 'pinging' sound of engine knock (detonation) — when fuel ignites prematurely in the cylinders. It tells the engine computer to retard timing to prevent engine damage.",
+      "plainEnglish": "A sensor that listens for the 'pinging' sound of engine knock (detonation) \u2014 when fuel ignites prematurely in the cylinders. It tells the engine computer to retard timing to prevent engine damage.",
       "commonFailures": "Faulty sensor = reduced power, poor fuel economy, Check Engine Light"
     },
     "MAF Sensor": {
@@ -139,7 +134,7 @@
     "O2 Sensor": {
       "term": "O2 Sensor",
       "standsFor": "Oxygen Sensor",
-      "plainEnglish": "A sensor in your exhaust that measures how much oxygen is in the exhaust gases. The engine computer uses this to fine-tune the fuel mixture. There are usually two — one before and one after the catalytic converter.",
+      "plainEnglish": "A sensor in your exhaust that measures how much oxygen is in the exhaust gases. The engine computer uses this to fine-tune the fuel mixture. There are usually two \u2014 one before and one after the catalytic converter.",
       "commonFailures": "Sluggish response = poor fuel economy, Check Engine Light, failed emissions test"
     },
     "PCV Valve": {
@@ -151,7 +146,7 @@
     "PTU": {
       "term": "PTU (Ford AWD)",
       "standsFor": "Power Transfer Unit",
-      "plainEnglish": "A gearbox that transfers power from the transmission to the rear wheels in AWD vehicles. On Ford Explorers, it's prone to overheating and failure because it shares fluid with the transmission — and the fluid is often neglected.",
+      "plainEnglish": "A gearbox that transfers power from the transmission to the rear wheels in AWD vehicles. On Ford Explorers, it's prone to overheating and failure because it shares fluid with the transmission \u2014 and the fluid is often neglected.",
       "commonFailures": "Overheating (no dedicated fluid cooler), seal leaks, gear failure ($2k+ replacement)"
     },
     "Rotor": {
@@ -162,7 +157,7 @@
     "Serpentine Belt": {
       "term": "Serpentine Belt / Drive Belt",
       "plainEnglish": "A single long rubber belt that snakes around several pulleys to drive the alternator, power steering pump, AC compressor, and water pump. It's like a fan belt on steroids.",
-      "commonFailures": "Cracks, glazing, fraying — if it snaps, you lose power steering, AC, and battery charging"
+      "commonFailures": "Cracks, glazing, fraying \u2014 if it snaps, you lose power steering, AC, and battery charging"
     },
     "Sway Bar": {
       "term": "Sway Bar Link / Stabilizer Bar Link",
@@ -194,11 +189,11 @@
     "Turbo Lag": {
       "term": "Turbo Lag",
       "plainEnglish": "The slight delay between pressing the gas pedal and the turbocharger building up enough exhaust pressure to deliver boost. It feels like a hesitation before the car 'takes off'.",
-      "commonFailures": "Normal characteristic — excessive lag = boost leak, wastegate issue, or bad turbo"
+      "commonFailures": "Normal characteristic \u2014 excessive lag = boost leak, wastegate issue, or bad turbo"
     },
     "Valve Body": {
       "term": "Valve Body",
-      "plainEnglish": "The hydraulic control center of an automatic transmission — a maze of passages and valves that directs transmission fluid to the right clutches and bands at the right time. It's the 'brain' of the transmission's hydraulics.",
+      "plainEnglish": "The hydraulic control center of an automatic transmission \u2014 a maze of passages and valves that directs transmission fluid to the right clutches and bands at the right time. It's the 'brain' of the transmission's hydraulics.",
       "commonFailures": "Worn passages = harsh shifting, slipping, delayed engagement"
     },
     "VVT": {
@@ -222,6 +217,11 @@
       "standsFor": "Four-Wheel Drive / All-Wheel Drive",
       "plainEnglish": "Systems that send power to all four wheels. 4WD is usually part-time and meant for off-road use (driver selects it). AWD is always on and automatically adjusts power distribution for better traction on any surface.",
       "commonFailures": "Transfer case issues, differential failure, CV axle wear, PTU overheating (Ford)"
+    },
+    "EcoBoost": {
+      "term": "EcoBoost",
+      "plainEnglish": "Ford's name for their turbocharged, direct-injected gasoline engines. They use smaller displacement engines with turbocharging to get V8 power from a V6 (or V6 power from a 4-cylinder).",
+      "commonFailures": "Cam phaser rattle (3.5L), carbon buildup, intercooler condensation issues"
     }
   }
 }

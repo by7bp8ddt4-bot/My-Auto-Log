@@ -10,7 +10,7 @@ export const MAINTENANCE_SCHEDULES = {
     specs: { oil: { viscosity: '0W-20', type: 'Full Synthetic', capacity: '5.0 qt' }, transmission: { type: 'ATF WS', capacity: '4.0 qt' }, coolant: { type: 'Toyota Super Long Life Coolant', capacity: '2.5 gal' }, brakeFluid: { type: 'DOT 3' }, tirePressure: { psi: 35 }, sparkPlugs: { type: 'Iridium', gap: '0.044 in' }, battery: { groupSize: 'Group 35' } },
     models: {
       camry: [
-        { service: 'Oil & Filter Change', intervalMiles: 5000, intervalMonths: 6, severity: 'medium', description: 'Fresh oil keeps your engine internals slippery and cool.' },
+        { service: 'Oil & Filter Change', intervalMiles: 10000, intervalMonths: 12, severity: 'medium', description: "0W-20 full synthetic (normal schedule). Use 5,000 mi / 6 mo for severe service (towing, dusty roads, frequent short trips)." },
         { service: 'Tire Rotation', intervalMiles: 5000, intervalMonths: 6, severity: 'low', description: 'Moving tires around helps them wear evenly.' },
         { service: 'Cabin Air Filter', intervalMiles: 15000, intervalMonths: 12, severity: 'low', description: 'Filters the air you breathe inside the car.' },
         { service: 'Engine Air Filter', intervalMiles: 30000, intervalMonths: 36, severity: 'low', description: 'Keeps dust out so the engine can breathe easy.' },
@@ -37,7 +37,7 @@ export const MAINTENANCE_SCHEDULES = {
       ],
       '4runner': 'toyota.tundra',
       sienna: [
-        { service: 'Oil & Filter Change', intervalMiles: 5000, intervalMonths: 6, severity: 'medium', description: 'Family hauler. 0W-20 full synthetic. Maintains reliability.' },
+        { service: 'Oil & Filter Change', intervalMiles: 10000, intervalMonths: 12, severity: 'medium', description: "0W-20 full synthetic (normal schedule). Use 5,000 mi / 6 mo for severe service (towing, dusty roads, frequent short trips). Family hauler. Maintains reliability." },
         { service: 'Tire Rotation', intervalMiles: 5000, intervalMonths: 6, severity: 'low', description: 'Even wear for minivan safety.' },
         { service: 'Cabin Air Filter', intervalMiles: 15000, intervalMonths: 12, severity: 'low', description: 'Clean air for passengers.' },
         { service: 'Engine Air Filter', intervalMiles: 30000, intervalMonths: 36, severity: 'low', description: 'Better fuel economy on road trips.' },
@@ -73,7 +73,7 @@ export const MAINTENANCE_SCHEDULES = {
         { service: 'Coolant Exchange', intervalMiles: 120000, intervalMonths: 120, severity: 'high', description: 'Honda specifies first change at 120,000 miles / 10 years, then every 60,000 miles / 5 years.' },
         { service: 'Spark Plugs', intervalMiles: 100000, intervalMonths: 84, severity: 'medium', description: 'Keeps your engine efficient and responsive.' },
       ],
-      accord: 'civic', 'cr-v': 'civic', pilot: 'civic'
+      accord: 'civic', 'cr-v': 'civic', pilot: 'civic', odyssey: 'honda.pilot', element: 'honda.cr-v', ridgeline: 'honda.pilot'
     }
   },
   ford: {
@@ -86,14 +86,14 @@ export const MAINTENANCE_SCHEDULES = {
         { service: 'Transmission Fluid', intervalMiles: 150000, intervalMonths: 120, severity: 'high', description: 'Normal use only — see Severe Use schedule if you tow or haul.' },
         { service: 'Transmission Fluid (Severe Use)', intervalMiles: 60000, intervalMonths: 48, severity: 'high', description: 'Required for trucks used for towing, hauling, off-road, or frequent stop-and-go. Severe-service interval per Ford specification.' },
         { service: 'Coolant Exchange', intervalMiles: 100000, intervalMonths: 72, severity: 'high', description: 'Protects against overheating.' },
-        { service: 'Spark Plugs', intervalMiles: 100000, intervalMonths: 72, severity: 'medium', description: 'Prevents misfires.' },
+        { service: 'Spark Plugs', intervalMiles: 100000, intervalMonths: 72, severity: 'medium', description: "Iridium plugs rated for 100k. EcoBoost (2.7L/3.5L) engines benefit from 60k replacements (severe schedule)." },
       ],
       escape: 'f-150', explorer: 'f-150', mustang: 'f-150',
       edge: [
         { service: 'Oil & Filter Change', intervalMiles: 7500, intervalMonths: 6, severity: 'medium', description: 'Ford crossover. 5W-20 full synthetic. Reliable EcoBoost.' },
         { service: 'Tire Rotation', intervalMiles: 7500, intervalMonths: 6, severity: 'low', description: 'Even wear for AWD crossover.' },
         { service: 'Engine Air Filter', intervalMiles: 30000, intervalMonths: 24, severity: 'low', description: 'Better fuel economy.' },
-        { service: 'Spark Plugs', intervalMiles: 100000, intervalMonths: 72, severity: 'medium', description: 'EcoBoost engines need fresh plugs.' },
+        { service: 'Spark Plugs', intervalMiles: 60000, intervalMonths: 60, severity: 'medium', description: "Turbocharged EcoBoost engines are hard on spark plugs. 60k best practice (Ford severe schedule)." },
       ],
       bronco: [
         { service: 'Oil & Filter Change', intervalMiles: 7500, intervalMonths: 6, severity: 'medium', description: 'Off-road legend. 2.3L EcoBoost or 2.7L V6.' },
@@ -101,21 +101,23 @@ export const MAINTENANCE_SCHEDULES = {
         { service: 'Cabin Air Filter', intervalMiles: 20000, intervalMonths: 24, severity: 'low', description: 'Keeps trail dust out.' },
         { service: 'Transfer Case Fluid', intervalMiles: 30000, intervalMonths: 36, severity: 'high', description: '4x4 system essential maintenance.' },
         { service: 'Differential Fluid', intervalMiles: 30000, intervalMonths: 36, severity: 'medium', description: 'Front and rear diff. Off-road use accelerates wear.' },
+        { service: 'Spark Plugs', intervalMiles: 60000, intervalMonths: 60, severity: 'medium', description: "2.3L/2.7L EcoBoost. Turbo DI engines need 60k plug changes." }
       ],
       ranger: [
         { service: 'Oil & Filter Change', intervalMiles: 7500, intervalMonths: 6, severity: 'medium', description: 'Mid-size truck. 2.3L EcoBoost. 5W-20 full synthetic.' },
         { service: 'Tire Rotation', intervalMiles: 7500, intervalMonths: 6, severity: 'low', description: 'Truck tires need regular rotation.' },
         { service: 'Engine Air Filter', intervalMiles: 30000, intervalMonths: 24, severity: 'low', description: 'Dusty job sites need clean filters.' },
         { service: 'Transmission Fluid', intervalMiles: 150000, intervalMonths: 120, severity: 'high', description: '10-speed automatic. Towing stresses transmission.' },
+        { service: 'Spark Plugs', intervalMiles: 60000, intervalMonths: 60, severity: 'medium', description: "2.3L EcoBoost. Replace at 60k for reliable turbo ignition." }
       ],
       transit: 'ford.edge',
       maverick: [
         { service: 'Oil & Filter Change', intervalMiles: 7500, intervalMonths: 6, severity: 'medium', description: 'Compact truck. 2.5L hybrid or 2.0L EcoBoost.' },
         { service: 'Tire Rotation', intervalMiles: 7500, intervalMonths: 6, severity: 'low', description: 'Truck tires need regular rotation.' },
         { service: 'Cabin Air Filter', intervalMiles: 20000, intervalMonths: 24, severity: 'low', description: 'Clean cabin air.' },
-        { service: 'Spark Plugs', intervalMiles: 100000, intervalMonths: 72, severity: 'medium', description: 'EcoBoost needs fresh plugs.' },
+        { service: 'Spark Plugs', intervalMiles: 60000, intervalMonths: 60, severity: 'medium', description: "EcoBoost needs fresh plugs. 60k best practice (Ford severe schedule)." },
       ],
-      focus: 'ford.edge'
+      focus: 'ford.edge', 'f-250': 'ford.f-150', 'f-350': 'ford.f-150', 'e-series': 'ford.transit'
     }
   },
   chevrolet: {
@@ -159,7 +161,7 @@ export const MAINTENANCE_SCHEDULES = {
         { service: 'Spark Plugs', intervalMiles: 97500, intervalMonths: 96, severity: 'medium', description: 'Maximum V8 performance.' },
       ],
       trax: 'chevrolet.equinox',
-      blazer: 'chevrolet.tahoe'
+      blazer: 'chevrolet.tahoe', corvette: 'chevrolet.camaro', impala: 'chevrolet.malibu', express: 'chevrolet.suburban'
     }
   },
   bmw: {
@@ -173,7 +175,7 @@ export const MAINTENANCE_SCHEDULES = {
         { service: 'Transmission Fluid', intervalMiles: 60000, intervalMonths: 96, severity: 'high', description: 'ZF recommends 50,000–75,000 mile intervals. BMW claims "lifetime" but ZF (the transmission manufacturer) disagrees. Critical for 8HP longevity.' },
         { service: 'Vehicle Check', intervalMiles: 30000, intervalMonths: 24, severity: 'low', description: 'Comprehensive health check.' },
       ],
-      '5 series': '3 series', x3: '3 series', x5: '3 series'
+      '5 series': '3 series', x3: '3 series', x5: '3 series', '4 series': 'bmw.3 series'
     }
   },
   mercedes: {
@@ -187,6 +189,25 @@ export const MAINTENANCE_SCHEDULES = {
         { service: 'Transmission Service', intervalMiles: 60000, intervalMonths: 72, severity: 'high', description: 'Essential for transmission longevity.' },
       ],
       'e-class': 'c-class', glc: 'c-class', gle: 'c-class'
+    }
+  },
+  mitsubishi: {
+    specs: { oil: { viscosity: '5W-20', type: 'Full Synthetic', capacity: '4.5 qt' }, transmission: { type: 'Diamond SP-III / CVT', capacity: '4.0 qt' }, coolant: { type: 'Mitsubishi Long Life' }, brakeFluid: { type: 'DOT 3' }, tirePressure: { psi: 33 }, sparkPlugs: { type: 'Iridium', gap: '0.044 in' }, battery: { groupSize: 'Group 35' } },
+    models: {
+      lancer: [
+        { service: 'Oil & Filter Change', intervalMiles: 5000, intervalMonths: 6, severity: 'medium', description: '5W-20 full synthetic keeps the engine running clean.' },
+        { service: 'Tire Rotation', intervalMiles: 5000, intervalMonths: 6, severity: 'low', description: 'Even wear extends tire life.' },
+        { service: 'Cabin Air Filter', intervalMiles: 15000, intervalMonths: 12, severity: 'low', description: 'Clean cabin air for all occupants.' },
+        { service: 'Engine Air Filter', intervalMiles: 15000, intervalMonths: 12, severity: 'low', description: 'Clean air for proper fuel mixture.' },
+        { service: 'Brake Fluid Flush', intervalMiles: 30000, intervalMonths: 24, severity: 'medium', description: 'DOT 3 brake fluid absorbs moisture over time.' },
+        { service: 'Spark Plugs', intervalMiles: 60000, intervalMonths: 60, severity: 'medium', description: 'Iridium plugs — long life, consistent spark.' },
+        { service: 'Transmission Fluid', intervalMiles: 30000, intervalMonths: 36, severity: 'medium', description: 'Diamond SP-III or CVT fluid. Keeps shifts smooth.' },
+        { service: 'Coolant Flush', intervalMiles: 60000, intervalMonths: 60, severity: 'medium', description: 'Mitsubishi Long Life coolant prevents corrosion.' },
+      ],
+      eclipse: 'lancer',
+      montero: 'lancer',
+      '3000gt': 'lancer',
+      galant: 'lancer',
     }
   },
   hyundai: {
@@ -254,7 +275,7 @@ export const MAINTENANCE_SCHEDULES = {
       ],
       murano: 'nissan.altima',
       versa: 'nissan.altima',
-      kicks: 'nissan.altima',
+      kicks: 'nissan.altima', maxima: 'nissan.altima',
       armada: [
         { service: 'Oil & Filter Change', intervalMiles: 5000, intervalMonths: 6, severity: 'medium', description: 'Full-size SUV. 5.6L V8. 0W-20 full synthetic.' },
         { service: 'Tire Rotation', intervalMiles: 5000, intervalMonths: 6, severity: 'low', description: 'Heavy SUV needs regular rotation.' },
@@ -290,7 +311,7 @@ export const MAINTENANCE_SCHEDULES = {
     }
   },
   jeep: {
-    specs: { oil: { viscosity: '5W-20', type: 'Full Synthetic', capacity: '6.0 qt' }, transmission: { type: 'ATF+4 / ZF 8/9 speed', capacity: '4.0 qt' }, coolant: { type: 'Mopar OAT' }, brakeFluid: { type: 'DOT 3' }, tirePressure: { psi: 36 }, sparkPlugs: { type: 'Copper', gap: '0.043 in' }, battery: { groupSize: 'Group 48' } },
+    specs: { oil: { viscosity: '5W-20', type: 'Full Synthetic', capacity: '6.0 qt' }, transmission: { type: 'ATF+4 / ZF 8/9 speed', capacity: '4.0 qt' }, coolant: { type: 'Mopar OAT' }, brakeFluid: { type: 'DOT 3' }, tirePressure: { psi: 36 }, sparkPlugs: { type: 'Iridium', gap: '0.043 in' }, battery: { groupSize: 'Group 48' } },
     models: {
       wrangler: [
         { service: 'Oil & Filter Change', intervalMiles: 8000, intervalMonths: 12, severity: 'medium', description: 'Essential for rugged Jeep engines.' },
@@ -299,11 +320,19 @@ export const MAINTENANCE_SCHEDULES = {
         { service: 'Transfer Case Fluid', intervalMiles: 30000, intervalMonths: 36, severity: 'high', description: 'Crucial for 4x4 health.' },
         { service: 'Spark Plugs', intervalMiles: 100000, intervalMonths: 120, severity: 'medium', description: 'Ensures reliable ignition.' },
       ],
-      'grand cherokee': 'wrangler'
+      'grand cherokee': 'wrangler', compass: 'jeep.wrangler', patriot: 'jeep.wrangler', cherokee: 'jeep.wrangler',
+      'grand wagoneer': [
+        { service: 'Oil & Filter Change', intervalMiles: 8000, intervalMonths: 12, severity: 'medium', description: 'Full-size luxury SUV. 6.4L V8 or 3.0L Hurricane twin-turbo I6. 5W-20 full synthetic.' },
+        { service: 'Tire Rotation', intervalMiles: 8000, intervalMonths: 12, severity: 'low', description: 'Keeps premium tires wearing evenly on this heavy SUV.' },
+        { service: 'Cabin Air Filter', intervalMiles: 20000, intervalMonths: 24, severity: 'low', description: '4-zone climate control needs clean filters.' },
+        { service: 'Transfer Case Fluid', intervalMiles: 30000, intervalMonths: 36, severity: 'high', description: 'Crucial for Quadra-Drive II 4x4 system.' },
+        { service: 'Spark Plugs', intervalMiles: 100000, intervalMonths: 120, severity: 'medium', description: 'Iridium plugs for reliable V8/I6 ignition.' },
+        { service: 'Air Suspension Check', intervalMiles: 0, intervalMonths: 12, severity: 'medium', description: 'Quadra-Lift air suspension. Inspect annually.' },
+      ], wagoneer: 'jeep.grand cherokee'
     }
   },
   ram: {
-    specs: { oil: { viscosity: '5W-20', type: 'Full Synthetic', capacity: '6.0 qt' }, transmission: { type: 'ATF+4 / ZF 8 speed', capacity: '4.0 qt' }, coolant: { type: 'Mopar OAT' }, brakeFluid: { type: 'DOT 3' }, tirePressure: { psi: 38 }, sparkPlugs: { type: 'Copper', gap: '0.043 in' }, battery: { groupSize: 'Group 48' } },
+    specs: { oil: { viscosity: '5W-20', type: 'Full Synthetic', capacity: '6.0 qt' }, transmission: { type: 'ATF+4 / ZF 8 speed', capacity: '4.0 qt' }, coolant: { type: 'Mopar OAT' }, brakeFluid: { type: 'DOT 3' }, tirePressure: { psi: 38 }, sparkPlugs: { type: 'Iridium', gap: '0.043 in' }, battery: { groupSize: 'Group 48' } },
     models: {
       1500: [
         { service: 'Oil & Filter Change', intervalMiles: 8000, intervalMonths: 12, severity: 'medium', description: 'Keeps HEMI or EcoDiesel running strong.' },
@@ -311,7 +340,8 @@ export const MAINTENANCE_SCHEDULES = {
         { service: 'Engine Air Filter', intervalMiles: 30000, intervalMonths: 24, severity: 'low', description: 'Helps truck breathe while towing.' },
         { service: 'Differential Fluid', intervalMiles: 20000, intervalMonths: 24, severity: 'medium', description: 'Towing requires regular diff service.' },
         { service: 'Spark Plugs', intervalMiles: 100000, intervalMonths: 120, severity: 'medium', description: 'Optimal power and fuel economy.' },
-      ]
+      ],
+      '2500': 'ram.1500', '3500': 'ram.1500'
     }
   },
   tesla: {
@@ -360,7 +390,31 @@ export const MAINTENANCE_SCHEDULES = {
         { service: 'Engine Air Filter', intervalMiles: 30000, intervalMonths: 36, severity: 'low', description: 'Better power and gas mileage.' },
         { service: 'Brake Fluid Flush', intervalMiles: 30000, intervalMonths: 24, severity: 'medium', description: 'Responsive Mazda brake feel.' },
       ],
-      'cx-5': 'mazda3', 'cx-9': 'mazda3', 'mx-5 miata': 'mazda3'
+      'cx-5': 'mazda3', 'cx-9': 'mazda3', 'mx-5 miata': 'mazda3', 'cx-30': 'mazda.mazda3', 'cx-50': 'mazda.mazda3', 'cx-90': 'mazda.cx-9', 'mazda6': 'mazda.mazda3', '626': 'mazda.mazda3', 'mx-6': 'mazda.mx-5 miata', protege: 'mazda.mazda3', millenia: 'mazda.mazda3', 'b-series': 'ford.ranger',
+            'rx-7': {
+        specs: {
+          oil: { viscosity: '10W-30', type: 'Conventional', capacity: '4.5 qt', note: 'Rotary engine — check oil every 2nd fill-up. Burns oil by design.' },
+          transmission: { type: 'GL-4 75W-90', capacity: '2.5 qt' },
+          coolant: { type: 'Ethylene glycol (green)', capacity: '9.0 qt' },
+          brakeFluid: { type: 'DOT 3' },
+          tirePressure: { psi: 32 },
+          sparkPlugs: { type: 'NGK BUR7EQP/9EQP (rotary-specific)', gap: '0.039 in' },
+          battery: { groupSize: 'Group 35' }
+        },
+        services: [
+          { service: 'Oil & Filter', intervalMiles: 3000, intervalMonths: 6, severity: 'high', description: 'Rotary engine. Check oil level every 2nd fuel fill-up. Burns oil by design.' },
+          { service: 'Spark Plugs', intervalMiles: 30000, intervalMonths: 36, severity: 'high', description: 'Rotary engines consume spark plugs faster. Use NGK trailing/leading plugs.' },
+          { service: 'Coolant Flush', intervalMiles: 30000, intervalMonths: 36, severity: 'medium', description: 'Rotary engines run hot — fresh coolant is critical.' },
+          { service: 'Transmission Fluid', intervalMiles: 30000, intervalMonths: 36, severity: 'medium', description: 'GL-4 75W-90. Do NOT use GL-5 (damages synchros).' },
+          { service: 'Brake Fluid', intervalMiles: 30000, intervalMonths: 24, severity: 'medium' },
+          { service: 'Air Filter', intervalMiles: 15000, intervalMonths: 12, severity: 'low' },
+          { service: 'Cabin Filter', intervalMiles: 15000, intervalMonths: 12, severity: 'low' },
+          { service: 'Fuel Filter', intervalMiles: 30000, intervalMonths: 36, severity: 'medium' },
+          { service: 'Differential Fluid', intervalMiles: 30000, intervalMonths: 36, severity: 'medium' },
+          { service: 'Tire Rotation', intervalMiles: 5000, intervalMonths: 6, severity: 'low' },
+          { service: 'Ignition Wires', intervalMiles: 60000, intervalMonths: 60, severity: 'medium', description: 'Rotary-specific ignition wires.' }
+        ]
+      }, 'rx-8': 'mazda.rx-7',
     }
   },
   audi: {
@@ -418,7 +472,7 @@ export const MAINTENANCE_SCHEDULES = {
     }
   },
   dodge: {
-    specs: { oil: { viscosity: '5W-20', type: 'Full Synthetic', capacity: '6.0 qt' }, transmission: { type: 'ATF+4 / ZF 8 speed', capacity: '4.0 qt' }, coolant: { type: 'Mopar OAT' }, brakeFluid: { type: 'DOT 3' }, tirePressure: { psi: 36 }, sparkPlugs: { type: 'Copper', gap: '0.043 in' }, battery: { groupSize: 'Group 48' } },
+    specs: { oil: { viscosity: '5W-20', type: 'Full Synthetic', capacity: '6.0 qt' }, transmission: { type: 'ATF+4 / ZF 8 speed', capacity: '4.0 qt' }, coolant: { type: 'Mopar OAT' }, brakeFluid: { type: 'DOT 3' }, tirePressure: { psi: 36 }, sparkPlugs: { type: 'Iridium', gap: '0.043 in' }, battery: { groupSize: 'Group 48' } },
     models: {
       charger: [
         { service: 'Oil & Filter Change', intervalMiles: 8000, intervalMonths: 6, severity: 'medium', description: 'Vital for HEMI or Pentastar engines.' },
@@ -439,7 +493,7 @@ export const MAINTENANCE_SCHEDULES = {
     }
   },
   chrysler: {
-    specs: { oil: { viscosity: '5W-20', type: 'Full Synthetic', capacity: '5.0 qt' }, transmission: { type: 'ATF+4 / ZF 8 speed', capacity: '4.0 qt' }, coolant: { type: 'Mopar OAT' }, brakeFluid: { type: 'DOT 3' }, tirePressure: { psi: 35 }, sparkPlugs: { type: 'Copper', gap: '0.043 in' }, battery: { groupSize: 'Group 48' } },
+    specs: { oil: { viscosity: '5W-20', type: 'Full Synthetic', capacity: '5.0 qt' }, transmission: { type: 'ATF+4 / ZF 8 speed', capacity: '4.0 qt' }, coolant: { type: 'Mopar OAT' }, brakeFluid: { type: 'DOT 3' }, tirePressure: { psi: 35 }, sparkPlugs: { type: 'Iridium', gap: '0.043 in' }, battery: { groupSize: 'Group 48' } },
     models: {
       pacifica: [
         { service: 'Oil & Filter Change', intervalMiles: 8000, intervalMonths: 12, severity: 'medium', description: 'Keeps family mover reliable.' },
@@ -525,7 +579,7 @@ export const MAINTENANCE_SCHEDULES = {
       ],
       'pro xs': 'mercury.verado',
       'fourstroke': 'mercury.verado',
-      'optipop': 'mercury.verado'
+      'optimax': 'mercury.verado'
     }
   },
   kubota: {
@@ -989,7 +1043,7 @@ export const MAINTENANCE_SCHEDULES = {
   buick: {
     specs: { oil: { viscosity: '5W-30', type: 'Dexos Full Synthetic', capacity: '5.0 qt' }, transmission: { type: 'Dexron VI', capacity: '4.0 qt' }, coolant: { type: 'Dex-Cool Orange' }, brakeFluid: { type: 'DOT 3' }, tirePressure: { psi: 34 }, sparkPlugs: { type: 'Iridium', gap: '0.040 in' }, battery: { groupSize: 'Group 48' } },
     models: {
-      enclave: 'chevrolet.silverado', envision: 'chevrolet.silverado', encore: 'chevrolet.silverado', lacrosse: 'chevrolet.silverado'
+      enclave: 'chevrolet.silverado', envision: 'chevrolet.silverado', encore: 'chevrolet.silverado', lacrosse: 'chevrolet.silverado', gnx: 'chevrolet.silverado', riviera: 'chevrolet.silverado', lesabre: 'chevrolet.silverado', 'park avenue': 'chevrolet.silverado', rendezvous: 'chevrolet.silverado'
     }
   },
 
@@ -1017,7 +1071,7 @@ export const MAINTENANCE_SCHEDULES = {
   'john-deere': {
     specs: { oil: { viscosity: '15W-40', type: 'John Deere Plus-50 II', capacity: '5.0 gal' }, transmission: { type: 'Hy-Gard Transmission & Hydraulic Oil' }, coolant: { type: 'John Deere Cool-Gard II' },
       fuelFilters: { type: 'John Deere original' }, oilFilters: { type: 'John Deere original' },
-      airFilter: { type: 'John Deere heavy-duty' }, battery: { groupSize: 'Group 94R' }, tirePressure: { psi: 30 } },
+      airFilter: { type: 'John Deere heavy-duty' }, battery: { groupSize: 'Group 94R' }, tirePressure: { psi: 30, note: '30 psi for ag tractors. XUV/Gator models: 10-15 psi.' } },
     models: {
       // R-Series large row-crop tractors (diesel, hours-based)
       '6r': [
@@ -1224,6 +1278,404 @@ export const MAINTENANCE_SCHEDULES = {
     }
   },
 
+
+  // --- Polaris (powersports: RZR, General, Sportsman, ACE — hours-based) ---
+  polaris: {
+    specs: { oil: { viscosity: '5W-50', type: 'Polaris PS-4 Full Synthetic', capacity: '2.0 qt' }, transmission: { type: 'Polaris AGL / Demand Drive' }, coolant: { type: 'Polaris 50/50 Extended Life' }, brakeFluid: { type: 'DOT 4' }, sparkPlugs: { type: 'NGK Iridium', gap: '0.032 in' }, battery: { groupSize: 'Group 14 (AGM)' }, tirePressure: { psi: 10 }, frontDiff: { type: 'Polaris Demand Drive Fluid' }, rearDiff: { type: 'Polaris ATV Angle Drive Fluid' }, airFilter: { type: 'Polaris OEM paper element' } },
+    models: {
+      rzr: [
+        { service: 'Oil & Filter Change', intervalMiles: 0, intervalMonths: 6, severity: 'high', description: 'Every 50 hours or 6 months. Polaris PS-4 5W-50 full synthetic. ProStar engine.' },
+        { service: 'Front Differential Fluid', intervalMiles: 0, intervalMonths: 12, severity: 'medium', description: 'Every 100 hours or annually. Polaris Demand Drive fluid.' },
+        { service: 'Rear Differential Fluid', intervalMiles: 0, intervalMonths: 12, severity: 'medium', description: 'Every 100 hours or annually. Polaris ATV Angle Drive fluid.' },
+        { service: 'Engine Air Filter', intervalMiles: 0, intervalMonths: 0, severity: 'medium', description: 'Every 50 hours. Clean and inspect. Replace as needed. More often in dusty conditions.' },
+        { service: 'Spark Plugs', intervalMiles: 0, intervalMonths: 0, severity: 'medium', description: 'Every 100 hours. NGK Iridium plugs for reliable starting.' },
+        { service: 'Brake Fluid Flush', intervalMiles: 0, intervalMonths: 24, severity: 'medium', description: 'Every 2 years. DOT 4. Off-road braking generates heat.' },
+        { service: 'Coolant Exchange', intervalMiles: 0, intervalMonths: 24, severity: 'high', description: 'Every 2 years. Polaris 50/50 extended life coolant.' },
+        { service: 'Transmission Fluid', intervalMiles: 0, intervalMonths: 12, severity: 'high', description: 'Every 100 hours or annually. Polaris AGL gearcase lubricant.' },
+        { service: 'CVT Belt Inspection', intervalMiles: 0, intervalMonths: 6, severity: 'medium', description: 'Every 50 hours or 6 months. Check PVT belt for wear, cracking, or glazing.' },
+        { service: 'Suspension & Chassis Lube', intervalMiles: 0, intervalMonths: 6, severity: 'low', description: 'Every 50 hours. Grease all zerks and check A-arm bushings.' },
+        { service: 'Inspection', intervalMiles: 0, intervalMonths: 6, severity: 'low', description: 'Every 50 hours. Full inspection: CV boots, tie rods, brakes, skid plates.' },
+      ],
+      'rzr turbo': 'polaris.rzr', 'rzr xp': 'polaris.rzr', 'rzr pro': 'polaris.rzr', 'rzr trail': 'polaris.rzr', 'rzr 570': 'polaris.rzr', 'rzr 900': 'polaris.rzr', 'rzr 1000': 'polaris.rzr',
+      general: [
+        { service: 'Oil & Filter Change', intervalMiles: 0, intervalMonths: 6, severity: 'high', description: 'Every 50 hours or 6 months. Polaris PS-4 5W-50. General-purpose UTV.' },
+        { service: 'Front Differential Fluid', intervalMiles: 0, intervalMonths: 12, severity: 'medium', description: 'Every 100 hours or annually. Polaris Demand Drive.' },
+        { service: 'Rear Differential Fluid', intervalMiles: 0, intervalMonths: 12, severity: 'medium', description: 'Every 100 hours or annually. Angle Drive fluid.' },
+        { service: 'Engine Air Filter', intervalMiles: 0, intervalMonths: 0, severity: 'medium', description: 'Every 50 hours. Clean and inspect. Dusty work demands clean filters.' },
+        { service: 'Spark Plugs', intervalMiles: 0, intervalMonths: 0, severity: 'medium', description: 'Every 100 hours. NGK Iridium.' },
+        { service: 'Brake Fluid Flush', intervalMiles: 0, intervalMonths: 24, severity: 'medium', description: 'Every 2 years. DOT 4.' },
+        { service: 'Coolant Exchange', intervalMiles: 0, intervalMonths: 24, severity: 'high', description: 'Every 2 years. Polaris 50/50 coolant.' },
+        { service: 'Transmission Fluid', intervalMiles: 0, intervalMonths: 12, severity: 'high', description: 'Every 100 hours or annually. Polaris AGL.' },
+        { service: 'CVT Belt Inspection', intervalMiles: 0, intervalMonths: 6, severity: 'medium', description: 'Every 50 hours. Check PVT belt condition.' },
+        { service: 'Inspection', intervalMiles: 0, intervalMonths: 6, severity: 'low', description: 'Every 50 hours. Full chassis and drivetrain check.' },
+      ],
+      'general xp': 'polaris.general', 'general 1000': 'polaris.general',
+      sportsman: [
+        { service: 'Oil & Filter Change', intervalMiles: 0, intervalMonths: 6, severity: 'high', description: 'Every 50 hours or 6 months. Polaris PS-4 5W-50 full synthetic.' },
+        { service: 'Front Differential Fluid', intervalMiles: 0, intervalMonths: 12, severity: 'medium', description: 'Every 100 hours or annually. Polaris Demand Drive (4x4 models).' },
+        { service: 'Rear Differential Fluid', intervalMiles: 0, intervalMonths: 12, severity: 'medium', description: 'Every 100 hours or annually. Polaris ATV Angle Drive fluid.' },
+        { service: 'Engine Air Filter', intervalMiles: 0, intervalMonths: 0, severity: 'medium', description: 'Every 50 hours. Clean foam filter and re-oil. Replace paper filter yearly.' },
+        { service: 'Spark Plugs', intervalMiles: 0, intervalMonths: 0, severity: 'medium', description: 'Every 100 hours. NGK Iridium plugs.' },
+        { service: 'Brake Fluid Flush', intervalMiles: 0, intervalMonths: 24, severity: 'medium', description: 'Every 2 years. DOT 4. Hand and foot brake circuits.' },
+        { service: 'Coolant Exchange', intervalMiles: 0, intervalMonths: 24, severity: 'high', description: 'Every 2 years. Polaris 50/50 coolant. Liquid-cooled engines only.' },
+        { service: 'Transmission Fluid', intervalMiles: 0, intervalMonths: 12, severity: 'high', description: 'Every 100 hours or annually. Polaris AGL gearcase fluid.' },
+        { service: 'CVT Belt Inspection', intervalMiles: 0, intervalMonths: 6, severity: 'medium', description: 'Every 50 hours. Check CVT belt and clutch operation.' },
+        { service: 'Inspection', intervalMiles: 0, intervalMonths: 6, severity: 'low', description: 'Every 50 hours. Check tie rods, ball joints, A-arm bushings, and skid plates.' },
+      ],
+      'sportsman 450': 'polaris.sportsman', 'sportsman 570': 'polaris.sportsman', 'sportsman 850': 'polaris.sportsman', 'sportsman 1000': 'polaris.sportsman', 'sportsman xp': 'polaris.sportsman', 'sportsman touring': 'polaris.sportsman', scrambler: 'polaris.sportsman',
+      ace: [
+        { service: 'Oil & Filter Change', intervalMiles: 0, intervalMonths: 6, severity: 'high', description: 'Every 50 hours or 6 months. Polaris PS-4 5W-50. Single-seat sport machine.' },
+        { service: 'Engine Air Filter', intervalMiles: 0, intervalMonths: 0, severity: 'medium', description: 'Every 50 hours. Clean and inspect. Tight engine bay needs clean air.' },
+        { service: 'Spark Plugs', intervalMiles: 0, intervalMonths: 0, severity: 'medium', description: 'Every 100 hours. NGK Iridium.' },
+        { service: 'Brake Fluid Flush', intervalMiles: 0, intervalMonths: 24, severity: 'medium', description: 'Every 2 years. DOT 4.' },
+        { service: 'Coolant Exchange', intervalMiles: 0, intervalMonths: 24, severity: 'high', description: 'Every 2 years. Polaris 50/50 coolant.' },
+        { service: 'Transmission Fluid', intervalMiles: 0, intervalMonths: 12, severity: 'high', description: 'Every 100 hours or annually. Polaris AGL.' },
+        { service: 'CVT Belt Inspection', intervalMiles: 0, intervalMonths: 6, severity: 'medium', description: 'Every 50 hours. Check belt and clutch faces.' },
+        { service: 'Inspection', intervalMiles: 0, intervalMonths: 6, severity: 'low', description: 'Every 50 hours. Check suspension, steering, and skid plates.' },
+      ],
+      'ace 570': 'polaris.ace', 'ace 900': 'polaris.ace',
+      ranger: [
+        { service: 'Oil & Filter Change', intervalMiles: 0, intervalMonths: 6, severity: 'high', description: 'Every 50 hours or 6 months. Polaris PS-4 5W-50. Hard-working utility UTV.' },
+        { service: 'Front Differential Fluid', intervalMiles: 0, intervalMonths: 12, severity: 'medium', description: 'Every 100 hours or annually. Polaris Demand Drive fluid.' },
+        { service: 'Rear Differential Fluid', intervalMiles: 0, intervalMonths: 12, severity: 'medium', description: 'Every 100 hours or annually. Polaris Angle Drive fluid.' },
+        { service: 'Engine Air Filter', intervalMiles: 0, intervalMonths: 0, severity: 'medium', description: 'Every 50 hours. Farm and trail dust clogs filters fast.' },
+        { service: 'Spark Plugs', intervalMiles: 0, intervalMonths: 0, severity: 'medium', description: 'Every 100 hours. NGK Iridium plugs.' },
+        { service: 'Brake Fluid Flush', intervalMiles: 0, intervalMonths: 24, severity: 'medium', description: 'Every 2 years. DOT 4.' },
+        { service: 'Coolant Exchange', intervalMiles: 0, intervalMonths: 24, severity: 'high', description: 'Every 2 years. Polaris 50/50 coolant.' },
+        { service: 'Transmission Fluid', intervalMiles: 0, intervalMonths: 12, severity: 'high', description: 'Every 100 hours or annually. Polaris AGL.' },
+        { service: 'CVT Belt Inspection', intervalMiles: 0, intervalMonths: 6, severity: 'medium', description: 'Every 50 hours. Check PVT belt. Heavy loads stress the belt.' },
+        { service: 'Inspection', intervalMiles: 0, intervalMonths: 6, severity: 'low', description: 'Every 50 hours. Full chassis, suspension, and drivetrain check.' },
+      ],
+      'ranger 570': 'polaris.ranger', 'ranger 900': 'polaris.ranger', 'ranger 1000': 'polaris.ranger', 'ranger xp': 'polaris.ranger', 'ranger crew': 'polaris.ranger'
+    }
+  },
+  // --- Pontiac (GM corporate — rebadged Chevrolet/Buick vehicles, 1926–2010) ---
+  pontiac: {
+    specs: { oil: { viscosity: '5W-30', type: 'Dexos Full Synthetic', capacity: '5.0 qt' }, transmission: { type: 'Dexron VI', capacity: '4.0 qt' }, coolant: { type: 'Dex-Cool Orange' }, brakeFluid: { type: 'DOT 3' }, tirePressure: { psi: 34 }, sparkPlugs: { type: 'Iridium', gap: '0.040 in' }, battery: { groupSize: 'Group 48' } },
+    models: {
+      'grand prix': 'chevrolet.silverado',
+      g6: 'chevrolet.silverado',
+      bonneville: 'chevrolet.silverado',
+      'grand am': 'chevrolet.silverado',
+      sunfire: 'chevrolet.silverado',
+      montana: 'chevrolet.silverado',
+      torrent: 'chevrolet.silverado',
+      solstice: [
+        { service: 'Oil & Filter Change', intervalMiles: 7500, intervalMonths: 12, severity: 'medium', description: '2.4L Ecotec or 2.0L turbo. Dexos 5W-30 full synthetic.' },
+        { service: 'Tire Rotation', intervalMiles: 7500, intervalMonths: 12, severity: 'low', description: 'RWD sports car. Staggered fitment — rotation limited.' },
+        { service: 'Engine Air Filter', intervalMiles: 22500, intervalMonths: 24, severity: 'low', description: 'Ecotec engine needs clean air for turbo spool.' },
+        { service: 'Brake Fluid Flush', intervalMiles: 45000, intervalMonths: 36, severity: 'medium', description: 'DOT 3. Sports car braking demands fresh fluid.' },
+        { service: 'Spark Plugs', intervalMiles: 97500, intervalMonths: 96, severity: 'medium', description: 'Iridium plugs. Turbo engines prefer 60k intervals.' },
+        { service: 'Differential Fluid', intervalMiles: 50000, intervalMonths: 48, severity: 'medium', description: 'RWD differential. GL-5 75W-90 synthetic gear oil.' },
+      ],
+      'solstice gxp': 'pontiac.solstice',
+      g8: [
+        { service: 'Oil & Filter Change', intervalMiles: 7500, intervalMonths: 12, severity: 'medium', description: '3.6L V6 or 6.0L V8 (GT/GXP). Dexos 5W-30. Holden engineering.' },
+        { service: 'Tire Rotation', intervalMiles: 7500, intervalMonths: 12, severity: 'low', description: 'RWD sedan. Rotate for even wear on performance tires.' },
+        { service: 'Engine Air Filter', intervalMiles: 30000, intervalMonths: 24, severity: 'low', description: 'V8 needs clean air for LS power.' },
+        { service: 'Transmission Fluid', intervalMiles: 45000, intervalMonths: 48, severity: 'high', description: '6L80 automatic (V8) or 5L40 (V6). Dexron VI.' },
+        { service: 'Brake Fluid Flush', intervalMiles: 45000, intervalMonths: 36, severity: 'medium', description: 'DOT 3. Brembo brakes on GXP need fresh fluid.' },
+        { service: 'Differential Fluid', intervalMiles: 50000, intervalMonths: 48, severity: 'medium', description: 'RWD limited-slip diff. GL-5 75W-90 synthetic.' },
+        { service: 'Spark Plugs', intervalMiles: 97500, intervalMonths: 96, severity: 'medium', description: 'Iridium plugs for GM LS or LY7 V6.' },
+        { service: 'Coolant Exchange', intervalMiles: 100000, intervalMonths: 60, severity: 'high', description: 'Dex-Cool. Holden-spec cooling system.' },
+      ],
+      'g8 gt': 'pontiac.g8', 'g8 gxp': 'pontiac.g8',
+      vibe: [
+        { service: 'Oil & Filter Change', intervalMiles: 5000, intervalMonths: 6, severity: 'medium', description: 'Toyota 1ZZ-FE 1.8L engine. 5W-30. Toyota engineering in Pontiac body.' },
+        { service: 'Tire Rotation', intervalMiles: 5000, intervalMonths: 6, severity: 'low', description: 'Front-wheel drive. Rotate for even wear.' },
+        { service: 'Cabin Air Filter', intervalMiles: 15000, intervalMonths: 12, severity: 'low', description: 'Filters the air you breathe.' },
+        { service: 'Engine Air Filter', intervalMiles: 30000, intervalMonths: 36, severity: 'low', description: 'Toyota 1ZZ-FE engine air filter.' },
+        { service: 'Brake Fluid Flush', intervalMiles: 30000, intervalMonths: 36, severity: 'medium', description: 'DOT 3. Toyota brakes with Pontiac badge.' },
+        { service: 'Spark Plugs', intervalMiles: 120000, intervalMonths: 144, severity: 'medium', description: 'Iridium plugs. Long-life Toyota spec.' },
+        { service: 'Coolant Exchange', intervalMiles: 100000, intervalMonths: 120, severity: 'high', description: 'Toyota Super Long Life Coolant or Dex-Cool (2009+).' },
+      ],
+      'vibe gt': 'pontiac.vibe',
+      firebird: [
+        { service: 'Oil & Filter Change', intervalMiles: 3000, intervalMonths: 3, severity: 'medium', description: 'V6 or V8 (LS1 on 1998–2002). 5W-30 conventional/synthetic. Period-correct: 3k intervals for pre-2000 models.' },
+        { service: 'Tire Rotation', intervalMiles: 5000, intervalMonths: 6, severity: 'low', description: 'RWD muscle car. Rotate if non-staggered.' },
+        { service: 'Engine Air Filter', intervalMiles: 15000, intervalMonths: 12, severity: 'low', description: 'Keep the V8 breathing strong.' },
+        { service: 'Transmission Fluid', intervalMiles: 30000, intervalMonths: 24, severity: 'high', description: '4L60E automatic or T-56 manual. Dexron III/Mercon (auto), ATF (manual).' },
+        { service: 'Brake Fluid Flush', intervalMiles: 30000, intervalMonths: 24, severity: 'medium', description: 'DOT 3. Disc/drum or 4-wheel disc on later models.' },
+        { service: 'Differential Fluid', intervalMiles: 30000, intervalMonths: 36, severity: 'medium', description: 'RWD differential. GL-5 80W-90. Limited-slip additive if equipped.' },
+        { service: 'Spark Plugs', intervalMiles: 30000, intervalMonths: 24, severity: 'medium', description: 'Copper plugs on older models (30k). Iridium on LS1 (100k).' },
+        { service: 'Coolant Exchange', intervalMiles: 50000, intervalMonths: 48, severity: 'high', description: 'Green IAT (pre-1996) or Dex-Cool (1996+). Period-correct antifreeze.' },
+      ],
+      'firebird trans am': 'pontiac.firebird', 'firebird formula': 'pontiac.firebird',
+    }
+  },
+  // --- Plymouth (Chrysler/Mopar corporate, mostly pre-2001 vehicles) ---
+  plymouth: {
+    specs: { oil: { viscosity: '5W-20', type: 'Full Synthetic / 10W-30 Conventional (pre-1990)', capacity: '5.0 qt' }, transmission: { type: 'ATF+4 / Dexron III (older)', capacity: '4.0 qt' }, coolant: { type: 'Mopar OAT / Green IAT (pre-2000)' }, brakeFluid: { type: 'DOT 3' }, tirePressure: { psi: 32 }, sparkPlugs: { type: 'Iridium / Copper (period-correct)', gap: '0.040 in' }, battery: { groupSize: 'Group 34' } },
+    models: {
+      voyager: [
+        { service: 'Oil & Filter Change', intervalMiles: 5000, intervalMonths: 6, severity: 'medium', description: 'Chrysler minivan. 3.3L/3.8L V6. Period recommendation: 5W-30 every 5k miles.' },
+        { service: 'Tire Rotation', intervalMiles: 5000, intervalMonths: 6, severity: 'low', description: 'Minivan tires need even wear for family safety.' },
+        { service: 'Cabin Air Filter', intervalMiles: 15000, intervalMonths: 12, severity: 'low', description: 'Keep the cabin air fresh for passengers.' },
+        { service: 'Engine Air Filter', intervalMiles: 30000, intervalMonths: 24, severity: 'low', description: 'Chrysler V6 needs clean intake air.' },
+        { service: 'Transmission Fluid', intervalMiles: 30000, intervalMonths: 24, severity: 'high', description: '41TE/A604 automatic. ATF+4. Chrysler transmissions need regular service.' },
+        { service: 'Brake Fluid Flush', intervalMiles: 30000, intervalMonths: 24, severity: 'medium', description: 'DOT 3. Family hauler needs safe brakes.' },
+        { service: 'Spark Plugs', intervalMiles: 30000, intervalMonths: 24, severity: 'medium', description: 'Copper plugs for 1990s Chryslers. Replace at 30k.' },
+        { service: 'Coolant Exchange', intervalMiles: 50000, intervalMonths: 48, severity: 'high', description: 'Green IAT (pre-2000) or Mopar HOAT (later). Flush every 50k/4 years.' },
+      ],
+      'grand voyager': 'plymouth.voyager',
+      breeze: 'plymouth.voyager',
+      neon: [
+        { service: 'Oil & Filter Change', intervalMiles: 3000, intervalMonths: 3, severity: 'medium', description: '2.0L SOHC/DOHC. 5W-30. Period-correct: frequent changes for 90s engines.' },
+        { service: 'Tire Rotation', intervalMiles: 5000, intervalMonths: 6, severity: 'low', description: 'Compact car rotation.' },
+        { service: 'Engine Air Filter', intervalMiles: 15000, intervalMonths: 12, severity: 'low', description: '2.0L Chrysler engine air filter.' },
+        { service: 'Transmission Fluid', intervalMiles: 30000, intervalMonths: 24, severity: 'high', description: '31TH 3-speed auto or NV-T350 5-speed manual. ATF+4 (auto), 75W-90 (manual).' },
+        { service: 'Brake Fluid Flush', intervalMiles: 30000, intervalMonths: 24, severity: 'medium', description: 'DOT 3. Disc/drum setup.' },
+        { service: 'Spark Plugs', intervalMiles: 30000, intervalMonths: 24, severity: 'medium', description: 'Copper Champion RC9YC. Replace every 30k.' },
+        { service: 'Timing Belt', intervalMiles: 105000, intervalMonths: 84, severity: 'high', description: '2.0L DOHC: replace timing belt. Interference engine — do NOT skip.' },
+        { service: 'Coolant Exchange', intervalMiles: 50000, intervalMonths: 48, severity: 'high', description: 'Green IAT. Old coolant corrodes Chrysler radiators.' },
+      ],
+      'road runner': [
+        { service: 'Oil & Filter Change', intervalMiles: 3000, intervalMonths: 3, severity: 'medium', description: '383/440/426 HEMI V8. 10W-40 or 20W-50 high-zinc for flat-tappet cams. Classic muscle discipline.' },
+        { service: 'Valve Adjustment', intervalMiles: 6000, intervalMonths: 6, severity: 'medium', description: 'Mechanical lifters on HEMI. Hydraulic on standard V8s — check preload.' },
+        { service: 'Points & Condenser', intervalMiles: 6000, intervalMonths: 6, severity: 'medium', description: 'Chrysler electronic ignition (1972+) or points (pre-1972).' },
+        { service: 'Engine Air Filter', intervalMiles: 12000, intervalMonths: 12, severity: 'low', description: 'Air Grabber hood needs clean filter.' },
+        { service: 'Transmission Fluid', intervalMiles: 30000, intervalMonths: 24, severity: 'high', description: 'TorqueFlite 727 3-speed auto or A-833 4-speed manual. Dexron III (auto), GL-4 80W-90 (manual).' },
+        { service: 'Brake Fluid Flush', intervalMiles: 12000, intervalMonths: 12, severity: 'medium', description: 'DOT 3. Drum brakes all around or disc/drum. 1960s brakes need regular attention.' },
+        { service: 'Differential Fluid', intervalMiles: 30000, intervalMonths: 24, severity: 'medium', description: '8-3/4" or Dana 60 rear axle. GL-5 80W-90. Sure-Grip limited slip needs additive.' },
+        { service: 'Coolant Exchange', intervalMiles: 24000, intervalMonths: 24, severity: 'high', description: 'Green IAT. Big blocks run hot. Clean coolant is essential.' },
+        { service: 'Spark Plugs', intervalMiles: 12000, intervalMonths: 12, severity: 'medium', description: 'Copper core. Gap 0.035". Replace at tune-up for crisp ignition.' },
+        { service: 'Chassis Lube', intervalMiles: 3000, intervalMonths: 3, severity: 'low', description: 'Grease all suspension zerks. Classic Mopars need regular chassis lube.' },
+      ],
+      barracuda: 'plymouth.road runner',
+      cuda: 'plymouth.road runner',
+      superbird: 'plymouth.road runner',
+      gtx: 'plymouth.road runner',
+      duster: 'plymouth.road runner',
+      valiant: [
+        { service: 'Oil & Filter Change', intervalMiles: 3000, intervalMonths: 3, severity: 'medium', description: 'Slant-6 or 273/318 V8. 10W-30 high-zinc. Legendary Slant-6 durability.' },
+        { service: 'Valve Adjustment', intervalMiles: 6000, intervalMonths: 6, severity: 'medium', description: 'Mechanical lifters on Slant-6. Adjust hot: intake 0.010", exhaust 0.020".' },
+        { service: 'Points & Condenser', intervalMiles: 6000, intervalMonths: 6, severity: 'medium', description: 'Chrysler points distributor. Gap 0.017".' },
+        { service: 'Engine Air Filter', intervalMiles: 12000, intervalMonths: 12, severity: 'low', description: 'Slant-6 air filter.' },
+        { service: 'Transmission Fluid', intervalMiles: 30000, intervalMonths: 24, severity: 'high', description: 'TorqueFlite 904 or A-903 3-speed manual. Dexron III (auto), GL-4 (manual).' },
+        { service: 'Brake Fluid Flush', intervalMiles: 12000, intervalMonths: 12, severity: 'medium', description: 'DOT 3. 9" drum brakes all around on early models.' },
+        { service: 'Coolant Exchange', intervalMiles: 24000, intervalMonths: 24, severity: 'high', description: 'Green IAT. Slant-6 cooling system.' },
+        { service: 'Spark Plugs', intervalMiles: 12000, intervalMonths: 12, severity: 'medium', description: 'Champion N12Y copper. Gap 0.035".' },
+        { service: 'Chassis Lube', intervalMiles: 3000, intervalMonths: 3, severity: 'low', description: 'Grease steering linkage, ball joints, and U-joints.' },
+      ],
+      reliant: 'plymouth.valiant',
+      horizon: 'plymouth.valiant',
+      prowler: [
+        { service: 'Oil & Filter Change', intervalMiles: 3000, intervalMonths: 6, severity: 'medium', description: '3.5L SOHC V6 (Chrysler EGG). 5W-30 full synthetic. Aluminum block.' },
+        { service: 'Tire Rotation', intervalMiles: 5000, intervalMonths: 6, severity: 'low', description: 'Staggered fitment — limited rotation. Check tire pressures.' },
+        { service: 'Engine Air Filter', intervalMiles: 15000, intervalMonths: 12, severity: 'low', description: 'Keep the 3.5L breathing clean.' },
+        { service: 'Transmission Fluid', intervalMiles: 30000, intervalMonths: 24, severity: 'high', description: '42LE 4-speed AutoStick transaxle (rear-mounted). ATF+4.' },
+        { service: 'Brake Fluid Flush', intervalMiles: 30000, intervalMonths: 24, severity: 'medium', description: 'DOT 3. Four-wheel disc with performance pads.' },
+        { service: 'Spark Plugs', intervalMiles: 30000, intervalMonths: 24, severity: 'medium', description: 'Copper plugs. Chrysler V6 ignition.' },
+        { service: 'Coolant Exchange', intervalMiles: 50000, intervalMonths: 48, severity: 'high', description: 'Mopar HOAT. Aluminum engine needs corrosion protection.' },
+        { service: 'Suspension Inspection', intervalMiles: 0, intervalMonths: 12, severity: 'medium', description: 'Prowler has unique aluminum suspension. Check for cracks annually.' },
+      ],
+    }
+  },
+  // --- Oldsmobile (GM corporate, 1897–2004) ---
+  oldsmobile: {
+    specs: { oil: { viscosity: '5W-30', type: 'Dexos Full Synthetic', capacity: '5.0 qt' }, transmission: { type: 'Dexron VI', capacity: '4.0 qt' }, coolant: { type: 'Dex-Cool Orange' }, brakeFluid: { type: 'DOT 3' }, tirePressure: { psi: 34 }, sparkPlugs: { type: 'Iridium', gap: '0.040 in' }, battery: { groupSize: 'Group 48' } },
+    models: {
+      alero: 'chevrolet.silverado',
+      intrigue: 'chevrolet.silverado',
+      silhouette: 'chevrolet.silverado',
+      aurora: [
+        { service: 'Oil & Filter Change', intervalMiles: 7500, intervalMonths: 12, severity: 'medium', description: '4.0L Aurora V8 or 3.5L Shortstar V6. Dexos 5W-30. DOHC luxury engine.' },
+        { service: 'Tire Rotation', intervalMiles: 7500, intervalMonths: 12, severity: 'low', description: 'Premium sedan tire rotation.' },
+        { service: 'Cabin Air Filter', intervalMiles: 15000, intervalMonths: 12, severity: 'low', description: 'Luxury cabin air quality.' },
+        { service: 'Engine Air Filter', intervalMiles: 22500, intervalMonths: 24, severity: 'low', description: 'Aurora V8 needs clean breathing.' },
+        { service: 'Transmission Fluid', intervalMiles: 45000, intervalMonths: 48, severity: 'high', description: '4T80-E heavy-duty transaxle. Dexron VI. Oldsmobile flagship.' },
+        { service: 'Brake Fluid Flush', intervalMiles: 45000, intervalMonths: 36, severity: 'medium', description: 'DOT 3. Four-wheel disc with ABS.' },
+        { service: 'Spark Plugs', intervalMiles: 97500, intervalMonths: 96, severity: 'medium', description: 'Iridium plugs. DOHC engine spark plug access is tight.' },
+        { service: 'Coolant Exchange', intervalMiles: 100000, intervalMonths: 60, severity: 'high', description: 'Dex-Cool. Northstar-derived V8 is sensitive to cooling neglect.' },
+      ],
+      bravada: [
+        { service: 'Oil & Filter Change', intervalMiles: 7500, intervalMonths: 12, severity: 'medium', description: '4.2L Atlas I6. Dexos 5W-30. GMT360 platform flagship.' },
+        { service: 'Tire Rotation', intervalMiles: 7500, intervalMonths: 12, severity: 'low', description: 'AWD SUV rotation.' },
+        { service: 'Engine Air Filter', intervalMiles: 30000, intervalMonths: 24, severity: 'low', description: 'Atlas I6 needs clean air for smooth power.' },
+        { service: 'Transmission Fluid', intervalMiles: 45000, intervalMonths: 48, severity: 'high', description: '4L60E automatic. Dexron VI. AWD demands fresh fluid.' },
+        { service: 'Transfer Case Fluid', intervalMiles: 50000, intervalMonths: 48, severity: 'medium', description: 'SmartTrak AWD transfer case. Auto-Trak II fluid.' },
+        { service: 'Brake Fluid Flush', intervalMiles: 45000, intervalMonths: 36, severity: 'medium', description: 'DOT 3. SUV braking with trailer tow package.' },
+        { service: 'Spark Plugs', intervalMiles: 97500, intervalMonths: 96, severity: 'medium', description: 'Iridium plugs for Atlas I6.' },
+        { service: 'Coolant Exchange', intervalMiles: 100000, intervalMonths: 60, severity: 'high', description: 'Dex-Cool. Atlas I6 engine.' },
+      ],
+      cutlass: [
+        { service: 'Oil & Filter Change', intervalMiles: 3000, intervalMonths: 3, severity: 'medium', description: 'Cutlass spans decades. 1970s: Rocket V8 10W-40 high-zinc. 1990s: 3.1L V6 5W-30. Adjust by era.' },
+        { service: 'Tire Rotation', intervalMiles: 5000, intervalMonths: 6, severity: 'low', description: 'Keep tires wearing evenly.' },
+        { service: 'Engine Air Filter', intervalMiles: 12000, intervalMonths: 12, severity: 'low', description: 'Replace based on era: 12k for classic, 30k for modern.' },
+        { service: 'Transmission Fluid', intervalMiles: 30000, intervalMonths: 24, severity: 'high', description: 'TH350/TH400 (classic) or 4T60-E (modern). Dexron III/VI by era.' },
+        { service: 'Brake Fluid Flush', intervalMiles: 30000, intervalMonths: 24, severity: 'medium', description: 'DOT 3. Front disc/rear drum on most years.' },
+        { service: 'Spark Plugs', intervalMiles: 30000, intervalMonths: 24, severity: 'medium', description: 'Copper for classic (30k), Iridium for 1990s+ (100k).' },
+        { service: 'Coolant Exchange', intervalMiles: 24000, intervalMonths: 24, severity: 'high', description: 'Green IAT (classic) or Dex-Cool (1996+). Flush based on era.' },
+        { service: 'Differential Fluid', intervalMiles: 30000, intervalMonths: 36, severity: 'medium', description: 'RWD models (classic). GL-5 80W-90.' },
+      ],
+      'cutlass supreme': 'oldsmobile.cutlass', 'cutlass ciera': 'oldsmobile.cutlass',
+      '442': 'oldsmobile.cutlass',
+      'delta 88': 'oldsmobile.cutlass',
+      88: 'oldsmobile.cutlass',
+      98: 'oldsmobile.cutlass',
+      toronado: 'oldsmobile.cutlass',
+    }
+  },
+  // --- AMC (American Motors Corporation, 1954–1987 — absorbed by Chrysler) ---
+  amc: {
+    specs: { oil: { viscosity: '10W-30', type: 'Conventional High-Zinc (flat-tappet cams)', capacity: '5.0 qt' }, transmission: { type: 'Dexron III (auto) / GL-4 80W-90 (manual)', capacity: '4.0 qt' }, coolant: { type: 'Green IAT Coolant', capacity: '2.5 gal' }, brakeFluid: { type: 'DOT 3' }, tirePressure: { psi: 30 }, sparkPlugs: { type: 'Copper Core', gap: '0.035 in' }, battery: { groupSize: 'Group 24F' } },
+    models: {
+      eagle: [
+        { service: 'Oil & Filter Change', intervalMiles: 3000, intervalMonths: 3, severity: 'medium', description: '258ci I6 or 4.2L. 10W-30 high-zinc. AMC inline-6 is legendary. Period-correct 3k changes.' },
+        { service: 'Valve Adjustment', intervalMiles: 12000, intervalMonths: 12, severity: 'medium', description: 'AMC I6 hydraulic lifters. Check lifter preload every 12k.' },
+        { service: 'Points & Condenser', intervalMiles: 6000, intervalMonths: 6, severity: 'medium', description: 'Motorcraft or Prestolite electronic ignition (1978+). Pre-1978: points gap 0.016".' },
+        { service: 'Engine Air Filter', intervalMiles: 12000, intervalMonths: 12, severity: 'low', description: 'AMC 258ci air filter. Clean regularly in dusty conditions.' },
+        { service: 'Transmission Fluid', intervalMiles: 30000, intervalMonths: 24, severity: 'high', description: 'TorqueFlite 998/727 auto or T-4/T-5 manual. Dexron III (auto), GL-4 80W-90 (manual).' },
+        { service: 'Transfer Case Fluid', intervalMiles: 30000, intervalMonths: 24, severity: 'high', description: 'NP129 "Select-Drive" or NP119 full-time 4WD. Dexron III ATF for transfer case.' },
+        { service: 'Front Differential Fluid', intervalMiles: 30000, intervalMonths: 24, severity: 'medium', description: 'Dana 30 IFS. GL-5 80W-90.' },
+        { service: 'Rear Differential Fluid', intervalMiles: 30000, intervalMonths: 24, severity: 'medium', description: 'AMC Model 35 or Dana 35 rear axle. GL-5 80W-90.' },
+        { service: 'Brake Fluid Flush', intervalMiles: 12000, intervalMonths: 12, severity: 'medium', description: 'DOT 3. Front disc/rear drum. AMC brake parts are getting rare.' },
+        { service: 'Coolant Exchange', intervalMiles: 24000, intervalMonths: 24, severity: 'high', description: 'Green IAT. I6 engine with cast iron block and head. Corrosion protection is critical.' },
+        { service: 'Spark Plugs', intervalMiles: 12000, intervalMonths: 12, severity: 'medium', description: 'Champion RFN14LY copper. Gap 0.035". Replace at annual tune-up.' },
+        { service: 'Chassis Lube', intervalMiles: 3000, intervalMonths: 3, severity: 'low', description: 'Grease all zerks. Eagle had unique front suspension with CV joints.' },
+        { service: 'Vacuum System Check', intervalMiles: 0, intervalMonths: 6, severity: 'medium', description: 'AMC Eagle uses vacuum-operated 4WD and HVAC. Check lines and actuators.' },
+      ],
+      'eagle sx/4': 'amc.eagle', 'eagle wagon': 'amc.eagle',
+      concord: 'amc.eagle',
+      spirit: 'amc.eagle',
+      hornet: [
+        { service: 'Oil & Filter Change', intervalMiles: 3000, intervalMonths: 3, severity: 'medium', description: '232ci/258ci I6 or 304ci V8. 10W-30 high-zinc. AMC engineering.' },
+        { service: 'Valve Adjustment', intervalMiles: 12000, intervalMonths: 12, severity: 'medium', description: 'AMC I6 hydraulic / V8 hydraulic. Check preload.' },
+        { service: 'Points & Condenser', intervalMiles: 6000, intervalMonths: 6, severity: 'medium', description: 'Prestolite points distributor (1970–1974). Electronic ignition 1975+. Gap 0.016".' },
+        { service: 'Engine Air Filter', intervalMiles: 12000, intervalMonths: 12, severity: 'low', description: 'Round air cleaner housing. Replace annually.' },
+        { service: 'Transmission Fluid', intervalMiles: 30000, intervalMonths: 24, severity: 'high', description: 'TorqueFlite 904/727 or Borg-Warner auto. Dexron III (auto). GL-4 (manual).' },
+        { service: 'Brake Fluid Flush', intervalMiles: 12000, intervalMonths: 12, severity: 'medium', description: 'DOT 3. Drum brakes all around on base — disc front on later models.' },
+        { service: 'Differential Fluid', intervalMiles: 30000, intervalMonths: 24, severity: 'medium', description: 'AMC Model 20 or 15 rear axle. GL-5 80W-90.' },
+        { service: 'Coolant Exchange', intervalMiles: 24000, intervalMonths: 24, severity: 'high', description: 'Green IAT. Cast iron block.' },
+        { service: 'Spark Plugs', intervalMiles: 12000, intervalMonths: 12, severity: 'medium', description: 'Champion copper. Gap 0.035".' },
+        { service: 'Chassis Lube', intervalMiles: 3000, intervalMonths: 3, severity: 'low', description: 'Lube all suspension and steering joints.' },
+      ],
+      gremlin: 'amc.hornet',
+      pacer: [
+        { service: 'Oil & Filter Change', intervalMiles: 3000, intervalMonths: 3, severity: 'medium', description: '232ci/258ci I6. 10W-30 high-zinc. The "flying fishbowl" engine.' },
+        { service: 'Valve Adjustment', intervalMiles: 12000, intervalMonths: 12, severity: 'medium', description: 'AMC I6 hydraulic lifters.' },
+        { service: 'Points & Condenser', intervalMiles: 6000, intervalMonths: 6, severity: 'medium', description: 'Prestolite electronic ignition (standard from 1975).' },
+        { service: 'Engine Air Filter', intervalMiles: 12000, intervalMonths: 12, severity: 'low', description: 'Tight engine bay — check filter access.' },
+        { service: 'Transmission Fluid', intervalMiles: 30000, intervalMonths: 24, severity: 'high', description: 'TorqueFlite 998 auto or T-150 3-speed manual. Dexron (auto), GL-4 (manual).' },
+        { service: 'Brake Fluid Flush', intervalMiles: 12000, intervalMonths: 12, severity: 'medium', description: 'DOT 3. Front disc/rear drum.' },
+        { service: 'Differential Fluid', intervalMiles: 30000, intervalMonths: 24, severity: 'medium', description: 'AMC Model 15 rear axle (no V8 option on Pacer). GL-5 80W-90.' },
+        { service: 'Coolant Exchange', intervalMiles: 24000, intervalMonths: 24, severity: 'high', description: 'Green IAT.' },
+        { service: 'Spark Plugs', intervalMiles: 12000, intervalMonths: 12, severity: 'medium', description: 'Champion copper. Gap 0.035".' },
+        { service: 'Door Hinge Check', intervalMiles: 0, intervalMonths: 12, severity: 'low', description: 'Pacer has a famously heavy passenger door. Check hinges annually.' },
+      ],
+      javelin: [
+        { service: 'Oil & Filter Change', intervalMiles: 3000, intervalMonths: 3, severity: 'medium', description: '290/304/343/360/390/401ci V8 or 232/258ci I6. 10W-40 or 20W-50 high-zinc for flat-tappet cams.' },
+        { service: 'Valve Adjustment', intervalMiles: 12000, intervalMonths: 12, severity: 'medium', description: 'Hydraulic lifters on most AMC V8s. Solid on 390/401 — adjust hot: 0.012" intake, 0.018" exhaust.' },
+        { service: 'Points & Condenser', intervalMiles: 6000, intervalMonths: 6, severity: 'medium', description: 'Prestolite dual-point (performance) or Motorcraft electronic. Gap per distributor spec.' },
+        { service: 'Engine Air Filter', intervalMiles: 6000, intervalMonths: 6, severity: 'low', description: 'Performance air cleaner. Ram Air on AMX.' },
+        { service: 'Transmission Fluid', intervalMiles: 30000, intervalMonths: 24, severity: 'high', description: 'TorqueFlite 727 auto or Borg-Warner T-10 4-speed manual. Dexron III (auto), GL-4 80W-90 (manual).' },
+        { service: 'Brake Fluid Flush', intervalMiles: 12000, intervalMonths: 12, severity: 'medium', description: 'DOT 3. Disc front/drum rear on most V8 models. AMX got 4-piston front discs.' },
+        { service: 'Differential Fluid', intervalMiles: 30000, intervalMonths: 24, severity: 'medium', description: 'AMC Model 20 with Twin-Grip limited-slip option. GL-5 80W-90 + friction modifier if LS.' },
+        { service: 'Coolant Exchange', intervalMiles: 24000, intervalMonths: 24, severity: 'high', description: 'Green IAT. Big AMC V8s need cooling system health.' },
+        { service: 'Spark Plugs', intervalMiles: 12000, intervalMonths: 12, severity: 'medium', description: 'Champion copper. V8 gap 0.035". Performance models may prefer Autolite.' },
+        { service: 'Chassis Lube', intervalMiles: 3000, intervalMonths: 3, severity: 'low', description: 'Grease front suspension, U-joints, and steering linkage.' },
+      ],
+      amx: 'amc.javelin',
+      matador: [
+        { service: 'Oil & Filter Change', intervalMiles: 3000, intervalMonths: 3, severity: 'medium', description: '258ci I6, 304/360ci V8. 10W-30 high-zinc. AMC full-size car.' },
+        { service: 'Valve Adjustment', intervalMiles: 12000, intervalMonths: 12, severity: 'medium', description: 'Hydraulic lifters on I6 and V8.' },
+        { service: 'Points & Condenser', intervalMiles: 6000, intervalMonths: 6, severity: 'medium', description: 'Prestolite electronic ignition.' },
+        { service: 'Engine Air Filter', intervalMiles: 12000, intervalMonths: 12, severity: 'low', description: 'Full-size air filter element.' },
+        { service: 'Transmission Fluid', intervalMiles: 30000, intervalMonths: 24, severity: 'high', description: 'TorqueFlite 727 or 998. Dexron III.' },
+        { service: 'Brake Fluid Flush', intervalMiles: 12000, intervalMonths: 12, severity: 'medium', description: 'DOT 3. Front disc/rear drum.' },
+        { service: 'Differential Fluid', intervalMiles: 30000, intervalMonths: 24, severity: 'medium', description: 'AMC Model 20 rear axle. GL-5 80W-90.' },
+        { service: 'Coolant Exchange', intervalMiles: 24000, intervalMonths: 24, severity: 'high', description: 'Green IAT.' },
+        { service: 'Spark Plugs', intervalMiles: 12000, intervalMonths: 12, severity: 'medium', description: 'Champion copper. Gap 0.035".' },
+        { service: 'Chassis Lube', intervalMiles: 3000, intervalMonths: 3, severity: 'low', description: 'Full-size sedan chassis lube.' },
+      ],
+      ambassador: 'amc.matador',
+      'cj-7': [
+        { service: 'Oil & Filter Change', intervalMiles: 3000, intervalMonths: 3, severity: 'medium', description: '258ci I6 or 304ci V8. 10W-30 high-zinc. AMC-era Jeep. Legendary off-road.' },
+        { service: 'Valve Adjustment', intervalMiles: 12000, intervalMonths: 12, severity: 'medium', description: 'AMC I6 hydraulic lifters. Check preload.' },
+        { service: 'Engine Air Filter', intervalMiles: 6000, intervalMonths: 6, severity: 'medium', description: 'Off-road dust means frequent air filter checks. Clean or replace.' },
+        { service: 'Transmission Fluid', intervalMiles: 30000, intervalMonths: 24, severity: 'high', description: 'T-176 4-speed manual or TorqueFlite 999 auto. GL-4 (manual), Dexron III (auto).' },
+        { service: 'Transfer Case Fluid', intervalMiles: 30000, intervalMonths: 24, severity: 'high', description: 'Dana 300 transfer case. GL-5 80W-90 or ATF depending on year. Check spec.' },
+        { service: 'Front Differential Fluid', intervalMiles: 30000, intervalMonths: 24, severity: 'medium', description: 'Dana 30 front axle. GL-5 80W-90.' },
+        { service: 'Rear Differential Fluid', intervalMiles: 30000, intervalMonths: 24, severity: 'medium', description: 'AMC Model 20 or Dana 44 rear axle. GL-5 80W-90.' },
+        { service: 'Brake Fluid Flush', intervalMiles: 12000, intervalMonths: 12, severity: 'medium', description: 'DOT 3. Front disc/rear drum.' },
+        { service: 'Coolant Exchange', intervalMiles: 24000, intervalMonths: 24, severity: 'high', description: 'Green IAT. AMC I6 cooling is vital for trail reliability.' },
+        { service: 'Spark Plugs', intervalMiles: 12000, intervalMonths: 12, severity: 'medium', description: 'Champion copper. Gap 0.035".' },
+        { service: 'Chassis & U-Joint Lube', intervalMiles: 3000, intervalMonths: 3, severity: 'medium', description: 'Grease all U-joints, steering linkage, and driveshaft slip yokes.' },
+      ],
+      'cj-5': 'amc.cj-7', 'cj-8 scrambler': 'amc.cj-7',
+      wagoneer: [
+        { service: 'Oil & Filter Change', intervalMiles: 3000, intervalMonths: 3, severity: 'medium', description: '360ci/401ci V8 or 258ci I6. 10W-30 high-zinc. The original luxury SUV.' },
+        { service: 'Valve Adjustment', intervalMiles: 12000, intervalMonths: 12, severity: 'medium', description: 'AMC V8 hydraulic lifters.' },
+        { service: 'Engine Air Filter', intervalMiles: 12000, intervalMonths: 12, severity: 'low', description: 'Full-size SUV air filter.' },
+        { service: 'Transmission Fluid', intervalMiles: 30000, intervalMonths: 24, severity: 'high', description: 'TorqueFlite 727 or 999 auto. Dexron III.' },
+        { service: 'Transfer Case Fluid', intervalMiles: 30000, intervalMonths: 24, severity: 'high', description: 'NP208 or NP228/229 (Selec-Trac). ATF for chain-driven cases.' },
+        { service: 'Front Differential Fluid', intervalMiles: 30000, intervalMonths: 24, severity: 'medium', description: 'Dana 44 front axle. GL-5 80W-90.' },
+        { service: 'Rear Differential Fluid', intervalMiles: 30000, intervalMonths: 24, severity: 'medium', description: 'AMC Model 20 or Dana 44 rear. GL-5 80W-90.' },
+        { service: 'Brake Fluid Flush', intervalMiles: 12000, intervalMonths: 12, severity: 'medium', description: 'DOT 3. Front disc/rear drum.' },
+        { service: 'Coolant Exchange', intervalMiles: 24000, intervalMonths: 24, severity: 'high', description: 'Green IAT. Big V8 in a big SUV.' },
+        { service: 'Spark Plugs', intervalMiles: 12000, intervalMonths: 12, severity: 'medium', description: 'Champion copper. Gap 0.035".' },
+        { service: 'Chassis Lube', intervalMiles: 3000, intervalMonths: 3, severity: 'low', description: 'Full-size SUV needs all zerks greased. Steering, driveshafts, U-joints.' },
+        { service: 'Rust Inspection', intervalMiles: 0, intervalMonths: 12, severity: 'low', description: 'Wagoneer rusts in floors, rockers, and rear quarters. Annual check.' },
+      ],
+      'grand wagoneer': 'amc.wagoneer',
+      'cherokee xj': 'amc.wagoneer',
+    }
+  },
+  // --- Yanmar Ag (agricultural tractors and equipment — separate from Yanmar marine) ---
+  'yanmar-ag': {
+    specs: { oil: { viscosity: '15W-40', type: 'Diesel Engine Oil CJ-4', capacity: '1.5 gal' }, transmission: { type: 'Yanmar TF500A Hydraulic/Transmission Fluid' }, coolant: { type: 'Yanmar Long Life Coolant' },
+      fuelFilters: { type: 'Yanmar original' }, oilFilters: { type: 'Yanmar original' },
+      airFilter: { type: 'Yanmar heavy-duty dry' }, hydraulicFilter: { type: 'Yanmar HST/hydraulic filter' },
+      battery: { groupSize: 'Group 27' }, tirePressure: { psi: '22 (rear) / 30 (front)' } },
+    models: {
+      'yt235': [
+        { service: 'Oil & Filter Change', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 200 hours. Yanmar 3-cylinder diesel engine. CJ-4 15W-40 diesel oil.' },
+        { service: 'Fuel Filter Replacement', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 400 hours. Replace Yanmar fuel filter and water separator. Diesel fuel cleanliness is critical.' },
+        { service: 'Hydraulic/Transmission Fluid', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 400 hours. Yanmar TF500A hydraulic fluid. Shared sump for transmission and hydraulics.' },
+        { service: 'Hydraulic Filter Replacement', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 400 hours. Replace Yanmar hydraulic/HST filter with fluid change.' },
+        { service: 'Coolant Exchange', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 2000 hours. Yanmar Long Life Coolant. Protects diesel engine.' },
+        { service: 'Air Filter Replacement', intervalMiles: 0, intervalMonths: 0, severity: 'medium', description: 'Every 400 hours or when air restriction indicator shows. Clean pre-cleaner regularly.' },
+        { service: 'Battery Check', intervalMiles: 0, intervalMonths: 6, severity: 'low', description: 'Check terminals and charge every 6 months. Diesel cold starts need strong battery.' },
+        { service: 'Tire Pressure Check', intervalMiles: 0, intervalMonths: 0, severity: 'low', description: 'Check before each use. 22 PSI rear, 30 PSI front (typical for ag tires).' },
+        { service: 'Inspection', intervalMiles: 0, intervalMonths: 0, severity: 'low', description: 'Every 200 hours. Full inspection: belts, hoses, controls, PTO, 3-point hitch.' },
+      ],
+      'yt347': 'yanmar-ag.yt235', 'yt359': 'yanmar-ag.yt235',
+      'sa325': [
+        { service: 'Oil & Filter Change', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 200 hours. Yanmar 3-cylinder diesel. CJ-4 15W-40.' },
+        { service: 'Fuel Filter Replacement', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 400 hours. Replace fuel filter and water separator.' },
+        { service: 'Hydraulic/Transmission Fluid', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 400 hours. Yanmar TF500A hydraulic fluid for hydrostatic transmission.' },
+        { service: 'Hydraulic Filter Replacement', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 400 hours. Replace HST filter with fluid change.' },
+        { service: 'Coolant Exchange', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 1500 hours. Yanmar Long Life Coolant.' },
+        { service: 'Air Filter Replacement', intervalMiles: 0, intervalMonths: 0, severity: 'medium', description: 'Every 400 hours. Clean pre-cleaner every 100 hours in dusty conditions.' },
+        { service: 'Battery Check', intervalMiles: 0, intervalMonths: 6, severity: 'low', description: 'Sub-compact battery maintenance.' },
+        { service: 'Inspection', intervalMiles: 0, intervalMonths: 0, severity: 'low', description: 'Every 200 hours. Check belts, hoses, mower deck (if equipped), and safety switches.' },
+      ],
+      'sa425': 'yanmar-ag.sa325',
+      'ym2000': [
+        { service: 'Oil & Filter Change', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 100 hours. Yanmar 2-cylinder diesel. 15W-40 CJ-4. Classic Yanmar reliability.' },
+        { service: 'Fuel Filter Replacement', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 300 hours. Replace fuel filter. Older diesels need clean fuel.' },
+        { service: 'Hydraulic/Transmission Fluid', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 500 hours. Yanmar hydraulic fluid or JD 303 equivalent for gear-drive models.' },
+        { service: 'Coolant Exchange', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 1000 hours. Green IAT coolant for older engines.' },
+        { service: 'Air Filter Replacement', intervalMiles: 0, intervalMonths: 0, severity: 'medium', description: 'Every 300 hours. Clean oil-bath or replace dry element.' },
+        { service: 'Valve Adjustment', intervalMiles: 0, intervalMonths: 0, severity: 'medium', description: 'Every 500 hours. Check intake and exhaust valve clearance.' },
+        { service: 'Battery Check', intervalMiles: 0, intervalMonths: 6, severity: 'low', description: 'Older tractors may need battery tender during storage.' },
+        { service: 'Inspection', intervalMiles: 0, intervalMonths: 0, severity: 'low', description: 'Every 100 hours. Check belts, hoses, radiator screen, and PTO clutch.' },
+      ],
+      'ym1500': 'yanmar-ag.ym2000', 'ym2500': 'yanmar-ag.ym2000', 'ym3000': 'yanmar-ag.ym2000',
+      'ym336': [
+        { service: 'Oil & Filter Change', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 200 hours. Yanmar 4-cylinder diesel. CJ-4 15W-40.' },
+        { service: 'Fuel Filter Replacement', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 400 hours. Replace Yanmar fuel filter and water separator.' },
+        { service: 'Hydraulic/Transmission Fluid', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 400 hours. Yanmar TF500A fluid for hydrostatic transmission.' },
+        { service: 'Hydraulic Filter Replacement', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 400 hours. Replace HST filter with fluid change.' },
+        { service: 'Coolant Exchange', intervalMiles: 0, intervalMonths: 0, severity: 'high', description: 'Every 2000 hours. Yanmar Long Life Coolant.' },
+        { service: 'Air Filter Replacement', intervalMiles: 0, intervalMonths: 0, severity: 'medium', description: 'Every 400 hours. Clean pre-cleaner frequently.' },
+        { service: 'Battery Check', intervalMiles: 0, intervalMonths: 6, severity: 'low', description: 'Check battery condition every 6 months.' },
+        { service: 'Inspection', intervalMiles: 0, intervalMonths: 0, severity: 'low', description: 'Every 200 hours. Full inspection.' },
+      ],
+      'ym342': 'yanmar-ag.ym336', 'ym347': 'yanmar-ag.ym336', 'ym359': 'yanmar-ag.ym336',
+    }
+  },
+
   default: {
     specs: { oil: { viscosity: '5W-30', type: 'Conventional/Synthetic Blend', capacity: '5.0 qt' }, transmission: { type: "Check owner's manual" }, coolant: { type: 'Universal OAT' }, brakeFluid: { type: 'DOT 3' }, tirePressure: { psi: 34 }, sparkPlugs: { type: 'Iridium', gap: '0.044 in' }, battery: { groupSize: 'Group 35' } },
     services: [
@@ -1273,7 +1725,19 @@ export function isEV(make, model) {
   const m = make.toLowerCase().trim().replace(/\s+/g, '-');
   const mo = model?.toLowerCase().trim();
   const evMakes = ['tesla', 'rivian', 'lucid', 'polestar'];
-  const evModels = ['id.4', 'id.3', 'ev6', 'ev9', 'ioniq 5', 'ioniq 6', 'mustang mach-e', 'f-150 lightning', 'bolt', 'bolt euv', 'leaf'];
+  const evModels = [
+  'id.4', 'id.3', 'ev6', 'ev9', 'ioniq 5', 'ioniq 6',
+  'mustang mach-e', 'f-150 lightning', 'bolt', 'bolt euv', 'leaf',
+  'blazer ev', 'equinox ev', 'silverado ev', 'hummer ev',
+  'lyriq', 'celestiq',
+  'i4', 'i5', 'ix', 'i7',
+  'eqs', 'eqe', 'eqb',
+  'id.buzz',
+  'ex30', 'ex90', 'xc40 recharge', 'c40 recharge',
+  'ariya', 'bz4x', 'solterra',
+  'gv60', 'electrified g80', 'electrified gv70',
+  'prologue', 'zdx', 'mx-30'
+];
   if (evMakes.includes(m)) return true;
   if (evModels.includes(mo)) return true;
   return MAINTENANCE_SCHEDULES[m]?.specs?.oil?.isEV === true;

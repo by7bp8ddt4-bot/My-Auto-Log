@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import { getScheduleForVehicle } from '../data/maintenance-schedules';
+import { enrichScheduleWithVinData } from '../utils/scheduleEnrichment';
 
 /**
  * Parse a date string (YYYY-MM-DD) as local time to avoid UTC shift.
@@ -82,50 +83,8 @@ export function useMaintenanceSchedule(vehicle, logs = []) {
     const vehicleLogs = logs.filter(log => log.vehicleId === vehicle.id);
 
     // Build a dynamic schedule enriched by VIN-decoded drivetrain data
-    const schedule = [...baseSchedule];
     const vinData = vehicle.vinDecoded;
-
-    if (vinData?.driveType) {
-      const dt = vinData.driveType.toLowerCase();
-      const is4wd = dt.includes('4wd') || dt.includes('4-wheel') || dt.includes('4x4') || dt.includes('all-wheel') || dt.includes('awd');
-
-      if (is4wd) {
-        const hasDifferential = schedule.some(s => s.service.toLowerCase().includes('differential'));
-        if (!hasDifferential) {
-          schedule.push(
-            { service: 'Front Differential Fluid', intervalMiles: 50000, intervalMonths: 48, severity: 'medium', description: 'Protects front differential gears.' },
-            { service: 'Rear Differential Fluid', intervalMiles: 50000, intervalMonths: 48, severity: 'medium', description: 'Fresh fluid prevents rear axle gear wear.' },
-          );
-        }
-        // Transfer case for AWD and 4WD vehicles
-        // is4wd already covers AWD (Subaru, Audi, Honda CR-V, Toyota RAV4 all have transfer cases/center diffs)
-        const hasTransferCase = schedule.some(s => s.service.toLowerCase().includes('transfer case'));
-        if (!hasTransferCase) {
-          schedule.push(
-            { service: 'Transfer Case Fluid', intervalMiles: 50000, intervalMonths: 48, severity: 'medium', description: 'Keeps transfer case operating smoothly.' },
-          );
-        }
-      }
-    }
-
-    // Check if vehicle has a manual transmission
-    if (vinData?.transmission?.toLowerCase().includes('manual')) {
-      const hasClutch = schedule.some(s => s.service.toLowerCase().includes('clutch'));
-      if (!hasClutch) {
-        schedule.push(
-          { service: 'Clutch Inspection', intervalMiles: 60000, intervalMonths: 60, severity: 'medium', description: 'Check clutch wear and adjustment for manual transmission.' },
-        );
-      }
-    }
-
-    // DEBUG: Log schedule items and log service types
-    console.log('[DEBUG] Vehicle:', vehicle.make, vehicle.model, vehicle.year, '| ID:', vehicle.id);
-    console.log('[DEBUG] Schedule items:', schedule.map(s => `"${s.service}"`));
-    console.log('[DEBUG] Vehicle logs count:', vehicleLogs.length);
-    vehicleLogs.forEach(log => {
-      const types = getLogServiceTypes(log);
-      console.log('[DEBUG] Log:', log.id, 'types:', types, 'mileage:', log.mileage);
-    });
+    const schedule = enrichScheduleWithVinData([...baseSchedule], vinData);
 
     return schedule.map(item => {
       // Find the last time this specific service was performed
@@ -134,13 +93,8 @@ export function useMaintenanceSchedule(vehicle, logs = []) {
         .filter(log => {
           const serviceTypes = getLogServiceTypes(log);
           const match = serviceTypes.some(type => {
-            const result = isSameService(item.service, type);
-            console.log('[DEBUG] isSameService:', `"${item.service}"`, 'vs', `"${type}"`, '=', result);
-            return result;
+            return isSameService(item.service, type);
           }) || log.description?.toLowerCase().includes(item.service.toLowerCase());
-          if (!match && log.description) {
-            console.log('[DEBUG] desc check:', `"${log.description}"`, 'includes', `"${item.service}"`, '=', log.description.toLowerCase().includes(item.service.toLowerCase()));
-          }
           return match;
         })
         .sort((a, b) => (b.mileage || 0) - (a.mileage || 0))[0];

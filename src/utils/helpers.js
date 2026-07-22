@@ -2,7 +2,7 @@
  * Calculate reminder status based on current mileage and due mileage.
  * Returns { status, milesUntilDue, daysUntilDue, percentComplete }
  */
-export function calculateReminderStatus(reminder, vehicleCurrentMileage, vehicleId) {
+export function calculateReminderStatus(reminder, vehicleCurrentMileage) {
   const dueMileage = reminder.dueMileage || reminder.lastCompletedMileage + reminder.intervalMiles;
   const dueDate = reminder.dueDate
     ? new Date(reminder.dueDate)

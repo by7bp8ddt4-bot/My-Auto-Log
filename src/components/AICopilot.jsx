@@ -120,7 +120,7 @@ function aiTranslate(input, vehicle) {
   const isElectric = isEV(make, model);
 
   // EV-specific handling
-  if (isElectric && (lower.includes('oil') || lower.includes('lube') || lower.includes('change'))) {
+  if (isElectric && (lower.includes('oil') || lower.includes('lube') || lower.includes('oil change'))) {
     return {
       diagnosis: 'No Engine Oil Required',
       severity: 'Info',

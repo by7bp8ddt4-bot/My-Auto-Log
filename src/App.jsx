@@ -15,7 +15,7 @@ import FuelLog from './components/FuelLog.jsx';
 import MileageChart from './components/MileageChart.jsx';
 import Modifications from './components/Modifications.jsx';
 import ContactSupport from './components/ContactSupport.jsx';
-import SubscriptionManagement, { setSubscriptionData, getSubscriptionData } from './components/SubscriptionManagement.jsx';
+import SubscriptionManagement, { setSubscriptionData, getSubscriptionData, clearSubscriptionData } from './components/SubscriptionManagement.jsx';
 import ErrorBoundary, { setupGlobalErrorHandlers } from './components/ErrorBoundary.jsx';
 import { useSupabaseData, useSupabaseAuth } from './hooks/useSupabaseData.js';
 import { useLocalStorage, useSyncStatus, sanitizeForStorage } from './hooks/useLocalStorage.js';
@@ -592,10 +592,9 @@ export default function App() {
     const isFirstVehicle = vehiclesStore.data.length === 0; // check before add
     const mileage = parseInt(data.mileage) || 0;
     const vehicleData = { ...data, mileage };
-    vehiclesStore.add(vehicleData);
+    const savedVehicle = vehiclesStore.add(vehicleData);
 
     // Auto-create reminders from manufacturer schedule (via VIN-decoded make/model)
-    const savedVehicle = { ...vehicleData, id: vehicleData.id || data.id };
     const autoReminders = generateAutoReminders(savedVehicle, remindersStore.data);
     autoReminders.forEach(reminder => {
       remindersStore.add(reminder);
@@ -789,11 +788,23 @@ export default function App() {
   // Delete account — remove all data and sign out
   const handleDeleteAccount = useCallback(async () => {
     try {
-      // Pre-check: if user has an active subscription, block deletion
+      // Pre-check: only block deletion for premium users with an active subscription.
+      // Must confirm ALL THREE conditions: premium flag, non-null status, and status is active or trialing.
+      // Stale localStorage (premium=true with null/missing status) should NOT block deletion.
       const sub = getSubscriptionData();
-      if (sub?.status === 'active' || sub?.status === 'trialing') {
+      const hasActiveSub = premium && sub?.status && (sub.status === 'active' || sub.status === 'trialing');
+
+      if (hasActiveSub) {
         setCancelSubDialog(true);
         return;
+      }
+
+      // If premium flag is stale (true but no subscription data), clear it
+      // and clear any stale subscription keys so they don't interfere later
+      if (premium && !sub?.status) {
+        localStorage.removeItem(STORAGE_KEYS.PREMIUM_STATUS);
+        clearSubscriptionData();
+        setPremium(false);
       }
 
       if (!window.confirm('This will permanently delete ALL your data and account. This cannot be undone. Continue?')) return;

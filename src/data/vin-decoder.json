@@ -1,27 +1,132 @@
 {
   "schemaVersion": "1.0",
   "generatedAt": "2025-07-16",
-  "description": "VIN Decoding Reference — maps VIN characters to vehicle make, model, year, and manufacturing country. The WMI (World Manufacturer Identifier) is characters 1-3 of the VIN. Character 10 encodes the model year.",
+  "description": "VIN Decoding Reference \u2014 maps VIN characters to vehicle make, model, year, and manufacturing country. The WMI (World Manufacturer Identifier) is characters 1-3 of the VIN. Character 10 encodes the model year.",
   "vinStructure": {
     "description": "A VIN (Vehicle Identification Number) is a 17-character code that identifies every vehicle uniquely.",
     "positions": {
-      "1-3": "WMI — World Manufacturer Identifier (country + manufacturer + vehicle type)",
-      "4-8": "VDS — Vehicle Descriptor Section (model, body style, engine, etc.)",
-      "9": "Check digit — mathematical verification of VIN validity",
+      "1-3": "WMI \u2014 World Manufacturer Identifier (country + manufacturer + vehicle type)",
+      "4-8": "VDS \u2014 Vehicle Descriptor Section (model, body style, engine, etc.)",
+      "9": "Check digit \u2014 mathematical verification of VIN validity",
       "10": "Model year code",
-      "11": "Plant code — where the vehicle was assembled",
-      "12-17": "VIS — Vehicle Identifier Section (serial number of the vehicle)"
+      "11": "Plant code \u2014 where the vehicle was assembled",
+      "12-17": "VIS \u2014 Vehicle Identifier Section (serial number of the vehicle)"
     }
   },
   "modelYearCodes": {
-    "description": "Character 10 of the VIN encodes the model year. Note: model year often runs ahead of calendar year (e.g., a '2025' model may be built in 2024).",
+    "description": "Character 10 of the VIN encodes the model year. Codes repeat every 30 years \u2014 each key maps to an array of possible years [older_cycle, newer_cycle]. Where only one cycle uses that code, a single-element array is used.",
     "codes": {
-      "A": 1980, "B": 1981, "C": 1982, "D": 1983, "E": 1984, "F": 1985, "G": 1986, "H": 1987, "J": 1988, "K": 1989,
-      "L": 1990, "M": 1991, "N": 1992, "P": 1993, "R": 1994, "S": 1995, "T": 1996, "V": 1997, "W": 1998, "X": 1999,
-      "Y": 2000, "1": 2001, "2": 2002, "3": 2003, "4": 2004, "5": 2005, "6": 2006, "7": 2007, "8": 2008, "9": 2009,
-      "A": 2010, "B": 2011, "C": 2012, "D": 2013, "E": 2014, "F": 2015, "G": 2016, "H": 2017, "J": 2018, "K": 2019,
-      "L": 2020, "M": 2021, "N": 2022, "P": 2023, "R": 2024, "S": 2025, "T": 2026, "V": 2027, "W": 2028, "X": 2029,
-      "Y": 2030
+      "A": [
+        1980,
+        2010
+      ],
+      "B": [
+        1981,
+        2011
+      ],
+      "C": [
+        1982,
+        2012
+      ],
+      "D": [
+        1983,
+        2013
+      ],
+      "E": [
+        1984,
+        2014
+      ],
+      "F": [
+        1985,
+        2015
+      ],
+      "G": [
+        1986,
+        2016
+      ],
+      "H": [
+        1987,
+        2017
+      ],
+      "J": [
+        1988,
+        2018
+      ],
+      "K": [
+        1989,
+        2019
+      ],
+      "L": [
+        1990,
+        2020
+      ],
+      "M": [
+        1991,
+        2021
+      ],
+      "N": [
+        1992,
+        2022
+      ],
+      "P": [
+        1993,
+        2023
+      ],
+      "R": [
+        1994,
+        2024
+      ],
+      "S": [
+        1995,
+        2025
+      ],
+      "T": [
+        1996,
+        2026
+      ],
+      "V": [
+        1997,
+        2027
+      ],
+      "W": [
+        1998,
+        2028
+      ],
+      "X": [
+        1999,
+        2029
+      ],
+      "Y": [
+        2000,
+        2030
+      ],
+      "1": [
+        2001
+      ],
+      "2": [
+        2002
+      ],
+      "3": [
+        2003
+      ],
+      "4": [
+        2004
+      ],
+      "5": [
+        2005
+      ],
+      "6": [
+        2006
+      ],
+      "7": [
+        2007
+      ],
+      "8": [
+        2008
+      ],
+      "9": [
+        2009
+      ]
     }
   },
   "wmiLookup": {
@@ -62,311 +167,1222 @@
       "Z9": "Yugoslavia / Serbia"
     },
     "manufacturers": {
-      "1FA": { "make": "Ford", "country": "USA" },
-      "1FB": { "make": "Ford", "country": "USA" },
-      "1FC": { "make": "Ford", "country": "USA" },
-      "1FD": { "make": "Ford", "country": "USA" },
-      "1FM": { "make": "Ford", "country": "USA" },
-      "1FT": { "make": "Ford", "country": "USA" },
-      "1FU": { "make": "Freightliner", "country": "USA" },
-      "1FV": { "make": "Freightliner", "country": "USA" },
-      "1G1": { "make": "Chevrolet", "country": "USA" },
-      "1G2": { "make": "Pontiac", "country": "USA" },
-      "1G3": { "make": "Oldsmobile", "country": "USA" },
-      "1G4": { "make": "Buick", "country": "USA" },
-      "1G6": { "make": "Cadillac", "country": "USA" },
-      "1G8": { "make": "Saturn", "country": "USA" },
-      "1GC": { "make": "Chevrolet Truck", "country": "USA" },
-      "1GT": { "make": "GMC Truck", "country": "USA" },
-      "1H": { "make": "Honda", "country": "USA" },
-      "1HD": { "make": "Harley-Davidson", "country": "USA" },
-      "1J4": { "make": "Jeep", "country": "USA" },
-      "1J8": { "make": "Jeep", "country": "USA" },
-      "1L": { "make": "Lincoln", "country": "USA" },
-      "1M": { "make": "Mercury", "country": "USA" },
-      "1M1": { "make": "Mack", "country": "USA" },
-      "1M2": { "make": "Mack", "country": "USA" },
-      "1M3": { "make": "Mack", "country": "USA" },
-      "1M4": { "make": "Mack", "country": "USA" },
-      "1N4": { "make": "Nissan", "country": "USA" },
-      "1N6": { "make": "Nissan", "country": "USA" },
-      "1NX": { "make": "NUMMI (Toyota/Chevy)", "country": "USA" },
-      "1P": { "make": "Plymouth", "country": "USA" },
-      "1R9": { "make": "Roadster", "country": "USA" },
-      "1VW": { "make": "Volkswagen", "country": "USA" },
-      "1X": { "make": "Peterbilt", "country": "USA" },
-      "1Y": { "make": "Autocar", "country": "USA" },
-      "1YV": { "make": "Mazda (USA)", "country": "USA" },
-      "2C": { "make": "Chrysler", "country": "Canada" },
-      "2D": { "make": "Dodge", "country": "Canada" },
-      "2F": { "make": "Ford", "country": "Canada" },
-      "2G": { "make": "General Motors", "country": "Canada" },
-      "2H": { "make": "Honda", "country": "Canada" },
-      "2L": { "make": "Lincoln", "country": "Canada" },
-      "2M": { "make": "Mercury", "country": "Canada" },
-      "2N": { "make": "Nissan", "country": "Canada" },
-      "2P": { "make": "Plymouth", "country": "Canada" },
-      "2T": { "make": "Toyota", "country": "Canada" },
-      "2V": { "make": "Volkswagen", "country": "Canada" },
-      "3C": { "make": "Chrysler", "country": "Mexico" },
-      "3D": { "make": "Dodge", "country": "Mexico" },
-      "3F": { "make": "Ford", "country": "Mexico" },
-      "3G": { "make": "General Motors", "country": "Mexico" },
-      "3H": { "make": "Honda", "country": "Mexico" },
-      "3M": { "make": "Mazda", "country": "Mexico" },
-      "3N": { "make": "Nissan", "country": "Mexico" },
-      "3P": { "make": "Plymouth", "country": "Mexico" },
-      "3V": { "make": "Volkswagen", "country": "Mexico" },
-      "4A": { "make": "Chrysler", "country": "USA" },
-      "4C": { "make": "Chrysler", "country": "USA" },
-      "4D": { "make": "Dodge", "country": "USA" },
-      "4F": { "make": "Ford", "country": "USA" },
-      "4G": { "make": "General Motors", "country": "USA" },
-      "4M": { "make": "Mercury", "country": "USA" },
-      "4N": { "make": "Nissan", "country": "USA" },
-      "4P": { "make": "Plymouth", "country": "USA" },
-      "4S": { "make": "Subaru-Isuzu", "country": "USA" },
-      "4T": { "make": "Toyota", "country": "USA" },
-      "4U": { "make": "Honda (Acura)", "country": "USA" },
-      "4V": { "make": "Volvo", "country": "USA" },
-      "5F": { "make": "Honda", "country": "USA" },
-      "5G": { "make": "General Motors", "country": "USA" },
-      "5J": { "make": "Honda (Acura)", "country": "USA" },
-      "5L": { "make": "Lincoln", "country": "USA" },
-      "5N": { "make": "Nissan", "country": "USA" },
-      "5T": { "make": "Toyota", "country": "USA" },
-      "5X": { "make": "Hyundai / Kia", "country": "USA" },
-      "5Y": { "make": "Tesla", "country": "USA" },
-      "JAA": { "make": "Isuzu", "country": "Japan" },
-      "JAL": { "make": "Isuzu", "country": "Japan" },
-      "JAM": { "make": "Isuzu", "country": "Japan" },
-      "JB": { "make": "Daihatsu", "country": "Japan" },
-      "JC": { "make": "Daihatsu", "country": "Japan" },
-      "JD": { "make": "Daihatsu", "country": "Japan" },
-      "JF": { "make": "Subaru", "country": "Japan" },
-      "JG": { "make": "Isuzu (USA export)", "country": "Japan" },
-      "JH": { "make": "Honda", "country": "Japan" },
-      "JH4": { "make": "Acura", "country": "Japan" },
-      "JK": { "make": "Kawasaki", "country": "Japan" },
-      "JL": { "make": "Mitsubishi", "country": "Japan" },
-      "JM": { "make": "Mazda", "country": "Japan" },
-      "JN": { "make": "Nissan", "country": "Japan" },
-      "JNA": { "make": "Nissan (Infiniti)", "country": "Japan" },
-      "JNK": { "make": "Nissan (Infiniti)", "country": "Japan" },
-      "JNX": { "make": "Nissan (Infiniti)", "country": "Japan" },
-      "JS": { "make": "Suzuki", "country": "Japan" },
-      "JT": { "make": "Toyota", "country": "Japan" },
-      "JTD": { "make": "Toyota", "country": "Japan" },
-      "JTE": { "make": "Toyota", "country": "Japan" },
-      "JTF": { "make": "Toyota", "country": "Japan" },
-      "JTJ": { "make": "Lexus", "country": "Japan" },
-      "JTK": { "make": "Toyota (Scion)", "country": "Japan" },
-      "JTM": { "make": "Toyota", "country": "Japan" },
-      "JTN": { "make": "Toyota", "country": "Japan" },
-      "K": { "make": "Daewoo / SsangYong", "country": "South Korea" },
-      "KM": { "make": "Hyundai", "country": "South Korea" },
-      "KNA": { "make": "Kia", "country": "South Korea" },
-      "KNB": { "make": "Kia", "country": "South Korea" },
-      "KNC": { "make": "Kia", "country": "South Korea" },
-      "KND": { "make": "Kia", "country": "South Korea" },
-      "KNE": { "make": "Kia", "country": "South Korea" },
-      "KNF": { "make": "Kia", "country": "South Korea" },
-      "KNG": { "make": "Kia", "country": "South Korea" },
-      "KNH": { "make": "Kia", "country": "South Korea" },
-      "KMH": { "make": "Hyundai", "country": "South Korea" },
-      "KMJ": { "make": "Hyundai", "country": "South Korea" },
-      "KMT": { "make": "Hyundai (Genesis)", "country": "South Korea" },
-      "L": { "make": "Chinese manufacturers", "country": "China" },
-      "L56": { "make": "Nissan (China)", "country": "China" },
-      "L5Y": { "make": "Mercedes-Benz (China)", "country": "China" },
-      "LBE": { "make": "Beijing Hyundai", "country": "China" },
-      "LBU": { "make": "BYD", "country": "China" },
-      "LBV": { "make": "BMW Brilliance", "country": "China" },
-      "LC0": { "make": "BYD", "country": "China" },
-      "LDC": { "make": "Dongfeng Peugeot-Citroen", "country": "China" },
-      "LDD": { "make": "Dongfeng", "country": "China" },
-      "LDN": { "make": "Soueast", "country": "China" },
-      "LDP": { "make": "Dongfeng Nissan", "country": "China" },
-      "LDY": { "make": "Zhongtong", "country": "China" },
-      "LEF": { "make": "JMC", "country": "China" },
-      "LEM": { "make": "Zhongxing", "country": "China" },
-      "LEN": { "make": "SAIC", "country": "China" },
-      "LEP": { "make": "JAC", "country": "China" },
-      "LF": { "make": "FAW", "country": "China" },
-      "LFB": { "make": "FAW", "country": "China" },
-      "LFM": { "make": "FAW Toyota", "country": "China" },
-      "LFP": { "make": "FAW", "country": "China" },
-      "LFT": { "make": "FAW", "country": "China" },
-      "LFV": { "make": "FAW-Volkswagen", "country": "China" },
-      "LGA": { "make": "Dongfeng", "country": "China" },
-      "LGB": { "make": "Dongfeng", "country": "China" },
-      "LGH": { "make": "Dongfeng", "country": "China" },
-      "LGX": { "make": "BYD", "country": "China" },
-      "LHG": { "make": "Guangzhou Honda", "country": "China" },
-      "LJ": { "make": "Geely", "country": "China" },
-      "LKC": { "make": "Changhe", "country": "China" },
-      "LLV": { "make": "Lifan", "country": "China" },
-      "LNB": { "make": "Beijing Automotive", "country": "China" },
-      "LNE": { "make": "JMC", "country": "China" },
-      "LNP": { "make": "Nanjing Fiat", "country": "China" },
-      "LNV": { "make": "Nanjing Iveco", "country": "China" },
-      "LNY": { "make": "Yuejin", "country": "China" },
-      "LPA": { "make": "Changan PSA", "country": "China" },
-      "LPE": { "make": "Changan Ford", "country": "China" },
-      "LRS": { "make": "Changan Suzuki", "country": "China" },
-      "LSG": { "make": "SAIC General Motors", "country": "China" },
-      "LSJ": { "make": "SAIC MG", "country": "China" },
-      "LSV": { "make": "SAIC Volkswagen", "country": "China" },
-      "LSY": { "make": "Brilliance", "country": "China" },
-      "LTA": { "make": "ZNA", "country": "China" },
-      "LTV": { "make": "Toyota (China)", "country": "China" },
-      "LUC": { "make": "Honda (China)", "country": "China" },
-      "LVS": { "make": "Ford (China)", "country": "China" },
-      "LVV": { "make": "Chery", "country": "China" },
-      "LVZ": { "make": "Dongfeng (China)", "country": "China" },
-      "LZW": { "make": "SAIC GM Wuling", "country": "China" },
-      "M": { "make": "Indian manufacturers", "country": "India" },
-      "MA": { "make": "Maruti Suzuki", "country": "India" },
-      "MA1": { "make": "Mahindra", "country": "India" },
-      "MAJ": { "make": "Ford (India)", "country": "India" },
-      "MAK": { "make": "Honda (India)", "country": "India" },
-      "MAL": { "make": "Hyundai (India)", "country": "India" },
-      "MAT": { "make": "Tata", "country": "India" },
-      "MBH": { "make": "Suzuki (India)", "country": "India" },
-      "MBJ": { "make": "Toyota (India)", "country": "India" },
-      "MBR": { "make": "Mercedes-Benz (India)", "country": "India" },
-      "MCA": { "make": "Fiat (India)", "country": "India" },
-      "MCB": { "make": "GM (India)", "country": "India" },
-      "PL": { "make": "Proton", "country": "Malaysia" },
-      "S": { "make": "UK manufacturers", "country": "United Kingdom" },
-      "SA": { "make": "Jaguar", "country": "United Kingdom" },
-      "SAL": { "make": "Land Rover", "country": "United Kingdom" },
-      "SAR": { "make": "Rover", "country": "United Kingdom" },
-      "SB": { "make": "Smart", "country": "France/UK" },
-      "SC": { "make": "Lotus", "country": "United Kingdom" },
-      "SCA": { "make": "Rolls-Royce", "country": "United Kingdom" },
-      "SCC": { "make": "Lotus", "country": "United Kingdom" },
-      "SCE": { "make": "DeLorean", "country": "United Kingdom" },
-      "SCF": { "make": "Aston Martin", "country": "United Kingdom" },
-      "SFD": { "make": "Alexander Dennis", "country": "United Kingdom" },
-      "SHS": { "make": "Honda (UK)", "country": "United Kingdom" },
-      "SJ": { "make": "Leyland", "country": "United Kingdom" },
-      "SJL": { "make": "Leyland", "country": "United Kingdom" },
-      "SKF": { "make": "Vauxhall", "country": "United Kingdom" },
-      "T": { "make": "Swiss manufacturers", "country": "Switzerland" },
-      "TCC": { "make": "Microcar", "country": "Switzerland" },
-      "U": { "make": "Danish manufacturers", "country": "Denmark" },
-      "V": { "make": "French manufacturers", "country": "France" },
-      "VAG": { "make": "Peugeot", "country": "France" },
-      "VAN": { "make": "Renault", "country": "France" },
-      "VF": { "make": "Renault", "country": "France" },
-      "VF1": { "make": "Renault", "country": "France" },
-      "VF2": { "make": "Renault", "country": "France" },
-      "VF3": { "make": "Peugeot", "country": "France" },
-      "VF4": { "make": "Citroen", "country": "France" },
-      "VF6": { "make": "Renault Trucks", "country": "France" },
-      "VF7": { "make": "Citroen", "country": "France" },
-      "VF8": { "make": "Matra", "country": "France" },
-      "VF9": { "make": "Bugatti", "country": "France" },
-      "VL": { "make": "Peugeot", "country": "France" },
-      "VO": { "make": "Citroen", "country": "France" },
-      "VR": { "make": "Renault", "country": "France" },
-      "VS": { "make": "Renault", "country": "France" },
-      "VSS": { "make": "SEAT (Spain)", "country": "Spain" },
-      "VT": { "make": "Renault", "country": "France" },
-      "VU": { "make": "Renault", "country": "France" },
-      "VX": { "make": "Renault", "country": "France" },
-      "W": { "make": "German manufacturers", "country": "Germany" },
-      "W0": { "make": "Opel", "country": "Germany" },
-      "W04": { "make": "Buick", "country": "Germany" },
-      "W0L": { "make": "Opel", "country": "Germany" },
-      "W0V": { "make": "Opel", "country": "Germany" },
-      "W1": { "make": "Mercedes-Benz", "country": "Germany" },
-      "W1K": { "make": "Mercedes-Benz", "country": "Germany" },
-      "W1N": { "make": "Mercedes-Benz", "country": "Germany" },
-      "W1T": { "make": "Mercedes-Benz", "country": "Germany" },
-      "W1V": { "make": "Mercedes-Benz", "country": "Germany" },
-      "W1W": { "make": "Mercedes-Benz", "country": "Germany" },
-      "W1X": { "make": "Mercedes-Benz", "country": "Germany" },
-      "W2": { "make": "Smart", "country": "Germany" },
-      "WAP": { "make": "BMW", "country": "Germany" },
-      "WBA": { "make": "BMW", "country": "Germany" },
-      "WBB": { "make": "BMW", "country": "Germany" },
-      "WBC": { "make": "BMW", "country": "Germany" },
-      "WBD": { "make": "BMW", "country": "Germany" },
-      "WBE": { "make": "BMW", "country": "Germany" },
-      "WBF": { "make": "BMW", "country": "Germany" },
-      "WBG": { "make": "BMW", "country": "Germany" },
-      "WBH": { "make": "BMW", "country": "Germany" },
-      "WBJ": { "make": "BMW (Alpina)", "country": "Germany" },
-      "WBS": { "make": "BMW M", "country": "Germany" },
-      "WBY": { "make": "BMW i", "country": "Germany" },
-      "WDB": { "make": "Mercedes-Benz", "country": "Germany" },
-      "WDC": { "make": "Mercedes-Benz", "country": "Germany" },
-      "WDD": { "make": "Mercedes-Benz", "country": "Germany" },
-      "WDF": { "make": "Mercedes-Benz (Vans)", "country": "Germany" },
-      "WDP": { "make": "Mercedes-Benz", "country": "Germany" },
-      "WF": { "make": "Volkswagen", "country": "Germany" },
-      "WMA": { "make": "MAN", "country": "Germany" },
-      "WME": { "make": "Smart", "country": "Germany" },
-      "WMW": { "make": "Mini", "country": "Germany" },
-      "WMX": { "make": "Mercedes-Benz Trucks", "country": "Germany" },
-      "WP0": { "make": "Porsche", "country": "Germany" },
-      "WP1": { "make": "Porsche SUV", "country": "Germany" },
-      "WUA": { "make": "Audi", "country": "Germany" },
-      "WU1": { "make": "Audi", "country": "Germany" },
-      "WU2": { "make": "Audi Sport", "country": "Germany" },
-      "WVG": { "make": "Volkswagen", "country": "Germany" },
-      "WV1": { "make": "Volkswagen", "country": "Germany" },
-      "WV2": { "make": "Volkswagen", "country": "Germany" },
-      "WVW": { "make": "Volkswagen", "country": "Germany" },
-      "W0": { "make": "Opel/Vauxhall", "country": "Germany" },
-      "X": { "make": "Russian manufacturers", "country": "Russia" },
-      "XLB": { "make": "Lada", "country": "Russia" },
-      "XTA": { "make": "Lada", "country": "Russia" },
-      "XTC": { "make": "KAMAZ", "country": "Russia" },
-      "XTH": { "make": "GAZ", "country": "Russia" },
-      "XW": { "make": "AvtoVAZ", "country": "Russia" },
-      "Y": { "make": "Swedish manufacturers", "country": "Sweden" },
-      "YAR": { "make": "Toyota (Europe)", "country": "Belgium" },
-      "YB": { "make": "Volvo (Belgium)", "country": "Belgium" },
-      "YV": { "make": "Volvo", "country": "Sweden" },
-      "YV1": { "make": "Volvo", "country": "Sweden" },
-      "YV2": { "make": "Volvo Trucks", "country": "Sweden" },
-      "YV3": { "make": "Volvo Bus", "country": "Sweden" },
-      "YV4": { "make": "Volvo", "country": "Sweden" },
-      "YV5": { "make": "Volvo Trucks", "country": "Sweden" },
-      "YS": { "make": "Saab", "country": "Sweden" },
-      "YS3": { "make": "Saab", "country": "Sweden" },
-      "YT": { "make": "Scania", "country": "Sweden" },
-      "YU": { "make": "Scania", "country": "Sweden" },
-      "YVU": { "make": "Volvo Penta", "country": "Sweden" },
-      "Z": { "make": "Italian manufacturers", "country": "Italy" },
-      "ZAA": { "make": "Alfa Romeo", "country": "Italy" },
-      "ZAB": { "make": "Alfa Romeo", "country": "Italy" },
-      "ZAC": { "make": "Alfa Romeo", "country": "Italy" },
-      "ZAD": { "make": "Alfa Romeo", "country": "Italy" },
-      "ZAF": { "make": "Alfa Romeo", "country": "Italy" },
-      "ZAH": { "make": "Alfa Romeo", "country": "Italy" },
-      "ZAR": { "make": "Alfa Romeo", "country": "Italy" },
-      "ZAS": { "make": "Alfa Romeo", "country": "Italy" },
-      "ZAZ": { "make": "Zastava", "country": "Italy" },
-      "ZBN": { "make": "Benelli", "country": "Italy" },
-      "ZCG": { "make": "Cagiva", "country": "Italy" },
-      "ZDM": { "make": "Ducati", "country": "Italy" },
-      "ZDF": { "make": "Ferrari", "country": "Italy" },
-      "ZDY": { "make": "Aprilia", "country": "Italy" },
-      "ZE": { "make": "Lamborghini", "country": "Italy" },
-      "ZFA": { "make": "Fiat", "country": "Italy" },
-      "ZFC": { "make": "Fiat", "country": "Italy" },
-      "ZFF": { "make": "Ferrari", "country": "Italy" },
-      "ZGU": { "make": "Moto Guzzi", "country": "Italy" },
-      "ZHW": { "make": "Lamborghini", "country": "Italy" },
-      "ZLA": { "make": "Lancia", "country": "Italy" },
-      "ZOM": { "make": "Maserati", "country": "Italy" },
-      "ZOW": { "make": "Maserati", "country": "Italy" },
-      "ZPY": { "make": "Piaggio", "country": "Italy" },
-      "ZYX": { "make": "Maserati", "country": "Italy" }
+      "1FA": {
+        "make": "Ford",
+        "country": "USA"
+      },
+      "1FB": {
+        "make": "Ford",
+        "country": "USA"
+      },
+      "1FC": {
+        "make": "Ford",
+        "country": "USA"
+      },
+      "1FD": {
+        "make": "Ford",
+        "country": "USA"
+      },
+      "1FM": {
+        "make": "Ford",
+        "country": "USA"
+      },
+      "1FT": {
+        "make": "Ford",
+        "country": "USA"
+      },
+      "1FU": {
+        "make": "Freightliner",
+        "country": "USA"
+      },
+      "1FV": {
+        "make": "Freightliner",
+        "country": "USA"
+      },
+      "1G1": {
+        "make": "Chevrolet",
+        "country": "USA"
+      },
+      "1G2": {
+        "make": "Pontiac",
+        "country": "USA"
+      },
+      "1G3": {
+        "make": "Oldsmobile",
+        "country": "USA"
+      },
+      "1G4": {
+        "make": "Buick",
+        "country": "USA"
+      },
+      "1G6": {
+        "make": "Cadillac",
+        "country": "USA"
+      },
+      "1G8": {
+        "make": "Saturn",
+        "country": "USA"
+      },
+      "1GC": {
+        "make": "Chevrolet Truck",
+        "country": "USA"
+      },
+      "1GT": {
+        "make": "GMC Truck",
+        "country": "USA"
+      },
+      "1H": {
+        "make": "Honda",
+        "country": "USA"
+      },
+      "1HD": {
+        "make": "Harley-Davidson",
+        "country": "USA"
+      },
+      "1J4": {
+        "make": "Jeep",
+        "country": "USA"
+      },
+      "1J8": {
+        "make": "Jeep",
+        "country": "USA"
+      },
+      "1L": {
+        "make": "Lincoln",
+        "country": "USA"
+      },
+      "1M": {
+        "make": "Mercury",
+        "country": "USA"
+      },
+      "1M1": {
+        "make": "Mack",
+        "country": "USA"
+      },
+      "1M2": {
+        "make": "Mack",
+        "country": "USA"
+      },
+      "1M3": {
+        "make": "Mack",
+        "country": "USA"
+      },
+      "1M4": {
+        "make": "Mack",
+        "country": "USA"
+      },
+      "1N4": {
+        "make": "Nissan",
+        "country": "USA"
+      },
+      "1N6": {
+        "make": "Nissan",
+        "country": "USA"
+      },
+      "1NX": {
+        "make": "NUMMI (Toyota/Chevy)",
+        "country": "USA"
+      },
+      "1P": {
+        "make": "Plymouth",
+        "country": "USA"
+      },
+      "1R9": {
+        "make": "Roadster",
+        "country": "USA"
+      },
+      "1VW": {
+        "make": "Volkswagen",
+        "country": "USA"
+      },
+      "1X": {
+        "make": "Peterbilt",
+        "country": "USA"
+      },
+      "1Y": {
+        "make": "Autocar",
+        "country": "USA"
+      },
+      "1YV": {
+        "make": "Mazda (USA)",
+        "country": "USA"
+      },
+      "2C": {
+        "make": "Chrysler",
+        "country": "Canada"
+      },
+      "2D": {
+        "make": "Dodge",
+        "country": "Canada"
+      },
+      "2F": {
+        "make": "Ford",
+        "country": "Canada"
+      },
+      "2G": {
+        "make": "General Motors",
+        "country": "Canada"
+      },
+      "2H": {
+        "make": "Honda",
+        "country": "Canada"
+      },
+      "2L": {
+        "make": "Lincoln",
+        "country": "Canada"
+      },
+      "2M": {
+        "make": "Mercury",
+        "country": "Canada"
+      },
+      "2N": {
+        "make": "Nissan",
+        "country": "Canada"
+      },
+      "2P": {
+        "make": "Plymouth",
+        "country": "Canada"
+      },
+      "2T": {
+        "make": "Toyota",
+        "country": "Canada"
+      },
+      "2V": {
+        "make": "Volkswagen",
+        "country": "Canada"
+      },
+      "3C": {
+        "make": "Chrysler",
+        "country": "Mexico"
+      },
+      "3D": {
+        "make": "Dodge",
+        "country": "Mexico"
+      },
+      "3F": {
+        "make": "Ford",
+        "country": "Mexico"
+      },
+      "3G": {
+        "make": "General Motors",
+        "country": "Mexico"
+      },
+      "3H": {
+        "make": "Honda",
+        "country": "Mexico"
+      },
+      "3M": {
+        "make": "Mazda",
+        "country": "Mexico"
+      },
+      "3N": {
+        "make": "Nissan",
+        "country": "Mexico"
+      },
+      "3P": {
+        "make": "Plymouth",
+        "country": "Mexico"
+      },
+      "3V": {
+        "make": "Volkswagen",
+        "country": "Mexico"
+      },
+      "4A": {
+        "make": "Chrysler",
+        "country": "USA"
+      },
+      "4C": {
+        "make": "Chrysler",
+        "country": "USA"
+      },
+      "4D": {
+        "make": "Dodge",
+        "country": "USA"
+      },
+      "4F": {
+        "make": "Ford",
+        "country": "USA"
+      },
+      "4G": {
+        "make": "General Motors",
+        "country": "USA"
+      },
+      "4M": {
+        "make": "Mercury",
+        "country": "USA"
+      },
+      "4N": {
+        "make": "Nissan",
+        "country": "USA"
+      },
+      "4P": {
+        "make": "Plymouth",
+        "country": "USA"
+      },
+      "4S": {
+        "make": "Subaru-Isuzu",
+        "country": "USA"
+      },
+      "4T": {
+        "make": "Toyota",
+        "country": "USA"
+      },
+      "4U": {
+        "make": "Honda (Acura)",
+        "country": "USA"
+      },
+      "4V": {
+        "make": "Volvo",
+        "country": "USA"
+      },
+      "5F": {
+        "make": "Honda",
+        "country": "USA"
+      },
+      "5G": {
+        "make": "General Motors",
+        "country": "USA"
+      },
+      "5J": {
+        "make": "Honda (Acura)",
+        "country": "USA"
+      },
+      "5L": {
+        "make": "Lincoln",
+        "country": "USA"
+      },
+      "5N": {
+        "make": "Nissan",
+        "country": "USA"
+      },
+      "5T": {
+        "make": "Toyota",
+        "country": "USA"
+      },
+      "5X": {
+        "make": "Hyundai / Kia",
+        "country": "USA"
+      },
+      "5Y": {
+        "make": "Tesla",
+        "country": "USA"
+      },
+      "JAA": {
+        "make": "Isuzu",
+        "country": "Japan"
+      },
+      "JAL": {
+        "make": "Isuzu",
+        "country": "Japan"
+      },
+      "JAM": {
+        "make": "Isuzu",
+        "country": "Japan"
+      },
+      "JB": {
+        "make": "Daihatsu",
+        "country": "Japan"
+      },
+      "JC": {
+        "make": "Daihatsu",
+        "country": "Japan"
+      },
+      "JD": {
+        "make": "Daihatsu",
+        "country": "Japan"
+      },
+      "JF": {
+        "make": "Subaru",
+        "country": "Japan"
+      },
+      "JG": {
+        "make": "Isuzu (USA export)",
+        "country": "Japan"
+      },
+      "JH": {
+        "make": "Honda",
+        "country": "Japan"
+      },
+      "JH4": {
+        "make": "Acura",
+        "country": "Japan"
+      },
+      "JK": {
+        "make": "Kawasaki",
+        "country": "Japan"
+      },
+      "JL": {
+        "make": "Mitsubishi",
+        "country": "Japan"
+      },
+      "JM": {
+        "make": "Mazda",
+        "country": "Japan"
+      },
+      "JN": {
+        "make": "Nissan",
+        "country": "Japan"
+      },
+      "JNA": {
+        "make": "Nissan (Infiniti)",
+        "country": "Japan"
+      },
+      "JNK": {
+        "make": "Nissan (Infiniti)",
+        "country": "Japan"
+      },
+      "JNX": {
+        "make": "Nissan (Infiniti)",
+        "country": "Japan"
+      },
+      "JS": {
+        "make": "Suzuki",
+        "country": "Japan"
+      },
+      "JT": {
+        "make": "Toyota",
+        "country": "Japan"
+      },
+      "JTD": {
+        "make": "Toyota",
+        "country": "Japan"
+      },
+      "JTE": {
+        "make": "Toyota",
+        "country": "Japan"
+      },
+      "JTF": {
+        "make": "Toyota",
+        "country": "Japan"
+      },
+      "JTJ": {
+        "make": "Lexus",
+        "country": "Japan"
+      },
+      "JTK": {
+        "make": "Toyota (Scion)",
+        "country": "Japan"
+      },
+      "JTM": {
+        "make": "Toyota",
+        "country": "Japan"
+      },
+      "JTN": {
+        "make": "Toyota",
+        "country": "Japan"
+      },
+      "K": {
+        "make": "Daewoo / SsangYong",
+        "country": "South Korea"
+      },
+      "KM": {
+        "make": "Hyundai",
+        "country": "South Korea"
+      },
+      "KNA": {
+        "make": "Kia",
+        "country": "South Korea"
+      },
+      "KNB": {
+        "make": "Kia",
+        "country": "South Korea"
+      },
+      "KNC": {
+        "make": "Kia",
+        "country": "South Korea"
+      },
+      "KND": {
+        "make": "Kia",
+        "country": "South Korea"
+      },
+      "KNE": {
+        "make": "Kia",
+        "country": "South Korea"
+      },
+      "KNF": {
+        "make": "Kia",
+        "country": "South Korea"
+      },
+      "KNG": {
+        "make": "Kia",
+        "country": "South Korea"
+      },
+      "KNH": {
+        "make": "Kia",
+        "country": "South Korea"
+      },
+      "KMH": {
+        "make": "Hyundai",
+        "country": "South Korea"
+      },
+      "KMJ": {
+        "make": "Hyundai",
+        "country": "South Korea"
+      },
+      "KMT": {
+        "make": "Hyundai (Genesis)",
+        "country": "South Korea"
+      },
+      "L": {
+        "make": "Chinese manufacturers",
+        "country": "China"
+      },
+      "L56": {
+        "make": "Nissan (China)",
+        "country": "China"
+      },
+      "L5Y": {
+        "make": "Mercedes-Benz (China)",
+        "country": "China"
+      },
+      "LBE": {
+        "make": "Beijing Hyundai",
+        "country": "China"
+      },
+      "LBU": {
+        "make": "BYD",
+        "country": "China"
+      },
+      "LBV": {
+        "make": "BMW Brilliance",
+        "country": "China"
+      },
+      "LC0": {
+        "make": "BYD",
+        "country": "China"
+      },
+      "LDC": {
+        "make": "Dongfeng Peugeot-Citroen",
+        "country": "China"
+      },
+      "LDD": {
+        "make": "Dongfeng",
+        "country": "China"
+      },
+      "LDN": {
+        "make": "Soueast",
+        "country": "China"
+      },
+      "LDP": {
+        "make": "Dongfeng Nissan",
+        "country": "China"
+      },
+      "LDY": {
+        "make": "Zhongtong",
+        "country": "China"
+      },
+      "LEF": {
+        "make": "JMC",
+        "country": "China"
+      },
+      "LEM": {
+        "make": "Zhongxing",
+        "country": "China"
+      },
+      "LEN": {
+        "make": "SAIC",
+        "country": "China"
+      },
+      "LEP": {
+        "make": "JAC",
+        "country": "China"
+      },
+      "LF": {
+        "make": "FAW",
+        "country": "China"
+      },
+      "LFB": {
+        "make": "FAW",
+        "country": "China"
+      },
+      "LFM": {
+        "make": "FAW Toyota",
+        "country": "China"
+      },
+      "LFP": {
+        "make": "FAW",
+        "country": "China"
+      },
+      "LFT": {
+        "make": "FAW",
+        "country": "China"
+      },
+      "LFV": {
+        "make": "FAW-Volkswagen",
+        "country": "China"
+      },
+      "LGA": {
+        "make": "Dongfeng",
+        "country": "China"
+      },
+      "LGB": {
+        "make": "Dongfeng",
+        "country": "China"
+      },
+      "LGH": {
+        "make": "Dongfeng",
+        "country": "China"
+      },
+      "LGX": {
+        "make": "BYD",
+        "country": "China"
+      },
+      "LHG": {
+        "make": "Guangzhou Honda",
+        "country": "China"
+      },
+      "LJ": {
+        "make": "Geely",
+        "country": "China"
+      },
+      "LKC": {
+        "make": "Changhe",
+        "country": "China"
+      },
+      "LLV": {
+        "make": "Lifan",
+        "country": "China"
+      },
+      "LNB": {
+        "make": "Beijing Automotive",
+        "country": "China"
+      },
+      "LNE": {
+        "make": "JMC",
+        "country": "China"
+      },
+      "LNP": {
+        "make": "Nanjing Fiat",
+        "country": "China"
+      },
+      "LNV": {
+        "make": "Nanjing Iveco",
+        "country": "China"
+      },
+      "LNY": {
+        "make": "Yuejin",
+        "country": "China"
+      },
+      "LPA": {
+        "make": "Changan PSA",
+        "country": "China"
+      },
+      "LPE": {
+        "make": "Changan Ford",
+        "country": "China"
+      },
+      "LRS": {
+        "make": "Changan Suzuki",
+        "country": "China"
+      },
+      "LSG": {
+        "make": "SAIC General Motors",
+        "country": "China"
+      },
+      "LSJ": {
+        "make": "SAIC MG",
+        "country": "China"
+      },
+      "LSV": {
+        "make": "SAIC Volkswagen",
+        "country": "China"
+      },
+      "LSY": {
+        "make": "Brilliance",
+        "country": "China"
+      },
+      "LTA": {
+        "make": "ZNA",
+        "country": "China"
+      },
+      "LTV": {
+        "make": "Toyota (China)",
+        "country": "China"
+      },
+      "LUC": {
+        "make": "Honda (China)",
+        "country": "China"
+      },
+      "LVS": {
+        "make": "Ford (China)",
+        "country": "China"
+      },
+      "LVV": {
+        "make": "Chery",
+        "country": "China"
+      },
+      "LVZ": {
+        "make": "Dongfeng (China)",
+        "country": "China"
+      },
+      "LZW": {
+        "make": "SAIC GM Wuling",
+        "country": "China"
+      },
+      "M": {
+        "make": "Indian manufacturers",
+        "country": "India"
+      },
+      "MA": {
+        "make": "Maruti Suzuki",
+        "country": "India"
+      },
+      "MA1": {
+        "make": "Mahindra",
+        "country": "India"
+      },
+      "MAJ": {
+        "make": "Ford (India)",
+        "country": "India"
+      },
+      "MAK": {
+        "make": "Honda (India)",
+        "country": "India"
+      },
+      "MAL": {
+        "make": "Hyundai (India)",
+        "country": "India"
+      },
+      "MAT": {
+        "make": "Tata",
+        "country": "India"
+      },
+      "MBH": {
+        "make": "Suzuki (India)",
+        "country": "India"
+      },
+      "MBJ": {
+        "make": "Toyota (India)",
+        "country": "India"
+      },
+      "MBR": {
+        "make": "Mercedes-Benz (India)",
+        "country": "India"
+      },
+      "MCA": {
+        "make": "Fiat (India)",
+        "country": "India"
+      },
+      "MCB": {
+        "make": "GM (India)",
+        "country": "India"
+      },
+      "PL": {
+        "make": "Proton",
+        "country": "Malaysia"
+      },
+      "S": {
+        "make": "UK manufacturers",
+        "country": "United Kingdom"
+      },
+      "SA": {
+        "make": "Jaguar",
+        "country": "United Kingdom"
+      },
+      "SAL": {
+        "make": "Land Rover",
+        "country": "United Kingdom"
+      },
+      "SAR": {
+        "make": "Rover",
+        "country": "United Kingdom"
+      },
+      "SB": {
+        "make": "Smart",
+        "country": "France/UK"
+      },
+      "SC": {
+        "make": "Lotus",
+        "country": "United Kingdom"
+      },
+      "SCA": {
+        "make": "Rolls-Royce",
+        "country": "United Kingdom"
+      },
+      "SCC": {
+        "make": "Lotus",
+        "country": "United Kingdom"
+      },
+      "SCE": {
+        "make": "DeLorean",
+        "country": "United Kingdom"
+      },
+      "SCF": {
+        "make": "Aston Martin",
+        "country": "United Kingdom"
+      },
+      "SFD": {
+        "make": "Alexander Dennis",
+        "country": "United Kingdom"
+      },
+      "SHS": {
+        "make": "Honda (UK)",
+        "country": "United Kingdom"
+      },
+      "SJ": {
+        "make": "Leyland",
+        "country": "United Kingdom"
+      },
+      "SJL": {
+        "make": "Leyland",
+        "country": "United Kingdom"
+      },
+      "SKF": {
+        "make": "Vauxhall",
+        "country": "United Kingdom"
+      },
+      "T": {
+        "make": "Swiss manufacturers",
+        "country": "Switzerland"
+      },
+      "TCC": {
+        "make": "Microcar",
+        "country": "Switzerland"
+      },
+      "U": {
+        "make": "Danish manufacturers",
+        "country": "Denmark"
+      },
+      "V": {
+        "make": "French manufacturers",
+        "country": "France"
+      },
+      "VAG": {
+        "make": "Peugeot",
+        "country": "France"
+      },
+      "VAN": {
+        "make": "Renault",
+        "country": "France"
+      },
+      "VF": {
+        "make": "Renault",
+        "country": "France"
+      },
+      "VF1": {
+        "make": "Renault",
+        "country": "France"
+      },
+      "VF2": {
+        "make": "Renault",
+        "country": "France"
+      },
+      "VF3": {
+        "make": "Peugeot",
+        "country": "France"
+      },
+      "VF4": {
+        "make": "Citroen",
+        "country": "France"
+      },
+      "VF6": {
+        "make": "Renault Trucks",
+        "country": "France"
+      },
+      "VF7": {
+        "make": "Citroen",
+        "country": "France"
+      },
+      "VF8": {
+        "make": "Matra",
+        "country": "France"
+      },
+      "VF9": {
+        "make": "Bugatti",
+        "country": "France"
+      },
+      "VL": {
+        "make": "Peugeot",
+        "country": "France"
+      },
+      "VO": {
+        "make": "Citroen",
+        "country": "France"
+      },
+      "VR": {
+        "make": "Renault",
+        "country": "France"
+      },
+      "VS": {
+        "make": "Renault",
+        "country": "France"
+      },
+      "VSS": {
+        "make": "SEAT (Spain)",
+        "country": "Spain"
+      },
+      "VT": {
+        "make": "Renault",
+        "country": "France"
+      },
+      "VU": {
+        "make": "Renault",
+        "country": "France"
+      },
+      "VX": {
+        "make": "Renault",
+        "country": "France"
+      },
+      "W": {
+        "make": "German manufacturers",
+        "country": "Germany"
+      },
+      "W0": {
+        "make": "Opel/Vauxhall",
+        "country": "Germany"
+      },
+      "W04": {
+        "make": "Buick",
+        "country": "Germany"
+      },
+      "W0L": {
+        "make": "Opel",
+        "country": "Germany"
+      },
+      "W0V": {
+        "make": "Opel",
+        "country": "Germany"
+      },
+      "W1": {
+        "make": "Mercedes-Benz",
+        "country": "Germany"
+      },
+      "W1K": {
+        "make": "Mercedes-Benz",
+        "country": "Germany"
+      },
+      "W1N": {
+        "make": "Mercedes-Benz",
+        "country": "Germany"
+      },
+      "W1T": {
+        "make": "Mercedes-Benz",
+        "country": "Germany"
+      },
+      "W1V": {
+        "make": "Mercedes-Benz",
+        "country": "Germany"
+      },
+      "W1W": {
+        "make": "Mercedes-Benz",
+        "country": "Germany"
+      },
+      "W1X": {
+        "make": "Mercedes-Benz",
+        "country": "Germany"
+      },
+      "W2": {
+        "make": "Smart",
+        "country": "Germany"
+      },
+      "WAP": {
+        "make": "BMW",
+        "country": "Germany"
+      },
+      "WBA": {
+        "make": "BMW",
+        "country": "Germany"
+      },
+      "WBB": {
+        "make": "BMW",
+        "country": "Germany"
+      },
+      "WBC": {
+        "make": "BMW",
+        "country": "Germany"
+      },
+      "WBD": {
+        "make": "BMW",
+        "country": "Germany"
+      },
+      "WBE": {
+        "make": "BMW",
+        "country": "Germany"
+      },
+      "WBF": {
+        "make": "BMW",
+        "country": "Germany"
+      },
+      "WBG": {
+        "make": "BMW",
+        "country": "Germany"
+      },
+      "WBH": {
+        "make": "BMW",
+        "country": "Germany"
+      },
+      "WBJ": {
+        "make": "BMW (Alpina)",
+        "country": "Germany"
+      },
+      "WBS": {
+        "make": "BMW M",
+        "country": "Germany"
+      },
+      "WBY": {
+        "make": "BMW i",
+        "country": "Germany"
+      },
+      "WDB": {
+        "make": "Mercedes-Benz",
+        "country": "Germany"
+      },
+      "WDC": {
+        "make": "Mercedes-Benz",
+        "country": "Germany"
+      },
+      "WDD": {
+        "make": "Mercedes-Benz",
+        "country": "Germany"
+      },
+      "WDF": {
+        "make": "Mercedes-Benz (Vans)",
+        "country": "Germany"
+      },
+      "WDP": {
+        "make": "Mercedes-Benz",
+        "country": "Germany"
+      },
+      "WF": {
+        "make": "Volkswagen",
+        "country": "Germany"
+      },
+      "WMA": {
+        "make": "MAN",
+        "country": "Germany"
+      },
+      "WME": {
+        "make": "Smart",
+        "country": "Germany"
+      },
+      "WMW": {
+        "make": "Mini",
+        "country": "Germany"
+      },
+      "WMX": {
+        "make": "Mercedes-Benz Trucks",
+        "country": "Germany"
+      },
+      "WP0": {
+        "make": "Porsche",
+        "country": "Germany"
+      },
+      "WP1": {
+        "make": "Porsche SUV",
+        "country": "Germany"
+      },
+      "WUA": {
+        "make": "Audi",
+        "country": "Germany"
+      },
+      "WU1": {
+        "make": "Audi",
+        "country": "Germany"
+      },
+      "WU2": {
+        "make": "Audi Sport",
+        "country": "Germany"
+      },
+      "WVG": {
+        "make": "Volkswagen",
+        "country": "Germany"
+      },
+      "WV1": {
+        "make": "Volkswagen",
+        "country": "Germany"
+      },
+      "WV2": {
+        "make": "Volkswagen",
+        "country": "Germany"
+      },
+      "WVW": {
+        "make": "Volkswagen",
+        "country": "Germany"
+      },
+      "X": {
+        "make": "Russian manufacturers",
+        "country": "Russia"
+      },
+      "XLB": {
+        "make": "Lada",
+        "country": "Russia"
+      },
+      "XTA": {
+        "make": "Lada",
+        "country": "Russia"
+      },
+      "XTC": {
+        "make": "KAMAZ",
+        "country": "Russia"
+      },
+      "XTH": {
+        "make": "GAZ",
+        "country": "Russia"
+      },
+      "XW": {
+        "make": "AvtoVAZ",
+        "country": "Russia"
+      },
+      "Y": {
+        "make": "Swedish manufacturers",
+        "country": "Sweden"
+      },
+      "YAR": {
+        "make": "Toyota (Europe)",
+        "country": "Belgium"
+      },
+      "YB": {
+        "make": "Volvo (Belgium)",
+        "country": "Belgium"
+      },
+      "YV": {
+        "make": "Volvo",
+        "country": "Sweden"
+      },
+      "YV1": {
+        "make": "Volvo",
+        "country": "Sweden"
+      },
+      "YV2": {
+        "make": "Volvo Trucks",
+        "country": "Sweden"
+      },
+      "YV3": {
+        "make": "Volvo Bus",
+        "country": "Sweden"
+      },
+      "YV4": {
+        "make": "Volvo",
+        "country": "Sweden"
+      },
+      "YV5": {
+        "make": "Volvo Trucks",
+        "country": "Sweden"
+      },
+      "YS": {
+        "make": "Saab",
+        "country": "Sweden"
+      },
+      "YS3": {
+        "make": "Saab",
+        "country": "Sweden"
+      },
+      "YT": {
+        "make": "Scania",
+        "country": "Sweden"
+      },
+      "YU": {
+        "make": "Scania",
+        "country": "Sweden"
+      },
+      "YVU": {
+        "make": "Volvo Penta",
+        "country": "Sweden"
+      },
+      "Z": {
+        "make": "Italian manufacturers",
+        "country": "Italy"
+      },
+      "ZAA": {
+        "make": "Alfa Romeo",
+        "country": "Italy"
+      },
+      "ZAB": {
+        "make": "Alfa Romeo",
+        "country": "Italy"
+      },
+      "ZAC": {
+        "make": "Alfa Romeo",
+        "country": "Italy"
+      },
+      "ZAD": {
+        "make": "Alfa Romeo",
+        "country": "Italy"
+      },
+      "ZAF": {
+        "make": "Alfa Romeo",
+        "country": "Italy"
+      },
+      "ZAH": {
+        "make": "Alfa Romeo",
+        "country": "Italy"
+      },
+      "ZAR": {
+        "make": "Alfa Romeo",
+        "country": "Italy"
+      },
+      "ZAS": {
+        "make": "Alfa Romeo",
+        "country": "Italy"
+      },
+      "ZAZ": {
+        "make": "Zastava",
+        "country": "Italy"
+      },
+      "ZBN": {
+        "make": "Benelli",
+        "country": "Italy"
+      },
+      "ZCG": {
+        "make": "Cagiva",
+        "country": "Italy"
+      },
+      "ZDM": {
+        "make": "Ducati",
+        "country": "Italy"
+      },
+      "ZDF": {
+        "make": "Ferrari",
+        "country": "Italy"
+      },
+      "ZDY": {
+        "make": "Aprilia",
+        "country": "Italy"
+      },
+      "ZE": {
+        "make": "Lamborghini",
+        "country": "Italy"
+      },
+      "ZFA": {
+        "make": "Fiat",
+        "country": "Italy"
+      },
+      "ZFC": {
+        "make": "Fiat",
+        "country": "Italy"
+      },
+      "ZFF": {
+        "make": "Ferrari",
+        "country": "Italy"
+      },
+      "ZGU": {
+        "make": "Moto Guzzi",
+        "country": "Italy"
+      },
+      "ZHW": {
+        "make": "Lamborghini",
+        "country": "Italy"
+      },
+      "ZLA": {
+        "make": "Lancia",
+        "country": "Italy"
+      },
+      "ZOM": {
+        "make": "Maserati",
+        "country": "Italy"
+      },
+      "ZOW": {
+        "make": "Maserati",
+        "country": "Italy"
+      },
+      "ZPY": {
+        "make": "Piaggio",
+        "country": "Italy"
+      },
+      "ZYX": {
+        "make": "Maserati",
+        "country": "Italy"
+      }
     }
   },
   "vinValidation": {
@@ -379,12 +1395,59 @@
     ],
     "transliterationTable": {
       "description": "Map of VIN characters to their numeric values",
-      "0": 0, "1": 1, "2": 2, "3": 3, "4": 4, "5": 5, "6": 6, "7": 7, "8": 8, "9": 9,
-      "A": 1, "B": 2, "C": 3, "D": 4, "E": 5, "F": 6, "G": 7, "H": 8,
-      "J": 1, "K": 2, "L": 3, "M": 4, "N": 5, "P": 7, "R": 9,
-      "S": 2, "T": 3, "U": 4, "V": 5, "W": 6, "X": 7, "Y": 8, "Z": 9
+      "0": 0,
+      "1": 1,
+      "2": 2,
+      "3": 3,
+      "4": 4,
+      "5": 5,
+      "6": 6,
+      "7": 7,
+      "8": 8,
+      "9": 9,
+      "A": 1,
+      "B": 2,
+      "C": 3,
+      "D": 4,
+      "E": 5,
+      "F": 6,
+      "G": 7,
+      "H": 8,
+      "J": 1,
+      "K": 2,
+      "L": 3,
+      "M": 4,
+      "N": 5,
+      "P": 7,
+      "R": 9,
+      "S": 2,
+      "T": 3,
+      "U": 4,
+      "V": 5,
+      "W": 6,
+      "X": 7,
+      "Y": 8,
+      "Z": 9
     },
-    "weightFactors": [8, 7, 6, 5, 4, 3, 2, 10, 0, 9, 8, 7, 6, 5, 4, 3, 2],
+    "weightFactors": [
+      8,
+      7,
+      6,
+      5,
+      4,
+      3,
+      2,
+      10,
+      0,
+      9,
+      8,
+      7,
+      6,
+      5,
+      4,
+      3,
+      2
+    ],
     "javascriptHelper": "function validateVIN(vin) {\n  // Returns { valid: boolean, error?: string }\n  if (!vin || vin.length !== 17) return { valid: false, error: 'VIN must be exactly 17 characters' };\n  \n  const transliteration = {\n    '0':0,'1':1,'2':2,'3':3,'4':4,'5':5,'6':6,'7':7,'8':8,'9':9,\n    'A':1,'B':2,'C':3,'D':4,'E':5,'F':6,'G':7,'H':8,\n    'J':1,'K':2,'L':3,'M':4,'N':5,'P':7,'R':9,\n    'S':2,'T':3,'U':4,'V':5,'W':6,'X':7,'Y':8,'Z':9\n  };\n  const weights = [8,7,6,5,4,3,2,10,0,9,8,7,6,5,4,3,2];\n  \n  const upperVIN = vin.toUpperCase();\n  \n  // Check for invalid characters (I, O, Q are not used in VINs)\n  if (/[IOQ]/.test(upperVIN)) return { valid: false, error: 'Invalid characters in VIN (I, O, Q are not allowed)' };\n  \n  let sum = 0;\n  for (let i = 0; i < 17; i++) {\n    const char = upperVIN[i];\n    const value = transliteration[char];\n    if (value === undefined) return { valid: false, error: 'Invalid character at position ' + (i + 1) };\n    sum += value * weights[i];\n  }\n  \n  const remainder = sum % 11;\n  const expectedCheckDigit = remainder === 10 ? 'X' : String(remainder);\n  const actualCheckDigit = upperVIN[8];\n  \n  if (actualCheckDigit !== expectedCheckDigit) {\n    return { valid: false, error: 'Check digit mismatch: expected ' + expectedCheckDigit + ', got ' + actualCheckDigit };\n  }\n  \n  return { valid: true };\n}\n\n// Example usage:\n// validateVIN('1FA6P8CF0L5123456');\n// Returns: { valid: true } or { valid: false, error: '...' }"
   }
 }

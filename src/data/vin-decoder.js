@@ -73,7 +73,10 @@ export function decodeWMI(vin) {
 export function getModelYear(vin) {
   if (!vin || vin.length < 10) return null;
   const code = vin[9].toUpperCase();
-  return vinData.modelYearCodes?.codes?.[code] || null;
+  const years = vinData.modelYearCodes?.codes?.[code];
+  if (!years) return null;
+  // Codes repeat every 30 years — return the most recent year
+  return Array.isArray(years) ? years[years.length - 1] : years;
 }
 
 export default { validateVIN, decodeWMI, getModelYear };
