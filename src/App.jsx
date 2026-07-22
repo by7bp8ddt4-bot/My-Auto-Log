@@ -14,6 +14,7 @@ import MaintenanceSchedule from './components/MaintenanceSchedule.jsx';
 import FuelLog from './components/FuelLog.jsx';
 import MileageChart from './components/MileageChart.jsx';
 import Modifications from './components/Modifications.jsx';
+import FuseBox from './components/FuseBox.jsx';
 import ContactSupport from './components/ContactSupport.jsx';
 import SubscriptionManagement, { setSubscriptionData, getSubscriptionData, clearSubscriptionData } from './components/SubscriptionManagement.jsx';
 import ErrorBoundary, { setupGlobalErrorHandlers } from './components/ErrorBoundary.jsx';
@@ -1073,6 +1074,9 @@ export default function App() {
     documents: <DocumentsPage
       vehicles={vehiclesStore.data}
       onNavigate={navigate}
+    />,
+    wiring: <FuseBox
+      selectedVehicle={vehiclesStore.data.find(v => v.id === selectedVehicleId) || vehiclesStore.data[0] || null}
     />,
     subscription: <SubscriptionManagement
       userId={auth.user?.id}
