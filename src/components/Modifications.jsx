@@ -141,7 +141,7 @@ export default function Modifications({ mods = [], vehicles, onAdd, onDelete, on
                                   </div>
                                   {mod.notes && <p className="text-[10px] text-slate-600 mt-1.5 italic leading-relaxed">{mod.notes}</p>}
                                 </div>
-                                <button onClick={() => onDelete(mod.id)}
+                                <button onClick={() => { if (window.confirm('Delete this modification? This cannot be undone.')) onDelete(mod.id); }}
                                   className="p-1.5 rounded-lg hover:bg-red-500/20 text-slate-500 hover:text-red-400 transition-all shrink-0 opacity-0 group-hover:opacity-100">
                                   <X className="w-3.5 h-3.5" />
                                 </button>

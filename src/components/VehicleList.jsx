@@ -188,7 +188,7 @@ export default function VehicleList({ vehicles, onAdd, onEdit, onDelete, isPremi
                     <Pencil className="w-3.5 h-3.5" />
                   </button>
                   <button
-                    onClick={() => onDelete(v.id)}
+                    onClick={() => { if (window.confirm('Delete this vehicle and all its records? This cannot be undone.')) onDelete(v.id); }}
                     className="p-1.5 rounded-lg hover:bg-red-500/10 text-slate-500 hover:text-red-400 transition-all"
                   >
                     <Trash2 className="w-3.5 h-3.5" />

@@ -403,7 +403,7 @@ export default function MaintenanceLog({ logs, vehicles, onAdd, onUpdate, onDele
                                   <Pencil className="w-3.5 h-3.5" />
                                 </button>
                                 <button
-                                  onClick={(e) => { e.stopPropagation(); onDelete(log.id); }}
+                                  onClick={(e) => { e.stopPropagation(); if (window.confirm('Delete this maintenance record? This cannot be undone.')) onDelete(log.id); }}
                                   className="p-1.5 rounded-lg hover:bg-red-500/20 text-slate-400 hover:text-red-400 transition-all"
                                 >
                                   <Trash2 className="w-3.5 h-3.5" />

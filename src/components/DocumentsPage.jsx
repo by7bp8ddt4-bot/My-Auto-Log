@@ -123,7 +123,7 @@ function DocumentItem({ doc, onDelete, showVehicleName, vehicles }) {
             </a>
           )}
           <button
-            onClick={() => onDelete(doc.id)}
+            onClick={() => { if (window.confirm('Delete this document? This cannot be undone.')) onDelete(doc.id); }}
             className="p-1.5 rounded-lg hover:bg-red-500/20 text-slate-400 hover:text-red-400 transition-all"
             title="Delete"
           >

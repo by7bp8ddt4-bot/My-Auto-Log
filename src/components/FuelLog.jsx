@@ -139,7 +139,7 @@ export default function FuelLog({ logs, vehicles, onAdd, onUpdate, onDelete, sel
                       </div>
                       {log.notes && <p className="text-[10px] text-slate-600 mt-1">{log.notes}</p>}
                     </div>
-                    <button onClick={() => onDelete(log.id)}
+                    <button onClick={() => { if (window.confirm('Delete this fuel log entry? This cannot be undone.')) onDelete(log.id); }}
                       className="p-1.5 rounded-lg hover:bg-red-500/10 text-slate-600 hover:text-red-400 transition-all shrink-0">
                       <X className="w-3 h-3" />
                     </button>
