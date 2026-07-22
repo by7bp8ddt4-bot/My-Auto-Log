@@ -12,7 +12,8 @@
  *   - relays: Array of { pos, circuit, desc }
  *
  * Sources: Toyota/Lexus owner's manuals, NHTSA PDFs, Ford service manuals,
- * Honda owner's manuals, startmycar.com (cross-referenced).
+ * Honda owner's manuals, Chevrolet/GM owner's manuals, Mazda owner's manuals,
+ * startmycar.com (cross-referenced).
  *
  * Notes:
  *   - Hybrid variants may have additional fuses; the most common gas configuration is covered.
@@ -534,6 +535,160 @@ export const fuseBoxData = {
           }
         ]
       }
+    },
+    'f-250': {
+      '2017-2024': {
+        panels: [
+          {
+            name: 'Power Distribution Box',
+            location: 'Passenger side of engine bay, near the firewall and coolant reservoir',
+            fuses: [
+              { pos: '1', amps: 20, circuit: 'PCM', desc: 'Powertrain control module — main power' },
+              { pos: '2', amps: 20, circuit: 'EMISSIONS', desc: 'Emissions system — MIL, EVAP, exhaust sensors' },
+              { pos: '3', amps: 20, circuit: 'COOL FAN/A/C', desc: 'Cooling fan clutch, A/C compressor, engine brake' },
+              { pos: '4', amps: 20, circuit: 'GLOW PLUGS', desc: 'Glow plugs / urea injection — diesel engine management' },
+              { pos: '5', amps: 15, circuit: 'CNG MODULE', desc: 'Compressed natural gas fuel control module (CNG models)' },
+              { pos: '10', amps: 15, circuit: 'HTD MIRRORS', desc: 'Heated exterior mirrors' },
+              { pos: '12', amps: 40, circuit: 'REAR DEFROST', desc: 'Heated rear window / defroster' },
+              { pos: '15', amps: 20, circuit: 'HORN', desc: 'Horn' },
+              { pos: '16', amps: 10, circuit: 'A/C CLUTCH', desc: 'A/C compressor clutch relay power' },
+              { pos: '22', amps: 20, circuit: 'PWR POINT 5', desc: 'Auxiliary power point #5 — rear console (run/start)' },
+              { pos: '27', amps: 30, circuit: 'TRAILER CHARGE', desc: 'Trailer tow battery charge relay' },
+              { pos: '30', amps: 10, circuit: '4X4 MODULE', desc: '4x4 transfer case control module' },
+              { pos: '31', amps: 5, circuit: 'ADAPTIVE CRUISE', desc: 'Adaptive cruise control module — run/start' },
+              { pos: '32', amps: 5, circuit: 'ABS RUN', desc: 'Anti-lock braking system — run/start power' },
+              { pos: '33', amps: 10, circuit: 'PCM/TCM RUN', desc: 'Powertrain control / transmission control — run/start' },
+              { pos: '34', amps: 10, circuit: 'CAMERAS', desc: 'Blind spot monitor, front camera, rear camera — run/start' },
+              { pos: '41', amps: 25, circuit: 'GLOW PLUGS MAIN', desc: 'Glow plug module — main power (diesel)' },
+              { pos: '42', amps: 40, circuit: 'TRAILER LIGHTING', desc: 'Trailer tow lighting module' },
+              { pos: '43', amps: 40, circuit: 'BLOWER MOTOR', desc: 'Front HVAC blower motor' },
+              { pos: '44', amps: 50, circuit: 'VQM/BCM', desc: 'Voltage quality module / body control module bus' },
+              { pos: '45', amps: 60, circuit: 'ACTIVE STEER', desc: 'Active front steering system (if equipped)' },
+              { pos: '46', amps: 50, circuit: 'SUPP HEATER 2', desc: 'Supplemental air heater bank #2 (diesel)' },
+              { pos: '47', amps: 50, circuit: 'COOL FAN', desc: 'Cooling fan / supplemental air heater bank #3' },
+              { pos: '48', amps: 50, circuit: 'BCM RP1', desc: 'Body control module — RP1 bus feed' },
+              { pos: '49', amps: 60, circuit: 'INVERTER', desc: '110V AC power inverter' },
+              { pos: '50', amps: 50, circuit: 'BCM RP2', desc: 'Body control module — RP2 bus feed' },
+              { pos: '51', amps: 60, circuit: 'BCM B+', desc: 'Body control module — battery constant power' },
+              { pos: '52', amps: 60, circuit: 'ABS PUMP', desc: 'Anti-lock braking system — pump motor' },
+              { pos: '53', amps: 50, circuit: 'SUPP HEATER 1', desc: 'Supplemental air heater bank #1 (diesel)' },
+              { pos: '54', amps: 30, circuit: 'TRAILER BRAKE', desc: 'Trailer brake control module' },
+              { pos: '55', amps: 30, circuit: 'CLIMATE SEATS', desc: 'Climate-controlled seat module (heated/cooled)' },
+              { pos: '56', amps: 40, circuit: 'AUX LIGHTING', desc: 'Auxiliary lighting module (upfitter / work lights)' },
+              { pos: '57', amps: 30, circuit: 'RUNNING BOARDS', desc: 'Power running boards / deployable steps' },
+              { pos: '58', amps: 30, circuit: 'CNG RELAY', desc: 'Compressed natural gas fuel relay (CNG models)' },
+              { pos: '59', amps: 30, circuit: 'ABS VALVE', desc: 'Anti-lock braking system — valve block' },
+              { pos: '61', amps: 30, circuit: 'DRIVER SEAT', desc: 'Driver power seat motors' },
+              { pos: '62', amps: 20, circuit: 'PWR POINT 1', desc: 'Auxiliary power point #1 — instrument panel' },
+              { pos: '63', amps: 30, circuit: 'STARTER MOTOR', desc: 'Starter motor solenoid / relay feed' },
+              { pos: '64', amps: 20, circuit: 'PWR POINT 2', desc: 'Auxiliary power point #2 — center console' },
+              { pos: '65', amps: 30, circuit: 'TRAILER LIGHT 2', desc: 'Trailer tow lighting module — secondary' },
+              { pos: '66', amps: 20, circuit: 'PWR POINT 3', desc: 'Auxiliary power point #3 — center console rear' },
+              { pos: '67', amps: 30, circuit: 'PASS SEAT', desc: 'Passenger power seat motors' },
+              { pos: '68', amps: 20, circuit: 'PWR POINT 4', desc: 'Auxiliary power point #4 — rear media bin' },
+              { pos: '69', amps: 25, circuit: '4X4 MODULE 2', desc: '4x4 transfer case module — secondary' },
+              { pos: '72', amps: 30, circuit: 'TRAILER STOP', desc: 'Trailer tow left/right stop and turn lamps' },
+              { pos: '75', amps: 30, circuit: 'FUEL PUMP', desc: 'Fuel pump driver module' },
+              { pos: '77', amps: 30, circuit: 'WIPER MOTOR', desc: 'Windshield wiper motor' },
+              { pos: '79', amps: 30, circuit: 'REAR WINDOW', desc: 'Power sliding rear window' },
+              { pos: '80', amps: 25, circuit: '4X4 MODULE 3', desc: '4x4 transfer case — actuator power' },
+              { pos: '81', amps: 10, circuit: '4X4 SOLENOID', desc: '4x4 transfer case — IWE solenoid' },
+              { pos: '82', amps: 10, circuit: 'TELESCOPIC MIRROR', desc: 'Power telescoping trailer tow mirrors' },
+              { pos: '83', amps: 20, circuit: 'RR HEATED SEATS', desc: 'Rear heated seats' },
+              { pos: '84', amps: 10, circuit: 'TRAILER BACKUP', desc: 'Trailer tow backup / reverse lamps' },
+              { pos: '88', amps: 10, circuit: 'MULTI SEATS', desc: 'Multi-contour / massaging seats' },
+              { pos: '90', amps: 10, circuit: 'SPOT LIGHT', desc: 'Spot light module (police / utility vehicles)' },
+              { pos: '91', amps: 10, circuit: 'UPFITTER MODULE', desc: 'Upfitter interface module (auxiliary switches)' },
+              { pos: '94', amps: 15, circuit: 'TCM', desc: 'Transmission control module — main power' },
+              { pos: '95', amps: 10, circuit: 'PCM KEEP', desc: 'Powertrain control module — keep-alive memory' },
+              { pos: '96', amps: 5, circuit: 'RAIN SENSOR', desc: 'Rain sensor module (auto wipers)' },
+              { pos: '98', amps: 10, circuit: 'ALT SENSE', desc: 'Alternator sense — charging system monitor' },
+              { pos: '99', amps: 30, circuit: 'TRAILER PARK', desc: 'Trailer tow parking / marker lamps' }
+            ],
+            relays: [
+              { pos: 'R11', circuit: 'CNG', desc: 'Compressed natural gas relay' },
+              { pos: 'R14', circuit: 'PCM RELAY', desc: 'Powertrain control module relay' },
+              { pos: 'R17', circuit: 'REAR DEFROST', desc: 'Rear defroster and heated mirrors relay' },
+              { pos: 'R20', circuit: 'SUPP HEATER 1', desc: 'Supplemental air heater bank #1 relay' },
+              { pos: 'R24', circuit: 'COOL FAN', desc: 'Cooling fan / supplemental air heater bank #3 relay' },
+              { pos: 'R25', circuit: 'GLOW PLUG', desc: 'Glow plug module power relay' },
+              { pos: 'R29', circuit: 'RUN/START', desc: 'Run/Start relay — powers ignition circuits' },
+              { pos: 'R36', circuit: 'BLOWER MOTOR', desc: 'HVAC blower motor relay' },
+              { pos: 'R37', circuit: 'TRAILER CHARGE', desc: 'Trailer tow battery charge relay' },
+              { pos: 'R38', circuit: 'A/C CLUTCH', desc: 'A/C compressor clutch relay' },
+              { pos: 'R39', circuit: 'HORN', desc: 'Horn relay' },
+              { pos: 'R40', circuit: 'SUPP HEATER 2', desc: 'Supplemental air heater bank #2 relay' }
+            ]
+          },
+          {
+            name: 'Passenger Compartment Fuse Panel',
+            location: 'Right side of passenger footwell, behind the kick panel trim',
+            fuses: [
+              { pos: '2', amps: 7.5, circuit: 'MEMORY SEAT', desc: 'Memory seat switch — lumbar power' },
+              { pos: '3', amps: 20, circuit: 'DRIVER UNLOCK', desc: 'Driver door unlock relay' },
+              { pos: '4', amps: 5, circuit: 'TRAILER BRAKE', desc: 'Aftermarket trailer brake controller — brake on/off signal' },
+              { pos: '9', amps: 10, circuit: 'BRAKE SWITCH', desc: 'Brake on/off pressure switch' },
+              { pos: '11', amps: 5, circuit: 'SECURITY MODULE', desc: 'Combined sense security module' },
+              { pos: '12', amps: 7.5, circuit: 'CLIMATE CONTROL', desc: 'Front climate control module' },
+              { pos: '13', amps: 7.5, circuit: 'CLUSTER', desc: 'Instrument cluster, smart data link, steering column module' },
+              { pos: '14', amps: 10, circuit: 'RESTRAINTS', desc: 'Extended power restraints module (airbags)' },
+              { pos: '15', amps: 10, circuit: 'DATALINK', desc: 'Smart datalink connector / OBD-II power' },
+              { pos: '16', amps: 15, circuit: 'TAILGATE', desc: 'Tailgate release solenoid' },
+              { pos: '17', amps: 5, circuit: 'HEAD-UP', desc: 'Head-up display' },
+              { pos: '18', amps: 5, circuit: 'IGN SWITCH', desc: 'Push-button ignition / key inhibit solenoid' },
+              { pos: '19', amps: 7.5, circuit: 'TCM SWITCH', desc: 'Transmission control switch — tow/haul, select shift' },
+              { pos: '20', amps: 7.5, circuit: 'ACTIVE STEER', desc: 'Active front steering module' },
+              { pos: '21', amps: 5, circuit: 'HUMIDITY', desc: 'Head-up display / humidity sensor' },
+              { pos: '22', amps: 5, circuit: 'UPFITTER RUN', desc: 'Upfitter switch — run/start, PTO relays' },
+              { pos: '23', amps: 10, circuit: 'ACC DELAY', desc: 'Accessory delay — power windows, moonroof, folding mirrors, inverter' },
+              { pos: '24', amps: 20, circuit: 'CENTRAL LOCKING', desc: 'Central locking system relay' },
+              { pos: '25', amps: 30, circuit: 'LF WINDOW', desc: 'Left-front smart window motor / door zone module' },
+              { pos: '26', amps: 30, circuit: 'RF WINDOW', desc: 'Right-front smart window motor / door zone module' },
+              { pos: '27', amps: 30, circuit: 'MOONROOF', desc: 'Power moonroof / sunroof' },
+              { pos: '28', amps: 20, circuit: 'AMPLIFIER', desc: 'Sony / B&O premium audio amplifier (10-channel)' },
+              { pos: '31', amps: 15, circuit: 'ADJ PEDALS', desc: 'Adjustable pedals switch' },
+              { pos: '32', amps: 10, circuit: 'SYNC/GPS', desc: 'SYNC infotainment, GPS module, display, radio receiver' },
+              { pos: '33', amps: 20, circuit: 'RADIO', desc: 'Radio head unit' },
+              { pos: '34', amps: 30, circuit: 'RUN/START RELAY', desc: 'Run/start relay — interior power feed' },
+              { pos: '35', amps: 5, circuit: 'RESTRAINTS 2', desc: 'Extended power restraints module — secondary' },
+              { pos: '36', amps: 15, circuit: 'ADAS', desc: 'Lane keeping, auto high beam, auto-dimming mirrors, rear heated seats, camera' },
+              { pos: '37', amps: 20, circuit: 'HTD STRG WHEEL', desc: 'Heated steering wheel' },
+              { pos: '38', amps: '—', circuit: 'RR PWR WINDOW', desc: 'Rear power window switch (circuit breaker)' }
+            ],
+            relays: [
+              { pos: 'R1', circuit: 'ACC DELAY', desc: 'Accessory delay relay — windows and moonroof after key off' },
+              { pos: 'R2', circuit: 'RUN/START', desc: 'Run/Start interior relay' }
+            ]
+          },
+          {
+            name: 'AUX Upfitter Switches — Relay & Fuse Box',
+            location: 'Under-hood, near the power distribution box (upfitter switch-equipped models)',
+            fuses: [
+              { pos: 'F1', amps: 40, circuit: 'UPFITTER 5', desc: 'Upfitter relay #5 output' },
+              { pos: 'F2', amps: 40, circuit: 'UPFITTER 6', desc: 'Upfitter relay #6 output' },
+              { pos: 'F3', amps: 20, circuit: 'UPFITTER RUN', desc: 'Upfitter run/start relay' },
+              { pos: 'F4A', amps: 25, circuit: 'UPFITTER SW', desc: 'Upfitter switch power feed' },
+              { pos: 'F4C', amps: 25, circuit: 'UPFITTER SW 2', desc: 'Upfitter switch power feed — secondary' },
+              { pos: 'F5', amps: 20, circuit: 'PTO RELAY', desc: 'Upfitter PTO (power take-off) relay' },
+              { pos: 'F6', amps: 20, circuit: 'CUST ACCESS', desc: 'Customer access circuit' },
+              { pos: 'F7', amps: 25, circuit: 'UPFITTER 4', desc: 'Upfitter relay #4 output' },
+              { pos: 'F8', amps: 25, circuit: 'UPFITTER 3', desc: 'Upfitter relay #3 output' },
+              { pos: 'F9', amps: 25, circuit: 'UPFITTER 2', desc: 'Upfitter relay #2 output' },
+              { pos: 'F10', amps: 25, circuit: 'UPFITTER 1', desc: 'Upfitter relay #1 output' }
+            ],
+            relays: [
+              { pos: 'R1', circuit: 'UPFITTER 1', desc: 'Upfitter switch #1 — 25A auxiliary output' },
+              { pos: 'R2', circuit: 'UPFITTER 2', desc: 'Upfitter switch #2 — 25A auxiliary output' },
+              { pos: 'R3', circuit: 'UPFITTER 3', desc: 'Upfitter switch #3 — 25A auxiliary output' },
+              { pos: 'R4', circuit: 'UPFITTER 4', desc: 'Upfitter switch #4 — 25A auxiliary output' },
+              { pos: 'R5', circuit: 'UPFITTER 5', desc: 'Upfitter switch #5 — 40A auxiliary output' },
+              { pos: 'R6', circuit: 'UPFITTER 6', desc: 'Upfitter switch #6 — 40A auxiliary output' },
+              { pos: 'R7', circuit: 'PTO', desc: 'Power take-off relay (PTO)' },
+              { pos: 'R8', circuit: 'RUN/START', desc: 'Upfitter run/start relay' }
+            ]
+          }
+        ]
+      }
     }
   },
 
@@ -914,7 +1069,289 @@ export const fuseBoxData = {
         ]
       }
     }
-  }
+  },
+  chevrolet: {
+    silverado1500: {
+      '2019-2024': {
+        panels: [
+          {
+            name: 'Engine Compartment Fuse Block',
+            location: 'Driver side of engine bay, near the firewall and coolant reservoir',
+            fuses: [
+              { pos: '1', amps: 10, circuit: 'HI BEAM LH', desc: 'Left-hand high-beam headlight' },
+              { pos: '2', amps: 10, circuit: 'HI BEAM RH', desc: 'Right-hand high-beam headlight' },
+              { pos: '3', amps: 20, circuit: 'HEADLAMP LH', desc: 'Left-hand headlight (low beam)' },
+              { pos: '4', amps: 20, circuit: 'HEADLAMP RH', desc: 'Right-hand headlight (low beam)' },
+              { pos: '6', amps: '—', circuit: 'TIM', desc: 'Trailer interface module (if equipped)' },
+              { pos: '8', amps: 15, circuit: 'FOG LAMP', desc: 'Front fog lights' },
+              { pos: '9', amps: 5, circuit: 'VKM', desc: 'Virtual key module / passive entry system' },
+              { pos: '11', amps: '—', circuit: 'UPFITTER', desc: 'Police upfitter equipment (special vehicles only)' },
+              { pos: '13', amps: 15, circuit: 'WASHER FRONT', desc: 'Windshield washer pump (front)' },
+              { pos: '14', amps: '—', circuit: 'WASHER REAR', desc: 'Rear window washer pump (if equipped)' },
+              { pos: '15', amps: 50, circuit: 'MSB DRIVER', desc: 'Memory seat module — driver side' },
+              { pos: '17', amps: 60, circuit: 'IECL 1', desc: 'Instrument panel electrical center — left feed 1' },
+              { pos: '19', amps: 60, circuit: 'DC/AC INVERTER', desc: '110V AC power inverter (if equipped)' },
+              { pos: '20', amps: 60, circuit: 'IECR 2', desc: 'Instrument panel electrical center — right feed 2' },
+              { pos: '21', amps: 50, circuit: 'MSB PASS', desc: 'Memory seat module — passenger side' },
+              { pos: '22', amps: 60, circuit: 'IECL 2', desc: 'Instrument panel electrical center — left feed 2' },
+              { pos: '24', amps: 60, circuit: 'E-BOOST 1', desc: 'Electric brake booster (primary)' },
+              { pos: '25', amps: '—', circuit: 'REC', desc: 'Regulated voltage control / energy management' },
+              { pos: '27', amps: 15, circuit: 'HORN', desc: 'Horn' },
+              { pos: '32', amps: 30, circuit: 'REAR DEFOG', desc: 'Rear window defogger / defroster' },
+              { pos: '33', amps: 15, circuit: 'HTD MIRROR', desc: 'Heated outside mirrors' },
+              { pos: '34', amps: 15, circuit: 'PARK LAMP LH', desc: 'Left-side parking / marker lights' },
+              { pos: '37', amps: '—', circuit: 'EURO TRAILER', desc: 'European-spec trailer lighting module' },
+              { pos: '38', amps: '—', circuit: 'TIM 2', desc: 'Trailer interface module (secondary)' },
+              { pos: '40', amps: 10, circuit: 'MISC IGN', desc: 'Miscellaneous ignition-controlled circuits' },
+              { pos: '41', amps: 20, circuit: 'TRAILER PARK', desc: 'Trailer parking / marker lamps' },
+              { pos: '42', amps: 15, circuit: 'PARK LAMP RH', desc: 'Right-side parking / marker lights' },
+              { pos: '45', amps: '—', circuit: 'FUEL PUMP 2', desc: 'Secondary fuel pump (dual-tank / diesel models)' },
+              { pos: '46', amps: 15, circuit: 'ECM IGN', desc: 'Engine control module — ignition power' },
+              { pos: '47', amps: 10, circuit: 'TCM IGN', desc: 'Transmission control module — ignition power' },
+              { pos: '49', amps: 15, circuit: 'TCM', desc: 'Transmission control module — main power' },
+              { pos: '50', amps: 10, circuit: 'A/C CLUTCH', desc: 'Air conditioning compressor clutch' },
+              { pos: '51', amps: 30, circuit: 'TCCM', desc: 'Transfer case control module (4x4 models)' },
+              { pos: '52', amps: 25, circuit: 'FRONT WIPER', desc: 'Windshield wiper motor (front)' },
+              { pos: '53', amps: 10, circuit: 'CHMSL', desc: 'Center high-mounted stop lamp / third brake light' },
+              { pos: '54', amps: 10, circuit: 'TRAILER REVERSE', desc: 'Trailer reverse / backup lamps' },
+              { pos: '55', amps: 10, circuit: 'TRAILER BACKUP', desc: 'Trailer backup lamp circuit' },
+              { pos: '56', amps: 15, circuit: 'SADS', desc: 'Semi-active damping system (adaptive suspension)' },
+              { pos: '57', amps: 15, circuit: 'TTPM', desc: 'Trailer tire pressure monitor module' },
+              { pos: '58', amps: 30, circuit: 'STARTER MOTOR', desc: 'Starter motor solenoid / relay feed' },
+              { pos: '60', amps: 10, circuit: 'AFM 1', desc: 'Active fuel management / cylinder deactivation #1' },
+              { pos: '61', amps: 5, circuit: 'VES', desc: 'Vehicle evaporative emissions / leak check module' },
+              { pos: '62', amps: 10, circuit: 'ICCM/CVS', desc: 'Integrated chassis control / continuously variable suspension' },
+              { pos: '63', amps: 30, circuit: 'TRAILER BATTERY', desc: 'Trailer battery charge feed (7-pin connector)' },
+              { pos: '65', amps: 60, circuit: 'AUX UHEC', desc: 'Auxiliary under-hood electrical center feed' },
+              { pos: '66', amps: 50, circuit: 'COOL FAN LH', desc: 'Left cooling fan motor' },
+              { pos: '67', amps: 10, circuit: 'AFM 2', desc: 'Active fuel management / cylinder deactivation #2' },
+              { pos: '69', amps: 40, circuit: 'STARTER PINION', desc: 'Starter pinion / solenoid engagement' },
+              { pos: '71', amps: 50, circuit: 'COOLING FAN', desc: 'Engine cooling fan — primary' },
+              { pos: '72', amps: 50, circuit: 'COOL FAN RH', desc: 'Right cooling fan motor' },
+              { pos: '73', amps: 10, circuit: 'TRAILER STOP LH', desc: 'Trailer left-hand stop / turn lamp' },
+              { pos: '74', amps: 30, circuit: 'TIM MAIN', desc: 'Trailer interface module — main power' },
+              { pos: '75', amps: 20, circuit: 'DEFC', desc: 'Diesel exhaust fluid controller (diesel models)' },
+              { pos: '76', amps: 30, circuit: 'ELEC RNG BDS', desc: 'Electronic range select / brake dual-stage system' },
+              { pos: '78', amps: 15, circuit: 'ECM MAIN', desc: 'Engine control module — main power' },
+              { pos: '79', amps: 10, circuit: 'AUX BATTERY', desc: 'Auxiliary battery (dual-battery / stop-start models)' },
+              { pos: '80', amps: 10, circuit: 'CABIN COOL PUMP', desc: 'Cabin cooling pump (stop-start / hybrid assist)' },
+              { pos: '81', amps: 10, circuit: 'TRAILER STOP RH', desc: 'Trailer right-hand stop / turn lamp' },
+              { pos: '82', amps: 30, circuit: 'TIM 2', desc: 'Trailer interface module — secondary power' },
+              { pos: '83', amps: 30, circuit: 'FTZM', desc: 'Fuel tank zone module / fuel pump driver' },
+              { pos: '84', amps: 30, circuit: 'TRAILER BRAKE', desc: 'Trailer brake controller power' },
+              { pos: '85', amps: 15, circuit: 'ENG', desc: 'Engine control — secondary circuits' },
+              { pos: '86', amps: 30, circuit: 'ECM', desc: 'Engine control module' },
+              { pos: '87', amps: 20, circuit: 'INJECTOR B', desc: 'Fuel injectors — bank B (even cylinders)' },
+              { pos: '88', amps: 15, circuit: 'O2 B SENSOR', desc: 'Oxygen sensor heaters — bank B' },
+              { pos: '89', amps: 15, circuit: 'O2 A SENSOR', desc: 'Oxygen sensor heaters — bank A' },
+              { pos: '90', amps: 20, circuit: 'INJECTOR A', desc: 'Fuel injectors — bank A (odd cylinders)' },
+              { pos: '91', amps: 15, circuit: 'ECM THROTTLE', desc: 'Engine control module — throttle actuator control' },
+              { pos: '92', amps: 10, circuit: 'COOL FAN CLUTCH', desc: 'Cooling fan clutch (mechanical fan models)' }
+            ],
+            relays: [
+              { pos: 'K5', circuit: 'HEADLAMP', desc: 'Headlamp relay — powers low/high beam circuits' },
+              { pos: 'K18', circuit: 'DC/AC INVERTER', desc: '110V AC inverter relay' },
+              { pos: 'K23', circuit: 'REAR DEFOG', desc: 'Rear window defogger relay' },
+              { pos: 'K35', circuit: 'PARKING LAMP', desc: 'Parking / marker lamp relay' },
+              { pos: 'K36', circuit: 'RUN/CRANK', desc: 'Run/Crank relay — powers engine and body modules with key on' },
+              { pos: 'K43', circuit: 'FUEL PUMP 2', desc: 'Secondary fuel pump relay' },
+              { pos: 'K59', circuit: 'A/C CLUTCH', desc: 'A/C compressor clutch relay' },
+              { pos: 'K64', circuit: 'STARTER MOTOR', desc: 'Starter motor relay' },
+              { pos: 'K70', circuit: 'STARTER PINION', desc: 'Starter pinion relay' },
+              { pos: 'K77', circuit: 'POWERTRAIN', desc: 'Powertrain relay — powers ECM, TCM, injectors, and coils' }
+            ]
+          },
+          {
+            name: 'Instrument Panel Fuse Block (Left)',
+            location: 'Left side of dashboard, accessible with driver door open',
+            fuses: [
+              { pos: 'F1', amps: '—', circuit: 'RR HEATED SEATS', desc: 'Rear heated seats — left and right' },
+              { pos: 'F3', amps: '—', circuit: 'EURO TRAILER', desc: 'European-spec trailer module' },
+              { pos: 'F5', amps: '—', circuit: 'FRONT BOLSTER', desc: 'Front seat bolster (adjustable lumbar / side support)' },
+              { pos: 'F6', amps: '—', circuit: 'HTD/COOLED SEATS', desc: 'Heated and ventilated front seats' },
+              { pos: 'F8', amps: '—', circuit: 'RSE/THEFT', desc: 'Rear seat entertainment / theft deterrent system' },
+              { pos: 'F9', amps: '—', circuit: 'PASSIVE ENTRY', desc: 'Passive entry / passive start / driver seat module' },
+              { pos: 'F11', amps: '—', circuit: 'SUNSHADE', desc: 'Power sunshade (panoramic roof)' },
+              { pos: 'F12', amps: '—', circuit: 'PASS PWR SEAT', desc: 'Passenger power seat motors' },
+              { pos: 'F13', amps: '—', circuit: 'SEO 1', desc: 'Special equipment option — export PTO' },
+              { pos: 'F16', amps: '—', circuit: 'AMP', desc: 'Audio amplifier' },
+              { pos: 'F17', amps: '—', circuit: 'MFEG', desc: 'Multi-function endgate / power tailgate module' },
+              { pos: 'F20', amps: '—', circuit: 'ENDGATE', desc: 'Power endgate / tailgate release' },
+              { pos: 'F22', amps: '—', circuit: 'REAR SLIDING WDW', desc: 'Rear sliding window (power)' }
+            ],
+            relays: [
+              { pos: 'K1', circuit: 'RR WINDOW OPEN', desc: 'Rear sliding window — open relay' },
+              { pos: 'K2', circuit: 'RR WINDOW CLOSE', desc: 'Rear sliding window — close relay' },
+              { pos: 'K3', circuit: 'MFEG MAJOR 1', desc: 'Multi-function endgate — major relay 1' },
+              { pos: 'K4', circuit: 'MFEG MINOR 1', desc: 'Multi-function endgate — minor relay 1' },
+              { pos: 'K5', circuit: 'MFEG MINOR 2', desc: 'Multi-function endgate — minor relay 2' },
+              { pos: 'K6', circuit: 'MFEG MAJOR 2', desc: 'Multi-function endgate — major relay 2' },
+              { pos: 'K7', circuit: 'ANTI-THEFT', desc: 'Anti-theft deterrent relay' }
+            ]
+          },
+          {
+            name: 'Instrument Panel Fuse Block (Right) - Front',
+            location: 'Right side of dashboard, accessible with passenger door open (front facing)',
+            fuses: [
+              { pos: 'F2', amps: '—', circuit: 'LEFT DOORS', desc: 'Left-side door modules (lock/window)' },
+              { pos: 'F3', amps: '—', circuit: 'UNIV REMOTE', desc: 'Universal garage door opener / HomeLink' },
+              { pos: 'F6', amps: '—', circuit: 'FRONT BLOWER', desc: 'HVAC front blower motor' },
+              { pos: 'F8', amps: '—', circuit: 'LUMBAR SWITCH', desc: 'Power lumbar switch' },
+              { pos: 'F10', amps: '—', circuit: 'BCM 6/7', desc: 'Body control module — circuits 6 and 7' },
+              { pos: 'F11', amps: '—', circuit: 'SEAT/CLM', desc: 'Seat control / column lock module' },
+              { pos: 'F12', amps: '—', circuit: 'BCM 3/5', desc: 'Body control module — circuits 3 and 5' },
+              { pos: 'F14', amps: '—', circuit: 'MIRRORS/WINDOWS', desc: 'Mirrors and windows module' },
+              { pos: 'F17', amps: '—', circuit: 'STEERING WHEEL', desc: 'Steering wheel controls' },
+              { pos: 'F18', amps: '—', circuit: 'VPM/OBS DET', desc: 'Video processing module / obstacle detection (360 cam)' },
+              { pos: 'F19', amps: '—', circuit: 'DLIS', desc: 'Datalink instrument cluster / diagnostic link' },
+              { pos: 'F20', amps: '—', circuit: 'COOLED SEATS', desc: 'Ventilated / cooled front seats' },
+              { pos: 'F21', amps: '—', circuit: 'NOT R/C', desc: 'Always-hot circuits (not switched by run/crank)' },
+              { pos: 'F22', amps: '—', circuit: 'HTD STRG WHEEL', desc: 'Heated steering wheel' },
+              { pos: 'F23', amps: '—', circuit: 'MISC R/C', desc: 'Miscellaneous run/crank-controlled circuits' },
+              { pos: 'F24', amps: '—', circuit: 'IPC/OVERHEAD', desc: 'Instrument panel cluster ignition / overhead console' },
+              { pos: 'F25', amps: '—', circuit: 'HVAC IGN/AUX', desc: 'HVAC — ignition and auxiliary power' },
+              { pos: 'F26', amps: '—', circuit: 'USB/SEO RAP', desc: 'USB ports / special equipment — retained accessory power' },
+              { pos: 'F27', amps: '—', circuit: 'PWR OUTLET RAP', desc: 'Accessory power outlet — retained accessory power' },
+              { pos: 'F28', amps: '—', circuit: 'PWR OUTLET BATT', desc: 'Accessory power outlet — battery (always hot)' },
+              { pos: 'F30', amps: '—', circuit: 'SDM/PARK BRAKE', desc: 'Sensing diagnostic module / electric parking brake' },
+              { pos: 'F31', amps: '—', circuit: 'BCM 4', desc: 'Body control module — circuit 4' },
+              { pos: 'F32', amps: '—', circuit: 'SEO/DLC', desc: 'Special equipment option / data link connector (OBD-II)' },
+              { pos: 'F33', amps: '—', circuit: 'BCM 8', desc: 'Body control module — circuit 8' },
+              { pos: 'F34', amps: '—', circuit: 'CARGO LAMP', desc: 'Cargo / bed lamp (pickup box)' },
+              { pos: 'F40', amps: '—', circuit: 'CGM', desc: 'Central gateway module (vehicle network hub)' },
+              { pos: 'F41', amps: '—', circuit: 'INFOTAINMENT 1', desc: 'Infotainment system — display and radio (primary)' },
+              { pos: 'F42', amps: '—', circuit: 'TCP', desc: 'Telematics connectivity platform (OnStar / connected services)' },
+              { pos: 'F44', amps: '—', circuit: 'AVM', desc: 'Around-view monitor / 360-degree camera module' },
+              { pos: 'F45', amps: '—', circuit: 'BCM 2', desc: 'Body control module — circuit 2' },
+              { pos: 'F46', amps: '—', circuit: 'HVAC BATT 1', desc: 'HVAC — battery constant feed 1' },
+              { pos: 'F47', amps: '—', circuit: 'IPC BATT', desc: 'Instrument panel cluster — battery (keep-alive memory)' },
+              { pos: 'F48', amps: '—', circuit: 'TCM BATT', desc: 'Transmission control module — battery constant power' },
+              { pos: 'F49', amps: '—', circuit: 'BCM 1', desc: 'Body control module — circuit 1' },
+              { pos: 'F51', amps: '—', circuit: 'BATTERY 1', desc: 'Battery main feed 1 — junction block power' },
+              { pos: 'F52', amps: '—', circuit: 'BATTERY 2', desc: 'Battery main feed 2 — junction block power' },
+              { pos: 'F54', amps: '—', circuit: 'SUNROOF', desc: 'Power sunroof / moonroof' },
+              { pos: 'F55', amps: '—', circuit: 'DRIVER PWR SEAT', desc: 'Driver power seat motors' },
+              { pos: 'F58', amps: '—', circuit: 'INFOTAINMENT 2', desc: 'Infotainment system — amplifier / HMI module' }
+            ],
+            relays: []
+          },
+          {
+            name: 'Instrument Panel Fuse Block (Right) - Back',
+            location: 'Right side of dashboard, rear-facing side of the fuse block',
+            fuses: [
+              { pos: 'CB1', amps: '—', circuit: 'PWR OUTLET 2', desc: 'Accessory power outlet #2 (circuit breaker)' },
+              { pos: 'CB2', amps: '—', circuit: 'PWR OUTLET 1', desc: 'Accessory power outlet #1 / cigarette lighter (circuit breaker)' },
+              { pos: 'CB3', amps: '—', circuit: 'PWR OUTLET 3', desc: 'Accessory power outlet #3 (circuit breaker)' },
+              { pos: 'CB4', amps: '—', circuit: 'PWR OUTLET 4', desc: 'Accessory power outlet #4 (circuit breaker)' },
+              { pos: 'F1', amps: '—', circuit: 'RIGHT DOORS', desc: 'Right-side door modules (lock/window)' },
+              { pos: 'F56', amps: '—', circuit: 'DC DC TRANS 1', desc: 'DC-DC converter / voltage transformer #1 (stop-start)' },
+              { pos: 'F57', amps: '—', circuit: 'DC DC TRANS 2', desc: 'DC-DC converter / voltage transformer #2 (stop-start)' }
+            ],
+            relays: [
+              { pos: 'K1', circuit: 'RUN/CRANK', desc: 'Run/Crank relay — powers ignition-controlled circuits' },
+              { pos: 'K2', circuit: 'RAP/ACC 1', desc: 'Retained accessory power / accessory relay 1' },
+              { pos: 'K4', circuit: 'RAP/ACC 2', desc: 'Retained accessory power / accessory relay 2' }
+            ]
+          }
+        ]
+      }
+    }
+  },
+
+  mazda: {
+    '3': {
+      '2019-2024': {
+        panels: [
+          {
+            name: 'Engine Compartment Fuse Block',
+            location: 'Driver side of engine bay, near the battery and air intake',
+            fuses: [
+              { pos: 'F2', amps: 20, circuit: 'WIPER DE-ICER', desc: 'Windshield wiper de-icer (cold climate package)' },
+              { pos: 'F3', amps: 30, circuit: 'ENGINE CONTROL', desc: 'Engine control system — ECM, sensors, actuators (SkyActiv-G 2.5L)' },
+              { pos: 'F4', amps: 20, circuit: 'S-VT', desc: 'Sequential valve timing — VVT oil control solenoids' },
+              { pos: 'F5', amps: 40, circuit: 'ENGINE CONTROL 2', desc: 'Engine control system — main power feed' },
+              { pos: 'F7', amps: 15, circuit: 'FUEL PUMP', desc: 'Fuel pump (15A on most trims; 20A on turbo models)' },
+              { pos: 'F8', amps: 15, circuit: 'ENGINE CONTROL 3', desc: 'Engine control system — ignition and injection circuits' },
+              { pos: 'F9', amps: 15, circuit: 'TCM', desc: 'Transmission control system (SkyActiv-Drive automatic)' },
+              { pos: 'F10', amps: 15, circuit: 'ENGINE CONTROL 4', desc: 'Engine control system — emissions and EVAP circuits' },
+              { pos: 'F11', amps: 7.5, circuit: 'A/C', desc: 'Air conditioner — compressor clutch and HVAC controller' },
+              { pos: 'F12', amps: 15, circuit: 'ENGINE CONTROL 5', desc: 'Engine control system — throttle body and MAF sensor' },
+              { pos: 'F14', amps: 20, circuit: 'SEAT WARMER', desc: 'Front seat warmers / heaters' },
+              { pos: 'F16', amps: 15, circuit: 'VARIOUS', desc: 'Protection of various engine compartment circuits' },
+              { pos: 'F18', amps: 15, circuit: 'ACC SOCKET', desc: 'Accessory power sockets / 12V outlets' },
+              { pos: 'F19', amps: 60, circuit: 'EPS', desc: 'Electric power steering system (main)' },
+              { pos: 'F20', amps: 15, circuit: 'HEADLAMP LH 1', desc: 'Left-hand headlight — low beam / primary' },
+              { pos: 'F21', amps: 15, circuit: 'HEADLAMP RH 1', desc: 'Right-hand headlight — low beam / primary' },
+              { pos: 'F22', amps: 15, circuit: 'VARIOUS 2', desc: 'Protection of various engine circuits (injectors, ignition)' },
+              { pos: 'F23', amps: 30, circuit: 'ABS/DSC', desc: 'Anti-lock braking system / dynamic stability control' },
+              { pos: 'F24', amps: 15, circuit: 'HEADLAMP LH 2', desc: 'Left-hand headlight — high beam / secondary' },
+              { pos: 'F25', amps: 15, circuit: 'HEADLAMP RH 2', desc: 'Right-hand headlight — high beam / secondary' },
+              { pos: 'F26', amps: 7.5, circuit: 'OBD', desc: 'On-board diagnostics port (OBD-II)' },
+              { pos: 'F27', amps: 25, circuit: 'VARIOUS 3', desc: 'Protection of various circuits (body electronics feed)' },
+              { pos: 'F28', amps: 25, circuit: 'VARIOUS 4', desc: 'Protection of various circuits (lighting and body feed)' },
+              { pos: 'F29', amps: 15, circuit: 'WASHER', desc: 'Windshield washer pump' },
+              { pos: 'F30', amps: 15, circuit: 'ACC SOCKET 2', desc: 'Accessory power sockets — secondary / rear' },
+              { pos: 'F31', amps: 15, circuit: 'HORN', desc: 'Horn' },
+              { pos: 'F35', amps: 50, circuit: 'ABS/DSC MAIN', desc: 'ABS / dynamic stability control — pump motor' },
+              { pos: 'F37', amps: 40, circuit: 'REAR DEFOG', desc: 'Rear window defogger / defroster' },
+              { pos: 'F38', amps: 50, circuit: 'VARIOUS MAIN', desc: 'Protection of various circuits — main bus feed' },
+              { pos: 'F40', amps: 40, circuit: 'A/C MAIN', desc: 'Air conditioner / HVAC blower motor' },
+              { pos: 'F42', amps: 20, circuit: 'WIPER', desc: 'Windshield wiper motor' },
+              { pos: 'F43', amps: 30, circuit: 'COOLING FAN', desc: 'Radiator cooling fan motor' },
+              { pos: 'F44', amps: 30, circuit: 'VARIOUS 5', desc: 'Protection of various circuits — auxiliary feed' },
+              { pos: 'F45', amps: 10, circuit: 'ENGINE CONTROL 6', desc: 'Engine control system — ECM keep-alive memory' },
+              { pos: 'F46', amps: 15, circuit: 'AUDIO', desc: 'Audio system — amplifier and head unit' },
+              { pos: 'F47', amps: 15, circuit: 'VARIOUS 6', desc: 'Protection of various circuits (interior accessories)' },
+              { pos: 'F48', amps: 7.5, circuit: 'AIR BAG', desc: 'Supplemental restraint system / airbags' },
+              { pos: 'F49', amps: 15, circuit: 'INSTRUMENT CLUSTER', desc: 'Instrument cluster / gauge panel' },
+              { pos: 'F50', amps: 15, circuit: 'ROOM LAMP', desc: 'Interior dome light / room lamp' },
+              { pos: 'F51', amps: 25, circuit: 'AUDIO 2', desc: 'Audio system — premium / Bose amplifier' },
+              { pos: 'F52', amps: 10, circuit: 'MOONROOF', desc: 'Power moonroof / sunroof' },
+              { pos: 'F53', amps: 15, circuit: 'ENGINE CONTROL 7', desc: 'Engine control system — alternator sense and charging' },
+              { pos: 'F54', amps: 15, circuit: 'i-ACTIVSENSE', desc: 'i-ACTIVSENSE safety suite — radar, cameras, sensors' }
+            ],
+            relays: [
+              { pos: 'R1', circuit: 'FUEL PUMP', desc: 'Fuel pump relay' },
+              { pos: 'R2', circuit: 'A/C', desc: 'A/C compressor relay' },
+              { pos: 'R3', circuit: 'COOLING FAN', desc: 'Radiator cooling fan relay' },
+              { pos: 'R4', circuit: 'STARTER', desc: 'Starter motor relay' },
+              { pos: 'R5', circuit: 'HORN', desc: 'Horn relay' },
+              { pos: 'R6', circuit: 'HEADLAMP', desc: 'Headlamp relay' },
+              { pos: 'R7', circuit: 'WIPER', desc: 'Windshield wiper relay' },
+              { pos: 'R8', circuit: 'REAR DEFOG', desc: 'Rear window defogger relay' },
+              { pos: 'R9', circuit: 'BLOWER', desc: 'HVAC blower motor relay' },
+              { pos: 'R10', circuit: 'IGNITION', desc: 'Ignition main relay — powers ECM and engine systems' }
+            ]
+          },
+          {
+            name: 'Interior Fuse Block (Left Side)',
+            location: 'Left side of dashboard, near the kick panel / driver footwell',
+            fuses: [
+              { pos: 'F4', amps: 15, circuit: 'DR DOOR LOCK', desc: 'Power door locks — driver door' },
+              { pos: 'F5', amps: 15, circuit: 'PASS DOOR LOCK', desc: 'Power door locks — passenger door' },
+              { pos: 'F9', amps: 30, circuit: 'DR PWR WINDOW', desc: 'Power window — driver side' },
+              { pos: 'F10', amps: 30, circuit: 'PASS PWR WINDOW', desc: 'Power window — passenger side' },
+              { pos: 'F11', amps: 30, circuit: 'PWR SEAT DR', desc: 'Power seat — driver (8-way adjustable)' },
+              { pos: 'F13', amps: 15, circuit: 'AUDIO INTERIOR', desc: 'Audio system — interior amp / infotainment screen' },
+              { pos: 'F15', amps: 15, circuit: 'BACK DOOR LOCK', desc: 'Rear door / hatch lock (hatchback models)' },
+              { pos: 'F16', amps: 15, circuit: 'ILLUMINATION', desc: 'Instrument panel / dashboard illumination' },
+              { pos: 'F17', amps: 10, circuit: 'BRAKE LIGHTS', desc: 'Stop lights / brake lights' },
+              { pos: 'F18', amps: 10, circuit: 'BACKUP LIGHTS', desc: 'Backup / reverse lights' },
+              { pos: 'F19', amps: 10, circuit: 'REAR TURN SIGNAL', desc: 'Rear turn signal lights' },
+              { pos: 'F20', amps: 10, circuit: 'TAILLIGHTS LH', desc: 'Left-side taillights / parking lights' },
+              { pos: 'F21', amps: 10, circuit: 'TAILLIGHTS RH', desc: 'Right-side taillights / parking lights' },
+              { pos: 'F22', amps: 7.5, circuit: 'STRG LOCK', desc: 'Electric steering column lock' }
+            ],
+            relays: [
+              { pos: 'R1', circuit: 'ACC', desc: 'Accessory power relay' },
+              { pos: 'R2', circuit: 'PWR WINDOW', desc: 'Power window main relay' },
+              { pos: 'R3', circuit: 'DOOR LOCK', desc: 'Door lock relay' }
+            ]
+          }
+        ]
+      }
+    }
+  },
 };
 
 export default fuseBoxData;
