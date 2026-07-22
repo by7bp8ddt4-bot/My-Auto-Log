@@ -140,7 +140,7 @@ function WarningSection({ title, color, reminders, onToggle, onDelete, getVehicl
                 >
                   {r.enabled ? <ToggleRight className="w-4 h-4 text-blue-400" /> : <ToggleLeft className="w-4 h-4" />}
                 </button>
-                <button onClick={() => onDelete(r.id)} className="p-1 rounded hover:bg-red-500/10 text-slate-500 hover:text-red-400">
+                <button onClick={() => { if (window.confirm('Delete this reminder?')) onDelete(r.id); }} className="p-1 rounded hover:bg-red-500/10 text-slate-500 hover:text-red-400">
                   <X className="w-3.5 h-3.5" />
                 </button>
               </div>

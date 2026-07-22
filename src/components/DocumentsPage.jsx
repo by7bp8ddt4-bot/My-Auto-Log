@@ -473,7 +473,7 @@ export default function DocumentsPage({ vehicles, onNavigate }) {
                   {doc.date && <p className="text-[10px] text-slate-400">{formatDate(doc.date)}</p>}
                 </div>
                 <button
-                  onClick={() => handleDelete(doc.id)}
+                  onClick={() => { if (window.confirm('Delete this document? This cannot be undone.')) handleDelete(doc.id); }}
                   className="absolute top-1.5 right-1.5 p-1 rounded-lg bg-red-500/80 text-white opacity-0 group-hover:opacity-100 transition-all"
                 >
                   <Trash2 className="w-3 h-3" />

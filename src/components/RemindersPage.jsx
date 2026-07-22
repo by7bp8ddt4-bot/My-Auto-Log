@@ -147,7 +147,7 @@ function ReminderCard({ reminder, vehicleName, onToggle, onDelete }) {
             </button>
           )}
           {onDelete && (
-            <button onClick={() => onDelete(reminder.id)} className="p-1 rounded hover:bg-red-500/10 text-slate-500 hover:text-red-400">
+            <button onClick={() => { if (window.confirm('Delete this reminder?')) onDelete(reminder.id); }} className="p-1 rounded hover:bg-red-500/10 text-slate-500 hover:text-red-400">
               <X className="w-3.5 h-3.5" />
             </button>
           )}
