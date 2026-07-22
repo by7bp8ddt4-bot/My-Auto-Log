@@ -736,6 +736,13 @@ export default function App() {
       if (profile?.premium === true) {
         localStorage.setItem(STORAGE_KEYS.PREMIUM_STATUS, 'true');
         setPremium(true);
+        // Restore subscription data for premium users who don't have it in localStorage
+        // (e.g. after clearing localStorage or signing in on a new device).
+        // The actual subscription management (cancel, upgrade) is handled by Stripe,
+        // so the exact plan/status values are informational — 'active' keeps the UI correct.
+        if (!localStorage.getItem('mtxtrkr_subscription_status')) {
+          setSubscriptionData({ plan: 'monthly', status: 'active', nextBilling: null });
+        }
       }
     } catch (err) {
       console.error('[SyncFromCloud] Error fetching premium status:', err);
