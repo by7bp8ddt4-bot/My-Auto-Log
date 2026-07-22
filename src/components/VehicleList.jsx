@@ -95,17 +95,17 @@ export default function VehicleList({ vehicles, onAdd, onEdit, onDelete, isPremi
           </div>
           <p className="text-slate-400 mb-2">No vehicles yet</p>
           <p className="text-sm text-slate-600 mb-6">Add your first vehicle to get started</p>
-          <div className="flex gap-3 justify-center">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2.5 max-w-4xl mx-auto">
             {VEHICLE_TYPES.map(type => {
               const Icon = TYPE_ICONS[type.icon];
               return (
                 <button
                   key={type.id}
                   onClick={() => handleAdd(type.id)}
-                  className={`inline-flex items-center gap-2 px-6 py-2.5 rounded-xl ${type.color} text-white text-sm font-medium border ${type.border} transition-all`}
+                  className={`flex items-center justify-center gap-1.5 px-2 sm:px-4 py-3 min-h-[44px] rounded-xl ${type.color} text-white text-xs sm:text-sm font-medium border ${type.border} transition-all w-full`}
                 >
-                  {Icon && <Icon className="w-4 h-4" />}
-                  Add {type.label}
+                  {Icon && <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />}
+                  <span>Add {type.label}</span>
                 </button>
               );
             })}
