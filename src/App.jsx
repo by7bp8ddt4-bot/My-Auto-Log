@@ -324,6 +324,13 @@ export default function App() {
       if (dbPremium === true && !premium) {
         setPremium(true);
         localStorage.setItem(STORAGE_KEYS.PREMIUM_STATUS, 'true');
+        // Restore subscription data for premium users who don't have it in localStorage
+        // (e.g. after clearing localStorage or signing in on a new device).
+        // The actual subscription management (cancel, upgrade) is handled by Stripe,
+        // so the exact plan/status values are informational — 'active' keeps the UI correct.
+        if (!localStorage.getItem('mtxtrkr_subscription_status')) {
+          setSubscriptionData({ plan: 'monthly', status: 'active', nextBilling: null });
+        }
       }
       // Local says premium but DB doesn't → persist to DB (e.g. Stripe activation)
       if (premium && !dbPremium) {
