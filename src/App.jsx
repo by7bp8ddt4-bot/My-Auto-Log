@@ -1043,6 +1043,7 @@ export default function App() {
       showCancelSubDialog={cancelSubDialog}
       onDismissCancelSub={() => setCancelSubDialog(false)}
       onSyncFromCloud={handleSyncFromCloud}
+      onPushToCloud={handlePushToCloud}
     />,
     mileage: <div className="p-4 max-w-4xl mx-auto">
       <MileageChart logs={logsStore.data} vehicles={vehiclesStore.data} isPremium={premium} />

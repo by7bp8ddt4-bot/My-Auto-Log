@@ -37,7 +37,6 @@ export default function AuthPage({ onAuth, onNavigate }) {
         await onAuth.signOut();
         onAuth.clearRecovery();
         setMode('signin');
-        setEmail('');
         setPassword('');
         setError('Password updated! Sign in with your new password.');
         return;
@@ -256,7 +255,7 @@ export default function AuthPage({ onAuth, onNavigate }) {
 
               {error && (
                 <div className={`p-3 px-4 rounded-xl border flex items-start gap-2 text-xs mb-4 ${
-                  error.includes('successfully')
+                  error.includes('successfully') || error.includes('Password updated')
                     ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-300'
                     : 'bg-red-500/10 border-red-500/20 text-red-300'
                 }`}>
