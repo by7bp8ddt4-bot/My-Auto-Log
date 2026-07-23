@@ -423,10 +423,14 @@ export default function App() {
 
     if (initialSyncDone) return;
 
-    // Step 1: Push local data to Supabase FIRST, so it's not lost when we pull.
-    // This prevents the "disappearing logs" bug where Supabase data overwrites
-    // local records that were never pushed to the cloud.
+    // Two-way sync: push local → Supabase, then pull Supabase → local.
+    // Both steps wrapped in a single async IIFE so Step 1 (push) fully
+    // completes before Step 2 (pull) runs — preventing the race condition
+    // where a synchronous pull overwrites local data that hasn't been pushed yet.
     (async () => {
+      // Step 1: Push local data to Supabase FIRST (AWAITED), so it's not lost
+      // when we pull. This prevents the "disappearing logs" bug where Supabase
+      // data overwrites local records that were never pushed to the cloud.
       for (const { local, supabase } of syncStores) {
         const localData = local.data || [];
         if (localData.length === 0) continue;
@@ -439,61 +443,61 @@ export default function App() {
           }
         }
       }
-    })();
 
-    // Step 2: Pull Supabase data into localStorage (overwrites stale cache).
-    // Clear supabase cache before pull to prevent stale data fallback
-    // from a previous user's session contaminating the current user's data.
-    for (const { key } of syncStores) {
-      const cacheKey = `supabase_cache_${key.replace('mtxtrkr_', '')}`;
-      localStorage.removeItem(cacheKey);
-    }
-    // Track whether any data was actually synced — if Supabase is empty (new account),
-    // don't mark sync as done so it retries when data arrives from another device.
-    let anySynced = false;
-    for (const { local, supabase, key } of syncStores) {
-      const supabaseHasData = supabase.data && supabase.data.length > 0;
+      // Step 2: Pull Supabase data into localStorage (runs AFTER Step 1 completes).
+      // Clear supabase cache before pull to prevent stale data fallback
+      // from a previous user's session contaminating the current user's data.
+      for (const { key } of syncStores) {
+        const cacheKey = `supabase_cache_${key.replace('mtxtrkr_', '')}`;
+        localStorage.removeItem(cacheKey);
+      }
+      // Track whether any data was actually synced — if Supabase is empty (new account),
+      // don't mark sync as done so it retries when data arrives from another device.
+      let anySynced = false;
+      for (const { local, supabase, key } of syncStores) {
+        const supabaseHasData = supabase.data && supabase.data.length > 0;
 
-      if (supabaseHasData) {
-        try {
-          localStorage.setItem(key, JSON.stringify(supabase.data));
-        } catch (e) {
-          // If quota exceeded (receipt images too large), try sanitized version
-          if (e.name === 'QuotaExceededError' || e.code === 22) {
-            console.warn(`[Sync] Quota exceeded for "${key}", trying sanitized...`);
-            try {
-              const sanitized = sanitizeForStorage(supabase.data);
-              localStorage.setItem(key, JSON.stringify(sanitized));
-            } catch (e2) {
-              console.warn(`[Sync] Still too large after sanitization for "${key}", keeping in memory only`, e2);
+        if (supabaseHasData) {
+          try {
+            localStorage.setItem(key, JSON.stringify(supabase.data));
+          } catch (e) {
+            // If quota exceeded (receipt images too large), try sanitized version
+            if (e.name === 'QuotaExceededError' || e.code === 22) {
+              console.warn(`[Sync] Quota exceeded for "${key}", trying sanitized...`);
+              try {
+                const sanitized = sanitizeForStorage(supabase.data);
+                localStorage.setItem(key, JSON.stringify(sanitized));
+              } catch (e2) {
+                console.warn(`[Sync] Still too large after sanitization for "${key}", keeping in memory only`, e2);
+              }
+            } else {
+              console.warn(`[Sync] Failed to write "${key}" to localStorage:`, e);
             }
-          } else {
-            console.warn(`[Sync] Failed to write "${key}" to localStorage:`, e);
           }
-        }
-        local.setData(supabase.data);
-        anySynced = true;
-      } else {
-        // Fallback: if Supabase has no data but the migration restored data
-        // to localStorage (e.g. stale cache cleanup + re-migration), load it.
-        // This handles the case where mtxtrkr_* was wiped during PR #35 but
-        // supabase_* survived and was copied by the migration.
-        try {
-          const localRaw = localStorage.getItem(key);
-          const localParsed = localRaw ? JSON.parse(localRaw) : [];
-          if (Array.isArray(localParsed) && localParsed.length > 0 &&
-              (!local.data || local.data.length === 0)) {
-            local.setData(localParsed);
-            anySynced = true;
+          local.setData(supabase.data);
+          anySynced = true;
+        } else {
+          // Fallback: if Supabase has no data but the migration restored data
+          // to localStorage (e.g. stale cache cleanup + re-migration), load it.
+          // This handles the case where mtxtrkr_* was wiped during PR #35 but
+          // supabase_* survived and was copied by the migration.
+          try {
+            const localRaw = localStorage.getItem(key);
+            const localParsed = localRaw ? JSON.parse(localRaw) : [];
+            if (Array.isArray(localParsed) && localParsed.length > 0 &&
+                (!local.data || local.data.length === 0)) {
+              local.setData(localParsed);
+              anySynced = true;
+            }
+          } catch (e) {
+            // Ignore corrupt localStorage
           }
-        } catch (e) {
-          // Ignore corrupt localStorage
         }
       }
-    }
-    if (anySynced) {
-      setInitialSyncDone(true);
-    }
+      if (anySynced) {
+        setInitialSyncDone(true);
+      }
+    })();
   }, [
   isAuthenticated, auth.user?.id, initialSyncDone,
   supabaseVehicles.loading, supabaseLogs.loading, supabaseReminders.loading, supabaseFuelLogs.loading, supabaseMods.loading,
@@ -503,24 +507,27 @@ export default function App() {
   // Continuous background sync: push local data to Supabase when it changes
   // Tracks { id → lastPushedUpdatedAt } so updated items are re-pushed.
   // Uses upsert (via supabase.add) so both new and modified items sync correctly.
+  // All pushes run sequentially inside a single async IIFE — each store's pushes
+  // are awaited before the next store begins, preventing concurrent fire-and-forget
+  // operations that could race.
   const pushedIdsRef = useRef({});
   useEffect(() => {
     if (!isAuthenticated || !auth.user?.id) return;
 
-    for (const { local, supabase } of syncStores) {
-      const localData = local.data || [];
-      if (localData.length === 0) continue;
+    (async () => {
+      for (const { local, supabase } of syncStores) {
+        const localData = local.data || [];
+        if (localData.length === 0) continue;
 
-      const itemsToSync = localData.filter(item => {
-        const lastPushed = pushedIdsRef.current[item.id];
-        if (!lastPushed) return true; // never pushed
-        // Re-push if item was updated after last push
-        const itemUpdated = item.updatedAt || item.createdAt || '';
-        return itemUpdated > lastPushed;
-      });
-      if (itemsToSync.length === 0) continue;
+        const itemsToSync = localData.filter(item => {
+          const lastPushed = pushedIdsRef.current[item.id];
+          if (!lastPushed) return true; // never pushed
+          // Re-push if item was updated after last push
+          const itemUpdated = item.updatedAt || item.createdAt || '';
+          return itemUpdated > lastPushed;
+        });
+        if (itemsToSync.length === 0) continue;
 
-      (async () => {
         for (const item of itemsToSync) {
           const itemTimestamp = item.updatedAt || item.createdAt || new Date().toISOString();
           // Mark as pushed immediately to prevent duplicate attempts
@@ -534,8 +541,8 @@ export default function App() {
             delete pushedIdsRef.current[item.id];
           }
         }
-      })();
-    }
+      }
+    })();
   }, [isAuthenticated, auth.user?.id,
     localVehicles.data, localLogs.data, localReminders.data,
     localFuelLogs.data, localMods.data
@@ -543,11 +550,12 @@ export default function App() {
 
   // Auto-push to cloud when the app is closed or tab becomes hidden
   // Uses visibilitychange which fires on both mobile (app switch, lock) and desktop (close tab, navigate away)
+  // Handler is async — all pushes are awaited before the tab fully suspends, reducing data loss risk.
   useEffect(() => {
     if (!isAuthenticated || !auth.user?.id) return;
-    const handleVisibilityChange = () => {
+    const handleVisibilityChange = async () => {
       if (document.visibilityState === 'hidden') {
-        // Push any unsynced (new or updated) items to Supabase
+        // Push any unsynced (new or updated) items to Supabase — AWAITED sequentially
         for (const { local, supabase } of syncStores) {
           const localData = local.data || [];
           if (localData.length === 0) continue;
@@ -562,10 +570,12 @@ export default function App() {
             const itemTimestamp = item.updatedAt || item.createdAt || new Date().toISOString();
             pushedIdsRef.current[item.id] = itemTimestamp;
             const { createdAt, updatedAt, ...syncItem } = item;
-            supabase.add(syncItem).catch(e => {
+            try {
+              await supabase.add(syncItem);
+            } catch (e) {
               console.error('[VisibilitySync] Push failed:', e);
               delete pushedIdsRef.current[item.id];
-            });
+            }
           }
         }
       }
@@ -994,8 +1004,6 @@ export default function App() {
       selectedVehicleId={selectedVehicleId}
       onSelectVehicle={handleSelectVehicle}
       isAuthenticated={isAuthenticated}
-      onSyncFromCloud={handleSyncFromCloud}
-      onPushToCloud={handlePushToCloud}
     />,
     vehicles: <VehicleList
       vehicles={vehiclesStore.data}
