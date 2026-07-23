@@ -385,16 +385,48 @@ export default function App() {
       'mtxtrkr_performance_mods',         // performance-modified service flags (cleanable air filters, etc.)
     ];
     if (auth.user?.id) {
-      for (let i = localStorage.length - 1; i >= 0; i--) {
-        const key = localStorage.key(i);
-        if (key && (key.startsWith('mtxtrkr_') || key.startsWith('supabase_cache_')) && !PROTECTED_KEYS.includes(key)) {
-          localStorage.removeItem(key);
+      // Push all local data to Supabase BEFORE wiping localStorage.
+      // Defense-in-depth: the sign-out handler (handleLogout) already pushes on
+      // explicit sign-out, but this handles cases where the session ended without
+      // a clean sign-out (tab close, browser crash, app force-quit on mobile).
+      // By pushing here, we ensure any data that survived in localStorage from a
+      // previous session is safely uploaded before the wipe below clears it.
+      (async () => {
+        const dataStores = [
+          { key: STORAGE_KEYS.VEHICLES, table: 'vehicles' },
+          { key: STORAGE_KEYS.MAINTENANCE_LOGS, table: 'maintenance_logs' },
+          { key: STORAGE_KEYS.REMINDERS, table: 'reminders' },
+          { key: 'mtxtrkr_fuel_logs', table: 'fuel_logs' },
+          { key: 'mtxtrkr_modifications', table: 'modifications' },
+        ];
+        for (const { key, table } of dataStores) {
+          try {
+            const raw = localStorage.getItem(key);
+            if (!raw) continue;
+            const items = JSON.parse(raw);
+            if (!Array.isArray(items) || items.length === 0) continue;
+            for (const item of items) {
+              const { createdAt, updatedAt, ...syncItem } = item;
+              await supabase.from(table).upsert(
+                { ...syncItem, user_id: auth.user.id },
+                { onConflict: 'id' }
+              );
+            }
+          } catch (e) {
+            console.warn(`[Cleanup] Failed to push ${key} before wipe:`, e);
+          }
         }
-      }
-      // One-time cleanup: remove contaminated maintenance_logs from Supabase
-      const CLEANUP_DONE_KEY = 'mtxtrkr_logs_cleanup_done';
-      if (!localStorage.getItem(CLEANUP_DONE_KEY)) {
-        (async () => {
+        // Now that data is safely in Supabase, wipe localStorage data keys
+        // to prevent cross-account contamination on shared devices.
+        for (let i = localStorage.length - 1; i >= 0; i--) {
+          const key = localStorage.key(i);
+          if (key && (key.startsWith('mtxtrkr_') || key.startsWith('supabase_cache_')) && !PROTECTED_KEYS.includes(key)) {
+            localStorage.removeItem(key);
+          }
+        }
+        // One-time cleanup: remove contaminated maintenance_logs from Supabase
+        const CLEANUP_DONE_KEY = 'mtxtrkr_logs_cleanup_done';
+        if (!localStorage.getItem(CLEANUP_DONE_KEY)) {
           const { error } = await supabase
             .from('maintenance_logs')
             .delete()
@@ -402,8 +434,8 @@ export default function App() {
           if (!error) {
             localStorage.setItem(CLEANUP_DONE_KEY, 'true');
           }
-        })();
-      }
+        }
+      })();
     }
   }, [auth.user?.id]);
 
@@ -610,16 +642,61 @@ export default function App() {
 
   // Logout
   const handleLogout = useCallback(async () => {
-    if (isAuthenticated) {
+    if (isAuthenticated && auth.user?.id) {
       analytics.track('user_logout', { page: 'settings' });
       analytics.logoutAnalytics();
+
+      // Push all local data to Supabase BEFORE signing out.
+      // This prevents data loss from the following chain of events:
+      // 1. User adds data → localStorage updated, background sync starts (async)
+      // 2. User signs out → auth.user becomes null → background sync aborts
+      // 3. User signs back in → cleanup effect fires → wipes mtxtrkr_* keys
+      // 4. Two-way sync has no local data to push, and Supabase never received
+      //    the data (background sync didn't finish) → DATA LOST FOREVER
+      //
+      // By pushing ALL local data here (awaited, sequential), we guarantee that
+      // every record is safely in Supabase before the session ends, so the
+      // next sign-in's two-way sync can pull it back after the cleanup wipe.
+      const dataStores = [
+        { key: STORAGE_KEYS.VEHICLES, table: 'vehicles' },
+        { key: STORAGE_KEYS.MAINTENANCE_LOGS, table: 'maintenance_logs' },
+        { key: STORAGE_KEYS.REMINDERS, table: 'reminders' },
+        { key: 'mtxtrkr_fuel_logs', table: 'fuel_logs' },
+        { key: 'mtxtrkr_modifications', table: 'modifications' },
+      ];
+      for (const { key, table } of dataStores) {
+        try {
+          const raw = localStorage.getItem(key);
+          if (!raw) continue;
+          const items = JSON.parse(raw);
+          if (!Array.isArray(items) || items.length === 0) continue;
+          for (const item of items) {
+            const { createdAt, updatedAt, ...syncItem } = item;
+            await supabase.from(table).upsert(
+              { ...syncItem, user_id: auth.user.id },
+              { onConflict: 'id' }
+            );
+          }
+        } catch (e) {
+          console.warn(`[Logout] Failed to push ${key}:`, e);
+        }
+      }
+      // Also sync premium status
+      if (premium) {
+        try {
+          await supabase.from('profiles').upsert({ id: auth.user.id, premium: true });
+        } catch (e) {
+          console.warn('[Logout] Failed to sync premium status:', e);
+        }
+      }
+
       await auth.signOut();
     }
     // Set page to landing AFTER sign-out completes, so the auto-redirect
     // effect doesn't fire while isAuthenticated is still true and redirect
     // the user back to dashboard before the sign-out finishes.
     setPage('landing');
-  }, [auth, isAuthenticated, analytics]);
+  }, [auth, isAuthenticated, analytics, premium]);
 
   // Add vehicle
   const addVehicle = useCallback((data) => {
