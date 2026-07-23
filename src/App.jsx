@@ -321,8 +321,13 @@ export default function App() {
 
     if (supabaseProfile.data.length > 0) {
       const dbPremium = supabaseProfile.data[0].premium;
-      // DB says premium but local doesn't → restore local (e.g. new device login)
-      if (dbPremium === true && !premium) {
+      // DB says premium but local doesn't → restore local (e.g. new device login).
+      // Check localStorage directly (not React state) because the stale-data cleanup
+      // effect at line ~362 wipes localStorage on every auth change, but premium React
+      // state survives the wipe (initialized at mount). Using React state creates a
+      // catch-22: if premium=true at mount, the wipe clears localStorage, the guard
+      // blocks, and subscription data is never restored.
+      if (dbPremium === true && localStorage.getItem(STORAGE_KEYS.PREMIUM_STATUS) !== 'true') {
         setPremium(true);
         localStorage.setItem(STORAGE_KEYS.PREMIUM_STATUS, 'true');
         // Restore subscription data for premium users who don't have it in localStorage
@@ -362,11 +367,20 @@ export default function App() {
   useEffect(() => {
     setInitialSyncDone(false);
     pushedIdsRef.current = {};
-    // Clear stale localStorage data from previous user
+    // Clear stale localStorage data from previous user.
+    // Protect premium/subscription keys — these are account-level flags (not
+    // vehicle-specific data) and should never be wiped on auth changes.
+    // Wiping them creates a catch-22 with the premium sync effect.
+    const PROTECTED_KEYS = [
+      STORAGE_KEYS.PREMIUM_STATUS,        // 'mtxtrkr_premium_status'
+      'mtxtrkr_subscription_status',
+      'mtxtrkr_subscription_plan',
+      'mtxtrkr_subscription_next_billing',
+    ];
     if (auth.user?.id) {
       for (let i = localStorage.length - 1; i >= 0; i--) {
         const key = localStorage.key(i);
-        if (key && (key.startsWith('mtxtrkr_') || key.startsWith('supabase_cache_'))) {
+        if (key && (key.startsWith('mtxtrkr_') || key.startsWith('supabase_cache_')) && !PROTECTED_KEYS.includes(key)) {
           localStorage.removeItem(key);
         }
       }
