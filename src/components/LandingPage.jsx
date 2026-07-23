@@ -3,7 +3,7 @@ import {
   Smartphone, Wifi, BarChart3, DollarSign, Clock, Upload,
   Crown, Gauge, Calendar, TrendingUp, Brain, Sparkles, Save, Wrench, Lightbulb,
   AlertTriangle, Tractor, Package, Ship, Anchor, Cog, Truck, Building, Database,
-  Bike
+  Bike, Fuel, Zap
 } from 'lucide-react';
 import MTXtrkrLogo from './MTXtrkrLogo';
 import ATVIcon from './ATVIcon';
@@ -67,6 +67,7 @@ export default function LandingPage({ onGetStarted, onViewPremium }) {
             </div>
 
             {/* Hero Stats */}
+            {/* NOTE: "12K+" and "150K+" are placeholder numbers — need analytics verification to replace with real data */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 w-full max-w-3xl">
               {[
                 { label: 'Active Users', value: '12K+' },
@@ -103,16 +104,24 @@ export default function LandingPage({ onGetStarted, onViewPremium }) {
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {[
             { title: 'Vehicle Management', desc: 'Track all your vehicles in one place with detailed specs, maintenance charts, records, registrations, photos, and more.', img: vehicleMgmtImg },
-            { title: 'Smart Reminders', desc: 'Mileage & time-based alerts that learn your driving patterns.', img: remindersImg },
-            { title: 'AI Co-Pilot', desc: 'Ask it anything — "engine is squeaking when I turn on the AC" or "the car shuttered when I pulled away from the stoplight". Our AI will give you a detailed assessment and send you in the right direction; not to mention keep you from getting swindled. Backed by maintenance schedules from 55+ manufacturers — from Ford and Toyota to CAT, Cummins, and Yamaha.', img: aiCopilotImg },
+            { title: 'Smart Reminders', desc: 'Intelligent reminders based on manufacturer-recommended schedules — mileage and time-based alerts tailored to your vehicle.', img: remindersImg },
+            { title: 'AI Co-Pilot', desc: 'Ask it anything — "engine is squeaking when I turn on the AC" or "the car shuttered when I pulled away from the stoplight". Our AI will give you a detailed assessment and send you in the right direction; not to mention keep you from getting swindled. Backed by maintenance schedules from 65+ manufacturers — from Ford and Toyota to CAT, Cummins, and Yamaha.', img: aiCopilotImg },
             { title: 'Expense Analytics', desc: 'Track costs per vehicle, per month, with beautiful charts.', img: analyticsImg },
             { title: 'Document Storage', desc: 'Organize purchase records, insurance, photos, and registration in one place. Get automatic renewal reminders 90, 60, and 30 days before your registration expires.', img: documentsImg },
             { title: 'Service History', desc: 'Generate a complete digital health record to boost resale value.', img: serviceLogImg },
+            { title: 'Fuel Tracking', desc: 'Log every fill-up with auto-calculated MPG, cost trends, and octane tracking. Know your real fuel economy at a glance.', icon: 'Fuel' },
+            { title: 'Fuse Box Diagrams', desc: 'Quick-reference fuse and relay indexes per vehicle — in-cab and under-hood locations. Part of making your owner\'s manual simple.', icon: 'Zap' },
+            { title: 'Performance Mods', desc: 'Track every upgrade with 3 folder categories — Under the Hood, Exterior, Interior. Log costs, brands, and install mileage.', icon: 'Cog' },
           ].map(feat => {
+            const IconComponent = feat.icon ? { Fuel, Zap, Cog }[feat.icon] : null;
             return (
               <div key={feat.title} className="group p-1 rounded-2xl bg-slate-900/40 border border-slate-800 hover:border-blue-500/30 hover:bg-slate-900/60 transition-all duration-300">
-                <div className="aspect-square rounded-xl overflow-hidden mb-4 bg-slate-950">
-                  <img src={feat.img} alt={feat.title} loading="lazy" width="400" height="400" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 opacity-80 group-hover:opacity-100" />
+                <div className="aspect-square rounded-xl overflow-hidden mb-4 bg-slate-950 flex items-center justify-center">
+                  {feat.img ? (
+                    <img src={feat.img} alt={feat.title} loading="lazy" width="400" height="400" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 opacity-80 group-hover:opacity-100" />
+                  ) : IconComponent ? (
+                    <IconComponent className="w-16 h-16 text-blue-400 group-hover:scale-110 transition-transform duration-500 opacity-60 group-hover:opacity-100" />
+                  ) : null}
                 </div>
                 <div className="p-4">
                   <h3 className="text-lg font-semibold text-white mb-2">{feat.title}</h3>

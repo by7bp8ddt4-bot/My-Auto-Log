@@ -250,6 +250,7 @@ export default function AuthPage({ onAuth, onNavigate }) {
                 {mode === 'signin' ? 'Welcome Back' : 'Create Account'}
               </h2>
               <p className="text-sm text-slate-400 mb-6">
+                {/* NOTE: "12,000+" must stay in sync with LandingPage hero stats — both need analytics verification */}
                 {mode === 'signin' ? 'Sign in to manage your vehicles' : 'Join 12,000+ drivers who never worry about their next oil change.'}
               </p>
 
