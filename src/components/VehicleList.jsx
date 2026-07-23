@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
-import { X, Car, Plus, Pencil, Trash2, ChevronRight, ScanLine, Loader2, CheckCircle2, AlertCircle, Tractor, Package, Ship, Anchor, Cog } from 'lucide-react';
+import { X, Car, Plus, Pencil, Trash2, ChevronRight, ScanLine, Loader2, CheckCircle2, AlertCircle, Tractor, Package, Ship, Anchor, Cog, Battery } from 'lucide-react';
 import { formatNumber } from '../utils/helpers';
 import { ManufacturerBadge } from '../utils/manufacturerBranding.jsx';
 import { decodeVin, isValidVin, isValidPin } from '../utils/vinDecoder.js';
 import { VEHICLE_TYPES } from '../utils/constants.js';
+import { getSpecsForVehicle } from '../data/maintenance-schedules.js';
 import MotorcycleIcon from './MotorcycleIcon';
 import SemiTruckIcon from './SemiTruckIcon';
 import RVIcon from './RVIcon';
@@ -205,6 +206,20 @@ export default function VehicleList({ vehicles, onAdd, onEdit, onDelete, isPremi
                   <span className="text-xs text-slate-600 font-mono">{v.licensePlate}</span>
                 )}
               </div>
+              {/* Battery Group Size */}
+              {(() => {
+                const batterySize = v.batteryGroupSize || getSpecsForVehicle(v.make, v.model)?.battery?.groupSize;
+                if (batterySize) {
+                  return (
+                    <div className="flex items-center gap-1.5 mt-2 pt-2 border-t border-slate-800/50 text-xs">
+                      <Battery className="w-3 h-3 text-emerald-400" />
+                      <span className="text-slate-500">Battery:</span>
+                      <span className="text-slate-300 font-medium">{batterySize}</span>
+                    </div>
+                  );
+                }
+                return null;
+              })()}
             </div>
                       ))
                     ) : (
@@ -256,6 +271,7 @@ function VehicleFormModal({ vehicle, onSave, onClose, initialType = 'car', focus
     isLeased: vehicle?.isLeased || false,
     leaseEndDate: vehicle?.leaseEndDate || '',
     leaseMileageLimit: vehicle?.leaseMileageLimit || '',
+    batteryGroupSize: vehicle?.batteryGroupSize || '',
   });
   const [vinState, setVinState] = useState({ status: 'idle', message: '', data: null }); // idle | loading | success | error
 
@@ -268,6 +284,16 @@ function VehicleFormModal({ vehicle, onSave, onClose, initialType = 'car', focus
   const mileageLabel = usesHours ? 'Engine Hours' : 'Current Mileage';
   const purchaseMileageLabel = usesHours ? 'Hours at Purchase' : 'Mileage at Purchase';
   const canLease = ['car', 'motorcycle', 'atv', 'semi-truck', 'rv'].includes(form.type);
+
+  // Auto-fill battery group size from manufacturer specs when make/model changes
+  useEffect(() => {
+    if (form.make && form.model && !form.batteryGroupSize) {
+      const specs = getSpecsForVehicle(form.make, form.model);
+      if (specs?.battery?.groupSize) {
+        setForm(f => ({ ...f, batteryGroupSize: specs.battery.groupSize }));
+      }
+    }
+  }, [form.make, form.model]);
 
   const handleDecodeVin = async () => {
     const vin = form.vin?.trim().toUpperCase();
@@ -603,6 +629,29 @@ function VehicleFormModal({ vehicle, onSave, onClose, initialType = 'car', focus
               placeholder="e.g. Sedan, SUV, Coupe, Pickup"
               className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
             />
+          </div>
+
+          {/* Battery Group Size */}
+          <div>
+            <label className="block text-xs text-slate-400 mb-1.5 font-medium">Battery Group Size</label>
+            <input
+              type="text"
+              value={form.batteryGroupSize}
+              onChange={e => setForm(f => ({ ...f, batteryGroupSize: e.target.value }))}
+              placeholder="e.g. Group 35, Group 48, Group 51R"
+              className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
+            />
+            {form.make && form.model && (() => {
+              const specs = getSpecsForVehicle(form.make, form.model);
+              if (specs?.battery?.groupSize && form.batteryGroupSize !== specs.battery.groupSize) {
+                return (
+                  <p className="text-[10px] text-slate-500 mt-1">
+                    Suggested: {specs.battery.groupSize} (from manufacturer specs)
+                  </p>
+                );
+              }
+              return null;
+            })()}
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
