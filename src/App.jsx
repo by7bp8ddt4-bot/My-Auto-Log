@@ -368,14 +368,18 @@ export default function App() {
     setInitialSyncDone(false);
     pushedIdsRef.current = {};
     // Clear stale localStorage data from previous user.
-    // Protect premium/subscription keys — these are account-level flags (not
-    // vehicle-specific data) and should never be wiped on auth changes.
-    // Wiping them creates a catch-22 with the premium sync effect.
+    // Protect account-level and one-time flags — these should never be wiped on
+    // auth changes. Wiping them causes data loss or catch-22s with sync effects.
     const PROTECTED_KEYS = [
       STORAGE_KEYS.PREMIUM_STATUS,        // 'mtxtrkr_premium_status'
       'mtxtrkr_subscription_status',
       'mtxtrkr_subscription_plan',
       'mtxtrkr_subscription_next_billing',
+      'mtxtrkr_selected_vehicle',         // user's last-selected vehicle
+      'mtxtrkr_logs_cleanup_done',        // one-time flag: prevents Supabase maintenance_logs deletion on every sign-in
+      'mtxtrkr_stale_cache_cleaned',      // one-time flag: stale cache cleanup
+      'mtxtrkr_cache_migrated',           // one-time flag: cache migration
+      'mtxtrkr_supabase_cache_migrated',  // one-time flag: supabase cache migration
     ];
     if (auth.user?.id) {
       for (let i = localStorage.length - 1; i >= 0; i--) {
