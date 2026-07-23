@@ -2,9 +2,11 @@ import { Settings2, Download, Trash2, RefreshCw, Database, User, Crown, ChevronR
 import { getSubscriptionData } from './SubscriptionManagement.jsx';
 import { useState } from 'react';
 
-export default function Settings({ onReset, onExport, vehicles, logs, reminders, isAuthenticated, isPremium, onNavigate, onLogout, onDeleteAccount, showCancelSubDialog, onDismissCancelSub, onSyncFromCloud }) {
+export default function Settings({ onReset, onExport, vehicles, logs, reminders, isAuthenticated, isPremium, onNavigate, onLogout, onDeleteAccount, showCancelSubDialog, onDismissCancelSub, onSyncFromCloud, onPushToCloud }) {
   const [syncing, setSyncing] = useState(false);
   const [syncDone, setSyncDone] = useState(false);
+  const [pushing, setPushing] = useState(false);
+  const [pushDone, setPushDone] = useState(false);
   const sub = getSubscriptionData();
   const handleExport = () => {
     const exportData = {
@@ -151,6 +153,41 @@ export default function Settings({ onReset, onExport, vehicles, logs, reminders,
                     <>
                       <Cloud className="w-4 h-4" />
                       Sync from Cloud
+                    </>
+                  )}
+                </button>
+                <button
+                  onClick={async () => {
+                    setPushing(true);
+                    setPushDone(false);
+                    await onPushToCloud();
+                    setPushing(false);
+                    setPushDone(true);
+                    setTimeout(() => setPushDone(false), 3000);
+                  }}
+                  disabled={pushing}
+                  className={`w-full flex items-center justify-center gap-2 py-2.5 rounded-xl border text-sm font-medium transition-all ${
+                    pushDone
+                      ? 'border-emerald-500/30 bg-emerald-500/10 text-emerald-400'
+                      : pushing
+                        ? 'border-blue-500/30 bg-blue-500/10 text-blue-400'
+                        : 'border-slate-700 text-slate-300 hover:bg-slate-800'
+                  }`}
+                >
+                  {pushing ? (
+                    <>
+                      <RefreshCw className="w-4 h-4 animate-spin" />
+                      Pushing to Cloud...
+                    </>
+                  ) : pushDone ? (
+                    <>
+                      <CheckCircle2 className="w-4 h-4" />
+                      Pushed Successfully
+                    </>
+                  ) : (
+                    <>
+                      <Cloud className="w-4 h-4" />
+                      Push to Cloud
                     </>
                   )}
                 </button>
