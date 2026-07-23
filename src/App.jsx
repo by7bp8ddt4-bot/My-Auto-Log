@@ -380,6 +380,9 @@ export default function App() {
       'mtxtrkr_stale_cache_cleaned',      // one-time flag: stale cache cleanup
       'mtxtrkr_cache_migrated',           // one-time flag: cache migration
       'mtxtrkr_supabase_cache_migrated',  // one-time flag: supabase cache migration
+      'mtxtrkr_documents',                // user-uploaded documents (base64 data URLs, no cloud backup)
+      'mtxtrkr_onboarding_dismissed',     // one-time flag: prevents onboarding wizard on every sign-in
+      'mtxtrkr_performance_mods',         // performance-modified service flags (cleanable air filters, etc.)
     ];
     if (auth.user?.id) {
       for (let i = localStorage.length - 1; i >= 0; i--) {
