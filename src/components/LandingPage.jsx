@@ -114,8 +114,8 @@ export default function LandingPage({ onGetStarted, onViewPremium }) {
           </div>
 
           {/* More Features — Condensed Box (in grid, matching card dimensions) */}
-          <div className="group p-1 rounded-2xl bg-slate-900/40 border border-slate-800 hover:border-blue-500/30 hover:bg-slate-900/60 transition-all duration-300">
-            <div className="aspect-square rounded-xl overflow-hidden mb-4 bg-slate-950 flex flex-col divide-y divide-slate-800/50">
+          <div className="group p-1 rounded-2xl bg-slate-900/40 border border-slate-800 hover:border-blue-500/30 hover:bg-slate-900/60 transition-all duration-300 flex flex-col">
+            <div className="rounded-xl overflow-hidden mb-4 bg-slate-950 flex flex-col divide-y divide-slate-800/50 flex-1 min-h-0">
               {[
                 { icon: Fuel, title: 'Fuel Tracking', desc: 'Track fuel economy, cost per fill-up, and MPG trends over time' },
                 { icon: Zap, title: 'Fuse Box Diagrams', desc: 'Quick access to fuse locations and relay indexes from your owner\'s manual' },
@@ -124,7 +124,7 @@ export default function LandingPage({ onGetStarted, onViewPremium }) {
               ].map((row, i) => {
                 const Icon = row.icon;
                 return (
-                  <div key={i} className="flex items-center gap-4 px-5 py-5 hover:bg-slate-800/30 transition-colors flex-1">
+                  <div key={i} className="flex items-center gap-4 px-5 py-3 hover:bg-slate-800/30 transition-colors flex-1">
                     <div className="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center shrink-0">
                       <Icon className="w-5 h-5 text-blue-400" />
                     </div>
