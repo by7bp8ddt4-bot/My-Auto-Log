@@ -101,8 +101,8 @@ export default function LandingPage({ onGetStarted, onViewPremium }) {
           </p>
         </div>
 
-        {/* Vehicle Management + More Features Row */}
-        <div className="grid lg:grid-cols-2 gap-8 mb-8">
+        {/* All Feature Cards — Single 3-Column Grid */}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {/* Vehicle Management Card */}
           <div className="group p-1 rounded-2xl bg-slate-900/40 border border-slate-800 hover:border-blue-500/30 hover:bg-slate-900/60 transition-all duration-300">
             <div className="aspect-square rounded-xl overflow-hidden mb-4 bg-slate-950 flex items-center justify-center">
@@ -114,9 +114,9 @@ export default function LandingPage({ onGetStarted, onViewPremium }) {
             </div>
           </div>
 
-          {/* More Features — Condensed Box (alongside Vehicle Management) */}
-          <div className="p-1 rounded-2xl bg-slate-900/40 border border-slate-800 hover:border-blue-500/30 hover:bg-slate-900/60 transition-all duration-300">
-            <div className="rounded-xl overflow-hidden h-full flex flex-col divide-y divide-slate-800/50">
+          {/* More Features — Condensed Box (in grid, matching card dimensions) */}
+          <div className="group p-1 rounded-2xl bg-slate-900/40 border border-slate-800 hover:border-blue-500/30 hover:bg-slate-900/60 transition-all duration-300">
+            <div className="aspect-square rounded-xl overflow-hidden mb-4 bg-slate-950 flex flex-col divide-y divide-slate-800/50">
               {[
                 { icon: Fuel, title: 'Fuel Tracking', desc: 'Track fuel economy, cost per fill-up, and MPG trends over time' },
                 { icon: Zap, title: 'Fuse Box Diagrams', desc: 'Quick access to fuse locations and relay indexes from your owner\'s manual' },
@@ -136,11 +136,13 @@ export default function LandingPage({ onGetStarted, onViewPremium }) {
                 );
               })}
             </div>
+            <div className="p-4">
+              <h3 className="text-lg font-semibold text-white mb-2">More Features</h3>
+              <p className="text-sm text-slate-400 leading-relaxed">Fuel tracking, fuse box diagrams, performance modification logging, and more — all integrated into your maintenance workflow.</p>
+            </div>
           </div>
-        </div>
 
-        {/* Remaining 5 Feature Cards */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          {/* Remaining 5 Feature Cards */}
           {[
             { title: 'Smart Reminders', desc: 'Intelligent reminders based on manufacturer-recommended schedules — mileage and time-based alerts tailored to your vehicle.', img: remindersImg },
             { title: 'AI Co-Pilot', desc: 'Ask it anything — "engine is squeaking when I turn on the AC" or "the car shuttered when I pulled away from the stoplight". Our AI will give you a detailed assessment and send you in the right direction; not to mention keep you from getting swindled. Backed by maintenance schedules from 65+ manufacturers — from Ford and Toyota to CAT, Cummins, and Yamaha.', img: aiCopilotImg },
