@@ -3,7 +3,7 @@ import {
   Smartphone, Wifi, BarChart3, DollarSign, Clock, Upload,
   Crown, Gauge, Calendar, TrendingUp, Brain, Sparkles, Save, Wrench, Lightbulb,
   AlertTriangle, Tractor, Package, Ship, Anchor, Cog, Truck, Building, Database,
-  Bike, Fuel, Zap
+  Bike, Fuel, Zap, FileText
 } from 'lucide-react';
 import MTXtrkrLogo from './MTXtrkrLogo';
 import ATVIcon from './ATVIcon';
@@ -12,7 +12,6 @@ import vehicleMgmtImg from '/assets/features/vehicle-mgmt.webp';
 import remindersImg from '/assets/features/reminders.webp';
 import aiCopilotImg from '/assets/features/ai-copilot.webp';
 import analyticsImg from '/assets/features/analytics.webp';
-import documentsImg from '/assets/features/documents.webp';
 import serviceLogImg from '/assets/features/service-log.webp';
 
 export default function LandingPage({ onGetStarted, onViewPremium }) {
@@ -121,6 +120,7 @@ export default function LandingPage({ onGetStarted, onViewPremium }) {
                 { icon: Fuel, title: 'Fuel Tracking', desc: 'Track fuel economy, cost per fill-up, and MPG trends over time' },
                 { icon: Zap, title: 'Fuse Box Diagrams', desc: 'Quick access to fuse locations and relay indexes from your owner\'s manual' },
                 { icon: Cog, title: 'Performance Modifications', desc: 'Log aftermarket parts with categories, costs, and brand tracking' },
+                { icon: FileText, title: 'Document Storage', desc: 'Organize purchase records, insurance, and registration in one place' },
               ].map((row, i) => {
                 const Icon = row.icon;
                 return (
@@ -138,7 +138,7 @@ export default function LandingPage({ onGetStarted, onViewPremium }) {
             </div>
             <div className="p-4">
               <h3 className="text-lg font-semibold text-white mb-2">More Features</h3>
-              <p className="text-sm text-slate-400 leading-relaxed">Fuel tracking, fuse box diagrams, performance modification logging, and more — all integrated into your maintenance workflow.</p>
+              <p className="text-sm text-slate-400 leading-relaxed">Fuel tracking, fuse box diagrams, performance modification logging, document storage, and more — all integrated into your maintenance workflow.</p>
             </div>
           </div>
 
@@ -147,7 +147,6 @@ export default function LandingPage({ onGetStarted, onViewPremium }) {
             { title: 'Smart Reminders', desc: 'Intelligent reminders based on manufacturer-recommended schedules — mileage and time-based alerts tailored to your vehicle.', img: remindersImg },
             { title: 'AI Co-Pilot', desc: 'Ask it anything — "engine is squeaking when I turn on the AC" or "the car shuttered when I pulled away from the stoplight". Our AI will give you a detailed assessment and send you in the right direction; not to mention keep you from getting swindled. Backed by maintenance schedules from 65+ manufacturers — from Ford and Toyota to CAT, Cummins, and Yamaha.', img: aiCopilotImg },
             { title: 'Expense Analytics', desc: 'Track costs per vehicle, per month, with beautiful charts.', img: analyticsImg },
-            { title: 'Document Storage', desc: 'Organize purchase records, insurance, photos, and registration in one place. Get automatic renewal reminders 90, 60, and 30 days before your registration expires.', img: documentsImg },
             { title: 'Service History', desc: 'Generate a complete digital health record to boost resale value.', img: serviceLogImg },
           ].map(feat => {
             return (
