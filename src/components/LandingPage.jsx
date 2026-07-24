@@ -109,7 +109,8 @@ export default function LandingPage({ onGetStarted, onViewPremium }) {
             { title: 'Expense Analytics', desc: 'Track costs per vehicle, per month, with beautiful charts.', img: analyticsImg },
             { title: 'Document Storage', desc: 'Organize purchase records, insurance, photos, and registration in one place. Get automatic renewal reminders 90, 60, and 30 days before your registration expires.', img: documentsImg },
             { title: 'Service History', desc: 'Generate a complete digital health record to boost resale value.', img: serviceLogImg },
-          ].map(feat => (
+          ].map(feat => {
+            return (
               <div key={feat.title} className="group p-1 rounded-2xl bg-slate-900/40 border border-slate-800 hover:border-blue-500/30 hover:bg-slate-900/60 transition-all duration-300">
                 <div className="aspect-square rounded-xl overflow-hidden mb-4 bg-slate-950 flex items-center justify-center">
                   <img src={feat.img} alt={feat.title} loading="lazy" width="400" height="400" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 opacity-80 group-hover:opacity-100" />
