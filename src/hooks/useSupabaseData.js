@@ -219,6 +219,7 @@ export function useSupabaseAuth() {
   const [user, setUser] = useState(null);
   const [session, setSession] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [authError, setAuthError] = useState(null);
   const [isRecovery, setIsRecovery] = useState(() => {
     // Detect recovery hash on mount (before Supabase processes it)
     if (window.location.hash && window.location.hash.includes('type=recovery')) return true;
@@ -230,6 +231,40 @@ export function useSupabaseAuth() {
   });
 
   useEffect(() => {
+    // Check for OAuth callback errors in the URL BEFORE getSession().
+    // When Supabase's GoTrue server fails to exchange the OAuth code
+    // (e.g. Apple Sign-In with "sign up not completed"), it redirects
+    // back with ?error=...&error_description=... in the URL.
+    // The Supabase client processes these via _initialize() but the
+    // error is silently swallowed — no onAuthStateChange fires, and
+    // getSession() returns null. We capture the raw params here so
+    // the user sees a meaningful error instead of a blank form.
+    if (typeof window !== 'undefined' && !isRecovery) {
+      try {
+        const params = new URLSearchParams(window.location.search);
+        const errorParam = params.get('error');
+        const errorDesc = params.get('error_description') || params.get('error_code');
+        if (errorParam) {
+          const msg = errorDesc
+            ? `${errorParam}: ${errorDesc}`
+            : errorParam;
+          setAuthError(decodeURIComponent(msg));
+          // Clean the URL to prevent re-showing on refresh
+          if (window.history?.replaceState) {
+            const clean = new URL(window.location.href);
+            clean.searchParams.delete('error');
+            clean.searchParams.delete('error_description');
+            clean.searchParams.delete('error_code');
+            window.history.replaceState({}, '', clean.toString());
+          }
+          setLoading(false);
+          return; // Don't proceed — there's no session to recover
+        }
+      } catch(e) {
+        // Ignore URL parsing errors
+      }
+    }
+
     // Get initial session
     supabase.auth.getSession().then(({ data: { session: s } }) => {
       setSession(s);
@@ -237,6 +272,16 @@ export function useSupabaseAuth() {
       if (s?.user) {
         supabase.from('profiles').upsert({ id: s.user.id, email: s.user.email });
       }
+      if (!s) {
+        // No session found after OAuth redirect — could be a silent
+        // failure that the Supabase client already consumed from the URL.
+        // Don't show an error here (getSession doesn't give us one),
+        // but let the user see the sign-in form without a spinner.
+      }
+      setLoading(false);
+    }).catch(err => {
+      console.error('[useSupabaseAuth] getSession failed:', err);
+      setAuthError(err?.message || 'Could not restore session.');
       setLoading(false);
     });
 
@@ -248,8 +293,20 @@ export function useSupabaseAuth() {
         setIsRecovery(true);
       }
       if (session?.user) {
-        supabase.from('profiles').upsert({ id: session.user.id, email: session.user.email });
+        // Fire-and-forget: upsert profile. Apple Sign-In may return
+        // null email on subsequent sign-ins — still upsert with whatever
+        // we have (Supabase user identity data handles the rest).
+        supabase.from('profiles').upsert({
+          id: session.user.id,
+          email: session.user.email,
+        }).then(({ error }) => {
+          if (error) {
+            console.warn('[useSupabaseAuth] profile upsert warning:', error.message);
+          }
+        });
       }
+      // Clear any previous auth error on successful sign-in
+      setAuthError(null);
       setLoading(false);
     });
 
@@ -339,5 +396,5 @@ export function useSupabaseAuth() {
     // if Supabase data is unavailable on next sign-in
   }, []);
 
-  return { user, session, loading, isRecovery, clearRecovery: () => setIsRecovery(false), signUp, signIn, signInWithGoogle, signInWithApple, signOut, checkPremium, setPremiumStatus, resetPassword, updatePassword };
+  return { user, session, loading, authError, clearAuthError: () => setAuthError(null), isRecovery, clearRecovery: () => setIsRecovery(false), signUp, signIn, signInWithGoogle, signInWithApple, signOut, checkPremium, setPremiumStatus, resetPassword, updatePassword };
 }

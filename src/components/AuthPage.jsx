@@ -14,6 +14,7 @@ export default function AuthPage({ onAuth, onNavigate }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+    onAuth.clearAuthError?.();
     setLoading(true);
 
     try {
@@ -85,22 +86,34 @@ export default function AuthPage({ onAuth, onNavigate }) {
 
   const handleGoogleSignIn = async () => {
     setError('');
+    onAuth.clearAuthError?.();
     setLoading(true);
     try {
-      await onAuth.signInWithGoogle();
+      const { error: oauthError } = await onAuth.signInWithGoogle();
+      if (oauthError) {
+        setError(oauthError.message || 'Failed to sign in with Google.');
+        setLoading(false);
+      }
+      // If no error, the browser will redirect — loading stays true
     } catch (err) {
-      setError('Failed to sign in with Google.');
+      setError('Failed to sign in with Google. Please try again.');
       setLoading(false);
     }
   };
 
   const handleAppleSignIn = async () => {
     setError('');
+    onAuth.clearAuthError?.();
     setLoading(true);
     try {
-      await onAuth.signInWithApple();
+      const { error: oauthError } = await onAuth.signInWithApple();
+      if (oauthError) {
+        setError(oauthError.message || 'Failed to sign in with Apple. Please check your Supabase Apple OAuth configuration.');
+        setLoading(false);
+      }
+      // If no error, the browser will redirect — loading stays true
     } catch (err) {
-      setError('Failed to sign in with Apple.');
+      setError('Failed to sign in with Apple. Please try again.');
       setLoading(false);
     }
   };
@@ -254,6 +267,20 @@ export default function AuthPage({ onAuth, onNavigate }) {
                 {mode === 'signin' ? 'Sign in to manage your vehicles' : 'Join 12,000+ drivers who never worry about their next oil change.'}
               </p>
 
+              {/* OAuth callback error — shown when returning from a failed
+                  Apple/Google sign-in redirect (e.g. "sign up not completed").
+                  Displays ABOVE the form so it's visible immediately at the
+                  bottom of the card, matching the user-reported layout. */}
+              {onAuth.authError && (
+                <div className="p-3 px-4 rounded-xl bg-red-500/10 border border-red-500/20 flex items-start gap-2 text-xs text-red-300 mb-4">
+                  <AlertCircle className="w-3.5 h-3.5 mt-0.5 shrink-0" />
+                  <div>
+                    <p className="font-medium mb-0.5">Sign-in not completed</p>
+                    <p className="text-red-400/80">{onAuth.authError}</p>
+                  </div>
+                </div>
+              )}
+
               {error && (
                 <div className={`p-3 px-4 rounded-xl border flex items-start gap-2 text-xs mb-4 ${
                   error.includes('successfully') || error.includes('Password updated')
@@ -306,7 +333,7 @@ export default function AuthPage({ onAuth, onNavigate }) {
                   {mode === 'signin' && (
                     <button
                       type="button"
-                      onClick={() => { setMode('forgot'); setError(''); setSent(false); }}
+                      onClick={() => { setMode('forgot'); setError(''); setSent(false); onAuth.clearAuthError?.(); }}
                       className="mt-1.5 text-xs text-blue-400 hover:text-blue-300 float-right"
                     >
                       Forgot password?
@@ -367,7 +394,7 @@ export default function AuthPage({ onAuth, onNavigate }) {
               <p className="mt-5 text-center text-xs text-slate-500">
                 {mode === 'signin' ? "Don't have an account?" : 'Already have an account?'}{' '}
                 <button
-                  onClick={() => { setMode(mode === 'signin' ? 'signup' : 'signin'); setError(''); }}
+                  onClick={() => { setMode(mode === 'signin' ? 'signup' : 'signin'); setError(''); onAuth.clearAuthError?.(); }}
                   className="text-blue-400 hover:text-blue-300 font-medium"
                 >
                   {mode === 'signin' ? 'Sign Up' : 'Sign In'}

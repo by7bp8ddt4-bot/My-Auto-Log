@@ -163,6 +163,17 @@ export default function App() {
     }
   }, [auth.isRecovery, page]);
 
+  // Auto-navigate to auth page when an OAuth callback error is detected
+  // (e.g. Apple Sign-In "sign up not completed"). This covers the case
+  // where the user returns from the OAuth redirect to / (landing) but
+  // the session was not created — we need to show the auth page with
+  // the error so the user knows what happened.
+  useEffect(() => {
+    if (auth.authError && !isAuthenticated && !auth.loading && page !== 'auth') {
+      setPage('auth');
+    }
+  }, [auth.authError, isAuthenticated, auth.loading, page]);
+
   // Auto-redirect to dashboard when user signs in / auth loads (skip during password recovery)
   useEffect(() => {
     if (isAuthenticated && !auth.loading && (page === 'auth' || page === 'landing') && !auth.isRecovery) {
