@@ -109,19 +109,11 @@ export default function LandingPage({ onGetStarted, onViewPremium }) {
             { title: 'Expense Analytics', desc: 'Track costs per vehicle, per month, with beautiful charts.', img: analyticsImg },
             { title: 'Document Storage', desc: 'Organize purchase records, insurance, photos, and registration in one place. Get automatic renewal reminders 90, 60, and 30 days before your registration expires.', img: documentsImg },
             { title: 'Service History', desc: 'Generate a complete digital health record to boost resale value.', img: serviceLogImg },
-            { title: 'Fuel Tracking', desc: 'Log every fill-up with auto-calculated MPG, cost trends, and octane tracking. Know your real fuel economy at a glance.', icon: 'Fuel' },
-            { title: 'Fuse Box Diagrams', desc: 'Quick-reference fuse and relay indexes per vehicle — in-cab and under-hood locations. Part of making your owner\'s manual simple.', icon: 'Zap' },
-            { title: 'Performance Mods', desc: 'Track every upgrade with 3 folder categories — Under the Hood, Exterior, Interior. Log costs, brands, and install mileage.', icon: 'Cog' },
           ].map(feat => {
-            const IconComponent = feat.icon ? { Fuel, Zap, Cog }[feat.icon] : null;
             return (
               <div key={feat.title} className="group p-1 rounded-2xl bg-slate-900/40 border border-slate-800 hover:border-blue-500/30 hover:bg-slate-900/60 transition-all duration-300">
                 <div className="aspect-square rounded-xl overflow-hidden mb-4 bg-slate-950 flex items-center justify-center">
-                  {feat.img ? (
-                    <img src={feat.img} alt={feat.title} loading="lazy" width="400" height="400" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 opacity-80 group-hover:opacity-100" />
-                  ) : IconComponent ? (
-                    <IconComponent className="w-16 h-16 text-blue-400 group-hover:scale-110 transition-transform duration-500 opacity-60 group-hover:opacity-100" />
-                  ) : null}
+                  <img src={feat.img} alt={feat.title} loading="lazy" width="400" height="400" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 opacity-80 group-hover:opacity-100" />
                 </div>
                 <div className="p-4">
                   <h3 className="text-lg font-semibold text-white mb-2">{feat.title}</h3>
@@ -413,6 +405,30 @@ export default function LandingPage({ onGetStarted, onViewPremium }) {
             engine hours for equipment, serial numbers for marine engines. License plates show 
             where they're needed, hide where they're not. All tracked in one unified fleet dashboard.
           </p>
+        </div>
+      </div>
+
+      {/* More Features — Condensed */}
+      <div className="max-w-4xl mx-auto px-4 pb-20">
+        <div className="bg-slate-900/60 border border-slate-800 rounded-2xl divide-y divide-slate-800/50 overflow-hidden">
+          {[
+            { icon: Fuel, title: 'Fuel Tracking', desc: 'Track fuel economy, cost per fill-up, and MPG trends over time' },
+            { icon: Zap, title: 'Fuse Box Diagrams', desc: 'Quick access to fuse locations and relay indexes from your owner\'s manual' },
+            { icon: Cog, title: 'Performance Modifications', desc: 'Log aftermarket parts with categories, costs, and brand tracking' },
+          ].map((row, i) => {
+            const Icon = row.icon;
+            return (
+              <div key={i} className="flex items-center gap-4 px-6 py-5 hover:bg-slate-800/30 transition-colors">
+                <div className="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center shrink-0">
+                  <Icon className="w-5 h-5 text-blue-400" />
+                </div>
+                <div>
+                  <h4 className="text-sm font-semibold text-white">{row.title}</h4>
+                  <p className="text-xs text-slate-400 mt-0.5">{row.desc}</p>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
 
