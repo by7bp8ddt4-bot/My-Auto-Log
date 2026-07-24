@@ -101,9 +101,47 @@ export default function LandingPage({ onGetStarted, onViewPremium }) {
           </p>
         </div>
 
+        {/* Vehicle Management + More Features Row */}
+        <div className="grid lg:grid-cols-2 gap-8 mb-8">
+          {/* Vehicle Management Card */}
+          <div className="group p-1 rounded-2xl bg-slate-900/40 border border-slate-800 hover:border-blue-500/30 hover:bg-slate-900/60 transition-all duration-300">
+            <div className="aspect-square rounded-xl overflow-hidden mb-4 bg-slate-950 flex items-center justify-center">
+              <img src={vehicleMgmtImg} alt="Vehicle Management" loading="lazy" width="400" height="400" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 opacity-80 group-hover:opacity-100" />
+            </div>
+            <div className="p-4">
+              <h3 className="text-lg font-semibold text-white mb-2">Vehicle Management</h3>
+              <p className="text-sm text-slate-400 leading-relaxed">Track all your vehicles in one place with detailed specs, maintenance charts, records, registrations, photos, and more.</p>
+            </div>
+          </div>
+
+          {/* More Features — Condensed Box (alongside Vehicle Management) */}
+          <div className="p-1 rounded-2xl bg-slate-900/40 border border-slate-800 hover:border-blue-500/30 hover:bg-slate-900/60 transition-all duration-300">
+            <div className="rounded-xl overflow-hidden h-full flex flex-col divide-y divide-slate-800/50">
+              {[
+                { icon: Fuel, title: 'Fuel Tracking', desc: 'Track fuel economy, cost per fill-up, and MPG trends over time' },
+                { icon: Zap, title: 'Fuse Box Diagrams', desc: 'Quick access to fuse locations and relay indexes from your owner\'s manual' },
+                { icon: Cog, title: 'Performance Modifications', desc: 'Log aftermarket parts with categories, costs, and brand tracking' },
+              ].map((row, i) => {
+                const Icon = row.icon;
+                return (
+                  <div key={i} className="flex items-center gap-4 px-5 py-5 hover:bg-slate-800/30 transition-colors flex-1">
+                    <div className="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center shrink-0">
+                      <Icon className="w-5 h-5 text-blue-400" />
+                    </div>
+                    <div>
+                      <h4 className="text-sm font-semibold text-white">{row.title}</h4>
+                      <p className="text-xs text-slate-400 mt-0.5">{row.desc}</p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+
+        {/* Remaining 5 Feature Cards */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {[
-            { title: 'Vehicle Management', desc: 'Track all your vehicles in one place with detailed specs, maintenance charts, records, registrations, photos, and more.', img: vehicleMgmtImg },
             { title: 'Smart Reminders', desc: 'Intelligent reminders based on manufacturer-recommended schedules — mileage and time-based alerts tailored to your vehicle.', img: remindersImg },
             { title: 'AI Co-Pilot', desc: 'Ask it anything — "engine is squeaking when I turn on the AC" or "the car shuttered when I pulled away from the stoplight". Our AI will give you a detailed assessment and send you in the right direction; not to mention keep you from getting swindled. Backed by maintenance schedules from 65+ manufacturers — from Ford and Toyota to CAT, Cummins, and Yamaha.', img: aiCopilotImg },
             { title: 'Expense Analytics', desc: 'Track costs per vehicle, per month, with beautiful charts.', img: analyticsImg },
@@ -405,30 +443,6 @@ export default function LandingPage({ onGetStarted, onViewPremium }) {
             engine hours for equipment, serial numbers for marine engines. License plates show 
             where they're needed, hide where they're not. All tracked in one unified fleet dashboard.
           </p>
-        </div>
-      </div>
-
-      {/* More Features — Condensed */}
-      <div className="max-w-4xl mx-auto px-4 pb-20">
-        <div className="bg-slate-900/60 border border-slate-800 rounded-2xl divide-y divide-slate-800/50 overflow-hidden">
-          {[
-            { icon: Fuel, title: 'Fuel Tracking', desc: 'Track fuel economy, cost per fill-up, and MPG trends over time' },
-            { icon: Zap, title: 'Fuse Box Diagrams', desc: 'Quick access to fuse locations and relay indexes from your owner\'s manual' },
-            { icon: Cog, title: 'Performance Modifications', desc: 'Log aftermarket parts with categories, costs, and brand tracking' },
-          ].map((row, i) => {
-            const Icon = row.icon;
-            return (
-              <div key={i} className="flex items-center gap-4 px-6 py-5 hover:bg-slate-800/30 transition-colors">
-                <div className="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center shrink-0">
-                  <Icon className="w-5 h-5 text-blue-400" />
-                </div>
-                <div>
-                  <h4 className="text-sm font-semibold text-white">{row.title}</h4>
-                  <p className="text-xs text-slate-400 mt-0.5">{row.desc}</p>
-                </div>
-              </div>
-            );
-          })}
         </div>
       </div>
 
