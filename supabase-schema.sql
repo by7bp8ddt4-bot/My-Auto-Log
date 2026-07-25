@@ -300,3 +300,34 @@ CREATE POLICY "Users can view their own analytics events"
 CREATE POLICY "Service role can view all analytics events"
   ON analytics_events FOR SELECT
   USING (auth.role() = 'service_role');
+
+-- ============================================
+-- STORAGE BUCKET: DOCUMENTS
+-- ============================================
+-- Create a public bucket for user-uploaded documents.
+-- Files are stored at: {userId}/{documentId}-{timestamp}-{filename}
+INSERT INTO storage.buckets (id, name, public, file_size_limit)
+VALUES ('documents', 'documents', true, 52428800)  -- 50MB limit
+ON CONFLICT (id) DO NOTHING;
+
+-- Storage RLS: users can only access their own folder (userId/ prefix)
+CREATE POLICY "Users can upload to their own document folder"
+  ON storage.objects FOR INSERT
+  WITH CHECK (
+    bucket_id = 'documents'
+    AND (storage.foldername(name))[1] = auth.uid()::text
+  );
+
+CREATE POLICY "Users can view their own documents"
+  ON storage.objects FOR SELECT
+  USING (
+    bucket_id = 'documents'
+    AND (storage.foldername(name))[1] = auth.uid()::text
+  );
+
+CREATE POLICY "Users can delete their own documents"
+  ON storage.objects FOR DELETE
+  USING (
+    bucket_id = 'documents'
+    AND (storage.foldername(name))[1] = auth.uid()::text
+  );
