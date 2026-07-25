@@ -387,7 +387,9 @@ export default function App() {
     // Protect account-level and one-time flags — these should never be wiped on
     // auth changes. Wiping them causes data loss or catch-22s with sync effects.
     const PROTECTED_KEYS = [
-      STORAGE_KEYS.PREMIUM_STATUS,        // 'mtxtrkr_premium_status'
+      // STORAGE_KEYS.PREMIUM_STATUS intentionally removed — premium must be
+      // verified against Supabase on every auth change, not preserved from
+      // localStorage (prevents cross-account premium contamination, Bug #2).
       'mtxtrkr_subscription_status',
       'mtxtrkr_subscription_plan',
       'mtxtrkr_subscription_next_billing',
@@ -400,45 +402,17 @@ export default function App() {
       'mtxtrkr_performance_mods',         // performance-modified service flags (cleanable air filters, etc.)
     ];
     if (auth.user?.id) {
-      // Push all local data to Supabase BEFORE wiping localStorage.
-      // Defense-in-depth: the sign-out handler (handleLogout) already pushes on
-      // explicit sign-out, but this handles cases where the session ended without
-      // a clean sign-out (tab close, browser crash, app force-quit on mobile).
-      // By pushing here, we ensure any data that survived in localStorage from a
-      // previous session is safely uploaded before the wipe below clears it.
+      // IMPORTANT: Do NOT push old localStorage data to Supabase here.
+      // The sign-out handler (handleLogout) and visibilitychange handler
+      // already push data before the session ends, and the two-way sync
+      // on sign-in handles loading the correct user's data. Pushing here
+      // would write the PREVIOUS user's data under the NEW user's ID,
+      // causing permanent cross-account data contamination (Bug #1).
       (async () => {
-        const dataStores = [
-          { key: STORAGE_KEYS.VEHICLES, table: 'vehicles' },
-          { key: STORAGE_KEYS.MAINTENANCE_LOGS, table: 'maintenance_logs' },
-          { key: STORAGE_KEYS.REMINDERS, table: 'reminders' },
-          { key: 'mtxtrkr_fuel_logs', table: 'fuel_logs' },
-          { key: 'mtxtrkr_modifications', table: 'modifications' },
-          { key: STORAGE_KEYS.DOCUMENTS, table: 'documents' },
-        ];
-        for (const { key, table } of dataStores) {
-          try {
-            const raw = localStorage.getItem(key);
-            if (!raw) continue;
-            const items = JSON.parse(raw);
-            if (!Array.isArray(items) || items.length === 0) continue;
-            for (const item of items) {
-              const { createdAt, updatedAt, ...syncItem } = item;
-              await supabase.from(table).upsert(
-                { ...syncItem, user_id: auth.user.id },
-                { onConflict: 'id' }
-              );
-            }
-          } catch (e) {
-            console.warn(`[Cleanup] Failed to push ${key} before wipe:`, e);
-          }
-        }
         // Save a forensic snapshot BEFORE wiping localStorage.
         // This creates an audit trail if data loss occurs — the snapshot
         // contains timestamps, data counts per store, and userId so we can
         // diagnose what was present before the wipe.
-        // Protected keys: the snapshot itself is NOT in PROTECTED_KEYS,
-        // so it survives only until the NEXT auth-change, giving one
-        // sign-in cycle to recover if needed.
         try {
           const snapshot = {
             timestamp: new Date().toISOString(),
@@ -458,8 +432,11 @@ export default function App() {
           // Non-fatal: snapshot failure should not block the wipe
           console.warn('[Cleanup] Failed to save pre-wipe snapshot:', e);
         }
-        // Now that data is safely in Supabase, wipe localStorage data keys
-        // to prevent cross-account contamination on shared devices.
+        // Clear premium React state to prevent stale premium from leaking
+        // across user switches. The premium sync effect will restore the
+        // correct value from Supabase on sign-in (Bug #2).
+        setPremium(false);
+        // Wipe localStorage data keys to prevent cross-account contamination.
         for (let i = localStorage.length - 1; i >= 0; i--) {
           const key = localStorage.key(i);
           if (key && (key.startsWith('mtxtrkr_') || key.startsWith('supabase_cache_')) && !PROTECTED_KEYS.includes(key)) {
