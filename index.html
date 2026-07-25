@@ -101,6 +101,27 @@
             console.warn('[Premium] Could not set localStorage:', e);
           }
         }
+        if (params.get('restore-premium') === '1') {
+          try {
+            // Set premium status AND subscription data so the stale-premium
+            // cleanup effect doesn't wipe these on the next auth change.
+            localStorage.setItem('mtxtrkr_premium_status', 'true');
+            localStorage.setItem('mtxtrkr_subscription_status', 'active');
+            localStorage.setItem('mtxtrkr_subscription_plan', 'monthly');
+            // Keep re-setting for 10 seconds to survive sync overrides from old code
+            var retries2 = 0;
+            var interval2 = setInterval(function() {
+              localStorage.setItem('mtxtrkr_premium_status', 'true');
+              localStorage.setItem('mtxtrkr_subscription_status', 'active');
+              retries2++;
+              if (retries2 > 20) clearInterval(interval2);
+            }, 500);
+            // Clean URL
+            window.history.replaceState({}, '', window.location.pathname);
+          } catch(e) {
+            console.warn('[RestorePremium] Could not set localStorage:', e);
+          }
+        }
       })();
     </script>
 
