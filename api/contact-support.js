@@ -56,13 +56,20 @@ export default async function handler(req, res) {
     // Try Resend first (preferred — handles MX records automatically)
     if (resendApiKey) {
       const resend = new Resend(resendApiKey);
-      await resend.emails.send({
-        from: 'MTXtrkr <support@mtxtrkr.com>',
+      const { data, error } = await resend.emails.send({
+        from: 'MTXtrkr <support@contact.mtxtrkr.com>',
         to: recipient,
         replyTo: email,
         subject: `[MTXtrkr Support] ${subject} - from ${name}`,
         html: buildEmailHtml(name, email, subject, message),
       });
+
+      if (error) {
+        console.error('[contact-support] Resend API error:', JSON.stringify(error, null, 2));
+        return res.status(500).json({ error: `Email delivery failed: ${error.message || 'Unknown Resend error'}` });
+      }
+
+      console.log('[contact-support] Resend email sent successfully, id:', data?.id);
       return res.status(200).json({ success: true });
     }
 
@@ -86,7 +93,12 @@ export default async function handler(req, res) {
 
     return res.status(200).json({ success: true });
   } catch (err) {
-    console.error('Error in contact-support:', err);
+    console.error('[contact-support] Unexpected error:', {
+      message: err.message,
+      stack: err.stack,
+      code: err.statusCode || err.code || 'N/A',
+      name: err.name,
+    });
     return res.status(500).json({ error: err.message || 'Failed to send message' });
   }
 }
