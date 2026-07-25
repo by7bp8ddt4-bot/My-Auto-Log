@@ -70,12 +70,14 @@ function simulateAuthChangeWipe(protectedKeys) {
   }
 }
 
-// ── Expected PROTECTED_KEYS (from App.jsx ~lines 389-403) ───────────
-// NOTE: mtxtrkr_premium_status intentionally NOT protected — premium must
-// be verified against Supabase on every auth change to prevent cross-account
-// contamination (Bug #2). mtxtrkr_documents removed from protected keys
-// in the Supabase Storage migration (PR #71) — documents now sync via cloud.
+// ── Expected PROTECTED_KEYS (from App.jsx ~lines 390-405) ───────────
+// NOTE: mtxtrkr_premium_status is protected as a fallback for slow Supabase
+// fetches. The premium sync effect verifies against Supabase on every auth
+// change, preventing cross-account contamination even when premium_status
+// survives the wipe. mtxtrkr_documents removed from protected keys in the
+// Supabase Storage migration (PR #71) — documents now sync via cloud.
 const EXPECTED_PROTECTED_KEYS = [
+  'mtxtrkr_premium_status',
   'mtxtrkr_subscription_status',
   'mtxtrkr_subscription_plan',
   'mtxtrkr_subscription_next_billing',
@@ -110,9 +112,9 @@ describe('Data Integrity Gate', () => {
 
   // ── 1. PROTECTED_KEYS Audit ──────────────────────────────────
   describe('PROTECTED_KEYS Audit', () => {
-    it('should have exactly 10 protected keys in App.jsx', () => {
+    it('should have exactly 11 protected keys in App.jsx', () => {
       const actual = extractProtectedKeys();
-      expect(actual).toHaveLength(10);
+      expect(actual).toHaveLength(11);
     });
 
     it('should match expected PROTECTED_KEYS exactly', () => {
@@ -130,9 +132,9 @@ describe('Data Integrity Gate', () => {
       expect(actual).toContain('mtxtrkr_subscription_next_billing');
     });
 
-    it('should NOT include premium status key (Bug #2 — verified against Supabase)', () => {
+    it('should include premium status key (fallback for slow Supabase fetches)', () => {
       const actual = extractProtectedKeys();
-      expect(actual).not.toContain('mtxtrkr_premium_status');
+      expect(actual).toContain('mtxtrkr_premium_status');
     });
   });
 
@@ -258,8 +260,10 @@ describe('Data Integrity Gate', () => {
       expect(localStorage.getItem('mtxtrkr_vehicles')).toBeNull();
     });
 
-    it('should NOT preserve PREMIUM_STATUS after simulated auth-change wipe (Bug #2)', () => {
-      // Seed premium-related keys — subscription keys survive, premium_status does NOT
+    it('should preserve PREMIUM_STATUS after simulated auth-change wipe (fallback for slow Supabase)', () => {
+      // Seed premium-related keys — premium_status now survives as a fallback.
+      // The premium sync effect still verifies against Supabase on auth change,
+      // preventing permanent cross-account contamination.
       localStorage.setItem('mtxtrkr_premium_status', 'true');
       localStorage.setItem('mtxtrkr_subscription_status', 'active');
       localStorage.setItem('mtxtrkr_subscription_plan', 'monthly');
@@ -268,9 +272,9 @@ describe('Data Integrity Gate', () => {
       // Simulate the auth-change wipe
       simulateAuthChangeWipe(EXPECTED_PROTECTED_KEYS);
 
-      // Premium status should be wiped (not in PROTECTED_KEYS)
-      expect(localStorage.getItem('mtxtrkr_premium_status')).toBeNull();
-      // Subscription keys should survive (still in PROTECTED_KEYS)
+      // Premium status should survive (in PROTECTED_KEYS)
+      expect(localStorage.getItem('mtxtrkr_premium_status')).toBe('true');
+      // Subscription keys should also survive (still in PROTECTED_KEYS)
       expect(localStorage.getItem('mtxtrkr_subscription_status')).toBe('active');
       expect(localStorage.getItem('mtxtrkr_subscription_plan')).toBe('monthly');
       expect(localStorage.getItem('mtxtrkr_subscription_next_billing')).toBe('2026-08-25');
@@ -327,18 +331,18 @@ describe('Data Integrity Gate', () => {
     });
   });
 
-  // ── 5. PREMIUM_STATUS Not Protected ──────────────────────────
-  describe('PREMIUM_STATUS Not Protected (Bug #2 Fix)', () => {
-    it('should NOT survive the auth-change wipe', () => {
+  // ── 5. PREMIUM_STATUS Protected ──────────────────────────────
+  describe('PREMIUM_STATUS Protected (Fallback)', () => {
+    it('should survive the auth-change wipe', () => {
       localStorage.setItem('mtxtrkr_premium_status', 'true');
       simulateAuthChangeWipe(EXPECTED_PROTECTED_KEYS);
-      expect(localStorage.getItem('mtxtrkr_premium_status')).toBeNull();
+      expect(localStorage.getItem('mtxtrkr_premium_status')).toBe('true');
     });
 
-    it('should NOT survive the auth-change wipe when set to false', () => {
+    it('should survive the auth-change wipe when set to false', () => {
       localStorage.setItem('mtxtrkr_premium_status', 'false');
       simulateAuthChangeWipe(EXPECTED_PROTECTED_KEYS);
-      expect(localStorage.getItem('mtxtrkr_premium_status')).toBeNull();
+      expect(localStorage.getItem('mtxtrkr_premium_status')).toBe('false');
     });
   });
 });
