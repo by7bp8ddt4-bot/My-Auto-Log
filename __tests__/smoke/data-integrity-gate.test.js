@@ -3,10 +3,10 @@
  *
  * Blocks deployment if PROTECTED_KEYS or data persistence is broken.
  * Verifies:
- *   1. PROTECTED_KEYS array matches expected 12 keys (audit from App.jsx)
+ *   1. PROTECTED_KEYS array matches expected 10 keys (audit from App.jsx)
  *   2. localStorage round-trip: vehicle data written → read → intact
  *   3. Simulated auth-change wipe preserves all 5 data stores
- *   4. PREMIUM_STATUS keys survive the wipe
+ *   4. Premium status does NOT survive auth-change wipe (verified against Supabase)
  */
 
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
@@ -70,9 +70,12 @@ function simulateAuthChangeWipe(protectedKeys) {
   }
 }
 
-// ── Expected PROTECTED_KEYS (from App.jsx lines 384-397) ───────────
+// ── Expected PROTECTED_KEYS (from App.jsx ~lines 389-403) ───────────
+// NOTE: mtxtrkr_premium_status intentionally NOT protected — premium must
+// be verified against Supabase on every auth change to prevent cross-account
+// contamination (Bug #2). mtxtrkr_documents removed from protected keys
+// in the Supabase Storage migration (PR #71) — documents now sync via cloud.
 const EXPECTED_PROTECTED_KEYS = [
-  'mtxtrkr_premium_status',
   'mtxtrkr_subscription_status',
   'mtxtrkr_subscription_plan',
   'mtxtrkr_subscription_next_billing',
@@ -81,7 +84,6 @@ const EXPECTED_PROTECTED_KEYS = [
   'mtxtrkr_stale_cache_cleaned',
   'mtxtrkr_cache_migrated',
   'mtxtrkr_supabase_cache_migrated',
-  'mtxtrkr_documents',
   'mtxtrkr_onboarding_dismissed',
   'mtxtrkr_performance_mods',
 ];
@@ -108,9 +110,9 @@ describe('Data Integrity Gate', () => {
 
   // ── 1. PROTECTED_KEYS Audit ──────────────────────────────────
   describe('PROTECTED_KEYS Audit', () => {
-    it('should have exactly 12 protected keys in App.jsx', () => {
+    it('should have exactly 10 protected keys in App.jsx', () => {
       const actual = extractProtectedKeys();
-      expect(actual).toHaveLength(12);
+      expect(actual).toHaveLength(10);
     });
 
     it('should match expected PROTECTED_KEYS exactly', () => {
@@ -128,14 +130,9 @@ describe('Data Integrity Gate', () => {
       expect(actual).toContain('mtxtrkr_subscription_next_billing');
     });
 
-    it('should include documents key (base64 data, no cloud backup)', () => {
+    it('should NOT include premium status key (Bug #2 — verified against Supabase)', () => {
       const actual = extractProtectedKeys();
-      expect(actual).toContain('mtxtrkr_documents');
-    });
-
-    it('should include premium status key', () => {
-      const actual = extractProtectedKeys();
-      expect(actual).toContain('mtxtrkr_premium_status');
+      expect(actual).not.toContain('mtxtrkr_premium_status');
     });
   });
 
@@ -228,7 +225,6 @@ describe('Data Integrity Gate', () => {
 
     it('should preserve PROTECTED keys after simulated auth-change wipe', () => {
       // Seed protected keys that SHOULD survive
-      localStorage.setItem('mtxtrkr_documents', JSON.stringify([{ id: 'doc1' }]));
       localStorage.setItem('mtxtrkr_onboarding_dismissed', 'true');
       localStorage.setItem('mtxtrkr_performance_mods', JSON.stringify({ 'air-filter': true }));
       localStorage.setItem('mtxtrkr_selected_vehicle', 'v-abc-123');
@@ -237,6 +233,9 @@ describe('Data Integrity Gate', () => {
       localStorage.setItem('mtxtrkr_cache_migrated', 'true');
       localStorage.setItem('mtxtrkr_supabase_cache_migrated', 'true');
 
+      // Seed documents (no longer in PROTECTED_KEYS since Supabase Storage migration)
+      localStorage.setItem('mtxtrkr_documents', JSON.stringify([{ id: 'doc1' }]));
+
       // Also seed a data store to confirm it gets wiped
       localStorage.setItem('mtxtrkr_vehicles', JSON.stringify([{ id: 'v1' }]));
 
@@ -244,7 +243,6 @@ describe('Data Integrity Gate', () => {
       simulateAuthChangeWipe(EXPECTED_PROTECTED_KEYS);
 
       // Verify protected keys survived
-      expect(localStorage.getItem('mtxtrkr_documents')).toBe(JSON.stringify([{ id: 'doc1' }]));
       expect(localStorage.getItem('mtxtrkr_onboarding_dismissed')).toBe('true');
       expect(localStorage.getItem('mtxtrkr_performance_mods')).toBe(JSON.stringify({ 'air-filter': true }));
       expect(localStorage.getItem('mtxtrkr_selected_vehicle')).toBe('v-abc-123');
@@ -253,12 +251,15 @@ describe('Data Integrity Gate', () => {
       expect(localStorage.getItem('mtxtrkr_cache_migrated')).toBe('true');
       expect(localStorage.getItem('mtxtrkr_supabase_cache_migrated')).toBe('true');
 
+      // Verify documents were wiped (no longer protected — cloud-synced via Supabase Storage)
+      expect(localStorage.getItem('mtxtrkr_documents')).toBeNull();
+
       // Verify data store was wiped
       expect(localStorage.getItem('mtxtrkr_vehicles')).toBeNull();
     });
 
-    it('should preserve PREMIUM_STATUS keys after simulated auth-change wipe', () => {
-      // Seed premium-related keys
+    it('should NOT preserve PREMIUM_STATUS after simulated auth-change wipe (Bug #2)', () => {
+      // Seed premium-related keys — subscription keys survive, premium_status does NOT
       localStorage.setItem('mtxtrkr_premium_status', 'true');
       localStorage.setItem('mtxtrkr_subscription_status', 'active');
       localStorage.setItem('mtxtrkr_subscription_plan', 'monthly');
@@ -267,8 +268,9 @@ describe('Data Integrity Gate', () => {
       // Simulate the auth-change wipe
       simulateAuthChangeWipe(EXPECTED_PROTECTED_KEYS);
 
-      // Verify premium status keys survived
-      expect(localStorage.getItem('mtxtrkr_premium_status')).toBe('true');
+      // Premium status should be wiped (not in PROTECTED_KEYS)
+      expect(localStorage.getItem('mtxtrkr_premium_status')).toBeNull();
+      // Subscription keys should survive (still in PROTECTED_KEYS)
       expect(localStorage.getItem('mtxtrkr_subscription_status')).toBe('active');
       expect(localStorage.getItem('mtxtrkr_subscription_plan')).toBe('monthly');
       expect(localStorage.getItem('mtxtrkr_subscription_next_billing')).toBe('2026-08-25');
@@ -325,18 +327,18 @@ describe('Data Integrity Gate', () => {
     });
   });
 
-  // ── 5. PREMIUM_STATUS survival ──────────────────────────────
-  describe('PREMIUM_STATUS Survival', () => {
-    it('should survive the auth-change wipe (direct test)', () => {
+  // ── 5. PREMIUM_STATUS Not Protected ──────────────────────────
+  describe('PREMIUM_STATUS Not Protected (Bug #2 Fix)', () => {
+    it('should NOT survive the auth-change wipe', () => {
       localStorage.setItem('mtxtrkr_premium_status', 'true');
       simulateAuthChangeWipe(EXPECTED_PROTECTED_KEYS);
-      expect(localStorage.getItem('mtxtrkr_premium_status')).toBe('true');
+      expect(localStorage.getItem('mtxtrkr_premium_status')).toBeNull();
     });
 
-    it('should survive the auth-change wipe when set to false', () => {
+    it('should NOT survive the auth-change wipe when set to false', () => {
       localStorage.setItem('mtxtrkr_premium_status', 'false');
       simulateAuthChangeWipe(EXPECTED_PROTECTED_KEYS);
-      expect(localStorage.getItem('mtxtrkr_premium_status')).toBe('false');
+      expect(localStorage.getItem('mtxtrkr_premium_status')).toBeNull();
     });
   });
 });
