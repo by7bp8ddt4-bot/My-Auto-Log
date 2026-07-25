@@ -21,7 +21,15 @@ export default function AuthPage({ onAuth, onNavigate }) {
       if (mode === 'forgot') {
         const { error: resetError } = await onAuth.resetPassword(email);
         if (resetError) {
-          setError(resetError.message || 'Failed to send reset email.');
+          // Defence-in-depth: ensure the error message is readable.
+          // Supabase's internal _getErrorMessage can produce "{}" when the
+          // API returns an empty error body — this is normalised upstream
+          // in useSupabaseData, but we guard here as well.
+          const rawMsg = resetError.message;
+          const msg = (typeof rawMsg === 'string' && rawMsg.trim() && rawMsg !== '{}' && rawMsg !== '[]' && rawMsg !== 'null')
+            ? rawMsg
+            : 'Failed to send reset email.';
+          setError(msg);
           return;
         }
         setSent(true);
@@ -31,7 +39,11 @@ export default function AuthPage({ onAuth, onNavigate }) {
       if (mode === 'recovery') {
         const { error: updateError } = await onAuth.updatePassword(password);
         if (updateError) {
-          setError(updateError.message || 'Failed to update password.');
+          const rawMsg = updateError.message;
+          const msg = (typeof rawMsg === 'string' && rawMsg.trim() && rawMsg !== '{}' && rawMsg !== '[]' && rawMsg !== 'null')
+            ? rawMsg
+            : 'Failed to update password.';
+          setError(msg);
           return;
         }
         // Sign out of the temporary recovery session before showing sign-in form
@@ -48,12 +60,16 @@ export default function AuthPage({ onAuth, onNavigate }) {
         : await onAuth.signUp(email, password);
 
       if (authError) {
-        if (authError.message?.includes('already registered')) {
+        const rawMsg = authError.message;
+        if (rawMsg?.includes('already registered')) {
           setError('An account with this email already exists. Try signing in.');
-        } else if (authError.message?.includes('Invalid login credentials')) {
+        } else if (rawMsg?.includes('Invalid login credentials')) {
           setError('Invalid email or password. Please try again.');
         } else {
-          setError(authError.message || 'Authentication failed. Please try again.');
+          const msg = (typeof rawMsg === 'string' && rawMsg.trim() && rawMsg !== '{}' && rawMsg !== '[]' && rawMsg !== 'null')
+            ? rawMsg
+            : 'Authentication failed. Please try again.';
+          setError(msg);
         }
         return;
       }
@@ -91,7 +107,11 @@ export default function AuthPage({ onAuth, onNavigate }) {
     try {
       const { error: oauthError } = await onAuth.signInWithGoogle();
       if (oauthError) {
-        setError(oauthError.message || 'Failed to sign in with Google.');
+        const rawMsg = oauthError.message;
+        const msg = (typeof rawMsg === 'string' && rawMsg.trim() && rawMsg !== '{}' && rawMsg !== '[]' && rawMsg !== 'null')
+          ? rawMsg
+          : 'Failed to sign in with Google.';
+        setError(msg);
         setLoading(false);
       }
       // If no error, the browser will redirect — loading stays true
@@ -108,7 +128,11 @@ export default function AuthPage({ onAuth, onNavigate }) {
     try {
       const { error: oauthError } = await onAuth.signInWithApple();
       if (oauthError) {
-        setError(oauthError.message || 'Failed to sign in with Apple. Please check your Supabase Apple OAuth configuration.');
+        const rawMsg = oauthError.message;
+        const msg = (typeof rawMsg === 'string' && rawMsg.trim() && rawMsg !== '{}' && rawMsg !== '[]' && rawMsg !== 'null')
+          ? rawMsg
+          : 'Failed to sign in with Apple. Please check your Supabase Apple OAuth configuration.';
+        setError(msg);
         setLoading(false);
       }
       // If no error, the browser will redirect — loading stays true
@@ -276,7 +300,11 @@ export default function AuthPage({ onAuth, onNavigate }) {
                   <AlertCircle className="w-3.5 h-3.5 mt-0.5 shrink-0" />
                   <div>
                     <p className="font-medium mb-0.5">Sign-in not completed</p>
-                    <p className="text-red-400/80">{onAuth.authError}</p>
+                    <p className="text-red-400/80">
+                      {(typeof onAuth.authError === 'string' && onAuth.authError !== '{}' && onAuth.authError !== '[]' && onAuth.authError !== 'null')
+                        ? onAuth.authError
+                        : 'Unable to sign in. Please try again.'}
+                    </p>
                   </div>
                 </div>
               )}
