@@ -181,6 +181,9 @@ export default function AuthPage({ onAuth, onNavigate }) {
                   <p className="text-xs text-slate-400">
                     We sent a password reset link to <span className="text-white">{email}</span>
                   </p>
+                  <p className="text-xs text-slate-500 mt-1">
+                    If you don't see it, check your spam folder.
+                  </p>
                   <button
                     onClick={() => { setSent(false); setMode('signin'); }}
                     className="mt-4 text-xs text-blue-400 hover:text-blue-300"
