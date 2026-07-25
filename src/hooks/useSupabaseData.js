@@ -245,10 +245,15 @@ export function useSupabaseAuth() {
         const errorParam = params.get('error');
         const errorDesc = params.get('error_description') || params.get('error_code');
         if (errorParam) {
-          const msg = errorDesc
+          const rawMsg = errorDesc
             ? `${errorParam}: ${errorDesc}`
             : errorParam;
-          setAuthError(decodeURIComponent(msg));
+          const decoded = decodeURIComponent(rawMsg);
+          // Guard against empty/meaningless error strings from OAuth redirects
+          const msg = (typeof decoded === 'string' && decoded.trim() && decoded !== '{}' && decoded !== '[]' && decoded !== 'null')
+            ? decoded
+            : 'Sign-in not completed. Please try again.';
+          setAuthError(msg);
           // Clean the URL to prevent re-showing on refresh
           if (window.history?.replaceState) {
             const clean = new URL(window.location.href);
@@ -281,7 +286,11 @@ export function useSupabaseAuth() {
       setLoading(false);
     }).catch(err => {
       console.error('[useSupabaseAuth] getSession failed:', err);
-      setAuthError(err?.message || 'Could not restore session.');
+      const rawMsg = err?.message;
+      const msg = (typeof rawMsg === 'string' && rawMsg.trim() && rawMsg !== '{}' && rawMsg !== '[]' && rawMsg !== 'null')
+        ? rawMsg
+        : 'Could not restore session.';
+      setAuthError(msg);
       setLoading(false);
     });
 
@@ -377,15 +386,49 @@ export function useSupabaseAuth() {
   }, []);
 
   const resetPassword = useCallback(async (email) => {
-    const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${window.location.origin}/auth.html`,
-    });
-    return { data, error };
-  }, []);
+      try {
+        const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
+          redirectTo: `${window.location.origin}/auth.html`,
+        });
+        // Normalise error: Supabase's internal _getErrorMessage can fall through
+        // to JSON.stringify(err) when the API returns an empty error body {},
+        // producing the string "{}" as the error message. Ensure the error always
+        // has a human-readable message before passing it to the UI.
+        if (error && typeof error.message === 'string') {
+          const msg = error.message.trim();
+          // Filter out meaningless JSON-serialised fallbacks ("{}", "[]", "null")
+          if (msg && msg !== '{}' && msg !== '[]' && msg !== 'null') {
+            return { data, error };
+          }
+          return { data, error: { ...error, message: 'Something went wrong. Please try again.' } };
+        }
+        return { data, error };
+      } catch (err) {
+        // Network or unexpected errors — normalise to a readable message
+        const message = (err && typeof err.message === 'string' && err.message.trim() && err.message !== '{}' && err.message !== '[]' && err.message !== 'null')
+          ? err.message
+          : 'Something went wrong. Please try again.';
+        return { data: null, error: { message } };
+      }
+    }, []);
 
   const updatePassword = useCallback(async (newPassword) => {
-    const { data, error } = await supabase.auth.updateUser({ password: newPassword });
-    return { data, error };
+    try {
+      const { data, error } = await supabase.auth.updateUser({ password: newPassword });
+      if (error && typeof error.message === 'string') {
+        const msg = error.message.trim();
+        if (msg && msg !== '{}' && msg !== '[]' && msg !== 'null') {
+          return { data, error };
+        }
+        return { data, error: { ...error, message: 'Failed to update password. Please try again.' } };
+      }
+      return { data, error };
+    } catch (err) {
+      const message = (err && typeof err.message === 'string' && err.message.trim() && err.message !== '{}' && err.message !== '[]' && err.message !== 'null')
+        ? err.message
+        : 'Failed to update password. Please try again.';
+      return { data: null, error: { message } };
+    }
   }, []);
 
   const signOut = useCallback(async () => {
