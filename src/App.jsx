@@ -128,6 +128,7 @@ export default function App() {
     // Use: visit https://mtxtrkr.vercel.app/?restore-premium=1 while signed in
     if (params.get('restore-premium') === '1') {
       localStorage.setItem(STORAGE_KEYS.PREMIUM_STATUS, 'true');
+      setSubscriptionData({ plan: 'monthly', status: 'active', nextBilling: null });
       setPremium(true);
 
       // Only clear URL & persist when auth is ready
@@ -978,14 +979,6 @@ export default function App() {
       if (hasActiveSub) {
         setCancelSubDialog(true);
         return;
-      }
-
-      // If premium flag is stale (true but no subscription data), clear it
-      // and clear any stale subscription keys so they don't interfere later
-      if (premium && !sub?.status) {
-        localStorage.removeItem(STORAGE_KEYS.PREMIUM_STATUS);
-        clearSubscriptionData();
-        setPremium(false);
       }
 
       if (!window.confirm('This will permanently delete ALL your data and account. This cannot be undone. Continue?')) return;
