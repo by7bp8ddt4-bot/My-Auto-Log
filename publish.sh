@@ -13,6 +13,8 @@ mkdir -p .run
 
 # Install deps if needed (no-op once node_modules is current).
 bun install
+# Data integrity gate — blocks deploy if data persistence is broken
+bun run test:gate
 bun run build
 setsid nohup bun run start > .run/server.log 2>&1 < /dev/null &
 

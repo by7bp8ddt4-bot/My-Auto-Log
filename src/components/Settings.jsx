@@ -2,18 +2,29 @@ import { Settings2, Download, Trash2, RefreshCw, Database, User, Crown, ChevronR
 import { getSubscriptionData } from './SubscriptionManagement.jsx';
 import { useState } from 'react';
 
-export default function Settings({ onReset, onExport, vehicles, logs, reminders, isAuthenticated, isPremium, onNavigate, onLogout, onDeleteAccount, showCancelSubDialog, onDismissCancelSub, onSyncFromCloud, onPushToCloud }) {
+export default function Settings({ onReset, onExport, vehicles, logs, reminders, fuelLogs, modifications, isAuthenticated, isPremium, onNavigate, onLogout, onDeleteAccount, showCancelSubDialog, onDismissCancelSub, onSyncFromCloud, onPushToCloud }) {
   const [syncing, setSyncing] = useState(false);
   const [syncDone, setSyncDone] = useState(false);
   const [pushing, setPushing] = useState(false);
   const [pushDone, setPushDone] = useState(false);
   const sub = getSubscriptionData();
   const handleExport = () => {
+    const fuelCount = Array.isArray(fuelLogs) ? fuelLogs.length : 0;
+    const modCount = Array.isArray(modifications) ? modifications.length : 0;
     const exportData = {
       exportedAt: new Date().toISOString(),
       vehicles,
       maintenanceLogs: logs,
       reminders,
+      fuelLogs: fuelLogs || [],
+      modifications: modifications || [],
+      counts: {
+        vehicles: vehicles.length,
+        logs: logs.length,
+        reminders: reminders.length,
+        fuelLogs: fuelCount,
+        modifications: modCount,
+      },
     };
     const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
@@ -114,7 +125,7 @@ export default function Settings({ onReset, onExport, vehicles, logs, reminders,
             <div>
               <h3 className="text-sm font-semibold text-white">Data Management</h3>
               <p className="text-xs text-slate-500">
-                {vehicles.length} vehicles, {logs.length} logs, {reminders.length} reminders
+                {vehicles.length} vehicles, {logs.length} logs, {reminders.length} reminders, {Array.isArray(fuelLogs) ? fuelLogs.length : 0} fuel logs, {Array.isArray(modifications) ? modifications.length : 0} mods
               </p>
             </div>
           </div>

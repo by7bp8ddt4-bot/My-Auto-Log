@@ -427,6 +427,32 @@ export default function App() {
             console.warn(`[Cleanup] Failed to push ${key} before wipe:`, e);
           }
         }
+        // Save a forensic snapshot BEFORE wiping localStorage.
+        // This creates an audit trail if data loss occurs — the snapshot
+        // contains timestamps, data counts per store, and userId so we can
+        // diagnose what was present before the wipe.
+        // Protected keys: the snapshot itself is NOT in PROTECTED_KEYS,
+        // so it survives only until the NEXT auth-change, giving one
+        // sign-in cycle to recover if needed.
+        try {
+          const snapshot = {
+            timestamp: new Date().toISOString(),
+            userId: auth.user.id,
+            counts: {
+              vehicles: JSON.parse(localStorage.getItem(STORAGE_KEYS.VEHICLES) || '[]').length,
+              maintenance_logs: JSON.parse(localStorage.getItem(STORAGE_KEYS.MAINTENANCE_LOGS) || '[]').length,
+              reminders: JSON.parse(localStorage.getItem(STORAGE_KEYS.REMINDERS) || '[]').length,
+              fuel_logs: JSON.parse(localStorage.getItem('mtxtrkr_fuel_logs') || '[]').length,
+              modifications: JSON.parse(localStorage.getItem('mtxtrkr_modifications') || '[]').length,
+              documents: JSON.parse(localStorage.getItem('mtxtrkr_documents') || '[]').length,
+            },
+            premiumStatus: localStorage.getItem(STORAGE_KEYS.PREMIUM_STATUS),
+          };
+          localStorage.setItem('mtxtrkr_pre_wipe_backup', JSON.stringify(snapshot));
+        } catch (e) {
+          // Non-fatal: snapshot failure should not block the wipe
+          console.warn('[Cleanup] Failed to save pre-wipe snapshot:', e);
+        }
         // Now that data is safely in Supabase, wipe localStorage data keys
         // to prevent cross-account contamination on shared devices.
         for (let i = localStorage.length - 1; i >= 0; i--) {
@@ -1153,6 +1179,8 @@ export default function App() {
       vehicles={vehiclesStore.data}
       logs={logsStore.data}
       reminders={remindersStore.data}
+      fuelLogs={fuelLogsStore.data}
+      modifications={modsStore.data}
       isAuthenticated={isAuthenticated}
       isPremium={premium}
       onNavigate={navigate}
