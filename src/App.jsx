@@ -91,7 +91,7 @@ export default function App() {
   const analytics = useAnalytics(page, auth.user, premium);
 
   // Activate premium from URL parameter (mobile-friendly activation link)
-  useEffect(async () => {
+  useEffect(() => {
     const params = new URLSearchParams(window.location.search);
 
     if (params.get('activate') === 'premium') {
@@ -126,18 +126,17 @@ export default function App() {
 
     // Premium restore URL — forces premium=true in both localStorage and Supabase
     // Use: visit https://mtxtrkr.vercel.app/?restore-premium=1 while signed in
-    if (params.get('restore-premium') === '1' && auth.user?.id) {
-      const { error } = await supabase.from('profiles').upsert({ 
-        id: auth.user.id, 
-        premium: true,
-        updated_at: new Date().toISOString()
-      });
-      if (!error) {
-        localStorage.setItem(STORAGE_KEYS.PREMIUM_STATUS, 'true');
-        setSubscriptionData({ plan: 'monthly', status: 'active', nextBilling: null });
-        setPremium(true);
+    if (params.get('restore-premium') === '1') {
+      localStorage.setItem(STORAGE_KEYS.PREMIUM_STATUS, 'true');
+      setSubscriptionData({ plan: 'monthly', status: 'active', nextBilling: null });
+      setPremium(true);
+
+      // Only clear URL & persist when auth is ready
+      if (auth.user?.id) {
+        supabase.from('profiles').upsert({ id: auth.user.id, premium: true });
         window.history.replaceState({}, '', window.location.pathname);
       }
+      // else: keep the URL param so this effect re-runs when auth loads
     }
 
     // Mileage update deep-link — e.g. https://mtxtrkr.com/dashboard?update-mileage=VEHICLE_ID
@@ -388,10 +387,9 @@ export default function App() {
     // Protect account-level and one-time flags — these should never be wiped on
     // auth changes. Wiping them causes data loss or catch-22s with sync effects.
     const PROTECTED_KEYS = [
-      // mtxtrkr_premium_status protected as a fallback for slow Supabase fetches.
-      // The premium sync effect verifies against Supabase on every auth change,
-      // so a free user cannot permanently inherit premium from a previous session.
-      'mtxtrkr_premium_status',           // fallback while Supabase verifies (cross-account leak prevented by premium sync effect)
+      // STORAGE_KEYS.PREMIUM_STATUS intentionally removed — premium must be
+      // verified against Supabase on every auth change, not preserved from
+      // localStorage (prevents cross-account premium contamination, Bug #2).
       'mtxtrkr_subscription_status',
       'mtxtrkr_subscription_plan',
       'mtxtrkr_subscription_next_billing',
