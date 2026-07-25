@@ -9,7 +9,8 @@
     "build:ios": "vite build && npx cap sync && npx cap open ios",
     "preview": "vite preview --host 0.0.0.0 --port 3000",
     "lint": "eslint .",
-    "test:smoke": "vitest run --config vitest.config.js"
+    "test:smoke": "vitest run --config vitest.config.js",
+    "test:gate": "vitest run --config vitest.config.js __tests__/smoke/data-integrity-gate.test.js"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.108.2",
