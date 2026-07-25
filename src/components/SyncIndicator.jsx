@@ -19,7 +19,7 @@ export default function SyncIndicator({ isOnline, syncing, lastSync, pendingChan
       : 'Offline — Caching locally';
 
   return (
-    <div className="fixed top-14 left-4 z-50 flex flex-col items-start gap-2">
+    <div className="fixed bottom-20 left-4 z-50 flex flex-col items-start gap-2">
       {/* Main Status Badge */}
       <div
         className={`
