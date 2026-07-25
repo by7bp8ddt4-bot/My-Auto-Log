@@ -3,6 +3,7 @@ export const STORAGE_KEYS = {
   VEHICLES: 'mtxtrkr_vehicles',
   MAINTENANCE_LOGS: 'mtxtrkr_maintenance_logs',
   REMINDERS: 'mtxtrkr_reminders',
+  DOCUMENTS: 'mtxtrkr_documents',
   SETTINGS: 'mtxtrkr_settings',
   LAST_SYNC: 'mtxtrkr_last_sync',
   PREMIUM_STATUS: 'mtxtrkr_premium_status',

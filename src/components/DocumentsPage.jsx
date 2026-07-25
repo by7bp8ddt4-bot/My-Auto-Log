@@ -1,23 +1,11 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import {
   FileText, FileUp, Camera, Shield, Image, ChevronRight,
-  Plus, X, Trash2, Calendar, Download, Search, ClipboardList
+  Plus, X, Trash2, Calendar, Download, Search, ClipboardList,
+  CloudUpload, AlertTriangle, Loader2
 } from 'lucide-react';
-import { formatDate, formatNumber, generateId } from '../utils/helpers';
-
-// ---------- Document Store (localStorage) ----------
-const STORAGE_KEY = 'mtxtrkr_documents';
-
-function loadDocuments() {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    return raw ? JSON.parse(raw) : [];
-  } catch { return []; }
-}
-
-function saveDocuments(docs) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(docs));
-}
+import { formatDate, generateId } from '../utils/helpers';
+import { supabase } from '../lib/supabase';
 
 // ---------- Folder Tab Component (mirrors RemindersPage style) ----------
 function FolderTab({ icon: Icon, title, count, isExpanded, onToggle, children }) {
@@ -90,6 +78,8 @@ function DocumentItem({ doc, onDelete, showVehicleName, vehicles }) {
     ? vehicles.find(v => v.id === doc.vehicleId)?.name || 'Unknown Vehicle'
     : null;
 
+  const isLegacyBase64 = doc.fileUrl && doc.fileUrl.startsWith('data:');
+
   return (
     <div className="bg-slate-800/40 rounded-xl border border-slate-700/50 p-3 space-y-2">
       <div className="flex items-start justify-between gap-2">
@@ -108,6 +98,12 @@ function DocumentItem({ doc, onDelete, showVehicleName, vehicles }) {
             )}
             {vehicleName && (
               <p className="text-xs text-blue-400/70 truncate">{vehicleName}</p>
+            )}
+            {isLegacyBase64 && (
+              <p className="text-xs text-amber-400/70 flex items-center gap-1">
+                <AlertTriangle className="w-3 h-3" />
+                Local only — not backed up
+              </p>
             )}
           </div>
         </div>
@@ -145,41 +141,93 @@ function DocumentItem({ doc, onDelete, showVehicleName, vehicles }) {
 }
 
 // ---------- Add Document Modal ----------
-function AddDocumentModal({ folder, onClose, onSave, vehicles }) {
+function AddDocumentModal({ folder, onClose, onSave, vehicles, userId }) {
   const [fileName, setFileName] = useState('');
-  const [fileUrl, setFileUrl] = useState(null);
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [previewUrl, setPreviewUrl] = useState(null);
   const [notes, setNotes] = useState('');
   const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
   const [expiryDate, setExpiryDate] = useState('');
   const [vehicleId, setVehicleId] = useState(vehicles?.[0]?.id || '');
-  const [loading, setLoading] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const [error, setError] = useState('');
 
   const handleFileSelect = (file) => {
-    setLoading(true);
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      setFileUrl(e.target.result);
-      if (!fileName) setFileName(file.name);
-      setLoading(false);
-    };
-    reader.onerror = () => setLoading(false);
-    reader.readAsDataURL(file);
+    setSelectedFile(file);
+    setError('');
+    // Generate preview for images
+    if (file.type.startsWith('image/')) {
+      const url = URL.createObjectURL(file);
+      setPreviewUrl(url);
+    } else {
+      setPreviewUrl(null);
+    }
+    if (!fileName) setFileName(file.name);
   };
 
-  const handleSave = () => {
-    const doc = {
-      id: generateId(),
-      folder,
-      name: fileName || 'Untitled',
-      fileUrl,
-      notes,
-      date,
-      expiryDate: expiryDate || undefined,
-      vehicleId,
-      createdAt: new Date().toISOString(),
+  // Cleanup object URLs on unmount
+  useEffect(() => {
+    return () => {
+      if (previewUrl) URL.revokeObjectURL(previewUrl);
     };
-    onSave(doc);
-    onClose();
+  }, [previewUrl]);
+
+  const handleSave = async () => {
+    if (!selectedFile) {
+      setError('Please select a file to upload.');
+      return;
+    }
+
+    if (!userId) {
+      setError('You must be signed in to upload documents.');
+      return;
+    }
+
+    setUploading(true);
+    setError('');
+
+    try {
+      // Generate document ID upfront
+      const docId = generateId();
+      const safeFileName = selectedFile.name.replace(/[^a-zA-Z0-9._-]/g, '_');
+      const storagePath = `${userId}/${docId}-${Date.now()}-${safeFileName}`;
+
+      // Upload file to Supabase Storage
+      const { data: uploadData, error: uploadError } = await supabase.storage
+        .from('documents')
+        .upload(storagePath, selectedFile, {
+          cacheControl: '3600',
+          upsert: false,
+        });
+
+      if (uploadError) throw uploadError;
+
+      // Get public URL
+      const { data: { publicUrl } } = supabase.storage
+        .from('documents')
+        .getPublicUrl(storagePath);
+
+      const doc = {
+        id: docId,
+        folder,
+        name: fileName || selectedFile.name || 'Untitled',
+        fileUrl: publicUrl,
+        storagePath,
+        notes,
+        date,
+        expiryDate: expiryDate || undefined,
+        vehicleId,
+        createdAt: new Date().toISOString(),
+      };
+
+      onSave(doc);
+      onClose();
+    } catch (err) {
+      console.error('[DocumentsPage] Upload failed:', err);
+      setError(err.message || 'Upload failed. Please try again.');
+    } finally {
+      setUploading(false);
+    }
   };
 
   return (
@@ -196,17 +244,21 @@ function AddDocumentModal({ folder, onClose, onSave, vehicles }) {
           {/* File Upload */}
           <div>
             <label className="block text-sm text-slate-400 mb-1.5">File</label>
-            {fileUrl ? (
+            {selectedFile ? (
               <div className="relative rounded-xl border border-slate-700 bg-slate-800/30 p-3">
                 <div className="flex items-center gap-3">
                   <div className="w-12 h-12 rounded-lg bg-slate-700 flex items-center justify-center overflow-hidden shrink-0">
-                    <img src={fileUrl} alt="" className="w-full h-full object-cover" />
+                    {previewUrl ? (
+                      <img src={previewUrl} alt="" className="w-full h-full object-cover" />
+                    ) : (
+                      <FileText className="w-6 h-6 text-slate-400" />
+                    )}
                   </div>
                   <div className="min-w-0 flex-1">
-                    <p className="text-sm text-white truncate">{fileName}</p>
-                    <p className="text-xs text-emerald-400">File loaded</p>
+                    <p className="text-sm text-white truncate">{selectedFile.name}</p>
+                    <p className="text-xs text-slate-400">{(selectedFile.size / 1024).toFixed(1)} KB</p>
                   </div>
-                  <button onClick={() => setFileUrl(null)} className="p-1.5 rounded-lg hover:bg-slate-700 text-slate-400">
+                  <button onClick={() => { setSelectedFile(null); setPreviewUrl(null); }} className="p-1.5 rounded-lg hover:bg-slate-700 text-slate-400">
                     <X className="w-4 h-4" />
                   </button>
                 </div>
@@ -284,13 +336,71 @@ function AddDocumentModal({ folder, onClose, onSave, vehicles }) {
             />
           </div>
 
+          {/* Error */}
+          {error && (
+            <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm">
+              {error}
+            </div>
+          )}
+
           {/* Save Button */}
           <button
             onClick={handleSave}
-            disabled={loading}
-            className="w-full py-3 rounded-xl bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-semibold text-sm hover:brightness-110 transition-all disabled:opacity-50"
+            disabled={uploading || !selectedFile}
+            className="w-full py-3 rounded-xl bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-semibold text-sm hover:brightness-110 transition-all disabled:opacity-50 flex items-center justify-center gap-2"
           >
-            {loading ? 'Loading...' : 'Save Document'}
+            {uploading ? (
+              <>
+                <Loader2 className="w-4 h-4 animate-spin" />
+                Uploading...
+              </>
+            ) : !userId ? (
+              'Sign in to upload'
+            ) : (
+              'Save Document'
+            )}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ---------- Migration Banner for Legacy Base64 Documents ----------
+function MigrationBanner({ legacyCount, onMigrate, migrating }) {
+  if (legacyCount === 0) return null;
+
+  return (
+    <div className="rounded-2xl border border-amber-500/30 bg-amber-500/5 p-4">
+      <div className="flex items-start gap-3">
+        <div className="w-10 h-10 rounded-xl bg-amber-500/20 flex items-center justify-center shrink-0">
+          <CloudUpload className="w-5 h-5 text-amber-400" />
+        </div>
+        <div className="flex-1 min-w-0">
+          <h3 className="text-sm font-semibold text-amber-300">
+            {legacyCount} document{legacyCount !== 1 ? 's' : ''} not backed up
+          </h3>
+          <p className="text-xs text-slate-400 mt-1">
+            {legacyCount === 1
+              ? 'One document is stored only on this device. Sign in and upload it to the cloud for safe backup across all your devices.'
+              : `${legacyCount} documents are stored only on this device. Sign in and upload them to the cloud for safe backup across all your devices.`}
+          </p>
+          <button
+            onClick={onMigrate}
+            disabled={migrating}
+            className="mt-3 inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-amber-500/20 border border-amber-500/30 text-amber-300 text-sm font-medium hover:bg-amber-500/30 transition-all disabled:opacity-50"
+          >
+            {migrating ? (
+              <>
+                <Loader2 className="w-4 h-4 animate-spin" />
+                Uploading...
+              </>
+            ) : (
+              <>
+                <CloudUpload className="w-4 h-4" />
+                Back up to cloud
+              </>
+            )}
           </button>
         </div>
       </div>
@@ -299,8 +409,7 @@ function AddDocumentModal({ folder, onClose, onSave, vehicles }) {
 }
 
 // ---------- Main DocumentsPage Component ----------
-export default function DocumentsPage({ vehicles, onNavigate }) {
-  const [documents, setDocuments] = useState(loadDocuments);
+export default function DocumentsPage({ documents = [], onAddDocument, onDeleteDocument, vehicles, onNavigate, userId }) {
   const [expandedTabs, setExpandedTabs] = useState({
     purchase: true,
     insurance: false,
@@ -309,21 +418,10 @@ export default function DocumentsPage({ vehicles, onNavigate }) {
   });
   const [showModal, setShowModal] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
+  const [migrating, setMigrating] = useState(false);
 
   const toggleTab = (tab) => {
     setExpandedTabs(prev => ({ ...prev, [tab]: !prev[tab] }));
-  };
-
-  const handleSave = (doc) => {
-    const updated = [...documents, doc];
-    setDocuments(updated);
-    saveDocuments(updated);
-  };
-
-  const handleDelete = (id) => {
-    const updated = documents.filter(d => d.id !== id);
-    setDocuments(updated);
-    saveDocuments(updated);
   };
 
   // Filter documents by folder
@@ -331,6 +429,86 @@ export default function DocumentsPage({ vehicles, onNavigate }) {
   const insuranceDocs = documents.filter(d => d.folder === 'insurance');
   const photoDocs = documents.filter(d => d.folder === 'photos');
   const registrationDocs = documents.filter(d => d.folder === 'registration');
+
+  // Count legacy base64 documents
+  const legacyDocs = useMemo(() => {
+    return documents.filter(d => d.fileUrl && d.fileUrl.startsWith('data:'));
+  }, [documents]);
+
+  // Migrate legacy base64 documents to Supabase Storage
+  const handleMigrateLegacy = async () => {
+    if (!userId || legacyDocs.length === 0) return;
+    setMigrating(true);
+
+    // Process legacy docs one at a time
+    const migrated = [];
+    for (const doc of legacyDocs) {
+      try {
+        // Convert base64 data URL to a File/Blob
+        const base64Data = doc.fileUrl;
+        const mimeMatch = base64Data.match(/^data:([^;]+);base64,/);
+        const mimeType = mimeMatch ? mimeMatch[1] : 'application/octet-stream';
+        const base64Content = base64Data.split(',')[1];
+        const byteChars = atob(base64Content);
+        const byteNums = new Array(byteChars.length);
+        for (let i = 0; i < byteChars.length; i++) {
+          byteNums[i] = byteChars.charCodeAt(i);
+        }
+        const byteArr = new Uint8Array(byteNums);
+        const blob = new Blob([byteArr], { type: mimeType });
+
+        const safeFileName = (doc.name || 'document').replace(/[^a-zA-Z0-9._-]/g, '_');
+        const storagePath = `${userId}/${doc.id}-${Date.now()}-${safeFileName}`;
+
+        const { error: uploadError } = await supabase.storage
+          .from('documents')
+          .upload(storagePath, blob, {
+            cacheControl: '3600',
+            upsert: false,
+          });
+
+        if (uploadError) {
+          console.warn(`[Migration] Failed to upload ${doc.id}:`, uploadError);
+          continue;
+        }
+
+        const { data: { publicUrl } } = supabase.storage
+          .from('documents')
+          .getPublicUrl(storagePath);
+
+        migrated.push({
+          ...doc,
+          fileUrl: publicUrl,
+          storagePath,
+          _migrated: true,
+        });
+      } catch (e) {
+        console.warn(`[Migration] Error migrating ${doc.id}:`, e);
+      }
+    }
+
+    if (migrated.length > 0 && onAddDocument) {
+      // Call onAddDocument for each migrated doc (it's actually an upsert since IDs are preserved)
+      for (const doc of migrated) {
+        await onAddDocument(doc);
+      }
+    }
+
+    setMigrating(false);
+  };
+
+  // Handle delete — also remove from Supabase Storage if it has a storagePath
+  const handleDelete = async (id) => {
+    const doc = documents.find(d => d.id === id);
+    if (doc?.storagePath) {
+      try {
+        await supabase.storage.from('documents').remove([doc.storagePath]);
+      } catch (e) {
+        console.warn('[DocumentsPage] Failed to remove from storage:', e);
+      }
+    }
+    if (onDeleteDocument) onDeleteDocument(id);
+  };
 
   // Filter by search term
   const filterBySearch = (docs) => {
@@ -354,6 +532,13 @@ export default function DocumentsPage({ vehicles, onNavigate }) {
           <p className="text-sm text-slate-400">Store purchase records, insurance, photos, and registration</p>
         </div>
       </div>
+
+      {/* Migration Banner */}
+      <MigrationBanner
+        legacyCount={legacyDocs.length}
+        onMigrate={handleMigrateLegacy}
+        migrating={migrating}
+      />
 
       {/* Search */}
       <div className="relative">
@@ -571,8 +756,11 @@ export default function DocumentsPage({ vehicles, onNavigate }) {
         <AddDocumentModal
           folder={showModal}
           vehicles={vehicles}
+          userId={userId}
           onClose={() => setShowModal(null)}
-          onSave={handleSave}
+          onSave={(doc) => {
+            if (onAddDocument) onAddDocument(doc);
+          }}
         />
       )}
     </div>

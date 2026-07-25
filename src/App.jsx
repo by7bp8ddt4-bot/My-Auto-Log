@@ -190,12 +190,14 @@ export default function App() {
   const supabaseProfile = useSupabaseData('profiles', auth.user?.id, 'id');
   const supabaseFuelLogs = useSupabaseData('fuel_logs', auth.user?.id);
   const supabaseMods = useSupabaseData('modifications', auth.user?.id);
+  const supabaseDocuments = useSupabaseData('documents', auth.user?.id);
   
   const localVehicles = useLocalStorage(STORAGE_KEYS.VEHICLES, []);
   const localLogs = useLocalStorage(STORAGE_KEYS.MAINTENANCE_LOGS, []);
   const localReminders = useLocalStorage(STORAGE_KEYS.REMINDERS, []);
   const localFuelLogs = useLocalStorage('mtxtrkr_fuel_logs', []);
   const localMods = useLocalStorage('mtxtrkr_modifications', []);
+  const localDocuments = useLocalStorage(STORAGE_KEYS.DOCUMENTS, []);
 
   // One-time stale cache cleanup: wipe supabase_cache_* keys and reset migration
   // flags so the migrations below re-run. The supabase_cache_* keys are only a
@@ -319,6 +321,7 @@ export default function App() {
   const remindersStore = localReminders;
   const fuelLogsStore = localFuelLogs;
   const modsStore = localMods;
+  const documentsStore = localDocuments;
 
   // Sync premium status between Supabase and localStorage
   // Priority: localStorage -> Supabase (write local to DB on detection)
@@ -369,6 +372,7 @@ export default function App() {
     { local: localReminders, supabase: supabaseReminders, key: STORAGE_KEYS.REMINDERS },
     { local: localFuelLogs, supabase: supabaseFuelLogs, key: 'mtxtrkr_fuel_logs' },
     { local: localMods, supabase: supabaseMods, key: 'mtxtrkr_modifications' },
+    { local: localDocuments, supabase: supabaseDocuments, key: STORAGE_KEYS.DOCUMENTS },
   ];
 
   // Reset initialSyncDone when the user changes (signs in, signs out, or switches accounts)
@@ -391,7 +395,6 @@ export default function App() {
       'mtxtrkr_stale_cache_cleaned',      // one-time flag: stale cache cleanup
       'mtxtrkr_cache_migrated',           // one-time flag: cache migration
       'mtxtrkr_supabase_cache_migrated',  // one-time flag: supabase cache migration
-      'mtxtrkr_documents',                // user-uploaded documents (base64 data URLs, no cloud backup)
       'mtxtrkr_onboarding_dismissed',     // one-time flag: prevents onboarding wizard on every sign-in
       'mtxtrkr_performance_mods',         // performance-modified service flags (cleanable air filters, etc.)
     ];
@@ -409,6 +412,7 @@ export default function App() {
           { key: STORAGE_KEYS.REMINDERS, table: 'reminders' },
           { key: 'mtxtrkr_fuel_logs', table: 'fuel_logs' },
           { key: 'mtxtrkr_modifications', table: 'modifications' },
+          { key: STORAGE_KEYS.DOCUMENTS, table: 'documents' },
         ];
         for (const { key, table } of dataStores) {
           try {
@@ -444,7 +448,7 @@ export default function App() {
               reminders: JSON.parse(localStorage.getItem(STORAGE_KEYS.REMINDERS) || '[]').length,
               fuel_logs: JSON.parse(localStorage.getItem('mtxtrkr_fuel_logs') || '[]').length,
               modifications: JSON.parse(localStorage.getItem('mtxtrkr_modifications') || '[]').length,
-              documents: JSON.parse(localStorage.getItem('mtxtrkr_documents') || '[]').length,
+              documents: JSON.parse(localStorage.getItem(STORAGE_KEYS.DOCUMENTS) || '[]').length,
             },
             premiumStatus: localStorage.getItem(STORAGE_KEYS.PREMIUM_STATUS),
           };
@@ -490,7 +494,7 @@ export default function App() {
     // Wait for all Supabase stores to finish fetching before attempting sync.
     // Without this, supabaseVehicles.data is still [] when the effect fires,
     // the sync finds nothing to pull, and the flag prevents any future retry.
-    const allLoaded = !supabaseVehicles.loading && !supabaseLogs.loading && !supabaseReminders.loading && !supabaseFuelLogs.loading && !supabaseMods.loading;
+    const allLoaded = !supabaseVehicles.loading && !supabaseLogs.loading && !supabaseReminders.loading && !supabaseFuelLogs.loading && !supabaseMods.loading && !supabaseDocuments.loading;
     if (!allLoaded) return;
 
     if (initialSyncDone) return;
@@ -572,8 +576,8 @@ export default function App() {
     })();
   }, [
   isAuthenticated, auth.user?.id, initialSyncDone,
-  supabaseVehicles.loading, supabaseLogs.loading, supabaseReminders.loading, supabaseFuelLogs.loading, supabaseMods.loading,
-  supabaseVehicles.data, supabaseLogs.data, supabaseReminders.data, supabaseFuelLogs.data, supabaseMods.data
+  supabaseVehicles.loading, supabaseLogs.loading, supabaseReminders.loading, supabaseFuelLogs.loading, supabaseMods.loading, supabaseDocuments.loading,
+  supabaseVehicles.data, supabaseLogs.data, supabaseReminders.data, supabaseFuelLogs.data, supabaseMods.data, supabaseDocuments.data
 ]);
 
   // Continuous background sync: push local data to Supabase when it changes
@@ -615,12 +619,12 @@ export default function App() {
         }
       }
     })();
-  }, [isAuthenticated, auth.user?.id,
-    localVehicles.data, localLogs.data, localReminders.data,
-    localFuelLogs.data, localMods.data
-  ]);
+      }, [isAuthenticated, auth.user?.id,
+        localVehicles.data, localLogs.data, localReminders.data,
+        localFuelLogs.data, localMods.data, localDocuments.data
+      ]);
 
-  // Auto-push to cloud when the app is closed or tab becomes hidden
+      // Auto-push to cloud when the app is closed or tab becomes hidden
   // Uses visibilitychange which fires on both mobile (app switch, lock) and desktop (close tab, navigate away)
   // Handler is async — all pushes are awaited before the tab fully suspends, reducing data loss risk.
   useEffect(() => {
@@ -654,10 +658,10 @@ export default function App() {
     };
     document.addEventListener('visibilitychange', handleVisibilityChange);
     return () => document.removeEventListener('visibilitychange', handleVisibilityChange);
-  }, [isAuthenticated, auth.user?.id,
-    localVehicles.data, localLogs.data, localReminders.data,
-    localFuelLogs.data, localMods.data
-  ]);
+      }, [isAuthenticated, auth.user?.id,
+        localVehicles.data, localLogs.data, localReminders.data,
+        localFuelLogs.data, localMods.data, localDocuments.data
+      ]);
 
   const sync = useSyncStatus();
 
@@ -700,6 +704,7 @@ export default function App() {
         { key: STORAGE_KEYS.REMINDERS, table: 'reminders' },
         { key: 'mtxtrkr_fuel_logs', table: 'fuel_logs' },
         { key: 'mtxtrkr_modifications', table: 'modifications' },
+        { key: STORAGE_KEYS.DOCUMENTS, table: 'documents' },
       ];
       for (const { key, table } of dataStores) {
         try {
@@ -802,6 +807,19 @@ export default function App() {
     sync.markChanged();
   }, [remindersStore, sync, analytics]);
 
+  // Add document (already uploaded to Supabase Storage by the modal)
+  const handleAddDocument = useCallback((doc) => {
+    localDocuments.add(doc);
+    sync.markChanged();
+  }, [localDocuments, sync]);
+
+  // Delete document (also removes from Supabase Storage if has storagePath)
+  const handleDeleteDocument = useCallback((id) => {
+    localDocuments.remove(id);
+    supabaseDocuments.remove(id);
+    sync.markChanged();
+  }, [localDocuments, supabaseDocuments, sync]);
+
   // Reset all data
   const handleReset = useCallback(async () => {
     if (!window.confirm('Are you sure? This will permanently delete ALL your data from both the app and the cloud. This cannot be undone.')) return;
@@ -810,6 +828,7 @@ export default function App() {
     remindersStore.update([]);
     fuelLogsStore.update([]);
     modsStore.update([]);
+    documentsStore.update([]);
     localStorage.removeItem(STORAGE_KEYS.LAST_SYNC);
     localStorage.removeItem(STORAGE_KEYS.PREMIUM_STATUS);
     // Clear all mtxtrkr_ and supabase_cache_ keys from localStorage
@@ -821,7 +840,7 @@ export default function App() {
     analytics.track('data_reset', {});
     // Also delete cloud data if authenticated — await all deletions before returning
     if (auth.user?.id) {
-      const tables = ['vehicles', 'maintenance_logs', 'reminders', 'fuel_logs', 'modifications'];
+      const tables = ['vehicles', 'maintenance_logs', 'reminders', 'fuel_logs', 'modifications', 'documents'];
       const results = await Promise.allSettled(
         tables.map(table =>
           supabase.from(table).delete().eq('user_id', auth.user.id)
@@ -836,7 +855,7 @@ export default function App() {
       });
     }
     sync.markChanged();
-    }, [vehiclesStore, logsStore, remindersStore, fuelLogsStore, modsStore, sync, analytics, auth.user?.id]);
+    }, [vehiclesStore, logsStore, remindersStore, fuelLogsStore, modsStore, documentsStore, sync, analytics, auth.user?.id]);
 
   // Force sync from cloud — overwrites local data with Supabase data
   // Used when switching devices or when cross-device sync didn't trigger automatically
@@ -850,6 +869,7 @@ export default function App() {
       { table: 'reminders', local: localReminders, key: STORAGE_KEYS.REMINDERS },
       { table: 'fuel_logs', local: localFuelLogs, key: 'mtxtrkr_fuel_logs' },
       { table: 'modifications', local: localMods, key: 'mtxtrkr_modifications' },
+      { table: 'documents', local: localDocuments, key: STORAGE_KEYS.DOCUMENTS },
     ];
     // Helper to convert snake_case keys to camelCase
     const toCamel = (str) => str.replace(/([-_][a-z])/g, group => group.toUpperCase().replace('-', '').replace('_', ''));
@@ -902,7 +922,7 @@ export default function App() {
     }
     analytics.track('sync_from_cloud', {});
     sync.markChanged();
-  }, [auth.user?.id, localVehicles, localLogs, localReminders, localFuelLogs, localMods, sync, analytics]);
+  }, [auth.user?.id, localVehicles, localLogs, localReminders, localFuelLogs, localMods, localDocuments, sync, analytics]);
 
   // Force push to cloud — sends all local data to Supabase (new + updated items)
   // Used when the background sync didn't trigger automatically
@@ -914,6 +934,7 @@ export default function App() {
       { local: localReminders, supabase: supabaseReminders, table: 'reminders' },
       { local: localFuelLogs, supabase: supabaseFuelLogs, table: 'fuel_logs' },
       { local: localMods, supabase: supabaseMods, table: 'modifications' },
+      { local: localDocuments, supabase: supabaseDocuments, table: 'documents' },
     ];
     for (const { local, supabase, table } of stores) {
       const localData = local.data || [];
@@ -943,7 +964,7 @@ export default function App() {
     }
     analytics.track('push_to_cloud', {});
     sync.markChanged();
-  }, [auth.user?.id, premium, localVehicles, localLogs, localReminders, localFuelLogs, localMods, supabaseVehicles, supabaseLogs, supabaseReminders, supabaseFuelLogs, supabaseMods, sync, analytics]);
+  }, [auth.user?.id, premium, localVehicles, localLogs, localReminders, localFuelLogs, localMods, localDocuments, supabaseVehicles, supabaseLogs, supabaseReminders, supabaseFuelLogs, supabaseMods, supabaseDocuments, sync, analytics]);
 
   // Delete account — remove all data and sign out
   const handleDeleteAccount = useCallback(async () => {
@@ -1026,6 +1047,7 @@ export default function App() {
         { store: supabaseReminders, key: STORAGE_KEYS.REMINDERS },
         { store: supabaseFuelLogs, key: 'mtxtrkr_fuel_logs' },
         { store: supabaseMods, key: 'mtxtrkr_modifications' },
+        { store: supabaseDocuments, key: STORAGE_KEYS.DOCUMENTS },
       ];
       for (const { store, key } of migrations) {
         try {
@@ -1055,7 +1077,7 @@ export default function App() {
     setPremium(true);
     analytics.track('premium_upgraded', { method: 'inline_button', userId: auth.user?.id });
     setPage('dashboard');
-  }, [auth, supabaseVehicles, supabaseLogs, supabaseReminders, supabaseFuelLogs, supabaseMods, analytics]);
+  }, [auth, supabaseVehicles, supabaseLogs, supabaseReminders, supabaseFuelLogs, supabaseMods, supabaseDocuments, analytics]);
 
   // Show auth page if not authenticated (after landing)
   /*
@@ -1218,8 +1240,12 @@ export default function App() {
       selectedVehicleId={selectedVehicleId}
     />,
     documents: <DocumentsPage
+      documents={localDocuments.data}
+      onAddDocument={handleAddDocument}
+      onDeleteDocument={handleDeleteDocument}
       vehicles={vehiclesStore.data}
       onNavigate={navigate}
+      userId={auth.user?.id}
     />,
     wiring: <FuseBox
       selectedVehicle={vehiclesStore.data.find(v => v.id === selectedVehicleId) || vehiclesStore.data[0] || null}
