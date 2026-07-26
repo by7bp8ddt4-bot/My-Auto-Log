@@ -435,12 +435,12 @@ export default function App() {
             timestamp: new Date().toISOString(),
             userId: auth.user.id,
             counts: {
-              vehicles: JSON.parse(localStorage.getItem(STORAGE_KEYS.VEHICLES) || '[]').length,
-              maintenance_logs: JSON.parse(localStorage.getItem(STORAGE_KEYS.MAINTENANCE_LOGS) || '[]').length,
-              reminders: JSON.parse(localStorage.getItem(STORAGE_KEYS.REMINDERS) || '[]').length,
-              fuel_logs: JSON.parse(localStorage.getItem('mtxtrkr_fuel_logs') || '[]').length,
-              modifications: JSON.parse(localStorage.getItem('mtxtrkr_modifications') || '[]').length,
-              documents: JSON.parse(localStorage.getItem(STORAGE_KEYS.DOCUMENTS) || '[]').length,
+              vehicles: (localVehicles.data || []).length,
+              maintenance_logs: (localLogs.data || []).length,
+              reminders: (localReminders.data || []).length,
+              fuel_logs: (localFuelLogs.data || []).length,
+              modifications: (localMods.data || []).length,
+              documents: (localDocuments.data || []).length,
             },
             premiumStatus: localStorage.getItem(STORAGE_KEYS.PREMIUM_STATUS),
           };
@@ -692,29 +692,32 @@ export default function App() {
       // By pushing ALL local data here (awaited, sequential), we guarantee that
       // every record is safely in Supabase before the session ends, so the
       // next sign-in's two-way sync can pull it back after the cleanup wipe.
+      // Read from React state (.data), NOT localStorage, because the
+      // useLocalStorage useEffect may not have flushed the latest state
+      // to localStorage yet. If a user adds data and immediately signs
+      // out, localStorage.getItem would return stale data — this fix
+      // ensures all data (even just-added) reaches Supabase on logout.
       const dataStores = [
-        { key: STORAGE_KEYS.VEHICLES, table: 'vehicles' },
-        { key: STORAGE_KEYS.MAINTENANCE_LOGS, table: 'maintenance_logs' },
-        { key: STORAGE_KEYS.REMINDERS, table: 'reminders' },
-        { key: 'mtxtrkr_fuel_logs', table: 'fuel_logs' },
-        { key: 'mtxtrkr_modifications', table: 'modifications' },
-        { key: STORAGE_KEYS.DOCUMENTS, table: 'documents' },
+        { data: localVehicles.data, table: 'vehicles' },
+        { data: localLogs.data, table: 'maintenance_logs' },
+        { data: localReminders.data, table: 'reminders' },
+        { data: localFuelLogs.data, table: 'fuel_logs' },
+        { data: localMods.data, table: 'modifications' },
+        { data: localDocuments.data, table: 'documents' },
       ];
-      for (const { key, table } of dataStores) {
-        try {
-          const raw = localStorage.getItem(key);
-          if (!raw) continue;
-          const items = JSON.parse(raw);
-          if (!Array.isArray(items) || items.length === 0) continue;
-          for (const item of items) {
+      for (const { data, table } of dataStores) {
+        const items = data || [];
+        if (items.length === 0) continue;
+        for (const item of items) {
+          try {
             const { createdAt, updatedAt, ...syncItem } = item;
             await supabase.from(table).upsert(
               { ...syncItem, user_id: auth.user.id },
               { onConflict: 'id' }
             );
+          } catch (e) {
+            console.warn(`[Logout] Failed to push item to ${table}:`, e);
           }
-        } catch (e) {
-          console.warn(`[Logout] Failed to push ${key}:`, e);
         }
       }
       // Also sync premium status
@@ -732,7 +735,8 @@ export default function App() {
     // effect doesn't fire while isAuthenticated is still true and redirect
     // the user back to dashboard before the sign-out finishes.
     setPage('landing');
-  }, [auth, isAuthenticated, analytics, premium]);
+  }, [auth, isAuthenticated, analytics, premium,
+    localVehicles, localLogs, localReminders, localFuelLogs, localMods, localDocuments]);
 
   // Add vehicle
   const addVehicle = useCallback((data) => {
