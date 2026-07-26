@@ -13,6 +13,7 @@
     "test:gate": "vitest run --config vitest.config.js __tests__/smoke/data-integrity-gate.test.js"
   },
   "dependencies": {
+    "@capacitor/splash-screen": "^7.0.5",
     "@supabase/supabase-js": "^2.108.2",
     "jspdf": "^4.2.1",
     "jspdf-autotable": "^5.0.8",
