@@ -345,4 +345,197 @@ describe('Data Integrity Gate', () => {
       expect(localStorage.getItem('mtxtrkr_premium_status')).toBe('false');
     });
   });
+
+  // ── 6. Same-User Refresh Survival ──────────────────────────────
+  describe('Same-User Refresh Survival', () => {
+    const SESSION_KEY = 'mtxtrkr_previous_user_id';
+
+    /**
+     * Mimics the App.jsx same-user detection logic:
+     * Returns true if the wipe should proceed (different user / first sign-in),
+     * false if the wipe should be skipped (same user refresh).
+     */
+    function shouldWipeOnAuthChange(currentUserId) {
+      try {
+        const previousUserId = sessionStorage.getItem(SESSION_KEY) || null;
+        if (currentUserId && previousUserId && currentUserId === previousUserId) {
+          return false; // Same user refresh — skip wipe
+        }
+        return true; // Different user or first sign-in — proceed with wipe
+      } catch(e) {
+        return true; // If sessionStorage fails, default to wipe (safe)
+      }
+    }
+
+    /**
+     * Full simulated auth-change: checks same-user detection, then optionally
+     * wipes based on the result. This combines the detection + wipe in one
+     * function, matching the App.jsx effect flow.
+     *
+     * IMPORTANT: The check must happen BEFORE updating sessionStorage.
+     * App.jsx reads previousUserId from sessionStorage first, compares,
+     * and only updates sessionStorage after the comparison (and optional wipe).
+     */
+    function simulateAuthChangeWithUserDetection(currentUserId) {
+      // Check BEFORE updating sessionStorage (matches App.jsx order)
+      const shouldWipe = shouldWipeOnAuthChange(currentUserId);
+
+      // Track current user in sessionStorage (like App.jsx does AFTER the check)
+      try {
+        sessionStorage.setItem(SESSION_KEY, currentUserId || '');
+      } catch(e) { /* non-critical */ }
+
+      if (!shouldWipe) {
+        return; // Same user — skip wipe
+      }
+
+      // Different user — wipe
+      simulateAuthChangeWipe(EXPECTED_PROTECTED_KEYS);
+    }
+
+    beforeEach(() => {
+      clearLocalStorage();
+      try { sessionStorage.removeItem(SESSION_KEY); } catch(e) {}
+    });
+
+    afterEach(() => {
+      try { sessionStorage.removeItem(SESSION_KEY); } catch(e) {}
+    });
+
+    it('should SKIP wipe when same user refreshes (sessionStorage matches current user)', () => {
+      // Simulate previous session: user "userA" was signed in
+      sessionStorage.setItem(SESSION_KEY, 'userA');
+
+      // Seed data stores with real data
+      const seedData = {
+        'mtxtrkr_vehicles': [{ id: 'v1', make: 'Honda', model: 'Civic', year: 2023 }],
+        'mtxtrkr_maintenance_logs': [{ id: 'l1', serviceType: 'Oil Change', mileage: 15000 }],
+        'mtxtrkr_reminders': [{ id: 'r1', title: 'Oil Change Due', intervalMiles: 5000 }],
+        'mtxtrkr_fuel_logs': [{ id: 'f1', gallons: 12.5, cost: 45.00 }],
+        'mtxtrkr_modifications': [{ id: 'm1', name: 'Cold Air Intake', cost: 350 }],
+      };
+      for (const [key, data] of Object.entries(seedData)) {
+        localStorage.setItem(key, JSON.stringify(data));
+      }
+
+      // Simulate same user "userA" signing back in (e.g. after hard refresh)
+      simulateAuthChangeWithUserDetection('userA');
+
+      // All data should survive — same user, no wipe
+      for (const key of Object.keys(seedData)) {
+        const raw = localStorage.getItem(key);
+        expect(raw, `${key} should survive same-user refresh`).toBeTruthy();
+        const parsed = JSON.parse(raw);
+        expect(parsed.length).toBeGreaterThan(0);
+      }
+    });
+
+    it('should PROCEED with wipe when different user signs in (sessionStorage mismatch)', () => {
+      // Simulate previous session: user "userA" was signed in
+      sessionStorage.setItem(SESSION_KEY, 'userA');
+
+      // Seed data stores with real data from userA
+      const seedData = {
+        'mtxtrkr_vehicles': [{ id: 'v1', make: 'Honda', model: 'Civic', year: 2023 }],
+        'mtxtrkr_maintenance_logs': [{ id: 'l1', serviceType: 'Oil Change', mileage: 15000 }],
+        'mtxtrkr_reminders': [{ id: 'r1', title: 'Oil Change Due' }],
+        'mtxtrkr_fuel_logs': [{ id: 'f1', gallons: 12.5 }],
+        'mtxtrkr_modifications': [{ id: 'm1', name: 'Cold Air Intake' }],
+      };
+      for (const [key, data] of Object.entries(seedData)) {
+        localStorage.setItem(key, JSON.stringify(data));
+      }
+
+      // Simulate DIFFERENT user "userB" signing in
+      simulateAuthChangeWithUserDetection('userB');
+
+      // All data should be wiped — cross-account protection
+      for (const key of Object.keys(seedData)) {
+        expect(localStorage.getItem(key), `${key} should be wiped for different user`).toBeNull();
+      }
+    });
+
+    it('should PROCEED with wipe when no previous session (first sign-in, sessionStorage empty)', () => {
+      // No sessionStorage — this is a fresh browser session
+
+      // Seed data stores
+      const seedData = {
+        'mtxtrkr_vehicles': [{ id: 'v1', make: 'Honda' }],
+        'mtxtrkr_maintenance_logs': [{ id: 'l1', serviceType: 'Oil Change' }],
+      };
+      for (const [key, data] of Object.entries(seedData)) {
+        localStorage.setItem(key, JSON.stringify(data));
+      }
+
+      // Simulate first sign-in (no previous session)
+      simulateAuthChangeWithUserDetection('userA');
+
+      // Data should be wiped — first sign-in gets clean slate (data from Supabase two-way sync)
+      for (const key of Object.keys(seedData)) {
+        expect(localStorage.getItem(key), `${key} should be wiped on first sign-in`).toBeNull();
+      }
+    });
+
+    it('should preserve PROTECTED_KEYS even during same-user refresh', () => {
+      // Set up same-user session
+      sessionStorage.setItem(SESSION_KEY, 'userA');
+
+      // Seed protected keys
+      localStorage.setItem('mtxtrkr_onboarding_dismissed', 'true');
+      localStorage.setItem('mtxtrkr_selected_vehicle', 'v-abc-123');
+      localStorage.setItem('mtxtrkr_premium_status', 'true');
+      localStorage.setItem('mtxtrkr_subscription_status', 'active');
+
+      // Seed data store
+      localStorage.setItem('mtxtrkr_vehicles', JSON.stringify([{ id: 'v1', make: 'Honda' }]));
+
+      // Same user refresh — should skip wipe
+      simulateAuthChangeWithUserDetection('userA');
+
+      // Protected keys survive (always)
+      expect(localStorage.getItem('mtxtrkr_onboarding_dismissed')).toBe('true');
+      expect(localStorage.getItem('mtxtrkr_selected_vehicle')).toBe('v-abc-123');
+      expect(localStorage.getItem('mtxtrkr_premium_status')).toBe('true');
+      expect(localStorage.getItem('mtxtrkr_subscription_status')).toBe('active');
+
+      // Data store survives (no wipe occurred)
+      expect(localStorage.getItem('mtxtrkr_vehicles')).toBeTruthy();
+      const vehicles = JSON.parse(localStorage.getItem('mtxtrkr_vehicles'));
+      expect(vehicles).toHaveLength(1);
+      expect(vehicles[0].make).toBe('Honda');
+    });
+
+    it('should update sessionStorage with new user ID after auth change', () => {
+      // No previous session
+      expect(sessionStorage.getItem(SESSION_KEY)).toBeNull();
+
+      // Simulate sign-in as userA
+      simulateAuthChangeWithUserDetection('userA');
+
+      // sessionStorage should now track userA for future refresh detection
+      expect(sessionStorage.getItem(SESSION_KEY)).toBe('userA');
+
+      // Simulate refresh as same user — should skip wipe
+      localStorage.setItem('mtxtrkr_vehicles', JSON.stringify([{ id: 'v1', make: 'Honda' }]));
+      simulateAuthChangeWithUserDetection('userA');
+
+      // Data survives
+      expect(localStorage.getItem('mtxtrkr_vehicles')).toBeTruthy();
+    });
+
+    it('should detect same-user logic in App.jsx source (audit)', () => {
+      // Verify the fix is actually present in App.jsx — the sessionStorage-based
+      // previousUserIdRef must be present.
+      try {
+        const src = readFileSync(resolve(__dirname, '../../src/App.jsx'), 'utf-8');
+        expect(src).toContain('mtxtrkr_previous_user_id');
+        expect(src).toContain('previousUserIdRef');
+        expect(src).toContain('isSameUser');
+        expect(src).toContain('Skip the wipe entirely');
+      } catch (e) {
+        // If App.jsx can't be read, fail the test
+        expect(e).toBeNull();
+      }
+    });
+  });
 });
