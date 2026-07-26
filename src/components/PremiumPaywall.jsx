@@ -69,11 +69,11 @@ export default function PremiumPaywall({ onClose, onUpgrade, userId, trackEvent 
 
           {/* Premium Tier */}
           <div className="rounded-2xl bg-gradient-to-b from-blue-600/10 to-cyan-600/5 border border-blue-500/30 p-4 relative">
-            <div className="absolute -top-2.5 left-1/2 -translate-x-1/2 px-2.5 py-0.5 rounded-full bg-gradient-to-r from-blue-500 to-cyan-400 text-[9px] font-bold text-white whitespace-nowrap shadow-lg">
+            <div className="absolute -top-2.5 left-1/2 -translate-x-1/2 px-2.5 py-0.5 rounded-full bg-gradient-to-r from-blue-500 to-cyan-400 text-[11px] font-bold text-white whitespace-nowrap shadow-lg">
               MOST POPULAR
             </div>
             <h3 className="text-sm font-bold text-white mb-1 mt-1">Premium</h3>
-            <p className="text-2xl font-bold text-white mb-3">$4.99<span className="text-xs text-slate-500 font-normal">/mo</span></p>
+            <p className="text-2xl font-bold text-white mb-3">$4.99<span className="text-xs text-slate-400 font-normal">/mo</span></p>
             <ul className="space-y-2">
               {[
                 'Unlimited Vehicles',
@@ -106,7 +106,7 @@ export default function PremiumPaywall({ onClose, onUpgrade, userId, trackEvent 
               </div>
               <div className="text-right">
                 <div className="text-2xl font-bold text-white">$4.99</div>
-                <div className="text-[10px] text-slate-500">per month</div>
+                <div className="text-[11px] text-slate-400">per month</div>
               </div>
             </div>
             <button
@@ -129,7 +129,7 @@ export default function PremiumPaywall({ onClose, onUpgrade, userId, trackEvent 
           {/* Yearly */}
           <div className="bg-gradient-to-b from-blue-600/10 to-cyan-600/5 border border-blue-500/30 rounded-2xl p-5 shadow-xl shadow-blue-500/10 transition-all hover:border-blue-500/50 group relative overflow-hidden">
             <div className="absolute top-0 right-0">
-              <div className="bg-emerald-500 text-slate-950 text-[10px] font-bold px-3 py-1 rounded-bl-lg uppercase tracking-wider">
+              <div className="bg-emerald-500 text-slate-950 text-[11px] font-bold px-3 py-1 rounded-bl-lg uppercase tracking-wider">
                 Save 33%
               </div>
             </div>
@@ -137,13 +137,13 @@ export default function PremiumPaywall({ onClose, onUpgrade, userId, trackEvent 
               <div>
                 <h3 className="text-white font-bold text-lg flex items-center gap-2">
                   Yearly
-                  <span className="bg-blue-500/20 text-blue-300 text-[10px] px-1.5 py-0.5 rounded-full">Best Value</span>
+                  <span className="bg-blue-500/20 text-blue-300 text-[11px] px-1.5 py-0.5 rounded-full">Best Value</span>
                 </h3>
                 <p className="text-slate-400 text-xs">One payment, full year access</p>
               </div>
               <div className="text-right">
                 <div className="text-2xl font-bold text-white">$39.99</div>
-                <div className="text-[10px] text-slate-500">per year</div>
+                <div className="text-[11px] text-slate-400">per year</div>
               </div>
             </div>
             <button
@@ -164,9 +164,9 @@ export default function PremiumPaywall({ onClose, onUpgrade, userId, trackEvent 
             </button>
           </div>
           
-          <div className="flex items-center justify-center gap-1.5 text-slate-500">
+          <div className="flex items-center justify-center gap-1.5 text-slate-400">
             <Shield className="w-3.5 h-3.5" />
-            <p className="text-[10px] font-medium">Payment processing is handled securely.</p>
+            <p className="text-[11px] font-medium">Payment processing is handled securely.</p>
           </div>
         </div>
 
@@ -181,7 +181,7 @@ export default function PremiumPaywall({ onClose, onUpgrade, userId, trackEvent 
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="text-sm font-medium text-white">{f.label}</div>
-                  <div className="text-xs text-slate-500">{f.desc}</div>
+                  <div className="text-xs text-slate-400">{f.desc}</div>
                 </div>
                 <CheckCircle className="w-4 h-4 text-emerald-400 shrink-0" />
               </div>
@@ -191,7 +191,7 @@ export default function PremiumPaywall({ onClose, onUpgrade, userId, trackEvent 
 
         {/* Free Tier Note */}
         <div className="mt-6 p-4 rounded-xl bg-slate-900/40 border border-slate-800 text-center">
-          <p className="text-xs text-slate-500">
+          <p className="text-xs text-slate-400">
             Free plan continues working. You don't lose saved data if you don't upgrade.
           </p>
           <button onClick={onClose} className="mt-2 text-xs text-blue-400 hover:text-blue-300">
@@ -199,7 +199,7 @@ export default function PremiumPaywall({ onClose, onUpgrade, userId, trackEvent 
           </button>
         </div>
 
-        <p className="text-[10px] text-slate-700 text-center mt-4">Safe & secure checkout</p>
+        <p className="text-[11px] text-slate-700 text-center mt-4">Safe & secure checkout</p>
       </div>
     </div>
   );

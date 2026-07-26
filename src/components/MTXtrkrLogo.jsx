@@ -33,7 +33,7 @@ export default function MTXtrkrLogo({ className = '' }) {
       <p className="text-lg sm:text-xl text-slate-400 italic mt-1">
         Mainten<span className="text-red-800">X</span> Tracker
       </p>
-      <p className="text-sm sm:text-base text-slate-500 italic">
+      <p className="text-sm sm:text-base text-slate-400 italic">
         — Your Owner's Manual Simplified
       </p>
     </div>

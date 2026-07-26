@@ -171,7 +171,7 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
               </button>
             ))}
           </div>
-          <p className="text-[10px] text-slate-600 mt-1.5 text-center">
+          <p className="text-[11px] text-slate-500 mt-1.5 text-center">
             ← Swipe or tap to switch vehicles →
           </p>
         </div>
@@ -276,15 +276,15 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
           {/* Current Pace Stats */}
           <div className="grid grid-cols-3 gap-3 mb-4">
             <div className="p-3 rounded-xl bg-slate-900/60 border border-slate-800 text-center">
-              <div className="text-[10px] text-slate-500 uppercase tracking-wider">Daily Avg</div>
+              <div className="text-[11px] text-slate-400 uppercase tracking-wider">Daily Avg</div>
               <div className="text-lg font-bold text-violet-400">{formatNumber(Math.round(dailyAvg))} mi</div>
             </div>
             <div className="p-3 rounded-xl bg-slate-900/60 border border-slate-800 text-center">
-              <div className="text-[10px] text-slate-500 uppercase tracking-wider">Weekly</div>
+              <div className="text-[11px] text-slate-400 uppercase tracking-wider">Weekly</div>
               <div className="text-lg font-bold text-violet-400">{formatNumber(Math.round(dailyAvg * 7))} mi</div>
             </div>
             <div className="p-3 rounded-xl bg-slate-900/60 border border-slate-800 text-center">
-              <div className="text-[10px] text-slate-500 uppercase tracking-wider">Monthly</div>
+              <div className="text-[11px] text-slate-400 uppercase tracking-wider">Monthly</div>
               <div className="text-lg font-bold text-violet-400">{formatNumber(Math.round(dailyAvg * 30))} mi</div>
             </div>
           </div>
@@ -297,11 +297,11 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
                 type="date"
                 value={targetDate}
                 onChange={e => setTargetDate(e.target.value)}
-                className="w-full px-3 py-2 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm focus:outline-none focus:ring-2 focus:ring-violet-500/50"
+                className="w-full px-3 py-2 rounded-xl bg-slate-800 border border-slate-700 text-white text-base focus:outline-none focus:ring-2 focus:ring-violet-500/50"
               />
             </div>
             <div className="text-center">
-              <div className="text-xs text-slate-500 mb-1">Projected</div>
+              <div className="text-xs text-slate-400 mb-1">Projected</div>
               <div className="text-xl font-bold text-violet-400">{formatNumber(projectedMileage)} {mileageUnit}</div>
             </div>
           </div>
@@ -309,17 +309,17 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
           {projectedMileage > 0 && (
             <div className="p-3 rounded-xl bg-slate-950/40 border border-slate-800">
               <div className="flex items-center justify-between text-xs">
-                <span className="text-slate-500">At your current pace, you'll reach</span>
+                <span className="text-slate-400">At your current pace, you'll reach</span>
                 <span className="text-white font-bold">{formatNumber(projectedMileage)} {mileageUnit}</span>
               </div>
               <div className="flex items-center justify-between text-xs mt-1">
-                <span className="text-slate-500">by</span>
+                <span className="text-slate-400">by</span>
                 <span className="text-white font-bold">{formatDate(targetDate)}</span>
               </div>
               <div className="mt-2 pt-2 border-t border-slate-800 flex items-center justify-between text-xs">
-                <span className="text-slate-500">That's</span>
+                <span className="text-slate-400">That's</span>
                 <span className="text-violet-400 font-bold">{formatNumber(Math.round(dailyAvg * daysToTarget))} {mileageUnit}</span>
-                <span className="text-slate-500">from today</span>
+                <span className="text-slate-400">from today</span>
               </div>
             </div>
           )}
@@ -328,11 +328,11 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
           {activeVehicle?.isLeased && activeVehicle?.leaseMileageLimit > 0 && activeVehicle?.leaseEndDate && (
             <div className="mt-3 p-3 rounded-xl bg-amber-500/5 border border-amber-500/20">
               <div className="flex items-center justify-between text-xs mb-2">
-                <span className="text-slate-500">Lease Limit</span>
+                <span className="text-slate-400">Lease Limit</span>
                 <span className="text-white font-bold">{formatNumber(activeVehicle.leaseMileageLimit)} {mileageUnit}</span>
               </div>
               <div className="flex items-center justify-between text-xs mb-2">
-                <span className="text-slate-500">Projected at lease end</span>
+                <span className="text-slate-400">Projected at lease end</span>
                 <span className={projectedMileage > activeVehicle.leaseMileageLimit ? 'text-red-400 font-bold' : 'text-emerald-400 font-bold'}>
                   {formatNumber(projectedMileage)} {mileageUnit}
                 </span>
@@ -344,8 +344,8 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
                   style={{ width: `${Math.min(100, (projectedMileage / activeVehicle.leaseMileageLimit) * 100)}%` }}
                 />
               </div>
-              <div className="flex items-center justify-between text-[10px] mt-1">
-                <span className="text-slate-600">{Math.round((projectedMileage / activeVehicle.leaseMileageLimit) * 100)}% used</span>
+              <div className="flex items-center justify-between text-[11px] mt-1">
+                <span className="text-slate-500">{Math.round((projectedMileage / activeVehicle.leaseMileageLimit) * 100)}% used</span>
                 {projectedMileage > activeVehicle.leaseMileageLimit ? (
                   <span className="text-red-400 font-medium">⚠ {formatNumber(projectedMileage - activeVehicle.leaseMileageLimit)} mi over limit</span>
                 ) : (
@@ -361,15 +361,15 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
           <div className="filter blur-sm pointer-events-none select-none">
             <div className="grid grid-cols-3 gap-3 mb-4">
               <div className="p-3 rounded-xl bg-slate-900/60 border border-slate-800 text-center">
-                <div className="text-[10px] text-slate-500 uppercase tracking-wider">Daily Avg</div>
+                <div className="text-[11px] text-slate-400 uppercase tracking-wider">Daily Avg</div>
                 <div className="text-lg font-bold text-violet-400">42 mi</div>
               </div>
               <div className="p-3 rounded-xl bg-slate-900/60 border border-slate-800 text-center">
-                <div className="text-[10px] text-slate-500 uppercase tracking-wider">Weekly</div>
+                <div className="text-[11px] text-slate-400 uppercase tracking-wider">Weekly</div>
                 <div className="text-lg font-bold text-violet-400">294 mi</div>
               </div>
               <div className="p-3 rounded-xl bg-slate-900/60 border border-slate-800 text-center">
-                <div className="text-[10px] text-slate-500 uppercase tracking-wider">Monthly</div>
+                <div className="text-[11px] text-slate-400 uppercase tracking-wider">Monthly</div>
                 <div className="text-lg font-bold text-violet-400">1,260 mi</div>
               </div>
             </div>
@@ -412,19 +412,19 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
 
           <div className="grid grid-cols-3 gap-3 mb-3">
             <div className="p-3 rounded-xl bg-slate-900/60 border border-slate-800 text-center">
-              <div className="text-[10px] text-slate-500 uppercase tracking-wider">Predicted (1yr)</div>
+              <div className="text-[11px] text-slate-400 uppercase tracking-wider">Predicted (1yr)</div>
               <div className="text-lg font-bold text-blue-400">
                 {formatNumber(aiMileagePrediction.predicted)} {mileageUnit}
               </div>
             </div>
             <div className="p-3 rounded-xl bg-slate-900/60 border border-slate-800 text-center">
-              <div className="text-[10px] text-slate-500 uppercase tracking-wider">Weekly Avg</div>
+              <div className="text-[11px] text-slate-400 uppercase tracking-wider">Weekly Avg</div>
               <div className="text-lg font-bold text-blue-400">
                 {formatNumber(aiMileagePrediction.weeklyAvg)} {mileageUnit}
               </div>
             </div>
             <div className="p-3 rounded-xl bg-slate-900/60 border border-slate-800 text-center">
-              <div className="text-[10px] text-slate-500 uppercase tracking-wider">Daily Rate</div>
+              <div className="text-[11px] text-slate-400 uppercase tracking-wider">Daily Rate</div>
               <div className="text-lg font-bold text-blue-400">
                 {aiMileagePrediction.dailyRate} {mileageUnit}
               </div>
@@ -432,12 +432,12 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
           </div>
 
           {aiMileagePrediction.hasNegativeSlope && (
-            <div className="text-[10px] text-amber-400 mt-1 flex items-center gap-1">
+            <div className="text-[11px] text-amber-400 mt-1 flex items-center gap-1">
               <AlertTriangle className="w-3 h-3" /> Mileage trend appears flat or declining — verify your odometer entries.
             </div>
           )}
 
-          <p className="text-[10px] text-slate-600 mt-2">
+          <p className="text-[11px] text-slate-500 mt-2">
             Based on {aiMileagePrediction.dataPoints?.length || '?'} data points from your fuel logs and vehicle history.
           </p>
         </div>
@@ -486,17 +486,17 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
             </div>
             <div className="flex gap-2">
               {overdueCount > 0 && (
-                <div className="px-2 py-1 rounded bg-red-500/10 border border-red-500/20 text-[10px] font-bold text-red-400">
+                <div className="px-2 py-1 rounded bg-red-500/10 border border-red-500/20 text-[11px] font-bold text-red-400">
                   {overdueCount} OVERDUE
                 </div>
               )}
               {dueSoonCount > 0 && (
-                <div className="px-2 py-1 rounded bg-amber-500/10 border border-amber-500/20 text-[10px] font-bold text-amber-400">
+                <div className="px-2 py-1 rounded bg-amber-500/10 border border-amber-500/20 text-[11px] font-bold text-amber-400">
                   {dueSoonCount} DUE SOON
                 </div>
               )}
               {overdueCount === 0 && dueSoonCount === 0 && (
-                <div className="px-2 py-1 rounded bg-emerald-500/10 border border-emerald-500/20 text-[10px] font-bold text-emerald-400">
+                <div className="px-2 py-1 rounded bg-emerald-500/10 border border-emerald-500/20 text-[11px] font-bold text-emerald-400">
                   ALL CAUGHT UP
                 </div>
               )}
@@ -508,7 +508,7 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
               <div key={idx} className="flex items-center justify-between gap-3 p-3 rounded-xl bg-slate-950/40 border border-slate-800/50">
                 <div className="flex-1">
                   <div className="text-xs font-bold text-white mb-0.5">{item.service}</div>
-                  <div className="text-[10px] text-slate-500">
+                  <div className="text-[11px] text-slate-400">
                     Due in {formatNumber(item.milesUntilDue)} mi / ~{Math.round(item.daysUntilDue / 30)} months
                   </div>
                 </div>
@@ -554,7 +554,7 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
           </div>
           {vehicleLogs.length === 0 ? (
             <div className="text-center py-8">
-              <p className="text-sm text-slate-500">No recent activity</p>
+              <p className="text-sm text-slate-400">No recent activity</p>
               <button onClick={() => onNavigate('logs')} className="mt-2 text-xs text-blue-400 hover:text-blue-300">
                 Log your first service →
               </button>
@@ -581,13 +581,13 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
                           log.serviceType
                         )}
                         {isAiGenerated && (
-                          <span className="text-[9px] px-1 py-0.5 rounded bg-purple-500/20 text-purple-300">AI</span>
+                          <span className="text-[11px] px-1 py-0.5 rounded bg-purple-500/20 text-purple-300">AI</span>
                         )}
                         {isMultiJob && (
-                          <span className="text-[9px] px-1 py-0.5 rounded bg-indigo-500/20 text-indigo-300">Multi</span>
+                          <span className="text-[11px] px-1 py-0.5 rounded bg-indigo-500/20 text-indigo-300">Multi</span>
                         )}
                       </div>
-                      <div className="text-xs text-slate-500">
+                      <div className="text-xs text-slate-400">
                         {vehicle?.name || 'Unknown'} • {formatDate(log.date)} • {formatNumber(log.mileage)} mi
                       </div>
                     </div>
@@ -614,7 +614,7 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
           </div>
           {upcomingReminders.length === 0 ? (
             <div className="text-center py-8">
-              <p className="text-sm text-slate-500">No upcoming reminders</p>
+              <p className="text-sm text-slate-400">No upcoming reminders</p>
               <button onClick={() => onNavigate('reminders')} className="mt-2 text-xs text-blue-400 hover:text-blue-300">
                 Add a reminder →
               </button>
@@ -637,11 +637,11 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
                     <div className="flex items-center justify-between mb-2">
                       <div className="flex items-center gap-2">
                         <AlertTriangle className={`w-3.5 h-3.5 ${
-                          r.status === 'overdue' ? 'text-red-400' : r.status === 'due-soon' ? 'text-amber-400' : 'text-slate-500'
+                          r.status === 'overdue' ? 'text-red-400' : r.status === 'due-soon' ? 'text-amber-400' : 'text-slate-400'
                         }`} />
                         <span className="text-sm font-medium text-white">{r.title}</span>
                       </div>
-                      <span className={`text-[10px] font-medium px-2 py-0.5 rounded-full ${
+                      <span className={`text-[11px] font-medium px-2 py-0.5 rounded-full ${
                         r.status === 'overdue'
                           ? 'bg-red-500/15 text-red-400'
                           : r.status === 'due-soon'
@@ -654,7 +654,7 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
 
                     {/* Progress Bar */}
                     <div className="mb-2">
-                      <div className="flex items-center justify-between text-[10px] text-slate-500 mb-1">
+                      <div className="flex items-center justify-between text-[11px] text-slate-400 mb-1">
                         <span>{r.vehicleName}</span>
                         <span>{formatNumber(Math.abs(r.milesUntilDue))} mi {r.milesUntilDue < 0 ? 'over' : 'to go'}</span>
                       </div>
@@ -667,12 +667,12 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
                     </div>
 
                     {r.percentComplete > 80 && r.status !== 'overdue' && (
-                      <p className="text-[10px] text-amber-400/80 mt-1">
+                      <p className="text-[11px] text-amber-400/80 mt-1">
                         ⚠ {formatNumber(Math.abs(r.milesUntilDue))} miles remaining — schedule soon
                       </p>
                     )}
                     {r.status === 'overdue' && (
-                      <p className="text-[10px] text-red-400/80 mt-1">
+                      <p className="text-[11px] text-red-400/80 mt-1">
                         ⚠ Overdue by {formatNumber(Math.abs(r.milesUntilDue))} miles — service required
                       </p>
                     )}
@@ -719,12 +719,12 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
                   </div>
                 </div>
               )) : (
-                <p className="text-xs text-slate-500 text-center py-4">No expense data yet. Log services with costs to see analytics.</p>
+                <p className="text-xs text-slate-400 text-center py-4">No expense data yet. Log services with costs to see analytics.</p>
               )}
             </div>
             {/* Monthly trend bar */}
             <div className="pt-3 border-t border-slate-800">
-              <p className="text-[10px] text-slate-500 mb-2">Monthly Spending Trend</p>
+              <p className="text-[11px] text-slate-400 mb-2">Monthly Spending Trend</p>
               <div className="flex items-end gap-1.5 h-16">
                 {Array.from({ length: 12 }, (_, i) => {
                   const monthLogs = vehicleLogs.filter(l => {
@@ -752,7 +752,7 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
                         }`}
                         style={{ height: `${Math.max(4, height)}%` }}
                       />
-                      <span className="text-[8px] text-slate-600">{monthNames[i]}</span>
+                      <span className="text-[11px] text-slate-500">{monthNames[i]}</span>
                     </div>
                   );
                 })}
@@ -858,7 +858,7 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
             </div>
             <div>
               <h3 className="text-sm font-semibold text-white">Need Help?</h3>
-              <p className="text-xs text-slate-500">Contact our engineering team</p>
+              <p className="text-xs text-slate-400">Contact our engineering team</p>
             </div>
           </div>
           <button

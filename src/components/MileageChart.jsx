@@ -122,7 +122,7 @@ export default function MileageChart({ logs, vehicles, isPremium }) {
           <TrendingUp className="w-4 h-4 text-blue-400" />
           <h3 className="text-sm font-semibold text-white">Mileage Over Time</h3>
         </div>
-        <p className="text-xs text-slate-500 text-center py-8">Add a vehicle with purchase date and mileage to start tracking</p>
+        <p className="text-xs text-slate-400 text-center py-8">Add a vehicle with purchase date and mileage to start tracking</p>
       </div>
     );
   }
@@ -137,10 +137,10 @@ export default function MileageChart({ logs, vehicles, isPremium }) {
           <h3 className="text-sm font-semibold text-white">Mileage Over Time</h3>
         </div>
         <div className="py-6 text-center">
-          <Gauge className="w-8 h-8 text-slate-600 mx-auto mb-2" />
+          <Gauge className="w-8 h-8 text-slate-500 mx-auto mb-2" />
           <p className="text-sm text-slate-300 font-medium mb-1">{formatNumber(chartData[0][chartData[0]._vehicleName])} mi</p>
-          <p className="text-xs text-slate-500">Purchase mileage — {chartData[0].date}</p>
-          <p className="text-xs text-slate-500 mt-3">Log services with mileage to build your trend</p>
+          <p className="text-xs text-slate-400">Purchase mileage — {chartData[0].date}</p>
+          <p className="text-xs text-slate-400 mt-3">Log services with mileage to build your trend</p>
         </div>
       </div>
     );
@@ -159,7 +159,7 @@ export default function MileageChart({ logs, vehicles, isPremium }) {
           </div>
           <div>
             <h3 className="text-sm font-semibold text-white">Mileage Over Time</h3>
-            <p className="text-[10px] text-slate-500">Purchase snapshot</p>
+            <p className="text-[11px] text-slate-400">Purchase snapshot</p>
           </div>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -167,11 +167,11 @@ export default function MileageChart({ logs, vehicles, isPremium }) {
             <div key={d._vehicleName || i} className="p-4 rounded-xl bg-slate-800/50 border border-slate-700/50 text-center">
               <p className="text-xs text-slate-400 mb-1">{d._vehicleName}</p>
               <p className="text-lg font-bold text-white">{formatNumber(d[d._vehicleName])} mi</p>
-              <p className="text-[10px] text-slate-500 mt-1">Purchase — {d.date}</p>
+              <p className="text-[11px] text-slate-400 mt-1">Purchase — {d.date}</p>
             </div>
           ))}
         </div>
-        <p className="text-xs text-slate-500 text-center mt-4">Log services with mileage to build your trend</p>
+        <p className="text-xs text-slate-400 text-center mt-4">Log services with mileage to build your trend</p>
       </div>
     );
   }
@@ -189,18 +189,18 @@ export default function MileageChart({ logs, vehicles, isPremium }) {
           </div>
           <div>
             <h3 className="text-sm font-semibold text-white">Mileage Over Time</h3>
-            <p className="text-[10px] text-slate-500">Vehicle usage trend</p>
+            <p className="text-[11px] text-slate-400">Vehicle usage trend</p>
           </div>
         </div>
         <div className="flex items-center gap-3">
           {vehicleNames.map((name, i) => (
-            <span key={name} className="flex items-center gap-1.5 text-[10px] text-slate-400 font-medium">
+            <span key={name} className="flex items-center gap-1.5 text-[11px] text-slate-400 font-medium">
               <span className="w-2 h-2 rounded-full" style={{ backgroundColor: colors[i % colors.length] }} />
               {name}
             </span>
           ))}
           {isPremium && projectedData.length > 0 && (
-            <span className="flex items-center gap-1.5 text-[10px] text-amber-400 font-medium">
+            <span className="flex items-center gap-1.5 text-[11px] text-amber-400 font-medium">
               <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
               Projected
             </span>
@@ -268,7 +268,7 @@ export default function MileageChart({ logs, vehicles, isPremium }) {
 
       {!isPremium && (
         <div className="mt-3 text-center">
-          <p className="text-[10px] text-slate-500">
+          <p className="text-[11px] text-slate-400">
             <span className="text-blue-400 cursor-pointer hover:text-blue-300"
               onClick={() => window.dispatchEvent(new CustomEvent('navigate', { detail: 'premium' }))}>
               Upgrade to Premium

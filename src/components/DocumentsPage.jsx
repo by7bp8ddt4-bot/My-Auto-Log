@@ -21,10 +21,10 @@ function FolderTab({ icon: Icon, title, count, isExpanded, onToggle, children })
           </div>
           <div>
             <h3 className="font-semibold text-white text-sm">{title}</h3>
-            <p className="text-xs text-slate-500">{count} {count === 1 ? 'item' : 'items'}</p>
+            <p className="text-xs text-slate-400">{count} {count === 1 ? 'item' : 'items'}</p>
           </div>
         </div>
-        <ChevronRight className={`w-4 h-4 text-slate-500 transition-transform ${isExpanded ? 'rotate-90' : ''}`} />
+        <ChevronRight className={`w-4 h-4 text-slate-400 transition-transform ${isExpanded ? 'rotate-90' : ''}`} />
       </div>
       {isExpanded && (
         <div className="px-4 pb-4 space-y-3">
@@ -65,9 +65,9 @@ function DocumentUploadCard({ onFileSelect, accept, label }) {
           e.target.value = '';
         }}
       />
-      <FileUp className="w-8 h-8 text-slate-500 mx-auto mb-2" />
-      <p className="text-sm text-slate-400">{label}</p>
-      <p className="text-xs text-slate-600 mt-1">Click or drag & drop</p>
+      <FileUp className="w-8 h-8 text-slate-400 mx-auto mb-2" />
+      <p className="text-base text-slate-400">{label}</p>
+      <p className="text-xs text-slate-500 mt-1">Click or drag & drop</p>
     </label>
   );
 }
@@ -258,7 +258,7 @@ function AddDocumentModal({ folder, onClose, onSave, vehicles, userId }) {
                     <p className="text-sm text-white truncate">{selectedFile.name}</p>
                     <p className="text-xs text-slate-400">{(selectedFile.size / 1024).toFixed(1)} KB</p>
                   </div>
-                  <button onClick={() => { setSelectedFile(null); setPreviewUrl(null); }} className="p-1.5 rounded-lg hover:bg-slate-700 text-slate-400">
+                  <button onClick={() => { setSelectedFile(null); setPreviewUrl(null); }} className="p-2.5 rounded-lg hover:bg-slate-700 text-slate-400 min-h-[44px] min-w-[44px]">
                     <X className="w-4 h-4" />
                   </button>
                 </div>
@@ -280,7 +280,7 @@ function AddDocumentModal({ folder, onClose, onSave, vehicles, userId }) {
               value={fileName}
               onChange={(e) => setFileName(e.target.value)}
               placeholder="e.g., Insurance Card - Front"
-              className="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-2.5 text-white text-sm placeholder:text-slate-600 focus:outline-none focus:border-blue-500/50"
+              className="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-2.5 text-white text-base placeholder:text-slate-500 focus:outline-none focus:border-blue-500/50"
             />
           </div>
 
@@ -307,7 +307,7 @@ function AddDocumentModal({ folder, onClose, onSave, vehicles, userId }) {
               type="date"
               value={date}
               onChange={(e) => setDate(e.target.value)}
-              className="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-2.5 text-white text-sm focus:outline-none focus:border-blue-500/50"
+              className="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-2.5 text-white text-base focus:outline-none focus:border-blue-500/50"
             />
           </div>
 
@@ -319,7 +319,7 @@ function AddDocumentModal({ folder, onClose, onSave, vehicles, userId }) {
                 type="date"
                 value={expiryDate}
                 onChange={(e) => setExpiryDate(e.target.value)}
-                className="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-2.5 text-white text-sm focus:outline-none focus:border-blue-500/50"
+                className="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-2.5 text-white text-base focus:outline-none focus:border-blue-500/50"
               />
             </div>
           )}
@@ -332,7 +332,7 @@ function AddDocumentModal({ folder, onClose, onSave, vehicles, userId }) {
               onChange={(e) => setNotes(e.target.value)}
               rows={2}
               placeholder="Optional notes about this document..."
-              className="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-2.5 text-white text-sm placeholder:text-slate-600 focus:outline-none focus:border-blue-500/50 resize-none"
+              className="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-2.5 text-white text-sm placeholder:text-slate-500 focus:outline-none focus:border-blue-500/50 resize-none"
             />
           </div>
 
@@ -542,13 +542,13 @@ export default function DocumentsPage({ documents = [], onAddDocument, onDeleteD
 
       {/* Search */}
       <div className="relative">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
         <input
           type="text"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           placeholder="Search documents..."
-          className="w-full bg-slate-800/60 border border-slate-700 rounded-xl pl-10 pr-4 py-2.5 text-white text-sm placeholder:text-slate-600 focus:outline-none focus:border-blue-500/50"
+          className="w-full bg-slate-800/60 border border-slate-700 rounded-xl pl-10 pr-4 py-2.5 text-white text-base placeholder:text-slate-500 focus:outline-none focus:border-blue-500/50"
         />
       </div>
 
@@ -595,7 +595,7 @@ export default function DocumentsPage({ documents = [], onAddDocument, onDeleteD
             ))}
           </div>
         ) : (
-          <p className="text-sm text-slate-500 text-center py-4">No purchase records yet. Upload your window sticker, purchase receipt, or accessory receipts.</p>
+          <p className="text-sm text-slate-400 text-center py-4">No purchase records yet. Upload your window sticker, purchase receipt, or accessory receipts.</p>
         )}
 
         <button
@@ -622,7 +622,7 @@ export default function DocumentsPage({ documents = [], onAddDocument, onDeleteD
             ))}
           </div>
         ) : (
-          <p className="text-sm text-slate-500 text-center py-4">No insurance documents yet. Upload your insurance card or policy documents.</p>
+          <p className="text-sm text-slate-400 text-center py-4">No insurance documents yet. Upload your insurance card or policy documents.</p>
         )}
 
         <button
@@ -650,12 +650,12 @@ export default function DocumentsPage({ documents = [], onAddDocument, onDeleteD
                   <img src={doc.fileUrl} alt={doc.name} className="w-full h-32 object-cover" />
                 ) : (
                   <div className="w-full h-32 flex items-center justify-center bg-slate-700">
-                    <Image className="w-8 h-8 text-slate-500" />
+                    <Image className="w-8 h-8 text-slate-400" />
                   </div>
                 )}
                 <div className="p-2">
                   <p className="text-xs text-white truncate">{doc.name || 'Photo'}</p>
-                  {doc.date && <p className="text-[10px] text-slate-400">{formatDate(doc.date)}</p>}
+                  {doc.date && <p className="text-[11px] text-slate-400">{formatDate(doc.date)}</p>}
                 </div>
                 <button
                   onClick={() => { if (window.confirm('Delete this document? This cannot be undone.')) handleDelete(doc.id); }}
@@ -667,7 +667,7 @@ export default function DocumentsPage({ documents = [], onAddDocument, onDeleteD
             ))}
           </div>
         ) : (
-          <p className="text-sm text-slate-500 text-center py-4">No photos yet. Upload vehicle photos for reference.</p>
+          <p className="text-sm text-slate-400 text-center py-4">No photos yet. Upload vehicle photos for reference.</p>
         )}
 
         <button
@@ -715,7 +715,7 @@ export default function DocumentsPage({ documents = [], onAddDocument, onDeleteD
                     <div key={doc.id} className="flex items-center justify-between text-xs">
                       <div>
                         <span className="text-slate-300">{vehicle?.name || vehicle?.make || 'Vehicle'}</span>
-                        <span className="text-slate-500 ml-2">Renews {formatDate(doc.expiryDate)}</span>
+                        <span className="text-slate-400 ml-2">Renews {formatDate(doc.expiryDate)}</span>
                       </div>
                       <span className={`font-medium ${
                         daysUntil <= 30 ? 'text-red-400' :
@@ -729,7 +729,7 @@ export default function DocumentsPage({ documents = [], onAddDocument, onDeleteD
                   );
                 })}
             </div>
-            <p className="text-[10px] text-slate-500 mt-2">Reminders sent at 90, 60, and 30 days before renewal.</p>
+            <p className="text-[11px] text-slate-400 mt-2">Reminders sent at 90, 60, and 30 days before renewal.</p>
           </div>
         )}
           {filterBySearch(registrationDocs).length > 0 ? (
@@ -739,7 +739,7 @@ export default function DocumentsPage({ documents = [], onAddDocument, onDeleteD
             ))}
           </div>
         ) : (
-          <p className="text-sm text-slate-500 text-center py-4">No registration documents yet. Upload your registration or renewal reminders.</p>
+          <p className="text-sm text-slate-400 text-center py-4">No registration documents yet. Upload your registration or renewal reminders.</p>
         )}
 
         <button

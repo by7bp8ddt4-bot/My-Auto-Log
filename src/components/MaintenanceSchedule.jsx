@@ -22,7 +22,7 @@ export default function MaintenanceSchedule({ vehicle: initialVehicle, logs, onA
   if (!vehicle) {
     return (
       <div className="text-center py-12 bg-slate-900/30 rounded-2xl border border-slate-800">
-        <Settings className="w-10 h-10 text-slate-600 mx-auto mb-3" />
+        <Settings className="w-10 h-10 text-slate-500 mx-auto mb-3" />
         <p className="text-sm text-slate-400 mb-1">Add a vehicle to see its maintenance schedule</p>
       </div>
     );
@@ -53,23 +53,23 @@ export default function MaintenanceSchedule({ vehicle: initialVehicle, logs, onA
       <div className="grid grid-cols-5 gap-2 sm:gap-3">
         <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-3 sm:p-4 text-center">
           <div className="text-lg sm:text-2xl font-bold text-red-400">{overdue.length}</div>
-          <div className="text-[9px] sm:text-[10px] text-slate-500 uppercase tracking-wider font-semibold">Overdue</div>
+          <div className="text-[11px] sm:text-[11px] text-slate-400 uppercase tracking-wider font-semibold">Overdue</div>
         </div>
         <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-3 sm:p-4 text-center">
           <div className="text-lg sm:text-2xl font-bold text-red-400">{critical.length}</div>
-          <div className="text-[9px] sm:text-[10px] text-slate-500 uppercase tracking-wider font-semibold">Critical</div>
+          <div className="text-[11px] sm:text-[11px] text-slate-400 uppercase tracking-wider font-semibold">Critical</div>
         </div>
         <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-3 sm:p-4 text-center">
           <div className="text-lg sm:text-2xl font-bold text-amber-400">{dueSoon.length}</div>
-          <div className="text-[9px] sm:text-[10px] text-slate-500 uppercase tracking-wider font-semibold">Due Soon</div>
+          <div className="text-[11px] sm:text-[11px] text-slate-400 uppercase tracking-wider font-semibold">Due Soon</div>
         </div>
         <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-3 sm:p-4 text-center">
           <div className="text-lg sm:text-2xl font-bold text-blue-400">{upcoming.length}</div>
-          <div className="text-[9px] sm:text-[10px] text-slate-500 uppercase tracking-wider font-semibold">Upcoming</div>
+          <div className="text-[11px] sm:text-[11px] text-slate-400 uppercase tracking-wider font-semibold">Upcoming</div>
         </div>
         <div className="bg-slate-900/60 border border-emerald-500/30 rounded-2xl p-3 sm:p-4 text-center">
           <div className="text-lg sm:text-2xl font-bold text-emerald-400">{good.length}</div>
-          <div className="text-[9px] sm:text-[10px] text-emerald-500 uppercase tracking-wider font-semibold">Serviced</div>
+          <div className="text-[11px] sm:text-[11px] text-emerald-500 uppercase tracking-wider font-semibold">Serviced</div>
         </div>
       </div>
 
@@ -127,20 +127,20 @@ function ScheduleItem({ item, onLog }) {
           <div className="flex items-center gap-2 mb-1">
             <h4 className="font-bold text-white">{item.service}</h4>
             {item.severity === 'high' && (
-              <span className="text-[8px] px-1.5 py-0.5 rounded bg-red-500/20 text-red-400 font-bold uppercase tracking-tighter">Critical</span>
+              <span className="text-[11px] px-1.5 py-0.5 rounded bg-red-500/20 text-red-400 font-bold uppercase tracking-tighter">Critical</span>
             )}
           </div>
-          <p className="text-xs text-slate-500 leading-relaxed mb-3">
+          <p className="text-xs text-slate-400 leading-relaxed mb-3">
             {item.description}
           </p>
           
-          <div className="flex flex-wrap gap-x-4 gap-y-2 text-[10px] font-medium uppercase tracking-wider">
+          <div className="flex flex-wrap gap-x-4 gap-y-2 text-[11px] font-medium uppercase tracking-wider">
             <div className="flex items-center gap-1.5">
               <RefreshCw className="w-3 h-3 opacity-70" />
               Every {formatNumber(item.intervalMiles)} mi / {item.intervalMonths} mo
             </div>
             {item.lastDate && (
-              <div className="flex items-center gap-1.5 text-slate-500">
+              <div className="flex items-center gap-1.5 text-slate-400">
                 <CheckCircle2 className="w-3 h-3 text-emerald-500" />
                 Last: {formatDate(item.lastDate)}
               </div>
@@ -150,7 +150,7 @@ function ScheduleItem({ item, onLog }) {
         
         <button
           onClick={onLog}
-          className="shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-[10px] font-bold transition-all shadow-lg shadow-blue-600/20"
+          className="shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-[11px] font-bold transition-all shadow-lg shadow-blue-600/20"
         >
           <Plus className="w-3 h-3" />
           Log
@@ -159,11 +159,11 @@ function ScheduleItem({ item, onLog }) {
 
       {/* Progress */}
       <div className="space-y-1.5">
-        <div className="flex items-center justify-between text-[10px] font-semibold">
+        <div className="flex items-center justify-between text-[11px] font-semibold">
           <div className="flex items-center gap-1">
             <Gauge className="w-3 h-3 opacity-70" />
             {isGood ? (
-              <span className="text-emerald-400">{formatNumber(item.percentRemaining)}% to go <span className="text-slate-500">•</span> Due in {formatNumber(item.milesUntilDue)} mi</span>
+              <span className="text-emerald-400">{formatNumber(item.percentRemaining)}% to go <span className="text-slate-400">•</span> Due in {formatNumber(item.milesUntilDue)} mi</span>
             ) : item.milesUntilDue <= 0 ? (
               <span className="text-red-400">{formatNumber(Math.abs(item.milesUntilDue))} mi overdue</span>
             ) : (

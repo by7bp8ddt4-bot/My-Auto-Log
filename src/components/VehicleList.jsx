@@ -92,10 +92,10 @@ export default function VehicleList({ vehicles, onAdd, onEdit, onDelete, isPremi
       {!hasAnyVehicles ? (
         <div className="text-center py-16">
           <div className="w-16 h-16 rounded-2xl bg-slate-800 flex items-center justify-center mx-auto mb-4">
-            <Car className="w-8 h-8 text-slate-600" />
+            <Car className="w-8 h-8 text-slate-500" />
           </div>
           <p className="text-slate-400 mb-2">No vehicles yet</p>
-          <p className="text-sm text-slate-600 mb-6">Add your first vehicle to get started</p>
+          <p className="text-sm text-slate-500 mb-6">Add your first vehicle to get started</p>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2.5 max-w-4xl mx-auto">
             {VEHICLE_TYPES.map(type => {
               const Icon = TYPE_ICONS[type.icon];
@@ -132,18 +132,18 @@ export default function VehicleList({ vehicles, onAdd, onEdit, onDelete, isPremi
                     </div>
                     <div>
                       <h3 className="font-semibold text-white text-sm">{type.plural || type.label + 's'}</h3>
-                      <p className="text-xs text-slate-500">{typeVehicles.length} {typeVehicles.length === 1 ? 'vehicle' : 'vehicles'}</p>
+                      <p className="text-xs text-slate-400">{typeVehicles.length} {typeVehicles.length === 1 ? 'vehicle' : 'vehicles'}</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
                     <button
                       onClick={(e) => { e.stopPropagation(); handleAdd(type.id); }}
-                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-[10px] font-medium transition-all"
+                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-[11px] font-medium transition-all"
                     >
                       <Plus className="w-3 h-3" />
                       Add {type.label}
                     </button>
-                    <ChevronRight className={`w-4 h-4 text-slate-500 transition-transform ${isExpanded ? 'rotate-90' : ''}`} />
+                    <ChevronRight className={`w-4 h-4 text-slate-400 transition-transform ${isExpanded ? 'rotate-90' : ''}`} />
                   </div>
                 </div>
 
@@ -170,10 +170,10 @@ export default function VehicleList({ vehicles, onAdd, onEdit, onDelete, isPremi
                           <div className="flex items-center gap-2">
                             <h3 className="font-semibold text-white text-sm">{v.name}</h3>
                             {v.type && v.type !== 'car' && (
-                              <span className="text-[9px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-400 font-medium uppercase tracking-wider">{vt.label}</span>
+                              <span className="text-[11px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-400 font-medium uppercase tracking-wider">{vt.label}</span>
                             )}
                           </div>
-                    <p className="text-xs text-slate-500">
+                    <p className="text-xs text-slate-400">
                       {v.year} {v.make} {v.model}
                     </p>
                   </div>
@@ -184,13 +184,13 @@ export default function VehicleList({ vehicles, onAdd, onEdit, onDelete, isPremi
                 <div className="flex gap-1">
                   <button
                     onClick={() => handleEdit(v)}
-                    className="p-1.5 rounded-lg hover:bg-slate-800 text-slate-500 hover:text-blue-400 transition-all"
+                    className="p-1.5 rounded-lg hover:bg-slate-800 text-slate-400 hover:text-blue-400 transition-all"
                   >
                     <Pencil className="w-3.5 h-3.5" />
                   </button>
                   <button
                     onClick={() => { if (window.confirm('Delete this vehicle and all its records? This cannot be undone.')) onDelete(v.id); }}
-                    className="p-1.5 rounded-lg hover:bg-red-500/10 text-slate-500 hover:text-red-400 transition-all"
+                    className="p-1.5 rounded-lg hover:bg-red-500/10 text-slate-400 hover:text-red-400 transition-all"
                   >
                     <Trash2 className="w-3.5 h-3.5" />
                   </button>
@@ -203,7 +203,7 @@ export default function VehicleList({ vehicles, onAdd, onEdit, onDelete, isPremi
                   <span className="text-white font-medium">{formatNumber(v.mileage)} mi</span>
                 </div>
                 {v.licensePlate && (
-                  <span className="text-xs text-slate-600 font-mono">{v.licensePlate}</span>
+                  <span className="text-xs text-slate-500 font-mono">{v.licensePlate}</span>
                 )}
               </div>
               {/* Battery Group Size */}
@@ -213,7 +213,7 @@ export default function VehicleList({ vehicles, onAdd, onEdit, onDelete, isPremi
                   return (
                     <div className="flex items-center gap-1.5 mt-2 pt-2 border-t border-slate-800/50 text-xs">
                       <Battery className="w-3 h-3 text-emerald-400" />
-                      <span className="text-slate-500">Battery:</span>
+                      <span className="text-slate-400">Battery:</span>
                       <span className="text-slate-300 font-medium">{batterySize}</span>
                     </div>
                   );
@@ -224,7 +224,7 @@ export default function VehicleList({ vehicles, onAdd, onEdit, onDelete, isPremi
                       ))
                     ) : (
                       <div className="text-center py-8 bg-slate-900/30 rounded-xl border border-slate-800">
-                        <p className="text-xs text-slate-500">No {(type.plural || type.label + 's').toLowerCase()} yet</p>
+                        <p className="text-xs text-slate-400">No {(type.plural || type.label + 's').toLowerCase()} yet</p>
                       </div>
                     )}
                   </div>
@@ -418,12 +418,12 @@ function VehicleFormModal({ vehicle, onSave, onClose, initialType = 'car', focus
           <h3 className="text-lg font-bold text-white">
             {vehicle ? 'Edit Vehicle' : `Add ${(() => { const vt = VEHICLE_TYPES.find(t => t.id === form.type) || VEHICLE_TYPES[0]; return vt.label; })()}`}
             {form.type !== 'car' && (
-              <span className="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-400 font-medium ml-2">
+              <span className="text-[11px] px-2 py-0.5 rounded bg-slate-800 text-slate-400 font-medium ml-2">
                 {VEHICLE_TYPES.find(t => t.id === form.type)?.label || form.type}
               </span>
             )}
           </h3>
-          <button onClick={onClose} className="p-1.5 rounded-lg hover:bg-slate-800 text-slate-400">
+          <button onClick={onClose} className="p-2.5 rounded-lg hover:bg-slate-800 text-slate-400 min-h-[44px] min-w-[44px]">
             <X className="w-5 h-5" />
           </button>
         </div>
@@ -433,10 +433,10 @@ function VehicleFormModal({ vehicle, onSave, onClose, initialType = 'car', focus
             /* N/A identifier — for equipment without VIN/HIN/serial */
             <div>
               <label className="block text-xs text-slate-400 mb-1 font-medium">
-                VIN / Serial Number <span className="text-slate-600 font-normal">(for lookup)</span>
+                VIN / Serial Number <span className="text-slate-500 font-normal">(for lookup)</span>
               </label>
-              <div className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800/50 border border-slate-700/50 text-slate-500 text-sm italic flex items-center gap-2">
-                <span className="text-slate-600 text-[10px] font-medium uppercase tracking-wider">N/A</span>
+              <div className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800/50 border border-slate-700/50 text-slate-400 text-sm italic flex items-center gap-2">
+                <span className="text-slate-500 text-[11px] font-medium uppercase tracking-wider">N/A</span>
                 <span className="text-xs">No VIN required for this vehicle type</span>
               </div>
             </div>
@@ -444,21 +444,21 @@ function VehicleFormModal({ vehicle, onSave, onClose, initialType = 'car', focus
             /* Engine Serial Number — for marine/outboard engines */
             <div>
               <label className="block text-xs text-slate-400 mb-1 font-medium">
-                Engine Serial Number <span className="text-slate-600 font-normal">(for lookup)</span>
+                Engine Serial Number <span className="text-slate-500 font-normal">(for lookup)</span>
               </label>
               <input
                 type="text"
                 value={form.engineSerial}
                 onChange={e => setForm(f => ({ ...f, engineSerial: e.target.value.toUpperCase() }))}
                 placeholder="e.g. CAT 7.1 SERIAL #"
-                className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm font-mono tracking-wider placeholder:text-slate-600 placeholder:tracking-normal focus:outline-none focus:ring-2 focus:ring-indigo-500/50 transition-all"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-base font-mono tracking-wider placeholder:text-slate-500 placeholder:tracking-normal focus:outline-none focus:ring-2 focus:ring-indigo-500/50 transition-all"
               />
             </div>
           ) : form.type === 'watercraft' ? (
             /* HIN Decoder — for personal watercraft */
             <div>
               <label className="block text-xs text-slate-400 mb-1 font-medium">
-                HIN (Hull Identification Number) <span className="text-slate-600 font-normal">(for lookup)</span>
+                HIN (Hull Identification Number) <span className="text-slate-500 font-normal">(for lookup)</span>
               </label>
               <input
                 type="text"
@@ -466,7 +466,7 @@ function VehicleFormModal({ vehicle, onSave, onClose, initialType = 'car', focus
                 onChange={e => setForm(f => ({ ...f, vin: e.target.value.toUpperCase().slice(0, 12) }))}
                 placeholder="e.g. USCCP1234J899"
                 maxLength={12}
-                className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm font-mono tracking-wider placeholder:text-slate-600 placeholder:tracking-normal focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all uppercase"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-base font-mono tracking-wider placeholder:text-slate-500 placeholder:tracking-normal focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all uppercase"
               />
             </div>
           ) : (
@@ -474,7 +474,7 @@ function VehicleFormModal({ vehicle, onSave, onClose, initialType = 'car', focus
             <div>
               <label className="block text-xs text-slate-400 mb-1 font-medium">
                 {usesPin ? 'Product ID Number (PIN)' : 'VIN Decoder'}
-                <span className="text-slate-600 font-normal">
+                <span className="text-slate-500 font-normal">
                   {usesPin ? ' (equipment identifier, no NHTSA lookup)' : ' (free NHTSA lookup)'}
                 </span>
               </label>
@@ -485,13 +485,13 @@ function VehicleFormModal({ vehicle, onSave, onClose, initialType = 'car', focus
                   onChange={e => handleVinChange(e.target.value)}
                   placeholder={usesPin ? 'e.g. 1RW0048EXSJ072345' : 'e.g. 1HGCM82633A004352'}
                   maxLength={17}
-                  className="flex-1 px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm font-mono tracking-wider placeholder:text-slate-600 placeholder:tracking-normal focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all uppercase"
+                  className="flex-1 px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-base font-mono tracking-wider placeholder:text-slate-500 placeholder:tracking-normal focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all uppercase"
                 />
                 <button
                   type="button"
                   onClick={handleDecodeVin}
                   disabled={vinState.status === 'loading' || form.vin.length < (usesPin ? 11 : 17)}
-                  className="shrink-0 flex items-center gap-1.5 px-3 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 disabled:bg-slate-700 disabled:text-slate-500 text-white text-xs font-medium transition-all"
+                  className="shrink-0 flex items-center gap-1.5 px-3 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 disabled:bg-slate-700 disabled:text-slate-400 text-white text-xs font-medium transition-all"
                 >
                   {vinState.status === 'loading' ? (
                     <Loader2 className="w-3.5 h-3.5 animate-spin" />
@@ -502,7 +502,7 @@ function VehicleFormModal({ vehicle, onSave, onClose, initialType = 'car', focus
                 </button>
               </div>
               {usesPin && (
-                <p className="text-[10px] text-slate-500 mt-1">
+                <p className="text-[11px] text-slate-400 mt-1">
                   Agricultural equipment PINs are typically 11-17 characters. No NHTSA lookup — stored as a reference identifier.
                 </p>
               )}
@@ -519,7 +519,7 @@ function VehicleFormModal({ vehicle, onSave, onClose, initialType = 'car', focus
               value={form.name}
               onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
               placeholder="e.g. Daily Driver"
-              className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
+              className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-base placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
               required
             />
           </div>
@@ -531,7 +531,7 @@ function VehicleFormModal({ vehicle, onSave, onClose, initialType = 'car', focus
                 value={form.make}
                 onChange={e => setForm(f => ({ ...f, make: e.target.value }))}
                 placeholder={form.type === 'motorcycle' ? 'e.g. Yamaha' : form.type === 'ag-equipment' ? 'e.g. John Deere' : form.type === 'forklift' ? 'e.g. Hyster' : form.type === 'watercraft' ? 'e.g. Yamaha' : form.type === 'outboard' ? 'e.g. Mercury' : form.type === 'marine-diesel' ? 'e.g. Cummins' : form.type === 'semi-truck' ? 'e.g. Freightliner' : form.type === 'rv' ? 'e.g. Winnebago' : 'e.g. Toyota'}
-                className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-base placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
                 required
               />
             </div>
@@ -542,7 +542,7 @@ function VehicleFormModal({ vehicle, onSave, onClose, initialType = 'car', focus
                 value={form.model}
                 onChange={e => setForm(f => ({ ...f, model: e.target.value }))}
                 placeholder={form.type === 'motorcycle' ? 'e.g. R1' : form.type === 'ag-equipment' ? 'e.g. 6R' : form.type === 'forklift' ? 'e.g. H50' : form.type === 'watercraft' ? 'e.g. FX Cruiser' : form.type === 'outboard' ? 'e.g. F150' : form.type === 'marine-diesel' ? 'e.g. QSB 6.7' : form.type === 'semi-truck' ? 'e.g. Cascadia' : form.type === 'rv' ? 'e.g. Vista' : 'e.g. Camry'}
-                className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-base placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
                 required
               />
             </div>
@@ -557,7 +557,7 @@ function VehicleFormModal({ vehicle, onSave, onClose, initialType = 'car', focus
                 value={form.trim}
                 onChange={e => setForm(f => ({ ...f, trim: e.target.value }))}
                 placeholder="e.g. SE, LE, Z71, Lariat"
-                className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-base placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
               />
             </div>
             <div>
@@ -567,7 +567,7 @@ function VehicleFormModal({ vehicle, onSave, onClose, initialType = 'car', focus
                 value={form.engineSize}
                 onChange={e => setForm(f => ({ ...f, engineSize: e.target.value }))}
                 placeholder="e.g. 2.0L Turbo, 5.3L V8"
-                className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-base placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
               />
             </div>
           </div>
@@ -604,7 +604,7 @@ function VehicleFormModal({ vehicle, onSave, onClose, initialType = 'car', focus
                 value={form.transmission}
                 onChange={e => setForm(f => ({ ...f, transmission: e.target.value }))}
                 placeholder="e.g. Automatic, CVT, 8-Speed Automatic, Manual"
-                className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-base placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
               />
             </div>
             <div>
@@ -614,7 +614,7 @@ function VehicleFormModal({ vehicle, onSave, onClose, initialType = 'car', focus
                 value={form.fuelType}
                 onChange={e => setForm(f => ({ ...f, fuelType: e.target.value }))}
                 placeholder="e.g. Gasoline, Diesel, Electric, Hybrid"
-                className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-base placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
               />
             </div>
           </div>
@@ -627,7 +627,7 @@ function VehicleFormModal({ vehicle, onSave, onClose, initialType = 'car', focus
               value={form.bodyClass}
               onChange={e => setForm(f => ({ ...f, bodyClass: e.target.value }))}
               placeholder="e.g. Sedan, SUV, Coupe, Pickup"
-              className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
+              className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-base placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
             />
           </div>
 
@@ -639,13 +639,13 @@ function VehicleFormModal({ vehicle, onSave, onClose, initialType = 'car', focus
               value={form.batteryGroupSize}
               onChange={e => setForm(f => ({ ...f, batteryGroupSize: e.target.value }))}
               placeholder="e.g. Group 35, Group 48, Group 51R"
-              className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
+              className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-base placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
             />
             {form.make && form.model && (() => {
               const specs = getSpecsForVehicle(form.make, form.model);
               if (specs?.battery?.groupSize && form.batteryGroupSize !== specs.battery.groupSize) {
                 return (
-                  <p className="text-[10px] text-slate-500 mt-1">
+                  <p className="text-[11px] text-slate-400 mt-1">
                     Suggested: {specs.battery.groupSize} (from manufacturer specs)
                   </p>
                 );
@@ -661,7 +661,7 @@ function VehicleFormModal({ vehicle, onSave, onClose, initialType = 'car', focus
                 type="number"
                 value={form.year}
                 onChange={e => setForm(f => ({ ...f, year: parseInt(e.target.value) || '' }))}
-                className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-base placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
               />
             </div>
             <div>
@@ -671,7 +671,7 @@ function VehicleFormModal({ vehicle, onSave, onClose, initialType = 'car', focus
                 value={form.mileage}
                 onChange={e => setForm(f => ({ ...f, mileage: e.target.value === '' ? '' : Math.max(0, parseInt(e.target.value) || 0) }))}
                 autoFocus={focusMileage}
-                className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-base placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
               />
             </div>
           </div>
@@ -683,7 +683,7 @@ function VehicleFormModal({ vehicle, onSave, onClose, initialType = 'car', focus
                 value={form.purchaseDate}
                 onChange={e => setForm(f => ({ ...f, purchaseDate: e.target.value }))}
                 max={(() => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`; })()}
-                className="w-full max-w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all min-w-0"
+                className="w-full max-w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-base placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all min-w-0"
               />
             </div>
             <div>
@@ -692,7 +692,7 @@ function VehicleFormModal({ vehicle, onSave, onClose, initialType = 'car', focus
                 type="number"
                 value={form.purchaseMileage}
                 onChange={e => setForm(f => ({ ...f, purchaseMileage: e.target.value === '' ? '' : Math.max(0, parseInt(e.target.value) || 0) }))}
-                className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-base placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
               />
             </div>
           </div>
@@ -704,14 +704,14 @@ function VehicleFormModal({ vehicle, onSave, onClose, initialType = 'car', focus
                 value={form.licensePlate}
                 onChange={e => setForm(f => ({ ...f, licensePlate: e.target.value }))}
                 placeholder="e.g. ABC-1234"
-                className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-base placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
               />
             </div>
           ) : (
             <div>
               <label className="block text-xs text-slate-400 mb-1.5 font-medium">License Plate</label>
-              <div className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800/50 border border-slate-700/50 text-slate-500 text-sm italic flex items-center gap-2">
-                <span className="text-slate-600 text-[10px] font-medium uppercase tracking-wider">N/A</span>
+              <div className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800/50 border border-slate-700/50 text-slate-400 text-sm italic flex items-center gap-2">
+                <span className="text-slate-500 text-[11px] font-medium uppercase tracking-wider">N/A</span>
                 <span className="text-xs">No plate required for this vehicle type</span>
               </div>
             </div>
@@ -728,7 +728,7 @@ function VehicleFormModal({ vehicle, onSave, onClose, initialType = 'car', focus
                     onChange={e => setForm(f => ({ ...f, isLeased: e.target.checked }))}
                     className="w-4 h-4 rounded border-slate-600 text-blue-600 focus:ring-blue-500/30 bg-slate-800"
                   />
-                  <span className="text-sm text-white font-medium">This vehicle is leased</span>
+                  <span className="text-base text-white font-medium">This vehicle is leased</span>
                 </label>
               </div>
 
@@ -740,7 +740,7 @@ function VehicleFormModal({ vehicle, onSave, onClose, initialType = 'car', focus
                   type="date"
                   value={form.leaseEndDate}
                   onChange={e => setForm(f => ({ ...f, leaseEndDate: e.target.value }))}
-                  className="w-full max-w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm focus:outline-none focus:ring-2 focus:ring-amber-500/50 min-w-0"
+                  className="w-full max-w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-base focus:outline-none focus:ring-2 focus:ring-amber-500/50 min-w-0"
                 />
               </div>
               <div>
@@ -750,10 +750,10 @@ function VehicleFormModal({ vehicle, onSave, onClose, initialType = 'car', focus
                   value={form.leaseMileageLimit}
                   onChange={e => setForm(f => ({ ...f, leaseMileageLimit: e.target.value === '' ? '' : (isNaN(parseInt(e.target.value)) ? '' : parseInt(e.target.value)) }))}
                   placeholder="e.g. 36000"
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500/50 min-w-0"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-base placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500/50 min-w-0"
                 />
               </div>
-              <p className="col-span-1 text-[10px] text-amber-400/70">
+              <p className="col-span-1 text-[11px] text-amber-400/70">
                 MTXtrkr will track your mileage pace and alert you if you're approaching your lease limit.
               </p>
             </div>

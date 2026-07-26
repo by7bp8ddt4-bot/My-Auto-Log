@@ -105,7 +105,7 @@ export default function Modifications({ mods = [], vehicles, onAdd, onDelete, on
         <button
           onClick={() => { if (vehicles.length === 0) return; setShowForm(true); }}
           disabled={vehicles.length === 0}
-          className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 disabled:bg-slate-800 disabled:text-slate-600 text-white text-sm font-medium transition-all"
+          className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 disabled:bg-slate-800 disabled:text-slate-500 text-white text-sm font-medium transition-all"
         >
           <Plus className="w-4 h-4" />
           Add Part
@@ -114,7 +114,7 @@ export default function Modifications({ mods = [], vehicles, onAdd, onDelete, on
 
       {vehicles.length === 0 && (
         <div className="text-center py-12 bg-slate-900/30 rounded-2xl border border-slate-800">
-          <ShoppingBag className="w-10 h-10 text-slate-600 mx-auto mb-3" />
+          <ShoppingBag className="w-10 h-10 text-slate-500 mx-auto mb-3" />
           <p className="text-sm text-slate-400 mb-1">Add a vehicle first</p>
         </div>
       )}
@@ -123,7 +123,7 @@ export default function Modifications({ mods = [], vehicles, onAdd, onDelete, on
         <>
           {/* Stats summary */}
           <div className="flex flex-wrap items-center gap-3 mb-6">
-            <p className="text-xs text-slate-500 ml-auto">
+            <p className="text-xs text-slate-400 ml-auto">
               Total: <span className="text-emerald-400 font-medium">{formatCurrency(totalSpent)}</span> &middot;{' '}
               <span className="text-cyan-400 font-medium">{filteredMods.length}</span> parts
             </p>
@@ -132,7 +132,7 @@ export default function Modifications({ mods = [], vehicles, onAdd, onDelete, on
           {/* No mods state */}
           {filteredMods.length === 0 ? (
             <div className="text-center py-12 bg-slate-900/30 rounded-2xl border border-slate-800">
-              <ShoppingBag className="w-10 h-10 text-slate-600 mx-auto mb-3" />
+              <ShoppingBag className="w-10 h-10 text-slate-500 mx-auto mb-3" />
               <p className="text-sm text-slate-400 mb-1">No parts logged yet</p>
               <button onClick={() => setShowForm(true)}
                 className="mt-3 inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-medium">
@@ -166,18 +166,18 @@ export default function Modifications({ mods = [], vehicles, onAdd, onDelete, on
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-0.5">
                           <h3 className="text-sm font-bold text-white truncate">{folder.label}</h3>
-                          <span className="text-[10px] px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 font-bold tracking-tight">
+                          <span className="text-[11px] px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 font-bold tracking-tight">
                             {folderMods.length} {folderMods.length === 1 ? 'PART' : 'PARTS'}
                           </span>
                         </div>
-                        <p className="text-[10px] text-slate-500 flex items-center gap-1">
+                        <p className="text-[11px] text-slate-400 flex items-center gap-1">
                           <DollarSign className="w-3 h-3" />
                           {formatCurrency(totalCost)} total
                         </p>
                       </div>
                       <div className="text-right shrink-0">
                         <div className={`transition-transform ${isActive ? 'rotate-0' : '-rotate-90'}`}>
-                          <ChevronDown className="w-4 h-4 text-slate-500" />
+                          <ChevronDown className="w-4 h-4 text-slate-400" />
                         </div>
                       </div>
                     </button>
@@ -198,7 +198,7 @@ export default function Modifications({ mods = [], vehicles, onAdd, onDelete, on
                                       <div className="flex items-center gap-2 mb-1.5 flex-wrap">
                                         <span className="text-xs font-semibold text-slate-200">{vName}</span>
                                         {subCat && (
-                                          <span className={`text-[9px] px-1.5 py-0.5 rounded-md ${config.bg} ${config.accent} font-medium`}>
+                                          <span className={`text-[11px] px-1.5 py-0.5 rounded-md ${config.bg} ${config.accent} font-medium`}>
                                             {subCat}
                                           </span>
                                         )}
@@ -206,19 +206,19 @@ export default function Modifications({ mods = [], vehicles, onAdd, onDelete, on
                                       <p className="text-sm font-medium text-white mb-1">
                                         {mod.partName || mod.name}
                                       </p>
-                                      <div className="flex flex-wrap items-center gap-3 text-[10px] text-slate-500">
+                                      <div className="flex flex-wrap items-center gap-3 text-[11px] text-slate-400">
                                         <span className="flex items-center gap-1"><Calendar className="w-3 h-3" />{formatDate(mod.date || mod.dateInstalled)}</span>
                                         <span className="flex items-center gap-1"><Gauge className="w-3 h-3" />{formatNumber(mod.mileage || mod.mileageAtInstall || 0)} mi</span>
                                         {mod.brand && <span className="flex items-center gap-1"><Tag className="w-3 h-3" />{mod.brand}</span>}
                                         {mod.cost > 0 && <span className="flex items-center gap-1 text-emerald-400 font-medium"><DollarSign className="w-3 h-3" />{formatCurrency(mod.cost)}</span>}
                                       </div>
                                       {mod.notes && (
-                                        <p className="text-[10px] text-slate-600 mt-1.5 italic leading-relaxed">{mod.notes}</p>
+                                        <p className="text-[11px] text-slate-500 mt-1.5 italic leading-relaxed">{mod.notes}</p>
                                       )}
                                     </div>
                                     <button
                                       onClick={() => { if (window.confirm('Delete this modification? This cannot be undone.')) onDelete(mod.id); }}
-                                      className="p-1.5 rounded-lg hover:bg-red-500/20 text-slate-500 hover:text-red-400 transition-all shrink-0 opacity-0 group-hover:opacity-100"
+                                      className="p-1.5 rounded-lg hover:bg-red-500/20 text-slate-400 hover:text-red-400 transition-all shrink-0 opacity-0 group-hover:opacity-100"
                                     >
                                       <X className="w-3.5 h-3.5" />
                                     </button>
@@ -229,10 +229,10 @@ export default function Modifications({ mods = [], vehicles, onAdd, onDelete, on
                         ) : (
                           <div className="text-center py-8">
                             <ShoppingBag className="w-8 h-8 text-slate-700 mx-auto mb-2" />
-                            <p className="text-xs text-slate-500">No parts logged in {folder.label} yet</p>
+                            <p className="text-xs text-slate-400">No parts logged in {folder.label} yet</p>
                             <button
                               onClick={() => setShowForm(true)}
-                              className="mt-2 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-[10px] font-medium transition-all"
+                              className="mt-2 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-[11px] font-medium transition-all"
                             >
                               <Plus className="w-3 h-3" /> Log a modification
                             </button>
@@ -309,7 +309,7 @@ function ModFormModal({ vehicles, initialVehicleId, onSave, onClose }) {
       <div className="relative w-full sm:max-w-md bg-slate-900 border border-slate-800 rounded-t-2xl sm:rounded-2xl p-6 shadow-2xl max-h-[90vh] overflow-y-auto">
         <div className="flex items-center justify-between mb-6">
           <h3 className="text-lg font-bold text-white">Add Modification</h3>
-          <button onClick={onClose} className="p-1.5 rounded-lg hover:bg-slate-800 text-slate-400"><X className="w-5 h-5" /></button>
+          <button onClick={onClose} className="p-2.5 rounded-lg hover:bg-slate-800 text-slate-400 min-h-[44px] min-w-[44px]"><X className="w-5 h-5" /></button>
         </div>
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Vehicle */}
@@ -334,7 +334,7 @@ function ModFormModal({ vehicles, initialVehicleId, onSave, onClose }) {
               value={form.partName}
               onChange={e => setForm(f => ({ ...f, partName: e.target.value }))}
               placeholder="e.g. Cold Air Intake, Cat-Back Exhaust"
-              className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+              className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-base placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50"
               required
             />
           </div>
@@ -357,7 +357,7 @@ function ModFormModal({ vehicles, initialVehicleId, onSave, onClose }) {
                         : 'bg-slate-800 border-slate-700 text-slate-400 hover:border-slate-600'
                     }`}
                   >
-                    <Icon className={`w-5 h-5 ${isSelected ? 'text-white' : 'text-slate-500'}`} />
+                    <Icon className={`w-5 h-5 ${isSelected ? 'text-white' : 'text-slate-400'}`} />
                     <span className="leading-tight text-center">{f.label}</span>
                   </button>
                 );
@@ -416,7 +416,7 @@ function ModFormModal({ vehicles, initialVehicleId, onSave, onClose }) {
                 value={form.customSubCategory}
                 onChange={e => setForm(f => ({ ...f, customSubCategory: e.target.value }))}
                 placeholder="e.g. Wrap, Paint, Ceramic Coating..."
-                className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-base placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50"
               />
             )}
           </div>
@@ -429,7 +429,7 @@ function ModFormModal({ vehicles, initialVehicleId, onSave, onClose }) {
               value={form.brand}
               onChange={e => setForm(f => ({ ...f, brand: e.target.value }))}
               placeholder="e.g. K&N, Borla"
-              className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+              className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-base placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50"
             />
           </div>
 
@@ -441,7 +441,7 @@ function ModFormModal({ vehicles, initialVehicleId, onSave, onClose }) {
                 type="date"
                 value={form.date}
                 onChange={e => setForm(f => ({ ...f, date: e.target.value }))}
-                className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-base focus:outline-none focus:ring-2 focus:ring-blue-500/50"
               />
             </div>
             <div>
@@ -451,7 +451,7 @@ function ModFormModal({ vehicles, initialVehicleId, onSave, onClose }) {
                 value={form.mileage}
                 onChange={e => setForm(f => ({ ...f, mileage: e.target.value }))}
                 placeholder="e.g. 45200"
-                className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-base placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50"
               />
             </div>
           </div>
@@ -465,7 +465,7 @@ function ModFormModal({ vehicles, initialVehicleId, onSave, onClose }) {
               value={form.cost}
               onChange={e => setForm(f => ({ ...f, cost: e.target.value }))}
               placeholder="0.00"
-              className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+              className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-base placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50"
             />
           </div>
 

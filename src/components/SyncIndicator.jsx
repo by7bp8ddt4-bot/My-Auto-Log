@@ -23,7 +23,7 @@ export default function SyncIndicator({ isOnline, syncing, lastSync, pendingChan
       {/* Main Status Badge */}
       <div
         className={`
-          flex items-center gap-2 px-2.5 py-1 rounded-lg text-[10px] font-medium shadow-lg backdrop-blur-sm transition-all duration-300 cursor-pointer
+          flex items-center gap-2 px-2.5 py-2.5 rounded-lg text-[11px] font-medium shadow-lg backdrop-blur-sm transition-all duration-300 cursor-pointer
           ${syncing ? 'bg-blue-500/20 text-blue-300 border border-blue-500/30' :
             actuallyOnline ? 'bg-emerald-500/15 text-emerald-300 border border-emerald-500/30' :
             'bg-amber-500/20 text-amber-300 border border-amber-500/30'}
@@ -55,7 +55,7 @@ export default function SyncIndicator({ isOnline, syncing, lastSync, pendingChan
       {/* Details Panel */}
       {showDetails && (
         <div className="w-64 p-3 rounded-xl bg-slate-900/95 border border-slate-700/50 shadow-xl backdrop-blur-md">
-          <p className="text-[10px] text-slate-500 uppercase tracking-wider mb-2 font-medium">Sync Status</p>
+          <p className="text-[11px] text-slate-400 uppercase tracking-wider mb-2 font-medium">Sync Status</p>
           <div className="space-y-2 text-xs">
             <div className="flex items-center justify-between">
               <span className="text-slate-400">Status</span>
@@ -92,7 +92,7 @@ export default function SyncIndicator({ isOnline, syncing, lastSync, pendingChan
                   )}
                 </button>
               </div>
-              <p className="text-[10px] text-slate-600 mt-1">
+              <p className="text-[11px] text-slate-500 mt-1">
                 {forceOffline
                   ? 'Offline mode active. Changes are cached locally.'
                   : 'Toggle to test offline capabilities.'}

@@ -60,7 +60,7 @@ export default function GettingStarted({ onNavigate, hasVehicles, hasLogs, hasRe
         </div>
         <button
           onClick={handleDismiss}
-          className="p-2 rounded-lg text-slate-500 hover:text-slate-300 hover:bg-slate-800/50 transition-colors shrink-0"
+          className="p-2 rounded-lg text-slate-400 hover:text-slate-300 hover:bg-slate-800/50 transition-colors shrink-0"
           aria-label="Skip onboarding"
         >
           <X className="w-5 h-5" />
@@ -111,7 +111,7 @@ export default function GettingStarted({ onNavigate, hasVehicles, hasLogs, hasRe
                     <h3 className={`font-semibold ${step.completed ? 'text-emerald-400' : 'text-white'}`}>
                       {step.title}
                     </h3>
-                    <step.icon className={`w-4 h-4 ${step.completed ? 'text-emerald-500' : 'text-slate-500 group-hover:text-blue-400'} transition-colors`} />
+                    <step.icon className={`w-4 h-4 ${step.completed ? 'text-emerald-500' : 'text-slate-400 group-hover:text-blue-400'} transition-colors`} />
                   </div>
                   <p className="text-sm text-slate-400 leading-relaxed">{step.desc}</p>
                 </div>
@@ -122,7 +122,7 @@ export default function GettingStarted({ onNavigate, hasVehicles, hasLogs, hasRe
           {/* Security footer */}
           <div className="p-4 rounded-xl bg-blue-500/5 border border-blue-500/10 flex items-center gap-3">
             <ShieldCheck className="w-5 h-5 text-blue-400 shrink-0" />
-            <p className="text-xs text-slate-500">
+            <p className="text-xs text-slate-400">
               Your data is securely synced to the cloud and available across all your devices.
             </p>
           </div>

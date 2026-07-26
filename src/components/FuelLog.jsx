@@ -49,7 +49,7 @@ export default function FuelLog({ logs, vehicles, onAdd, onUpdate, onDelete, sel
         <button
           onClick={() => { if (vehicles.length === 0) return; setShowForm(true); }}
           disabled={vehicles.length === 0}
-          className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 disabled:bg-slate-800 disabled:text-slate-600 text-white text-sm font-medium transition-all"
+          className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 disabled:bg-slate-800 disabled:text-slate-500 text-white text-sm font-medium transition-all"
         >
           <Plus className="w-4 h-4" />
           Log Fill-Up
@@ -58,7 +58,7 @@ export default function FuelLog({ logs, vehicles, onAdd, onUpdate, onDelete, sel
 
       {vehicles.length === 0 && (
         <div className="text-center py-12 bg-slate-900/30 rounded-2xl border border-slate-800">
-          <Fuel className="w-10 h-10 text-slate-600 mx-auto mb-3" />
+          <Fuel className="w-10 h-10 text-slate-500 mx-auto mb-3" />
           <p className="text-sm text-slate-400 mb-1">Add a vehicle first</p>
         </div>
       )}
@@ -67,7 +67,7 @@ export default function FuelLog({ logs, vehicles, onAdd, onUpdate, onDelete, sel
         <>
           {/* Stats summary */}
           <div className="flex flex-wrap items-center gap-3 mb-6">
-            <div className="flex items-center gap-3 text-xs text-slate-500">
+            <div className="flex items-center gap-3 text-xs text-slate-400">
               <span><span className="text-emerald-400 font-medium">{formatCurrency(totalSpent)}</span> total</span>
               <span><span className="text-cyan-400 font-medium">{formatNumber(totalGallons)}</span> gal</span>
             </div>
@@ -95,14 +95,14 @@ export default function FuelLog({ logs, vehicles, onAdd, onUpdate, onDelete, sel
                           className={`w-full rounded-sm transition-all ${isBest ? 'bg-emerald-400' : 'bg-emerald-500/40'}`}
                           style={{ height: `${Math.max(4, pct)}%` }}
                         />
-                        <div className="absolute -top-6 left-1/2 -translate-x-1/2 bg-slate-800 text-[8px] text-white px-1.5 py-0.5 rounded opacity-0 group-hover:opacity-100 whitespace-nowrap z-10">
+                        <div className="absolute -top-6 left-1/2 -translate-x-1/2 bg-slate-800 text-[11px] text-white px-1.5 py-0.5 rounded opacity-0 group-hover:opacity-100 whitespace-nowrap z-10">
                           {e.mpg} MPG
                         </div>
                       </div>
                     );
                   })}
                 </div>
-                <div className="flex items-center justify-between text-[10px] text-slate-500 mt-1">
+                <div className="flex items-center justify-between text-[11px] text-slate-400 mt-1">
                   <span>Last: {lastMpg.toFixed(1)} MPG</span>
                   <span>{entries.length} records</span>
                 </div>
@@ -113,7 +113,7 @@ export default function FuelLog({ logs, vehicles, onAdd, onUpdate, onDelete, sel
           {/* Fill-up List */}
           {filteredLogs.length === 0 ? (
             <div className="text-center py-12 bg-slate-900/30 rounded-2xl border border-slate-800">
-              <Fuel className="w-10 h-10 text-slate-600 mx-auto mb-3" />
+              <Fuel className="w-10 h-10 text-slate-500 mx-auto mb-3" />
               <p className="text-sm text-slate-400 mb-1">No fill-ups logged yet</p>
               <button onClick={() => setShowForm(true)}
                 className="mt-3 inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-medium">
@@ -128,19 +128,19 @@ export default function FuelLog({ logs, vehicles, onAdd, onUpdate, onDelete, sel
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-1">
                         <span className="text-sm font-medium text-white">{getVehicleName(log.vehicleId)}</span>
-                        <span className="text-[10px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-400">{log.octane}</span>
-                        {!log.is_full_tank && <span className="text-[10px] text-amber-400">Partial</span>}
+                        <span className="text-[11px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-400">{log.octane}</span>
+                        {!log.is_full_tank && <span className="text-[11px] text-amber-400">Partial</span>}
                       </div>
-                      <div className="flex flex-wrap items-center gap-3 text-xs text-slate-500">
+                      <div className="flex flex-wrap items-center gap-3 text-xs text-slate-400">
                         <span className="flex items-center gap-1"><Calendar className="w-3 h-3" />{formatDate(log.date)}</span>
                         <span className="flex items-center gap-1"><Gauge className="w-3 h-3" />{formatNumber(log.mileage)} mi</span>
                         <span className="flex items-center gap-1 text-cyan-400"><Fuel className="w-3 h-3" />{parseFloat(log.gallons).toFixed(2)} gal</span>
                         <span className="flex items-center gap-1 text-emerald-400"><DollarSign className="w-3 h-3" />{formatCurrency(log.cost)}</span>
                       </div>
-                      {log.notes && <p className="text-[10px] text-slate-600 mt-1">{log.notes}</p>}
+                      {log.notes && <p className="text-[11px] text-slate-500 mt-1">{log.notes}</p>}
                     </div>
                     <button onClick={() => { if (window.confirm('Delete this fuel log entry? This cannot be undone.')) onDelete(log.id); }}
-                      className="p-1.5 rounded-lg hover:bg-red-500/10 text-slate-600 hover:text-red-400 transition-all shrink-0">
+                      className="p-1.5 rounded-lg hover:bg-red-500/10 text-slate-500 hover:text-red-400 transition-all shrink-0">
                       <X className="w-3 h-3" />
                     </button>
                   </div>
@@ -187,7 +187,7 @@ function FuelFormModal({ vehicles, selectedVehicleId, onSave, onClose }) {
       <div className="relative w-full sm:max-w-md bg-slate-900 border border-slate-800 rounded-t-2xl sm:rounded-2xl p-6 shadow-2xl">
         <div className="flex items-center justify-between mb-6">
           <h3 className="text-lg font-bold text-white">Log Fill-Up</h3>
-          <button onClick={onClose} className="p-1.5 rounded-lg hover:bg-slate-800 text-slate-400"><X className="w-5 h-5" /></button>
+          <button onClick={onClose} className="p-2.5 rounded-lg hover:bg-slate-800 text-slate-400 min-h-[44px] min-w-[44px]"><X className="w-5 h-5" /></button>
         </div>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
@@ -202,13 +202,13 @@ function FuelFormModal({ vehicles, selectedVehicleId, onSave, onClose }) {
             <div>
               <label className="block text-xs text-slate-400 mb-1.5 font-medium">Date</label>
               <input type="date" value={form.date} onChange={e => setForm(f => ({ ...f, date: e.target.value }))}
-                className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm" />
+                className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-base" />
             </div>
             <div>
               <label className="block text-xs text-slate-400 mb-1.5 font-medium">Mileage *</label>
               <input type="number" value={form.mileage} onChange={e => setForm(f => ({ ...f, mileage: e.target.value }))}
                 placeholder="e.g. 45200"
-                className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm" required />
+                className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-base" required />
             </div>
           </div>
           <div className="grid grid-cols-2 gap-3">
@@ -216,13 +216,13 @@ function FuelFormModal({ vehicles, selectedVehicleId, onSave, onClose }) {
               <label className="block text-xs text-slate-400 mb-1.5 font-medium">Gallons *</label>
               <input type="number" step="0.01" value={form.gallons} onChange={e => setForm(f => ({ ...f, gallons: e.target.value }))}
                 placeholder="e.g. 12.5"
-                className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm" required />
+                className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-base" required />
             </div>
             <div>
               <label className="block text-xs text-slate-400 mb-1.5 font-medium">Cost ($)</label>
               <input type="number" step="0.01" value={form.cost} onChange={e => setForm(f => ({ ...f, cost: e.target.value }))}
                 placeholder="0.00"
-                className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm" />
+                className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-base" />
             </div>
           </div>
           <div className="grid grid-cols-2 gap-3">
@@ -245,7 +245,7 @@ function FuelFormModal({ vehicles, selectedVehicleId, onSave, onClose }) {
             <label className="block text-xs text-slate-400 mb-1.5 font-medium">Notes</label>
             <input type="text" value={form.notes} onChange={e => setForm(f => ({ ...f, notes: e.target.value }))}
               placeholder="e.g. Shell, 87 octane"
-              className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm" />
+              className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-base" />
           </div>
           <div className="flex gap-3 pt-2">
             <button type="button" onClick={onClose}
