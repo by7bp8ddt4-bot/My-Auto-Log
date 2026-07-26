@@ -34,7 +34,7 @@ function JargonDecoder() {
         </div>
         <div>
           <h3 className="text-sm font-semibold text-white">Mechanic Jargon Decoder</h3>
-          <p className="text-xs text-slate-500">Translate mechanic-speak into plain English</p>
+          <p className="text-xs text-slate-400">Translate mechanic-speak into plain English</p>
         </div>
       </div>
 
@@ -45,7 +45,7 @@ function JargonDecoder() {
           onChange={(e) => { setJargonInput(e.target.value); setJargonResult(null); }}
           onKeyDown={(e) => e.key === 'Enter' && handleJargonLookup()}
           placeholder={`e.g. "CVT", "timing belt", "PTU"...`}
-          className="flex-1 px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all"
+          className="flex-1 px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-white text-base placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all"
         />
         <button
           onClick={handleJargonLookup}
@@ -62,18 +62,18 @@ function JargonDecoder() {
         <div className="mt-4 p-4 rounded-xl bg-slate-900 border border-slate-700/50 space-y-3">
           {Array.isArray(jargonResult) ? (
             jargonResult.length === 0 ? (
-              <p className="text-xs text-slate-500">No matching terms found.</p>
+              <p className="text-xs text-slate-400">No matching terms found.</p>
             ) : (
               <div className="space-y-3 max-h-60 overflow-y-auto">
                 {jargonResult.slice(0, 5).map((t, i) => (
                   <div key={i} className="pb-3 border-b border-slate-800 last:border-0 last:pb-0">
                     <div className="flex items-center gap-2 mb-1">
                       <span className="text-xs font-semibold text-emerald-400">{t.term}</span>
-                      {t.standsFor && <span className="text-[10px] text-slate-500">({t.standsFor})</span>}
+                      {t.standsFor && <span className="text-[11px] text-slate-400">({t.standsFor})</span>}
                     </div>
                     <p className="text-xs text-slate-300 leading-relaxed">{t.plainEnglish}</p>
                     {t.commonFailures && (
-                      <p className="text-[10px] text-slate-500 mt-1">⚠ Common issues: {t.commonFailures}</p>
+                      <p className="text-[11px] text-slate-400 mt-1">⚠ Common issues: {t.commonFailures}</p>
                     )}
                   </div>
                 ))}
@@ -83,11 +83,11 @@ function JargonDecoder() {
             <div>
               <div className="flex items-center gap-2 mb-1">
                 <span className="text-xs font-semibold text-emerald-400">{jargonResult.term}</span>
-                {jargonResult.standsFor && <span className="text-[10px] text-slate-500">({jargonResult.standsFor})</span>}
+                {jargonResult.standsFor && <span className="text-[11px] text-slate-400">({jargonResult.standsFor})</span>}
               </div>
               <p className="text-xs text-slate-300 leading-relaxed">{jargonResult.plainEnglish}</p>
               {jargonResult.commonFailures && (
-                <p className="text-[10px] text-slate-500 mt-1">⚠ Common issues: {jargonResult.commonFailures}</p>
+                <p className="text-[11px] text-slate-400 mt-1">⚠ Common issues: {jargonResult.commonFailures}</p>
               )}
             </div>
           )}
@@ -100,7 +100,7 @@ function JargonDecoder() {
           <button
             key={term}
             onClick={() => { setJargonInput(term); setJargonResult(null); }}
-            className="px-2 py-1 text-[10px] rounded-lg bg-slate-800 border border-slate-700 text-slate-400 hover:text-white hover:border-emerald-500/40 transition-all"
+            className="px-2 py-1 text-[11px] rounded-lg bg-slate-800 border border-slate-700 text-slate-400 hover:text-white hover:border-emerald-500/40 transition-all"
           >
             {term}
           </button>
@@ -306,7 +306,7 @@ export default function AICopilot({ vehicles, logs, onAddLog, onNavigate, isPrem
           </div>
           <div>
             <h3 className="text-sm font-semibold text-white">AI Maintenance Co-Pilot</h3>
-            <p className="text-xs text-slate-500">Add a vehicle to activate</p>
+            <p className="text-xs text-slate-400">Add a vehicle to activate</p>
           </div>
         </div>
       </div>
@@ -324,9 +324,9 @@ export default function AICopilot({ vehicles, logs, onAddLog, onNavigate, isPrem
           <div>
             <div className="flex items-center gap-2">
               <h3 className="text-sm font-semibold text-white">AI Maintenance Co-Pilot</h3>
-              <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-purple-500/20 text-purple-300">SMART</span>
+              <span className="text-[11px] px-1.5 py-0.5 rounded-full bg-purple-500/20 text-purple-300">SMART</span>
             </div>
-            <p className="text-xs text-slate-500">
+            <p className="text-xs text-slate-400">
               Vehicle-aware AI for your {activeVehicle.year} {activeVehicle.make} {activeVehicle.model}
               {electric && <span className="text-emerald-400 ml-1">⚡ EV</span>}
             </p>
@@ -336,7 +336,7 @@ export default function AICopilot({ vehicles, logs, onAddLog, onNavigate, isPrem
         {/* Vehicle Specs Quick Reference */}
         {specs && (
           <div className="mb-4 p-3 rounded-xl bg-slate-900 border border-slate-700/50">
-            <p className="text-[10px] text-slate-500 uppercase tracking-wider mb-2 font-medium">Your Vehicle Specs</p>
+            <p className="text-[11px] text-slate-400 uppercase tracking-wider mb-2 font-medium">Your Vehicle Specs</p>
             <div className="grid grid-cols-2 gap-2 text-xs">
               {!electric && (
                 <div className="flex items-center gap-1.5">
@@ -408,8 +408,8 @@ export default function AICopilot({ vehicles, logs, onAddLog, onNavigate, isPrem
             <div className="p-4 rounded-xl bg-slate-900 border border-slate-700/50 space-y-3">
               <div>
                 <div className="flex items-center gap-2 mb-1">
-                  <span className="text-[10px] font-medium text-slate-500 uppercase tracking-wider">Diagnosed Issue</span>
-                  <span className={`text-[10px] px-2 py-0.5 rounded-full font-medium ${
+                  <span className="text-[11px] font-medium text-slate-400 uppercase tracking-wider">Diagnosed Issue</span>
+                  <span className={`text-[11px] px-2 py-0.5 rounded-full font-medium ${
                     translation.severity === 'High' ? 'bg-red-500/20 text-red-300' :
                     translation.severity === 'Medium' ? 'bg-amber-500/20 text-amber-300' :
                     translation.severity === 'Info' ? 'bg-blue-500/20 text-blue-300' :
@@ -420,25 +420,25 @@ export default function AICopilot({ vehicles, logs, onAddLog, onNavigate, isPrem
                 <p className="text-sm font-medium text-white">{translation.diagnosis}</p>
               </div>
               <div>
-                <span className="text-[10px] font-medium text-slate-500 uppercase tracking-wider mb-1 block">Recommended Action</span>
+                <span className="text-[11px] font-medium text-slate-400 uppercase tracking-wider mb-1 block">Recommended Action</span>
                 <p className="text-xs text-slate-300 leading-relaxed">{translation.action}</p>
               </div>
               {translation.estimatedCost && (
                 <div className="flex items-center gap-2 text-xs">
-                  <span className="text-slate-500">Estimated cost:</span>
+                  <span className="text-slate-400">Estimated cost:</span>
                   <span className="text-emerald-400 font-medium">{translation.estimatedCost}</span>
                 </div>
               )}
               {translation.allCauses && translation.allCauses.length > 1 && (
                 <div>
-                  <span className="text-[10px] font-medium text-slate-500 uppercase tracking-wider mb-1 block">Other Possible Causes</span>
+                  <span className="text-[11px] font-medium text-slate-400 uppercase tracking-wider mb-1 block">Other Possible Causes</span>
                   <div className="space-y-1">
                     {translation.allCauses.slice(1).map((c, i) => (
                       <div key={i} className="flex items-start gap-1.5 text-xs">
                         <span className={`mt-0.5 w-1.5 h-1.5 rounded-full flex-shrink-0 ${
                           c.severity.includes('🔴') ? 'bg-red-400' : c.severity.includes('⚠️') ? 'bg-amber-400' : 'bg-emerald-400'
                         }`} />
-                        <span className="text-slate-400">{c.cause} — <span className="text-slate-500">{c.estimatedCost}</span></span>
+                        <span className="text-slate-400">{c.cause} — <span className="text-slate-400">{c.estimatedCost}</span></span>
                       </div>
                     ))}
                   </div>
@@ -484,13 +484,13 @@ export default function AICopilot({ vehicles, logs, onAddLog, onNavigate, isPrem
                 <h3 className="text-sm font-semibold text-white truncate">
                   {urgentItem.status === 'overdue' ? 'Urgent Maintenance Required' : 'AI Assistant — Proactive Guidance'}
                 </h3>
-                <span className={`text-[10px] px-1.5 py-0.5 rounded-full font-bold tracking-wider ${
+                <span className={`text-[11px] px-1.5 py-0.5 rounded-full font-bold tracking-wider ${
                   urgentItem.status === 'overdue' ? 'bg-red-500/20 text-red-300' :
                   urgentItem.status === 'due-soon' ? 'bg-amber-500/20 text-amber-300' :
                   'bg-blue-500/20 text-blue-300'
                 }`}>{urgentItem.status.toUpperCase()}</span>
               </div>
-              <p className="text-xs text-slate-500">
+              <p className="text-xs text-slate-400">
                 Personalized for your {activeVehicle.year} {activeVehicle.make} {activeVehicle.model}
               </p>
             </div>
@@ -503,7 +503,7 @@ export default function AICopilot({ vehicles, logs, onAddLog, onNavigate, isPrem
               <div className="flex-1">
                 <h4 className="text-sm font-semibold text-white mb-2">{urgentItem.service}</h4>
                 <p className="text-xs text-slate-300 leading-relaxed mb-1">{urgentItem.description}</p>
-                <p className="text-[10px] text-slate-500 mb-4 font-medium uppercase tracking-tighter">
+                <p className="text-[11px] text-slate-400 mb-4 font-medium uppercase tracking-tighter">
                   {urgentItem.status === 'overdue' ? (
                     <span className="text-red-400">Overdue by {formatNumber(Math.abs(urgentItem.milesUntilDue))} miles</span>
                   ) : (
@@ -520,7 +520,7 @@ export default function AICopilot({ vehicles, logs, onAddLog, onNavigate, isPrem
                   }} className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-medium transition-all">
                     <Calendar className="w-3.5 h-3.5" /> Log this Service
                   </button>
-                  <button onClick={() => onNavigate('schedule')} className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-slate-700 text-slate-300 hover:bg-slate-800 text-xs font-medium transition-all">
+                  <button onClick={() => onNavigate('schedule')} className="inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl border border-slate-700 text-slate-300 hover:bg-slate-800 text-xs font-medium transition-all min-h-[44px]">
                     <Calendar className="w-3.5 h-3.5" /> View Full Schedule
                   </button>
                 </div>

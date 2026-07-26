@@ -40,8 +40,8 @@ export default function Layout({ currentPage, onNavigate, onLogout, children }) 
             <img src={iconImg} alt="MTXtrkr" className="w-8 h-8 rounded-lg" />
             <div>
               <img src={logoImg} alt="MTXtrkr" className="h-5 hidden sm:block" />
-              <span className="text-[9px] text-slate-500 italic hidden sm:block -mt-0.5">Maintenance Tracker</span>
-              <span className="text-[8px] text-slate-600 italic hidden sm:block">— Your Owner's Manual Simplified</span>
+              <span className="text-[11px] text-slate-400 italic hidden sm:block -mt-0.5">Maintenance Tracker</span>
+              <span className="text-[11px] text-slate-500 italic hidden sm:block">— Your Owner's Manual Simplified</span>
             </div>
             <span className="font-bold text-lg tracking-tight sm:hidden">
               <span className="text-white">MTX</span>
@@ -52,13 +52,13 @@ export default function Layout({ currentPage, onNavigate, onLogout, children }) 
           <div className="flex items-center gap-2">
             <button
               onClick={() => onNavigate('settings')}
-              className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+              className="p-2.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors min-h-[44px] min-w-[44px]"
             >
               <Settings className="w-5 h-5" />
             </button>
             <button
               onClick={onLogout}
-              className="p-2 rounded-lg text-slate-400 hover:text-red-400 hover:bg-red-500/10 transition-colors"
+              className="p-2.5 rounded-lg text-slate-400 hover:text-red-400 hover:bg-red-500/10 transition-colors min-h-[44px] min-w-[44px]"
             >
               <LogOut className="w-5 h-5" />
             </button>
@@ -92,7 +92,7 @@ export default function Layout({ currentPage, onNavigate, onLogout, children }) 
             })}
           </nav>
           <div className="pt-3 border-t border-slate-800">
-            <p className="text-[10px] text-slate-600 px-3">MTXtrkr v1.0</p>
+            <p className="text-[11px] text-slate-500 px-3">MTXtrkr v1.0</p>
           </div>
         </aside>
 
@@ -112,11 +112,11 @@ export default function Layout({ currentPage, onNavigate, onLogout, children }) 
               <button
                 key={item.id}
                 onClick={() => onNavigate(item.id)}
-                className="flex flex-col items-center justify-center gap-0.5 py-1 min-w-[60px] h-14 rounded-xl transition-all text-slate-500 hover:text-slate-300 active:scale-95"
+                className="flex flex-col items-center justify-center gap-0.5 py-1 min-w-[60px] h-14 rounded-xl transition-all text-slate-400 hover:text-slate-300 active:scale-95"
                 style={{ minHeight: '48px', minWidth: '56px' }}
               >
                 <Icon className={`w-5 h-5 ${isActive ? 'text-blue-400 drop-shadow-[0_0_8px_rgba(59,130,246,0.5)]' : ''}`} />
-                <span className={`text-[10px] font-medium ${isActive ? 'text-blue-400' : ''}`}>{item.label}</span>
+                <span className={`text-[11px] font-medium ${isActive ? 'text-blue-400' : ''}`}>{item.label}</span>
                 {isActive && <div className="w-1 h-1 rounded-full bg-blue-400" />}
               </button>
             );
@@ -124,11 +124,11 @@ export default function Layout({ currentPage, onNavigate, onLogout, children }) 
           {/* More button */}
           <button
             onClick={() => setShowMoreDrawer(true)}
-            className="flex flex-col items-center justify-center gap-0.5 py-1 min-w-[60px] h-14 rounded-xl transition-all text-slate-500 hover:text-slate-300 active:scale-95"
+            className="flex flex-col items-center justify-center gap-0.5 py-1 min-w-[60px] h-14 rounded-xl transition-all text-slate-400 hover:text-slate-300 active:scale-95"
             style={{ minHeight: '48px', minWidth: '56px' }}
           >
             <Grid3X3 className={`w-5 h-5 ${moreNavItems.some(i => i.id === currentPage) ? 'text-blue-400 drop-shadow-[0_0_8px_rgba(59,130,246,0.5)]' : ''}`} />
-            <span className={`text-[10px] font-medium ${moreNavItems.some(i => i.id === currentPage) ? 'text-blue-400' : ''}`}>More</span>
+            <span className={`text-[11px] font-medium ${moreNavItems.some(i => i.id === currentPage) ? 'text-blue-400' : ''}`}>More</span>
           </button>
         </div>
       </nav>
@@ -144,8 +144,8 @@ export default function Layout({ currentPage, onNavigate, onLogout, children }) 
               <h3 className="text-sm font-semibold text-white">More</h3>
               <button
                 onClick={() => setShowMoreDrawer(false)}
-                className="p-1.5 rounded-lg hover:bg-slate-800 text-slate-400 transition-colors"
-                style={{ minHeight: '40px', minWidth: '40px' }}
+                className="p-2.5 rounded-lg hover:bg-slate-800 text-slate-400 transition-colors min-h-[44px] min-w-[44px]"
+                style={{ minHeight: '44px', minWidth: '44px' }}
               >
                 <X className="w-5 h-5" />
               </button>

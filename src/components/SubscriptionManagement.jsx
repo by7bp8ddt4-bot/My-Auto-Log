@@ -104,7 +104,7 @@ export default function SubscriptionManagement({ userId, isPremium, onNavigate, 
           <Crown className="w-6 h-6 text-blue-400" />
         </div>
         <h3 className="text-sm font-bold text-white mb-2">No Active Subscription</h3>
-        <p className="text-xs text-slate-500 mb-4">Upgrade to premium to manage your subscription.</p>
+        <p className="text-xs text-slate-400 mb-4">Upgrade to premium to manage your subscription.</p>
         <button
           onClick={() => onNavigate('premium')}
           className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white text-xs font-medium shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 transition-all"
@@ -138,14 +138,14 @@ export default function SubscriptionManagement({ userId, isPremium, onNavigate, 
                 status === 'active' ? 'bg-blue-500/20' : 'bg-slate-800'
               }`}>
                 <Crown className={`w-6 h-6 ${
-                  status === 'active' ? 'text-yellow-400' : 'text-slate-500'
+                  status === 'active' ? 'text-yellow-400' : 'text-slate-400'
                 }`} />
               </div>
               <div>
                 <h3 className="text-sm font-bold text-white flex items-center gap-2">
                   MTXtrkr Premium
                   {planSavings && (
-                    <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-bold uppercase tracking-tighter">
+                    <span className="text-[11px] px-1.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-bold uppercase tracking-tighter">
                       Best Value
                     </span>
                   )}
@@ -154,7 +154,7 @@ export default function SubscriptionManagement({ userId, isPremium, onNavigate, 
               </div>
             </div>
             {/* Status Badge */}
-            <span className={`text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider ${
+            <span className={`text-[11px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider ${
               status === 'active'
                 ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30'
                 : 'bg-amber-500/15 text-amber-400 border border-amber-500/30'
@@ -171,7 +171,7 @@ export default function SubscriptionManagement({ userId, isPremium, onNavigate, 
                 <p className="text-xs text-slate-400">Next billing date</p>
                 <p className="text-sm font-semibold text-white">{formatDate(nextBilling)}</p>
               </div>
-              <CreditCard className="w-4 h-4 text-slate-500" />
+              <CreditCard className="w-4 h-4 text-slate-400" />
             </div>
           )}
 
@@ -181,7 +181,7 @@ export default function SubscriptionManagement({ userId, isPremium, onNavigate, 
               <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
               <div>
                 <p className="text-xs font-semibold text-amber-300 mb-0.5">Subscription Cancelled</p>
-                <p className="text-[10px] text-slate-400 leading-relaxed">
+                <p className="text-[11px] text-slate-400 leading-relaxed">
                   Your premium features will remain active until the end of your current billing period, then you'll revert to the free plan.
                 </p>
               </div>
@@ -214,7 +214,7 @@ export default function SubscriptionManagement({ userId, isPremium, onNavigate, 
             {status === 'active' && showCancelConfirm && (
               <div className="space-y-2 p-3 rounded-xl bg-red-500/5 border border-red-500/20">
                 <p className="text-xs text-red-300 font-medium">Are you sure you want to cancel?</p>
-                <p className="text-[10px] text-slate-400 mb-2">
+                <p className="text-[11px] text-slate-400 mb-2">
                   Your premium features will remain active until the end of the current billing period. After that, you'll lose access to premium features.
                 </p>
                 <div className="flex gap-2">
@@ -306,7 +306,7 @@ export default function SubscriptionManagement({ userId, isPremium, onNavigate, 
             <Mail className="w-4 h-4 text-slate-400" />
             Need Help?
           </h3>
-          <p className="text-xs text-slate-500 mb-3">
+          <p className="text-xs text-slate-400 mb-3">
             For billing questions, refunds, or account changes, contact our support team.
           </p>
           <button
@@ -322,7 +322,7 @@ export default function SubscriptionManagement({ userId, isPremium, onNavigate, 
         {/* Back to Settings */}
         <button
           onClick={() => onNavigate('settings')}
-          className="flex items-center justify-center gap-1 text-xs text-slate-500 hover:text-slate-300 transition-all mx-auto"
+          className="flex items-center justify-center gap-1 text-xs text-slate-400 hover:text-slate-300 transition-all mx-auto"
         >
           <ChevronRight className="w-3 h-3 rotate-180" />
           Back to Settings

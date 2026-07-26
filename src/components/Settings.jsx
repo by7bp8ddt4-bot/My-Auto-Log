@@ -53,14 +53,14 @@ export default function Settings({ onReset, onExport, vehicles, logs, reminders,
             </div>
             <div className="flex-1">
               <h3 className="text-sm font-semibold text-white">Account</h3>
-              <p className="text-xs text-slate-500">
+              <p className="text-xs text-slate-400">
                 {isPremium
                   ? `Premium — ${sub.plan === 'yearly' ? 'Yearly' : 'Monthly'} Plan`
                   : 'Free Plan — 1 vehicle limit'}
               </p>
             </div>
             {isPremium && (
-              <span className={`text-[9px] px-1.5 py-0.5 rounded-full font-bold uppercase tracking-tighter ${
+              <span className={`text-[11px] px-1.5 py-0.5 rounded-full font-bold uppercase tracking-tighter ${
                 sub.status === 'cancelled'
                   ? 'bg-amber-500/15 text-amber-400'
                   : 'bg-emerald-500/15 text-emerald-400'
@@ -97,7 +97,7 @@ export default function Settings({ onReset, onExport, vehicles, logs, reminders,
               </div>
               <div>
                 <h3 className="text-sm font-semibold text-white">Session</h3>
-                <p className="text-xs text-slate-500">
+                <p className="text-xs text-slate-400">
                   Signed in with Supabase
                 </p>
               </div>
@@ -124,7 +124,7 @@ export default function Settings({ onReset, onExport, vehicles, logs, reminders,
             </div>
             <div>
               <h3 className="text-sm font-semibold text-white">Data Management</h3>
-              <p className="text-xs text-slate-500">
+              <p className="text-xs text-slate-400">
                 {vehicles.length} vehicles, {logs.length} logs, {reminders.length} reminders, {Array.isArray(fuelLogs) ? fuelLogs.length : 0} fuel logs, {Array.isArray(modifications) ? modifications.length : 0} mods
               </p>
             </div>
@@ -202,7 +202,7 @@ export default function Settings({ onReset, onExport, vehicles, logs, reminders,
                     </>
                   )}
                 </button>
-                <p className="text-[11px] text-slate-500 text-center mt-1">Not seeing your recent changes?</p>
+                <p className="text-[11px] text-slate-400 text-center mt-1">Not seeing your recent changes?</p>
               </>
             )}
             <button
@@ -232,7 +232,7 @@ export default function Settings({ onReset, onExport, vehicles, logs, reminders,
             <RefreshCw className="w-5 h-5 text-slate-400" />
             <h3 className="text-sm font-semibold text-white">Storage</h3>
           </div>
-          <p className="text-xs text-slate-500">
+          <p className="text-xs text-slate-400">
             {isAuthenticated ? 'Your data is securely synced to the cloud and available across all your devices.' : 'Data is currently stored locally in your browser.'} Offline changes are saved and sync automatically when you're back online.
           </p>
         </div>
@@ -245,7 +245,7 @@ export default function Settings({ onReset, onExport, vehicles, logs, reminders,
             </div>
             <div>
               <h3 className="text-sm font-semibold text-white">Need Help?</h3>
-              <p className="text-xs text-slate-500">Contact our engineering team</p>
+              <p className="text-xs text-slate-400">Contact our engineering team</p>
             </div>
           </div>
           <button
@@ -267,7 +267,7 @@ export default function Settings({ onReset, onExport, vehicles, logs, reminders,
               </div>
               <div>
                 <h3 className="text-sm font-semibold text-white">Delete Account</h3>
-                <p className="text-xs text-slate-500">Permanently delete all data and account</p>
+                <p className="text-xs text-slate-400">Permanently delete all data and account</p>
               </div>
             </div>
             <button

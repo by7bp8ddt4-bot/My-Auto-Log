@@ -154,7 +154,7 @@ export default function MaintenanceLog({ logs, vehicles, onAdd, onUpdate, onDele
             setShowScanner(true);
           }}
           disabled={vehicles.length === 0}
-          className="flex items-center gap-2 px-3 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 disabled:bg-slate-800 disabled:text-slate-600 text-white text-sm font-medium transition-all"
+          className="flex items-center gap-2 px-3 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 disabled:bg-slate-800 disabled:text-slate-500 text-white text-sm font-medium transition-all"
         >
           <ScanLine className="w-4 h-4" />
           <span className="hidden sm:inline">Scan Receipt</span>
@@ -165,7 +165,7 @@ export default function MaintenanceLog({ logs, vehicles, onAdd, onUpdate, onDele
             setShowForm(true);
           }}
           disabled={vehicles.length === 0}
-          className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 disabled:bg-slate-800 disabled:text-slate-600 text-white text-sm font-medium transition-all"
+          className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 disabled:bg-slate-800 disabled:text-slate-500 text-white text-sm font-medium transition-all"
         >
           <Plus className="w-4 h-4" />
           <span className="hidden sm:inline">Log Service</span>
@@ -175,23 +175,23 @@ export default function MaintenanceLog({ logs, vehicles, onAdd, onUpdate, onDele
 
       {vehicles.length === 0 && (
         <div className="text-center py-12 bg-slate-900/30 rounded-2xl border border-slate-800">
-          <ClipboardList className="w-10 h-10 text-slate-600 mx-auto mb-3" />
+          <ClipboardList className="w-10 h-10 text-slate-500 mx-auto mb-3" />
           <p className="text-sm text-slate-400 mb-1">Add a vehicle first</p>
-          <p className="text-xs text-slate-600">You need at least one vehicle to log services</p>
+          <p className="text-xs text-slate-500">You need at least one vehicle to log services</p>
         </div>
       )}
 
       {vehicles.length > 0 && (
         <>
           <div className="flex items-center justify-between mb-6">
-            <p className="text-xs text-slate-500">
+            <p className="text-xs text-slate-400">
               Total: <span className="text-emerald-400 font-medium">{formatCurrency(totalSpent)}</span>
             </p>
           </div>
 
           {filteredLogs.length === 0 && (
             <div className="text-center py-6 bg-slate-900/30 rounded-2xl border border-slate-800 mb-4">
-              <ClipboardList className="w-8 h-8 text-slate-600 mx-auto mb-2" />
+              <ClipboardList className="w-8 h-8 text-slate-500 mx-auto mb-2" />
               <p className="text-sm text-slate-400">No service logs yet</p>
               <button
                 onClick={() => setShowForm(true)}
@@ -240,7 +240,7 @@ export default function MaintenanceLog({ logs, vehicles, onAdd, onUpdate, onDele
                     >
                       {/* Icon */}
                       <div
-                        className={`w-4 h-4 shrink-0 ${isActive ? 'text-white' : 'text-slate-500'}`}
+                        className={`w-4 h-4 shrink-0 ${isActive ? 'text-white' : 'text-slate-400'}`}
                         style={{
                           backgroundColor: 'currentColor',
                           WebkitMaskImage: `url(${config.icon})`,
@@ -253,7 +253,7 @@ export default function MaintenanceLog({ logs, vehicles, onAdd, onUpdate, onDele
                       {/* Tab Label — uppercase, monospace per spec */}
                       <span className="text-[11px] uppercase tracking-wider font-mono whitespace-nowrap">{group.type}</span>
                       {/* Record count badge inside tab */}
-                      <span className={`text-[9px] px-1.5 py-0.5 rounded-full font-bold ml-1 ${
+                      <span className={`text-[11px] px-1.5 py-0.5 rounded-full font-bold ml-1 ${
                         isActive ? 'bg-slate-950/40 text-white' : 'bg-slate-800 text-slate-400'
                       }`}>
                         {group.logs.length}
@@ -275,7 +275,7 @@ export default function MaintenanceLog({ logs, vehicles, onAdd, onUpdate, onDele
                             </button>
                           )}
                         </h3>
-                        <p className="text-[10px] text-slate-500 mt-1">
+                        <p className="text-[11px] text-slate-400 mt-1">
                           {group.lastDate ? `Last serviced: ${formatDate(group.lastDate)}` : 'No service records yet'}
                         </p>
                       </div>
@@ -310,17 +310,17 @@ export default function MaintenanceLog({ logs, vehicles, onAdd, onUpdate, onDele
                                     {getVehicleName(log.vehicleId)}
                                   </span>
                                   {isMultiJob && (
-                                    <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 shrink-0 font-bold uppercase tracking-tighter">
+                                    <span className="text-[11px] px-1.5 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 shrink-0 font-bold uppercase tracking-tighter">
                                       Multi-Job
                                     </span>
                                   )}
                                   {isAiGenerated && (
-                                    <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-purple-500/20 text-purple-300 shrink-0 font-bold uppercase tracking-tighter">
+                                    <span className="text-[11px] px-1.5 py-0.5 rounded-full bg-purple-500/20 text-purple-300 shrink-0 font-bold uppercase tracking-tighter">
                                       AI
                                     </span>
                                   )}
                                   {isPremium && (
-                                    <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-blue-500/15 text-blue-300 shrink-0 flex items-center gap-0.5 font-bold uppercase tracking-tighter">
+                                    <span className="text-[11px] px-1.5 py-0.5 rounded-full bg-blue-500/15 text-blue-300 shrink-0 flex items-center gap-0.5 font-bold uppercase tracking-tighter">
                                       <Cloud className="w-2.5 h-2.5" />
                                       Cloud
                                     </span>
@@ -333,7 +333,7 @@ export default function MaintenanceLog({ logs, vehicles, onAdd, onUpdate, onDele
                                     {logTypes.map(t => {
                                       const cfg = getServiceConfig(t);
                                       return (
-                                        <span key={t} className={`text-[9px] px-1.5 py-0.5 rounded-md ${cfg.bodyBg} ${cfg.accent} font-medium`}>
+                                        <span key={t} className={`text-[11px] px-1.5 py-0.5 rounded-md ${cfg.bodyBg} ${cfg.accent} font-medium`}>
                                           {t}
                                         </span>
                                       );
@@ -342,7 +342,7 @@ export default function MaintenanceLog({ logs, vehicles, onAdd, onUpdate, onDele
                                 )}
 
                                 {log.description && (
-                                  <p className="text-xs text-slate-500 mb-2 line-clamp-2 italic leading-relaxed">
+                                  <p className="text-xs text-slate-400 mb-2 line-clamp-2 italic leading-relaxed">
                                     &ldquo;{log.description}&rdquo;
                                   </p>
                                 )}
@@ -361,7 +361,7 @@ export default function MaintenanceLog({ logs, vehicles, onAdd, onUpdate, onDele
                                         ) : (
                                           <div className="w-10 h-10 rounded-lg bg-slate-800 border border-slate-700 flex flex-col items-center justify-center">
                                             <FileText className="w-3.5 h-3.5 text-blue-400" />
-                                            <span className="text-[7px] text-slate-500 mt-0.5">PDF</span>
+                                            <span className="text-[7px] text-slate-400 mt-0.5">PDF</span>
                                           </div>
                                         )}
                                         <div className="absolute inset-0 rounded-lg bg-black/40 transition-all flex items-center justify-center opacity-0 group-hover/doc:opacity-100 cursor-pointer">
@@ -371,13 +371,13 @@ export default function MaintenanceLog({ logs, vehicles, onAdd, onUpdate, onDele
                                     ))}
                                     {log.documents.length > 3 && (
                                       <div className="w-10 h-10 rounded-lg bg-slate-800 border border-slate-700 flex items-center justify-center">
-                                        <span className="text-[10px] text-slate-400 font-medium">+{log.documents.length - 3}</span>
+                                        <span className="text-[11px] text-slate-400 font-medium">+{log.documents.length - 3}</span>
                                       </div>
                                     )}
                                   </div>
                                 )}
 
-                                <div className="flex flex-wrap items-center gap-3 text-[10px] text-slate-400">
+                                <div className="flex flex-wrap items-center gap-3 text-[11px] text-slate-400">
                                   <span className="flex items-center gap-1">
                                     <Calendar className="w-3 h-3" />
                                     {formatDate(log.date)}
@@ -415,10 +415,10 @@ export default function MaintenanceLog({ logs, vehicles, onAdd, onUpdate, onDele
                       }) : (
                         <div className="text-center py-8">
                           <ClipboardList className="w-8 h-8 text-slate-700 mx-auto mb-2" />
-                          <p className="text-xs text-slate-500">No {group.type.toLowerCase()} logs yet</p>
+                          <p className="text-xs text-slate-400">No {group.type.toLowerCase()} logs yet</p>
                           <button
                             onClick={(e) => { e.stopPropagation(); setShowForm(true); }}
-                            className="mt-2 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-[10px] font-medium transition-all"
+                            className="mt-2 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-[11px] font-medium transition-all"
                           >
                             <Plus className="w-3 h-3" />
                             Log your first service
@@ -569,7 +569,7 @@ function MaintenanceFormModal({ vehicles, initialData, initialVehicleId, initial
       <div className="relative w-full sm:max-w-lg bg-slate-900 border border-slate-800 rounded-t-2xl sm:rounded-2xl p-6 shadow-2xl max-h-[90vh] overflow-y-auto">
         <div className="flex items-center justify-between mb-6">
           <h3 className="text-lg font-bold text-white">{isEditing ? 'Edit Service' : 'Log Service'}</h3>
-          <button onClick={onClose} className="p-1.5 rounded-lg hover:bg-slate-800 text-slate-400">
+          <button onClick={onClose} className="p-2.5 rounded-lg hover:bg-slate-800 text-slate-400 min-h-[44px] min-w-[44px]">
             <X className="w-5 h-5" />
           </button>
         </div>
@@ -594,23 +594,23 @@ function MaintenanceFormModal({ vehicles, initialData, initialVehicleId, initial
             <div>
               <label className="block text-xs text-slate-400 mb-1.5 font-medium">Date</label>
               <input type="date" value={form.date} onChange={e => setForm(f => ({ ...f, date: e.target.value }))}
-                className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50" />
+                className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-base focus:outline-none focus:ring-2 focus:ring-blue-500/50" />
             </div>
             <div>
               <label className="block text-xs text-slate-400 mb-1.5 font-medium">Mileage</label>
               <input type="number" value={form.mileage} onChange={e => setForm(f => ({ ...f, mileage: e.target.value }))}
                 placeholder="e.g. 45000"
-                className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50" />
+                className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-base placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50" />
             </div>
           </div>
 
           {/* Multi-Job Service Types — Predetermined / Custom toggle */}
           <div>
             <label className="block text-xs text-slate-400 mb-1.5 font-medium">
-              Service Type(s) * <span className="text-slate-500 font-normal">(select one or more)</span>
+              Service Type(s) * <span className="text-slate-400 font-normal">(select one or more)</span>
             </label>
             {!selectedVehicle ? (
-              <div className="p-3 rounded-xl bg-slate-800/50 border border-slate-700/50 text-slate-500 text-xs italic">
+              <div className="p-3 rounded-xl bg-slate-800/50 border border-slate-700/50 text-slate-400 text-xs italic">
                 Select a vehicle to see recommended service types
               </div>
             ) : (
@@ -675,7 +675,7 @@ function MaintenanceFormModal({ vehicles, initialData, initialVehicleId, initial
                         value={customService}
                         onChange={e => setCustomService(e.target.value)}
                         placeholder="e.g. Rust Undercoating, Ceramic Coating..."
-                        className="w-full px-3 py-2 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+                        className="w-full px-3 py-2 rounded-xl bg-slate-800 border border-slate-700 text-white text-base placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50"
                       />
                     </div>
                     <div>
@@ -701,7 +701,7 @@ function MaintenanceFormModal({ vehicles, initialData, initialVehicleId, initial
                           }
                         }}
                         disabled={form.serviceTypes.includes(customService.trim())}
-                        className="w-full py-2 rounded-lg bg-purple-600 hover:bg-purple-500 disabled:bg-slate-700 disabled:text-slate-500 text-white text-xs font-medium transition-all"
+                        className="w-full py-2 rounded-lg bg-purple-600 hover:bg-purple-500 disabled:bg-slate-700 disabled:text-slate-400 text-white text-xs font-medium transition-all"
                       >
                         {form.serviceTypes.includes(customService.trim())
                           ? '✓ Added'
@@ -717,7 +717,7 @@ function MaintenanceFormModal({ vehicles, initialData, initialVehicleId, initial
                 {form.serviceTypes.map(t => {
                   const cfg = getServiceConfig(t);
                   return (
-                    <span key={t} className={`text-[10px] px-2 py-0.5 rounded-full ${cfg.bodyBg} ${cfg.accent} font-medium`}>{t}</span>
+                    <span key={t} className={`text-[11px] px-2 py-0.5 rounded-full ${cfg.bodyBg} ${cfg.accent} font-medium`}>{t}</span>
                   );
                 })}
               </div>
@@ -735,7 +735,7 @@ function MaintenanceFormModal({ vehicles, initialData, initialVehicleId, initial
             <label className="block text-xs text-slate-400 mb-1.5 font-medium">Cost ($)</label>
             <input type="number" step="0.01" value={form.cost} onChange={e => setForm(f => ({ ...f, cost: e.target.value }))}
               placeholder="0.00"
-              className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50" />
+              className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-base placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50" />
           </div>
 
           {/* Enhanced Document Upload */}
@@ -767,12 +767,12 @@ function MaintenanceFormModal({ vehicles, initialData, initialVehicleId, initial
                       <img src={d.dataUrl} alt={d.name} className="w-16 h-16 rounded-lg object-cover border border-slate-700" />
                     ) : (
                       <div className="w-16 h-16 rounded-lg bg-slate-800 border border-slate-700 flex flex-col items-center justify-center">
-                        <FileText className="w-5 h-5 text-blue-400" /><span className="text-[8px] text-slate-500">{d.name.split('.').pop()}</span>
+                        <FileText className="w-5 h-5 text-blue-400" /><span className="text-[11px] text-slate-400">{d.name.split('.').pop()}</span>
                       </div>
                     )}
                     <button onClick={() => removeDocument(d.id)}
-                      className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-red-500 text-white flex items-center justify-center transition-all"><X className="w-3 h-3" /></button>
-                    <div className="text-[9px] text-slate-500 text-center truncate max-w-[4rem] mt-0.5">{d.name}</div>
+                      className="absolute -top-1.5 -right-1.5 min-w-[44px] min-h-[44px] rounded-full bg-red-500 text-white flex items-center justify-center transition-all"><X className="w-3 h-3" /></button>
+                    <div className="text-[11px] text-slate-400 text-center truncate max-w-[4rem] mt-0.5">{d.name}</div>
                   </div>
                 ))}
               </div>
@@ -781,11 +781,11 @@ function MaintenanceFormModal({ vehicles, initialData, initialVehicleId, initial
 
           <div className="flex gap-3 pt-2">
             <button type="button" onClick={onClose}
-              className="flex-1 py-2.5 rounded-xl border border-slate-700 text-sm font-medium text-slate-300 hover:bg-slate-800 transition-all">
+              className="flex-1 py-2.5 rounded-xl border border-slate-700 text-base font-medium text-slate-300 hover:bg-slate-800 transition-all">
               Cancel
             </button>
             <button type="submit" disabled={form.serviceTypes.length === 0}
-              className="flex-1 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 disabled:bg-slate-700 disabled:text-slate-500 text-white text-sm font-medium transition-all">
+              className="flex-1 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 disabled:bg-slate-700 disabled:text-slate-400 text-white text-sm font-medium transition-all">
               {form.serviceTypes.length > 1 ? `Log ${form.serviceTypes.length} Services` : isEditing ? 'Save Changes' : 'Log Service'}
             </button>
           </div>

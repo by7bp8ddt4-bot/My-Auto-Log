@@ -267,8 +267,8 @@ export default function MileageTracker({ activeVehicle, vehicleLogs = [], isPrem
   const renderChart = () => {
     if (!chartLayout || dataPoints.length < 2) {
       return (
-        <div className="flex flex-col items-center justify-center py-8 text-slate-500">
-          <Gauge className="w-8 h-8 mb-2 text-slate-600" />
+        <div className="flex flex-col items-center justify-center py-8 text-slate-400">
+          <Gauge className="w-8 h-8 mb-2 text-slate-500" />
           <p className="text-xs">Log services with mileage to build your trend</p>
         </div>
       );

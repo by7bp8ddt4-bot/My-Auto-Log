@@ -80,14 +80,14 @@ export default function ContactSupport({ onNavigate }) {
           <div>
             <label className="block text-sm text-slate-400 mb-1.5">Name</label>
             <div className="relative">
-              <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
+              <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
               <input
                 type="text"
                 value={form.name}
                 onChange={handleChange('name')}
                 placeholder="Your name"
                 required
-                className="w-full bg-slate-800 border border-slate-700 rounded-xl pl-10 pr-4 py-2.5 text-white text-sm placeholder:text-slate-600 focus:outline-none focus:border-blue-500/50"
+                className="w-full bg-slate-800 border border-slate-700 rounded-xl pl-10 pr-4 py-2.5 text-white text-base placeholder:text-slate-500 focus:outline-none focus:border-blue-500/50"
               />
             </div>
           </div>
@@ -96,14 +96,14 @@ export default function ContactSupport({ onNavigate }) {
           <div>
             <label className="block text-sm text-slate-400 mb-1.5">Email</label>
             <div className="relative">
-              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
+              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
               <input
                 type="email"
                 value={form.email}
                 onChange={handleChange('email')}
                 placeholder="your@email.com"
                 required
-                className="w-full bg-slate-800 border border-slate-700 rounded-xl pl-10 pr-4 py-2.5 text-white text-sm placeholder:text-slate-600 focus:outline-none focus:border-blue-500/50"
+                className="w-full bg-slate-800 border border-slate-700 rounded-xl pl-10 pr-4 py-2.5 text-white text-base placeholder:text-slate-500 focus:outline-none focus:border-blue-500/50"
               />
             </div>
           </div>
@@ -112,14 +112,14 @@ export default function ContactSupport({ onNavigate }) {
           <div>
             <label className="block text-sm text-slate-400 mb-1.5">Subject</label>
             <div className="relative">
-              <MessageSquare className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
+              <MessageSquare className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
               <input
                 type="text"
                 value={form.subject}
                 onChange={handleChange('subject')}
                 placeholder="What's this about?"
                 required
-                className="w-full bg-slate-800 border border-slate-700 rounded-xl pl-10 pr-4 py-2.5 text-white text-sm placeholder:text-slate-600 focus:outline-none focus:border-blue-500/50"
+                className="w-full bg-slate-800 border border-slate-700 rounded-xl pl-10 pr-4 py-2.5 text-white text-base placeholder:text-slate-500 focus:outline-none focus:border-blue-500/50"
               />
             </div>
           </div>
@@ -133,7 +133,7 @@ export default function ContactSupport({ onNavigate }) {
               rows={5}
               placeholder="Describe your issue or question..."
               required
-              className="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-2.5 text-white text-sm placeholder:text-slate-600 focus:outline-none focus:border-blue-500/50 resize-none"
+              className="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-2.5 text-white text-sm placeholder:text-slate-500 focus:outline-none focus:border-blue-500/50 resize-none"
             />
           </div>
 

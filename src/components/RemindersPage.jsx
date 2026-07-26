@@ -107,7 +107,7 @@ function PremiumGate({ onNavigate }) {
         Upgrade to Premium
         <ArrowRight className="w-4 h-4" />
       </button>
-      <p className="text-xs text-slate-600 mt-3">Includes unlimited vehicles, AI predictions, and more.</p>
+      <p className="text-xs text-slate-500 mt-3">Includes unlimited vehicles, AI predictions, and more.</p>
     </div>
   );
 }
@@ -126,12 +126,12 @@ function ReminderCard({ reminder, vehicleName, onToggle, onDelete }) {
       <div className="flex items-start justify-between gap-3 mb-3">
         <div className="flex items-center gap-2 min-w-0">
           <AlertTriangle className={`w-4 h-4 shrink-0 ${
-            statusColor === 'red' ? 'text-red-400' : statusColor === 'amber' ? 'text-amber-400' : 'text-slate-500'
+            statusColor === 'red' ? 'text-red-400' : statusColor === 'amber' ? 'text-amber-400' : 'text-slate-400'
           }`} />
           <div className="min-w-0">
             <div className="text-sm font-medium text-white truncate">{reminder.title}</div>
             {vehicleName && (
-              <span className="text-[10px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-400">
+              <span className="text-[11px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-400">
                 {vehicleName}
               </span>
             )}
@@ -141,13 +141,13 @@ function ReminderCard({ reminder, vehicleName, onToggle, onDelete }) {
           {onToggle && (
             <button
               onClick={() => onToggle(reminder.id, { enabled: !reminder.enabled })}
-              className="p-1 rounded hover:bg-slate-800 text-slate-500"
+              className="p-1 rounded hover:bg-slate-800 text-slate-400"
             >
               {reminder.enabled ? <ToggleRight className="w-4 h-4 text-blue-400" /> : <ToggleLeft className="w-4 h-4" />}
             </button>
           )}
           {onDelete && (
-            <button onClick={() => { if (window.confirm('Delete this reminder?')) onDelete(reminder.id); }} className="p-1 rounded hover:bg-red-500/10 text-slate-500 hover:text-red-400">
+            <button onClick={() => { if (window.confirm('Delete this reminder?')) onDelete(reminder.id); }} className="p-2.5 rounded hover:bg-red-500/10 text-slate-400 hover:text-red-400 min-h-[44px] min-w-[44px]">
               <X className="w-3.5 h-3.5" />
             </button>
           )}
@@ -156,7 +156,7 @@ function ReminderCard({ reminder, vehicleName, onToggle, onDelete }) {
 
       {/* Progress */}
       <div className="mb-2">
-        <div className="flex items-center justify-between text-[10px] text-slate-500 mb-1">
+        <div className="flex items-center justify-between text-[11px] text-slate-400 mb-1">
           <span className="flex items-center gap-1">
             <Gauge className="w-3 h-3" />
             {reminder.milesUntilDue !== undefined ? (
@@ -186,13 +186,13 @@ function ReminderCard({ reminder, vehicleName, onToggle, onDelete }) {
 
       {/* Urgency Warning */}
       {statusColor === 'red' && reminder.milesUntilDue !== undefined && (
-        <div className="flex items-center gap-1.5 text-[10px] text-red-400/80 bg-red-500/5 rounded-lg px-2 py-1.5">
+        <div className="flex items-center gap-1.5 text-[11px] text-red-400/80 bg-red-500/5 rounded-lg px-2 py-1.5">
           <AlertTriangle className="w-3 h-3" />
           <span>Immediate attention required — {formatNumber(Math.abs(reminder.milesUntilDue))} miles past due</span>
         </div>
       )}
       {statusColor === 'amber' && reminder.milesUntilDue !== undefined && (
-        <div className="flex items-center gap-1.5 text-[10px] text-amber-400/80 bg-amber-500/5 rounded-lg px-2 py-1.5">
+        <div className="flex items-center gap-1.5 text-[11px] text-amber-400/80 bg-amber-500/5 rounded-lg px-2 py-1.5">
           <Clock className="w-3 h-3" />
           <span>Schedule soon — only {formatNumber(Math.abs(reminder.milesUntilDue))} miles remaining</span>
         </div>
@@ -216,10 +216,10 @@ function FolderTab({ icon: Icon, title, count, isExpanded, onToggle, children })
           </div>
           <div>
             <h3 className="font-semibold text-white text-sm">{title}</h3>
-            <p className="text-xs text-slate-500">{count} {count === 1 ? 'item' : 'items'}</p>
+            <p className="text-xs text-slate-400">{count} {count === 1 ? 'item' : 'items'}</p>
           </div>
         </div>
-        <ChevronRight className={`w-4 h-4 text-slate-500 transition-transform ${isExpanded ? 'rotate-90' : ''}`} />
+        <ChevronRight className={`w-4 h-4 text-slate-400 transition-transform ${isExpanded ? 'rotate-90' : ''}`} />
       </div>
       {isExpanded && (
         <div className="px-4 pb-4 space-y-3">
@@ -417,7 +417,7 @@ export default function RemindersPage({ reminders, vehicles, logs, onAdd, onUpda
             setShowForm(true);
           }}
           disabled={vehicles.length === 0}
-          className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 disabled:bg-slate-800 disabled:text-slate-600 text-white text-sm font-medium transition-all"
+          className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 disabled:bg-slate-800 disabled:text-slate-500 text-white text-sm font-medium transition-all"
         >
           <Plus className="w-4 h-4" />
           Add
@@ -611,21 +611,21 @@ export default function RemindersPage({ reminders, vehicles, logs, onAdd, onUpda
                       <CheckCircle2 className="w-4 h-4 shrink-0 text-emerald-400" />
                     ) : (
                       <AlertTriangle className={`w-4 h-4 shrink-0 ${
-                        statusColor === 'red' ? 'text-red-400' : statusColor === 'amber' ? 'text-amber-400' : 'text-slate-500'
+                        statusColor === 'red' ? 'text-red-400' : statusColor === 'amber' ? 'text-amber-400' : 'text-slate-400'
                       }`} />
                     )}
                     <div className="min-w-0">
                       {isPerfMod ? (
                         <>
                           <div className="text-sm font-medium text-emerald-400 truncate">Cleanable Filter</div>
-                          <span className="text-[10px] px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-400">
+                          <span className="text-[11px] px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-400">
                             Clean & Oil — As Necessary
                           </span>
                         </>
                       ) : (
                         <>
                           <div className="text-sm font-medium text-white truncate">{item.service}</div>
-                          <span className="text-[10px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-400">
+                          <span className="text-[11px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-400">
                             {item.vehicleName}
                           </span>
                         </>
@@ -635,7 +635,7 @@ export default function RemindersPage({ reminders, vehicles, logs, onAdd, onUpda
                   {isAirFilter && (
                     <button
                       onClick={() => togglePerformanceMod(item.vehicleId, item.service)}
-                      className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-[10px] font-medium transition-all shrink-0 ${
+                      className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-[11px] font-medium transition-all shrink-0 ${
                         isPerfMod
                           ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30'
                           : 'bg-slate-800 text-slate-400 border border-slate-700 hover:border-slate-600'
@@ -648,7 +648,7 @@ export default function RemindersPage({ reminders, vehicles, logs, onAdd, onUpda
                 </div>
                 {!isPerfMod && (
                   <div className="space-y-1.5">
-                    <div className="flex items-center justify-between text-[10px] font-medium">
+                    <div className="flex items-center justify-between text-[11px] font-medium">
                       <div className="flex items-center gap-1">
                         <Gauge className="w-3 h-3 opacity-70" />
                         {item.milesUntilDue <= 0 ? (
@@ -673,7 +673,7 @@ export default function RemindersPage({ reminders, vehicles, logs, onAdd, onUpda
                       />
                     </div>
                     {item.description && (
-                      <p className="text-[10px] text-slate-500 leading-relaxed mt-1">{item.description}</p>
+                      <p className="text-[11px] text-slate-400 leading-relaxed mt-1">{item.description}</p>
                     )}
                   </div>
                 )}
@@ -684,7 +684,7 @@ export default function RemindersPage({ reminders, vehicles, logs, onAdd, onUpda
           <div className="text-center py-8 bg-slate-900/30 rounded-xl border border-slate-800">
             <CheckCircle2 className="w-6 h-6 text-emerald-400 mx-auto mb-2" />
             <p className="text-xs text-slate-400">All maintenance items are up to date!</p>
-            <p className="text-[10px] text-slate-600 mt-1">Great job keeping up with your vehicle's schedule.</p>
+            <p className="text-[11px] text-slate-500 mt-1">Great job keeping up with your vehicle's schedule.</p>
           </div>
         )}
       </FolderTab>
@@ -705,7 +705,7 @@ export default function RemindersPage({ reminders, vehicles, logs, onAdd, onUpda
               setShowForm(true);
             }}
             disabled={vehicles.length === 0}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 disabled:bg-slate-700 disabled:text-slate-500 text-white text-[10px] font-medium transition-all"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 disabled:bg-slate-700 disabled:text-slate-400 text-white text-[11px] font-medium transition-all"
           >
             <Plus className="w-3 h-3" />
             Create Custom Reminder
@@ -723,8 +723,8 @@ export default function RemindersPage({ reminders, vehicles, logs, onAdd, onUpda
           ))
         ) : (
           <div className="text-center py-8 bg-slate-900/30 rounded-xl border border-slate-800">
-            <p className="text-xs text-slate-500">No custom reminders yet</p>
-            <p className="text-[10px] text-slate-600 mt-1">Create reminders for anything: "Wash the truck", "Check tire pressure before road trip", etc.</p>
+            <p className="text-xs text-slate-400">No custom reminders yet</p>
+            <p className="text-[11px] text-slate-500 mt-1">Create reminders for anything: "Wash the truck", "Check tire pressure before road trip", etc.</p>
           </div>
         )}
       </FolderTab>
@@ -792,7 +792,7 @@ function ReminderFormModal({ vehicles, templates, selectedVehicleId, onSave, onC
       <div className="relative w-full sm:max-w-lg bg-slate-900 border border-slate-800 rounded-t-2xl sm:rounded-2xl p-6 shadow-2xl max-h-[90vh] overflow-y-auto">
         <div className="flex items-center justify-between mb-6">
           <h3 className="text-lg font-bold text-white">Add Reminder</h3>
-          <button onClick={onClose} className="p-1.5 rounded-lg hover:bg-slate-800 text-slate-400">
+          <button onClick={onClose} className="p-2.5 rounded-lg hover:bg-slate-800 text-slate-400 min-h-[44px] min-w-[44px]">
             <X className="w-5 h-5" />
           </button>
         </div>
@@ -850,7 +850,7 @@ function ReminderFormModal({ vehicles, templates, selectedVehicleId, onSave, onC
             <div>
               <label className="block text-xs text-slate-400 mb-1.5 font-medium">Title *</label>
               <input type="text" value={form.title} onChange={e => setForm(f => ({ ...f, title: e.target.value }))}
-                className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-base"
                 required />
             </div>
             <div>
@@ -863,24 +863,24 @@ function ReminderFormModal({ vehicles, templates, selectedVehicleId, onSave, onC
               <div>
                 <label className="block text-xs text-slate-400 mb-1.5 font-medium">Interval (miles)</label>
                 <input type="number" value={form.intervalMiles} onChange={e => setForm(f => ({ ...f, intervalMiles: e.target.value }))}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm" />
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-base" />
               </div>
               <div>
                 <label className="block text-xs text-slate-400 mb-1.5 font-medium">Interval (days)</label>
                 <input type="number" value={form.intervalDays} onChange={e => setForm(f => ({ ...f, intervalDays: e.target.value }))}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm" />
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-base" />
               </div>
             </div>
             <div className="grid grid-cols-2 gap-3">
               <div>
                 <label className="block text-xs text-slate-400 mb-1.5 font-medium">Last completed mileage</label>
                 <input type="number" value={form.lastCompletedMileage} onChange={e => setForm(f => ({ ...f, lastCompletedMileage: e.target.value }))}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm" />
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-base" />
               </div>
               <div>
                 <label className="block text-xs text-slate-400 mb-1.5 font-medium">Last completed date</label>
                 <input type="date" value={form.lastCompletedDate} onChange={e => setForm(f => ({ ...f, lastCompletedDate: e.target.value }))}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm" />
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-base" />
               </div>
             </div>
             <div className="flex gap-3 pt-2">
