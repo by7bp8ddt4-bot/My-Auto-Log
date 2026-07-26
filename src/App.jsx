@@ -129,19 +129,29 @@ export default function App() {
     // IMPORTANT: Do NOT make this useEffect callback async — React doesn't
     // accept async effect callbacks and will crash the entire component tree
     // in production (blank/dark screen). Use .then() chaining instead.
-    if (params.get('restore-premium') === '1' && auth.user?.id) {
-      supabase.from('profiles').upsert({
-        id: auth.user.id,
-        premium: true,
-        updated_at: new Date().toISOString()
-      }).then(({ error }) => {
-        if (!error) {
-          localStorage.setItem(STORAGE_KEYS.PREMIUM_STATUS, 'true');
-          setSubscriptionData({ plan: 'monthly', status: 'active', nextBilling: null });
-          setPremium(true);
-          window.history.replaceState({}, '', window.location.pathname);
-        }
-      });
+    //
+    // Set React state AND localStorage IMMEDIATELY (before auth resolves).
+    // This outruns the cleanup effect's setPremium(false) on auth change and
+    // prevents a catch-22 where the premium sync effect's guard
+    // (localStorage !== 'true') blocks restoration.
+    if (params.get('restore-premium') === '1') {
+      localStorage.setItem(STORAGE_KEYS.PREMIUM_STATUS, 'true');
+      setSubscriptionData({ plan: 'monthly', status: 'active', nextBilling: null });
+      setPremium(true);
+      analytics.track('premium_activated', { method: 'restore_url' });
+
+      // Fire-and-forget Supabase upsert; only clean URL on confirmed success
+      if (auth.user?.id) {
+        supabase.from('profiles').upsert({
+          id: auth.user.id,
+          premium: true,
+          updated_at: new Date().toISOString()
+        }).then(({ error }) => {
+          if (!error) {
+            window.history.replaceState({}, '', window.location.pathname);
+          }
+        });
+      }
       // else: keep the URL param so this effect re-runs when auth loads
     }
 

@@ -116,8 +116,8 @@
               retries2++;
               if (retries2 > 20) clearInterval(interval2);
             }, 500);
-            // Clean URL
-            window.history.replaceState({}, '', window.location.pathname);
+            // NOTE: Do NOT clean the URL here — let the React handler in App.jsx
+            // clean it after confirming the Supabase upsert succeeds.
           } catch(e) {
             console.warn('[RestorePremium] Could not set localStorage:', e);
           }
