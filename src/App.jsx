@@ -493,79 +493,90 @@ export default function App() {
 
     if (initialSyncDone) return;
 
+    // Prevent re-entry: during Step 1 (push), supabase.add() calls setData()
+    // which changes supabaseLogs.data (in the dependency array). This triggers
+    // the effect to re-fire while initialSyncDone is still false, starting a
+    // second concurrent sync IIFE that can interleave and overwrite data.
+    if (syncInProgress.current) return;
+    syncInProgress.current = true;
+
     // Two-way sync: push local → Supabase, then pull Supabase → local.
     // Both steps wrapped in a single async IIFE so Step 1 (push) fully
     // completes before Step 2 (pull) runs — preventing the race condition
     // where a synchronous pull overwrites local data that hasn't been pushed yet.
     (async () => {
-      // Step 1: Push local data to Supabase FIRST (AWAITED), so it's not lost
-      // when we pull. This prevents the "disappearing logs" bug where Supabase
-      // data overwrites local records that were never pushed to the cloud.
-      for (const { local, supabase } of syncStores) {
-        const localData = local.data || [];
-        if (localData.length === 0) continue;
-        const supabaseIds = new Set((supabase.data || []).map(s => s.id));
-        const itemsToPush = localData.filter(item => !supabaseIds.has(item.id));
-        for (const item of itemsToPush) {
-          const { createdAt, updatedAt, ...syncItem } = item;
-          try { await supabase.add(syncItem); } catch (e) {
-            console.warn(`[Sync] Failed to push item to cloud:`, e);
+      try {
+        // Step 1: Push local data to Supabase FIRST (AWAITED), so it's not lost
+        // when we pull. This prevents the "disappearing logs" bug where Supabase
+        // data overwrites local records that were never pushed to the cloud.
+        for (const { local, supabase } of syncStores) {
+          const localData = local.data || [];
+          if (localData.length === 0) continue;
+          const supabaseIds = new Set((supabase.data || []).map(s => s.id));
+          const itemsToPush = localData.filter(item => !supabaseIds.has(item.id));
+          for (const item of itemsToPush) {
+            const { createdAt, updatedAt, ...syncItem } = item;
+            try { await supabase.add(syncItem); } catch (e) {
+              console.warn(`[Sync] Failed to push item to cloud:`, e);
+            }
           }
         }
-      }
 
-      // Step 2: Pull Supabase data into localStorage (runs AFTER Step 1 completes).
-      // Clear supabase cache before pull to prevent stale data fallback
-      // from a previous user's session contaminating the current user's data.
-      for (const { key } of syncStores) {
-        const cacheKey = `supabase_cache_${key.replace('mtxtrkr_', '')}`;
-        localStorage.removeItem(cacheKey);
-      }
-      // Track whether any data was actually synced — if Supabase is empty (new account),
-      // don't mark sync as done so it retries when data arrives from another device.
-      let anySynced = false;
-      for (const { local, supabase, key } of syncStores) {
-        const supabaseHasData = supabase.data && supabase.data.length > 0;
+        // Step 2: Pull Supabase data into localStorage (runs AFTER Step 1 completes).
+        // Clear supabase cache before pull to prevent stale data fallback
+        // from a previous user's session contaminating the current user's data.
+        for (const { key } of syncStores) {
+          const cacheKey = `supabase_cache_${key.replace('mtxtrkr_', '')}`;
+          localStorage.removeItem(cacheKey);
+        }
+        // Track whether any data was actually synced — if Supabase is empty (new account),
+        // don't mark sync as done so it retries when data arrives from another device.
+        let anySynced = false;
+        for (const { local, supabase, key } of syncStores) {
+          const supabaseHasData = supabase.data && supabase.data.length > 0;
 
-        if (supabaseHasData) {
-          try {
-            localStorage.setItem(key, JSON.stringify(supabase.data));
-          } catch (e) {
-            // If quota exceeded (receipt images too large), try sanitized version
-            if (e.name === 'QuotaExceededError' || e.code === 22) {
-              console.warn(`[Sync] Quota exceeded for "${key}", trying sanitized...`);
-              try {
-                const sanitized = sanitizeForStorage(supabase.data);
-                localStorage.setItem(key, JSON.stringify(sanitized));
-              } catch (e2) {
-                console.warn(`[Sync] Still too large after sanitization for "${key}", keeping in memory only`, e2);
+          if (supabaseHasData) {
+            try {
+              localStorage.setItem(key, JSON.stringify(supabase.data));
+            } catch (e) {
+              // If quota exceeded (receipt images too large), try sanitized version
+              if (e.name === 'QuotaExceededError' || e.code === 22) {
+                console.warn(`[Sync] Quota exceeded for "${key}", trying sanitized...`);
+                try {
+                  const sanitized = sanitizeForStorage(supabase.data);
+                  localStorage.setItem(key, JSON.stringify(sanitized));
+                } catch (e2) {
+                  console.warn(`[Sync] Still too large after sanitization for "${key}", keeping in memory only`, e2);
+                }
+              } else {
+                console.warn(`[Sync] Failed to write "${key}" to localStorage:`, e);
               }
-            } else {
-              console.warn(`[Sync] Failed to write "${key}" to localStorage:`, e);
             }
-          }
-          local.setData(supabase.data);
-          anySynced = true;
-        } else {
-          // Fallback: if Supabase has no data but the migration restored data
-          // to localStorage (e.g. stale cache cleanup + re-migration), load it.
-          // This handles the case where mtxtrkr_* was wiped during PR #35 but
-          // supabase_* survived and was copied by the migration.
-          try {
-            const localRaw = localStorage.getItem(key);
-            const localParsed = localRaw ? JSON.parse(localRaw) : [];
-            if (Array.isArray(localParsed) && localParsed.length > 0 &&
-                (!local.data || local.data.length === 0)) {
-              local.setData(localParsed);
-              anySynced = true;
+            local.setData(supabase.data);
+            anySynced = true;
+          } else {
+            // Fallback: if Supabase has no data but the migration restored data
+            // to localStorage (e.g. stale cache cleanup + re-migration), load it.
+            // This handles the case where mtxtrkr_* was wiped during PR #35 but
+            // supabase_* survived and was copied by the migration.
+            try {
+              const localRaw = localStorage.getItem(key);
+              const localParsed = localRaw ? JSON.parse(localRaw) : [];
+              if (Array.isArray(localParsed) && localParsed.length > 0 &&
+                  (!local.data || local.data.length === 0)) {
+                local.setData(localParsed);
+                anySynced = true;
+              }
+            } catch (e) {
+              // Ignore corrupt localStorage
             }
-          } catch (e) {
-            // Ignore corrupt localStorage
           }
         }
-      }
-      if (anySynced) {
-        setInitialSyncDone(true);
+        if (anySynced) {
+          setInitialSyncDone(true);
+        }
+      } finally {
+        syncInProgress.current = false;
       }
     })();
   }, [
@@ -581,6 +592,10 @@ export default function App() {
   // are awaited before the next store begins, preventing concurrent fire-and-forget
   // operations that could race.
   const pushedIdsRef = useRef({});
+  // Guard preventing two-way sync re-entry when setData() calls during
+  // Step 1 (push) change supabaseLogs.data (in the dependency array),
+  // causing the effect to re-fire before initialSyncDone is set.
+  const syncInProgress = useRef(false);
   useEffect(() => {
     if (!isAuthenticated || !auth.user?.id) return;
 
@@ -949,7 +964,8 @@ export default function App() {
       if (itemsToSync.length === 0) continue;
       const now = new Date().toISOString();
       for (const item of itemsToSync) {
-        const { createdAt, updatedAt, ...syncItem } = item;
+        // Keep updatedAt in the upsert payload so Supabase reflects edit times
+        const { createdAt, ...syncItem } = item;
         await supabase.add(syncItem);
         // Track in push ref so background sync doesn't re-push
         pushedIdsRef.current[item.id] = item.updatedAt || item.createdAt || now;
