@@ -948,7 +948,6 @@ export default function App() {
         if (error) throw error;
         const camelData = keysToCamel(data || []);
         if (camelData.length > 0) {
-          localStorage.setItem(key, JSON.stringify(camelData));
           local.setData(camelData);
         }
       } catch (err) {
