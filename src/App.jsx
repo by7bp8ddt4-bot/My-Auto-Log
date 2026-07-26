@@ -23,6 +23,7 @@ import { useLocalStorage, useSyncStatus, sanitizeForStorage } from './hooks/useL
 import useAnalytics from './hooks/useAnalytics.js';
 import { STORAGE_KEYS } from './utils/constants.js';
 import { generateAutoReminders, summarizeAutoReminders } from './utils/autoReminders.js';
+import { isSameService } from './hooks/useMaintenanceSchedule.js';
 import { supabase } from './lib/supabase.js';
 
 // Migration: myautolog_ → mtxtrkr_ localStorage keys (runs once on import)
@@ -842,8 +843,39 @@ export default function App() {
       cost: parseFloat(data.cost) || 0,
       vehicleId: data.vehicleId,
     });
+
+    // Update matching reminders so the dashboard's "Upcoming Reminders"
+    // section stays in sync with logged services.
+    const serviceTypes = logData.serviceTypes;
+    const logMileage = logData.mileage;
+    const logDate = logData.date ? new Date(logData.date) : new Date();
+    // Build a set of reminder IDs that have already been matched to avoid
+    // updating the same reminder twice when multiple serviceTypes match it
+    const matchedIds = new Set();
+    for (const serviceType of serviceTypes) {
+      for (const reminder of remindersStore.data) {
+        if (
+          reminder.vehicleId === logData.vehicleId &&
+          !matchedIds.has(reminder.id) &&
+          isSameService(reminder.title, serviceType)
+        ) {
+          matchedIds.add(reminder.id);
+          const intervalMiles = reminder.intervalMiles || 5000;
+          const intervalDays = reminder.intervalDays || 180;
+          const newDueMileage = logMileage + intervalMiles;
+          const newDueDate = new Date(logDate.getTime() + intervalDays * 86400000);
+          remindersStore.updateItem(reminder.id, {
+            lastCompletedMileage: logMileage,
+            lastCompletedDate: logData.date || logDate.toISOString(),
+            dueMileage: newDueMileage,
+            dueDate: newDueDate.toISOString(),
+          });
+        }
+      }
+    }
+
     sync.markChanged();
-  }, [logsStore, sync, analytics]);
+  }, [logsStore, remindersStore, sync, analytics]);
 
   // Add reminder
   const addReminder = useCallback((data) => {
