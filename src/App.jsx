@@ -396,9 +396,22 @@ export default function App() {
   // This ensures the sync effect re-runs for every new auth session.
   // Also clears stale localStorage data from a previous user to prevent
   // data contamination across accounts on shared devices (QA testing, etc.).
+  //
+  // KEY FIX: Only wipe localStorage when the authenticated user actually changes
+  // to a DIFFERENT user. On hard refresh (Ctrl+Shift+R), Supabase auth briefly
+  // transitions through SIGNED_OUT→SIGNED_IN with the SAME user, which would
+  // previously trigger a full localStorage wipe and permanent data loss.
+  // We track the previous user ID in sessionStorage (survives refresh, cleared
+  // on tab close) so we can distinguish "same user refreshed" from "new user
+  // signed in" and skip the wipe accordingly.
   useEffect(() => {
     setInitialSyncDone(false);
     pushedIdsRef.current = {};
+
+    const currentUserId = auth.user?.id || null;
+    const previousUserId = previousUserIdRef.current;
+    const isSameUser = currentUserId && previousUserId && currentUserId === previousUserId;
+
     // Clear stale localStorage data from previous user.
     // Protect account-level and one-time flags — these should never be wiped on
     // auth changes. Wiping them causes data loss or catch-22s with sync effects.
@@ -418,7 +431,22 @@ export default function App() {
       'mtxtrkr_onboarding_dismissed',     // one-time flag: prevents onboarding wizard on every sign-in
       'mtxtrkr_performance_mods',         // performance-modified service flags (cleanable air filters, etc.)
     ];
-    if (auth.user?.id) {
+
+    if (currentUserId) {
+      // Track the authenticated user in sessionStorage so we can detect
+      // same-user refreshes in future page loads.
+      try {
+        sessionStorage.setItem('mtxtrkr_previous_user_id', currentUserId);
+        previousUserIdRef.current = currentUserId;
+      } catch(e) { /* non-critical */ }
+
+      if (isSameUser) {
+        // Same user, same session — this is a refresh or re-render, NOT a
+        // new sign-in. Skip the wipe entirely to preserve localStorage data.
+        return;
+      }
+
+      // Different user (or first sign-in): proceed with the wipe.
       // IMPORTANT: Do NOT push old localStorage data to Supabase here.
       // The sign-out handler (handleLogout) and visibilitychange handler
       // already push data before the session ends, and the two-way sync
@@ -433,7 +461,7 @@ export default function App() {
         try {
           const snapshot = {
             timestamp: new Date().toISOString(),
-            userId: auth.user.id,
+            userId: currentUserId,
             counts: {
               vehicles: (localVehicles.data || []).length,
               maintenance_logs: (localLogs.data || []).length,
@@ -465,12 +493,19 @@ export default function App() {
           const { error } = await supabase
             .from('maintenance_logs')
             .delete()
-            .eq('user_id', auth.user.id);
+            .eq('user_id', currentUserId);
           if (!error) {
             localStorage.setItem(CLEANUP_DONE_KEY, 'true');
           }
         }
       })();
+    } else {
+      // Signed out: clear the sessionStorage tracking so the next sign-in
+      // is treated as a fresh session.
+      try {
+        sessionStorage.removeItem('mtxtrkr_previous_user_id');
+        previousUserIdRef.current = null;
+      } catch(e) { /* non-critical */ }
     }
   }, [auth.user?.id]);
 
@@ -596,6 +631,14 @@ export default function App() {
   // Step 1 (push) change supabaseLogs.data (in the dependency array),
   // causing the effect to re-fire before initialSyncDone is set.
   const syncInProgress = useRef(false);
+  // Tracks the previously-authenticated user ID across page refreshes.
+  // Seeded from sessionStorage (survives Ctrl+Shift+R but cleared on tab close)
+  // so the cleanup effect can distinguish "same user refreshed" from
+  // "different user signed in" and skip the localStorage wipe accordingly.
+  const previousUserIdRef = useRef((() => {
+    try { return sessionStorage.getItem('mtxtrkr_previous_user_id') || null; }
+    catch(e) { return null; }
+  })());
   useEffect(() => {
     if (!isAuthenticated || !auth.user?.id) return;
 
