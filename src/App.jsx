@@ -131,9 +131,9 @@ export default function App() {
     // in production (blank/dark screen). Use .then() chaining instead.
     //
     // Set React state AND localStorage IMMEDIATELY (before auth resolves).
-    // This outruns the cleanup effect's setPremium(false) on auth change and
-    // prevents a catch-22 where the premium sync effect's guard
-    // (localStorage !== 'true') blocks restoration.
+    // The cleanup effect no longer calls setPremium(false), so there is no
+    // race — React state and localStorage stay in sync, and the premium
+    // sync effect verifies against Supabase on the next auth cycle.
     if (params.get('restore-premium') === '1') {
       localStorage.setItem(STORAGE_KEYS.PREMIUM_STATUS, 'true');
       setSubscriptionData({ plan: 'monthly', status: 'active', nextBilling: null });
@@ -449,11 +449,10 @@ export default function App() {
           // Non-fatal: snapshot failure should not block the wipe
           console.warn('[Cleanup] Failed to save pre-wipe snapshot:', e);
         }
-        // Clear premium React state to prevent stale premium from leaking
-        // across user switches. The premium sync effect will restore the
-        // correct value from Supabase on sign-in (Bug #2).
-        setPremium(false);
         // Wipe localStorage data keys to prevent cross-account contamination.
+        // Premium state is NOT reset here — the premium sync effect (below)
+        // verifies against Supabase on every auth change, handling both
+        // restore (DB=true) and cross-account protection (DB=false) scenarios.
         for (let i = localStorage.length - 1; i >= 0; i--) {
           const key = localStorage.key(i);
           if (key && (key.startsWith('mtxtrkr_') || key.startsWith('supabase_cache_')) && !PROTECTED_KEYS.includes(key)) {
