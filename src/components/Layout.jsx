@@ -34,7 +34,7 @@ export default function Layout({ currentPage, onNavigate, onLogout, children }) 
   return (
     <div className="min-h-screen bg-slate-950 flex flex-col">
       {/* Top Header */}
-      <header className="bg-slate-900/80 backdrop-blur-md border-b border-slate-800 sticky top-0 z-40">
+      <header className="bg-slate-900/80 backdrop-blur-md border-b border-slate-800 sticky top-0 z-40 safe-area-top">
         <div className="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <img src={iconImg} alt="MTXtrkr" className="w-8 h-8 rounded-lg" />
@@ -97,13 +97,13 @@ export default function Layout({ currentPage, onNavigate, onLogout, children }) 
         </aside>
 
         {/* Main Content */}
-        <main className="flex-1 max-w-5xl mx-auto md:mx-0 w-full px-4 py-6 pb-24 md:pb-6 overflow-x-hidden">
+        <main className="flex-1 max-w-5xl mx-auto md:mx-0 w-full px-4 py-6 safe-area-content-bottom overflow-x-hidden">
           {children}
         </main>
       </div>
 
       {/* Bottom Navigation (Mobile) */}
-      <nav className="fixed bottom-0 left-0 right-0 bg-slate-900/95 backdrop-blur-md border-t border-slate-800 z-40 md:hidden">
+      <nav className="fixed bottom-0 left-0 right-0 bg-slate-900/95 backdrop-blur-md border-t border-slate-800 z-40 md:hidden safe-area-bottom">
         <div className="flex items-center justify-around h-16 px-1">
           {primaryNavItems.map(item => {
             const Icon = item.icon;
@@ -139,7 +139,7 @@ export default function Layout({ currentPage, onNavigate, onLogout, children }) 
           {/* Backdrop */}
           <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setShowMoreDrawer(false)} />
           {/* Drawer */}
-          <div className="absolute bottom-0 left-0 right-0 bg-slate-900 border-t border-slate-800 rounded-t-2xl shadow-2xl animate-slide-up">
+          <div className="absolute bottom-0 left-0 right-0 bg-slate-900 border-t border-slate-800 rounded-t-2xl shadow-2xl animate-slide-up safe-area-bottom">
             <div className="flex items-center justify-between px-5 pt-4 pb-2">
               <h3 className="text-sm font-semibold text-white">More</h3>
               <button
