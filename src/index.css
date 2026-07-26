@@ -1,5 +1,30 @@
 @import "tailwindcss";
 
+/* Safe Area CSS Custom Properties (iOS notch / Home Indicator) */
+:root {
+  --safe-area-inset-top: env(safe-area-inset-top);
+  --safe-area-inset-bottom: env(safe-area-inset-bottom);
+}
+
+.safe-area-top {
+  padding-top: var(--safe-area-inset-top);
+}
+
+.safe-area-bottom {
+  padding-bottom: var(--safe-area-inset-bottom);
+}
+
+/* Main content bottom padding: nav bar height (64px) + Home Indicator on iOS */
+.safe-area-content-bottom {
+  padding-bottom: calc(96px + var(--safe-area-inset-bottom, 0px));
+}
+
+@media (min-width: 768px) {
+  .safe-area-content-bottom {
+    padding-bottom: 1.5rem;
+  }
+}
+
 /* Glassmorphism Depth Utilities */
 .glass-card {
   background: linear-gradient(135deg, rgba(15, 23, 42, 0.6) 0%, rgba(2, 6, 23, 0.8) 100%);
