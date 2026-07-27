@@ -117,7 +117,12 @@ export function useSupabaseData(tableName, userId, filterColumn = 'user_id') {
 
   // Insert a new record
   const add = useCallback(async (item) => {
-    if (!userId) return null;
+    if (!userId) {
+      const msg = `Cannot add to ${tableName}: not authenticated`;
+      console.error(msg);
+      setError(msg);
+      return null;
+    }
     const snakeItem = keysToSnake({ ...item, userId });
     try {
       const { data: result, error: err } = await supabase
@@ -133,10 +138,13 @@ export function useSupabaseData(tableName, userId, filterColumn = 'user_id') {
         cacheData(newData);
         return newData;
       });
+      setError(null); // clear any previous write errors
       return camelResult;
     } catch (err) {
-      console.error(`Error inserting into ${tableName}:`, err);
-      // Fallback: add to local state
+      const errMsg = `Supabase write failed for ${tableName}: ${err.message || err}`;
+      console.error(errMsg, err);
+      setError(errMsg);
+      // Fallback: add to local state so the UI doesn't lose the user's data
       const fallback = { ...item, id: item.id || crypto.randomUUID(), userId, createdAt: new Date().toISOString() };
       setData(prev => {
         // Check if item already exists in data to prevent duplicates
@@ -168,8 +176,11 @@ export function useSupabaseData(tableName, userId, filterColumn = 'user_id') {
         cacheData(newData);
         return newData;
       });
+      setError(null); // clear any previous write errors
     } catch (err) {
-      console.error(`Error updating ${tableName}:`, err);
+      const errMsg = `Supabase update failed for ${tableName}: ${err.message || err}`;
+      console.error(errMsg, err);
+      setError(errMsg);
       // Fallback to local update
       setData(prev => prev.map(item =>
         item.id === id ? { ...item, ...updates, updatedAt: new Date().toISOString() } : item
@@ -192,8 +203,11 @@ export function useSupabaseData(tableName, userId, filterColumn = 'user_id') {
         cacheData(newData);
         return newData;
       });
+      setError(null); // clear any previous write errors
     } catch (err) {
-      console.error(`Error deleting from ${tableName}:`, err);
+      const errMsg = `Supabase delete failed for ${tableName}: ${err.message || err}`;
+      console.error(errMsg, err);
+      setError(errMsg);
       // Fallback to local delete
       setData(prev => {
         const newData = prev.filter(item => item.id !== id);
