@@ -372,9 +372,15 @@ export default function App() {
     supabaseFuelLogs.data, supabaseMods.data, supabaseDocuments.data
   ]);
 
-  // Sync premium status between Supabase and localStorage
-  // Priority: localStorage -> Supabase (write local to DB on detection)
-  //          : Supabase -> localStorage (restore from DB when local is missing)
+  // Sync premium status between Supabase and localStorage.
+  // DB is ALWAYS the authoritative source of truth. This effect:
+  //   1. Restores local premium when DB says premium (new device / cleared cache)
+  //   2. Downgrades local premium when DB says free — this prevents cross-account
+  //      premium contamination when a premium user signs out and a free user signs
+  //      in on the same browser. The stale premium=true in localStorage (protected
+  //      from the auth-change wipe) must be overridden by DB truth.
+  //   3. Never upserts premium=true to DB — that's handled by the URL param
+  //      handlers (Stripe checkout, premium activation, restore) and handleUpgrade.
   useEffect(() => {
     if (!isAuthenticated) return;
     // Wait for the profile fetch to finish before checking DB premium status.
@@ -384,30 +390,51 @@ export default function App() {
 
     if (supabaseProfile.data.length > 0) {
       const dbPremium = supabaseProfile.data[0].premium;
-      // DB says premium but local doesn't → restore local (e.g. new device login).
-      // Check localStorage directly (not React state) because the stale-data cleanup
-      // effect at line ~362 wipes localStorage on every auth change, but premium React
-      // state survives the wipe (initialized at mount). Using React state creates a
-      // catch-22: if premium=true at mount, the wipe clears localStorage, the guard
-      // blocks, and subscription data is never restored.
-      if (dbPremium === true && localStorage.getItem(STORAGE_KEYS.PREMIUM_STATUS) !== 'true') {
-        setPremium(true);
-        localStorage.setItem(STORAGE_KEYS.PREMIUM_STATUS, 'true');
-        // Restore subscription data for premium users who don't have it in localStorage
-        // (e.g. after clearing localStorage or signing in on a new device).
-        // The actual subscription management (cancel, upgrade) is handled by Stripe,
-        // so the exact plan/status values are informational — 'active' keeps the UI correct.
-        if (!localStorage.getItem('mtxtrkr_subscription_status')) {
-          setSubscriptionData({ plan: 'monthly', status: 'active', nextBilling: null });
+      const localPremium = localStorage.getItem(STORAGE_KEYS.PREMIUM_STATUS) === 'true';
+
+      if (dbPremium === true) {
+        // DB says premium → ensure local reflects it (e.g. new device login,
+        // cleared cache, or cross-device sync).
+        if (!localPremium) {
+          setPremium(true);
+          localStorage.setItem(STORAGE_KEYS.PREMIUM_STATUS, 'true');
+          // Restore subscription data for premium users who don't have it in localStorage
+          // (e.g. after clearing localStorage or signing in on a new device).
+          // The actual subscription management (cancel, upgrade) is handled by Stripe,
+          // so the exact plan/status values are informational — 'active' keeps the UI correct.
+          if (!localStorage.getItem('mtxtrkr_subscription_status')) {
+            setSubscriptionData({ plan: 'monthly', status: 'active', nextBilling: null });
+          }
+        }
+      } else {
+        // DB says free (false, null, or undefined) → ALWAYS override local.
+        // This is the critical fix for cross-account premium contamination:
+        // when a premium user signs out and a free user signs in on the same
+        // browser, the stale premium=true in localStorage (protected from the
+        // auth-change wipe) must be cleared. DB is authoritative.
+        //
+        // We do NOT upsert premium=true to DB here — that path was the root
+        // cause of the cross-account leak (line ~405 in the old code). Stripe
+        // activations and restore flows have their own Supabase upserts in the
+        // URL param handlers and handleUpgrade.
+        if (localPremium) {
+          setPremium(false);
+          localStorage.setItem(STORAGE_KEYS.PREMIUM_STATUS, 'false');
+          clearSubscriptionData();
         }
       }
-      // Local says premium but DB doesn't → persist to DB (e.g. Stripe activation)
-      if (premium && !dbPremium) {
-        supabase.from('profiles').upsert({ id: auth.user.id, premium: true });
-      }
     } else if (premium) {
-      // No profile row yet but localStorage says premium — create one
-      supabase.from('profiles').upsert({ id: auth.user.id, premium: true });
+      // No profile row yet but React state says premium. This is either:
+      //  a) A stale cross-account leak (premium user → free user on same browser)
+      //  b) A brand-new Stripe activation where the profile hasn't been created yet
+      // In case (a), we must downgrade to prevent contamination. In case (b),
+      // the URL param handler (Stripe/payment_success) already upserts to profiles,
+      // so this effect downgrading briefly is harmless — the DB upsert will complete
+      // and the next sync cycle will restore premium. To be safe, we downgrade
+      // rather than risking a permanent cross-account leak.
+      setPremium(false);
+      localStorage.setItem(STORAGE_KEYS.PREMIUM_STATUS, 'false');
+      clearSubscriptionData();
     }
   }, [isAuthenticated, supabaseProfile.data, supabaseProfile.loading, premium]);
 
@@ -435,10 +462,12 @@ export default function App() {
     // Protect account-level and one-time flags — these should never be wiped on
     // auth changes. Wiping them causes data loss or catch-22s with sync effects.
     const PROTECTED_KEYS = [
-      // mtxtrkr_premium_status protected as a fallback for slow Supabase fetches.
-      // The premium sync effect verifies against Supabase on every auth change,
-      // so a free user cannot permanently inherit premium from a previous session.
-      'mtxtrkr_premium_status',           // fallback while Supabase verifies (cross-account leak prevented by premium sync effect)
+      // mtxtrkr_premium_status is protected so it survives the auth-change wipe.
+      // The premium sync effect is the authoritative gate: on every auth change,
+      // it verifies against the Supabase profiles table and downgrades local
+      // premium if DB says free — preventing cross-account leaks even though
+      // the localStorage key survives the wipe.
+      'mtxtrkr_premium_status',           // survives wipe; premium sync effect verifies against DB on auth change
       'mtxtrkr_subscription_status',
       'mtxtrkr_subscription_plan',
       'mtxtrkr_subscription_next_billing',

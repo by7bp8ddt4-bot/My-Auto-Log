@@ -6,7 +6,7 @@
  *   1. PROTECTED_KEYS array matches expected 13 keys (audit from App.jsx)
  *   2. localStorage round-trip: vehicle data written → read → intact
  *   3. Simulated auth-change wipe preserves all 5 data stores
- *   4. Premium status does NOT survive auth-change wipe (verified against Supabase)
+ *   4. Premium status survives auth-change wipe (verified against Supabase by premium sync effect)
  *   5. Same-user refresh detection prevents data loss on deployment/reload
  *   6. Deployment survival: auth-loading race condition does not defeat same-user detection
  */
@@ -73,11 +73,10 @@ function simulateAuthChangeWipe(protectedKeys) {
 }
 
 // ── Expected PROTECTED_KEYS (from App.jsx ~lines 395-410) ───────────
-// NOTE: mtxtrkr_premium_status is protected as a fallback for slow Supabase
-// fetches. The premium sync effect verifies against Supabase on every auth
-// change, preventing cross-account contamination even when premium_status
-// survives the wipe. mtxtrkr_documents removed from protected keys in the
-// Supabase Storage migration (PR #71) — documents now sync via cloud.
+// NOTE: mtxtrkr_premium_status is protected so it survives the auth-change wipe.
+// The premium sync effect in App.jsx verifies against Supabase on every auth
+// change, downgrading local premium when DB says free — preventing cross-account
+// contamination even though the localStorage key survives the wipe.
 const EXPECTED_PROTECTED_KEYS = [
   'mtxtrkr_premium_status',
   'mtxtrkr_subscription_status',
