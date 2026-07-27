@@ -81,9 +81,13 @@ CREATE TABLE IF NOT EXISTS profiles (
   id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
   email TEXT,
   premium BOOLEAN NOT NULL DEFAULT false,
+  stripe_customer_id TEXT,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
+
+-- Run this if the profiles table already exists without stripe_customer_id:
+-- ALTER TABLE profiles ADD COLUMN IF NOT EXISTS stripe_customer_id TEXT;
 
 -- ============================================
 -- SERVICE CATEGORIES TABLE
@@ -331,3 +335,19 @@ CREATE POLICY "Users can delete their own documents"
     bucket_id = 'documents'
     AND (storage.foldername(name))[1] = auth.uid()::text
   );
+
+-- ============================================
+-- REALTIME PUBLICATIONS
+-- ============================================
+-- Supabase Realtime requires each table to be explicitly added to the
+-- supabase_realtime publication before changes are broadcast to clients.
+-- Run these statements in the Supabase SQL Editor if not already run.
+
+ALTER PUBLICATION supabase_realtime ADD TABLE vehicles;
+ALTER PUBLICATION supabase_realtime ADD TABLE maintenance_logs;
+ALTER PUBLICATION supabase_realtime ADD TABLE reminders;
+ALTER PUBLICATION supabase_realtime ADD TABLE profiles;
+ALTER PUBLICATION supabase_realtime ADD TABLE fuel_logs;
+ALTER PUBLICATION supabase_realtime ADD TABLE modifications;
+ALTER PUBLICATION supabase_realtime ADD TABLE documents;
+ALTER PUBLICATION supabase_realtime ADD TABLE analytics_events;
