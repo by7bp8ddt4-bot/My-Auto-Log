@@ -70,6 +70,8 @@ export default function App() {
   });
   const [forceOffline, setForceOffline] = useState(false);
   const [cancelSubDialog, setCancelSubDialog] = useState(false);
+  // Supabase write error banner — shown when any data store's last write failed
+  const [supabaseError, setSupabaseError] = useState(null);
   // Tracks whether initial Supabase→localStorage sync has completed.
   // Resets when the user changes (sign-in/out) so sync re-runs on every session.
   const [initialSyncDone, setInitialSyncDone] = useState(false);
@@ -341,6 +343,25 @@ export default function App() {
   const fuelLogsStore = supabaseFuelLogs;
   const modsStore = supabaseMods;
   const documentsStore = supabaseDocuments;
+
+  // Aggregate Supabase write errors from all stores into a single dismissible banner
+  useEffect(() => {
+    const stores = [
+      { name: 'Vehicles', store: supabaseVehicles },
+      { name: 'Maintenance Logs', store: supabaseLogs },
+      { name: 'Reminders', store: supabaseReminders },
+      { name: 'Fuel Logs', store: supabaseFuelLogs },
+      { name: 'Modifications', store: supabaseMods },
+      { name: 'Documents', store: supabaseDocuments },
+    ];
+    const failing = stores.filter(s => s.store.error).map(s => `${s.name}: ${s.store.error}`);
+    if (failing.length > 0) {
+      setSupabaseError(`Supabase sync issue — data saved locally and will retry. ${failing.join('; ')}`);
+    }
+  }, [
+    supabaseVehicles.error, supabaseLogs.error, supabaseReminders.error,
+    supabaseFuelLogs.error, supabaseMods.error, supabaseDocuments.error
+  ]);
 
   // Mirror Supabase data to localStorage cache for offline access and fast hydration
   // Maps supabase_cache_* keys → mtxtrkr_* keys for backward compatibility
@@ -712,9 +733,17 @@ export default function App() {
     if (!Array.isArray(logData.serviceTypes) || logData.serviceTypes.length === 0) {
       logData.serviceTypes = logData.serviceType ? [logData.serviceType] : ['Other'];
     }
-    // Fire-and-forget: Supabase write + React state update happen inside add().
-    // We don't need to await because nothing depends on the return value.
-    logsStore.add(logData).catch(e => console.warn('[addLog] Supabase write failed:', e));
+    // Await Supabase write — must complete before we consider data "saved"
+    try {
+      const result = await logsStore.add(logData);
+      if (result === null) {
+        console.error('[addLog] Supabase write returned null — user may not be authenticated');
+      } else if (logsStore.error) {
+        console.warn('[addLog] Supabase write had error, saved to local cache only:', logsStore.error);
+      }
+    } catch (e) {
+      console.error('[addLog] Unexpected error during Supabase write:', e);
+    }
     analytics.track('maintenance_log_added', {
       serviceType: logData.serviceType,
       serviceTypes: logData.serviceTypes,
@@ -727,8 +756,6 @@ export default function App() {
     const serviceTypes = logData.serviceTypes;
     const logMileage = logData.mileage;
     const logDate = logData.date ? new Date(logData.date) : new Date();
-    // Build a set of reminder IDs that have already been matched to avoid
-    // updating the same reminder twice when multiple serviceTypes match it
     const matchedIds = new Set();
     for (const serviceType of serviceTypes) {
       for (const reminder of remindersStore.data) {
@@ -742,13 +769,17 @@ export default function App() {
           const intervalDays = reminder.intervalDays || 180;
           const newDueMileage = logMileage + intervalMiles;
           const newDueDate = new Date(logDate.getTime() + intervalDays * 86400000);
-          // Fire-and-forget — React state updates synchronously via setData
-          remindersStore.updateItem(reminder.id, {
-            lastCompletedMileage: logMileage,
-            lastCompletedDate: logData.date || logDate.toISOString(),
-            dueMileage: newDueMileage,
-            dueDate: newDueDate.toISOString(),
-          }).catch(e => console.warn('[addLog] Reminder update failed:', e));
+          // Await each reminder update to ensure Supabase writes complete
+          try {
+            await remindersStore.updateItem(reminder.id, {
+              lastCompletedMileage: logMileage,
+              lastCompletedDate: logData.date || logDate.toISOString(),
+              dueMileage: newDueMileage,
+              dueDate: newDueDate.toISOString(),
+            });
+          } catch (e) {
+            console.warn('[addLog] Reminder update failed:', e);
+          }
         }
       }
     }
@@ -757,16 +788,25 @@ export default function App() {
   }, [logsStore, remindersStore, sync, analytics]);
 
   // Add reminder
-  const addReminder = useCallback((data) => {
-    remindersStore.add({
-      ...data,
-      enabled: true,
-      lastCompletedMileage: parseInt(data.lastCompletedMileage) || 0,
-      intervalMiles: parseInt(data.intervalMiles) || 5000,
-      intervalDays: parseInt(data.intervalDays) || 180,
-      dueMileage: data.dueMileage || 0,
-      dueDate: data.dueDate || new Date(Date.now() + 180 * 86400000).toISOString(),
-    }).catch(e => console.warn('[addReminder] Supabase write failed:', e));
+  const addReminder = useCallback(async (data) => {
+    try {
+      const result = await remindersStore.add({
+        ...data,
+        enabled: true,
+        lastCompletedMileage: parseInt(data.lastCompletedMileage) || 0,
+        intervalMiles: parseInt(data.intervalMiles) || 5000,
+        intervalDays: parseInt(data.intervalDays) || 180,
+        dueMileage: data.dueMileage || 0,
+        dueDate: data.dueDate || new Date(Date.now() + 180 * 86400000).toISOString(),
+      });
+      if (result === null) {
+        console.error('[addReminder] Supabase write returned null — user may not be authenticated');
+      } else if (remindersStore.error) {
+        console.warn('[addReminder] Supabase write had error, saved to local cache only:', remindersStore.error);
+      }
+    } catch (e) {
+      console.error('[addReminder] Unexpected error during Supabase write:', e);
+    }
     analytics.track('reminder_added', {
       reminderType: data.title,
       intervalMiles: parseInt(data.intervalMiles) || 5000,
@@ -1180,7 +1220,7 @@ export default function App() {
     fuel: <FuelLog
       logs={fuelLogsStore.data}
       vehicles={vehiclesStore.data}
-      onAdd={(data) => { fuelLogsStore.add(data); sync.markChanged(); }}
+      onAdd={async (data) => { try { await fuelLogsStore.add(data); } catch(e) { console.error('[FuelLog add]', e); } sync.markChanged(); }}
       onDelete={(id) => { supabaseFuelLogs.remove(id); fuelLogsStore.remove(id); sync.markChanged(); }}
       onUpdate={(id, data) => { fuelLogsStore.updateItem(id, data); sync.markChanged(); }}
       selectedVehicleId={selectedVehicleId}
@@ -1188,7 +1228,7 @@ export default function App() {
     mods: <Modifications
       mods={modsStore.data}
       vehicles={vehiclesStore.data}
-      onAdd={(data) => { modsStore.add(data); sync.markChanged(); }}
+      onAdd={async (data) => { try { await modsStore.add(data); } catch(e) { console.error('[Mods add]', e); } sync.markChanged(); }}
       onDelete={(id) => { supabaseMods.remove(id); modsStore.remove(id); sync.markChanged(); }}
       onNavigate={navigate}
       isPremium={premium}
@@ -1230,6 +1270,14 @@ export default function App() {
         forceOffline={forceOffline}
         setForceOffline={setForceOffline}
       />
+      {supabaseError && isAuthenticated && (
+        <div className="fixed bottom-16 left-1/2 -translate-x-1/2 z-50 bg-red-600 text-white px-4 py-2 rounded-lg shadow-lg text-sm max-w-md text-center cursor-pointer"
+             onClick={() => setSupabaseError(null)}
+             role="alert">
+          ⚠️ {supabaseError}
+          <span className="block text-xs opacity-70 mt-1">Tap to dismiss</span>
+        </div>
+      )}
     </ErrorBoundary>
   );
 }
