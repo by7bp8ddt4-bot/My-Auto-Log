@@ -3,10 +3,12 @@
  *
  * Blocks deployment if PROTECTED_KEYS or data persistence is broken.
  * Verifies:
- *   1. PROTECTED_KEYS array matches expected 10 keys (audit from App.jsx)
+ *   1. PROTECTED_KEYS array matches expected 13 keys (audit from App.jsx)
  *   2. localStorage round-trip: vehicle data written → read → intact
  *   3. Simulated auth-change wipe preserves all 5 data stores
  *   4. Premium status does NOT survive auth-change wipe (verified against Supabase)
+ *   5. Same-user refresh detection prevents data loss on deployment/reload
+ *   6. Deployment survival: auth-loading race condition does not defeat same-user detection
  */
 
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
@@ -88,6 +90,8 @@ const EXPECTED_PROTECTED_KEYS = [
   'mtxtrkr_supabase_cache_migrated',
   'mtxtrkr_onboarding_dismissed',
   'mtxtrkr_performance_mods',
+  'mtxtrkr_pre_wipe_backup',
+  'mtxtrkr_sw_nuked',
 ];
 
 // ── 5 data store keys (must survive wipe) ──────────────────────────
@@ -112,9 +116,9 @@ describe('Data Integrity Gate', () => {
 
   // ── 1. PROTECTED_KEYS Audit ──────────────────────────────────
   describe('PROTECTED_KEYS Audit', () => {
-    it('should have exactly 11 protected keys in App.jsx', () => {
+    it('should have exactly 13 protected keys in App.jsx', () => {
       const actual = extractProtectedKeys();
-      expect(actual).toHaveLength(11);
+      expect(actual).toHaveLength(13);
     });
 
     it('should match expected PROTECTED_KEYS exactly', () => {
@@ -534,6 +538,107 @@ describe('Data Integrity Gate', () => {
         expect(src).toContain('Skip the wipe entirely');
       } catch (e) {
         // If App.jsx can't be read, fail the test
+        expect(e).toBeNull();
+      }
+    });
+  });
+
+  // ── 7. Deployment Survival (Auth-Loading Race Condition) ──────────
+  describe('Deployment Survival — Auth-Loading Race', () => {
+    const SESSION_KEY = 'mtxtrkr_previous_user_id';
+
+    /**
+     * Simulates the deployment/auth-loading race condition:
+     * 1. App loads after deployment/SW update
+     * 2. auth.user is null while auth.loading is true (initial state)
+     * 3. The cleanup effect fires with null user BUT loading=true → should NOT clear sessionStorage
+     * 4. auth resolves → user=real_id, loading=false
+     * 5. Cleanup effect fires again → should detect same user → skip wipe
+     *
+     * Returns true if the wipe should proceed, false if it should be skipped.
+     */
+    function simulateDeploymentAuthRace(currentUserId, isLoading) {
+      try {
+        const previousUserId = sessionStorage.getItem(SESSION_KEY) || null;
+
+        // Step 1: Auth loading — user is null, loading is true
+        // The else branch should NOT clear sessionStorage when loading=true
+        if (!currentUserId && isLoading) {
+          // Do NOT clear sessionStorage — this is just auth loading
+          return 'SKIP'; // not a real sign-out, don't clear anything
+        }
+
+        // Step 2: Auth genuinely signed out (user null, loading false)
+        if (!currentUserId && !isLoading) {
+          sessionStorage.removeItem(SESSION_KEY);
+          return 'WIPE'; // genuine sign-out
+        }
+
+        // Step 3: Auth resolved — user is real
+        // Check same-user detection
+        if (currentUserId && previousUserId && currentUserId === previousUserId) {
+          return 'SKIP'; // Same user refresh
+        }
+
+        return 'WIPE'; // Different user or first sign-in
+      } catch(e) {
+        return 'WIPE'; // Fail safe
+      }
+    }
+
+    beforeEach(() => {
+      clearLocalStorage();
+      try { sessionStorage.removeItem(SESSION_KEY); } catch(e) {}
+    });
+
+    afterEach(() => {
+      try { sessionStorage.removeItem(SESSION_KEY); } catch(e) {}
+    });
+
+    it('should NOT clear sessionStorage when auth is loading (null user, loading=true)', () => {
+      // Setup: user was previously signed in
+      sessionStorage.setItem(SESSION_KEY, 'userA');
+
+      // Seed data
+      localStorage.setItem('mtxtrkr_vehicles', JSON.stringify([{ id: 'v1', make: 'Honda' }]));
+      localStorage.setItem('mtxtrkr_maintenance_logs', JSON.stringify([{ id: 'l1', serviceType: 'Oil Change' }]));
+
+      // Simulate auth-loading race: null user, loading=true (first fire of cleanup effect)
+      const result1 = simulateDeploymentAuthRace(null, true);
+      expect(result1).toBe('SKIP');
+
+      // sessionStorage should NOT have been cleared during loading
+      expect(sessionStorage.getItem(SESSION_KEY)).toBe('userA');
+
+      // Simulate auth resolved: real user, loading=false (second fire)
+      const result2 = simulateDeploymentAuthRace('userA', false);
+      expect(result2).toBe('SKIP'); // Same user → skip wipe
+
+      // Data should survive
+      expect(localStorage.getItem('mtxtrkr_vehicles')).toBeTruthy();
+      expect(localStorage.getItem('mtxtrkr_maintenance_logs')).toBeTruthy();
+    });
+
+    it('should clear sessionStorage when genuinely signed out (null user, loading=false)', () => {
+      // Setup: user was previously signed in
+      sessionStorage.setItem(SESSION_KEY, 'userA');
+
+      // Simulate actual sign-out: null user, loading=false
+      const result = simulateDeploymentAuthRace(null, false);
+      expect(result).toBe('WIPE');
+
+      // sessionStorage should be cleared on actual sign-out
+      expect(sessionStorage.getItem(SESSION_KEY)).toBeNull();
+    });
+
+    it('should detect the loading-guard fix in App.jsx source (audit)', () => {
+      try {
+        const src = readFileSync(resolve(__dirname, '../../src/App.jsx'), 'utf-8');
+        // The else branch must guard against auth.loading
+        expect(src).toContain('!auth.loading');
+        // The comment explaining WHY the loading guard is needed
+        expect(src).toContain('Do NOT clear sessionStorage when auth is still loading');
+      } catch (e) {
         expect(e).toBeNull();
       }
     });

@@ -431,6 +431,8 @@ export default function App() {
       'mtxtrkr_supabase_cache_migrated',  // one-time flag: supabase cache migration
       'mtxtrkr_onboarding_dismissed',     // one-time flag: prevents onboarding wizard on every sign-in
       'mtxtrkr_performance_mods',         // performance-modified service flags (cleanable air filters, etc.)
+      'mtxtrkr_pre_wipe_backup',          // forensic snapshot: saved before wipes for data-loss diagnosis
+      'mtxtrkr_sw_nuked',                 // one-time flag: prevents SW nuke from re-running after auth wipes
     ];
 
     if (currentUserId) {
@@ -500,15 +502,22 @@ export default function App() {
           }
         }
       })();
-    } else {
-      // Signed out: clear the sessionStorage tracking so the next sign-in
-      // is treated as a fresh session.
+    } else if (!auth.loading) {
+      // Genuinely signed out (auth finished loading and user is null).
+      // Clear the sessionStorage tracking so the next sign-in is treated
+      // as a fresh session.
+      //
+      // IMPORTANT: Do NOT clear sessionStorage when auth is still loading
+      // (auth.loading === true). On page refresh, auth.user starts as null
+      // during the brief loading window, and clearing sessionStorage here
+      // would defeat the same-user detection on the next effect fire,
+      // causing a full localStorage wipe and permanent data loss.
       try {
         sessionStorage.removeItem('mtxtrkr_previous_user_id');
         previousUserIdRef.current = null;
       } catch(e) { /* non-critical */ }
     }
-  }, [auth.user?.id]);
+  }, [auth.user?.id, auth.loading]);
 
   // On sign-in: two-way sync between Supabase and localStorage.
   // 1. Pushes any local data that Supabase doesn't have yet (cross-device data).
