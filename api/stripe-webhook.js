@@ -33,11 +33,14 @@ export default async function handler(req, res) {
     console.log(`Checkout completed for user: ${userId}`);
 
     if (userId) {
+      const stripeCustomerId = session.customer || null;
+
       const { error } = await supabase
         .from('profiles')
         .upsert({
                       id: userId,
                       premium: true,
+                      stripe_customer_id: stripeCustomerId,
                       updated_at: new Date().toISOString()
                     });
       
@@ -45,7 +48,7 @@ export default async function handler(req, res) {
         console.error('Error updating profile:', error);
         return res.status(500).json({ error: 'Failed to update profile' });
       }
-      console.log(`Profile updated for user: ${userId}`);
+      console.log(`Profile updated for user: ${userId}, stripe_customer_id: ${stripeCustomerId}`);
     }
   }
 
