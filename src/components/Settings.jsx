@@ -153,17 +153,17 @@ export default function Settings({ onReset, onExport, vehicles, logs, reminders,
                   {syncing ? (
                     <>
                       <RefreshCw className="w-4 h-4 animate-spin" />
-                      Syncing from Cloud...
+                      Refreshing from Cloud...
                     </>
                   ) : syncDone ? (
                     <>
                       <CheckCircle2 className="w-4 h-4" />
-                      Synced Successfully
+                      Refreshed Successfully
                     </>
                   ) : (
                     <>
                       <Cloud className="w-4 h-4" />
-                      Sync from Cloud
+                      Refresh from Cloud
                     </>
                   )}
                 </button>
@@ -188,21 +188,21 @@ export default function Settings({ onReset, onExport, vehicles, logs, reminders,
                   {pushing ? (
                     <>
                       <RefreshCw className="w-4 h-4 animate-spin" />
-                      Pushing to Cloud...
+                      Backing up...
                     </>
                   ) : pushDone ? (
                     <>
                       <CheckCircle2 className="w-4 h-4" />
-                      Pushed Successfully
+                      Backup Complete
                     </>
                   ) : (
                     <>
                       <Cloud className="w-4 h-4" />
-                      Push to Cloud
+                      Back Up to Cloud
                     </>
                   )}
                 </button>
-                <p className="text-[11px] text-slate-400 text-center mt-1">Not seeing your recent changes?</p>
+                <p className="text-[11px] text-slate-400 text-center mt-1">Data syncs automatically — use Refresh to pull from another device</p>
               </>
             )}
             <button
@@ -233,7 +233,7 @@ export default function Settings({ onReset, onExport, vehicles, logs, reminders,
             <h3 className="text-sm font-semibold text-white">Storage</h3>
           </div>
           <p className="text-xs text-slate-400">
-            {isAuthenticated ? 'Your data is securely synced to the cloud and available across all your devices.' : 'Data is currently stored locally in your browser.'} Offline changes are saved and sync automatically when you're back online.
+            {isAuthenticated ? 'Your data is saved to the cloud in real-time and available across all your devices. Local cache provides offline access.' : 'Data is currently stored locally in your browser.'} Changes sync automatically — you can also manually refresh from the cloud above.
           </p>
         </div>
 
