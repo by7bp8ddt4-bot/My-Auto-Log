@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { Wifi, WifiOff, Cloud, CheckCircle2, Loader2, ToggleLeft, ToggleRight } from 'lucide-react';
+import { Wifi, WifiOff, Cloud, CheckCircle2, Loader2, ToggleLeft, ToggleRight, AlertTriangle } from 'lucide-react';
 
-export default function SyncIndicator({ isOnline, syncing, lastSync, pendingChanges, forceOffline, setForceOffline }) {
+export default function SyncIndicator({ isOnline, syncing, lastSync, pendingChanges, forceOffline, setForceOffline, hasUnsyncedChanges }) {
   const [showDetails, setShowDetails] = useState(false);
 
   const lastSyncStr = lastSync
@@ -12,11 +12,13 @@ export default function SyncIndicator({ isOnline, syncing, lastSync, pendingChan
 
   const indicatorText = syncing
     ? 'Syncing to cloud...'
-    : actuallyOnline
-      ? pendingChanges > 0
-        ? `${pendingChanges} change${pendingChanges > 1 ? 's' : ''} pending sync`
-        : 'Online — All changes synced'
-      : 'Offline — Caching locally';
+    : hasUnsyncedChanges
+      ? 'Save failed — tap to retry'
+      : actuallyOnline
+        ? pendingChanges > 0
+          ? `${pendingChanges} change${pendingChanges > 1 ? 's' : ''} pending sync`
+          : 'Online — All changes synced'
+        : 'Offline — Caching locally';
 
   return (
     <div className="fixed bottom-20 left-4 z-50 flex flex-col items-start gap-2">
@@ -25,6 +27,7 @@ export default function SyncIndicator({ isOnline, syncing, lastSync, pendingChan
         className={`
           flex items-center gap-2 px-2.5 py-1 rounded-lg text-[10px] font-medium shadow-lg backdrop-blur-sm transition-all duration-300 cursor-pointer
           ${syncing ? 'bg-blue-500/20 text-blue-300 border border-blue-500/30' :
+            hasUnsyncedChanges ? 'bg-red-500/20 text-red-300 border border-red-500/30' :
             actuallyOnline ? 'bg-emerald-500/15 text-emerald-300 border border-emerald-500/30' :
             'bg-amber-500/20 text-amber-300 border border-amber-500/30'}
         `}
@@ -34,6 +37,11 @@ export default function SyncIndicator({ isOnline, syncing, lastSync, pendingChan
           <>
             <Loader2 className="w-3 h-3 animate-spin" />
             <span className="hidden sm:inline">Syncing...</span>
+          </>
+        ) : hasUnsyncedChanges ? (
+          <>
+            <AlertTriangle className="w-3 h-3" />
+            <span className="hidden sm:inline">Save failed</span>
           </>
         ) : actuallyOnline ? (
           <>
@@ -59,8 +67,8 @@ export default function SyncIndicator({ isOnline, syncing, lastSync, pendingChan
           <div className="space-y-2 text-xs">
             <div className="flex items-center justify-between">
               <span className="text-slate-400">Status</span>
-              <span className={`font-medium ${syncing ? 'text-blue-300' : actuallyOnline ? 'text-emerald-300' : 'text-amber-300'}`}>
-                {syncing ? 'Syncing...' : actuallyOnline ? 'Online' : 'Offline'}
+              <span className={`font-medium ${syncing ? 'text-blue-300' : hasUnsyncedChanges ? 'text-red-300' : actuallyOnline ? 'text-emerald-300' : 'text-amber-300'}`}>
+                {syncing ? 'Syncing...' : hasUnsyncedChanges ? 'Save failed' : actuallyOnline ? 'Online' : 'Offline'}
               </span>
             </div>
             <div className="flex items-center justify-between">

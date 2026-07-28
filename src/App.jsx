@@ -69,6 +69,7 @@ export default function App() {
   });
   const [forceOffline, setForceOffline] = useState(false);
   const [cancelSubDialog, setCancelSubDialog] = useState(false);
+  const [syncError, setSyncError] = useState(null); // temporary error banner for failed Supabase writes
   // Tracks whether initial Supabase→localStorage sync has completed.
   // Resets when the user changes (sign-in/out) so sync re-runs on every session.
   const [initialSyncDone, setInitialSyncDone] = useState(false);
@@ -215,6 +216,21 @@ export default function App() {
   const localFuelLogs = useLocalStorage('mtxtrkr_fuel_logs', []);
   const localMods = useLocalStorage('mtxtrkr_modifications', []);
   const localDocuments = useLocalStorage(STORAGE_KEYS.DOCUMENTS, []);
+
+  // Aggregate unsynced changes across all Supabase stores
+  const hasUnsyncedChanges =
+    supabaseVehicles.hasUnsyncedChanges ||
+    supabaseLogs.hasUnsyncedChanges ||
+    supabaseReminders.hasUnsyncedChanges ||
+    supabaseFuelLogs.hasUnsyncedChanges ||
+    supabaseMods.hasUnsyncedChanges ||
+    supabaseDocuments.hasUnsyncedChanges;
+
+  // Helper to show a temporary error banner for failed Supabase writes
+  const showSyncError = useCallback((message) => {
+    setSyncError(message);
+    setTimeout(() => setSyncError(null), 5000);
+  }, []);
 
   // One-time stale cache cleanup: wipe supabase_cache_* keys and reset migration
   // flags so the migrations below re-run. The supabase_cache_* keys are only a
@@ -508,7 +524,12 @@ export default function App() {
         const itemsToPush = localData.filter(item => !supabaseIds.has(item.id));
         for (const item of itemsToPush) {
           const { createdAt, updatedAt, ...syncItem } = item;
-          try { await supabase.add(syncItem); } catch (e) {
+          try {
+            const result = await supabase.add(syncItem);
+            if (result?.error) {
+              console.warn(`[Sync] Failed to push item to cloud:`, result.message);
+            }
+          } catch (e) {
             console.warn(`[Sync] Failed to push item to cloud:`, e);
           }
         }
@@ -604,7 +625,12 @@ export default function App() {
           pushedIdsRef.current[item.id] = itemTimestamp;
           const { createdAt, updatedAt, ...syncItem } = item;
           try {
-            await supabase.add(syncItem);
+            const result = await supabase.add(syncItem);
+            if (result?.error) {
+              console.error(`[Sync] Failed to push ${item.id}:`, result.message);
+              // Allow retry on failure — the add() function already tracks it in failedWrites
+              delete pushedIdsRef.current[item.id];
+            }
           } catch (e) {
             console.error(`[Sync] Failed to push ${item.id}:`, e);
             // Allow retry on failure
@@ -641,7 +667,11 @@ export default function App() {
             pushedIdsRef.current[item.id] = itemTimestamp;
             const { createdAt, updatedAt, ...syncItem } = item;
             try {
-              await supabase.add(syncItem);
+              const result = await supabase.add(syncItem);
+              if (result?.error) {
+                console.error('[VisibilitySync] Push failed:', result.message);
+                delete pushedIdsRef.current[item.id];
+              }
             } catch (e) {
               console.error('[VisibilitySync] Push failed:', e);
               delete pushedIdsRef.current[item.id];
@@ -812,11 +842,12 @@ export default function App() {
   }, [localDocuments, sync]);
 
   // Delete document (also removes from Supabase Storage if has storagePath)
-  const handleDeleteDocument = useCallback((id) => {
+  const handleDeleteDocument = useCallback(async (id) => {
     localDocuments.remove(id);
-    supabaseDocuments.remove(id);
+    const result = await supabaseDocuments.remove(id);
+    if (result?.error) showSyncError('Delete not synced to cloud — tap Push to Cloud to retry');
     sync.markChanged();
-  }, [localDocuments, supabaseDocuments, sync]);
+  }, [localDocuments, supabaseDocuments, sync, showSyncError]);
 
   // Reset all data
   const handleReset = useCallback(async () => {
@@ -950,11 +981,22 @@ export default function App() {
       const now = new Date().toISOString();
       for (const item of itemsToSync) {
         const { createdAt, updatedAt, ...syncItem } = item;
-        await supabase.add(syncItem);
-        // Track in push ref so background sync doesn't re-push
-        pushedIdsRef.current[item.id] = item.updatedAt || item.createdAt || now;
+        const result = await supabase.add(syncItem);
+        if (result?.error) {
+          showSyncError('Some items failed to push — try again');
+        } else {
+          // Track in push ref so background sync doesn't re-push
+          pushedIdsRef.current[item.id] = item.updatedAt || item.createdAt || now;
+        }
       }
     }
+    // Clear all failed write trackers after a successful push attempt
+    supabaseVehicles.clearAllFailedWrites();
+    supabaseLogs.clearAllFailedWrites();
+    supabaseReminders.clearAllFailedWrites();
+    supabaseFuelLogs.clearAllFailedWrites();
+    supabaseMods.clearAllFailedWrites();
+    supabaseDocuments.clearAllFailedWrites();
     // Also push premium status (only if already premium — don't escalate free users)
     if (premium) {
       localStorage.setItem(STORAGE_KEYS.PREMIUM_STATUS, 'true');
@@ -1103,6 +1145,7 @@ export default function App() {
           pendingChanges={sync.pendingChanges}
           forceOffline={forceOffline}
           setForceOffline={setForceOffline}
+          hasUnsyncedChanges={hasUnsyncedChanges}
         />
       </ErrorBoundary>
     );
@@ -1141,9 +1184,10 @@ export default function App() {
         vehiclesStore.updateItem(id, updates);
         sync.markChanged();
       }}
-      onDelete={(id) => {
+      onDelete={async (id) => {
         vehiclesStore.remove(id);
-        supabaseVehicles.remove(id);
+        const result = await supabaseVehicles.remove(id);
+        if (result?.error) showSyncError('Delete not synced to cloud — tap Push to Cloud to retry');
         sync.markChanged();
       }}
       isPremium={premium}
@@ -1158,9 +1202,10 @@ export default function App() {
         logsStore.updateItem(id, data);
         sync.markChanged();
       }}
-      onDelete={(id) => {
+      onDelete={async (id) => {
         logsStore.remove(id);
-        supabaseLogs.remove(id);
+        const result = await supabaseLogs.remove(id);
+        if (result?.error) showSyncError('Delete not synced to cloud — tap Push to Cloud to retry');
         sync.markChanged();
       }}
       onNavigate={navigate}
@@ -1176,9 +1221,10 @@ export default function App() {
         remindersStore.updateItem(id, updates);
         sync.markChanged();
       }}
-      onDelete={(id) => {
+      onDelete={async (id) => {
         remindersStore.remove(id);
-        supabaseReminders.remove(id);
+        const result = await supabaseReminders.remove(id);
+        if (result?.error) showSyncError('Delete not synced to cloud — tap Push to Cloud to retry');
         sync.markChanged();
       }}
       isPremium={premium}
@@ -1216,7 +1262,12 @@ export default function App() {
       logs={fuelLogsStore.data}
       vehicles={vehiclesStore.data}
       onAdd={(data) => { fuelLogsStore.add(data); sync.markChanged(); }}
-      onDelete={(id) => { supabaseFuelLogs.remove(id); fuelLogsStore.remove(id); sync.markChanged(); }}
+      onDelete={async (id) => { 
+        const result = await supabaseFuelLogs.remove(id); 
+        if (result?.error) showSyncError('Delete not synced to cloud — tap Push to Cloud to retry');
+        fuelLogsStore.remove(id); 
+        sync.markChanged(); 
+      }}
       onUpdate={(id, data) => { fuelLogsStore.updateItem(id, data); sync.markChanged(); }}
       selectedVehicleId={selectedVehicleId}
     />,
@@ -1224,7 +1275,12 @@ export default function App() {
       mods={modsStore.data}
       vehicles={vehiclesStore.data}
       onAdd={(data) => { modsStore.add(data); sync.markChanged(); }}
-      onDelete={(id) => { supabaseMods.remove(id); modsStore.remove(id); sync.markChanged(); }}
+      onDelete={async (id) => { 
+        const result = await supabaseMods.remove(id); 
+        if (result?.error) showSyncError('Delete not synced to cloud — tap Push to Cloud to retry');
+        modsStore.remove(id); 
+        sync.markChanged(); 
+      }}
       onNavigate={navigate}
       isPremium={premium}
       selectedVehicleId={selectedVehicleId}
@@ -1254,6 +1310,15 @@ export default function App() {
 
   return (
     <ErrorBoundary>
+      {/* Sync error banner — shown when a Supabase write fails */}
+      {syncError && (
+        <div className="fixed top-0 left-0 right-0 z-50 bg-red-600/90 backdrop-blur-sm text-white text-sm py-2 px-4 text-center font-medium animate-pulse cursor-pointer"
+          onClick={() => setSyncError(null)}>
+          <span className="mr-2">⚠</span>
+          {syncError}
+          <span className="ml-2 text-xs opacity-70">(tap to dismiss)</span>
+        </div>
+      )}
       <Layout currentPage={page} onNavigate={navigate} onLogout={handleLogout}>
         {(!isAuthenticated && !auth.loading && page !== 'landing' && page !== 'premium') ? pages.auth : (pages[page] || pages.dashboard)}
       </Layout>
@@ -1264,6 +1329,7 @@ export default function App() {
         pendingChanges={sync.pendingChanges}
         forceOffline={forceOffline}
         setForceOffline={setForceOffline}
+        hasUnsyncedChanges={hasUnsyncedChanges}
       />
     </ErrorBoundary>
   );
