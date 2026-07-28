@@ -491,7 +491,6 @@ export default function App() {
       'mtxtrkr_cache_migrated',           // one-time flag: cache migration
       'mtxtrkr_supabase_cache_migrated',  // one-time flag: supabase cache migration
       'mtxtrkr_onboarding_dismissed',     // one-time flag: prevents onboarding wizard on every sign-in
-      'mtxtrkr_performance_mods',         // performance-modified service flags (cleanable air filters, etc.)
     ];
     if (auth.user?.id) {
       // IMPORTANT: Do NOT push old localStorage data to Supabase here.
