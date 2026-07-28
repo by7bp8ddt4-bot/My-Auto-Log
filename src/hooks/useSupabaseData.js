@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { supabase } from '../lib/supabase';
 
 // Helper to convert object keys to snake_case for Postgres
@@ -58,7 +58,7 @@ function readCacheWithStamp(tableName, userId) {
   }
 }
 
-export function useSupabaseData(tableName, userId, filterColumn = 'user_id') {
+export function useSupabaseData(tableName, userId, filterColumn = 'user_id', onDataChange = null) {
   const [data, setData] = useState(() => {
     return readCacheWithStamp(tableName, userId);
   });
@@ -67,6 +67,11 @@ export function useSupabaseData(tableName, userId, filterColumn = 'user_id') {
   // Track writes that failed to reach Supabase — survives across renders
   const [failedWrites, setFailedWrites] = useState([]);
   const hasUnsyncedChanges = failedWrites.length > 0;
+
+  // Ref to hold the latest onDataChange callback without causing fetchData to
+  // be recreated on every render (would trigger infinite fetch loop).
+  const onDataChangeRef = useRef(onDataChange);
+  onDataChangeRef.current = onDataChange;
 
   // Clear a specific failed write (called after successful retry)
   const clearFailedWrite = useCallback((id) => {
@@ -112,6 +117,12 @@ export function useSupabaseData(tableName, userId, filterColumn = 'user_id') {
       if (camelData.length > 0) {
         setData(camelData);
         cacheData(camelData);
+        // Propagate Realtime-refreshed data to the localStorage store
+        // so the UI (which reads from useLocalStorage) reflects changes
+        // from other tabs/devices without manual refresh.
+        if (onDataChangeRef.current) {
+          onDataChangeRef.current(camelData);
+        }
       } else if (prevCache.length > 0) {
         // Supabase is empty but cache has data — keep cache as fallback
         setData(prevCache);
