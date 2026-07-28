@@ -1,5 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
-import nodemailer from 'nodemailer';
+import { Resend } from 'resend';
 
 const supabase = createClient(
   process.env.VITE_SUPABASE_URL,
@@ -11,7 +11,7 @@ export default async function handler(req, res) {
   if (req.query.health === '1') {
     const config = {
       supabaseConfigured: !!(process.env.VITE_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY),
-      smtpConfigured: !!(process.env.SMTP_USER && process.env.SMTP_PASS),
+      resendConfigured: !!process.env.RESEND_API_KEY,
       cronConfigured: !!process.env.CRON_SECRET,
     };
     return res.status(200).json({ status: 'ok', config });
@@ -29,24 +29,12 @@ export default async function handler(req, res) {
   }
 
   try {
-    // Verify config is complete
-    if (!process.env.SMTP_USER || !process.env.SMTP_PASS) {
-      return res.status(500).json({ error: 'SMTP not configured — missing SMTP_USER or SMTP_PASS env vars' });
+    // Verify Resend is configured
+    if (!process.env.RESEND_API_KEY) {
+      return res.status(500).json({ error: 'Resend not configured — missing RESEND_API_KEY env var' });
     }
 
-    // Create transporter lazily (inside handler, not at module level)
-    const transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST || 'smtp.gmail.com',
-      port: parseInt(process.env.SMTP_PORT || '587'),
-      secure: false,
-      auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS,
-      },
-    });
-
-    // Verify transporter works
-    await transporter.verify();
+    const resend = new Resend(process.env.RESEND_API_KEY);
 
     // 1. Fetch all premium users with their profiles
     const { data: premiumUsers, error: userError } = await supabase
@@ -221,8 +209,8 @@ export default async function handler(req, res) {
       ` : '';
 
       try {
-        await transporter.sendMail({
-          from: process.env.SMTP_USER,
+        const { data, error: sendError } = await resend.emails.send({
+          from: 'MTXtrkr <support@contact.mtxtrkr.com>',
           to: email,
           subject: `📅 ${vehicleCount > 0 ? `Mileage check-in for your ${vehicleCount} ${vehicleCount === 1 ? 'vehicle' : 'vehicles'}` : 'MTXtrkr Monthly Update'}${regRenewals.length > 0 ? ` + ${regRenewals.length} registration renewal${regRenewals.length > 1 ? 's' : ''}` : ''} — MTXtrkr`,
           html: `
@@ -286,6 +274,11 @@ export default async function handler(req, res) {
           `,
         });
 
+        if (sendError) {
+          console.error('[mileage-reminder] Resend API error:', JSON.stringify(sendError, null, 2));
+          return { userId: profile.id, email, status: 'failed', error: sendError.message || 'Unknown Resend error' };
+        }
+
         // After successful send, update reminders_sent for registration documents
         if (regRenewals.length > 0) {
           for (const r of regRenewals) {
@@ -298,6 +291,7 @@ export default async function handler(req, res) {
           }
         }
 
+        console.log('[mileage-reminder] Resend email sent successfully, id:', data?.id);
         return { userId: profile.id, email, status: 'sent' };
       } catch (sendError) {
         console.error(`Failed to send to ${email}:`, sendError);
