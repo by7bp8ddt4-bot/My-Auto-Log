@@ -415,6 +415,33 @@ export default function App() {
   useEffect(() => {
     setInitialSyncDone(false);
     pushedIdsRef.current = {};
+
+    // CRITICAL: Reset all React state for data stores BEFORE clearing localStorage.
+    // The localStorage wipe removes the on-disk data, but React state (useState hooks)
+    // still holds the PREVIOUS user's data in memory. Without this reset, the two-way
+    // sync effect reads stale React state (old user's vehicles/logs/etc.) and pushes
+    // it to the new user's Supabase account — causing permanent cross-account
+    // data contamination (Bug: "Sign in as wife, see husband's vehicles").
+    //
+    // We reset ALL local stores and supabase cache stores here. The two-way sync
+    // effect depends on initialSyncDone (set to false above) AND allLoaded (supabase
+    // stores must finish fetching). Since the supabase stores re-fetch when userId
+    // changes, they will be in loading state during this reset, preventing the sync
+    // from firing prematurely. By the time allLoaded becomes true, local data is []
+    // and supabase data is the new user's — no stale data to push, no contamination.
+    localVehicles.setData([]);
+    localLogs.setData([]);
+    localReminders.setData([]);
+    localFuelLogs.setData([]);
+    localMods.setData([]);
+    localDocuments.setData([]);
+    supabaseVehicles.resetData();
+    supabaseLogs.resetData();
+    supabaseReminders.resetData();
+    supabaseFuelLogs.resetData();
+    supabaseMods.resetData();
+    supabaseDocuments.resetData();
+
     // Clear stale localStorage data from previous user.
     // Protect account-level and one-time flags — these should never be wiped on
     // auth changes. Wiping them causes data loss or catch-22s with sync effects.
