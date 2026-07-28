@@ -70,17 +70,17 @@ function simulateAuthChangeWipe(protectedKeys) {
   }
 }
 
-// ── Expected PROTECTED_KEYS (from App.jsx ~lines 395-410) ───────────
+// ── Expected PROTECTED_KEYS (from App.jsx ~lines 421-436) ───────────
 // NOTE: mtxtrkr_premium_status is protected as a fallback for slow Supabase
 // fetches. The premium sync effect verifies against Supabase on every auth
 // change, preventing cross-account contamination even when premium_status
 // survives the wipe. mtxtrkr_documents removed from protected keys in the
 // Supabase Storage migration (PR #71) — documents now sync via cloud.
+// Subscription keys (mtxtrkr_subscription_*) were REMOVED from PROTECTED_KEYS
+// in PR #101 to fix cross-account subscription leak (Bug #1). They are
+// Stripe-managed ephemeral data that must be wiped on auth change.
 const EXPECTED_PROTECTED_KEYS = [
   'mtxtrkr_premium_status',
-  'mtxtrkr_subscription_status',
-  'mtxtrkr_subscription_plan',
-  'mtxtrkr_subscription_next_billing',
   'mtxtrkr_selected_vehicle',
   'mtxtrkr_logs_cleanup_done',
   'mtxtrkr_stale_cache_cleaned',
@@ -112,9 +112,9 @@ describe('Data Integrity Gate', () => {
 
   // ── 1. PROTECTED_KEYS Audit ──────────────────────────────────
   describe('PROTECTED_KEYS Audit', () => {
-    it('should have exactly 11 protected keys in App.jsx', () => {
+    it('should have exactly 8 protected keys in App.jsx', () => {
       const actual = extractProtectedKeys();
-      expect(actual).toHaveLength(11);
+      expect(actual).toHaveLength(8);
     });
 
     it('should match expected PROTECTED_KEYS exactly', () => {
@@ -125,11 +125,11 @@ describe('Data Integrity Gate', () => {
       expect(sortedActual).toEqual(sortedExpected);
     });
 
-    it('should include all 3 subscription keys', () => {
+    it('should NOT include subscription keys (they are ephemeral Stripe data)', () => {
       const actual = extractProtectedKeys();
-      expect(actual).toContain('mtxtrkr_subscription_status');
-      expect(actual).toContain('mtxtrkr_subscription_plan');
-      expect(actual).toContain('mtxtrkr_subscription_next_billing');
+      expect(actual).not.toContain('mtxtrkr_subscription_status');
+      expect(actual).not.toContain('mtxtrkr_subscription_plan');
+      expect(actual).not.toContain('mtxtrkr_subscription_next_billing');
     });
 
     it('should include premium status key (fallback for slow Supabase fetches)', () => {
@@ -260,10 +260,13 @@ describe('Data Integrity Gate', () => {
       expect(localStorage.getItem('mtxtrkr_vehicles')).toBeNull();
     });
 
-    it('should preserve PREMIUM_STATUS after simulated auth-change wipe (fallback for slow Supabase)', () => {
+    it('should wipe subscription keys after simulated auth-change wipe (Bug #1 fix)', () => {
       // Seed premium-related keys — premium_status now survives as a fallback.
       // The premium sync effect still verifies against Supabase on auth change,
       // preventing permanent cross-account contamination.
+      // Subscription keys are intentionally NOT protected (Bug #1 fix):
+      // they are ephemeral Stripe data that must be wiped on auth change
+      // to prevent User A's "cancelled" status leaking into User B's session.
       localStorage.setItem('mtxtrkr_premium_status', 'true');
       localStorage.setItem('mtxtrkr_subscription_status', 'active');
       localStorage.setItem('mtxtrkr_subscription_plan', 'monthly');
@@ -274,10 +277,10 @@ describe('Data Integrity Gate', () => {
 
       // Premium status should survive (in PROTECTED_KEYS)
       expect(localStorage.getItem('mtxtrkr_premium_status')).toBe('true');
-      // Subscription keys should also survive (still in PROTECTED_KEYS)
-      expect(localStorage.getItem('mtxtrkr_subscription_status')).toBe('active');
-      expect(localStorage.getItem('mtxtrkr_subscription_plan')).toBe('monthly');
-      expect(localStorage.getItem('mtxtrkr_subscription_next_billing')).toBe('2026-08-25');
+      // Subscription keys should be WIPED (NOT in PROTECTED_KEYS — Bug #1 fix)
+      expect(localStorage.getItem('mtxtrkr_subscription_status')).toBeNull();
+      expect(localStorage.getItem('mtxtrkr_subscription_plan')).toBeNull();
+      expect(localStorage.getItem('mtxtrkr_subscription_next_billing')).toBeNull();
     });
 
     it('should remove non-data, non-protected mtxtrkr_ keys during wipe', () => {

@@ -136,11 +136,14 @@ export function useSupabaseData(tableName, userId, filterColumn = 'user_id') {
       const { data: result, error: err } = await supabase
         .from(tableName)
         .upsert([snakeItem], { onConflict: 'id' })
-        .select()
-        .single();
+        .select();
 
       if (err) throw err;
-      const camelResult = keysToCamel(result);
+      // Use result?.[0] instead of .single() — RLS may allow INSERT but block
+      // SELECT on the upserted row, causing .single() to throw "JSON object
+      // requested, multiple (or no) rows returned" even on successful writes.
+      // When result is empty but no error, treat the upsert as successful.
+      const camelResult = result?.length > 0 ? keysToCamel(result[0]) : keysToCamel(snakeItem);
       setData(prev => {
         const newData = [camelResult, ...prev];
         cacheData(newData);
