@@ -1346,11 +1346,11 @@ export default function App() {
       logs={fuelLogsStore.data}
       vehicles={vehiclesStore.data}
       onAdd={(data) => { fuelLogsStore.add(data); sync.markChanged(); }}
-      onDelete={async (id) => { 
-        const result = await supabaseFuelLogs.remove(id); 
+      onDelete={async (id) => {
+        fuelLogsStore.remove(id);
+        const result = await supabaseFuelLogs.remove(id);
         if (result?.error) showSyncError('Delete not synced to cloud — tap Push to Cloud to retry');
-        fuelLogsStore.remove(id); 
-        sync.markChanged(); 
+        sync.markChanged();
       }}
       onUpdate={(id, data) => { fuelLogsStore.updateItem(id, data); sync.markChanged(); }}
       selectedVehicleId={selectedVehicleId}
@@ -1359,11 +1359,11 @@ export default function App() {
       mods={modsStore.data}
       vehicles={vehiclesStore.data}
       onAdd={(data) => { modsStore.add(data); sync.markChanged(); }}
-      onDelete={async (id) => { 
-        const result = await supabaseMods.remove(id); 
+      onDelete={async (id) => {
+        modsStore.remove(id);
+        const result = await supabaseMods.remove(id);
         if (result?.error) showSyncError('Delete not synced to cloud — tap Push to Cloud to retry');
-        modsStore.remove(id); 
-        sync.markChanged(); 
+        sync.markChanged();
       }}
       onNavigate={navigate}
       isPremium={premium}
