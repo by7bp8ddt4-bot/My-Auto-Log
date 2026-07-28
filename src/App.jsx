@@ -921,7 +921,7 @@ export default function App() {
   // Force sync from cloud — overwrites local data with Supabase data
   // Used when switching devices or when cross-device sync didn't trigger automatically
   const handleSyncFromCloud = useCallback(async () => {
-    if (!auth.user?.id) return;
+    if (!auth.user?.id) return { success: false, failedStores: [] };
     // Reset pushed IDs so the background sync re-tracks all items after cloud pull
     pushedIdsRef.current = {};
     const tables = [
@@ -943,6 +943,7 @@ export default function App() {
       }
       return newObj;
     };
+    const failedStores = [];
     for (const { table, local, key } of tables) {
       try {
         const { data, error } = await supabase
@@ -958,6 +959,7 @@ export default function App() {
         }
       } catch (err) {
         console.error(`[SyncFromCloud] Error fetching ${table}:`, err);
+        failedStores.push(table);
       }
     }
     // Also sync premium status from Supabase
@@ -977,8 +979,9 @@ export default function App() {
     } catch (err) {
       console.error('[SyncFromCloud] Error fetching premium status:', err);
     }
-    analytics.track('sync_from_cloud', {});
+    analytics.track('sync_from_cloud', { failedStores: failedStores.length > 0 ? failedStores : undefined });
     sync.markChanged();
+    return { success: failedStores.length === 0, failedStores };
   }, [auth.user?.id, localVehicles, localLogs, localReminders, localFuelLogs, localMods, localDocuments, sync, analytics]);
 
   // Force push to cloud — sends all local data to Supabase (new + updated items)
