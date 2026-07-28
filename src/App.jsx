@@ -602,9 +602,6 @@ export default function App() {
         const cacheKey = `supabase_cache_${key.replace('mtxtrkr_', '')}`;
         localStorage.removeItem(cacheKey);
       }
-      // Track whether any data was actually synced — if Supabase is empty (new account),
-      // don't mark sync as done so it retries when data arrives from another device.
-      let anySynced = false;
       for (const { local, supabase, key } of syncStores) {
         const supabaseHasData = supabase.data && supabase.data.length > 0;
 
@@ -628,7 +625,6 @@ export default function App() {
             }
           }
           local.setData(supabase.data);
-          anySynced = true;
         } else {
           // Fallback: if Supabase has no data but the migration restored data
           // to localStorage (e.g. stale cache cleanup + re-migration), load it.
@@ -640,16 +636,17 @@ export default function App() {
             if (Array.isArray(localParsed) && localParsed.length > 0 &&
                 (!local.data || local.data.length === 0)) {
               local.setData(localParsed);
-              anySynced = true;
             }
           } catch (e) {
             // Ignore corrupt localStorage
           }
         }
       }
-      if (anySynced) {
-        setInitialSyncDone(true);
-      }
+      // Mark sync as complete even when both localStorage and Supabase
+      // are empty (new user, no data anywhere). An empty state is valid —
+      // we don't need to keep re-running the effect on every dependency change
+      // just because there was nothing to sync.
+      setInitialSyncDone(true);
     })();
   }, [
   isAuthenticated, auth.user?.id, initialSyncDone,
