@@ -1736,7 +1736,16 @@ export function isEV(make, model) {
   'ex30', 'ex90', 'xc40 recharge', 'c40 recharge',
   'ariya', 'bz4x', 'solterra',
   'gv60', 'electrified g80', 'electrified gv70',
-  'prologue', 'zdx', 'mx-30'
+  'prologue', 'zdx', 'mx-30',
+  // Batch 2: ~25 new models (GM, BMW, Mercedes, Volvo, Nissan, Genesis, Audi, Porsche, Kia, etc.)
+  'spark ev', 'sierra ev', 'escalade iq', 'optiq', 'vistiq',
+  'ix1', 'ix2', 'ix3',
+  'eqs suv', 'eqe suv', 'eqg', 'eqc', 'eqv',
+  'ec40', 'ex40', 'leaf e+',
+  'electrified g90',
+  'q4 e-tron', 'q6 e-tron', 'q8 e-tron', 'e-tron gt',
+  'taycan', 'macan ev',
+  'cooper se', '500e', 'niro ev', 'soul ev'
 ];
   if (evMakes.includes(m)) return true;
   if (evModels.includes(mo)) return true;
