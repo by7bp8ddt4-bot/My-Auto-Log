@@ -269,10 +269,17 @@ export default function App() {
     supabaseMods.hasUnsyncedChanges ||
     supabaseDocuments.hasUnsyncedChanges;
 
-  // Helper to show a temporary error banner for failed Supabase writes
+  // Helper to show a temporary error banner for failed Supabase writes.
+  // Track the active timer so rapid sequential errors don't get cleared
+  // by an earlier timer — each new error resets the 5s countdown.
+  const syncErrorTimerRef = useRef(null);
   const showSyncError = useCallback((message) => {
+    if (syncErrorTimerRef.current) clearTimeout(syncErrorTimerRef.current);
     setSyncError(message);
-    setTimeout(() => setSyncError(null), 5000);
+    syncErrorTimerRef.current = setTimeout(() => {
+      setSyncError(null);
+      syncErrorTimerRef.current = null;
+    }, 5000);
   }, []);
 
   // Wire the ref so useLocalStorage's onQuotaExceeded can call showSyncError
