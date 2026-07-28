@@ -23,8 +23,9 @@ export function sanitizeForStorage(data) {
     for (const [key, value] of Object.entries(data)) {
       // Strip any property explicitly named 'dataUrl'
       if (key === 'dataUrl') continue;
-      // Strip any string value that looks like a base64 data URL
-      if (typeof value === 'string' && value.startsWith('data:')) continue;
+      // Strip only actual base64 data URIs (data:image/...;base64,...),
+      // not any string that happens to contain "data:"
+      if (typeof value === 'string' && /^data:[^;]*;base64,/.test(value)) continue;
       // Recursively sanitize nested objects and arrays
       sanitized[key] = sanitizeForStorage(value);
     }
@@ -35,7 +36,12 @@ export function sanitizeForStorage(data) {
 }
 
 // Generic hook for localStorage CRUD operations with offline-first sync simulation
-function useLocalStorage(key, initialValue = []) {
+function useLocalStorage(key, initialValue = [], onQuotaExceeded = null) {
+  // Store callback in ref so the useEffect below doesn't need it in its
+  // dependency array — callers can pass inline lambdas without causing re-runs.
+  const onQuotaExceededRef = useRef(onQuotaExceeded);
+  onQuotaExceededRef.current = onQuotaExceeded;
+
   const [data, setData] = useState(() => {
     try {
       const item = localStorage.getItem(key);
@@ -57,6 +63,7 @@ function useLocalStorage(key, initialValue = []) {
       // Fall back to in-memory state only — no crash, no data loss.
       if (e.name === 'QuotaExceededError' || e.code === 22) {
         console.warn(`[useLocalStorage] Quota exceeded for key "${key}". Data kept in memory only.`);
+        onQuotaExceededRef.current?.();
       } else {
         console.warn(`[useLocalStorage] Failed to write key "${key}":`, e);
       }
