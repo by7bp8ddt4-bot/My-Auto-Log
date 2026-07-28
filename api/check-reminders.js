@@ -1,5 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
-import nodemailer from 'nodemailer';
+import { Resend } from 'resend';
 
 const supabase = createClient(
   process.env.VITE_SUPABASE_URL,
@@ -14,24 +14,12 @@ export default async function handler(req, res) {
   }
 
   try {
-    // Verify SMTP is configured
-    if (!process.env.SMTP_USER || !process.env.SMTP_PASS) {
-      return res.status(500).json({ error: 'SMTP not configured — missing SMTP_USER or SMTP_PASS env vars' });
+    // Verify Resend is configured
+    if (!process.env.RESEND_API_KEY) {
+      return res.status(500).json({ error: 'Resend not configured — missing RESEND_API_KEY env var' });
     }
 
-    // Create transporter lazily (inside handler, not at module level)
-    const transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST || 'smtp.gmail.com',
-      port: parseInt(process.env.SMTP_PORT || '587'),
-      secure: false,
-      auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS,
-      },
-    });
-
-    // Verify transporter works
-    await transporter.verify();
+    const resend = new Resend(process.env.RESEND_API_KEY);
 
     // 1. Fetch enabled reminders with vehicle and profile (email) info
     const { data: reminders, error } = await supabase
@@ -66,8 +54,8 @@ export default async function handler(req, res) {
       const vehicleName = r.vehicles?.name || vehicleInfo;
 
       try {
-        await transporter.sendMail({
-          from: process.env.SMTP_USER,
+        const { data, error: sendError } = await resend.emails.send({
+          from: 'MTXtrkr <support@contact.mtxtrkr.com>',
           to: email,
           subject: `Maintenance Due: ${r.title} for your ${vehicleName}`,
           html: `
@@ -125,6 +113,12 @@ export default async function handler(req, res) {
           `
         });
 
+        if (sendError) {
+          console.error('[check-reminders] Resend API error:', JSON.stringify(sendError, null, 2));
+          return { id: r.id, status: 'failed', error: sendError.message || 'Unknown Resend error' };
+        }
+
+        console.log('[check-reminders] Resend email sent successfully, id:', data?.id);
         return { id: r.id, status: 'sent' };
       } catch (sendError) {
         console.error(`Failed to send email for reminder ${r.id}:`, sendError);
