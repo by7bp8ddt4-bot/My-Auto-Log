@@ -576,20 +576,21 @@ export default function App() {
       // Step 1: Push local data to Supabase FIRST (AWAITED), so it's not lost
       // when we pull. This prevents the "disappearing logs" bug where Supabase
       // data overwrites local records that were never pushed to the cloud.
-      for (const { local, supabase } of syncStores) {
+      for (const { local, supabase, key } of syncStores) {
         const localData = local.data || [];
         if (localData.length === 0) continue;
         const supabaseIds = new Set((supabase.data || []).map(s => s.id));
         const itemsToPush = localData.filter(item => !supabaseIds.has(item.id));
         for (const item of itemsToPush) {
-          const { createdAt, updatedAt, ...syncItem } = item;
           try {
-            const result = await supabase.add(syncItem);
+            const result = await supabase.add(item);
             if (result?.error) {
-              console.warn(`[Sync] Failed to push item to cloud:`, result.message);
+              console.warn(`[Sync] Failed to push ${item.id} to ${key}:`, result.message);
+              showSyncError(`Failed to sync ${key.replace('mtxtrkr_', '')} — tap Push to Cloud to retry`);
             }
           } catch (e) {
-            console.warn(`[Sync] Failed to push item to cloud:`, e);
+            console.warn(`[Sync] Failed to push ${item.id} to ${key}:`, e);
+            showSyncError(`Failed to sync ${key.replace('mtxtrkr_', '')} — tap Push to Cloud to retry`);
           }
         }
       }
@@ -619,9 +620,11 @@ export default function App() {
                 localStorage.setItem(key, JSON.stringify(sanitized));
               } catch (e2) {
                 console.warn(`[Sync] Still too large after sanitization for "${key}", keeping in memory only`, e2);
+                showSyncError(`Local storage full — could not save ${key.replace('mtxtrkr_', '')}. Free up space and try again.`);
               }
             } else {
               console.warn(`[Sync] Failed to write "${key}" to localStorage:`, e);
+              showSyncError(`Could not save ${key.replace('mtxtrkr_', '')} locally — try refreshing.`);
             }
           }
           local.setData(supabase.data);
@@ -665,7 +668,7 @@ export default function App() {
     if (!isAuthenticated || !auth.user?.id) return;
 
     (async () => {
-      for (const { local, supabase } of syncStores) {
+      for (const { local, supabase, key } of syncStores) {
         const localData = local.data || [];
         if (localData.length === 0) continue;
 
@@ -682,18 +685,17 @@ export default function App() {
           const itemTimestamp = item.updatedAt || item.createdAt || new Date().toISOString();
           // Mark as pushed immediately to prevent duplicate attempts
           pushedIdsRef.current[item.id] = itemTimestamp;
-          const { createdAt, updatedAt, ...syncItem } = item;
           try {
-            const result = await supabase.add(syncItem);
+            const result = await supabase.add(item);
             if (result?.error) {
-              console.error(`[Sync] Failed to push ${item.id}:`, result.message);
-              showSyncError('Some changes not synced to cloud — tap Push to Cloud to retry');
+              console.error(`[Sync] Failed to push ${item.id} to ${key}:`, result.message);
+              showSyncError(`${key.replace('mtxtrkr_', '')}: failed to sync ${item.id} — tap Push to Cloud to retry`);
               // Allow retry on failure — the add() function already tracks it in failedWrites
               delete pushedIdsRef.current[item.id];
             }
           } catch (e) {
-            console.error(`[Sync] Failed to push ${item.id}:`, e);
-            showSyncError('Some changes not synced to cloud — tap Push to Cloud to retry');
+            console.error(`[Sync] Failed to push ${item.id} to ${key}:`, e);
+            showSyncError(`${key.replace('mtxtrkr_', '')}: failed to sync ${item.id} — tap Push to Cloud to retry`);
             // Allow retry on failure
             delete pushedIdsRef.current[item.id];
           }
@@ -713,7 +715,7 @@ export default function App() {
     const handleVisibilityChange = async () => {
       if (document.visibilityState === 'hidden') {
         // Push any unsynced (new or updated) items to Supabase — AWAITED sequentially
-        for (const { local, supabase } of syncStores) {
+        for (const { local, supabase, key } of syncStores) {
           const localData = local.data || [];
           if (localData.length === 0) continue;
           const itemsToSync = localData.filter(item => {
@@ -726,17 +728,16 @@ export default function App() {
           for (const item of itemsToSync) {
             const itemTimestamp = item.updatedAt || item.createdAt || new Date().toISOString();
             pushedIdsRef.current[item.id] = itemTimestamp;
-            const { createdAt, updatedAt, ...syncItem } = item;
             try {
-              const result = await supabase.add(syncItem);
+              const result = await supabase.add(item);
               if (result?.error) {
                 console.error('[VisibilitySync] Push failed:', result.message);
-                showSyncError('Some changes not synced to cloud — tap Push to Cloud to retry');
+                showSyncError(`${key.replace('mtxtrkr_', '')}: failed to sync ${item.id} — tap Push to Cloud to retry`);
                 delete pushedIdsRef.current[item.id];
               }
             } catch (e) {
               console.error('[VisibilitySync] Push failed:', e);
-              showSyncError('Some changes not synced to cloud — tap Push to Cloud to retry');
+              showSyncError(`${key.replace('mtxtrkr_', '')}: failed to sync ${item.id} — tap Push to Cloud to retry`);
               delete pushedIdsRef.current[item.id];
             }
           }
@@ -803,9 +804,8 @@ export default function App() {
         if (items.length === 0) continue;
         for (const item of items) {
           try {
-            const { createdAt, updatedAt, ...syncItem } = item;
             await supabase.from(table).upsert(
-              { ...syncItem, user_id: auth.user.id },
+              { ...item, user_id: auth.user.id },
               { onConflict: 'id' }
             );
           } catch (e) {
@@ -1046,8 +1046,7 @@ export default function App() {
       if (itemsToSync.length === 0) continue;
       const now = new Date().toISOString();
       for (const item of itemsToSync) {
-        const { createdAt, updatedAt, ...syncItem } = item;
-        const result = await supabase.add(syncItem);
+        const result = await supabase.add(item);
         if (result?.error) {
           showSyncError('Some items failed to push — try again');
           storesWithErrors.add(table);
@@ -1157,9 +1156,7 @@ export default function App() {
             if (Array.isArray(items) && items.length > 0) {
               // Insert each item using the store's .add() method
               for (const item of items) {
-                // Preserve id so the add() fallback doesn't create a new UUID
-                const { createdAt, updatedAt, ...cleanItem } = item;
-                await store.add(cleanItem);
+                await store.add(item);
               }
             }
           }
