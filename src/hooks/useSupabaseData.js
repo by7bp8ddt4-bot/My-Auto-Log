@@ -28,15 +28,39 @@ const keysToCamel = (obj) => {
  * Hook to fetch and manage data from Supabase with localStorage fallback.
  * Provides offline-capable CRUD operations.
  */
-export function useSupabaseData(tableName, userId, filterColumn = 'user_id') {
-  const [data, setData] = useState(() => {
-    // Load from localStorage cache on init
-    try {
-      const cached = localStorage.getItem(`supabase_cache_${tableName}`);
-      return cached ? JSON.parse(cached) : [];
-    } catch {
+/**
+ * Read supabase_cache_* from localStorage, verifying the userId stamp.
+ * New format: { _userId: '...', _cachedAt: '...', data: [...] }
+ * Old format (backward compatible): [...]
+ * Returns the data array or [] if the stamp doesn't match.
+ */
+function readCacheWithStamp(tableName, userId) {
+  const cacheKey = `supabase_cache_${tableName}`;
+  try {
+    const raw = localStorage.getItem(cacheKey);
+    if (!raw) return [];
+    const parsed = JSON.parse(raw);
+    // New format: { _userId, data }
+    if (parsed && typeof parsed === 'object' && !Array.isArray(parsed) && '_userId' in parsed) {
+      if (parsed._userId === userId || !userId) {
+        return Array.isArray(parsed.data) ? parsed.data : [];
+      }
+      // Stamp mismatch — different user's data. Discard it.
+      console.warn(`[useSupabaseData] UserId stamp mismatch for "${cacheKey}": expected=${userId}, got=${parsed._userId}. Discarding stale cache.`);
+      localStorage.removeItem(cacheKey);
       return [];
     }
+    // Old format: plain array (no stamp). Accept it but migrate on next write.
+    if (Array.isArray(parsed)) return parsed;
+    return [];
+  } catch {
+    return [];
+  }
+}
+
+export function useSupabaseData(tableName, userId, filterColumn = 'user_id') {
+  const [data, setData] = useState(() => {
+    return readCacheWithStamp(tableName, userId);
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -54,10 +78,11 @@ export function useSupabaseData(tableName, userId, filterColumn = 'user_id') {
     setFailedWrites([]);
   }, []);
 
-  // Cache data to localStorage
+  // Cache data to localStorage with userId stamp for cross-account isolation
   const cacheData = useCallback((newData) => {
-    localStorage.setItem(`supabase_cache_${tableName}`, JSON.stringify(newData));
-  }, [tableName]);
+    const stamped = { _userId: userId, _cachedAt: new Date().toISOString(), data: newData };
+    localStorage.setItem(`supabase_cache_${tableName}`, JSON.stringify(stamped));
+  }, [tableName, userId]);
 
   // Fetch data from Supabase
   const fetchData = useCallback(async () => {
@@ -79,7 +104,7 @@ export function useSupabaseData(tableName, userId, filterColumn = 'user_id') {
 
       if (err) throw err;
       const camelData = keysToCamel(result || []);
-      const prevCache = JSON.parse(localStorage.getItem(`supabase_cache_${tableName}`) || '[]');
+      const prevCache = readCacheWithStamp(tableName, userId);
       
       // If Supabase returned data, use it (latest from server)
       // If Supabase returned empty but we have cached data, keep the cache
@@ -269,7 +294,18 @@ export function useSupabaseData(tableName, userId, filterColumn = 'user_id') {
     cacheData(newData);
   }, [cacheData]);
 
-  return { data, setData, loading, error, add, updateItem, remove, update, refetch: fetchData, failedWrites, hasUnsyncedChanges, clearFailedWrite, clearAllFailedWrites };
+  // Reset all state — called on auth change to prevent cross-account contamination.
+  // Clears React state, localStorage cache, failed writes, and the loading flag
+  // so the next fetch cycle starts fresh for the new user.
+  const resetData = useCallback(() => {
+    setData([]);
+    setFailedWrites([]);
+    setError(null);
+    setLoading(true); // signal "not ready" so sync effects wait for fresh fetch
+    localStorage.removeItem(`supabase_cache_${tableName}`);
+  }, [tableName]);
+
+  return { data, setData, loading, error, add, updateItem, remove, update, resetData, refetch: fetchData, failedWrites, hasUnsyncedChanges, clearFailedWrite, clearAllFailedWrites };
 }
 
 /**
