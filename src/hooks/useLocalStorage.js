@@ -23,8 +23,9 @@ export function sanitizeForStorage(data) {
     for (const [key, value] of Object.entries(data)) {
       // Strip any property explicitly named 'dataUrl'
       if (key === 'dataUrl') continue;
-      // Strip any string value that looks like a base64 data URL
-      if (typeof value === 'string' && value.startsWith('data:')) continue;
+      // Strip only actual base64 data URIs (data:image/...;base64,...),
+      // not any string that happens to contain "data:"
+      if (typeof value === 'string' && /^data:[^;]*;base64,/.test(value)) continue;
       // Recursively sanitize nested objects and arrays
       sanitized[key] = sanitizeForStorage(value);
     }
