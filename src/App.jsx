@@ -889,7 +889,7 @@ export default function App() {
   // Force sync from cloud — overwrites local data with Supabase data
   // Used when switching devices or when cross-device sync didn't trigger automatically
   const handleSyncFromCloud = useCallback(async () => {
-    if (!auth.user?.id) return;
+    if (!auth.user?.id) return { success: false, error: 'Not authenticated' };
     // Reset pushed IDs so the background sync re-tracks all items after cloud pull
     pushedIdsRef.current = {};
     const tables = [
@@ -911,6 +911,8 @@ export default function App() {
       }
       return newObj;
     };
+    let hasError = false;
+    let firstError = null;
     for (const { table, local, key } of tables) {
       try {
         const { data, error } = await supabase
@@ -918,13 +920,21 @@ export default function App() {
           .select('*')
           .eq('user_id', auth.user.id)
           .order('created_at', { ascending: false });
-        if (error) throw error;
+        if (error) {
+          hasError = true;
+          firstError = firstError || error.message || 'Database error';
+          throw error;
+        }
         const camelData = keysToCamel(data || []);
         if (camelData.length > 0) {
           localStorage.setItem(key, JSON.stringify(camelData));
           local.setData(camelData);
         }
       } catch (err) {
+        if (!hasError) {
+          hasError = true;
+          firstError = err?.message || 'Sync failed';
+        }
         console.error(`[SyncFromCloud] Error fetching ${table}:`, err);
       }
     }
@@ -947,16 +957,21 @@ export default function App() {
         }
       }
     } catch (err) {
+      if (!hasError) {
+        hasError = true;
+        firstError = err?.message || 'Premium status sync failed';
+      }
       console.error('[SyncFromCloud] Error fetching premium status:', err);
     }
     analytics.track('sync_from_cloud', {});
     sync.markChanged();
+    return { success: !hasError, error: hasError ? firstError : undefined };
   }, [auth.user?.id, localVehicles, localLogs, localReminders, localFuelLogs, localMods, localDocuments, sync, analytics]);
 
   // Force push to cloud — sends all local data to Supabase (new + updated items)
   // Used when the background sync didn't trigger automatically
   const handlePushToCloud = useCallback(async () => {
-    if (!auth.user?.id) return;
+    if (!auth.user?.id) return { success: false, error: 'Not authenticated' };
     const stores = [
       { local: localVehicles, supabase: supabaseVehicles, table: 'vehicles' },
       { local: localLogs, supabase: supabaseLogs, table: 'maintenance_logs' },
@@ -965,6 +980,8 @@ export default function App() {
       { local: localMods, supabase: supabaseMods, table: 'modifications' },
       { local: localDocuments, supabase: supabaseDocuments, table: 'documents' },
     ];
+    let hasError = false;
+    let firstError = null;
     for (const { local, supabase, table } of stores) {
       const localData = local.data || [];
       if (localData.length === 0) continue;
@@ -983,6 +1000,10 @@ export default function App() {
         const { createdAt, updatedAt, ...syncItem } = item;
         const result = await supabase.add(syncItem);
         if (result?.error) {
+          if (!hasError) {
+            hasError = true;
+            firstError = result.message || 'Push failed';
+          }
           showSyncError('Some items failed to push — try again');
         } else {
           // Track in push ref so background sync doesn't re-push
@@ -1000,10 +1021,15 @@ export default function App() {
     // Also push premium status (only if already premium — don't escalate free users)
     if (premium) {
       localStorage.setItem(STORAGE_KEYS.PREMIUM_STATUS, 'true');
-      await supabase.from('profiles').upsert({ id: auth.user.id, premium: true });
+      const { error: premiumErr } = await supabase.from('profiles').upsert({ id: auth.user.id, premium: true });
+      if (premiumErr && !hasError) {
+        hasError = true;
+        firstError = premiumErr.message || 'Premium push failed';
+      }
     }
     analytics.track('push_to_cloud', {});
     sync.markChanged();
+    return { success: !hasError, error: hasError ? firstError : undefined };
   }, [auth.user?.id, premium, localVehicles, localLogs, localReminders, localFuelLogs, localMods, localDocuments, supabaseVehicles, supabaseLogs, supabaseReminders, supabaseFuelLogs, supabaseMods, supabaseDocuments, sync, analytics]);
 
   // Delete account — remove all data and sign out

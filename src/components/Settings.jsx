@@ -1,12 +1,16 @@
-import { Settings2, Download, Trash2, RefreshCw, Database, User, Crown, ChevronRight, LogOut, Mail, Cloud, CheckCircle2 } from 'lucide-react';
+import { Settings2, Download, Trash2, RefreshCw, Database, User, Crown, ChevronRight, LogOut, Mail, Cloud, CheckCircle2, AlertTriangle } from 'lucide-react';
 import { getSubscriptionData } from './SubscriptionManagement.jsx';
 import { useState } from 'react';
 
 export default function Settings({ onReset, onExport, vehicles, logs, reminders, fuelLogs, modifications, isAuthenticated, isPremium, onNavigate, onLogout, onDeleteAccount, showCancelSubDialog, onDismissCancelSub, onSyncFromCloud, onPushToCloud }) {
   const [syncing, setSyncing] = useState(false);
   const [syncDone, setSyncDone] = useState(false);
+  const [syncFailed, setSyncFailed] = useState(false);
+  const [syncErrorMsg, setSyncErrorMsg] = useState('');
   const [pushing, setPushing] = useState(false);
   const [pushDone, setPushDone] = useState(false);
+  const [pushFailed, setPushFailed] = useState(false);
+  const [pushErrorMsg, setPushErrorMsg] = useState('');
   const sub = getSubscriptionData();
   const handleExport = () => {
     const fuelCount = Array.isArray(fuelLogs) ? fuelLogs.length : 0;
@@ -136,24 +140,39 @@ export default function Settings({ onReset, onExport, vehicles, logs, reminders,
                   onClick={async () => {
                     setSyncing(true);
                     setSyncDone(false);
-                    await onSyncFromCloud();
+                    setSyncFailed(false);
+                    setSyncErrorMsg('');
+                    const result = await onSyncFromCloud();
                     setSyncing(false);
-                    setSyncDone(true);
-                    setTimeout(() => setSyncDone(false), 3000);
+                    if (result && result.success === false) {
+                      setSyncFailed(true);
+                      setSyncErrorMsg(result.error || 'Sync failed');
+                      setTimeout(() => setSyncFailed(false), 5000);
+                    } else {
+                      setSyncDone(true);
+                      setTimeout(() => setSyncDone(false), 3000);
+                    }
                   }}
                   disabled={syncing}
                   className={`w-full flex items-center justify-center gap-2 py-2.5 rounded-xl border text-sm font-medium transition-all ${
-                    syncDone
-                      ? 'border-emerald-500/30 bg-emerald-500/10 text-emerald-400'
-                      : syncing
-                        ? 'border-blue-500/30 bg-blue-500/10 text-blue-400'
-                        : 'border-slate-700 text-slate-300 hover:bg-slate-800'
+                    syncFailed
+                      ? 'border-red-500/30 bg-red-500/10 text-red-400'
+                      : syncDone
+                        ? 'border-emerald-500/30 bg-emerald-500/10 text-emerald-400'
+                        : syncing
+                          ? 'border-blue-500/30 bg-blue-500/10 text-blue-400'
+                          : 'border-slate-700 text-slate-300 hover:bg-slate-800'
                   }`}
                 >
                   {syncing ? (
                     <>
                       <RefreshCw className="w-4 h-4 animate-spin" />
                       Syncing from Cloud...
+                    </>
+                  ) : syncFailed ? (
+                    <>
+                      <AlertTriangle className="w-4 h-4" />
+                      {syncErrorMsg || 'Sync failed'}
                     </>
                   ) : syncDone ? (
                     <>
@@ -171,24 +190,39 @@ export default function Settings({ onReset, onExport, vehicles, logs, reminders,
                   onClick={async () => {
                     setPushing(true);
                     setPushDone(false);
-                    await onPushToCloud();
+                    setPushFailed(false);
+                    setPushErrorMsg('');
+                    const result = await onPushToCloud();
                     setPushing(false);
-                    setPushDone(true);
-                    setTimeout(() => setPushDone(false), 3000);
+                    if (result && result.success === false) {
+                      setPushFailed(true);
+                      setPushErrorMsg(result.error || 'Push failed');
+                      setTimeout(() => setPushFailed(false), 5000);
+                    } else {
+                      setPushDone(true);
+                      setTimeout(() => setPushDone(false), 3000);
+                    }
                   }}
                   disabled={pushing}
                   className={`w-full flex items-center justify-center gap-2 py-2.5 rounded-xl border text-sm font-medium transition-all ${
-                    pushDone
-                      ? 'border-emerald-500/30 bg-emerald-500/10 text-emerald-400'
-                      : pushing
-                        ? 'border-blue-500/30 bg-blue-500/10 text-blue-400'
-                        : 'border-slate-700 text-slate-300 hover:bg-slate-800'
+                    pushFailed
+                      ? 'border-red-500/30 bg-red-500/10 text-red-400'
+                      : pushDone
+                        ? 'border-emerald-500/30 bg-emerald-500/10 text-emerald-400'
+                        : pushing
+                          ? 'border-blue-500/30 bg-blue-500/10 text-blue-400'
+                          : 'border-slate-700 text-slate-300 hover:bg-slate-800'
                   }`}
                 >
                   {pushing ? (
                     <>
                       <RefreshCw className="w-4 h-4 animate-spin" />
                       Pushing to Cloud...
+                    </>
+                  ) : pushFailed ? (
+                    <>
+                      <AlertTriangle className="w-4 h-4" />
+                      {pushErrorMsg || 'Push failed'}
                     </>
                   ) : pushDone ? (
                     <>
