@@ -211,6 +211,11 @@ export default function App() {
   const onMChange = useRef(null);
   const onDChange = useRef(null);
 
+  // Ref for the showSyncError callback — set after it's defined (below the stores)
+  // so that useLocalStorage's onQuotaExceeded can surface warnings to the user
+  // even though showSyncError is declared later in the hook order.
+  const showSyncErrorRef = useRef(null);
+
   // Stable callback wrappers that delegate to the latest ref value.
   // useCallback with [] deps ensures they never change identity, so useSupabaseData's
   // fetchData (which reads from the ref) is never unnecessarily recreated.
@@ -221,6 +226,13 @@ export default function App() {
   const onModsChange = useCallback((data) => { if (onMChange.current) onMChange.current(data); }, []);
   const onDocumentsChange = useCallback((data) => { if (onDChange.current) onDChange.current(data); }, []);
 
+  // Stable callback for useLocalStorage quota-exceeded warnings.
+  // Dereferences showSyncErrorRef so it can call showSyncError even though
+  // it's declared later in the hook order.
+  const onQuotaExceeded = useCallback(() => {
+    showSyncErrorRef.current?.('Storage full — data saved in memory only and will be lost on refresh. Try clearing old documents or syncing to cloud.');
+  }, []);
+
   const supabaseVehicles = useSupabaseData('vehicles', auth.user?.id, 'user_id', onVehiclesChange);
   const supabaseLogs = useSupabaseData('maintenance_logs', auth.user?.id, 'user_id', onLogsChange);
   const supabaseReminders = useSupabaseData('reminders', auth.user?.id, 'user_id', onRemindersChange);
@@ -229,12 +241,12 @@ export default function App() {
   const supabaseMods = useSupabaseData('modifications', auth.user?.id, 'user_id', onModsChange);
   const supabaseDocuments = useSupabaseData('documents', auth.user?.id, 'user_id', onDocumentsChange);
 
-  const localVehicles = useLocalStorage(STORAGE_KEYS.VEHICLES, []);
-  const localLogs = useLocalStorage(STORAGE_KEYS.MAINTENANCE_LOGS, []);
-  const localReminders = useLocalStorage(STORAGE_KEYS.REMINDERS, []);
-  const localFuelLogs = useLocalStorage('mtxtrkr_fuel_logs', []);
-  const localMods = useLocalStorage('mtxtrkr_modifications', []);
-  const localDocuments = useLocalStorage(STORAGE_KEYS.DOCUMENTS, []);
+  const localVehicles = useLocalStorage(STORAGE_KEYS.VEHICLES, [], onQuotaExceeded);
+  const localLogs = useLocalStorage(STORAGE_KEYS.MAINTENANCE_LOGS, [], onQuotaExceeded);
+  const localReminders = useLocalStorage(STORAGE_KEYS.REMINDERS, [], onQuotaExceeded);
+  const localFuelLogs = useLocalStorage('mtxtrkr_fuel_logs', [], onQuotaExceeded);
+  const localMods = useLocalStorage('mtxtrkr_modifications', [], onQuotaExceeded);
+  const localDocuments = useLocalStorage(STORAGE_KEYS.DOCUMENTS, [], onQuotaExceeded);
 
   // Wire up Realtime → localStorage propagation: after local stores are created,
   // point the refs at their update functions so that useSupabaseData's fetchData
@@ -262,6 +274,10 @@ export default function App() {
     setSyncError(message);
     setTimeout(() => setSyncError(null), 5000);
   }, []);
+
+  // Wire the ref so useLocalStorage's onQuotaExceeded can call showSyncError
+  // even though it's declared earlier in the hook order.
+  showSyncErrorRef.current = showSyncError;
 
   // One-time stale cache cleanup: wipe supabase_cache_* keys and reset migration
   // flags so the migrations below re-run. The supabase_cache_* keys are only a
