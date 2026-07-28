@@ -40,6 +40,19 @@ export function useSupabaseData(tableName, userId, filterColumn = 'user_id') {
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  // Track writes that failed to reach Supabase — survives across renders
+  const [failedWrites, setFailedWrites] = useState([]);
+  const hasUnsyncedChanges = failedWrites.length > 0;
+
+  // Clear a specific failed write (called after successful retry)
+  const clearFailedWrite = useCallback((id) => {
+    setFailedWrites(prev => prev.filter(fw => fw.id !== id));
+  }, []);
+
+  // Clear all failed writes (called after successful Push to Cloud)
+  const clearAllFailedWrites = useCallback(() => {
+    setFailedWrites([]);
+  }, []);
 
   // Cache data to localStorage
   const cacheData = useCallback((newData) => {
@@ -117,7 +130,7 @@ export function useSupabaseData(tableName, userId, filterColumn = 'user_id') {
 
   // Insert a new record
   const add = useCallback(async (item) => {
-    if (!userId) return null;
+    if (!userId) return { error: true, message: 'Not authenticated' };
     const snakeItem = keysToSnake({ ...item, userId });
     try {
       const { data: result, error: err } = await supabase
@@ -133,25 +146,37 @@ export function useSupabaseData(tableName, userId, filterColumn = 'user_id') {
         cacheData(newData);
         return newData;
       });
+      // Success — clear any previous failed write for this id
+      clearFailedWrite(camelResult.id);
       return camelResult;
     } catch (err) {
       console.error(`Error inserting into ${tableName}:`, err);
-      // Fallback: add to local state
+      const message = err?.message || 'Failed to save to cloud';
+      // Save to localStorage as temporary safety net (survives refresh)
       const fallback = { ...item, id: item.id || crypto.randomUUID(), userId, createdAt: new Date().toISOString() };
-      setData(prev => {
-        // Check if item already exists in data to prevent duplicates
-        const exists = prev.find(p => p.id === fallback.id);
+      try {
+        const cached = JSON.parse(localStorage.getItem(`supabase_cache_${tableName}`) || '[]');
+        const exists = cached.find(p => p.id === fallback.id);
+        if (!exists) {
+          localStorage.setItem(`supabase_cache_${tableName}`, JSON.stringify([fallback, ...cached]));
+        }
+      } catch (e) {
+        // localStorage write failed — data is unrecoverable on refresh
+      }
+      // Track the failed write
+      setFailedWrites(prev => {
+        const exists = prev.find(fw => fw.id === fallback.id);
         if (exists) return prev;
-        const newData = [fallback, ...prev];
-        cacheData(newData);
-        return newData;
+        return [...prev, { id: fallback.id, type: 'add', tableName, timestamp: Date.now() }];
       });
-      return fallback;
+      // Do NOT add to React state — user must know it wasn't saved to cloud
+      return { error: true, message, fallbackId: fallback.id };
     }
-  }, [tableName, userId, cacheData]);
+  }, [tableName, userId, cacheData, clearFailedWrite]);
 
   // Update a record
   const updateItem = useCallback(async (id, updates) => {
+    if (!userId) return { error: true, message: 'Not authenticated' };
     const snakeUpdates = keysToSnake({ ...updates, updatedAt: new Date().toISOString() });
     try {
       const { error: err } = await supabase
@@ -168,17 +193,35 @@ export function useSupabaseData(tableName, userId, filterColumn = 'user_id') {
         cacheData(newData);
         return newData;
       });
+      // Success — clear any previous failed write for this id
+      clearFailedWrite(id);
     } catch (err) {
       console.error(`Error updating ${tableName}:`, err);
-      // Fallback to local update
-      setData(prev => prev.map(item =>
-        item.id === id ? { ...item, ...updates, updatedAt: new Date().toISOString() } : item
-      ));
+      const message = err?.message || 'Failed to save to cloud';
+      // Save current data to localStorage as safety net
+      try {
+        const cached = JSON.parse(localStorage.getItem(`supabase_cache_${tableName}`) || '[]');
+        const updated = cached.map(item =>
+          item.id === id ? { ...item, ...updates, updatedAt: new Date().toISOString() } : item
+        );
+        localStorage.setItem(`supabase_cache_${tableName}`, JSON.stringify(updated));
+      } catch (e) {
+        // localStorage write failed — data is unrecoverable on refresh
+      }
+      // Track the failed write
+      setFailedWrites(prev => {
+        const exists = prev.find(fw => fw.id === id);
+        if (exists) return prev;
+        return [...prev, { id, type: 'update', tableName, timestamp: Date.now() }];
+      });
+      // Do NOT update React state — user must know it wasn't saved to cloud
+      return { error: true, message };
     }
-  }, [tableName, userId, cacheData]);
+  }, [tableName, userId, cacheData, clearFailedWrite, filterColumn]);
 
   // Delete a record
   const remove = useCallback(async (id) => {
+    if (!userId) return { error: true, message: 'Not authenticated' };
     try {
       const { error: err } = await supabase
         .from(tableName)
@@ -192,16 +235,29 @@ export function useSupabaseData(tableName, userId, filterColumn = 'user_id') {
         cacheData(newData);
         return newData;
       });
+      // Success — clear any previous failed write for this id
+      clearFailedWrite(id);
     } catch (err) {
       console.error(`Error deleting from ${tableName}:`, err);
-      // Fallback to local delete
-      setData(prev => {
-        const newData = prev.filter(item => item.id !== id);
-        cacheData(newData);
-        return newData;
+      const message = err?.message || 'Failed to save to cloud';
+      // Save current data minus the deleted item to localStorage as safety net
+      try {
+        const cached = JSON.parse(localStorage.getItem(`supabase_cache_${tableName}`) || '[]');
+        const filtered = cached.filter(item => item.id !== id);
+        localStorage.setItem(`supabase_cache_${tableName}`, JSON.stringify(filtered));
+      } catch (e) {
+        // localStorage write failed — data is unrecoverable on refresh
+      }
+      // Track the failed write
+      setFailedWrites(prev => {
+        const exists = prev.find(fw => fw.id === id);
+        if (exists) return prev;
+        return [...prev, { id, type: 'remove', tableName, timestamp: Date.now() }];
       });
+      // Do NOT update React state — user must know it wasn't saved to cloud
+      return { error: true, message };
     }
-  }, [tableName, userId, cacheData]);
+  }, [tableName, userId, cacheData, clearFailedWrite, filterColumn]);
 
   // Update entire dataset (for reset)
   const update = useCallback((newData) => {
@@ -209,7 +265,7 @@ export function useSupabaseData(tableName, userId, filterColumn = 'user_id') {
     cacheData(newData);
   }, [cacheData]);
 
-  return { data, setData, loading, error, add, updateItem, remove, update, refetch: fetchData };
+  return { data, setData, loading, error, add, updateItem, remove, update, refetch: fetchData, failedWrites, hasUnsyncedChanges, clearFailedWrite, clearAllFailedWrites };
 }
 
 /**
