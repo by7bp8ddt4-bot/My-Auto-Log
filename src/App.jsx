@@ -993,6 +993,10 @@ export default function App() {
       { local: localMods, supabase: supabaseMods, table: 'modifications' },
       { local: localDocuments, supabase: supabaseDocuments, table: 'documents' },
     ];
+    // Track which stores had any push failures — only clear failed writes for
+    // stores where every item pushed successfully, so failures are preserved
+    // for the user to retry.
+    const storesWithErrors = new Set();
     for (const { local, supabase, table } of stores) {
       const localData = local.data || [];
       if (localData.length === 0) continue;
@@ -1012,19 +1016,21 @@ export default function App() {
         const result = await supabase.add(syncItem);
         if (result?.error) {
           showSyncError('Some items failed to push — try again');
+          storesWithErrors.add(table);
         } else {
           // Track in push ref so background sync doesn't re-push
           pushedIdsRef.current[item.id] = item.updatedAt || item.createdAt || now;
         }
       }
     }
-    // Clear all failed write trackers after a successful push attempt
-    supabaseVehicles.clearAllFailedWrites();
-    supabaseLogs.clearAllFailedWrites();
-    supabaseReminders.clearAllFailedWrites();
-    supabaseFuelLogs.clearAllFailedWrites();
-    supabaseMods.clearAllFailedWrites();
-    supabaseDocuments.clearAllFailedWrites();
+    // Only clear failed write trackers for stores that had zero push errors.
+    // Failed stores preserve their failed writes so the user knows and can retry.
+    if (!storesWithErrors.has('vehicles')) supabaseVehicles.clearAllFailedWrites();
+    if (!storesWithErrors.has('maintenance_logs')) supabaseLogs.clearAllFailedWrites();
+    if (!storesWithErrors.has('reminders')) supabaseReminders.clearAllFailedWrites();
+    if (!storesWithErrors.has('fuel_logs')) supabaseFuelLogs.clearAllFailedWrites();
+    if (!storesWithErrors.has('modifications')) supabaseMods.clearAllFailedWrites();
+    if (!storesWithErrors.has('documents')) supabaseDocuments.clearAllFailedWrites();
     // Also push premium status (only if already premium — don't escalate free users)
     if (premium) {
       localStorage.setItem(STORAGE_KEYS.PREMIUM_STATUS, 'true');
