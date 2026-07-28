@@ -35,7 +35,7 @@ const keysToCamel = (obj) => {
  * Returns the data array or [] if the stamp doesn't match.
  */
 function readCacheWithStamp(tableName, userId) {
-  const cacheKey = `supabase_cache_${tableName}`;
+  const cacheKey = `supabase_cache_${tableName}_${userId}`;
   try {
     const raw = localStorage.getItem(cacheKey);
     if (!raw) return [];
@@ -86,7 +86,7 @@ export function useSupabaseData(tableName, userId, filterColumn = 'user_id', onD
   // Cache data to localStorage with userId stamp for cross-account isolation
   const cacheData = useCallback((newData) => {
     const stamped = { _userId: userId, _cachedAt: new Date().toISOString(), data: newData };
-    localStorage.setItem(`supabase_cache_${tableName}`, JSON.stringify(stamped));
+    localStorage.setItem(`supabase_cache_${tableName}_${userId}`, JSON.stringify(stamped));
   }, [tableName, userId]);
 
   // Fetch data from Supabase
@@ -195,10 +195,10 @@ export function useSupabaseData(tableName, userId, filterColumn = 'user_id', onD
       // Save to localStorage as temporary safety net (survives refresh)
       const fallback = { ...item, id: item.id || crypto.randomUUID(), userId, createdAt: new Date().toISOString() };
       try {
-        const cached = JSON.parse(localStorage.getItem(`supabase_cache_${tableName}`) || '[]');
+        const cached = JSON.parse(localStorage.getItem(`supabase_cache_${tableName}_${userId}`) || '[]');
         const exists = cached.find(p => p.id === fallback.id);
         if (!exists) {
-          localStorage.setItem(`supabase_cache_${tableName}`, JSON.stringify([fallback, ...cached]));
+          localStorage.setItem(`supabase_cache_${tableName}_${userId}`, JSON.stringify([fallback, ...cached]));
         }
       } catch (e) {
         // localStorage write failed — data is unrecoverable on refresh
@@ -240,11 +240,11 @@ export function useSupabaseData(tableName, userId, filterColumn = 'user_id', onD
       const message = err?.message || 'Failed to save to cloud';
       // Save current data to localStorage as safety net
       try {
-        const cached = JSON.parse(localStorage.getItem(`supabase_cache_${tableName}`) || '[]');
+        const cached = JSON.parse(localStorage.getItem(`supabase_cache_${tableName}_${userId}`) || '[]');
         const updated = cached.map(item =>
           item.id === id ? { ...item, ...updates, updatedAt: new Date().toISOString() } : item
         );
-        localStorage.setItem(`supabase_cache_${tableName}`, JSON.stringify(updated));
+        localStorage.setItem(`supabase_cache_${tableName}_${userId}`, JSON.stringify(updated));
       } catch (e) {
         // localStorage write failed — data is unrecoverable on refresh
       }
@@ -282,9 +282,9 @@ export function useSupabaseData(tableName, userId, filterColumn = 'user_id', onD
       const message = err?.message || 'Failed to save to cloud';
       // Save current data minus the deleted item to localStorage as safety net
       try {
-        const cached = JSON.parse(localStorage.getItem(`supabase_cache_${tableName}`) || '[]');
+        const cached = JSON.parse(localStorage.getItem(`supabase_cache_${tableName}_${userId}`) || '[]');
         const filtered = cached.filter(item => item.id !== id);
-        localStorage.setItem(`supabase_cache_${tableName}`, JSON.stringify(filtered));
+        localStorage.setItem(`supabase_cache_${tableName}_${userId}`, JSON.stringify(filtered));
       } catch (e) {
         // localStorage write failed — data is unrecoverable on refresh
       }
@@ -313,8 +313,8 @@ export function useSupabaseData(tableName, userId, filterColumn = 'user_id', onD
     setFailedWrites([]);
     setError(null);
     setLoading(true); // signal "not ready" so sync effects wait for fresh fetch
-    localStorage.removeItem(`supabase_cache_${tableName}`);
-  }, [tableName]);
+    localStorage.removeItem(`supabase_cache_${tableName}_${userId}`);
+  }, [tableName, userId]);
 
   return { data, setData, loading, error, add, updateItem, remove, update, resetData, refetch: fetchData, failedWrites, hasUnsyncedChanges, clearFailedWrite, clearAllFailedWrites };
 }
