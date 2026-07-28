@@ -202,20 +202,51 @@ export default function App() {
   }, [isAuthenticated, auth.loading, page]);
 
   // Data stores — always call hooks in same order (React rules)
-  const supabaseVehicles = useSupabaseData('vehicles', auth.user?.id);
-  const supabaseLogs = useSupabaseData('maintenance_logs', auth.user?.id);
-  const supabaseReminders = useSupabaseData('reminders', auth.user?.id);
+
+  // Refs for Realtime → localStorage propagation (wired after local stores are created)
+  const onVChange = useRef(null);
+  const onLChange = useRef(null);
+  const onRChange = useRef(null);
+  const onFChange = useRef(null);
+  const onMChange = useRef(null);
+  const onDChange = useRef(null);
+
+  // Stable callback wrappers that delegate to the latest ref value.
+  // useCallback with [] deps ensures they never change identity, so useSupabaseData's
+  // fetchData (which reads from the ref) is never unnecessarily recreated.
+  const onVehiclesChange = useCallback((data) => { if (onVChange.current) onVChange.current(data); }, []);
+  const onLogsChange = useCallback((data) => { if (onLChange.current) onLChange.current(data); }, []);
+  const onRemindersChange = useCallback((data) => { if (onRChange.current) onRChange.current(data); }, []);
+  const onFuelLogsChange = useCallback((data) => { if (onFChange.current) onFChange.current(data); }, []);
+  const onModsChange = useCallback((data) => { if (onMChange.current) onMChange.current(data); }, []);
+  const onDocumentsChange = useCallback((data) => { if (onDChange.current) onDChange.current(data); }, []);
+
+  const supabaseVehicles = useSupabaseData('vehicles', auth.user?.id, 'user_id', onVehiclesChange);
+  const supabaseLogs = useSupabaseData('maintenance_logs', auth.user?.id, 'user_id', onLogsChange);
+  const supabaseReminders = useSupabaseData('reminders', auth.user?.id, 'user_id', onRemindersChange);
   const supabaseProfile = useSupabaseData('profiles', auth.user?.id, 'id');
-  const supabaseFuelLogs = useSupabaseData('fuel_logs', auth.user?.id);
-  const supabaseMods = useSupabaseData('modifications', auth.user?.id);
-  const supabaseDocuments = useSupabaseData('documents', auth.user?.id);
-  
+  const supabaseFuelLogs = useSupabaseData('fuel_logs', auth.user?.id, 'user_id', onFuelLogsChange);
+  const supabaseMods = useSupabaseData('modifications', auth.user?.id, 'user_id', onModsChange);
+  const supabaseDocuments = useSupabaseData('documents', auth.user?.id, 'user_id', onDocumentsChange);
+
   const localVehicles = useLocalStorage(STORAGE_KEYS.VEHICLES, []);
   const localLogs = useLocalStorage(STORAGE_KEYS.MAINTENANCE_LOGS, []);
   const localReminders = useLocalStorage(STORAGE_KEYS.REMINDERS, []);
   const localFuelLogs = useLocalStorage('mtxtrkr_fuel_logs', []);
   const localMods = useLocalStorage('mtxtrkr_modifications', []);
   const localDocuments = useLocalStorage(STORAGE_KEYS.DOCUMENTS, []);
+
+  // Wire up Realtime → localStorage propagation: after local stores are created,
+  // point the refs at their update functions so that useSupabaseData's fetchData
+  // (triggered by Realtime events) can push refreshed data into useLocalStorage.
+  // Ref assignments run synchronously during render, while fetchData is async
+  // (useEffect + Supabase call), so refs are set before any callback fires.
+  onVChange.current = localVehicles.update;
+  onLChange.current = localLogs.update;
+  onRChange.current = localReminders.update;
+  onFChange.current = localFuelLogs.update;
+  onMChange.current = localMods.update;
+  onDChange.current = localDocuments.update;
 
   // Aggregate unsynced changes across all Supabase stores
   const hasUnsyncedChanges =
