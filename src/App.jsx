@@ -377,13 +377,13 @@ export default function App() {
       if (dbPremium === true && localStorage.getItem(STORAGE_KEYS.PREMIUM_STATUS) !== 'true') {
         setPremium(true);
         localStorage.setItem(STORAGE_KEYS.PREMIUM_STATUS, 'true');
-        // Restore subscription data for premium users who don't have it in localStorage
-        // (e.g. after clearing localStorage or signing in on a new device).
-        // The actual subscription management (cancel, upgrade) is handled by Stripe,
-        // so the exact plan/status values are informational — 'active' keeps the UI correct.
-        if (!localStorage.getItem('mtxtrkr_subscription_status')) {
-          setSubscriptionData({ plan: 'monthly', status: 'active', nextBilling: null });
-        }
+        // Always restore subscription data when DB says premium.
+        // Previously guarded by checking if the key existed in localStorage, but
+        // that caused Bug #1: User A's "cancelled" status survived the auth-change
+        // wipe (it was in PROTECTED_KEYS) and the guard prevented overwriting it.
+        // Now subscription keys are NOT protected, so they're always wiped on auth
+        // change, and this unconditional set restores correct state for premium users.
+        setSubscriptionData({ plan: 'monthly', status: 'active', nextBilling: null });
       }
       // Local says premium but DB doesn't → persist to DB (e.g. Stripe activation)
       if (premium && !dbPremium) {
@@ -423,9 +423,10 @@ export default function App() {
       // The premium sync effect verifies against Supabase on every auth change,
       // so a free user cannot permanently inherit premium from a previous session.
       'mtxtrkr_premium_status',           // fallback while Supabase verifies (cross-account leak prevented by premium sync effect)
-      'mtxtrkr_subscription_status',
-      'mtxtrkr_subscription_plan',
-      'mtxtrkr_subscription_next_billing',
+      // Subscription keys intentionally NOT protected — they are ephemeral
+      // Stripe-managed data that must be wiped on auth change. Protecting them
+      // caused Bug #1: User A's "cancelled" status leaking into User B's session
+      // via the premium sync effect's guard that only restores when the key is missing.
       'mtxtrkr_selected_vehicle',         // user's last-selected vehicle
       'mtxtrkr_logs_cleanup_done',        // one-time flag: prevents Supabase maintenance_logs deletion on every sign-in
       'mtxtrkr_stale_cache_cleaned',      // one-time flag: stale cache cleanup
@@ -628,11 +629,13 @@ export default function App() {
             const result = await supabase.add(syncItem);
             if (result?.error) {
               console.error(`[Sync] Failed to push ${item.id}:`, result.message);
+              showSyncError('Some changes not synced to cloud — tap Push to Cloud to retry');
               // Allow retry on failure — the add() function already tracks it in failedWrites
               delete pushedIdsRef.current[item.id];
             }
           } catch (e) {
             console.error(`[Sync] Failed to push ${item.id}:`, e);
+            showSyncError('Some changes not synced to cloud — tap Push to Cloud to retry');
             // Allow retry on failure
             delete pushedIdsRef.current[item.id];
           }
@@ -670,10 +673,12 @@ export default function App() {
               const result = await supabase.add(syncItem);
               if (result?.error) {
                 console.error('[VisibilitySync] Push failed:', result.message);
+                showSyncError('Some changes not synced to cloud — tap Push to Cloud to retry');
                 delete pushedIdsRef.current[item.id];
               }
             } catch (e) {
               console.error('[VisibilitySync] Push failed:', e);
+              showSyncError('Some changes not synced to cloud — tap Push to Cloud to retry');
               delete pushedIdsRef.current[item.id];
             }
           }
@@ -938,13 +943,9 @@ export default function App() {
       if (profile?.premium === true) {
         localStorage.setItem(STORAGE_KEYS.PREMIUM_STATUS, 'true');
         setPremium(true);
-        // Restore subscription data for premium users who don't have it in localStorage
-        // (e.g. after clearing localStorage or signing in on a new device).
-        // The actual subscription management (cancel, upgrade) is handled by Stripe,
-        // so the exact plan/status values are informational — 'active' keeps the UI correct.
-        if (!localStorage.getItem('mtxtrkr_subscription_status')) {
-          setSubscriptionData({ plan: 'monthly', status: 'active', nextBilling: null });
-        }
+        // Always restore subscription data when DB says premium
+        // (same fix as the premium sync effect — no guard, unconditional restore).
+        setSubscriptionData({ plan: 'monthly', status: 'active', nextBilling: null });
       }
     } catch (err) {
       console.error('[SyncFromCloud] Error fetching premium status:', err);
