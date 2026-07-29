@@ -12,6 +12,33 @@ const keysToSnake = (obj) => {
   return newObj;
 };
 
+/**
+ * Strip fields from an item that cannot be stored in Supabase because
+ * their value is a complex nested object without a matching DB column.
+ *
+ * When keysToSnake converts 'vinDecoded' → 'vin_decoded', Supabase rejects
+ * the upsert because the vehicles table has no 'vin_decoded' column.
+ *
+ * This strips plain objects (not arrays — JSONB columns like service_types
+ * ARE arrays), not null, and not Date instances, leaving the full object
+ * intact in localStorage and React state.
+ */
+const stripNonDbFields = (item) => {
+  if (!item || typeof item !== 'object') return item;
+  const cleaned = {};
+  for (const key of Object.keys(item)) {
+    const value = item[key];
+    // Keep: primitives, arrays (JSONB columns), null, Date instances
+    // Strip: plain objects (like vinDecoded) that can't map to a single DB column
+    if (value !== null && typeof value === 'object' && !Array.isArray(value) && !(value instanceof Date)) {
+      // Skip complex nested objects — they have no matching DB column
+      continue;
+    }
+    cleaned[key] = value;
+  }
+  return cleaned;
+};
+
 // Helper to convert object keys to camelCase for React
 const toCamelCase = (str) => str.replace(/([-_][a-z])/g, group => group.toUpperCase().replace('-', '').replace('_', ''));
 const keysToCamel = (obj) => {
@@ -167,7 +194,10 @@ export function useSupabaseData(tableName, userId, filterColumn = 'user_id', onD
   // Insert a new record
   const add = useCallback(async (item) => {
     if (!userId) return { error: true, message: 'Not authenticated' };
-    const snakeItem = keysToSnake({ ...item, userId });
+    // Strip complex nested objects (e.g. vinDecoded) before converting to
+    // snake_case — their keys would map to columns that don't exist in Supabase.
+    const dbSafe = stripNonDbFields(item);
+    const snakeItem = keysToSnake({ ...dbSafe, userId });
     try {
       const { data: result, error: err } = await supabase
         .from(tableName)
@@ -217,7 +247,9 @@ export function useSupabaseData(tableName, userId, filterColumn = 'user_id', onD
   // Update a record
   const updateItem = useCallback(async (id, updates) => {
     if (!userId) return { error: true, message: 'Not authenticated' };
-    const snakeUpdates = keysToSnake({ ...updates, updatedAt: new Date().toISOString() });
+    // Strip complex nested objects before converting to snake_case
+    const dbSafe = stripNonDbFields(updates);
+    const snakeUpdates = keysToSnake({ ...dbSafe, updatedAt: new Date().toISOString() });
     try {
       const { error: err } = await supabase
         .from(tableName)

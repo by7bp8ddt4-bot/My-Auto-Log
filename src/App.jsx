@@ -812,13 +812,25 @@ export default function App() {
         { data: localMods.data, table: 'modifications' },
         { data: localDocuments.data, table: 'documents' },
       ];
+      // Convert camelCase item keys to snake_case for Supabase, and strip
+      // complex nested objects (e.g. vinDecoded) that have no matching DB column.
+      const toSnakeCaseKey = (str) => str.replace(/[A-Z]/g, letter => `_${letter.toLowerCase()}`);
+      const toDbSafe = (item) => {
+        const cleaned = { user_id: auth.user.id };
+        for (const [key, value] of Object.entries(item)) {
+          // Skip complex nested objects (e.g. vinDecoded) — no matching DB column
+          if (value !== null && typeof value === 'object' && !Array.isArray(value) && !(value instanceof Date)) continue;
+          cleaned[toSnakeCaseKey(key)] = value;
+        }
+        return cleaned;
+      };
       for (const { data, table } of dataStores) {
         const items = data || [];
         if (items.length === 0) continue;
         for (const item of items) {
           try {
             await supabase.from(table).upsert(
-              { ...item, user_id: auth.user.id },
+              toDbSafe(item),
               { onConflict: 'id' }
             );
           } catch (e) {
