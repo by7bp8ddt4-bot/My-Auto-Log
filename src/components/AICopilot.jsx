@@ -10,106 +10,6 @@ import { getSpecsForVehicle, isEV } from '../data/maintenance-schedules.js';
 import { findBestSymptomMatch } from '../data/symptom-decoder.js';
 import { translateJargon, extractJargon } from '../data/jargon-translator.js';
 
-// --- Jargon Decoder Sub-component ---
-function JargonDecoder() {
-  const [jargonInput, setJargonInput] = useState('');
-  const [jargonResult, setJargonResult] = useState(null);
-  const [jargonSearching, setJargonSearching] = useState(false);
-
-  const handleJargonLookup = () => {
-    if (!jargonInput.trim()) return;
-    setJargonSearching(true);
-    setTimeout(() => {
-      const result = translateJargon(jargonInput);
-      setJargonResult(result);
-      setJargonSearching(false);
-    }, 400);
-  };
-
-  return (
-    <div className="p-5 rounded-2xl bg-gradient-to-br from-emerald-600/5 to-teal-600/5 border border-emerald-500/20">
-      <div className="flex items-center gap-3 mb-4">
-        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500/20 to-teal-500/20 flex items-center justify-center">
-          <BookOpen className="w-5 h-5 text-emerald-400" />
-        </div>
-        <div>
-          <h3 className="text-sm font-semibold text-white">Mechanic Jargon Decoder</h3>
-          <p className="text-xs text-slate-500">Translate mechanic-speak into plain English</p>
-        </div>
-      </div>
-
-      <div className="flex gap-2">
-        <input
-          type="text"
-          value={jargonInput}
-          onChange={(e) => { setJargonInput(e.target.value); setJargonResult(null); }}
-          onKeyDown={(e) => e.key === 'Enter' && handleJargonLookup()}
-          placeholder={`e.g. "CVT", "timing belt", "PTU"...`}
-          className="flex-1 px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all"
-        />
-        <button
-          onClick={handleJargonLookup}
-          disabled={!jargonInput.trim() || jargonSearching}
-          className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center gap-1.5"
-        >
-          {jargonSearching ? <Loader2 className="w-4 h-4 animate-spin" /> : <Search className="w-4 h-4" />}
-          Look up
-        </button>
-      </div>
-
-      {/* Jargon Results */}
-      {jargonResult && (
-        <div className="mt-4 p-4 rounded-xl bg-slate-900 border border-slate-700/50 space-y-3">
-          {Array.isArray(jargonResult) ? (
-            jargonResult.length === 0 ? (
-              <p className="text-xs text-slate-500">No matching terms found.</p>
-            ) : (
-              <div className="space-y-3 max-h-60 overflow-y-auto">
-                {jargonResult.slice(0, 5).map((t, i) => (
-                  <div key={i} className="pb-3 border-b border-slate-800 last:border-0 last:pb-0">
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className="text-xs font-semibold text-emerald-400">{t.term}</span>
-                      {t.standsFor && <span className="text-[10px] text-slate-500">({t.standsFor})</span>}
-                    </div>
-                    <p className="text-xs text-slate-300 leading-relaxed">{t.plainEnglish}</p>
-                    {t.commonFailures && (
-                      <p className="text-[10px] text-slate-500 mt-1">⚠ Common issues: {t.commonFailures}</p>
-                    )}
-                  </div>
-                ))}
-              </div>
-            )
-          ) : (
-            <div>
-              <div className="flex items-center gap-2 mb-1">
-                <span className="text-xs font-semibold text-emerald-400">{jargonResult.term}</span>
-                {jargonResult.standsFor && <span className="text-[10px] text-slate-500">({jargonResult.standsFor})</span>}
-              </div>
-              <p className="text-xs text-slate-300 leading-relaxed">{jargonResult.plainEnglish}</p>
-              {jargonResult.commonFailures && (
-                <p className="text-[10px] text-slate-500 mt-1">⚠ Common issues: {jargonResult.commonFailures}</p>
-              )}
-            </div>
-          )}
-        </div>
-      )}
-
-      {/* Quick-reference: common terms */}
-      <div className="mt-4 flex flex-wrap gap-1.5">
-        {['ABS', 'CVT', 'timing belt', 'PTU', 'AFM', 'O2 sensor', 'EVAP'].map(term => (
-          <button
-            key={term}
-            onClick={() => { setJargonInput(term); setJargonResult(null); }}
-            className="px-2 py-1 text-[10px] rounded-lg bg-slate-800 border border-slate-700 text-slate-400 hover:text-white hover:border-emerald-500/40 transition-all"
-          >
-            {term}
-          </button>
-        ))}
-      </div>
-    </div>
-  );
-}
-
 // Vehicle-aware translation that pulls specs from the database
 function aiTranslate(input, vehicle) {
   const lower = input.toLowerCase();
@@ -252,12 +152,12 @@ function aiTranslate(input, vehicle) {
     estimatedCost: '$0–$50 (inspection fee)',
     loggable: { serviceType: 'Inspection', description: `Concern reported: "${input}". General inspection performed on ${make} ${model}.`, mileage }
   };
-  }
+}
 
 export default function AICopilot({ vehicles, logs, onAddLog, onNavigate, isPremium, activeVehicleId }) {
   const [inputText, setInputText] = useState('');
-  const [translation, setTranslation] = useState(null);
-  const [isTranslating, setIsTranslating] = useState(false);
+  const [result, setResult] = useState(null); // { type: 'jargon' | 'symptom', data: ... }
+  const [isSearching, setIsSearching] = useState(false);
   const [saved, setSaved] = useState(false);
 
   const activeVehicle = activeVehicleId
@@ -269,31 +169,54 @@ export default function AICopilot({ vehicles, logs, onAddLog, onNavigate, isPrem
   const specs = activeVehicle ? getSpecsForVehicle(activeVehicle.make, activeVehicle.model) : null;
   const electric = activeVehicle ? isEV(activeVehicle.make, activeVehicle.model) : false;
 
-  const handleTranslate = () => {
+  const handleAsk = () => {
     if (!inputText.trim()) return;
-    setIsTranslating(true);
+    setIsSearching(true);
     setSaved(false);
+    setResult(null);
+
     setTimeout(() => {
-      const result = aiTranslate(inputText, activeVehicle);
-      setTranslation(result);
-      setIsTranslating(false);
+      // 1. Check if the input directly matches a jargon term (exact or substring)
+      let jargonRes = translateJargon(inputText);
+      let foundJargon = false;
+
+      if (jargonRes && (!Array.isArray(jargonRes) || jargonRes.length > 0)) {
+        foundJargon = true;
+      } else {
+        // 2. Try extracting jargon terms from the text
+        const extracted = extractJargon(inputText);
+        if (extracted && extracted.length > 0) {
+          jargonRes = extracted;
+          foundJargon = true;
+        }
+      }
+
+      if (foundJargon) {
+        setResult({ type: 'jargon', data: jargonRes });
+      } else {
+        // 3. Symptom or general question fallback
+        const diagnosticRes = aiTranslate(inputText, activeVehicle);
+        setResult({ type: 'symptom', data: diagnosticRes });
+      }
+
+      setIsSearching(false);
     }, 1500);
   };
 
   const handleSaveToLog = () => {
-    if (!translation?.loggable || !activeVehicle) return;
+    if (result?.type !== 'symptom' || !result?.data?.loggable || !activeVehicle) return;
     onAddLog({
       vehicleId: activeVehicle.id,
       date: getLocalDateString(),
       mileage: activeVehicle.mileage,
-      serviceType: translation.loggable.serviceType,
-      description: translation.loggable.description,
+      serviceType: result.data.loggable.serviceType,
+      description: result.data.loggable.description,
       cost: 0,
       documents: [],
       source: 'ai-copilot',
     });
     setSaved(true);
-    setTranslation(null);
+    setResult(null);
     setInputText('');
   };
 
@@ -305,7 +228,7 @@ export default function AICopilot({ vehicles, logs, onAddLog, onNavigate, isPrem
             <Brain className="w-5 h-5 text-purple-400" />
           </div>
           <div>
-            <h3 className="text-sm font-semibold text-white">AI Maintenance Co-Pilot</h3>
+            <h3 className="text-sm font-semibold text-white">AI Assistant</h3>
             <p className="text-xs text-slate-500">Add a vehicle to activate</p>
           </div>
         </div>
@@ -315,7 +238,7 @@ export default function AICopilot({ vehicles, logs, onAddLog, onNavigate, isPrem
 
   return (
     <div className="space-y-6">
-      {/* Feature 1: AI Co-Pilot - Informal Input Translator */}
+      {/* Unified AI Assistant Card */}
       <div className="p-5 rounded-2xl bg-gradient-to-br from-purple-600/5 to-blue-600/5 border border-purple-500/20">
         <div className="flex items-center gap-3 mb-4">
           <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500/20 to-blue-500/20 flex items-center justify-center">
@@ -323,11 +246,11 @@ export default function AICopilot({ vehicles, logs, onAddLog, onNavigate, isPrem
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h3 className="text-sm font-semibold text-white">AI Maintenance Co-Pilot</h3>
+              <h3 className="text-sm font-semibold text-white">AI Assistant</h3>
               <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-purple-500/20 text-purple-300">SMART</span>
             </div>
             <p className="text-xs text-slate-500">
-              Vehicle-aware AI for your {activeVehicle.year} {activeVehicle.make} {activeVehicle.model}
+              Your expert companion for {activeVehicle.year} {activeVehicle.make} {activeVehicle.model}
               {electric && <span className="text-emerald-400 ml-1">⚡ EV</span>}
             </p>
           </div>
@@ -378,83 +301,157 @@ export default function AICopilot({ vehicles, logs, onAddLog, onNavigate, isPrem
           </div>
         )}
 
+        {/* Clickable Sample Questions */}
+        <div className="mb-4">
+          <p className="text-[10px] text-slate-500 uppercase tracking-wider mb-2 font-medium">Try asking:</p>
+          <div className="flex flex-col sm:flex-row gap-2">
+            <button
+              onClick={() => { setInputText("What does DPF regeneration mean?"); setResult(null); }}
+              className="px-3 py-1.5 text-xs rounded-full bg-slate-800 border border-slate-700/50 text-slate-300 hover:text-white hover:border-purple-500/40 hover:bg-slate-800/80 transition-all text-left"
+            >
+              💡 "What does DPF regeneration mean?"
+            </button>
+            <button
+              onClick={() => { setInputText("Engine is squeaking when I turn on the AC"); setResult(null); }}
+              className="px-3 py-1.5 text-xs rounded-full bg-slate-800 border border-slate-700/50 text-slate-300 hover:text-white hover:border-purple-500/40 hover:bg-slate-800/80 transition-all text-left"
+            >
+              🔊 "Engine is squeaking when I turn on the AC"
+            </button>
+          </div>
+        </div>
+
         {/* Input Area */}
-        <textarea
-          value={inputText}
-          onChange={(e) => setInputText(e.target.value)}
-          placeholder='Ask it anything — "engine is squeaking when I turn on the AC" or "did the oil thing yesterday"'
-          rows={3}
-          className="w-full px-4 py-3 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-purple-500/50 resize-none transition-all"
-        />
+        <div className="relative">
+          <textarea
+            value={inputText}
+            onChange={(e) => setInputText(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                handleAsk();
+              }
+            }}
+            placeholder='Ask anything — "engine squeaks when turning", "CVT", "oil viscosity", etc.'
+            rows={3}
+            className="w-full px-4 py-3 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-purple-500/50 resize-none transition-all"
+          />
+        </div>
+
         <button
-          onClick={handleTranslate}
-          disabled={!inputText.trim() || isTranslating}
+          onClick={handleAsk}
+          disabled={!inputText.trim() || isSearching}
           className="mt-2 w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-blue-500 text-white text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed hover:shadow-lg hover:shadow-purple-500/20 transition-all"
         >
-          {isTranslating ? (
-            <><Loader2 className="w-4 h-4 animate-spin" /> Analyzing with AI...</>
+          {isSearching ? (
+            <><Loader2 className="w-4 h-4 animate-spin" /> Analyzing request...</>
           ) : (
-            <><Sparkles className="w-4 h-4" /> Translate to Health Record</>
+            <><Sparkles className="w-4 h-4" /> Ask AI Assistant</>
           )}
         </button>
 
-        {/* Translation Result */}
-        {translation && (
+        {/* Results Render Area */}
+        {result && (
           <div className="animate-fade-in mt-4">
-            <div className="flex items-center gap-2 mb-3">
-              <div className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-              <span className="text-xs font-medium text-emerald-400">AI Translation Complete</span>
-            </div>
-            <div className="p-4 rounded-xl bg-slate-900 border border-slate-700/50 space-y-3">
+            {result.type === 'jargon' ? (
+              // Jargon Decoder Result Rendering
               <div>
-                <div className="flex items-center gap-2 mb-1">
-                  <span className="text-[10px] font-medium text-slate-500 uppercase tracking-wider">Diagnosed Issue</span>
-                  <span className={`text-[10px] px-2 py-0.5 rounded-full font-medium ${
-                    translation.severity === 'High' ? 'bg-red-500/20 text-red-300' :
-                    translation.severity === 'Medium' ? 'bg-amber-500/20 text-amber-300' :
-                    translation.severity === 'Info' ? 'bg-blue-500/20 text-blue-300' :
-                    translation.severity === 'Completed' ? 'bg-emerald-500/20 text-emerald-300' :
-                    'bg-slate-700/50 text-slate-300'
-                  }`}>{translation.severity}</span>
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                  <span className="text-xs font-medium text-emerald-400">AI Jargon Translation Complete</span>
                 </div>
-                <p className="text-sm font-medium text-white">{translation.diagnosis}</p>
-              </div>
-              <div>
-                <span className="text-[10px] font-medium text-slate-500 uppercase tracking-wider mb-1 block">Recommended Action</span>
-                <p className="text-xs text-slate-300 leading-relaxed">{translation.action}</p>
-              </div>
-              {translation.estimatedCost && (
-                <div className="flex items-center gap-2 text-xs">
-                  <span className="text-slate-500">Estimated cost:</span>
-                  <span className="text-emerald-400 font-medium">{translation.estimatedCost}</span>
-                </div>
-              )}
-              {translation.allCauses && translation.allCauses.length > 1 && (
-                <div>
-                  <span className="text-[10px] font-medium text-slate-500 uppercase tracking-wider mb-1 block">Other Possible Causes</span>
-                  <div className="space-y-1">
-                    {translation.allCauses.slice(1).map((c, i) => (
-                      <div key={i} className="flex items-start gap-1.5 text-xs">
-                        <span className={`mt-0.5 w-1.5 h-1.5 rounded-full flex-shrink-0 ${
-                          c.severity.includes('🔴') ? 'bg-red-400' : c.severity.includes('⚠️') ? 'bg-amber-400' : 'bg-emerald-400'
-                        }`} />
-                        <span className="text-slate-400">{c.cause} — <span className="text-slate-500">{c.estimatedCost}</span></span>
+                <div className="p-4 rounded-xl bg-slate-900 border border-slate-700/50 space-y-3">
+                  {Array.isArray(result.data) ? (
+                    result.data.length === 0 ? (
+                      <p className="text-xs text-slate-500">No matching jargon terms found.</p>
+                    ) : (
+                      <div className="space-y-3 max-h-60 overflow-y-auto">
+                        {result.data.slice(0, 5).map((t, i) => (
+                          <div key={i} className="pb-3 border-b border-slate-800 last:border-0 last:pb-0">
+                            <div className="flex items-center gap-2 mb-1">
+                              <span className="text-xs font-semibold text-emerald-400">{t.term}</span>
+                              {t.standsFor && <span className="text-[10px] text-slate-500">({t.standsFor})</span>}
+                            </div>
+                            <p className="text-xs text-slate-300 leading-relaxed">{t.plainEnglish}</p>
+                            {t.commonFailures && (
+                              <p className="text-[10px] text-slate-500 mt-1">⚠ Common issues: {t.commonFailures}</p>
+                            )}
+                          </div>
+                        ))}
                       </div>
-                    ))}
+                    )
+                  ) : (
+                    <div>
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="text-xs font-semibold text-emerald-400">{result.data.term}</span>
+                        {result.data.standsFor && <span className="text-[10px] text-slate-500">({result.data.standsFor})</span>}
+                      </div>
+                      <p className="text-xs text-slate-300 leading-relaxed">{result.data.plainEnglish}</p>
+                      {result.data.commonFailures && (
+                        <p className="text-[10px] text-slate-500 mt-1">⚠ Common issues: {result.data.commonFailures}</p>
+                      )}
+                    </div>
+                  )}
+                </div>
+              </div>
+            ) : (
+              // Symptom / Translation Result Rendering
+              <div>
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                  <span className="text-xs font-medium text-emerald-400">AI Diagnostic Complete</span>
+                </div>
+                <div className="p-4 rounded-xl bg-slate-900 border border-slate-700/50 space-y-3">
+                  <div>
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="text-[10px] font-medium text-slate-500 uppercase tracking-wider">Diagnosed Issue</span>
+                      <span className={`text-[10px] px-2 py-0.5 rounded-full font-medium ${
+                        result.data.severity === 'High' ? 'bg-red-500/20 text-red-300' :
+                        result.data.severity === 'Medium' ? 'bg-amber-500/20 text-amber-300' :
+                        result.data.severity === 'Info' ? 'bg-blue-500/20 text-blue-300' :
+                        result.data.severity === 'Completed' ? 'bg-emerald-500/20 text-emerald-300' :
+                        'bg-slate-700/50 text-slate-300'
+                      }`}>{result.data.severity}</span>
+                    </div>
+                    <p className="text-sm font-medium text-white">{result.data.diagnosis}</p>
                   </div>
+                  <div>
+                    <span className="text-[10px] font-medium text-slate-500 uppercase tracking-wider mb-1 block">Recommended Action</span>
+                    <p className="text-xs text-slate-300 leading-relaxed">{result.data.action}</p>
+                  </div>
+                  {result.data.estimatedCost && (
+                    <div className="flex items-center gap-2 text-xs">
+                      <span className="text-slate-500">Estimated cost:</span>
+                      <span className="text-emerald-400 font-medium">{result.data.estimatedCost}</span>
+                    </div>
+                  )}
+                  {result.data.allCauses && result.data.allCauses.length > 1 && (
+                    <div>
+                      <span className="text-[10px] font-medium text-slate-500 uppercase tracking-wider mb-1 block">Other Possible Causes</span>
+                      <div className="space-y-1">
+                        {result.data.allCauses.slice(1).map((c, i) => (
+                          <div key={i} className="flex items-start gap-1.5 text-xs">
+                            <span className={`mt-0.5 w-1.5 h-1.5 rounded-full flex-shrink-0 ${
+                              c.severity.includes('🔴') ? 'bg-red-400' : c.severity.includes('⚠️') ? 'bg-amber-400' : 'bg-emerald-400'
+                            }`} />
+                            <span className="text-slate-400">{c.cause} — <span className="text-slate-500">{c.estimatedCost}</span></span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                  {result.data.loggable && (
+                    <button onClick={handleSaveToLog} className="w-full flex items-center justify-center gap-2 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-medium transition-all">
+                      <Save className="w-3.5 h-3.5" /> Save to Maintenance Log
+                    </button>
+                  )}
+                  {!result.data.loggable && result.data.severity === 'Info' && (
+                    <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-300 text-xs">
+                      <AlertTriangle className="w-3.5 h-3.5" /> No maintenance log needed for your EV.
+                    </div>
+                  )}
                 </div>
-              )}
-              {translation.loggable && (
-                <button onClick={handleSaveToLog} className="w-full flex items-center justify-center gap-2 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-medium transition-all">
-                  <Save className="w-3.5 h-3.5" /> Save to Maintenance Log
-                </button>
-              )}
-              {!translation.loggable && translation.severity === 'Info' && (
-                <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-300 text-xs">
-                  <AlertTriangle className="w-3.5 h-3.5" /> No maintenance log needed for your EV.
-                </div>
-              )}
-            </div>
+              </div>
+            )}
           </div>
         )}
 
@@ -465,9 +462,6 @@ export default function AICopilot({ vehicles, logs, onAddLog, onNavigate, isPrem
           </div>
         )}
       </div>
-
-      {/* Feature 1.5: Mechanic Jargon Decoder */}
-      <JargonDecoder />
 
       {/* Feature 2: Proactive Guidance */}
       {urgentItem && (
