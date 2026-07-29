@@ -15,7 +15,7 @@ const keysToSnake = (obj) => {
 export const TABLE_COLUMNS = {
   vehicles: [
     'id', 'user_id', 'name', 'make', 'model', 'year', 'license_plate', 'mileage', 
-    'purchase_date', 'purchase_mileage', 'vin', 'type', 'trim', 'engine_size', 
+    'purchase_mileage', 'vin', 'type', 'trim', 'engine_size', 
     'drivetrain', 'transmission', 'fuel_type', 'body_class', 'is_leased', 
     'lease_end_date', 'lease_mileage_limit', 'engine_serial', 'created_at', 'updated_at'
   ],
@@ -75,6 +75,11 @@ export const filterForTable = (tableName, item, userId) => {
   const actualUserId = userId || item.userId || item.user_id;
   if (actualUserId && allowedColumns.includes('user_id')) {
     filtered['user_id'] = actualUserId;
+  }
+
+  // Convert empty strings to null (Supabase rejects "" for date columns)
+  for (const [k, v] of Object.entries(filtered)) {
+    if (v === '') filtered[k] = null;
   }
 
   return filtered;
@@ -449,11 +454,18 @@ export function useSupabaseAuth() {
     }
 
     // Get initial session
-    supabase.auth.getSession().then(({ data: { session: s } }) => {
+    supabase.auth.getSession().then(async ({ data: { session: s } }) => {
       setSession(s);
       setUser(s?.user ?? null);
       if (s?.user) {
-        supabase.from('profiles').upsert({ id: s.user.id, email: s.user.email });
+        try {
+          const { error } = await supabase.from('profiles').upsert({ id: s.user.id, email: s.user.email });
+          if (error) {
+            console.warn('[useSupabaseAuth] profile upsert warning:', error.message);
+          }
+        } catch (err) {
+          console.warn('[useSupabaseAuth] profile upsert error:', err);
+        }
       }
       if (!s) {
         // No session found after OAuth redirect — could be a silent
@@ -483,14 +495,20 @@ export function useSupabaseAuth() {
         // Fire-and-forget: upsert profile. Apple Sign-In may return
         // null email on subsequent sign-ins — still upsert with whatever
         // we have (Supabase user identity data handles the rest).
-        supabase.from('profiles').upsert({
-          id: session.user.id,
-          email: session.user.email,
-        }).then(({ error }) => {
-          if (error) {
-            console.warn('[useSupabaseAuth] profile upsert warning:', error.message);
-          }
-        });
+        try {
+          supabase.from('profiles').upsert({
+            id: session.user.id,
+            email: session.user.email,
+          }).then(({ error }) => {
+            if (error) {
+              console.warn('[useSupabaseAuth] profile upsert warning:', error.message);
+            }
+          }).catch(err => {
+            console.warn('[useSupabaseAuth] profile upsert warning:', err?.message || err);
+          });
+        } catch (e) {
+          console.warn('[useSupabaseAuth] profile upsert error:', e);
+        }
       }
       // Clear any previous auth error on successful sign-in
       setAuthError(null);
@@ -509,7 +527,14 @@ export function useSupabaseAuth() {
       }
     });
     if (data?.user) {
-      await supabase.from('profiles').upsert({ id: data.user.id, email: data.user.email });
+      try {
+        const { error: profileError } = await supabase.from('profiles').upsert({ id: data.user.id, email: data.user.email });
+        if (profileError) {
+          console.warn('[useSupabaseAuth] signUp profile upsert warning:', profileError.message);
+        }
+      } catch (err) {
+        console.warn('[useSupabaseAuth] signUp profile upsert error:', err);
+      }
     }
     return { data, error };
   }, []);
@@ -517,7 +542,14 @@ export function useSupabaseAuth() {
   const signIn = useCallback(async (email, password) => {
     const { data, error } = await supabase.auth.signInWithPassword({ email, password });
     if (data?.user) {
-      await supabase.from('profiles').upsert({ id: data.user.id, email: data.user.email });
+      try {
+        const { error: profileError } = await supabase.from('profiles').upsert({ id: data.user.id, email: data.user.email });
+        if (profileError) {
+          console.warn('[useSupabaseAuth] signIn profile upsert warning:', profileError.message);
+        }
+      } catch (err) {
+        console.warn('[useSupabaseAuth] signIn profile upsert error:', err);
+      }
     }
     return { data, error };
   }, []);
@@ -547,9 +579,14 @@ export function useSupabaseAuth() {
   const checkPremium = useCallback(async () => {
     if (!user) return false;
     try {
-      const { data } = await supabase.from('profiles').select('premium').eq('id', user.id).single();
+      const { data, error } = await supabase.from('profiles').select('premium').eq('id', user.id).single();
+      if (error) {
+        console.warn('[useSupabaseAuth] checkPremium warning:', error.message);
+        return localStorage.getItem('mtxtrkr_premium_status') === 'true';
+      }
       return data?.premium === true;
-    } catch {
+    } catch (e) {
+      console.warn('[useSupabaseAuth] checkPremium error:', e);
       return localStorage.getItem('mtxtrkr_premium_status') === 'true';
     }
   }, [user]);
@@ -557,7 +594,10 @@ export function useSupabaseAuth() {
   const setPremiumStatus = useCallback(async (userId) => {
     localStorage.setItem('mtxtrkr_premium_status', 'true');
     try {
-      await supabase.from('profiles').upsert({ id: userId, premium: true, updated_at: new Date().toISOString() });
+      const { error } = await supabase.from('profiles').upsert({ id: userId, premium: true, updated_at: new Date().toISOString() });
+      if (error) {
+        console.warn('Could not save premium to Supabase:', error.message);
+      }
     } catch (e) {
       console.warn('Could not save premium to Supabase:', e);
     }
