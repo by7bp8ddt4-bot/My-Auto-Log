@@ -12,31 +12,72 @@ const keysToSnake = (obj) => {
   return newObj;
 };
 
-/**
- * Strip fields from an item that cannot be stored in Supabase because
- * their value is a complex nested object without a matching DB column.
- *
- * When keysToSnake converts 'vinDecoded' → 'vin_decoded', Supabase rejects
- * the upsert because the vehicles table has no 'vin_decoded' column.
- *
- * This strips plain objects (not arrays — JSONB columns like service_types
- * ARE arrays), not null, and not Date instances, leaving the full object
- * intact in localStorage and React state.
- */
-const stripNonDbFields = (item) => {
+export const TABLE_COLUMNS = {
+  vehicles: [
+    'id', 'user_id', 'name', 'make', 'model', 'year', 'license_plate', 'mileage', 
+    'purchase_date', 'purchase_mileage', 'vin', 'type', 'trim', 'engine_size', 
+    'drivetrain', 'transmission', 'fuel_type', 'body_class', 'is_leased', 
+    'lease_end_date', 'lease_mileage_limit', 'engine_serial', 'created_at', 'updated_at'
+  ],
+  reminders: [
+    'id', 'user_id', 'vehicle_id', 'title', 'description', 'interval_miles', 
+    'interval_days', 'due_mileage', 'due_date', 'enabled', 'last_completed_mileage', 
+    'last_completed_date', 'created_at', 'updated_at'
+  ],
+  modifications: [
+    'id', 'user_id', 'vehicle_id', 'name', 'category', 'cost', 'mileage_at_install', 
+    'date', 'notes', 'created_at'
+  ],
+  documents: [
+    'id', 'user_id', 'folder', 'name', 'file_url', 'notes', 'date', 'expiry_date', 
+    'vehicle_id', 'created_at', 'reminders_sent'
+  ],
+  maintenance_logs: [
+    'id', 'user_id', 'vehicle_id', 'service_type', 'service_types', 'description', 
+    'mileage', 'cost', 'date', 'documents', 'source', 'raw_ocr_text', 'created_at', 'updated_at'
+  ],
+  fuel_logs: [
+    'id', 'user_id', 'vehicle_id', 'date', 'mileage', 'gallons', 'cost', 'is_full_tank', 
+    'octane', 'notes', 'created_at', 'updated_at'
+  ]
+};
+
+export const filterForTable = (tableName, item, userId) => {
   if (!item || typeof item !== 'object') return item;
-  const cleaned = {};
-  for (const key of Object.keys(item)) {
-    const value = item[key];
-    // Keep: primitives, arrays (JSONB columns), null, Date instances
-    // Strip: plain objects (like vinDecoded) that can't map to a single DB column
-    if (value !== null && typeof value === 'object' && !Array.isArray(value) && !(value instanceof Date)) {
-      // Skip complex nested objects — they have no matching DB column
-      continue;
+  const allowedColumns = TABLE_COLUMNS[tableName];
+  if (!allowedColumns) {
+    // Graceful fallback for tables not defined in whitelist:
+    // Convert keys to snake_case and keep only primitive fields, arrays, or Dates
+    const cleaned = {};
+    for (const key of Object.keys(item)) {
+      const value = item[key];
+      if (value !== null && typeof value === 'object' && !Array.isArray(value) && !(value instanceof Date)) {
+        continue;
+      }
+      cleaned[toSnakeCase(key)] = value;
     }
-    cleaned[key] = value;
+    const actualUserId = userId || item.userId || item.user_id;
+    if (actualUserId) {
+      cleaned['user_id'] = actualUserId;
+    }
+    return cleaned;
   }
-  return cleaned;
+
+  const filtered = {};
+  for (const key of Object.keys(item)) {
+    const snakeKey = toSnakeCase(key);
+    if (allowedColumns.includes(snakeKey)) {
+      filtered[snakeKey] = item[key];
+    }
+  }
+
+  // Ensure user_id is added if we have a userId
+  const actualUserId = userId || item.userId || item.user_id;
+  if (actualUserId && allowedColumns.includes('user_id')) {
+    filtered['user_id'] = actualUserId;
+  }
+
+  return filtered;
 };
 
 // Helper to convert object keys to camelCase for React
@@ -194,10 +235,7 @@ export function useSupabaseData(tableName, userId, filterColumn = 'user_id', onD
   // Insert a new record
   const add = useCallback(async (item) => {
     if (!userId) return { error: true, message: 'Not authenticated' };
-    // Strip complex nested objects (e.g. vinDecoded) before converting to
-    // snake_case — their keys would map to columns that don't exist in Supabase.
-    const dbSafe = stripNonDbFields(item);
-    const snakeItem = keysToSnake({ ...dbSafe, userId });
+    const snakeItem = filterForTable(tableName, item, userId);
     try {
       const { data: result, error: err } = await supabase
         .from(tableName)
@@ -210,7 +248,10 @@ export function useSupabaseData(tableName, userId, filterColumn = 'user_id', onD
       // allow INSERT but block SELECT on the upserted row. It still errors on
       // >1 row, but upsert-by-ID shouldn't produce that.
       // When result is null but no error, treat the upsert as successful.
-      const camelResult = result ? keysToCamel(result) : keysToCamel(snakeItem);
+      // Preserve all original item fields (including app-only ones) in local React state & cache.
+      const camelResult = result 
+        ? { ...item, ...keysToCamel(result) } 
+        : { ...item, ...keysToCamel(snakeItem) };
       setData(prev => {
         const newData = [camelResult, ...prev];
         cacheData(newData);
@@ -247,9 +288,7 @@ export function useSupabaseData(tableName, userId, filterColumn = 'user_id', onD
   // Update a record
   const updateItem = useCallback(async (id, updates) => {
     if (!userId) return { error: true, message: 'Not authenticated' };
-    // Strip complex nested objects before converting to snake_case
-    const dbSafe = stripNonDbFields(updates);
-    const snakeUpdates = keysToSnake({ ...dbSafe, updatedAt: new Date().toISOString() });
+    const snakeUpdates = filterForTable(tableName, { ...updates, updatedAt: new Date().toISOString() }, userId);
     try {
       const { error: err } = await supabase
         .from(tableName)

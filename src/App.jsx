@@ -18,7 +18,7 @@ import FuseBox from './components/FuseBox.jsx';
 import ContactSupport from './components/ContactSupport.jsx';
 import SubscriptionManagement, { setSubscriptionData, getSubscriptionData, clearSubscriptionData } from './components/SubscriptionManagement.jsx';
 import ErrorBoundary, { setupGlobalErrorHandlers } from './components/ErrorBoundary.jsx';
-import { useSupabaseData, useSupabaseAuth } from './hooks/useSupabaseData.js';
+import { useSupabaseData, useSupabaseAuth, filterForTable } from './hooks/useSupabaseData.js';
 import { useLocalStorage, useSyncStatus, sanitizeForStorage } from './hooks/useLocalStorage.js';
 import useAnalytics from './hooks/useAnalytics.js';
 import { STORAGE_KEYS } from './utils/constants.js';
@@ -498,6 +498,7 @@ export default function App() {
       'mtxtrkr_cache_migrated',           // one-time flag: cache migration
       'mtxtrkr_supabase_cache_migrated',  // one-time flag: supabase cache migration
       'mtxtrkr_onboarding_dismissed',     // one-time flag: prevents onboarding wizard on every sign-in
+      'mtxtrkr_performance_mods',         // performance modifications toggle flag
     ];
     if (auth.user?.id) {
       // IMPORTANT: Do NOT push old localStorage data to Supabase here.
@@ -814,15 +815,8 @@ export default function App() {
       ];
       // Convert camelCase item keys to snake_case for Supabase, and strip
       // complex nested objects (e.g. vinDecoded) that have no matching DB column.
-      const toSnakeCaseKey = (str) => str.replace(/[A-Z]/g, letter => `_${letter.toLowerCase()}`);
-      const toDbSafe = (item) => {
-        const cleaned = { user_id: auth.user.id };
-        for (const [key, value] of Object.entries(item)) {
-          // Skip complex nested objects (e.g. vinDecoded) — no matching DB column
-          if (value !== null && typeof value === 'object' && !Array.isArray(value) && !(value instanceof Date)) continue;
-          cleaned[toSnakeCaseKey(key)] = value;
-        }
-        return cleaned;
+      const toDbSafe = (item, tableName) => {
+        return filterForTable(tableName, item, auth.user.id);
       };
       for (const { data, table } of dataStores) {
         const items = data || [];
@@ -830,7 +824,7 @@ export default function App() {
         for (const item of items) {
           try {
             await supabase.from(table).upsert(
-              toDbSafe(item),
+              toDbSafe(item, table),
               { onConflict: 'id' }
             );
           } catch (e) {
