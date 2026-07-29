@@ -10,28 +10,46 @@ import { generateId } from '../utils/helpers';
  *
  * The full data is preserved in memory (for Supabase sync) but stripped from the
  * localStorage snapshot. Images are re-fetched from Supabase on cross-device sign-in.
+ *
+ * @param {*} data - The data to sanitize
+ * @param {WeakSet} [_seen] - Internal cycle detection set (do not pass manually)
+ * @returns {*} Sanitized copy safe for JSON serialization to localStorage
  */
-export function sanitizeForStorage(data) {
+export function sanitizeForStorage(data, _seen = new WeakSet()) {
+  // null/undefined pass through unchanged
   if (data === null || data === undefined) return data;
 
-  if (Array.isArray(data)) {
-    return data.map(item => sanitizeForStorage(item));
-  }
-
-  if (typeof data === 'object') {
-    const sanitized = {};
-    for (const [key, value] of Object.entries(data)) {
-      // Strip any property explicitly named 'dataUrl'
-      if (key === 'dataUrl') continue;
-      // Strip any string value that looks like a base64 data URL
-      if (typeof value === 'string' && value.startsWith('data:')) continue;
-      // Recursively sanitize nested objects and arrays
-      sanitized[key] = sanitizeForStorage(value);
+  // Primitives (strings, numbers, booleans) pass through unchanged
+  // BUT: strip base64 data URIs from strings using a precise regex
+  // that only matches actual base64 data URIs (data:<mime>;base64,...),
+  // not innocent strings like "data: oil changed."
+  if (typeof data !== 'object') {
+    if (typeof data === 'string' && /^data:[^;]*;base64,/.test(data)) {
+      return '[stripped]';
     }
-    return sanitized;
+    return data;
   }
 
-  return data;
+  // Cycle detection: if we've seen this object before, return a JSON-safe
+  // sentinel to prevent infinite recursion and stack overflow.
+  if (_seen.has(data)) {
+    return '[Circular]';
+  }
+  _seen.add(data);
+
+  if (Array.isArray(data)) {
+    return data.map(item => sanitizeForStorage(item, _seen));
+  }
+
+  // Plain object — iterate entries, stripping dataUrl keys and base64 strings
+  const sanitized = {};
+  for (const [key, value] of Object.entries(data)) {
+    // Strip any property explicitly named 'dataUrl'
+    if (key === 'dataUrl') continue;
+    // Recursively sanitize nested objects, arrays, and primitives
+    sanitized[key] = sanitizeForStorage(value, _seen);
+  }
+  return sanitized;
 }
 
 // Generic hook for localStorage CRUD operations with offline-first sync simulation
@@ -57,6 +75,12 @@ function useLocalStorage(key, initialValue = []) {
       // Fall back to in-memory state only — no crash, no data loss.
       if (e.name === 'QuotaExceededError' || e.code === 22) {
         console.warn(`[useLocalStorage] Quota exceeded for key "${key}". Data kept in memory only.`);
+        // Dispatch custom event so App can surface warning to user
+        try {
+          window.dispatchEvent(new CustomEvent('mtxtrkr:quota-exceeded', {
+            detail: { key, timestamp: Date.now() }
+          }));
+        } catch (_) { /* swallow dispatch errors */ }
       } else {
         console.warn(`[useLocalStorage] Failed to write key "${key}":`, e);
       }

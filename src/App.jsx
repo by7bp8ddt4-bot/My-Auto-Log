@@ -766,6 +766,16 @@ export default function App() {
     return () => window.removeEventListener('navigate', handler);
   }, []);
 
+  // Listen for localStorage quota exceeded events from useLocalStorage
+  // Uses { once: true } so only one alert fires — all stores share the same quota.
+  useEffect(() => {
+    const handler = () => {
+      window.alert('Storage full — data saved in memory only and will be lost on refresh. Try clearing old documents or syncing to cloud.');
+    };
+    window.addEventListener('mtxtrkr:quota-exceeded', handler, { once: true });
+    return () => window.removeEventListener('mtxtrkr:quota-exceeded', handler);
+  }, []);
+
   // Navigate with page tracking
   const navigate = useCallback((p) => {
     setPage(p);
