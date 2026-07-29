@@ -5,8 +5,6 @@ import { useState } from 'react';
 export default function Settings({ onReset, onExport, vehicles, logs, reminders, fuelLogs, modifications, isAuthenticated, isPremium, onNavigate, onLogout, onDeleteAccount, showCancelSubDialog, onDismissCancelSub, onSyncFromCloud, onPushToCloud }) {
   const [syncing, setSyncing] = useState(false);
   const [syncDone, setSyncDone] = useState(false);
-  const [syncError, setSyncError] = useState(false);
-  const [syncErrorStores, setSyncErrorStores] = useState([]);
   const [pushing, setPushing] = useState(false);
   const [pushDone, setPushDone] = useState(false);
   const sub = getSubscriptionData();
@@ -138,28 +136,18 @@ export default function Settings({ onReset, onExport, vehicles, logs, reminders,
                   onClick={async () => {
                     setSyncing(true);
                     setSyncDone(false);
-                    setSyncError(false);
-                    setSyncErrorStores([]);
-                    const result = await onSyncFromCloud();
+                    await onSyncFromCloud();
                     setSyncing(false);
-                    if (result && result.success) {
-                      setSyncDone(true);
-                      setTimeout(() => setSyncDone(false), 3000);
-                    } else {
-                      setSyncError(true);
-                      setSyncErrorStores(result?.failedStores || []);
-                      setTimeout(() => setSyncError(false), 5000);
-                    }
+                    setSyncDone(true);
+                    setTimeout(() => setSyncDone(false), 3000);
                   }}
                   disabled={syncing}
                   className={`w-full flex items-center justify-center gap-2 py-2.5 rounded-xl border text-sm font-medium transition-all ${
                     syncDone
                       ? 'border-emerald-500/30 bg-emerald-500/10 text-emerald-400'
-                      : syncError
-                        ? 'border-red-500/30 bg-red-500/10 text-red-400'
-                        : syncing
-                          ? 'border-blue-500/30 bg-blue-500/10 text-blue-400'
-                          : 'border-slate-700 text-slate-300 hover:bg-slate-800'
+                      : syncing
+                        ? 'border-blue-500/30 bg-blue-500/10 text-blue-400'
+                        : 'border-slate-700 text-slate-300 hover:bg-slate-800'
                   }`}
                 >
                   {syncing ? (
@@ -171,11 +159,6 @@ export default function Settings({ onReset, onExport, vehicles, logs, reminders,
                     <>
                       <CheckCircle2 className="w-4 h-4" />
                       Synced Successfully
-                    </>
-                  ) : syncError ? (
-                    <>
-                      <span className="text-red-400">⚠</span>
-                      Sync Failed{ syncErrorStores.length > 0 ? ` (${syncErrorStores.join(', ')})` : '' }
                     </>
                   ) : (
                     <>
