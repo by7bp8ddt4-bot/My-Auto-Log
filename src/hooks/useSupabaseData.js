@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { supabase } from '../lib/supabase';
 
 // Helper to convert object keys to snake_case for Postgres
@@ -28,21 +28,50 @@ const keysToCamel = (obj) => {
  * Hook to fetch and manage data from Supabase with localStorage fallback.
  * Provides offline-capable CRUD operations.
  */
-export function useSupabaseData(tableName, userId, filterColumn = 'user_id') {
-  const [data, setData] = useState(() => {
-    // Load from localStorage cache on init
-    try {
-      const cached = localStorage.getItem(`supabase_cache_${tableName}`);
-      return cached ? JSON.parse(cached) : [];
-    } catch {
+/**
+ * Read supabase_cache_* from localStorage, verifying the userId stamp.
+ * New format: { _userId: '...', _cachedAt: '...', data: [...] }
+ * Old format (backward compatible): [...]
+ * Returns the data array or [] if the stamp doesn't match.
+ */
+function readCacheWithStamp(tableName, userId) {
+  const cacheKey = `supabase_cache_${tableName}_${userId}`;
+  try {
+    const raw = localStorage.getItem(cacheKey);
+    if (!raw) return [];
+    const parsed = JSON.parse(raw);
+    // New format: { _userId, data }
+    if (parsed && typeof parsed === 'object' && !Array.isArray(parsed) && '_userId' in parsed) {
+      if (parsed._userId === userId || !userId) {
+        return Array.isArray(parsed.data) ? parsed.data : [];
+      }
+      // Stamp mismatch — different user's data. Discard it.
+      console.warn(`[useSupabaseData] UserId stamp mismatch for "${cacheKey}": expected=${userId}, got=${parsed._userId}. Discarding stale cache.`);
+      localStorage.removeItem(cacheKey);
       return [];
     }
+    // Old format: plain array (no stamp). Accept it but migrate on next write.
+    if (Array.isArray(parsed)) return parsed;
+    return [];
+  } catch {
+    return [];
+  }
+}
+
+export function useSupabaseData(tableName, userId, filterColumn = 'user_id', onDataChange = null) {
+  const [data, setData] = useState(() => {
+    return readCacheWithStamp(tableName, userId);
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   // Track writes that failed to reach Supabase — survives across renders
   const [failedWrites, setFailedWrites] = useState([]);
   const hasUnsyncedChanges = failedWrites.length > 0;
+
+  // Ref to hold the latest onDataChange callback without causing fetchData to
+  // be recreated on every render (would trigger infinite fetch loop).
+  const onDataChangeRef = useRef(onDataChange);
+  onDataChangeRef.current = onDataChange;
 
   // Clear a specific failed write (called after successful retry)
   const clearFailedWrite = useCallback((id) => {
@@ -54,10 +83,11 @@ export function useSupabaseData(tableName, userId, filterColumn = 'user_id') {
     setFailedWrites([]);
   }, []);
 
-  // Cache data to localStorage
+  // Cache data to localStorage with userId stamp for cross-account isolation
   const cacheData = useCallback((newData) => {
-    localStorage.setItem(`supabase_cache_${tableName}`, JSON.stringify(newData));
-  }, [tableName]);
+    const stamped = { _userId: userId, _cachedAt: new Date().toISOString(), data: newData };
+    localStorage.setItem(`supabase_cache_${tableName}_${userId}`, JSON.stringify(stamped));
+  }, [tableName, userId]);
 
   // Fetch data from Supabase
   const fetchData = useCallback(async () => {
@@ -79,7 +109,7 @@ export function useSupabaseData(tableName, userId, filterColumn = 'user_id') {
 
       if (err) throw err;
       const camelData = keysToCamel(result || []);
-      const prevCache = JSON.parse(localStorage.getItem(`supabase_cache_${tableName}`) || '[]');
+      const prevCache = readCacheWithStamp(tableName, userId);
       
       // If Supabase returned data, use it (latest from server)
       // If Supabase returned empty but we have cached data, keep the cache
@@ -87,6 +117,12 @@ export function useSupabaseData(tableName, userId, filterColumn = 'user_id') {
       if (camelData.length > 0) {
         setData(camelData);
         cacheData(camelData);
+        // Propagate Realtime-refreshed data to the localStorage store
+        // so the UI (which reads from useLocalStorage) reflects changes
+        // from other tabs/devices without manual refresh.
+        if (onDataChangeRef.current) {
+          onDataChangeRef.current(camelData);
+        }
       } else if (prevCache.length > 0) {
         // Supabase is empty but cache has data — keep cache as fallback
         setData(prevCache);
@@ -136,14 +172,15 @@ export function useSupabaseData(tableName, userId, filterColumn = 'user_id') {
       const { data: result, error: err } = await supabase
         .from(tableName)
         .upsert([snakeItem], { onConflict: 'id' })
-        .select();
+        .select()
+        .maybeSingle();
 
       if (err) throw err;
-      // Use result?.[0] instead of .single() — RLS may allow INSERT but block
-      // SELECT on the upserted row, causing .single() to throw "JSON object
-      // requested, multiple (or no) rows returned" even on successful writes.
-      // When result is empty but no error, treat the upsert as successful.
-      const camelResult = result?.length > 0 ? keysToCamel(result[0]) : keysToCamel(snakeItem);
+      // .maybeSingle() returns null instead of throwing on 0 rows — RLS may
+      // allow INSERT but block SELECT on the upserted row. It still errors on
+      // >1 row, but upsert-by-ID shouldn't produce that.
+      // When result is null but no error, treat the upsert as successful.
+      const camelResult = result ? keysToCamel(result) : keysToCamel(snakeItem);
       setData(prev => {
         const newData = [camelResult, ...prev];
         cacheData(newData);
@@ -158,10 +195,10 @@ export function useSupabaseData(tableName, userId, filterColumn = 'user_id') {
       // Save to localStorage as temporary safety net (survives refresh)
       const fallback = { ...item, id: item.id || crypto.randomUUID(), userId, createdAt: new Date().toISOString() };
       try {
-        const cached = JSON.parse(localStorage.getItem(`supabase_cache_${tableName}`) || '[]');
+        const cached = JSON.parse(localStorage.getItem(`supabase_cache_${tableName}_${userId}`) || '[]');
         const exists = cached.find(p => p.id === fallback.id);
         if (!exists) {
-          localStorage.setItem(`supabase_cache_${tableName}`, JSON.stringify([fallback, ...cached]));
+          localStorage.setItem(`supabase_cache_${tableName}_${userId}`, JSON.stringify([fallback, ...cached]));
         }
       } catch (e) {
         // localStorage write failed — data is unrecoverable on refresh
@@ -203,11 +240,11 @@ export function useSupabaseData(tableName, userId, filterColumn = 'user_id') {
       const message = err?.message || 'Failed to save to cloud';
       // Save current data to localStorage as safety net
       try {
-        const cached = JSON.parse(localStorage.getItem(`supabase_cache_${tableName}`) || '[]');
+        const cached = JSON.parse(localStorage.getItem(`supabase_cache_${tableName}_${userId}`) || '[]');
         const updated = cached.map(item =>
           item.id === id ? { ...item, ...updates, updatedAt: new Date().toISOString() } : item
         );
-        localStorage.setItem(`supabase_cache_${tableName}`, JSON.stringify(updated));
+        localStorage.setItem(`supabase_cache_${tableName}_${userId}`, JSON.stringify(updated));
       } catch (e) {
         // localStorage write failed — data is unrecoverable on refresh
       }
@@ -245,9 +282,9 @@ export function useSupabaseData(tableName, userId, filterColumn = 'user_id') {
       const message = err?.message || 'Failed to save to cloud';
       // Save current data minus the deleted item to localStorage as safety net
       try {
-        const cached = JSON.parse(localStorage.getItem(`supabase_cache_${tableName}`) || '[]');
+        const cached = JSON.parse(localStorage.getItem(`supabase_cache_${tableName}_${userId}`) || '[]');
         const filtered = cached.filter(item => item.id !== id);
-        localStorage.setItem(`supabase_cache_${tableName}`, JSON.stringify(filtered));
+        localStorage.setItem(`supabase_cache_${tableName}_${userId}`, JSON.stringify(filtered));
       } catch (e) {
         // localStorage write failed — data is unrecoverable on refresh
       }
@@ -268,7 +305,18 @@ export function useSupabaseData(tableName, userId, filterColumn = 'user_id') {
     cacheData(newData);
   }, [cacheData]);
 
-  return { data, setData, loading, error, add, updateItem, remove, update, refetch: fetchData, failedWrites, hasUnsyncedChanges, clearFailedWrite, clearAllFailedWrites };
+  // Reset all state — called on auth change to prevent cross-account contamination.
+  // Clears React state, localStorage cache, failed writes, and the loading flag
+  // so the next fetch cycle starts fresh for the new user.
+  const resetData = useCallback(() => {
+    setData([]);
+    setFailedWrites([]);
+    setError(null);
+    setLoading(true); // signal "not ready" so sync effects wait for fresh fetch
+    localStorage.removeItem(`supabase_cache_${tableName}_${userId}`);
+  }, [tableName, userId]);
+
+  return { data, setData, loading, error, add, updateItem, remove, update, resetData, refetch: fetchData, failedWrites, hasUnsyncedChanges, clearFailedWrite, clearAllFailedWrites };
 }
 
 /**
