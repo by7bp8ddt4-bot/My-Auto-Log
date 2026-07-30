@@ -583,14 +583,28 @@ export default function App() {
       // Step 1: Push local data to Supabase FIRST (AWAITED), so it's not lost
       // when we pull. This prevents the "disappearing logs" bug where Supabase
       // data overwrites local records that were never pushed to the cloud.
+      const confirmedVehicleIds = new Set(
+        (supabaseVehicles.data || []).map(v => v.id)
+      );
       for (const { local, supabase, key } of syncStores) {
         const localData = local.data || [];
         if (localData.length === 0) continue;
         const supabaseIds = new Set((supabase.data || []).map(s => s.id));
         const itemsToPush = localData.filter(item => !supabaseIds.has(item.id));
         for (const item of itemsToPush) {
+          // Skip child rows whose parent vehicle_id isn't confirmed in Supabase
+          const isVehicleStore = key === STORAGE_KEYS.VEHICLES;
+          if (!isVehicleStore) {
+            const vehicleId = item.vehicleId || item.vehicle_id;
+            if (vehicleId && !confirmedVehicleIds.has(vehicleId)) {
+              continue;
+            }
+          }
           try {
             const result = await supabase.add(item);
+            if (isVehicleStore && result && !result.error) {
+              confirmedVehicleIds.add(result.id || item.id);
+            }
             if (result?.error) {
               console.warn(`[Sync] Failed to push ${item.id} to ${key}:`, result.message);
               showSyncError(`Failed to sync ${key.replace('mtxtrkr_', '')} — tap Push to Cloud to retry`);
@@ -672,6 +686,11 @@ export default function App() {
     if (!isAuthenticated || !auth.user?.id) return;
 
     (async () => {
+      // Build confirmed vehicle IDs from Supabase data to prevent 409
+      // foreign-key constraint errors when parent vehicle rows are missing.
+      const confirmedVehicleIds = new Set(
+        (supabaseVehicles.data || []).map(v => v.id)
+      );
       for (const { local, supabase, key } of syncStores) {
         const localData = local.data || [];
         if (localData.length === 0) continue;
@@ -686,11 +705,25 @@ export default function App() {
         if (itemsToSync.length === 0) continue;
 
         for (const item of itemsToSync) {
+          // Skip child rows whose parent vehicle_id isn't confirmed in Supabase
+          // (prevents 409 foreign-key error storms from failed vehicle saves)
+          const isVehicleStore = key === STORAGE_KEYS.VEHICLES;
+          if (!isVehicleStore) {
+            const vehicleId = item.vehicleId || item.vehicle_id;
+            if (vehicleId && !confirmedVehicleIds.has(vehicleId)) {
+              continue; // Parent vehicle not confirmed in Supabase — skip
+            }
+          }
           const itemTimestamp = item.updatedAt || item.createdAt || new Date().toISOString();
           // Mark as pushed immediately to prevent duplicate attempts
           pushedIdsRef.current[item.id] = itemTimestamp;
           try {
             const result = await supabase.add(item);
+            // If a vehicle was successfully pushed, add its ID to confirmed set
+            // so its child rows pushed later in this same sync pass are allowed.
+            if (isVehicleStore && result && !result.error) {
+              confirmedVehicleIds.add(result.id || item.id);
+            }
             if (result?.error) {
               console.error(`[Sync] Failed to push ${item.id} to ${key}:`, result.message);
               showSyncError(`${key.replace('mtxtrkr_', '')}: failed to sync ${item.id} — tap Push to Cloud to retry`);
@@ -718,6 +751,11 @@ export default function App() {
     if (!isAuthenticated || !auth.user?.id) return;
     const handleVisibilityChange = async () => {
       if (document.visibilityState === 'hidden') {
+        // Build confirmed vehicle IDs from Supabase data to prevent 409
+        // foreign-key constraint errors when parent vehicle rows are missing.
+        const confirmedVehicleIds = new Set(
+          (supabaseVehicles.data || []).map(v => v.id)
+        );
         // Push any unsynced (new or updated) items to Supabase — AWAITED sequentially
         for (const { local, supabase, key } of syncStores) {
           const localData = local.data || [];
@@ -730,10 +768,21 @@ export default function App() {
           });
           if (itemsToSync.length === 0) continue;
           for (const item of itemsToSync) {
+            // Skip child rows whose parent vehicle_id isn't confirmed in Supabase
+            const isVehicleStore = key === STORAGE_KEYS.VEHICLES;
+            if (!isVehicleStore) {
+              const vehicleId = item.vehicleId || item.vehicle_id;
+              if (vehicleId && !confirmedVehicleIds.has(vehicleId)) {
+                continue;
+              }
+            }
             const itemTimestamp = item.updatedAt || item.createdAt || new Date().toISOString();
             pushedIdsRef.current[item.id] = itemTimestamp;
             try {
               const result = await supabase.add(item);
+              if (isVehicleStore && result && !result.error) {
+                confirmedVehicleIds.add(result.id || item.id);
+              }
               if (result?.error) {
                 console.error('[VisibilitySync] Push failed:', result.message);
                 showSyncError(`${key.replace('mtxtrkr_', '')}: failed to sync ${item.id} — tap Push to Cloud to retry`);
@@ -818,15 +867,34 @@ export default function App() {
       const toDbSafe = (item, tableName) => {
         return filterForTable(tableName, item, auth.user.id);
       };
+      // Build confirmed vehicle IDs from Supabase data to prevent 409
+      // foreign-key constraint errors when parent vehicle rows are missing.
+      // Also track vehicles that are successfully upserted during this logout pass
+      // so their child rows are allowed through.
+      const confirmedVehicleIds = new Set(
+        (supabaseVehicles.data || []).map(v => v.id)
+      );
       for (const { data, table } of dataStores) {
         const items = data || [];
         if (items.length === 0) continue;
+        const isVehicleStore = table === 'vehicles';
         for (const item of items) {
+          // Skip child rows whose parent vehicle_id isn't confirmed in Supabase
+          if (!isVehicleStore) {
+            const vehicleId = item.vehicleId || item.vehicle_id;
+            if (vehicleId && !confirmedVehicleIds.has(vehicleId)) {
+              continue;
+            }
+          }
           try {
-            await supabase.from(table).upsert(
+            const result = await supabase.from(table).upsert(
               toDbSafe(item, table),
               { onConflict: 'id' }
             );
+            // If a vehicle was successfully upserted, add its ID to confirmed set
+            if (isVehicleStore && result && !result.error) {
+              confirmedVehicleIds.add(result.data?.id || item.id);
+            }
           } catch (e) {
             console.warn(`[Logout] Failed to push item to ${table}:`, e);
           }
@@ -1046,6 +1114,11 @@ export default function App() {
       { local: localMods, supabase: supabaseMods, table: 'modifications' },
       { local: localDocuments, supabase: supabaseDocuments, table: 'documents' },
     ];
+    // Build confirmed vehicle IDs from Supabase data to prevent 409
+    // foreign-key constraint errors when parent vehicle rows are missing.
+    const confirmedVehicleIds = new Set(
+      (supabaseVehicles.data || []).map(v => v.id)
+    );
     // Track which stores had any push failures — only clear failed writes for
     // stores where every item pushed successfully, so failures are preserved
     // for the user to retry.
@@ -1065,7 +1138,18 @@ export default function App() {
       if (itemsToSync.length === 0) continue;
       const now = new Date().toISOString();
       for (const item of itemsToSync) {
+        // Skip child rows whose parent vehicle_id isn't confirmed in Supabase
+        const isVehicleStore = table === 'vehicles';
+        if (!isVehicleStore) {
+          const vehicleId = item.vehicleId || item.vehicle_id;
+          if (vehicleId && !confirmedVehicleIds.has(vehicleId)) {
+            continue;
+          }
+        }
         const result = await supabase.add(item);
+        if (isVehicleStore && result && !result.error) {
+          confirmedVehicleIds.add(result.id || item.id);
+        }
         if (result?.error) {
           showSyncError('Some items failed to push — try again');
           storesWithErrors.add(table);
