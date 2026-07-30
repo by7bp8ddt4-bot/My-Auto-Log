@@ -417,16 +417,30 @@ export default function App() {
         .from('profiles')
         .select('premium')
         .eq('id', userId)
-        .single();
+        .maybeSingle();
 
       if (error) {
-        console.warn('[Premium Sync] Premium query failed:', error);
+        console.warn('[Premium Sync] Premium query failed:', {
+          message: error.message,
+          code: error.code,
+          details: error.details,
+          hint: error.hint,
+        });
+        console.log('[Premium Sync] DB response: premium=null, ok=false');
         return { ok: false, premium: null };
       }
 
-      return { ok: true, premium: data?.premium === true };
+      const premiumValue = data?.premium ?? null;
+      console.log(`[Premium Sync] DB response: premium=${String(premiumValue)}, ok=true`);
+      return { ok: true, premium: premiumValue };
     } catch (error) {
-      console.warn('[Premium Sync] Premium query failed:', error);
+      console.warn('[Premium Sync] Premium query failed:', {
+        message: error?.message,
+        code: error?.code,
+        details: error?.details,
+        hint: error?.hint,
+      });
+      console.log('[Premium Sync] DB response: premium=null, ok=false');
       return { ok: false, premium: null };
     }
   }, []);
@@ -439,7 +453,19 @@ export default function App() {
     if (!isAuthenticated || !auth.user?.id) return;
 
     let cancelled = false;
-    const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+    const timeoutEntries = [];
+    const waitWithTimeout = (ms) => new Promise((resolve) => {
+      const entry = {
+        timeoutId: null,
+        resolve,
+      };
+      entry.timeoutId = setTimeout(() => {
+        const idx = timeoutEntries.indexOf(entry);
+        if (idx >= 0) timeoutEntries.splice(idx, 1);
+        resolve();
+      }, ms);
+      timeoutEntries.push(entry);
+    });
 
     const syncPremiumStatus = async () => {
       const localPremium = localStorage.getItem(STORAGE_KEYS.PREMIUM_STATUS) === 'true' || premium === true;
@@ -452,22 +478,46 @@ export default function App() {
       }
 
       let result = null;
-      for (let attempt = 1; attempt <= 3; attempt += 1) {
+      let attemptsCompleted = 0;
+      const attemptDelays = [1000, 1000, 1000, 5000, 15000, 30000];
+
+      for (let index = 0; index < attemptDelays.length; index += 1) {
         if (cancelled) return;
+
+        await waitWithTimeout(attemptDelays[index]);
+        if (cancelled) return;
+
+        const attemptNumber = index + 1;
+        attemptsCompleted = attemptNumber;
+        console.log(`[Premium Sync] Fetch attempt ${attemptNumber}/6`);
+
         const query = await fetchProfilePremium(auth.user.id);
-        if (query.ok) {
-          result = query;
+        if (!query.ok) {
+          continue;
+        }
+
+        result = query;
+
+        if (query.premium === true) {
           break;
         }
-        if (attempt < 3) {
-          await sleep(1000);
+
+        if (query.premium === false) {
+          // Profile exists and explicitly says premium is false — respect it.
+          break;
         }
+
+        // premium is null (no row yet / not populated) — keep retrying.
       }
 
       if (cancelled) return;
 
       if (!result) {
-        console.warn('[Premium Sync] Keeping local premium after profile query failure.');
+        if (attemptsCompleted >= 6) {
+          console.warn('[Premium Sync] Premium lookup failed after 6 attempts. Keeping local premium state.');
+        } else {
+          console.warn('[Premium Sync] Keeping local premium after profile query failure.');
+        }
         return;
       }
 
@@ -475,6 +525,13 @@ export default function App() {
         setPremium(true);
         localStorage.setItem(STORAGE_KEYS.PREMIUM_STATUS, 'true');
         setSubscriptionData({ plan: 'monthly', status: 'active', nextBilling: null });
+        return;
+      }
+
+      if (result.premium === null) {
+        if (attemptsCompleted >= 6) {
+          console.warn('[Premium Sync] Premium remained null after 6 attempts. Keeping local premium state.');
+        }
         return;
       }
 
@@ -489,6 +546,11 @@ export default function App() {
 
     return () => {
       cancelled = true;
+      timeoutEntries.forEach(({ timeoutId, resolve }) => {
+        clearTimeout(timeoutId);
+        resolve();
+      });
+      timeoutEntries.length = 0;
     };
   }, [isAuthenticated, auth.user?.id, premium, fetchProfilePremium, persistPremiumBackup]);
 
