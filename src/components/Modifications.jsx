@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Wrench, Palette, Armchair, Plus, X, ShoppingBag, Tag, Calendar, Gauge, DollarSign, ChevronDown } from 'lucide-react';
+import { Wrench, Palette, Armchair, Plus, X, ShoppingBag, Tag, Calendar, Gauge, DollarSign, ChevronDown, Pencil } from 'lucide-react';
 import { formatDate, formatCurrency, formatNumber, getLocalDateString } from '../utils/helpers';
 
 // 3 Folder definitions — matching the business plan
@@ -76,8 +76,9 @@ function getModFolder(mod) {
   return 'under-the-hood';
 }
 
-export default function Modifications({ mods = [], vehicles, onAdd, onDelete, onNavigate, isPremium, selectedVehicleId }) {
+export default function Modifications({ mods = [], vehicles, onAdd, onUpdate, onDelete, onNavigate, isPremium, selectedVehicleId }) {
   const [showForm, setShowForm] = useState(false);
+  const [editingMod, setEditingMod] = useState(null);
   const [activeFolder, setActiveFolder] = useState(null);
 
   const filteredMods = selectedVehicleId ? mods.filter(m => m.vehicleId === selectedVehicleId) : mods;
@@ -217,6 +218,13 @@ export default function Modifications({ mods = [], vehicles, onAdd, onDelete, on
                                       )}
                                     </div>
                                     <button
+                                      onClick={(e) => { e.stopPropagation(); setEditingMod(mod); setShowForm(true); }}
+                                      className="p-1.5 rounded-lg hover:bg-blue-500/20 text-slate-400 hover:text-blue-400 transition-all"
+                                      title="Edit modification"
+                                    >
+                                      <Pencil className="w-3.5 h-3.5" />
+                                    </button>
+                                    <button
                                       onClick={() => { if (window.confirm('Delete this modification? This cannot be undone.')) onDelete(mod.id); }}
                                       className="p-1.5 rounded-lg hover:bg-red-500/20 text-slate-500 hover:text-red-400 transition-all shrink-0 opacity-0 group-hover:opacity-100"
                                     >
@@ -252,27 +260,32 @@ export default function Modifications({ mods = [], vehicles, onAdd, onDelete, on
         <ModFormModal
           vehicles={vehicles}
           initialVehicleId={selectedVehicleId}
-          onSave={(data) => { onAdd(data); setShowForm(false); }}
-          onClose={() => setShowForm(false)}
+          initialData={editingMod}
+          isEditing={!!editingMod}
+          onSave={editingMod
+            ? (data) => { onUpdate(editingMod.id, data); setShowForm(false); setEditingMod(null); }
+            : (data) => { onAdd(data); setShowForm(false); }
+          }
+          onClose={() => { setShowForm(false); setEditingMod(null); }}
         />
       )}
     </div>
   );
 }
 
-function ModFormModal({ vehicles, initialVehicleId, onSave, onClose }) {
+function ModFormModal({ vehicles, initialVehicleId, initialData, isEditing, onSave, onClose }) {
   const [form, setForm] = useState({
-    vehicleId: initialVehicleId || vehicles[0]?.id || '',
-    partName: '',
-    folder: 'under-the-hood',
-    subCategory: '',
-    subCategoryMode: 'predetermined', // 'predetermined' | 'custom'
+    vehicleId: initialData?.vehicleId || initialVehicleId || vehicles[0]?.id || '',
+    partName: initialData?.name || '',
+    folder: initialData?.category?.split(' > ')[0] || 'under-the-hood',
+    subCategory: initialData?.category?.split(' > ')[1] || '',
+    subCategoryMode: 'predetermined',
     customSubCategory: '',
-    brand: '',
-    date: getLocalDateString(),
-    mileage: '',
-    cost: '',
-    notes: '',
+    brand: initialData?.brand || '',
+    date: initialData?.date || getLocalDateString(),
+    mileage: initialData?.mileage_at_install?.toString() || '',
+    cost: initialData?.cost?.toString() || '',
+    notes: initialData?.notes || '',
   });
 
   const currentFolder = FOLDER_CONFIG[form.folder] || FOLDER_DEFS[0];
@@ -314,7 +327,7 @@ function ModFormModal({ vehicles, initialVehicleId, onSave, onClose }) {
       <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} />
       <div className="relative w-full sm:max-w-md bg-slate-900 border border-slate-800 rounded-t-2xl sm:rounded-2xl p-6 shadow-2xl max-h-[90vh] overflow-y-auto">
         <div className="flex items-center justify-between mb-6">
-          <h3 className="text-lg font-bold text-white">Add Modification</h3>
+          <h3 className="text-lg font-bold text-white">{isEditing ? 'Edit Modification' : 'Add Modification'}</h3>
           <button onClick={onClose} className="p-1.5 rounded-lg hover:bg-slate-800 text-slate-400"><X className="w-5 h-5" /></button>
         </div>
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -495,7 +508,7 @@ function ModFormModal({ vehicles, initialVehicleId, onSave, onClose }) {
             </button>
             <button type="submit"
               className="flex-1 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-sm font-medium transition-all">
-              Add Part
+              {isEditing ? 'Save Changes' : 'Add Part'}
             </button>
           </div>
         </form>
