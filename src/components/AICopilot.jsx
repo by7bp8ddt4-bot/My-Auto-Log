@@ -302,23 +302,27 @@ export default function AICopilot({ vehicles, logs, onAddLog, onNavigate, isPrem
         )}
 
         {/* Clickable Sample Questions */}
-        <div className="mb-4">
-          <p className="text-[10px] text-slate-500 uppercase tracking-wider mb-2 font-medium">Try asking:</p>
-          <div className="flex flex-col sm:flex-row gap-2">
-            <button
-              onClick={() => { setInputText("What does DPF regeneration mean?"); setResult(null); }}
-              className="px-3 py-1.5 text-xs rounded-full bg-slate-800 border border-slate-700/50 text-slate-300 hover:text-white hover:border-purple-500/40 hover:bg-slate-800/80 transition-all text-left"
-            >
-              💡 "What does DPF regeneration mean?"
-            </button>
-            <button
-              onClick={() => { setInputText("Engine is squeaking when I turn on the AC"); setResult(null); }}
-              className="px-3 py-1.5 text-xs rounded-full bg-slate-800 border border-slate-700/50 text-slate-300 hover:text-white hover:border-purple-500/40 hover:bg-slate-800/80 transition-all text-left"
-            >
-              🔊 "Engine is squeaking when I turn on the AC"
-            </button>
+        {!inputText.trim() && (
+          <div className="mb-4">
+            <p className="text-[10px] text-slate-500 uppercase tracking-wider mb-2 font-medium">Try asking:</p>
+            <div className="flex flex-col sm:flex-row gap-2">
+              <button
+                onClick={() => { setInputText("What does DPF regeneration mean?"); setResult(null); }}
+                className="px-3 py-1.5 text-xs rounded-full bg-slate-800 border border-slate-700/50 text-slate-300 hover:text-white hover:border-purple-500/40 hover:bg-slate-800/80 transition-all text-left flex items-center gap-1.5 group"
+              >
+                <BookOpen className="w-3 h-3 text-slate-500 group-hover:text-purple-400" />
+                <span>"What does DPF regeneration mean?"</span>
+              </button>
+              <button
+                onClick={() => { setInputText("Engine is squeaking when I turn on the AC"); setResult(null); }}
+                className="px-3 py-1.5 text-xs rounded-full bg-slate-800 border border-slate-700/50 text-slate-300 hover:text-white hover:border-purple-500/40 hover:bg-slate-800/80 transition-all text-left flex items-center gap-1.5 group"
+              >
+                <Wrench className="w-3 h-3 text-slate-500 group-hover:text-blue-400" />
+                <span>"Engine is squeaking when I turn on the AC"</span>
+              </button>
+            </div>
           </div>
-        </div>
+        )}
 
         {/* Input Area */}
         <div className="relative">
@@ -356,8 +360,8 @@ export default function AICopilot({ vehicles, logs, onAddLog, onNavigate, isPrem
               // Jargon Decoder Result Rendering
               <div>
                 <div className="flex items-center gap-2 mb-3">
-                  <div className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-                  <span className="text-xs font-medium text-emerald-400">AI Jargon Translation Complete</span>
+                  <div className="w-1.5 h-1.5 rounded-full bg-purple-400" />
+                  <span className="text-xs font-medium text-purple-400">AI Jargon Translation Complete</span>
                 </div>
                 <div className="p-4 rounded-xl bg-slate-900 border border-slate-700/50 space-y-3">
                   {Array.isArray(result.data) ? (
@@ -368,7 +372,7 @@ export default function AICopilot({ vehicles, logs, onAddLog, onNavigate, isPrem
                         {result.data.slice(0, 5).map((t, i) => (
                           <div key={i} className="pb-3 border-b border-slate-800 last:border-0 last:pb-0">
                             <div className="flex items-center gap-2 mb-1">
-                              <span className="text-xs font-semibold text-emerald-400">{t.term}</span>
+                              <span className="text-xs font-semibold text-purple-400">{t.term}</span>
                               {t.standsFor && <span className="text-[10px] text-slate-500">({t.standsFor})</span>}
                             </div>
                             <p className="text-xs text-slate-300 leading-relaxed">{t.plainEnglish}</p>
@@ -382,7 +386,7 @@ export default function AICopilot({ vehicles, logs, onAddLog, onNavigate, isPrem
                   ) : (
                     <div>
                       <div className="flex items-center gap-2 mb-1">
-                        <span className="text-xs font-semibold text-emerald-400">{result.data.term}</span>
+                        <span className="text-xs font-semibold text-purple-400">{result.data.term}</span>
                         {result.data.standsFor && <span className="text-[10px] text-slate-500">({result.data.standsFor})</span>}
                       </div>
                       <p className="text-xs text-slate-300 leading-relaxed">{result.data.plainEnglish}</p>
