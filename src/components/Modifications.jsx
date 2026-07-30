@@ -281,7 +281,6 @@ function ModFormModal({ vehicles, initialVehicleId, initialData, isEditing, onSa
     subCategory: initialData?.category?.split(' > ')[1] || '',
     subCategoryMode: 'predetermined',
     customSubCategory: '',
-    brand: initialData?.brand || '',
     date: initialData?.date || getLocalDateString(),
     mileage: initialData?.mileage_at_install?.toString() || '',
     cost: initialData?.cost?.toString() || '',
@@ -313,7 +312,6 @@ function ModFormModal({ vehicles, initialVehicleId, initialData, isEditing, onSa
       vehicleId: form.vehicleId,
       name: form.partName,
       category: `${form.folder} > ${resolvedSubCategory}`,
-      brand: form.brand,
       date: form.date,
       mileage_at_install: parseInt(form.mileage) || null,
       cost: parseFloat(form.cost) || 0,
@@ -438,18 +436,6 @@ function ModFormModal({ vehicles, initialVehicleId, initialData, isEditing, onSa
                 className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50"
               />
             )}
-          </div>
-
-          {/* Brand */}
-          <div>
-            <label className="block text-xs text-slate-400 mb-1.5 font-medium">Brand</label>
-            <input
-              type="text"
-              value={form.brand}
-              onChange={e => setForm(f => ({ ...f, brand: e.target.value }))}
-              placeholder="e.g. K&N, Borla"
-              className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50"
-            />
           </div>
 
           {/* Date + Mileage */}
