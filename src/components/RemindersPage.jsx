@@ -445,6 +445,56 @@ export default function RemindersPage({ reminders, vehicles, logs, onAdd, onUpda
         </div>
       </FolderTab>
 
+      {/* 3. Other Reminders — All user-created custom reminders */}
+      <FolderTab
+        icon={Bell}
+        title="Other Reminders"
+        count={allReminders.length}
+        isExpanded={expandedTabs.other}
+        onToggle={() => toggleTab('other')}
+      >
+        {/* Add reminder button inside the tab */}
+        <div className="flex justify-end mb-3">
+          <button
+            onClick={() => {
+              if (vehicles.length === 0) return;
+              setShowForm(true);
+            }}
+            disabled={vehicles.length === 0}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 disabled:bg-slate-700 disabled:text-slate-500 text-white text-[10px] font-medium transition-all"
+          >
+            <Plus className="w-3 h-3" />
+            Create Custom Reminder
+          </button>
+        </div>
+        {allReminders.length > 0 ? (
+          allReminders.map(r => (
+            <ReminderCard
+              key={r.id}
+              reminder={r}
+              vehicleName={r.vehicleName}
+              onToggle={onUpdate}
+              onDelete={onDelete}
+            />
+          ))
+        ) : (
+          <div className="text-center py-8 bg-slate-900/30 rounded-xl border border-slate-800">
+            <p className="text-xs text-slate-500">No custom reminders yet</p>
+            <p className="text-[10px] text-slate-600 mt-1">Create reminders for anything: "Wash the truck", "Check tire pressure before road trip", etc.</p>
+          </div>
+        )}
+      </FolderTab>
+
+      {/* Add Reminder Form Modal */}
+      {showForm && (
+        <ReminderFormModal
+          vehicles={vehicles}
+          templates={DEFAULT_REMINDER_TEMPLATES}
+          selectedVehicleId={selectedVehicleId}
+          onSave={(data) => { onAdd(data); setShowForm(false); }}
+          onClose={() => setShowForm(false)}
+        />
+      )}
     </div>
   );
 }
