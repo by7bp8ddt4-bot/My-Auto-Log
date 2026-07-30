@@ -87,6 +87,7 @@ const EXPECTED_PROTECTED_KEYS = [
   'mtxtrkr_cache_migrated',
   'mtxtrkr_supabase_cache_migrated',
   'mtxtrkr_onboarding_dismissed',
+  'mtxtrkr_performance_mods',
 ];
 
 // ── 5 data store keys (must survive wipe) ──────────────────────────
@@ -111,9 +112,9 @@ describe('Data Integrity Gate', () => {
 
   // ── 1. PROTECTED_KEYS Audit ──────────────────────────────────
   describe('PROTECTED_KEYS Audit', () => {
-    it('should have exactly 7 protected keys in App.jsx', () => {
+    it('should have exactly 8 protected keys in App.jsx', () => {
       const actual = extractProtectedKeys();
-      expect(actual).toHaveLength(7);
+      expect(actual).toHaveLength(8);
     });
 
     it('should match expected PROTECTED_KEYS exactly', () => {
@@ -245,7 +246,7 @@ describe('Data Integrity Gate', () => {
 
       // Verify protected keys survived
       expect(localStorage.getItem('mtxtrkr_onboarding_dismissed')).toBe('true');
-      expect(localStorage.getItem('mtxtrkr_performance_mods')).toBeNull();
+      expect(localStorage.getItem('mtxtrkr_performance_mods')).toBe(JSON.stringify({ 'air-filter': true }));
       expect(localStorage.getItem('mtxtrkr_selected_vehicle')).toBe('v-abc-123');
       expect(localStorage.getItem('mtxtrkr_logs_cleanup_done')).toBe('true');
       expect(localStorage.getItem('mtxtrkr_stale_cache_cleaned')).toBe('true');
