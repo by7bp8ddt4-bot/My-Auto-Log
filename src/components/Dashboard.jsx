@@ -626,7 +626,10 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
                     : 'bg-blue-500';
                 const isUrgent = isOverdue || isCritical || isDueSoon;
                 return (
-                  <div key={r.id} className={`p-3 rounded-xl transition-all ${
+                  <div
+                    key={r.id}
+                    onClick={() => onNavigate('schedule')}
+                    className={`p-3 rounded-xl transition-all cursor-pointer ${
                     isUrgent
                       ? 'bg-slate-900/80 border border-red-500/20'
                       : 'bg-slate-900/60 border border-slate-800/50'
