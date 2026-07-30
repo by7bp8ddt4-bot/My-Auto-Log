@@ -1,15 +1,12 @@
-import { useState, useMemo, useEffect, useCallback } from 'react';
+import { useState, useMemo } from 'react';
 import {
   Bell, Gauge, Calendar, TrendingUp, AlertTriangle, Clock,
-  ChevronRight, Crown, ArrowRight, Car, FileText,
+  ChevronRight, Crown, ArrowRight, Car,
   CheckCircle2, X, ToggleRight, ToggleLeft, Plus, Loader2,
-  AlertCircle, Info, Filter
+  AlertCircle, Info
 } from 'lucide-react';
 import { formatNumber, formatDate, generateId, calculateReminderStatus } from '../utils/helpers';
 import { DEFAULT_REMINDER_TEMPLATES, VEHICLE_TYPES } from '../utils/constants';
-import { getScheduleForVehicle } from '../data/maintenance-schedules';
-import { isSameService, getLogServiceTypes } from '../hooks/useMaintenanceSchedule';
-import { enrichScheduleWithVinData } from '../utils/scheduleEnrichment';
 import MotorcycleIcon from './MotorcycleIcon';
 import SemiTruckIcon from './SemiTruckIcon';
 import RVIcon from './RVIcon';
@@ -17,74 +14,6 @@ import ATVIcon from './ATVIcon';
 
 // Map icon names to components for vehicle type display
 const TYPE_ICONS = { Car, Motorcycle: MotorcycleIcon, ATV: ATVIcon, Tractor: Car, Package: Car, Ship: Car, Anchor: Car, Cog: Car, SemiTruck: SemiTruckIcon, RV: RVIcon };
-
-// ---------- Helper: Compute schedule status for one vehicle ----------
-
-function computeVehicleSchedule(vehicle, vehicleLogs) {
-  if (!vehicle) return [];
-  const baseSchedule = getScheduleForVehicle(vehicle.make, vehicle.model);
-  const vinData = vehicle.vinDecoded;
-
-  // Enrich with VIN data (shared logic with useMaintenanceSchedule hook)
-  const schedule = enrichScheduleWithVinData([...baseSchedule], vinData);
-
-  function parseLocalDate(dateStr) {
-    if (!dateStr) return new Date();
-    const parts = dateStr.split('T')[0].split('-').map(Number);
-    if (parts.length === 3 && !isNaN(parts[0]) && !isNaN(parts[1]) && !isNaN(parts[2])) {
-      return new Date(parts[0], parts[1] - 1, parts[2]);
-    }
-    return new Date(dateStr);
-  }
-
-  return schedule.map(item => {
-    const lastService = vehicleLogs
-      .filter(log => {
-        const serviceTypes = getLogServiceTypes(log);
-        return serviceTypes.some(type => isSameService(item.service, type)) ||
-          log.description?.toLowerCase().includes(item.service.toLowerCase());
-      })
-      .sort((a, b) => (b.mileage || 0) - (a.mileage || 0))[0];
-
-    const lastMileage = lastService ? lastService.mileage : 0;
-    const lastDate = lastService ? parseLocalDate(lastService.date) : parseLocalDate(vehicle.createdAt);
-
-    const dueMileage = lastMileage + item.intervalMiles;
-    const dueDate = new Date(lastDate.getTime() + (item.intervalMonths * 30 * 24 * 60 * 60 * 1000));
-
-    const milesUntilDue = dueMileage - vehicle.mileage;
-    const daysUntilDue = Math.ceil((dueDate.getTime() - Date.now()) / (24 * 60 * 60 * 1000));
-
-    const mileageProgress = ((vehicle.mileage - lastMileage) / item.intervalMiles) * 100;
-    const timeProgress = ((Date.now() - lastDate.getTime()) / (dueDate.getTime() - lastDate.getTime())) * 100;
-    const percentComplete = Math.min(100, Math.max(0, Math.max(mileageProgress, timeProgress)));
-
-    let status = 'upcoming';
-    if (milesUntilDue <= 0 || daysUntilDue <= 0) {
-      status = 'overdue';
-    } else if (daysUntilDue <= 30) {
-      status = 'critical';
-    } else if (daysUntilDue <= 90) {
-      status = 'due-soon';
-    } else if (percentComplete < 50 && lastMileage > 0) {
-      status = 'good';
-    }
-
-    return {
-      ...item,
-      vehicleName: vehicle.name,
-      vehicleId: vehicle.id,
-      lastMileage,
-      lastDate: lastService ? lastDate.toISOString() : null,
-      dueMileage,
-      dueDate: dueDate.toISOString(),
-      milesUntilDue,
-      daysUntilDue,
-      status,
-      percentComplete,
-    };
-  });
-}
 
 // ---------- Premium Gate ----------
 
@@ -237,44 +166,8 @@ export default function RemindersPage({ reminders, vehicles, logs, onAdd, onUpda
   const [expandedTabs, setExpandedTabs] = useState({
     mileage: true,
     lease: true,
-    maintenance: true,
     other: true,
   });
-
-  // Performance modified toggle — stored in localStorage
-  const [performanceMods, setPerformanceMods] = useState(() => {
-    try {
-      const saved = localStorage.getItem('mtxtrkr_performance_mods');
-      return saved ? JSON.parse(saved) : {};
-    } catch {
-      return {};
-    }
-  });
-
-  // Persist to localStorage on change
-  useEffect(() => {
-    try {
-      localStorage.setItem('mtxtrkr_performance_mods', JSON.stringify(performanceMods));
-    } catch {}
-  }, [performanceMods]);
-
-  const togglePerformanceMod = useCallback((vehicleId, serviceName) => {
-    setPerformanceMods(prev => {
-      const key = `${vehicleId}::${serviceName}`;
-      const next = { ...prev };
-      if (next[key]) {
-        delete next[key];
-      } else {
-        next[key] = true;
-      }
-      return next;
-    });
-  }, []);
-
-  const isPerformanceModified = useCallback((vehicleId, serviceName) => {
-    const key = `${vehicleId}::${serviceName}`;
-    return !!performanceMods[key];
-  }, [performanceMods]);
 
   const toggleTab = (tab) => {
     setExpandedTabs(prev => ({ ...prev, [tab]: !prev[tab] }));
@@ -350,39 +243,6 @@ export default function RemindersPage({ reminders, vehicles, logs, onAdd, onUpda
     });
   }, [leasedVehicles, vehicles]);
 
-  // Maintenance reminders: aggregate schedule items across all vehicles where status !== 'good'
-  // Filter out performance-modified items (e.g. cleanable air filters)
-  const maintenanceReminders = useMemo(() => {
-    const allVehicles = selectedVehicleId
-      ? vehicles.filter(v => v.id === selectedVehicleId)
-      : vehicles;
-
-    const items = [];
-    allVehicles.forEach(v => {
-      const vehicleLogs = logs.filter(l => l.vehicleId === v.id);
-      const schedule = computeVehicleSchedule(v, vehicleLogs);
-      const incomplete = schedule.filter(item => item.status !== 'good');
-      items.push(...incomplete);
-    });
-
-    // Filter out performance-modified items
-    const filtered = items.filter(item => !isPerformanceModified(item.vehicleId, item.service));
-
-    // Sort by urgency
-    const order = { overdue: 0, critical: 1, 'due-soon': 2, upcoming: 3 };
-    filtered.sort((a, b) => {
-      const aOrder = order[a.status] ?? 99;
-      const bOrder = order[b.status] ?? 99;
-      if (aOrder !== bOrder) return aOrder - bOrder;
-      return (a.milesUntilDue ?? 999999) - (b.milesUntilDue ?? 999999);
-    });
-
-    return filtered;
-  }, [vehicles, logs, selectedVehicleId, isPerformanceModified]);
-
-  // Get vehicle name helper
-  const getVehicleName = (id) => vehicles.find(v => v.id === id)?.name || 'Unknown';
-
   // ---------- Premium Gate ----------
 
   if (!isPremium) {
@@ -408,7 +268,7 @@ export default function RemindersPage({ reminders, vehicles, logs, onAdd, onUpda
         <div>
           <h2 className="text-xl font-bold text-white">Reminders</h2>
           <p className="text-sm text-slate-400 mt-0.5">
-            {mileageReminders.length + maintenanceReminders.length + leaseReminders.length + allReminders.length} total items
+            {mileageReminders.length + leaseReminders.length + allReminders.length} total items
           </p>
         </div>
         <button
@@ -585,111 +445,7 @@ export default function RemindersPage({ reminders, vehicles, logs, onAdd, onUpda
         </div>
       </FolderTab>
 
-      {/* 3. Maintenance Reminders */}
-      <FolderTab
-        icon={FileText}
-        title="Maintenance Reminders"
-        count={maintenanceReminders.length}
-        isExpanded={expandedTabs.maintenance}
-        onToggle={() => toggleTab('maintenance')}
-      >
-        {maintenanceReminders.length > 0 ? (
-          maintenanceReminders.map((item, idx) => {
-            const isAirFilter = item.service.toLowerCase().includes('air filter');
-            const isPerfMod = isPerformanceModified(item.vehicleId, item.service);
-            const statusColor = item.status === 'overdue' || item.status === 'critical' ? 'red' :
-                                item.status === 'due-soon' ? 'amber' : 'slate';
-            const borderColors = { red: 'border-red-500/20', amber: 'border-amber-500/20', slate: 'border-slate-700/50' };
-            const bgColors = { red: 'bg-red-950/30', amber: 'bg-amber-950/30', slate: 'bg-slate-900/80' };
-            const progressColors = { red: 'bg-red-500', amber: 'bg-amber-500', slate: 'bg-blue-500' };
-
-            return (
-              <div key={idx} className={`p-4 rounded-xl border ${isPerfMod ? 'border-emerald-500/20' : borderColors[statusColor]} ${isPerfMod ? 'bg-emerald-950/20' : bgColors[statusColor]}`}>
-                <div className="flex items-start justify-between gap-3 mb-3">
-                  <div className="flex items-center gap-2 min-w-0">
-                    {isPerfMod ? (
-                      <CheckCircle2 className="w-4 h-4 shrink-0 text-emerald-400" />
-                    ) : (
-                      <AlertTriangle className={`w-4 h-4 shrink-0 ${
-                        statusColor === 'red' ? 'text-red-400' : statusColor === 'amber' ? 'text-amber-400' : 'text-slate-500'
-                      }`} />
-                    )}
-                    <div className="min-w-0">
-                      {isPerfMod ? (
-                        <>
-                          <div className="text-sm font-medium text-emerald-400 truncate">Cleanable Filter</div>
-                          <span className="text-[10px] px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-400">
-                            Clean & Oil — As Necessary
-                          </span>
-                        </>
-                      ) : (
-                        <>
-                          <div className="text-sm font-medium text-white truncate">{item.service}</div>
-                          <span className="text-[10px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-400">
-                            {item.vehicleName}
-                          </span>
-                        </>
-                      )}
-                    </div>
-                  </div>
-                  {isAirFilter && (
-                    <button
-                      onClick={() => togglePerformanceMod(item.vehicleId, item.service)}
-                      className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-[10px] font-medium transition-all shrink-0 ${
-                        isPerfMod
-                          ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30'
-                          : 'bg-slate-800 text-slate-400 border border-slate-700 hover:border-slate-600'
-                      }`}
-                    >
-                      <Filter className="w-3 h-3" />
-                      {isPerfMod ? 'Cleanable Filter' : 'Performance Modified'}
-                    </button>
-                  )}
-                </div>
-                {!isPerfMod && (
-                  <div className="space-y-1.5">
-                    <div className="flex items-center justify-between text-[10px] font-medium">
-                      <div className="flex items-center gap-1">
-                        <Gauge className="w-3 h-3 opacity-70" />
-                        {item.milesUntilDue <= 0 ? (
-                          <span className="text-red-400">{formatNumber(Math.abs(item.milesUntilDue))} mi overdue</span>
-                        ) : (
-                          <span>Due in {formatNumber(item.milesUntilDue)} mi</span>
-                        )}
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <Clock className="w-3 h-3 opacity-70" />
-                        {item.daysUntilDue <= 0 ? (
-                          <span className="text-red-400">{Math.abs(item.daysUntilDue)}d overdue</span>
-                        ) : (
-                          <span>~{Math.round(item.daysUntilDue / 30)}mo left</span>
-                        )}
-                      </div>
-                    </div>
-                    <div className="w-full h-1.5 rounded-full bg-slate-800 overflow-hidden">
-                      <div
-                        className={`h-full rounded-full transition-all duration-500 ${progressColors[statusColor]}`}
-                        style={{ width: `${Math.min(100, item.percentComplete)}%` }}
-                      />
-                    </div>
-                    {item.description && (
-                      <p className="text-[10px] text-slate-500 leading-relaxed mt-1">{item.description}</p>
-                    )}
-                  </div>
-                )}
-              </div>
-            );
-          })
-        ) : (
-          <div className="text-center py-8 bg-slate-900/30 rounded-xl border border-slate-800">
-            <CheckCircle2 className="w-6 h-6 text-emerald-400 mx-auto mb-2" />
-            <p className="text-xs text-slate-400">All maintenance items are up to date!</p>
-            <p className="text-[10px] text-slate-600 mt-1">Great job keeping up with your vehicle's schedule.</p>
-          </div>
-        )}
-      </FolderTab>
-
-      {/* 4. Other Reminders — All user-created custom reminders */}
+      {/* 3. Other Reminders — All user-created custom reminders */}
       <FolderTab
         icon={Bell}
         title="Other Reminders"
