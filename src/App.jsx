@@ -23,6 +23,7 @@ import { useLocalStorage, useSyncStatus, sanitizeForStorage } from './hooks/useL
 import useAnalytics from './hooks/useAnalytics.js';
 import { STORAGE_KEYS } from './utils/constants.js';
 import { generateAutoReminders, summarizeAutoReminders } from './utils/autoReminders.js';
+import { isSameService } from './hooks/useMaintenanceSchedule.js';
 import { supabase } from './lib/supabase.js';
 
 // Migration: myautolog_ → mtxtrkr_ localStorage keys (runs once on import)
@@ -938,14 +939,44 @@ export default function App() {
   const addLog = useCallback((data) => {
     const logData = {
       ...data,
-      mileage: parseInt(data.mileage) || 0,
+      mileage: parseInt(data.mileage, 10) || 0,
       cost: parseFloat(data.cost) || 0,
     };
     // Ensure serviceTypes array is always stored for multi-job support
     if (!Array.isArray(logData.serviceTypes) || logData.serviceTypes.length === 0) {
       logData.serviceTypes = logData.serviceType ? [logData.serviceType] : ['Other'];
     }
+
     logsStore.add(logData);
+
+    const logMileage = parseInt(logData.mileage, 10) || 0;
+    const logDateBase = new Date(logData.date);
+    const serviceTypes = Array.isArray(logData.serviceTypes) && logData.serviceTypes.length > 0
+      ? logData.serviceTypes
+      : (logData.serviceType ? [logData.serviceType] : []);
+
+    remindersStore.data.forEach((reminder) => {
+      if (!reminder?.enabled) return;
+      if (reminder.vehicleId !== logData.vehicleId) return;
+
+      const isMatchingService = serviceTypes.some((serviceType) =>
+        isSameService(reminder.title || '', serviceType || '')
+      );
+
+      if (!isMatchingService) return;
+
+      const intervalMiles = parseInt(reminder.intervalMiles, 10) || 0;
+      const intervalDays = parseInt(reminder.intervalDays, 10) || 0;
+      const baseDateMs = Number.isNaN(logDateBase.getTime()) ? Date.now() : logDateBase.getTime();
+
+      remindersStore.updateItem(reminder.id, {
+        lastCompletedMileage: logMileage,
+        lastCompletedDate: logData.date,
+        dueMileage: logMileage + intervalMiles,
+        dueDate: new Date(baseDateMs + (intervalDays * 86400000)).toISOString(),
+      });
+    });
+
     analytics.track('maintenance_log_added', {
       serviceType: logData.serviceType,
       serviceTypes: logData.serviceTypes,
@@ -953,7 +984,7 @@ export default function App() {
       vehicleId: data.vehicleId,
     });
     sync.markChanged();
-  }, [logsStore, sync, analytics]);
+  }, [logsStore, remindersStore, sync, analytics]);
 
   // Add reminder
   const addReminder = useCallback((data) => {
