@@ -295,12 +295,18 @@ function ModFormModal({ vehicles, initialVehicleId, onSave, onClose }) {
       form.subCategoryMode === 'custom'
         ? form.customSubCategory.trim() || 'Other'
         : form.subCategory || subCategories[0];
-    onSave({
-      ...form,
-      subCategory: resolvedSubCategory,
-      mileage: parseInt(form.mileage) || 0,
+    // Map form field names → Supabase column names
+    const mapped = {
+      vehicleId: form.vehicleId,
+      name: form.partName,
+      category: `${form.folder} > ${resolvedSubCategory}`,
+      brand: form.brand,
+      date: form.date,
+      mileage_at_install: parseInt(form.mileage) || null,
       cost: parseFloat(form.cost) || 0,
-    });
+      notes: form.notes,
+    };
+    onSave(mapped);
   };
 
   return (
