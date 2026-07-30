@@ -602,14 +602,14 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
               <Bell className="w-4 h-4 text-amber-400" />
               Upcoming Reminders
             </h3>
-            <button onClick={() => onNavigate('reminders')} className="text-xs text-blue-400 hover:text-blue-300">
+            <button onClick={() => onNavigate('schedule')} className="text-xs text-blue-400 hover:text-blue-300">
               View all
             </button>
           </div>
           {upcomingReminders.length === 0 ? (
             <div className="text-center py-8">
               <p className="text-sm text-slate-500">No upcoming reminders</p>
-              <button onClick={() => onNavigate('reminders')} className="mt-2 text-xs text-blue-400 hover:text-blue-300">
+              <button onClick={() => onNavigate('schedule')} className="mt-2 text-xs text-blue-400 hover:text-blue-300">
                 Add a reminder →
               </button>
             </div>
