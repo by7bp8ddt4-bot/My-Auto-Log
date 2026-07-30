@@ -9,18 +9,7 @@ export default function Settings({ onReset, onExport, vehicles, logs, reminders,
   const [syncErrorStores, setSyncErrorStores] = useState([]);
   const [pushing, setPushing] = useState(false);
   const [pushDone, setPushDone] = useState(false);
-  const [pushError, setPushError] = useState(false);
-  const [pushErrorStores, setPushErrorStores] = useState([]);
   const sub = getSubscriptionData();
-
-  const formatPushErrorStores = (failedStores = []) => failedStores
-    .map((entry) => {
-      if (typeof entry === 'string') return `${entry} (records failed)`;
-      const store = entry?.store || 'unknown_store';
-      const failedCount = Number(entry?.failedCount || 0);
-      return `${store} (${failedCount} record${failedCount === 1 ? '' : 's'} failed)`;
-    })
-    .join(', ');
   const handleExport = () => {
     const fuelCount = Array.isArray(fuelLogs) ? fuelLogs.length : 0;
     const modCount = Array.isArray(modifications) ? modifications.length : 0;
@@ -199,28 +188,18 @@ export default function Settings({ onReset, onExport, vehicles, logs, reminders,
                   onClick={async () => {
                     setPushing(true);
                     setPushDone(false);
-                    setPushError(false);
-                    setPushErrorStores([]);
-                    const result = await onPushToCloud();
+                    await onPushToCloud();
                     setPushing(false);
-                    if (result && result.success) {
-                      setPushDone(true);
-                      setTimeout(() => setPushDone(false), 3000);
-                    } else {
-                      setPushError(true);
-                      setPushErrorStores(result?.failedStores || []);
-                      setTimeout(() => setPushError(false), 5000);
-                    }
+                    setPushDone(true);
+                    setTimeout(() => setPushDone(false), 3000);
                   }}
                   disabled={pushing}
                   className={`w-full flex items-center justify-center gap-2 py-2.5 rounded-xl border text-sm font-medium transition-all ${
                     pushDone
                       ? 'border-emerald-500/30 bg-emerald-500/10 text-emerald-400'
-                      : pushError
-                        ? 'border-red-500/30 bg-red-500/10 text-red-400'
-                        : pushing
-                          ? 'border-blue-500/30 bg-blue-500/10 text-blue-400'
-                          : 'border-slate-700 text-slate-300 hover:bg-slate-800'
+                      : pushing
+                        ? 'border-blue-500/30 bg-blue-500/10 text-blue-400'
+                        : 'border-slate-700 text-slate-300 hover:bg-slate-800'
                   }`}
                 >
                   {pushing ? (
@@ -232,11 +211,6 @@ export default function Settings({ onReset, onExport, vehicles, logs, reminders,
                     <>
                       <CheckCircle2 className="w-4 h-4" />
                       Pushed Successfully
-                    </>
-                  ) : pushError ? (
-                    <>
-                      <span className="text-red-400">⚠</span>
-                      Pushed with errors{pushErrorStores.length > 0 ? `: ${formatPushErrorStores(pushErrorStores)}` : ''}
                     </>
                   ) : (
                     <>
