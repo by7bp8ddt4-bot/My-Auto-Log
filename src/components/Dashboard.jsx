@@ -10,7 +10,6 @@ import SemiTruckIcon from './SemiTruckIcon';
 import RVIcon from './RVIcon';
 import ATVIcon from './ATVIcon';
 import { formatCurrency, formatNumber, formatDate, getLocalDateString } from '../utils/helpers';
-import { calculateReminderStatus } from '../utils/helpers';
 import { generateResaleReport } from '../utils/generateReport';
 import { predictMileage } from '../utils/mileagePrediction';
 import MileageTracker from './MileageTracker.jsx';
@@ -34,14 +33,24 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
   const effectiveVehicleId = (vehicles.find(v => v.id === selectedVehicleId) ? selectedVehicleId : vehicles[0]?.id) || null;
   const activeVehicle = vehicles.find(v => v.id === effectiveVehicleId) || vehicles[0] || null;
 
-  // Filter logs/reminders/fuelLogs by active vehicle
+  // Filter logs/fuelLogs by active vehicle
   const vehicleLogs = logs.filter(l => l.vehicleId === effectiveVehicleId);
-  const vehicleReminders = reminders.filter(r => r.vehicleId === effectiveVehicleId);
   const vehicleFuelLogs = fuelLogs.filter(f => f.vehicleId === effectiveVehicleId);
 
   const schedule = useMaintenanceSchedule(activeVehicle, vehicleLogs);
   const overdueCount = schedule.filter(s => s.status === 'overdue').length;
   const dueSoonCount = schedule.filter(s => s.status === 'due-soon').length;
+
+  // Dashboard card uses schedule output (not reminders store)
+  const upcomingReminders = schedule
+    .filter(item => item.status !== 'good')
+    .slice(0, 5)
+    .map(item => ({
+      ...item,
+      id: `${item.service}-${item.intervalMiles}-${item.intervalMonths}`,
+      title: item.service,
+      vehicleName: activeVehicle?.name || `${activeVehicle?.year || ''} ${activeVehicle?.make || ''}`.trim() || 'Unknown'
+    }));
 
   const totalMileage = activeVehicle ? (activeVehicle.mileage || 0) : 0;
   const isHourVehicle = activeVehicle && ['ag-equipment', 'forklift', 'watercraft', 'outboard', 'marine-diesel'].includes(activeVehicle.type);
@@ -52,21 +61,6 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
     const now = new Date();
     return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
   }).length;
-
-  // Get upcoming reminders (scoped to active vehicle)
-  const upcomingReminders = vehicleReminders
-    .filter(r => r.enabled !== false)
-    .map(r => {
-      const vehicle = vehicles.find(v => v.id === r.vehicleId);
-      const status = calculateReminderStatus(r, vehicle?.mileage || 0);
-      return { ...r, ...status, vehicleName: vehicle?.name || 'Unknown' };
-    })
-    .sort((a, b) => {
-      const urgencyA = a.status === 'overdue' ? 0 : a.status === 'due-soon' ? 1 : 2;
-      const urgencyB = b.status === 'overdue' ? 0 : b.status === 'due-soon' ? 1 : 2;
-      return urgencyA - urgencyB;
-    })
-    .slice(0, 5);
 
   // Premium AI Mileage Prediction — real linear regression on fuel log data
   const aiMileagePrediction = isPremium && activeVehicle
@@ -622,12 +616,15 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
           ) : (
             <div className="space-y-3">
               {upcomingReminders.map(r => {
-                const progressColor = r.status === 'overdue'
+                const isOverdue = r.status === 'overdue';
+                const isCritical = r.status === 'critical';
+                const isDueSoon = r.status === 'due-soon';
+                const progressColor = isOverdue || isCritical
                   ? 'bg-red-500'
-                  : r.status === 'due-soon'
+                  : isDueSoon
                     ? 'bg-amber-500'
                     : 'bg-blue-500';
-                const isUrgent = r.status === 'overdue' || r.status === 'due-soon';
+                const isUrgent = isOverdue || isCritical || isDueSoon;
                 return (
                   <div key={r.id} className={`p-3 rounded-xl transition-all ${
                     isUrgent
@@ -637,18 +634,18 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
                     <div className="flex items-center justify-between mb-2">
                       <div className="flex items-center gap-2">
                         <AlertTriangle className={`w-3.5 h-3.5 ${
-                          r.status === 'overdue' ? 'text-red-400' : r.status === 'due-soon' ? 'text-amber-400' : 'text-slate-500'
+                          isOverdue || isCritical ? 'text-red-400' : isDueSoon ? 'text-amber-400' : 'text-slate-500'
                         }`} />
                         <span className="text-sm font-medium text-white">{r.title}</span>
                       </div>
                       <span className={`text-[10px] font-medium px-2 py-0.5 rounded-full ${
-                        r.status === 'overdue'
+                        isOverdue || isCritical
                           ? 'bg-red-500/15 text-red-400'
-                          : r.status === 'due-soon'
+                          : isDueSoon
                             ? 'bg-amber-500/15 text-amber-400'
                             : 'bg-slate-800 text-slate-400'
                       }`}>
-                        {r.status === 'overdue' ? 'Overdue' : r.status === 'due-soon' ? 'Due Soon' : 'OK'}
+                        {isOverdue ? 'Overdue' : isCritical ? 'Critical' : isDueSoon ? 'Due Soon' : 'OK'}
                       </span>
                     </div>
 
