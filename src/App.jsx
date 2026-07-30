@@ -493,7 +493,6 @@ export default function App() {
       // caused Bug #1: User A's "cancelled" status leaking into User B's session
       // via the premium sync effect's guard that only restores when the key is missing.
       'mtxtrkr_selected_vehicle',         // user's last-selected vehicle
-      'mtxtrkr_logs_cleanup_done',        // one-time flag: prevents Supabase maintenance_logs deletion on every sign-in
       'mtxtrkr_stale_cache_cleaned',      // one-time flag: stale cache cleanup
       'mtxtrkr_cache_migrated',           // one-time flag: cache migration
       'mtxtrkr_supabase_cache_migrated',  // one-time flag: supabase cache migration
@@ -539,17 +538,6 @@ export default function App() {
           const key = localStorage.key(i);
           if (key && (key.startsWith('mtxtrkr_') || key.startsWith('supabase_cache_')) && !PROTECTED_KEYS.includes(key)) {
             localStorage.removeItem(key);
-          }
-        }
-        // One-time cleanup: remove contaminated maintenance_logs from Supabase
-        const CLEANUP_DONE_KEY = 'mtxtrkr_logs_cleanup_done';
-        if (!localStorage.getItem(CLEANUP_DONE_KEY)) {
-          const { error } = await supabase
-            .from('maintenance_logs')
-            .delete()
-            .eq('user_id', auth.user.id);
-          if (!error) {
-            localStorage.setItem(CLEANUP_DONE_KEY, 'true');
           }
         }
       })();
