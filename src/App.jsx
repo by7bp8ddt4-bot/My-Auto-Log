@@ -1443,6 +1443,7 @@ export default function App() {
       mods={modsStore.data}
       vehicles={vehiclesStore.data}
       onAdd={(data) => { modsStore.add(data); sync.markChanged(); }}
+      onUpdate={(id, data) => { modsStore.updateItem(id, data); sync.markChanged(); }}
       onDelete={async (id) => {
         modsStore.remove(id);
         const result = await supabaseMods.remove(id);
