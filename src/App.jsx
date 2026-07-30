@@ -1105,7 +1105,7 @@ export default function App() {
   // Force push to cloud — sends all local data to Supabase (new + updated items)
   // Used when the background sync didn't trigger automatically
   const handlePushToCloud = useCallback(async () => {
-    if (!auth.user?.id) return { success: false, failedStores: [] };
+    if (!auth.user?.id) return;
     const stores = [
       { local: localVehicles, supabase: supabaseVehicles, table: 'vehicles' },
       { local: localLogs, supabase: supabaseLogs, table: 'maintenance_logs' },
@@ -1123,12 +1123,6 @@ export default function App() {
     // stores where every item pushed successfully, so failures are preserved
     // for the user to retry.
     const storesWithErrors = new Set();
-    const failedCounts = {};
-    const trackStoreFailure = (table, count = 1) => {
-      storesWithErrors.add(table);
-      failedCounts[table] = (failedCounts[table] || 0) + count;
-    };
-
     for (const { local, supabase, table } of stores) {
       const localData = local.data || [];
       if (localData.length === 0) continue;
@@ -1149,41 +1143,22 @@ export default function App() {
         if (!isVehicleStore) {
           const vehicleId = item.vehicleId || item.vehicle_id;
           if (vehicleId && !confirmedVehicleIds.has(vehicleId)) {
-            trackStoreFailure(table);
             continue;
           }
         }
-
-        let result;
-        try {
-          result = await supabase.add(item);
-        } catch (e) {
-          console.error(`[PushToCloud] Unexpected error pushing ${item.id} to ${table}:`, e);
-          trackStoreFailure(table);
-          continue;
-        }
-
+        const result = await supabase.add(item);
         if (isVehicleStore && result && !result.error) {
           confirmedVehicleIds.add(result.id || item.id);
         }
         if (result?.error) {
-          trackStoreFailure(table);
+          showSyncError('Some items failed to push — try again');
+          storesWithErrors.add(table);
         } else {
           // Track in push ref so background sync doesn't re-push
           pushedIdsRef.current[item.id] = item.updatedAt || item.createdAt || now;
         }
       }
     }
-
-    const failedStores = Object.entries(failedCounts).map(([store, failedCount]) => ({
-      store,
-      failedCount,
-    }));
-
-    if (failedStores.length > 0) {
-      showSyncError('Some items failed to push — try again');
-    }
-
     // Only clear failed write trackers for stores that had zero push errors.
     // Failed stores preserve their failed writes so the user knows and can retry.
     if (!storesWithErrors.has('vehicles')) supabaseVehicles.clearAllFailedWrites();
@@ -1197,11 +1172,8 @@ export default function App() {
       localStorage.setItem(STORAGE_KEYS.PREMIUM_STATUS, 'true');
       await supabase.from('profiles').upsert({ id: auth.user.id, premium: true });
     }
-    analytics.track('push_to_cloud', {
-      failedStores: failedStores.length > 0 ? failedStores : undefined,
-    });
+    analytics.track('push_to_cloud', {});
     sync.markChanged();
-    return { success: failedStores.length === 0, failedStores };
   }, [auth.user?.id, premium, localVehicles, localLogs, localReminders, localFuelLogs, localMods, localDocuments, supabaseVehicles, supabaseLogs, supabaseReminders, supabaseFuelLogs, supabaseMods, supabaseDocuments, sync, analytics]);
 
   // Delete account — remove all data and sign out
