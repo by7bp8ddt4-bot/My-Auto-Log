@@ -82,7 +82,7 @@ function simulateAuthChangeWipe(protectedKeys) {
 const EXPECTED_PROTECTED_KEYS = [
   'mtxtrkr_premium_status',
   'mtxtrkr_selected_vehicle',
-  'mtxtrkr_logs_cleanup_done',
+  'mtxtrkr_performance_mods',
   'mtxtrkr_stale_cache_cleaned',
   'mtxtrkr_cache_migrated',
   'mtxtrkr_supabase_cache_migrated',
@@ -245,9 +245,9 @@ describe('Data Integrity Gate', () => {
 
       // Verify protected keys survived
       expect(localStorage.getItem('mtxtrkr_onboarding_dismissed')).toBe('true');
-      expect(localStorage.getItem('mtxtrkr_performance_mods')).toBeNull();
+      expect(localStorage.getItem('mtxtrkr_performance_mods')).toBe(JSON.stringify({ 'air-filter': true }));
       expect(localStorage.getItem('mtxtrkr_selected_vehicle')).toBe('v-abc-123');
-      expect(localStorage.getItem('mtxtrkr_logs_cleanup_done')).toBe('true');
+      expect(localStorage.getItem('mtxtrkr_logs_cleanup_done')).toBeNull();
       expect(localStorage.getItem('mtxtrkr_stale_cache_cleaned')).toBe('true');
       expect(localStorage.getItem('mtxtrkr_cache_migrated')).toBe('true');
       expect(localStorage.getItem('mtxtrkr_supabase_cache_migrated')).toBe('true');
