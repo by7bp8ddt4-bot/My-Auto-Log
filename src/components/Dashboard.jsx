@@ -595,12 +595,12 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
           )}
         </div>
 
-        {/* Upcoming Reminders with Progress Bars */}
+        {/* Schedule Maintenance with Progress Bars */}
         <div className="p-5 rounded-2xl bg-slate-900/60 border border-slate-800">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-sm font-semibold text-white flex items-center gap-2">
-              <Bell className="w-4 h-4 text-amber-400" />
-              Upcoming Reminders
+              <Calendar className="w-4 h-4 text-emerald-400" />
+              Schedule Maintenance
             </h3>
             <button onClick={() => onNavigate('schedule')} className="text-xs text-blue-400 hover:text-blue-300">
               View all
