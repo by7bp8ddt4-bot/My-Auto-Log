@@ -133,7 +133,7 @@ export default function App() {
     // in production (blank/dark screen). Use .then() chaining instead.
     //
     // Set React state AND localStorage IMMEDIATELY (before auth resolves).
-    // The cleanup effect no longer calls setPremium(false), so there is no
+    // The cleanup effect no longer auto-downgrades premium, so there is no
     // race — React state and localStorage stay in sync, and the premium
     // sync effect verifies against Supabase on the next auth cycle.
     if (params.get('restore-premium') === '1') {
@@ -225,7 +225,6 @@ export default function App() {
   const supabaseVehicles = useSupabaseData('vehicles', auth.user?.id, 'user_id', onVehiclesChange);
   const supabaseLogs = useSupabaseData('maintenance_logs', auth.user?.id, 'user_id', onLogsChange);
   const supabaseReminders = useSupabaseData('reminders', auth.user?.id, 'user_id', onRemindersChange);
-  const supabaseProfile = useSupabaseData('profiles', auth.user?.id, 'id');
   const supabaseFuelLogs = useSupabaseData('fuel_logs', auth.user?.id, 'user_id', onFuelLogsChange);
   const supabaseMods = useSupabaseData('modifications', auth.user?.id, 'user_id', onModsChange);
   const supabaseDocuments = useSupabaseData('documents', auth.user?.id, 'user_id', onDocumentsChange);
@@ -395,44 +394,103 @@ export default function App() {
   const modsStore = localMods;
   const documentsStore = localDocuments;
 
-  // Sync premium status between Supabase and localStorage
-  // Priority: localStorage -> Supabase (write local to DB on detection)
-  //          : Supabase -> localStorage (restore from DB when local is missing)
-  useEffect(() => {
-    if (!isAuthenticated) return;
-    // Wait for the profile fetch to finish before checking DB premium status.
-    // Without this guard, the effect fires when supabaseProfile.data is still []
-    // and never re-runs because 'loading' wasn't in the dependency array.
-    if (supabaseProfile.loading) return;
+  // Premium persistence hardening
+  // Rule: automated sync can only grant/restore premium, never remove it.
+  const persistPremiumBackup = useCallback(async (userId) => {
+    if (!userId) return;
+    try {
+      const { error } = await supabase
+        .from('profiles')
+        .upsert({ id: userId, premium: true, updated_at: new Date().toISOString() });
+      if (error) {
+        console.warn('[Premium Sync] Failed to persist premium backup:', error);
+      }
+    } catch (error) {
+      console.warn('[Premium Sync] Failed to persist premium backup:', error);
+    }
+  }, []);
 
-    if (supabaseProfile.data.length > 0) {
-      const dbPremium = supabaseProfile.data[0].premium;
-      // DB says premium but local doesn't → restore local (e.g. new device login).
-      // Check localStorage directly (not React state) because the stale-data cleanup
-      // effect at line ~362 wipes localStorage on every auth change, but premium React
-      // state survives the wipe (initialized at mount). Using React state creates a
-      // catch-22: if premium=true at mount, the wipe clears localStorage, the guard
-      // blocks, and subscription data is never restored.
-      if (dbPremium === true && localStorage.getItem(STORAGE_KEYS.PREMIUM_STATUS) !== 'true') {
+  const fetchProfilePremium = useCallback(async (userId) => {
+    if (!userId) return { ok: false, premium: null };
+    try {
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('premium')
+        .eq('id', userId)
+        .single();
+
+      if (error) {
+        console.warn('[Premium Sync] Premium query failed:', error);
+        return { ok: false, premium: null };
+      }
+
+      return { ok: true, premium: data?.premium === true };
+    } catch (error) {
+      console.warn('[Premium Sync] Premium query failed:', error);
+      return { ok: false, premium: null };
+    }
+  }, []);
+
+  // Sync premium status between Supabase and localStorage
+  // - Query profiles.premium directly (with retries on auth change)
+  // - Never auto-downgrade premium from DB false, empty result, or query failure
+  // - If local premium is true, always push it back to Supabase as backup
+  useEffect(() => {
+    if (!isAuthenticated || !auth.user?.id) return;
+
+    let cancelled = false;
+    const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+    const syncPremiumStatus = async () => {
+      const localPremium = localStorage.getItem(STORAGE_KEYS.PREMIUM_STATUS) === 'true' || premium === true;
+
+      // Local premium is source-of-truth fallback — always back it up to DB.
+      if (localPremium) {
+        localStorage.setItem(STORAGE_KEYS.PREMIUM_STATUS, 'true');
+        if (!premium) setPremium(true);
+        await persistPremiumBackup(auth.user.id);
+      }
+
+      let result = null;
+      for (let attempt = 1; attempt <= 3; attempt += 1) {
+        if (cancelled) return;
+        const query = await fetchProfilePremium(auth.user.id);
+        if (query.ok) {
+          result = query;
+          break;
+        }
+        if (attempt < 3) {
+          await sleep(1000);
+        }
+      }
+
+      if (cancelled) return;
+
+      if (!result) {
+        console.warn('[Premium Sync] Keeping local premium after profile query failure.');
+        return;
+      }
+
+      if (result.premium === true) {
         setPremium(true);
         localStorage.setItem(STORAGE_KEYS.PREMIUM_STATUS, 'true');
-        // Always restore subscription data when DB says premium.
-        // Previously guarded by checking if the key existed in localStorage, but
-        // that caused Bug #1: User A's "cancelled" status survived the auth-change
-        // wipe (it was in PROTECTED_KEYS) and the guard prevented overwriting it.
-        // Now subscription keys are NOT protected, so they're always wiped on auth
-        // change, and this unconditional set restores correct state for premium users.
         setSubscriptionData({ plan: 'monthly', status: 'active', nextBilling: null });
+        return;
       }
-      // Local says premium but DB doesn't → persist to DB (e.g. Stripe activation)
-      if (premium && !dbPremium) {
-        supabase.from('profiles').upsert({ id: auth.user.id, premium: true });
+
+      // DB responded with premium=false. Never auto-downgrade.
+      // If local premium is true, back it up again as a guardrail.
+      if (localStorage.getItem(STORAGE_KEYS.PREMIUM_STATUS) === 'true' || premium === true) {
+        await persistPremiumBackup(auth.user.id);
       }
-    } else if (premium) {
-      // No profile row yet but localStorage says premium — create one
-      supabase.from('profiles').upsert({ id: auth.user.id, premium: true });
-    }
-  }, [isAuthenticated, supabaseProfile.data, supabaseProfile.loading, premium]);
+    };
+
+    syncPremiumStatus();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [isAuthenticated, auth.user?.id, premium, fetchProfilePremium, persistPremiumBackup]);
 
   // Sync localStorage ↔ Supabase for data persistence
   // localStorage is always the primary source. Supabase is cloud backup.
