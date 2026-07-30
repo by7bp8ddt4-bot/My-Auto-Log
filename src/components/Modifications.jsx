@@ -313,7 +313,7 @@ function ModFormModal({ vehicles, initialVehicleId, initialData, isEditing, onSa
       name: form.partName,
       category: `${form.folder} > ${resolvedSubCategory}`,
       date: form.date,
-      mileage_at_install: parseInt(form.mileage) || null,
+      mileage_at_install: parseInt(form.mileage) || 0,
       cost: parseFloat(form.cost) || 0,
       notes: form.notes,
     };
