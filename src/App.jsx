@@ -447,6 +447,9 @@ export default function App() {
 
   // Sync premium status between Supabase and localStorage
   // - Query profiles.premium directly (with retries on auth change)
+  // - Retry on BOTH null and false: from the client, `false` (the column default)
+  //   is indistinguishable from "the upgrade was never written yet". Only a `true`
+  //   from the DB ends the retry cycle early.
   // - Never auto-downgrade premium from DB false, empty result, or query failure
   // - If local premium is true, always push it back to Supabase as backup
   useEffect(() => {
@@ -502,41 +505,31 @@ export default function App() {
           break;
         }
 
-        if (query.premium === false) {
-          // Profile exists and explicitly says premium is false — respect it.
-          break;
-        }
-
-        // premium is null (no row yet / not populated) — keep retrying.
+        // premium is null (no row yet / not populated) or false (column default,
+        // or an upgrade that never landed because the success redirect was lost).
+        // Both are ambiguous from here — keep retrying the full schedule.
       }
 
       if (cancelled) return;
 
-      if (!result) {
-        if (attemptsCompleted >= 6) {
-          console.warn('[Premium Sync] Premium lookup failed after 6 attempts. Keeping local premium state.');
-        } else {
-          console.warn('[Premium Sync] Keeping local premium after profile query failure.');
-        }
-        return;
-      }
-
-      if (result.premium === true) {
+      if (result?.premium === true) {
         setPremium(true);
         localStorage.setItem(STORAGE_KEYS.PREMIUM_STATUS, 'true');
         setSubscriptionData({ plan: 'monthly', status: 'active', nextBilling: null });
         return;
       }
 
-      if (result.premium === null) {
-        if (attemptsCompleted >= 6) {
-          console.warn('[Premium Sync] Premium remained null after 6 attempts. Keeping local premium state.');
-        }
-        return;
+      // All attempts exhausted without a `true` from the DB.
+      // Never auto-downgrade — keep whatever local state exists.
+      const lastSeen = result ? String(result.premium) : 'unavailable';
+      if (attemptsCompleted >= attemptDelays.length) {
+        console.warn(`[Premium Sync] Premium never returned true after ${attemptDelays.length} attempts (last DB value: ${lastSeen}). Keeping local premium state.`);
+      } else {
+        console.warn('[Premium Sync] Keeping local premium after incomplete profile query cycle.');
       }
 
-      // DB responded with premium=false. Never auto-downgrade.
-      // If local premium is true, back it up again as a guardrail.
+      // Self-healing: if local state says premium, write it back to the DB so the
+      // record repairs itself for the next session / device.
       if (localStorage.getItem(STORAGE_KEYS.PREMIUM_STATUS) === 'true' || premium === true) {
         await persistPremiumBackup(auth.user.id);
       }
