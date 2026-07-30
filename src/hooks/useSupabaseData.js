@@ -15,7 +15,7 @@ const keysToSnake = (obj) => {
 export const TABLE_COLUMNS = {
   vehicles: [
     'id', 'user_id', 'name', 'make', 'model', 'year', 'license_plate', 'mileage', 
-    'purchase_mileage', 'vin', 'type', 'trim', 'engine_size', 
+    'vin', 'type', 'trim', 'engine_size', 
     'drivetrain', 'transmission', 'fuel_type', 'body_class', 'is_leased', 
     'lease_end_date', 'lease_mileage_limit', 'engine_serial', 'created_at', 'updated_at'
   ],
