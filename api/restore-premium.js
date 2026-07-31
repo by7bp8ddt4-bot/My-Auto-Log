@@ -17,7 +17,7 @@ export default async function handler(req, res) {
     const { data: profiles, error: queryError } = await supabase
       .from('profiles')
       .select('*')
-      .eq('email', 'craigatupper83@gmail.com');
+      .eq('email', process.env.OWNER_EMAIL);
 
     if (queryError) throw queryError;
 
