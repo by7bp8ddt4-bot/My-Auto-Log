@@ -8,7 +8,7 @@ const STATIC_ASSETS = [
   '/assets/icon-192.png',
   '/assets/icon-512.png',
   '/assets/logo.png',
-  '/assets/hero-marketing.png',
+  '/assets/hero.webp',
 ];
 
 // Install event: cache the app shell
