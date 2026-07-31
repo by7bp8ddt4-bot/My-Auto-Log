@@ -608,7 +608,7 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
           </div>
           {upcomingReminders.length === 0 ? (
             <div className="text-center py-8">
-              <p className="text-sm text-slate-500">No upcoming reminders</p>
+              <p className="text-sm text-slate-500">No maintenance due</p>
               <button onClick={() => onNavigate('schedule')} className="mt-2 text-xs text-blue-400 hover:text-blue-300">
                 Add a reminder →
               </button>

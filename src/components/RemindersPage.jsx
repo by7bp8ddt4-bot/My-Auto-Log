@@ -1,12 +1,11 @@
 import { useState, useMemo } from 'react';
 import {
-  Bell, Gauge, Calendar, TrendingUp, AlertTriangle, Clock,
+  Gauge, Calendar, TrendingUp, AlertTriangle, Clock,
   ChevronRight, Crown, ArrowRight, Car,
-  CheckCircle2, X, ToggleRight, ToggleLeft, Plus, Loader2,
-  AlertCircle, Info
+  CheckCircle2, X, ToggleRight, ToggleLeft,
+  Info
 } from 'lucide-react';
-import { formatNumber, formatDate, generateId, calculateReminderStatus } from '../utils/helpers';
-import { DEFAULT_REMINDER_TEMPLATES, VEHICLE_TYPES } from '../utils/constants';
+import { formatNumber, calculateReminderStatus } from '../utils/helpers';
 import MotorcycleIcon from './MotorcycleIcon';
 import SemiTruckIcon from './SemiTruckIcon';
 import RVIcon from './RVIcon';
@@ -162,11 +161,9 @@ function FolderTab({ icon: Icon, title, count, isExpanded, onToggle, children })
 // ---------- Main Component ----------
 
 export default function RemindersPage({ reminders, vehicles, logs, onAdd, onUpdate, onDelete, onNavigate, isPremium, selectedVehicleId }) {
-  const [showForm, setShowForm] = useState(false);
   const [expandedTabs, setExpandedTabs] = useState({
     mileage: true,
     lease: true,
-    other: true,
   });
 
   const toggleTab = (tab) => {
@@ -186,15 +183,6 @@ export default function RemindersPage({ reminders, vehicles, logs, onAdd, onUpda
       return { ...r, ...status, vehicleName: vehicle?.name || 'Unknown' };
     });
   }, [filteredReminders, vehicles]);
-
-  // Split into Mileage-based (has intervalMiles) vs Other (time-only or custom)
-  const mileageReminders = useMemo(() => {
-    return remindersWithStatus.filter(r => r.intervalMiles > 0);
-  }, [remindersWithStatus]);
-
-  const allReminders = useMemo(() => {
-    return remindersWithStatus;
-  }, [remindersWithStatus]);
 
   // Lease reminders: build from leased vehicles
   const leasedVehicles = useMemo(() => {
@@ -268,20 +256,9 @@ export default function RemindersPage({ reminders, vehicles, logs, onAdd, onUpda
         <div>
           <h2 className="text-xl font-bold text-white">Reminders</h2>
           <p className="text-sm text-slate-400 mt-0.5">
-            {mileageReminders.length + leaseReminders.length + allReminders.length} total items
+            {remindersWithStatus.length} total items
           </p>
         </div>
-        <button
-          onClick={() => {
-            if (vehicles.length === 0) return;
-            setShowForm(true);
-          }}
-          disabled={vehicles.length === 0}
-          className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 disabled:bg-slate-800 disabled:text-slate-600 text-white text-sm font-medium transition-all"
-        >
-          <Plus className="w-4 h-4" />
-          Add
-        </button>
       </div>
 
       {/* 1. Mileage Reminders — Educational Section */}
