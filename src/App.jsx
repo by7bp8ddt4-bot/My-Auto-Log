@@ -4,6 +4,7 @@ import SubscriptionManagement, { setSubscriptionData, getSubscriptionData, clear
 import { setupGlobalErrorHandlers } from './components/ErrorBoundary.jsx';
 import { useSupabaseData, filterForTable } from './hooks/useSupabaseData.js';
 import useAuthState from './hooks/useAuthState.js';
+import useSyncEngine from './hooks/useSyncEngine.js';
 import { useLocalStorage, useSyncStatus, sanitizeForStorage } from './hooks/useLocalStorage.js';
 import useAnalytics from './hooks/useAnalytics.js';
 import { STORAGE_KEYS } from './utils/constants.js';
@@ -72,9 +73,6 @@ export default function App() {
   const [forceOffline, setForceOffline] = useState(false);
   const [cancelSubDialog, setCancelSubDialog] = useState(false);
   const [syncError, setSyncError] = useState(null); // temporary error banner for failed Supabase writes
-  // Tracks whether initial Supabase→localStorage sync has completed.
-  // Resets when the user changes (sign-in/out) so sync re-runs on every session.
-  const [initialSyncDone, setInitialSyncDone] = useState(false);
 
   // Global selected vehicle — persists across pages, saved to localStorage
   const [selectedVehicleId, setSelectedVehicleId] = useState(() => {
