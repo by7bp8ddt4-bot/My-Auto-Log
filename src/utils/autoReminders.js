@@ -72,15 +72,18 @@ export function generateAutoReminders(vehicle, existingReminders = []) {
       continue;
     }
 
-    // Convert intervalMonths to intervalDays (30-day months)
-    const intervalDays = (item.intervalMonths || 6) * 30;
+    const intervalMonths = item.intervalMonths || 6;
     const intervalMiles = item.intervalMiles || 5000;
 
     // Calculate due mileage: first service at manufacturer-recommended interval
     const dueMileage = intervalMiles;
     
-    // Calculate due date: first service at the interval from now
-    const dueDate = new Date(Date.now() + intervalDays * 86400000);
+    // Calculate due date: use proper calendar math (not 30-day months) to avoid ~5 days/year drift
+    const now = new Date();
+    const dueDate = new Date(now);
+    dueDate.setMonth(dueDate.getMonth() + intervalMonths);
+    // Compute intervalDays from the actual calendar delta for storage
+    const intervalDays = Math.round((dueDate.getTime() - now.getTime()) / 86400000);
 
     newReminders.push({
       id: generateId(),

@@ -55,7 +55,9 @@ export function useMaintenanceSchedule(vehicle, logs = []) {
       const lastDate = lastService ? parseLocalDate(lastService.date) : parseLocalDate(vehicle.createdAt);
       
       const dueMileage = lastMileage + item.intervalMiles;
-      const dueDate = new Date(lastDate.getTime() + (item.intervalMonths * 30 * 24 * 60 * 60 * 1000));
+      // Use proper calendar math (not 30-day months) to avoid ~5 days/year drift
+      const dueDate = new Date(lastDate);
+      dueDate.setMonth(dueDate.getMonth() + item.intervalMonths);
       
       const milesUntilDue = dueMileage - vehicle.mileage;
       const daysUntilDue = Math.ceil((dueDate.getTime() - Date.now()) / (24 * 60 * 60 * 1000));
