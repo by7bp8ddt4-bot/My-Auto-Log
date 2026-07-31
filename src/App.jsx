@@ -479,7 +479,7 @@ export default function App() {
 
       let result = null;
       let attemptsCompleted = 0;
-      const attemptDelays = [1000, 1000, 1000, 5000, 15000, 30000];
+      const attemptDelays = [0, 1000, 1000, 5000, 15000, 30000];
 
       for (let index = 0; index < attemptDelays.length; index += 1) {
         if (cancelled) return;
