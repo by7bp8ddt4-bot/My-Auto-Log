@@ -468,7 +468,78 @@ export default function LandingPage({ onGetStarted, onViewPremium }) {
             },
                         {
               q: 'Can I use it without an internet connection?',
-              a: '<div><p class="mb-4">Absolutely. MTXtrkr is built as an offline-first PWA. You can log services in underground garages, upload receipts on the go, and every change syncs automatically once you\'re back online — no manual export, no data loss.</p><div class="grid grid-cols-2 gap-3 mt-4"><div class="flex items-center gap-2.5 p-3 rounded-xl bg-slate-800/50 border border-slate-700/50"><span class="w-7 h-7 rounded-lg bg-slate-800 flex items-center justify-center text-blue-400"><svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12" y2="18"/></svg></span><span class="text-xs text-slate-300">Mobile First</span></div><div class="flex items-center gap-2.5 p-3 rounded-xl bg-slate-800/50 border border-slate-700/50"><span class="w-7 h-7 rounded-lg bg-slate-800 flex items-center justify-center text-blue-400"><svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12" y2="20"/></svg></span><span class="text-xs text-slate-300">Auto Sync</span></div><div class="flex items-center gap-2.5 p-3 rounded-xl bg-slate-800/50 border border-slate-700/50"><span class="w-7 h-7 rounded-lg bg-slate-800 flex items-center justify-center text-blue-400"><svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span><span class="text-xs text-slate-300">Real-time</span></div><div class="flex items-center gap-2.5 p-3 rounded-xl bg-slate-800/50 border border-slate-700/50"><span class="w-7 h-7 rounded-lg bg-slate-800 flex items-center justify-center text-blue-400"><svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg></span><span class="text-xs text-slate-300">Cloud Backup</span></div></div><div class="mt-4 p-4 rounded-xl bg-slate-800/30 border border-slate-700/50"><div class="flex items-center gap-2 text-xs text-slate-400 mb-3"><span class="w-2 h-2 rounded-full bg-emerald-400"></span>Last sync: Just now<span class="ml-auto text-emerald-400"><svg class="w-3 h-3 inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12" y2="20"/></svg></span></div><div class="space-y-2"><div class="p-3 rounded-xl bg-slate-900/80 border border-slate-700/50"><div class="font-medium text-sm text-white">2023 Toyota Camry</div><div class="text-xs text-slate-500 mt-1">45,230 miles — 3 reminders due</div></div><div class="p-3 rounded-xl bg-slate-900/80 border border-slate-700/50"><div class="font-medium text-sm text-white">2018 Honda Civic</div><div class="text-xs text-slate-500 mt-1">89,100 miles — Service overdue</div></div><div class="p-3 rounded-xl bg-slate-900/80 border border-slate-700/50"><div class="font-medium text-sm text-white">2021 Ford F-150</div><div class="text-xs text-slate-500 mt-1">32,500 miles — All good</div></div></div></div></div>'
+              a: (
+                <>
+                  <p className="mb-4">Absolutely. MTXtrkr is built as an offline-first PWA. You can log services in underground garages, upload receipts on the go, and every change syncs automatically once you're back online — no manual export, no data loss.</p>
+                  <div className="grid grid-cols-2 gap-3 mt-4">
+                    <div className="flex items-center gap-2.5 p-3 rounded-xl bg-slate-800/50 border border-slate-700/50">
+                      <span className="w-7 h-7 rounded-lg bg-slate-800 flex items-center justify-center text-blue-400">
+                        <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <rect x="5" y="2" width="14" height="20" rx="2"/>
+                          <line x1="12" y1="18" x2="12" y2="18"/>
+                        </svg>
+                      </span>
+                      <span className="text-xs text-slate-300">Mobile First</span>
+                    </div>
+                    <div className="flex items-center gap-2.5 p-3 rounded-xl bg-slate-800/50 border border-slate-700/50">
+                      <span className="w-7 h-7 rounded-lg bg-slate-800 flex items-center justify-center text-blue-400">
+                        <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <path d="M5 12.55a11 11 0 0 1 14.08 0"/>
+                          <path d="M1.42 9a16 16 0 0 1 21.16 0"/>
+                          <path d="M8.53 16.11a6 6 0 0 1 6.95 0"/>
+                          <line x1="12" y1="20" x2="12" y2="20"/>
+                        </svg>
+                      </span>
+                      <span className="text-xs text-slate-300">Auto Sync</span>
+                    </div>
+                    <div className="flex items-center gap-2.5 p-3 rounded-xl bg-slate-800/50 border border-slate-700/50">
+                      <span className="w-7 h-7 rounded-lg bg-slate-800 flex items-center justify-center text-blue-400">
+                        <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <circle cx="12" cy="12" r="10"/>
+                          <polyline points="12 6 12 12 16 14"/>
+                        </svg>
+                      </span>
+                      <span className="text-xs text-slate-300">Real-time</span>
+                    </div>
+                    <div className="flex items-center gap-2.5 p-3 rounded-xl bg-slate-800/50 border border-slate-700/50">
+                      <span className="w-7 h-7 rounded-lg bg-slate-800 flex items-center justify-center text-blue-400">
+                        <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/>
+                        </svg>
+                      </span>
+                      <span className="text-xs text-slate-300">Cloud Backup</span>
+                    </div>
+                  </div>
+                  <div className="mt-4 p-4 rounded-xl bg-slate-800/30 border border-slate-700/50">
+                    <div className="flex items-center gap-2 text-xs text-slate-400 mb-3">
+                      <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
+                      Last sync: Just now
+                      <span className="ml-auto text-emerald-400">
+                        <svg className="w-3 h-3 inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <path d="M5 12.55a11 11 0 0 1 14.08 0"/>
+                          <path d="M1.42 9a16 16 0 0 1 21.16 0"/>
+                          <path d="M8.53 16.11a6 6 0 0 1 6.95 0"/>
+                          <line x1="12" y1="20" x2="12" y2="20"/>
+                        </svg>
+                      </span>
+                    </div>
+                    <div className="space-y-2">
+                      <div className="p-3 rounded-xl bg-slate-900/80 border border-slate-700/50">
+                        <div className="font-medium text-sm text-white">2023 Toyota Camry</div>
+                        <div className="text-xs text-slate-500 mt-1">45,230 miles — 3 reminders due</div>
+                      </div>
+                      <div className="p-3 rounded-xl bg-slate-900/80 border border-slate-700/50">
+                        <div className="font-medium text-sm text-white">2018 Honda Civic</div>
+                        <div className="text-xs text-slate-500 mt-1">89,100 miles — Service overdue</div>
+                      </div>
+                      <div className="p-3 rounded-xl bg-slate-900/80 border border-slate-700/50">
+                        <div className="font-medium text-sm text-white">2021 Ford F-150</div>
+                        <div className="text-xs text-slate-500 mt-1">32,500 miles — All good</div>
+                      </div>
+                    </div>
+                  </div>
+                </>
+              )
             },
             {
               q: 'How does the AI Co-Pilot work?',
@@ -480,7 +551,13 @@ export default function LandingPage({ onGetStarted, onViewPremium }) {
                 <span className="text-sm font-semibold text-white">{faq.q}</span>
                 <ChevronRight className="w-4 h-4 text-slate-500 group-open:rotate-90 transition-transform" />
               </summary>
-              <div className="px-6 pb-6 text-sm text-slate-400 leading-relaxed border-t border-slate-800/50 pt-4" dangerouslySetInnerHTML={{ __html: faq.a }}></div>
+              <div className="px-6 pb-6 text-sm text-slate-400 leading-relaxed border-t border-slate-800/50 pt-4">
+                {typeof faq.a === 'string' ? (
+                  <div dangerouslySetInnerHTML={{ __html: faq.a }} />
+                ) : (
+                  faq.a
+                )}
+              </div>
             </details>
           ))}
         </div>
