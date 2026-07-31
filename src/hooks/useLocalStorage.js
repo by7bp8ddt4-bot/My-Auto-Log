@@ -118,12 +118,9 @@ function useLocalStorage(key, initialValue = []) {
   return { data, setData, add, updateItem, remove, getById, update };
 }
 
-// Sync simulator hook
+// Online/offline tracking hook — real sync handled by useSyncEngine
 export function useSyncStatus() {
   const [isOnline, setIsOnline] = useState(navigator.onLine);
-  const [lastSync, setLastSync] = useState(() => localStorage.getItem(STORAGE_KEYS.LAST_SYNC) || null);
-  const [pendingChanges, setPendingChanges] = useState(0);
-  const [syncing, setSyncing] = useState(false);
 
   useEffect(() => {
     const handleOnline = () => setIsOnline(true);
@@ -136,29 +133,15 @@ export function useSyncStatus() {
     };
   }, []);
 
-  const sync = useCallback(async () => {
-    setSyncing(true);
-    // Simulate cloud sync delay
-    await new Promise(r => setTimeout(r, 1500));
-    const now = new Date().toISOString();
-    localStorage.setItem(STORAGE_KEYS.LAST_SYNC, now);
-    setLastSync(now);
-    setPendingChanges(0);
-    setSyncing(false);
-  }, []);
+  // Stable no-op — App.jsx calls this after data mutations (real sync handled by useSyncEngine)
+  const markChanged = useCallback(() => {}, []);
 
-  // Auto-sync when coming online
-  useEffect(() => {
-    if (isOnline && pendingChanges > 0) {
-      sync();
-    }
-  }, [isOnline, pendingChanges, sync]);
+  // Kept for SyncIndicator compatibility (real sync status comes from useSyncEngine)
+  const syncing = false;
+  const lastSync = null;
+  const pendingChanges = 0;
 
-  const markChanged = useCallback(() => {
-    setPendingChanges(prev => prev + 1);
-  }, []);
-
-  return { isOnline, lastSync, pendingChanges, syncing, sync, markChanged };
+  return { isOnline, lastSync, pendingChanges, syncing, markChanged };
 }
 
 export { useLocalStorage };
