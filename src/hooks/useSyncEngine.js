@@ -39,6 +39,14 @@ export default function useSyncEngine({
   // ── Initial sync state ────────────────────────────────────────
   const [initialSyncDone, setInitialSyncDone] = useState(false);
   const pushedIdsRef = useRef({});
+  const isMountedRef = useRef(true);
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      isMountedRef.current = false;
+    };
+  }, []);
 
   // ── Reset on auth change ──────────────────────────────────────
   useEffect(() => {
@@ -108,6 +116,7 @@ export default function useSyncEngine({
     if (initialSyncDone) return;
 
     (async () => {
+      if (!isMountedRef.current) return;
       const confirmedVehicleIds = new Set(
         (supabaseVehicles.data || []).map(v => v.id)
       );
@@ -131,15 +140,16 @@ export default function useSyncEngine({
             }
             if (result?.error) {
               console.warn(`[Sync] Failed to push ${item.id} to ${key}:`, result.message);
-              showSyncError(`Failed to sync ${key.replace('mtxtrkr_', '')} — tap Push to Cloud to retry`);
+              if (isMountedRef.current) showSyncError(`Failed to sync ${key.replace('mtxtrkr_', '')} — tap Push to Cloud to retry`);
             }
           } catch (e) {
             console.warn(`[Sync] Failed to push ${item.id} to ${key}:`, e);
-            showSyncError(`Failed to sync ${key.replace('mtxtrkr_', '')} — tap Push to Cloud to retry`);
+            if (isMountedRef.current) showSyncError(`Failed to sync ${key.replace('mtxtrkr_', '')} — tap Push to Cloud to retry`);
           }
         }
       }
 
+      if (!isMountedRef.current) return;
       for (const { key } of syncStores) {
         const cacheKey = `supabase_cache_${key.replace('mtxtrkr_', '')}`;
         localStorage.removeItem(cacheKey);
@@ -158,28 +168,28 @@ export default function useSyncEngine({
                 localStorage.setItem(key, JSON.stringify(sanitized));
               } catch (e2) {
                 console.warn(`[Sync] Still too large after sanitization for "${key}", keeping in memory only`, e2);
-                showSyncError(`Local storage full — could not save ${key.replace('mtxtrkr_', '')}. Free up space and try again.`);
+                if (isMountedRef.current) showSyncError(`Local storage full — could not save ${key.replace('mtxtrkr_', '')}. Free up space and try again.`);
               }
             } else {
               console.warn(`[Sync] Failed to write "${key}" to localStorage:`, e);
-              showSyncError(`Could not save ${key.replace('mtxtrkr_', '')} locally — try refreshing.`);
+              if (isMountedRef.current) showSyncError(`Could not save ${key.replace('mtxtrkr_', '')} locally — try refreshing.`);
             }
           }
-          local.setData(supabase.data);
+          if (isMountedRef.current) local.setData(supabase.data);
         } else {
           try {
             const localRaw = localStorage.getItem(key);
             const localParsed = localRaw ? JSON.parse(localRaw) : [];
             if (Array.isArray(localParsed) && localParsed.length > 0 &&
                 (!local.data || local.data.length === 0)) {
-              local.setData(localParsed);
+              if (isMountedRef.current) local.setData(localParsed);
             }
           } catch (e) {
             // Ignore corrupt localStorage
           }
         }
       }
-      setInitialSyncDone(true);
+      if (isMountedRef.current) setInitialSyncDone(true);
     })();
   }, [
     isAuthenticated, userId, initialSyncDone,
@@ -192,6 +202,7 @@ export default function useSyncEngine({
     if (!isAuthenticated || !userId) return;
 
     (async () => {
+      if (!isMountedRef.current) return;
       const confirmedVehicleIds = new Set(
         (supabaseVehicles.data || []).map(v => v.id)
       );
@@ -224,12 +235,12 @@ export default function useSyncEngine({
             }
             if (result?.error) {
               console.error(`[Sync] Failed to push ${item.id} to ${key}:`, result.message);
-              showSyncError(`${key.replace('mtxtrkr_', '')}: failed to sync ${item.id} — tap Push to Cloud to retry`);
+              if (isMountedRef.current) showSyncError(`${key.replace('mtxtrkr_', '')}: failed to sync ${item.id} — tap Push to Cloud to retry`);
               delete pushedIdsRef.current[item.id];
             }
           } catch (e) {
             console.error(`[Sync] Failed to push ${item.id} to ${key}:`, e);
-            showSyncError(`${key.replace('mtxtrkr_', '')}: failed to sync ${item.id} — tap Push to Cloud to retry`);
+            if (isMountedRef.current) showSyncError(`${key.replace('mtxtrkr_', '')}: failed to sync ${item.id} — tap Push to Cloud to retry`);
             delete pushedIdsRef.current[item.id];
           }
         }
@@ -245,6 +256,7 @@ export default function useSyncEngine({
     if (!isAuthenticated || !userId) return;
     const handleVisibilityChange = async () => {
       if (document.visibilityState === 'hidden') {
+        if (!isMountedRef.current) return;
         const confirmedVehicleIds = new Set(
           (supabaseVehicles.data || []).map(v => v.id)
         );
@@ -275,12 +287,12 @@ export default function useSyncEngine({
               }
               if (result?.error) {
                 console.error('[VisibilitySync] Push failed:', result.message);
-                showSyncError(`${key.replace('mtxtrkr_', '')}: failed to sync ${item.id} — tap Push to Cloud to retry`);
+                if (isMountedRef.current) showSyncError(`${key.replace('mtxtrkr_', '')}: failed to sync ${item.id} — tap Push to Cloud to retry`);
                 delete pushedIdsRef.current[item.id];
               }
             } catch (e) {
               console.error('[VisibilitySync] Push failed:', e);
-              showSyncError(`${key.replace('mtxtrkr_', '')}: failed to sync ${item.id} — tap Push to Cloud to retry`);
+              if (isMountedRef.current) showSyncError(`${key.replace('mtxtrkr_', '')}: failed to sync ${item.id} — tap Push to Cloud to retry`);
               delete pushedIdsRef.current[item.id];
             }
           }

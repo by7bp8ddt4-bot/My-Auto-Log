@@ -218,22 +218,38 @@ export function useSupabaseData(tableName, userId, filterColumn = 'user_id', onD
     fetchData();
   }, [fetchData]);
 
-  // Subscribe to realtime changes
+  // Subscribe to realtime changes — only when an active Supabase session exists.
+  // Without this guard, the WebSocket connects on the unauthenticated landing page
+  // and fires repeated "Not connected to alive" errors (5+ per page load).
   useEffect(() => {
     if (!userId) return;
-    const subscription = supabase
-      .channel(`${tableName}-changes`)
-      .on('postgres_changes',
-        { event: '*', schema: 'public', table: tableName, filter: `${filterColumn}=eq.${userId}` },
-        (payload) => {
-          // Refresh data when changes occur
-          fetchData();
-        }
-      )
-      .subscribe();
+
+    let cancelled = false;
+    let channel = null;
+
+    const initRealtime = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (cancelled || !session) {
+        return;
+      }
+
+      channel = supabase
+        .channel(`${tableName}-changes`)
+        .on('postgres_changes',
+          { event: '*', schema: 'public', table: tableName, filter: `${filterColumn}=eq.${userId}` },
+          () => {
+            // Refresh data when changes occur
+            fetchData();
+          }
+        )
+        .subscribe();
+    };
+
+    initRealtime();
 
     return () => {
-      subscription.unsubscribe();
+      cancelled = true;
+      if (channel) channel.unsubscribe();
     };
   }, [tableName, userId, fetchData]);
 
