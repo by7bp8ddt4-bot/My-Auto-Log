@@ -553,7 +553,7 @@ export default function LandingPage({ onGetStarted, onViewPremium }) {
               </summary>
               <div className="px-6 pb-6 text-sm text-slate-400 leading-relaxed border-t border-slate-800/50 pt-4">
                 {typeof faq.a === 'string' ? (
-                  <div dangerouslySetInnerHTML={{ __html: faq.a }} />
+                  <p>{faq.a}</p>
                 ) : (
                   faq.a
                 )}
