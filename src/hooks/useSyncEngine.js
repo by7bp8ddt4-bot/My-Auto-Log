@@ -53,7 +53,21 @@ export default function useSyncEngine({
     setInitialSyncDone(false);
     pushedIdsRef.current = {};
 
-    // Reset all React state for data stores BEFORE clearing localStorage
+    // Fix 1: Capture FULL data snapshot BEFORE resetting React state.
+    // This is the safety net — if Supabase has no data for a store after
+    // the two-way sync, we restore from this backup so no data is lost.
+    const preWipeData = {
+      timestamp: new Date().toISOString(),
+      userId,
+      vehicles: [...(localVehicles.data || [])],
+      logs: [...(localLogs.data || [])],
+      reminders: [...(localReminders.data || [])],
+      fuel_logs: [...(localFuelLogs.data || [])],
+      modifications: [...(localMods.data || [])],
+      documents: [...(localDocuments.data || [])],
+    };
+
+    // Reset all React state for data stores
     localVehicles.setData([]);
     localLogs.setData([]);
     localReminders.setData([]);
@@ -67,6 +81,9 @@ export default function useSyncEngine({
     supabaseMods.resetData();
     supabaseDocuments.resetData();
 
+    // Fix 2: 'mtxtrkr_auth_reset_backup' added to PROTECTED_KEYS so it
+    // survives the localStorage wipe below — the backup is restored in the
+    // two-way sync effect after Supabase data is loaded.
     const PROTECTED_KEYS = [
       'mtxtrkr_premium_status',
       'mtxtrkr_selected_vehicle',
@@ -75,35 +92,76 @@ export default function useSyncEngine({
       'mtxtrkr_supabase_cache_migrated',
       'mtxtrkr_onboarding_dismissed',
       'mtxtrkr_performance_mods',
+      'mtxtrkr_auth_reset_backup',
     ];
-    if (userId) {
-      (async () => {
-        try {
-          const snapshot = {
-            timestamp: new Date().toISOString(),
-            userId,
-            counts: {
-              vehicles: (localVehicles.data || []).length,
-              maintenance_logs: (localLogs.data || []).length,
-              reminders: (localReminders.data || []).length,
-              fuel_logs: (localFuelLogs.data || []).length,
-              modifications: (localMods.data || []).length,
-              documents: (localDocuments.data || []).length,
-            },
-            premiumStatus: localStorage.getItem(STORAGE_KEYS.PREMIUM_STATUS),
-          };
-          localStorage.setItem('mtxtrkr_pre_wipe_backup', JSON.stringify(snapshot));
-        } catch (e) {
-          console.warn('[Cleanup] Failed to save pre-wipe snapshot:', e);
-        }
-        for (let i = localStorage.length - 1; i >= 0; i--) {
-          const key = localStorage.key(i);
-          if (key && (key.startsWith('mtxtrkr_') || key.startsWith('supabase_cache_')) && !PROTECTED_KEYS.includes(key)) {
-            localStorage.removeItem(key);
+
+    // Skip the wipe cycle entirely when userId is falsy (signed out).
+    // Only signed-in users trigger the two-way sync that restores from backup.
+    if (!userId) return;
+
+    (async () => {
+      // Fix 4: Best-effort push of pre-wipe data to Supabase BEFORE clearing
+      // localStorage. This gives Supabase every chance to receive the data
+      // before the wipe. Failures are silently ignored — the backup (Fixes 1-3)
+      // is the real safety net.
+      if (isAuthenticated) {
+        const keyToField = {
+          [STORAGE_KEYS.VEHICLES]: 'vehicles',
+          [STORAGE_KEYS.MAINTENANCE_LOGS]: 'logs',
+          [STORAGE_KEYS.REMINDERS]: 'reminders',
+          'mtxtrkr_fuel_logs': 'fuel_logs',
+          'mtxtrkr_modifications': 'modifications',
+          [STORAGE_KEYS.DOCUMENTS]: 'documents',
+        };
+        for (const { supabase, key } of syncStores) {
+          const field = keyToField[key];
+          if (!field) continue;
+          const snapshotData = preWipeData[field] || [];
+          if (snapshotData.length === 0) continue;
+          // Filter out items already known to Supabase (avoid unnecessary writes)
+          const supabaseIds = new Set((supabase.data || []).map(s => s.id));
+          const itemsToPush = snapshotData.filter(item => !supabaseIds.has(item.id));
+          for (const item of itemsToPush) {
+            try {
+              await supabase.add(item);
+            } catch (_) {
+              // Best-effort only — backup is the safety net
+            }
           }
         }
-      })();
-    }
+      }
+
+      // Fix 1: Save FULL data backup to protected key.
+      // Uses sanitizeForStorage to strip large binary fields (receipt images)
+      // that would exceed localStorage quota, while keeping all structured data.
+      try {
+        let backupStr;
+        try {
+          backupStr = JSON.stringify(preWipeData);
+          // Test-write to catch quota errors before the wipe
+          localStorage.setItem('mtxtrkr_auth_reset_backup', backupStr);
+        } catch (e) {
+          if (e.name === 'QuotaExceededError' || e.code === 22) {
+            const sanitized = sanitizeForStorage(preWipeData);
+            backupStr = JSON.stringify(sanitized);
+            localStorage.setItem('mtxtrkr_auth_reset_backup', backupStr);
+          } else {
+            throw e;
+          }
+        }
+      } catch (e) {
+        console.warn('[Cleanup] Failed to save auth-reset backup:', e);
+      }
+
+      // Wipe localStorage mtxtrkr_* and supabase_cache_* keys.
+      // PROTECTED_KEYS (including the backup we just wrote) are skipped.
+      for (let i = localStorage.length - 1; i >= 0; i--) {
+        const key = localStorage.key(i);
+        if (key && (key.startsWith('mtxtrkr_') || key.startsWith('supabase_cache_')) && !PROTECTED_KEYS.includes(key)) {
+          localStorage.removeItem(key);
+        }
+      }
+    })();
   }, [userId]);
 
   // ── Two-way sync on sign-in ────────────────────────────────────
@@ -189,6 +247,50 @@ export default function useSyncEngine({
           }
         }
       }
+      // Fix 3: Restore from auth-reset backup if Supabase has no data.
+      // The userId effect saves a full data snapshot to mtxtrkr_auth_reset_backup
+      // BEFORE wiping localStorage. If the two-way push/pull above didn't populate
+      // a store (e.g. Supabase was empty for logs), restore from the backup so no
+      // data is permanently lost.
+      const backupRaw = localStorage.getItem('mtxtrkr_auth_reset_backup');
+      if (backupRaw) {
+        try {
+          const backup = JSON.parse(backupRaw);
+          // Map backup fields → { local, key, supabase } for each store
+          const backupFieldToStore = [
+            { field: 'vehicles', local: localVehicles, key: STORAGE_KEYS.VEHICLES, supabase: supabaseVehicles },
+            { field: 'logs', local: localLogs, key: STORAGE_KEYS.MAINTENANCE_LOGS, supabase: supabaseLogs },
+            { field: 'reminders', local: localReminders, key: STORAGE_KEYS.REMINDERS, supabase: supabaseReminders },
+            { field: 'fuel_logs', local: localFuelLogs, key: 'mtxtrkr_fuel_logs', supabase: supabaseFuelLogs },
+            { field: 'modifications', local: localMods, key: 'mtxtrkr_modifications', supabase: supabaseMods },
+            { field: 'documents', local: localDocuments, key: STORAGE_KEYS.DOCUMENTS, supabase: supabaseDocuments },
+          ];
+          for (const { field, local, key, supabase } of backupFieldToStore) {
+            const backupData = backup[field];
+            if (!Array.isArray(backupData) || backupData.length === 0) continue;
+            const supabaseHasData = supabase.data && supabase.data.length > 0;
+            if (!supabaseHasData) {
+              // Supabase returned no data for this store — restore from backup
+              try {
+                localStorage.setItem(key, JSON.stringify(backupData));
+              } catch (e) {
+                if (e.name === 'QuotaExceededError' || e.code === 22) {
+                  try {
+                    const sanitized = sanitizeForStorage(backupData);
+                    localStorage.setItem(key, JSON.stringify(sanitized));
+                  } catch (_) { /* best effort */ }
+                }
+              }
+              if (isMountedRef.current) local.setData(backupData);
+            }
+          }
+        } catch (e) {
+          console.warn('[Sync] Failed to restore from auth-reset backup:', e);
+        }
+        // Remove the backup — it's a one-shot safety net, don't let it accumulate
+        localStorage.removeItem('mtxtrkr_auth_reset_backup');
+      }
+
       if (isMountedRef.current) setInitialSyncDone(true);
     })();
   }, [
