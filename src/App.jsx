@@ -38,8 +38,6 @@ try {
 }
 
 export default function App() {
-  // Global error handlers — logs uncaught errors/unhandled rejections to console
-  setupGlobalErrorHandlers();
   const [page, setPage] = useState(() => {
     // Show auth page if URL path is /auth or /auth.html or recovery hash detected
     if (window.location.pathname === '/auth' || window.location.pathname === '/auth.html') return 'auth';
@@ -71,6 +69,12 @@ export default function App() {
   };
 
   const [forceOffline, setForceOffline] = useState(false);
+
+  // Global error handlers — runs once on mount, not on every render
+  useEffect(() => {
+    setupGlobalErrorHandlers();
+  }, []);
+
   const [cancelSubDialog, setCancelSubDialog] = useState(false);
   const [syncError, setSyncError] = useState(null); // temporary error banner for failed Supabase writes
 
@@ -803,25 +807,6 @@ export default function App() {
     analytics.track('premium_upgraded', { method: 'inline_button', userId: auth.user?.id });
     setPage('dashboard');
   }, [auth, supabaseVehicles, supabaseLogs, supabaseReminders, supabaseFuelLogs, supabaseMods, supabaseDocuments, analytics]);
-
-  // Show auth page if not authenticated (after landing)
-  /*
-  if (page !== 'landing' && page !== 'premium' && !isAuthenticated && !auth.loading) {
-    return (
-      <>
-        <AuthPage onAuth={auth} />
-        <SyncIndicator
-          isOnline={effectiveOnline}
-          syncing={sync.syncing}
-          lastSync={sync.lastSync}
-          pendingChanges={sync.pendingChanges}
-          forceOffline={forceOffline}
-          setForceOffline={setForceOffline}
-        />
-      </>
-    );
-  }
-  */
 
   // Render via Router
   return (
