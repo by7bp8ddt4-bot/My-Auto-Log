@@ -6,7 +6,7 @@ import {
 import { formatDate, formatCurrency, formatNumber } from '../utils/helpers';
 import { SERVICE_TYPES } from '../utils/constants';
 import { getScheduleForVehicle } from '../data/maintenance-schedules';
-import { isSameService } from '../hooks/useMaintenanceSchedule';
+import { isSameService } from '../utils/serviceMatcher';
 import ReceiptScanner from './ReceiptScanner.jsx';
 
 import oilIcon from '../assets/folder-icons/oil-drop.svg';
