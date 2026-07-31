@@ -19,7 +19,7 @@ export default function RemindersList({ reminders, vehicles, onAdd, onUpdate, on
 
   const remindersWithStatus = filteredReminders.map(r => {
     const vehicle = vehicles.find(v => v.id === r.vehicleId);
-    const status = calculateReminderStatus(r, vehicle?.mileage || 0, r.vehicleId);
+    const status = calculateReminderStatus(r, vehicle?.mileage || 0);
     return { ...r, ...status, vehicleName: vehicle?.name || 'Unknown' };
   });
 
