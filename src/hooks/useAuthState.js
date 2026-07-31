@@ -1,0 +1,192 @@
+import { useState, useCallback, useEffect } from 'react';
+import { useSupabaseAuth } from './useSupabaseData.js';
+import { supabase } from '../lib/supabase.js';
+import { STORAGE_KEYS } from '../utils/constants.js';
+import { setSubscriptionData, clearSubscriptionData } from '../components/SubscriptionManagement.jsx';
+
+/**
+ * Combined auth + premium state hook.
+ * Wraps useSupabaseAuth and adds premium persistence with Supabase sync.
+ * URL-based activation effects remain in App.jsx (they depend on analytics + page state).
+ */
+export default function useAuthState() {
+  // ── Supabase auth ──────────────────────────────────────────────
+  const auth = useSupabaseAuth();
+  const isAuthenticated = !!auth.user;
+
+  // ── Premium state ──────────────────────────────────────────────
+  const [premium, setPremium] = useState(() => {
+    return localStorage.getItem(STORAGE_KEYS.PREMIUM_STATUS) === 'true';
+  });
+
+  // ── Premium persistence helpers ────────────────────────────────
+  const persistPremiumBackup = useCallback(async (userId) => {
+    if (!userId) return;
+    try {
+      const { error } = await supabase
+        .from('profiles')
+        .upsert({ id: userId, premium: true, updated_at: new Date().toISOString() });
+      if (error) {
+        console.warn('[Premium Sync] Failed to persist premium backup:', error);
+      }
+    } catch (error) {
+      console.warn('[Premium Sync] Failed to persist premium backup:', error);
+    }
+  }, []);
+
+  const fetchProfilePremium = useCallback(async (userId) => {
+    if (!userId) return { ok: false, premium: null };
+    try {
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('premium')
+        .eq('id', userId)
+        .maybeSingle();
+
+      if (error) {
+        console.warn('[Premium Sync] Premium query failed:', {
+          message: error.message,
+          code: error.code,
+          details: error.details,
+          hint: error.hint,
+        });
+        return { ok: false, premium: null };
+      }
+
+      const premiumValue = data?.premium ?? null;
+      console.log(`[Premium Sync] DB response: premium=${String(premiumValue)}, ok=true`);
+      return { ok: true, premium: premiumValue };
+    } catch (error) {
+      console.warn('[Premium Sync] Premium query failed:', {
+        message: error?.message,
+        code: error?.code,
+        details: error?.details,
+        hint: error?.hint,
+      });
+      return { ok: false, premium: null };
+    }
+  }, []);
+
+  // ── Premium sync with Supabase ────────────────────────────────
+  useEffect(() => {
+    if (!isAuthenticated || !auth.user?.id) return;
+
+    let cancelled = false;
+    const timeoutEntries = [];
+    const waitWithTimeout = (ms) => new Promise((resolve) => {
+      const entry = { timeoutId: null, resolve };
+      entry.timeoutId = setTimeout(() => {
+        const idx = timeoutEntries.indexOf(entry);
+        if (idx >= 0) timeoutEntries.splice(idx, 1);
+        resolve();
+      }, ms);
+      timeoutEntries.push(entry);
+    });
+
+    const syncPremiumStatus = async () => {
+      const localPremium = localStorage.getItem(STORAGE_KEYS.PREMIUM_STATUS) === 'true' || premium === true;
+
+      if (localPremium) {
+        localStorage.setItem(STORAGE_KEYS.PREMIUM_STATUS, 'true');
+        if (!premium) setPremium(true);
+        await persistPremiumBackup(auth.user.id);
+      }
+
+      let result = null;
+      let attemptsCompleted = 0;
+      const attemptDelays = [0, 1000, 1000, 5000, 15000, 30000];
+
+      for (let index = 0; index < attemptDelays.length; index += 1) {
+        if (cancelled) return;
+
+        await waitWithTimeout(attemptDelays[index]);
+        if (cancelled) return;
+
+        const attemptNumber = index + 1;
+        attemptsCompleted = attemptNumber;
+        console.log(`[Premium Sync] Fetch attempt ${attemptNumber}/6`);
+
+        const query = await fetchProfilePremium(auth.user.id);
+        if (!query.ok) continue;
+
+        result = query;
+
+        if (query.premium === true) break;
+        if (query.premium === false) break;
+      }
+
+      if (cancelled) return;
+
+      if (!result) {
+        if (attemptsCompleted >= 6) {
+          console.warn('[Premium Sync] Premium lookup failed after 6 attempts. Keeping local premium state.');
+        } else {
+          console.warn('[Premium Sync] Keeping local premium after profile query failure.');
+        }
+        return;
+      }
+
+      if (result.premium === true) {
+        setPremium(true);
+        localStorage.setItem(STORAGE_KEYS.PREMIUM_STATUS, 'true');
+        setSubscriptionData({ plan: 'monthly', status: 'active', nextBilling: null });
+        return;
+      }
+
+      if (result.premium === null) {
+        if (attemptsCompleted >= 6) {
+          console.warn('[Premium Sync] Premium remained null after 6 attempts. Keeping local premium state.');
+        }
+        return;
+      }
+
+      // DB responded with premium=false. Never auto-downgrade.
+      if (localStorage.getItem(STORAGE_KEYS.PREMIUM_STATUS) === 'true' || premium === true) {
+        await persistPremiumBackup(auth.user.id);
+      }
+    };
+
+    syncPremiumStatus();
+
+    return () => {
+      cancelled = true;
+      timeoutEntries.forEach(({ timeoutId, resolve }) => {
+        clearTimeout(timeoutId);
+        resolve();
+      });
+      timeoutEntries.length = 0;
+    };
+  }, [isAuthenticated, auth.user?.id, premium, fetchProfilePremium, persistPremiumBackup]);
+
+  // ── Clear subscription data on sign-out ────────────────────────
+  useEffect(() => {
+    if (!isAuthenticated) {
+      clearSubscriptionData();
+    }
+  }, [isAuthenticated]);
+
+  return {
+    // Auth (delegated from useSupabaseAuth)
+    user: auth.user,
+    session: auth.session,
+    loading: auth.loading,
+    isRecovery: auth.isRecovery,
+    authError: auth.authError,
+    clearAuthError: auth.clearAuthError,
+    signUp: auth.signUp,
+    signIn: auth.signIn,
+    signInWithGoogle: auth.signInWithGoogle,
+    signInWithApple: auth.signInWithApple,
+    signOut: auth.signOut,
+    resetPassword: auth.resetPassword,
+    updatePassword: auth.updatePassword,
+    checkPremium: auth.checkPremium,
+    setPremiumStatus: auth.setPremiumStatus,
+    clearRecovery: auth.clearRecovery,
+
+    // Premium
+    isAuthenticated,
+    premium,
+    setPremium,
+  };
+}

@@ -1,41 +1,15 @@
-import { useState, useCallback, useEffect, useRef, lazy, Suspense } from 'react';
-import Layout from './components/Layout.jsx';
-import LandingPage from './components/LandingPage.jsx';
-import Dashboard from './components/Dashboard.jsx';
-import VehicleList from './components/VehicleList.jsx';
-import MaintenanceLog from './components/MaintenanceLog.jsx';
-import RemindersPage from './components/RemindersPage.jsx';
-import DocumentsPage from './components/DocumentsPage.jsx';
-import PremiumPaywall from './components/PremiumPaywall.jsx';
-import Settings from './components/Settings.jsx';
-import SyncIndicator from './components/SyncIndicator.jsx';
-import AuthPage from './components/AuthPage.jsx';
-import FuelLog from './components/FuelLog.jsx';
-import MileageChart from './components/MileageChart.jsx';
-import Modifications from './components/Modifications.jsx';
-import ContactSupport from './components/ContactSupport.jsx';
+import { useState, useCallback, useEffect, useRef } from 'react';
+import Router from './router.jsx';
 import SubscriptionManagement, { setSubscriptionData, getSubscriptionData, clearSubscriptionData } from './components/SubscriptionManagement.jsx';
-import ErrorBoundary, { setupGlobalErrorHandlers } from './components/ErrorBoundary.jsx';
-import { useSupabaseData, useSupabaseAuth, filterForTable } from './hooks/useSupabaseData.js';
-import { useLocalStorage, useSyncStatus, sanitizeForStorage } from './hooks/useLocalStorage.js';
+import { setupGlobalErrorHandlers } from './components/ErrorBoundary.jsx';
+import { useSupabaseData, filterForTable } from './hooks/useSupabaseData.js';
+import useAuthState from './hooks/useAuthState.js';
+import useSyncEngine from './hooks/useSyncEngine.js';
+import { useLocalStorage, useSyncStatus } from './hooks/useLocalStorage.js';
 import useAnalytics from './hooks/useAnalytics.js';
 import { STORAGE_KEYS } from './utils/constants.js';
 import { isSameService } from './utils/serviceMatcher.js';
 import { supabase } from './lib/supabase.js';
-
-// Lazy-loaded page components — code-splits the heavy data files
-// (maintenance-schedules.js 192KB and fuse-boxes.js 188KB) out of the main bundle.
-const MaintenanceSchedule = lazy(() => import('./components/MaintenanceSchedule.jsx'));
-const FuseBox = lazy(() => import('./components/FuseBox.jsx'));
-
-// Lightweight loading fallback for lazy pages
-function PageLoader() {
-  return (
-    <div className="flex items-center justify-center py-20">
-      <div className="w-8 h-8 border-2 border-blue-500/30 border-t-blue-500 rounded-full animate-spin" />
-    </div>
-  );
-}
 
 // Migration: myautolog_ → mtxtrkr_ localStorage keys (runs once on import)
 try {
@@ -76,15 +50,29 @@ export default function App() {
     } catch(e) {}
     return 'landing';
   });
-  const [premium, setPremium] = useState(() => {
-    return localStorage.getItem(STORAGE_KEYS.PREMIUM_STATUS) === 'true';
-  });
+  // Supabase auth + premium state (extracted to useAuthState hook)
+  const authState = useAuthState();
+
+  // Destructure for convenience — preserves all existing variable names
+  const {
+    user, loading: authLoading, isRecovery: authIsRecovery,
+    authError, clearAuthError, signUp, signIn, signInWithGoogle,
+    signInWithApple, signOut: authSignOut, resetPassword, updatePassword,
+    checkPremium, setPremiumStatus, clearRecovery,
+    isAuthenticated, premium, setPremium,
+  } = authState;
+
+  // Legacy auth object — used by pages that expect { user, signIn, ... }
+  const auth = {
+    user, loading: authLoading, isRecovery: authIsRecovery,
+    authError, clearAuthError, signUp, signIn, signInWithGoogle,
+    signInWithApple, signOut: authSignOut, resetPassword, updatePassword,
+    checkPremium, setPremiumStatus, clearRecovery,
+  };
+
   const [forceOffline, setForceOffline] = useState(false);
   const [cancelSubDialog, setCancelSubDialog] = useState(false);
   const [syncError, setSyncError] = useState(null); // temporary error banner for failed Supabase writes
-  // Tracks whether initial Supabase→localStorage sync has completed.
-  // Resets when the user changes (sign-in/out) so sync re-runs on every session.
-  const [initialSyncDone, setInitialSyncDone] = useState(false);
 
   // Global selected vehicle — persists across pages, saved to localStorage
   const [selectedVehicleId, setSelectedVehicleId] = useState(() => {
@@ -96,12 +84,8 @@ export default function App() {
     localStorage.setItem('mtxtrkr_selected_vehicle', id);
   }, []);
 
-  // Supabase auth
-  const auth = useSupabaseAuth();
-  const isAuthenticated = !!auth.user;
-
   // Analytics hook — auto-tracks page views and user identity (after auth)
-  const analytics = useAnalytics(page, auth.user, premium);
+  const analytics = useAnalytics(page, user, premium);
 
   // Activate premium from URL parameter (mobile-friendly activation link)
   useEffect(() => {
@@ -405,166 +389,6 @@ export default function App() {
   const modsStore = localMods;
   const documentsStore = localDocuments;
 
-  // Premium persistence hardening
-  // Rule: automated sync can only grant/restore premium, never remove it.
-  const persistPremiumBackup = useCallback(async (userId) => {
-    if (!userId) return;
-    try {
-      const { error } = await supabase
-        .from('profiles')
-        .upsert({ id: userId, premium: true, updated_at: new Date().toISOString() });
-      if (error) {
-        console.warn('[Premium Sync] Failed to persist premium backup:', error);
-      }
-    } catch (error) {
-      console.warn('[Premium Sync] Failed to persist premium backup:', error);
-    }
-  }, []);
-
-  const fetchProfilePremium = useCallback(async (userId) => {
-    if (!userId) return { ok: false, premium: null };
-    try {
-      const { data, error } = await supabase
-        .from('profiles')
-        .select('premium')
-        .eq('id', userId)
-        .maybeSingle();
-
-      if (error) {
-        console.warn('[Premium Sync] Premium query failed:', {
-          message: error.message,
-          code: error.code,
-          details: error.details,
-          hint: error.hint,
-        });
-        console.log('[Premium Sync] DB response: premium=null, ok=false');
-        return { ok: false, premium: null };
-      }
-
-      const premiumValue = data?.premium ?? null;
-      console.log(`[Premium Sync] DB response: premium=${String(premiumValue)}, ok=true`);
-      return { ok: true, premium: premiumValue };
-    } catch (error) {
-      console.warn('[Premium Sync] Premium query failed:', {
-        message: error?.message,
-        code: error?.code,
-        details: error?.details,
-        hint: error?.hint,
-      });
-      console.log('[Premium Sync] DB response: premium=null, ok=false');
-      return { ok: false, premium: null };
-    }
-  }, []);
-
-  // Sync premium status between Supabase and localStorage
-  // - Query profiles.premium directly (with retries on auth change)
-  // - Never auto-downgrade premium from DB false, empty result, or query failure
-  // - If local premium is true, always push it back to Supabase as backup
-  useEffect(() => {
-    if (!isAuthenticated || !auth.user?.id) return;
-
-    let cancelled = false;
-    const timeoutEntries = [];
-    const waitWithTimeout = (ms) => new Promise((resolve) => {
-      const entry = {
-        timeoutId: null,
-        resolve,
-      };
-      entry.timeoutId = setTimeout(() => {
-        const idx = timeoutEntries.indexOf(entry);
-        if (idx >= 0) timeoutEntries.splice(idx, 1);
-        resolve();
-      }, ms);
-      timeoutEntries.push(entry);
-    });
-
-    const syncPremiumStatus = async () => {
-      const localPremium = localStorage.getItem(STORAGE_KEYS.PREMIUM_STATUS) === 'true' || premium === true;
-
-      // Local premium is source-of-truth fallback — always back it up to DB.
-      if (localPremium) {
-        localStorage.setItem(STORAGE_KEYS.PREMIUM_STATUS, 'true');
-        if (!premium) setPremium(true);
-        await persistPremiumBackup(auth.user.id);
-      }
-
-      let result = null;
-      let attemptsCompleted = 0;
-      const attemptDelays = [0, 1000, 1000, 5000, 15000, 30000];
-
-      for (let index = 0; index < attemptDelays.length; index += 1) {
-        if (cancelled) return;
-
-        await waitWithTimeout(attemptDelays[index]);
-        if (cancelled) return;
-
-        const attemptNumber = index + 1;
-        attemptsCompleted = attemptNumber;
-        console.log(`[Premium Sync] Fetch attempt ${attemptNumber}/6`);
-
-        const query = await fetchProfilePremium(auth.user.id);
-        if (!query.ok) {
-          continue;
-        }
-
-        result = query;
-
-        if (query.premium === true) {
-          break;
-        }
-
-        if (query.premium === false) {
-          // Profile exists and explicitly says premium is false — respect it.
-          break;
-        }
-
-        // premium is null (no row yet / not populated) — keep retrying.
-      }
-
-      if (cancelled) return;
-
-      if (!result) {
-        if (attemptsCompleted >= 6) {
-          console.warn('[Premium Sync] Premium lookup failed after 6 attempts. Keeping local premium state.');
-        } else {
-          console.warn('[Premium Sync] Keeping local premium after profile query failure.');
-        }
-        return;
-      }
-
-      if (result.premium === true) {
-        setPremium(true);
-        localStorage.setItem(STORAGE_KEYS.PREMIUM_STATUS, 'true');
-        setSubscriptionData({ plan: 'monthly', status: 'active', nextBilling: null });
-        return;
-      }
-
-      if (result.premium === null) {
-        if (attemptsCompleted >= 6) {
-          console.warn('[Premium Sync] Premium remained null after 6 attempts. Keeping local premium state.');
-        }
-        return;
-      }
-
-      // DB responded with premium=false. Never auto-downgrade.
-      // If local premium is true, back it up again as a guardrail.
-      if (localStorage.getItem(STORAGE_KEYS.PREMIUM_STATUS) === 'true' || premium === true) {
-        await persistPremiumBackup(auth.user.id);
-      }
-    };
-
-    syncPremiumStatus();
-
-    return () => {
-      cancelled = true;
-      timeoutEntries.forEach(({ timeoutId, resolve }) => {
-        clearTimeout(timeoutId);
-        resolve();
-      });
-      timeoutEntries.length = 0;
-    };
-  }, [isAuthenticated, auth.user?.id, premium, fetchProfilePremium, persistPremiumBackup]);
-
   // Sync localStorage ↔ Supabase for data persistence
   // localStorage is always the primary source. Supabase is cloud backup.
   // Direction: local → Supabase (push on save)
@@ -578,351 +402,20 @@ export default function App() {
     { local: localDocuments, supabase: supabaseDocuments, key: STORAGE_KEYS.DOCUMENTS },
   ];
 
-  // Reset initialSyncDone when the user changes (signs in, signs out, or switches accounts)
-  // This ensures the sync effect re-runs for every new auth session.
-  // Also clears stale localStorage data from a previous user to prevent
-  // data contamination across accounts on shared devices (QA testing, etc.).
-  useEffect(() => {
-    setInitialSyncDone(false);
-    pushedIdsRef.current = {};
-
-    // CRITICAL: Reset all React state for data stores BEFORE clearing localStorage.
-    // The localStorage wipe removes the on-disk data, but React state (useState hooks)
-    // still holds the PREVIOUS user's data in memory. Without this reset, the two-way
-    // sync effect reads stale React state (old user's vehicles/logs/etc.) and pushes
-    // it to the new user's Supabase account — causing permanent cross-account
-    // data contamination (Bug: "Sign in as wife, see husband's vehicles").
-    //
-    // We reset ALL local stores and supabase cache stores here. The two-way sync
-    // effect depends on initialSyncDone (set to false above) AND allLoaded (supabase
-    // stores must finish fetching). Since the supabase stores re-fetch when userId
-    // changes, they will be in loading state during this reset, preventing the sync
-    // from firing prematurely. By the time allLoaded becomes true, local data is []
-    // and supabase data is the new user's — no stale data to push, no contamination.
-    localVehicles.setData([]);
-    localLogs.setData([]);
-    localReminders.setData([]);
-    localFuelLogs.setData([]);
-    localMods.setData([]);
-    localDocuments.setData([]);
-    supabaseVehicles.resetData();
-    supabaseLogs.resetData();
-    supabaseReminders.resetData();
-    supabaseFuelLogs.resetData();
-    supabaseMods.resetData();
-    supabaseDocuments.resetData();
-
-    // Clear stale localStorage data from previous user.
-    // Protect account-level and one-time flags — these should never be wiped on
-    // auth changes. Wiping them causes data loss or catch-22s with sync effects.
-    const PROTECTED_KEYS = [
-      // mtxtrkr_premium_status protected as a fallback for slow Supabase fetches.
-      // The premium sync effect verifies against Supabase on every auth change,
-      // so a free user cannot permanently inherit premium from a previous session.
-      'mtxtrkr_premium_status',           // fallback while Supabase verifies (cross-account leak prevented by premium sync effect)
-      // Subscription keys intentionally NOT protected — they are ephemeral
-      // Stripe-managed data that must be wiped on auth change. Protecting them
-      // caused Bug #1: User A's "cancelled" status leaking into User B's session
-      // via the premium sync effect's guard that only restores when the key is missing.
-      'mtxtrkr_selected_vehicle',         // user's last-selected vehicle
-      'mtxtrkr_stale_cache_cleaned',      // one-time flag: stale cache cleanup
-      'mtxtrkr_cache_migrated',           // one-time flag: cache migration
-      'mtxtrkr_supabase_cache_migrated',  // one-time flag: supabase cache migration
-      'mtxtrkr_onboarding_dismissed',     // one-time flag: prevents onboarding wizard on every sign-in
-      'mtxtrkr_performance_mods',         // performance modifications toggle flag
-    ];
-    if (auth.user?.id) {
-      // IMPORTANT: Do NOT push old localStorage data to Supabase here.
-      // The sign-out handler (handleLogout) and visibilitychange handler
-      // already push data before the session ends, and the two-way sync
-      // on sign-in handles loading the correct user's data. Pushing here
-      // would write the PREVIOUS user's data under the NEW user's ID,
-      // causing permanent cross-account data contamination (Bug #1).
-      (async () => {
-        // Save a forensic snapshot BEFORE wiping localStorage.
-        // This creates an audit trail if data loss occurs — the snapshot
-        // contains timestamps, data counts per store, and userId so we can
-        // diagnose what was present before the wipe.
-        try {
-          const snapshot = {
-            timestamp: new Date().toISOString(),
-            userId: auth.user.id,
-            counts: {
-              vehicles: (localVehicles.data || []).length,
-              maintenance_logs: (localLogs.data || []).length,
-              reminders: (localReminders.data || []).length,
-              fuel_logs: (localFuelLogs.data || []).length,
-              modifications: (localMods.data || []).length,
-              documents: (localDocuments.data || []).length,
-            },
-            premiumStatus: localStorage.getItem(STORAGE_KEYS.PREMIUM_STATUS),
-          };
-          localStorage.setItem('mtxtrkr_pre_wipe_backup', JSON.stringify(snapshot));
-        } catch (e) {
-          // Non-fatal: snapshot failure should not block the wipe
-          console.warn('[Cleanup] Failed to save pre-wipe snapshot:', e);
-        }
-        // Wipe localStorage data keys to prevent cross-account contamination.
-        // Premium state is NOT reset here — the premium sync effect (below)
-        // verifies against Supabase on every auth change, handling both
-        // restore (DB=true) and cross-account protection (DB=false) scenarios.
-        for (let i = localStorage.length - 1; i >= 0; i--) {
-          const key = localStorage.key(i);
-          if (key && (key.startsWith('mtxtrkr_') || key.startsWith('supabase_cache_')) && !PROTECTED_KEYS.includes(key)) {
-            localStorage.removeItem(key);
-          }
-        }
-      })();
-    }
-  }, [auth.user?.id]);
-
-  // On sign-in: two-way sync between Supabase and localStorage.
-  // 1. Pushes any local data that Supabase doesn't have yet (cross-device data).
-  // 2. Pulls Supabase data into localStorage to overwrite stale cache.
-  // This ensures the user sees ALL their data (from any device) when they log in,
-  // without losing locally-added records that haven't been pushed yet.
-  // Uses React state (not localStorage) so the guard resets when the user changes.
-  // Waits for ALL Supabase stores to finish loading before syncing — fixes the race
-  // condition where the effect fires before data arrives and sets a permanent flag.
-  useEffect(() => {
-    if (!isAuthenticated || !auth.user?.id) return;
-
-    // Wait for all Supabase stores to finish fetching before attempting sync.
-    // Without this, supabaseVehicles.data is still [] when the effect fires,
-    // the sync finds nothing to pull, and the flag prevents any future retry.
-    const allLoaded = !supabaseVehicles.loading && !supabaseLogs.loading && !supabaseReminders.loading && !supabaseFuelLogs.loading && !supabaseMods.loading && !supabaseDocuments.loading;
-    if (!allLoaded) return;
-
-    if (initialSyncDone) return;
-
-    // Two-way sync: push local → Supabase, then pull Supabase → local.
-    // Both steps wrapped in a single async IIFE so Step 1 (push) fully
-    // completes before Step 2 (pull) runs — preventing the race condition
-    // where a synchronous pull overwrites local data that hasn't been pushed yet.
-    (async () => {
-      // Step 1: Push local data to Supabase FIRST (AWAITED), so it's not lost
-      // when we pull. This prevents the "disappearing logs" bug where Supabase
-      // data overwrites local records that were never pushed to the cloud.
-      const confirmedVehicleIds = new Set(
-        (supabaseVehicles.data || []).map(v => v.id)
-      );
-      for (const { local, supabase, key } of syncStores) {
-        const localData = local.data || [];
-        if (localData.length === 0) continue;
-        const supabaseIds = new Set((supabase.data || []).map(s => s.id));
-        const itemsToPush = localData.filter(item => !supabaseIds.has(item.id));
-        for (const item of itemsToPush) {
-          // Skip child rows whose parent vehicle_id isn't confirmed in Supabase
-          const isVehicleStore = key === STORAGE_KEYS.VEHICLES;
-          if (!isVehicleStore) {
-            const vehicleId = item.vehicleId || item.vehicle_id;
-            if (vehicleId && !confirmedVehicleIds.has(vehicleId)) {
-              continue;
-            }
-          }
-          try {
-            const result = await supabase.add(item);
-            if (isVehicleStore && result && !result.error) {
-              confirmedVehicleIds.add(result.id || item.id);
-            }
-            if (result?.error) {
-              console.warn(`[Sync] Failed to push ${item.id} to ${key}:`, result.message);
-              showSyncError(`Failed to sync ${key.replace('mtxtrkr_', '')} — tap Push to Cloud to retry`);
-            }
-          } catch (e) {
-            console.warn(`[Sync] Failed to push ${item.id} to ${key}:`, e);
-            showSyncError(`Failed to sync ${key.replace('mtxtrkr_', '')} — tap Push to Cloud to retry`);
-          }
-        }
-      }
-
-      // Step 2: Pull Supabase data into localStorage (runs AFTER Step 1 completes).
-      // Clear supabase cache before pull to prevent stale data fallback
-      // from a previous user's session contaminating the current user's data.
-      for (const { key } of syncStores) {
-        const cacheKey = `supabase_cache_${key.replace('mtxtrkr_', '')}`;
-        localStorage.removeItem(cacheKey);
-      }
-      for (const { local, supabase, key } of syncStores) {
-        const supabaseHasData = supabase.data && supabase.data.length > 0;
-
-        if (supabaseHasData) {
-          try {
-            localStorage.setItem(key, JSON.stringify(supabase.data));
-          } catch (e) {
-            // If quota exceeded (receipt images too large), try sanitized version
-            if (e.name === 'QuotaExceededError' || e.code === 22) {
-              console.warn(`[Sync] Quota exceeded for "${key}", trying sanitized...`);
-              try {
-                const sanitized = sanitizeForStorage(supabase.data);
-                localStorage.setItem(key, JSON.stringify(sanitized));
-              } catch (e2) {
-                console.warn(`[Sync] Still too large after sanitization for "${key}", keeping in memory only`, e2);
-                showSyncError(`Local storage full — could not save ${key.replace('mtxtrkr_', '')}. Free up space and try again.`);
-              }
-            } else {
-              console.warn(`[Sync] Failed to write "${key}" to localStorage:`, e);
-              showSyncError(`Could not save ${key.replace('mtxtrkr_', '')} locally — try refreshing.`);
-            }
-          }
-          local.setData(supabase.data);
-        } else {
-          // Fallback: if Supabase has no data but the migration restored data
-          // to localStorage (e.g. stale cache cleanup + re-migration), load it.
-          // This handles the case where mtxtrkr_* was wiped during PR #35 but
-          // supabase_* survived and was copied by the migration.
-          try {
-            const localRaw = localStorage.getItem(key);
-            const localParsed = localRaw ? JSON.parse(localRaw) : [];
-            if (Array.isArray(localParsed) && localParsed.length > 0 &&
-                (!local.data || local.data.length === 0)) {
-              local.setData(localParsed);
-            }
-          } catch (e) {
-            // Ignore corrupt localStorage
-          }
-        }
-      }
-      // Mark sync as complete even when both localStorage and Supabase
-      // are empty (new user, no data anywhere). An empty state is valid —
-      // we don't need to keep re-running the effect on every dependency change
-      // just because there was nothing to sync.
-      setInitialSyncDone(true);
-    })();
-  }, [
-  isAuthenticated, auth.user?.id, initialSyncDone,
-  supabaseVehicles.loading, supabaseLogs.loading, supabaseReminders.loading, supabaseFuelLogs.loading, supabaseMods.loading, supabaseDocuments.loading,
-  supabaseVehicles.data, supabaseLogs.data, supabaseReminders.data, supabaseFuelLogs.data, supabaseMods.data, supabaseDocuments.data
-]);
-
-  // Continuous background sync: push local data to Supabase when it changes
-  // Tracks { id → lastPushedUpdatedAt } so updated items are re-pushed.
-  // Uses upsert (via supabase.add) so both new and modified items sync correctly.
-  // All pushes run sequentially inside a single async IIFE — each store's pushes
-  // are awaited before the next store begins, preventing concurrent fire-and-forget
-  // operations that could race.
-  const pushedIdsRef = useRef({});
-  useEffect(() => {
-    if (!isAuthenticated || !auth.user?.id) return;
-
-    (async () => {
-      // Build confirmed vehicle IDs from Supabase data to prevent 409
-      // foreign-key constraint errors when parent vehicle rows are missing.
-      const confirmedVehicleIds = new Set(
-        (supabaseVehicles.data || []).map(v => v.id)
-      );
-      for (const { local, supabase, key } of syncStores) {
-        const localData = local.data || [];
-        if (localData.length === 0) continue;
-
-        const itemsToSync = localData.filter(item => {
-          const lastPushed = pushedIdsRef.current[item.id];
-          if (!lastPushed) return true; // never pushed
-          // Re-push if item was updated after last push
-          const itemUpdated = item.updatedAt || item.createdAt || '';
-          return itemUpdated > lastPushed;
-        });
-        if (itemsToSync.length === 0) continue;
-
-        for (const item of itemsToSync) {
-          // Skip child rows whose parent vehicle_id isn't confirmed in Supabase
-          // (prevents 409 foreign-key error storms from failed vehicle saves)
-          const isVehicleStore = key === STORAGE_KEYS.VEHICLES;
-          if (!isVehicleStore) {
-            const vehicleId = item.vehicleId || item.vehicle_id;
-            if (vehicleId && !confirmedVehicleIds.has(vehicleId)) {
-              continue; // Parent vehicle not confirmed in Supabase — skip
-            }
-          }
-          const itemTimestamp = item.updatedAt || item.createdAt || new Date().toISOString();
-          // Mark as pushed immediately to prevent duplicate attempts
-          pushedIdsRef.current[item.id] = itemTimestamp;
-          try {
-            const result = await supabase.add(item);
-            // If a vehicle was successfully pushed, add its ID to confirmed set
-            // so its child rows pushed later in this same sync pass are allowed.
-            if (isVehicleStore && result && !result.error) {
-              confirmedVehicleIds.add(result.id || item.id);
-            }
-            if (result?.error) {
-              console.error(`[Sync] Failed to push ${item.id} to ${key}:`, result.message);
-              showSyncError(`${key.replace('mtxtrkr_', '')}: failed to sync ${item.id} — tap Push to Cloud to retry`);
-              // Allow retry on failure — the add() function already tracks it in failedWrites
-              delete pushedIdsRef.current[item.id];
-            }
-          } catch (e) {
-            console.error(`[Sync] Failed to push ${item.id} to ${key}:`, e);
-            showSyncError(`${key.replace('mtxtrkr_', '')}: failed to sync ${item.id} — tap Push to Cloud to retry`);
-            // Allow retry on failure
-            delete pushedIdsRef.current[item.id];
-          }
-        }
-      }
-    })();
-      }, [isAuthenticated, auth.user?.id,
-        localVehicles.data, localLogs.data, localReminders.data,
-        localFuelLogs.data, localMods.data, localDocuments.data
-      ]);
-
-      // Auto-push to cloud when the app is closed or tab becomes hidden
-  // Uses visibilitychange which fires on both mobile (app switch, lock) and desktop (close tab, navigate away)
-  // Handler is async — all pushes are awaited before the tab fully suspends, reducing data loss risk.
-  useEffect(() => {
-    if (!isAuthenticated || !auth.user?.id) return;
-    const handleVisibilityChange = async () => {
-      if (document.visibilityState === 'hidden') {
-        // Build confirmed vehicle IDs from Supabase data to prevent 409
-        // foreign-key constraint errors when parent vehicle rows are missing.
-        const confirmedVehicleIds = new Set(
-          (supabaseVehicles.data || []).map(v => v.id)
-        );
-        // Push any unsynced (new or updated) items to Supabase — AWAITED sequentially
-        for (const { local, supabase, key } of syncStores) {
-          const localData = local.data || [];
-          if (localData.length === 0) continue;
-          const itemsToSync = localData.filter(item => {
-            const lastPushed = pushedIdsRef.current[item.id];
-            if (!lastPushed) return true;
-            const itemUpdated = item.updatedAt || item.createdAt || '';
-            return itemUpdated > lastPushed;
-          });
-          if (itemsToSync.length === 0) continue;
-          for (const item of itemsToSync) {
-            // Skip child rows whose parent vehicle_id isn't confirmed in Supabase
-            const isVehicleStore = key === STORAGE_KEYS.VEHICLES;
-            if (!isVehicleStore) {
-              const vehicleId = item.vehicleId || item.vehicle_id;
-              if (vehicleId && !confirmedVehicleIds.has(vehicleId)) {
-                continue;
-              }
-            }
-            const itemTimestamp = item.updatedAt || item.createdAt || new Date().toISOString();
-            pushedIdsRef.current[item.id] = itemTimestamp;
-            try {
-              const result = await supabase.add(item);
-              if (isVehicleStore && result && !result.error) {
-                confirmedVehicleIds.add(result.id || item.id);
-              }
-              if (result?.error) {
-                console.error('[VisibilitySync] Push failed:', result.message);
-                showSyncError(`${key.replace('mtxtrkr_', '')}: failed to sync ${item.id} — tap Push to Cloud to retry`);
-                delete pushedIdsRef.current[item.id];
-              }
-            } catch (e) {
-              console.error('[VisibilitySync] Push failed:', e);
-              showSyncError(`${key.replace('mtxtrkr_', '')}: failed to sync ${item.id} — tap Push to Cloud to retry`);
-              delete pushedIdsRef.current[item.id];
-            }
-          }
-        }
-      }
-    };
-    document.addEventListener('visibilitychange', handleVisibilityChange);
-    return () => document.removeEventListener('visibilitychange', handleVisibilityChange);
-      }, [isAuthenticated, auth.user?.id,
-        localVehicles.data, localLogs.data, localReminders.data,
-        localFuelLogs.data, localMods.data, localDocuments.data
-      ]);
+  // ── Sync engine (extracted to useSyncEngine hook) ──────────────────
+  const syncEngine = useSyncEngine({
+    isAuthenticated,
+    userId: auth.user?.id,
+    syncStores,
+    showSyncError,
+    analytics,
+    premium,
+    setPremium,
+    supabaseVehicles, supabaseLogs, supabaseReminders,
+    supabaseFuelLogs, supabaseMods, supabaseDocuments,
+    localVehicles, localLogs, localReminders,
+    localFuelLogs, localMods, localDocuments,
+  });
 
   const sync = useSyncStatus();
 
@@ -1194,171 +687,19 @@ export default function App() {
     sync.markChanged();
     }, [vehiclesStore, logsStore, remindersStore, fuelLogsStore, modsStore, documentsStore, sync, analytics, auth.user?.id]);
 
-  // Force sync from cloud — overwrites local data with Supabase data
-  // Used when switching devices or when cross-device sync didn't trigger automatically
+  // Force sync from cloud — thin wrapper around useSyncEngine
   const handleSyncFromCloud = useCallback(async () => {
-    if (!auth.user?.id) return { success: false, failedStores: [] };
-    // Reset pushed IDs so the background sync re-tracks all items after cloud pull
-    pushedIdsRef.current = {};
-    const tables = [
-      { table: 'vehicles', local: localVehicles, key: STORAGE_KEYS.VEHICLES },
-      { table: 'maintenance_logs', local: localLogs, key: STORAGE_KEYS.MAINTENANCE_LOGS },
-      { table: 'reminders', local: localReminders, key: STORAGE_KEYS.REMINDERS },
-      { table: 'fuel_logs', local: localFuelLogs, key: 'mtxtrkr_fuel_logs' },
-      { table: 'modifications', local: localMods, key: 'mtxtrkr_modifications' },
-      { table: 'documents', local: localDocuments, key: STORAGE_KEYS.DOCUMENTS },
-    ];
-    // Helper to convert snake_case keys to camelCase
-    const toCamel = (str) => str.replace(/([-_][a-z])/g, group => group.toUpperCase().replace('-', '').replace('_', ''));
-    const keysToCamel = (obj) => {
-      if (!obj || typeof obj !== 'object') return obj;
-      if (Array.isArray(obj)) return obj.map(keysToCamel);
-      const newObj = {};
-      for (const key in obj) {
-        newObj[toCamel(key)] = obj[key];
-      }
-      return newObj;
-    };
-    const failedStores = [];
-    for (const { table, local, key } of tables) {
-      try {
-        const { data, error } = await supabase
-          .from(table)
-          .select('*')
-          .eq('user_id', auth.user.id)
-          .order('created_at', { ascending: false });
-        if (error) throw error;
-        const camelData = keysToCamel(data || []);
-        if (camelData.length > 0) {
-          localStorage.setItem(key, JSON.stringify(camelData));
-          local.setData(camelData);
-        }
-      } catch (err) {
-        console.error(`[SyncFromCloud] Error fetching ${table}:`, err);
-        failedStores.push(table);
-      }
-    }
-    // Also sync premium status from Supabase
-    try {
-      const { data: profile } = await supabase
-        .from('profiles')
-        .select('premium')
-        .eq('id', auth.user.id)
-        .single();
-      if (profile?.premium === true) {
-        localStorage.setItem(STORAGE_KEYS.PREMIUM_STATUS, 'true');
-        setPremium(true);
-        // Always restore subscription data when DB says premium
-        // (same fix as the premium sync effect — no guard, unconditional restore).
-        setSubscriptionData({ plan: 'monthly', status: 'active', nextBilling: null });
-      }
-    } catch (err) {
-      console.error('[SyncFromCloud] Error fetching premium status:', err);
-    }
-    analytics.track('sync_from_cloud', { failedStores: failedStores.length > 0 ? failedStores : undefined });
+    const result = await syncEngine.handleSyncFromCloud();
     sync.markChanged();
-    return { success: failedStores.length === 0, failedStores };
-  }, [auth.user?.id, localVehicles, localLogs, localReminders, localFuelLogs, localMods, localDocuments, sync, analytics]);
+    return result;
+  }, [syncEngine.handleSyncFromCloud, sync]);
 
-  // Force push to cloud — sends all local data to Supabase (new + updated items)
-  // Used when the background sync didn't trigger automatically
+  // Force push to cloud — thin wrapper around useSyncEngine
   const handlePushToCloud = useCallback(async () => {
-    if (!auth.user?.id) return { success: false, failedStores: [] };
-    const stores = [
-      { local: localVehicles, supabase: supabaseVehicles, table: 'vehicles' },
-      { local: localLogs, supabase: supabaseLogs, table: 'maintenance_logs' },
-      { local: localReminders, supabase: supabaseReminders, table: 'reminders' },
-      { local: localFuelLogs, supabase: supabaseFuelLogs, table: 'fuel_logs' },
-      { local: localMods, supabase: supabaseMods, table: 'modifications' },
-      { local: localDocuments, supabase: supabaseDocuments, table: 'documents' },
-    ];
-    // Build confirmed vehicle IDs from Supabase data to prevent 409
-    // foreign-key constraint errors when parent vehicle rows are missing.
-    const confirmedVehicleIds = new Set(
-      (supabaseVehicles.data || []).map(v => v.id)
-    );
-    // Track which stores had any push failures — only clear failed writes for
-    // stores where every item pushed successfully, so failures are preserved
-    // for the user to retry.
-    const storesWithErrors = new Set();
-    const failedCounts = {};
-    const trackStoreFailure = (table) => {
-      storesWithErrors.add(table);
-      failedCounts[table] = (failedCounts[table] || 0) + 1;
-    };
-
-    for (const { local, supabase, table } of stores) {
-      const localData = local.data || [];
-      if (localData.length === 0) continue;
-      // Push items that are new OR updated since last cloud sync
-      const supabaseMap = new Map((supabase.data || []).map(s => [s.id, s]));
-      const itemsToSync = localData.filter(item => {
-        const cloud = supabaseMap.get(item.id);
-        if (!cloud) return true; // new item
-        const localUpdated = item.updatedAt || item.createdAt || '';
-        const cloudUpdated = cloud.updatedAt || cloud.createdAt || '';
-        return localUpdated > cloudUpdated; // locally updated
-      });
-      if (itemsToSync.length === 0) continue;
-      const now = new Date().toISOString();
-      for (const item of itemsToSync) {
-        // Skip child rows whose parent vehicle_id isn't confirmed in Supabase
-        const isVehicleStore = table === 'vehicles';
-        if (!isVehicleStore) {
-          const vehicleId = item.vehicleId || item.vehicle_id;
-          if (vehicleId && !confirmedVehicleIds.has(vehicleId)) {
-            continue;
-          }
-        }
-        let result;
-        try {
-          result = await supabase.add(item);
-        } catch (error) {
-          console.error(`[PushToCloud] Unexpected error pushing ${item.id} to ${table}:`, error);
-          trackStoreFailure(table);
-          continue;
-        }
-
-        if (isVehicleStore && result && !result.error) {
-          confirmedVehicleIds.add(result.id || item.id);
-        }
-        if (result?.error) {
-          trackStoreFailure(table);
-        } else {
-          // Track in push ref so background sync doesn't re-push
-          pushedIdsRef.current[item.id] = item.updatedAt || item.createdAt || now;
-        }
-      }
-    }
-
-    const failedStores = Object.entries(failedCounts).map(([store, failedCount]) => ({
-      store,
-      failedCount,
-    }));
-
-    if (failedStores.length > 0) {
-      showSyncError('Some items failed to push — try again');
-    }
-
-    // Only clear failed write trackers for stores that had zero push errors.
-    // Failed stores preserve their failed writes so the user knows and can retry.
-    if (!storesWithErrors.has('vehicles')) supabaseVehicles.clearAllFailedWrites();
-    if (!storesWithErrors.has('maintenance_logs')) supabaseLogs.clearAllFailedWrites();
-    if (!storesWithErrors.has('reminders')) supabaseReminders.clearAllFailedWrites();
-    if (!storesWithErrors.has('fuel_logs')) supabaseFuelLogs.clearAllFailedWrites();
-    if (!storesWithErrors.has('modifications')) supabaseMods.clearAllFailedWrites();
-    if (!storesWithErrors.has('documents')) supabaseDocuments.clearAllFailedWrites();
-    // Also push premium status (only if already premium — don't escalate free users)
-    if (premium) {
-      localStorage.setItem(STORAGE_KEYS.PREMIUM_STATUS, 'true');
-      await supabase.from('profiles').upsert({ id: auth.user.id, premium: true });
-    }
-    analytics.track('push_to_cloud', {
-      failedStores: failedStores.length > 0 ? failedStores : undefined,
-    });
+    const result = await syncEngine.handlePushToCloud();
     sync.markChanged();
-    return { success: failedStores.length === 0, failedStores };
-  }, [auth.user?.id, premium, localVehicles, localLogs, localReminders, localFuelLogs, localMods, localDocuments, supabaseVehicles, supabaseLogs, supabaseReminders, supabaseFuelLogs, supabaseMods, supabaseDocuments, sync, analytics]);
+    return result;
+  }, [syncEngine.handlePushToCloud, sync]);
 
   // Delete account — remove all data and sign out
   const handleDeleteAccount = useCallback(async () => {
@@ -1482,208 +823,51 @@ export default function App() {
   }
   */
 
-  // Render pages
-  if (page === 'landing') {
-    return (
-      <ErrorBoundary>
-        <LandingPage
-          onGetStarted={() => { analytics.track('landing_get_started'); setPage('auth'); }}
-          onViewPremium={() => { analytics.track('landing_view_premium'); setPage('premium'); }}
-        />
-        <SyncIndicator
-          isOnline={effectiveOnline}
-          syncing={sync.syncing}
-          lastSync={sync.lastSync}
-          pendingChanges={sync.pendingChanges}
-          forceOffline={forceOffline}
-          setForceOffline={setForceOffline}
-          hasUnsyncedChanges={hasUnsyncedChanges}
-        />
-      </ErrorBoundary>
-    );
-  }
-
-  if (page === 'premium') {
-    return (
-      <ErrorBoundary>
-        <PremiumPaywall
-        onClose={() => { analytics.track('premium_paywall_closed'); setPage('dashboard'); }}
-        onUpgrade={handleUpgrade}
-        userId={auth.user?.id}
-        trackEvent={analytics.track}
-      />
-      </ErrorBoundary>
-    );
-  }
-
-  const pages = {
-    dashboard: <Dashboard
-      vehicles={vehiclesStore.data}
-      logs={logsStore.data}
-      reminders={remindersStore.data}
-      fuelLogs={fuelLogsStore.data}
-      onNavigate={navigate}
-      onAddLog={addLog}
-      isPremium={premium}
-      selectedVehicleId={selectedVehicleId}
-      onSelectVehicle={handleSelectVehicle}
-      isAuthenticated={isAuthenticated}
-    />,
-    vehicles: <VehicleList
-      vehicles={vehiclesStore.data}
-      onAdd={addVehicle}
-      onEdit={(id, updates) => {
-        vehiclesStore.updateItem(id, updates);
-        sync.markChanged();
-      }}
-      onDelete={async (id) => {
-        vehiclesStore.remove(id);
-        const result = await supabaseVehicles.remove(id);
-        if (result?.error) showSyncError('Delete not synced to cloud — tap Push to Cloud to retry');
-        sync.markChanged();
-      }}
-      isPremium={premium}
-      vehicleCount={vehiclesStore.data.length}
-      onNavigate={navigate}
-    />,
-    logs: <MaintenanceLog
-      logs={logsStore.data}
-      vehicles={vehiclesStore.data}
-      onAdd={addLog}
-      onUpdate={(id, data) => {
-        logsStore.updateItem(id, data);
-        sync.markChanged();
-      }}
-      onDelete={async (id) => {
-        logsStore.remove(id);
-        const result = await supabaseLogs.remove(id);
-        if (result?.error) showSyncError('Delete not synced to cloud — tap Push to Cloud to retry');
-        sync.markChanged();
-      }}
-      onNavigate={navigate}
-      isPremium={premium}
-      selectedVehicleId={selectedVehicleId}
-    />,
-    reminders: <RemindersPage
-      reminders={remindersStore.data}
-      vehicles={vehiclesStore.data}
-      logs={logsStore.data}
-      onAdd={addReminder}
-      onUpdate={(id, updates) => {
-        remindersStore.updateItem(id, updates);
-        sync.markChanged();
-      }}
-      onDelete={async (id) => {
-        remindersStore.remove(id);
-        const result = await supabaseReminders.remove(id);
-        if (result?.error) showSyncError('Delete not synced to cloud — tap Push to Cloud to retry');
-        sync.markChanged();
-      }}
-      isPremium={premium}
-      onNavigate={navigate}
-      selectedVehicleId={selectedVehicleId}
-    />,
-    settings: <Settings
-      onReset={handleReset}
-      onDeleteAccount={handleDeleteAccount}
-      vehicles={vehiclesStore.data}
-      logs={logsStore.data}
-      reminders={remindersStore.data}
-      fuelLogs={fuelLogsStore.data}
-      modifications={modsStore.data}
-      isAuthenticated={isAuthenticated}
-      isPremium={premium}
-      onNavigate={navigate}
-      onLogout={handleLogout}
-      showCancelSubDialog={cancelSubDialog}
-      onDismissCancelSub={() => setCancelSubDialog(false)}
-      onSyncFromCloud={handleSyncFromCloud}
-      onPushToCloud={handlePushToCloud}
-    />,
-    mileage: <div className="p-4 max-w-4xl mx-auto">
-      <MileageChart logs={logsStore.data} vehicles={vehiclesStore.data} isPremium={premium} />
-    </div>,
-    schedule: <Suspense fallback={<PageLoader />}><MaintenanceSchedule
-      vehicle={vehiclesStore.data.find(v => v.id === selectedVehicleId) || vehiclesStore.data[0] || null}
-      logs={logsStore.data}
-      onAddLog={addLog}
-      onNavigate={navigate}
-      selectedVehicleId={selectedVehicleId}
-    /></Suspense>,
-    fuel: <FuelLog
-      logs={fuelLogsStore.data}
-      vehicles={vehiclesStore.data}
-      onAdd={(data) => { fuelLogsStore.add(data); sync.markChanged(); }}
-      onDelete={async (id) => {
-        fuelLogsStore.remove(id);
-        const result = await supabaseFuelLogs.remove(id);
-        if (result?.error) showSyncError('Delete not synced to cloud — tap Push to Cloud to retry');
-        sync.markChanged();
-      }}
-      onUpdate={(id, data) => { fuelLogsStore.updateItem(id, data); sync.markChanged(); }}
-      selectedVehicleId={selectedVehicleId}
-    />,
-    mods: <Modifications
-      mods={modsStore.data}
-      vehicles={vehiclesStore.data}
-      onAdd={(data) => { modsStore.add(data); sync.markChanged(); }}
-      onUpdate={(id, data) => { modsStore.updateItem(id, data); sync.markChanged(); }}
-      onDelete={async (id) => {
-        modsStore.remove(id);
-        const result = await supabaseMods.remove(id);
-        if (result?.error) showSyncError('Delete not synced to cloud — tap Push to Cloud to retry');
-        sync.markChanged();
-      }}
-      onNavigate={navigate}
-      isPremium={premium}
-      selectedVehicleId={selectedVehicleId}
-    />,
-    documents: <DocumentsPage
-      documents={localDocuments.data}
-      onAddDocument={handleAddDocument}
-      onDeleteDocument={handleDeleteDocument}
-      vehicles={vehiclesStore.data}
-      onNavigate={navigate}
-      userId={auth.user?.id}
-    />,
-    wiring: <Suspense fallback={<PageLoader />}><FuseBox
-      selectedVehicle={vehiclesStore.data.find(v => v.id === selectedVehicleId) || vehiclesStore.data[0] || null}
-    /></Suspense>,
-    subscription: <SubscriptionManagement
-      userId={auth.user?.id}
-      isPremium={premium}
-      onNavigate={navigate}
-      trackEvent={analytics.track}
-    />,
-    contact: <ContactSupport
-      onNavigate={navigate}
-    />,
-    auth: <AuthPage onAuth={auth} onNavigate={navigate} />,
-  };
-
+  // Render via Router
   return (
-    <ErrorBoundary>
-      {/* Sync error banner — shown when a Supabase write fails */}
-      {syncError && (
-        <div className="fixed top-0 left-0 right-0 z-50 bg-red-600/90 backdrop-blur-sm text-white text-sm py-2 px-4 text-center font-medium animate-pulse cursor-pointer"
-          onClick={() => setSyncError(null)}>
-          <span className="mr-2">⚠</span>
-          {syncError}
-          <span className="ml-2 text-xs opacity-70">(tap to dismiss)</span>
-        </div>
-      )}
-      <Layout currentPage={page} onNavigate={navigate} onLogout={handleLogout}>
-        {(!isAuthenticated && !auth.loading && page !== 'landing' && page !== 'premium') ? pages.auth : (pages[page] || pages.dashboard)}
-      </Layout>
-      <SyncIndicator
-        isOnline={effectiveOnline}
-        syncing={sync.syncing}
-        lastSync={sync.lastSync}
-        pendingChanges={sync.pendingChanges}
-        forceOffline={forceOffline}
-        setForceOffline={setForceOffline}
-        hasUnsyncedChanges={hasUnsyncedChanges}
-      />
-    </ErrorBoundary>
+    <Router
+      page={page}
+      setPage={setPage}
+      navigate={navigate}
+      auth={auth}
+      isAuthenticated={isAuthenticated}
+      premium={premium}
+      cancelSubDialog={cancelSubDialog}
+      setCancelSubDialog={setCancelSubDialog}
+      sync={sync}
+      effectiveOnline={effectiveOnline}
+      forceOffline={forceOffline}
+      setForceOffline={setForceOffline}
+      hasUnsyncedChanges={hasUnsyncedChanges}
+      syncError={syncError}
+      setSyncError={setSyncError}
+      showSyncError={showSyncError}
+      selectedVehicleId={selectedVehicleId}
+      handleSelectVehicle={handleSelectVehicle}
+      vehiclesStore={vehiclesStore}
+      logsStore={logsStore}
+      remindersStore={remindersStore}
+      fuelLogsStore={fuelLogsStore}
+      modsStore={modsStore}
+      localDocuments={localDocuments}
+      supabaseVehicles={supabaseVehicles}
+      supabaseLogs={supabaseLogs}
+      supabaseReminders={supabaseReminders}
+      supabaseFuelLogs={supabaseFuelLogs}
+      supabaseMods={supabaseMods}
+      supabaseDocuments={supabaseDocuments}
+      handleLogout={handleLogout}
+      addVehicle={addVehicle}
+      addLog={addLog}
+      addReminder={addReminder}
+      handleAddDocument={handleAddDocument}
+      handleDeleteDocument={handleDeleteDocument}
+      handleReset={handleReset}
+      handleDeleteAccount={handleDeleteAccount}
+      handleUpgrade={handleUpgrade}
+      handleSyncFromCloud={handleSyncFromCloud}
+      handlePushToCloud={handlePushToCloud}
+      analytics={analytics}
+    />
   );
 }
