@@ -1,3 +1,4 @@
+// Named imports are tree-shaken by Vite/Rollup — only imported icons are bundled.
 import {
   Car, Bell, Cloud, Shield, Star, CheckCircle, ChevronRight, ArrowRight,
   Smartphone, Wifi, BarChart3, DollarSign, Clock, Upload,
