@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import {
       X, Plus, ClipboardList, Trash2, FileText, Upload, Calendar, DollarSign,
       Gauge, CheckCircle2, Loader2, Pencil, Cloud, ScanLine, ChevronUp
@@ -7,7 +7,8 @@ import { formatDate, formatCurrency, formatNumber } from '../utils/helpers';
 import { SERVICE_TYPES } from '../utils/constants';
 import { getScheduleForVehicle } from '../data/maintenance-schedules';
 import { isSameService } from '../utils/serviceMatcher';
-import ReceiptScanner from './ReceiptScanner.jsx';
+// Lazy-loaded — tesseract.js (~1.5MB) is only pulled when the user opens the scanner
+const ReceiptScanner = lazy(() => import('./ReceiptScanner.jsx'));
 
 import oilIcon from '../assets/folder-icons/oil-drop.svg';
 import tireIcon from '../assets/folder-icons/tire.svg';
@@ -449,14 +450,24 @@ export default function MaintenanceLog({ logs, vehicles, onAdd, onUpdate, onDele
         />
       )}
 
-      {/* Receipt Scanner Modal */}
+      {/* Receipt Scanner Modal — lazy-loaded to defer tesseract.js (~1.5MB) */}
       {(showScanner) && (
-        <ReceiptScanner
-          vehicles={vehicles}
-          onSave={(data) => { onAdd(data); setShowScanner(false); }}
-          onClose={() => setShowScanner(false)}
-          isPremium={isPremium}
-        />
+        <Suspense fallback={
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+            <div className="bg-slate-900 border border-slate-800 rounded-2xl p-8 shadow-2xl text-center">
+              <Loader2 className="w-8 h-8 text-blue-400 animate-spin mx-auto mb-3" />
+              <p className="text-sm text-slate-300 font-medium">Loading receipt scanner…</p>
+              <p className="text-xs text-slate-500 mt-1">Preparing OCR engine</p>
+            </div>
+          </div>
+        }>
+          <ReceiptScanner
+            vehicles={vehicles}
+            onSave={(data) => { onAdd(data); setShowScanner(false); }}
+            onClose={() => setShowScanner(false)}
+            isPremium={isPremium}
+          />
+        </Suspense>
       )}
     </div>
   );
