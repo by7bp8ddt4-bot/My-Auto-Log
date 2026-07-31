@@ -1,17 +1,18 @@
-# React + Vite
+# MTXtrkr
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Your Owner's Manual Simplified.**
 
-Currently, two official plugins are available:
+MTXtrkr is a multi-vehicle maintenance tracker that turns fragmented service data into actionable vehicle longevity. Track 10 vehicle types — from cars and trucks to motorcycles, marine vessels, agricultural equipment, forklifts, and RVs — all in one place.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **AI Co-Pilot:** Client-side AI translates mechanic jargon, diagnoses symptoms, and answers vehicle questions — no API calls, works offline.
+- **Maintenance Schedules:** Manufacturer-specific intervals for 65+ makes, with color-coded severity timelines and custom reminders.
+- **Quick Reference:** Fuse box diagrams, fluid types and capacities, tire pressures, bulb types, and OBD-II port locations — everything you'd dig through an owner's manual for.
+- **Document Storage:** Upload registration, insurance, and warranty docs with expiry tracking.
+- **Fuel & Mods Tracking:** Log fuel-ups with auto-calculated MPG, and track performance modifications.
+- **Resale Reports:** Generate verifiable service histories to maximize resale value.
 
-## React Compiler
+**Live at [mtxtrkr.com](https://mtxtrkr.com)**
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
-✓ Force deploy Mon Jun 29 22:29:44 UTC 2026
+*This repository is for the MTXtrkr development team only. Not intended for public contribution.*
