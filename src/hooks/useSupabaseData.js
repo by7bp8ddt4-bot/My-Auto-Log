@@ -461,10 +461,10 @@ export function useSupabaseAuth() {
         try {
           const { error } = await supabase.from('profiles').upsert({ id: s.user.id, email: s.user.email });
           if (error) {
-            console.warn('[useSupabaseAuth] profile upsert warning:', error.message);
+            console.error('[useSupabaseAuth] profile upsert warning:', error.message);
           }
         } catch (err) {
-          console.warn('[useSupabaseAuth] profile upsert error:', err);
+          console.error('[useSupabaseAuth] profile upsert error:', err);
         }
       }
       if (!s) {
@@ -501,13 +501,13 @@ export function useSupabaseAuth() {
             email: session.user.email,
           }).then(({ error }) => {
             if (error) {
-              console.warn('[useSupabaseAuth] profile upsert warning:', error.message);
+              console.error('[useSupabaseAuth] profile upsert warning:', error.message);
             }
           }).catch(err => {
-            console.warn('[useSupabaseAuth] profile upsert warning:', err?.message || err);
+            console.error('[useSupabaseAuth] profile upsert warning:', err?.message || err);
           });
         } catch (e) {
-          console.warn('[useSupabaseAuth] profile upsert error:', e);
+          console.error('[useSupabaseAuth] profile upsert error:', e);
         }
       }
       // Clear any previous auth error on successful sign-in
@@ -526,31 +526,11 @@ export function useSupabaseAuth() {
         emailRedirectTo: window.location.origin,
       }
     });
-    if (data?.user) {
-      try {
-        const { error: profileError } = await supabase.from('profiles').upsert({ id: data.user.id, email: data.user.email });
-        if (profileError) {
-          console.warn('[useSupabaseAuth] signUp profile upsert warning:', profileError.message);
-        }
-      } catch (err) {
-        console.warn('[useSupabaseAuth] signUp profile upsert error:', err);
-      }
-    }
     return { data, error };
   }, []);
 
   const signIn = useCallback(async (email, password) => {
     const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-    if (data?.user) {
-      try {
-        const { error: profileError } = await supabase.from('profiles').upsert({ id: data.user.id, email: data.user.email });
-        if (profileError) {
-          console.warn('[useSupabaseAuth] signIn profile upsert warning:', profileError.message);
-        }
-      } catch (err) {
-        console.warn('[useSupabaseAuth] signIn profile upsert error:', err);
-      }
-    }
     return { data, error };
   }, []);
 
