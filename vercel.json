@@ -1,5 +1,7 @@
 {
   "redirects": [
+    { "source": "/auth/", "destination": "/auth", "permanent": true },
+    { "source": "/settings/", "destination": "/settings", "permanent": true },
     {
       "source": "/:path*",
       "has": [
