@@ -2,7 +2,8 @@ import { useState, useCallback, useEffect, useRef } from 'react';
 import Router from './router.jsx';
 import SubscriptionManagement, { setSubscriptionData, getSubscriptionData, clearSubscriptionData } from './components/SubscriptionManagement.jsx';
 import { setupGlobalErrorHandlers } from './components/ErrorBoundary.jsx';
-import { useSupabaseData, useSupabaseAuth, filterForTable } from './hooks/useSupabaseData.js';
+import { useSupabaseData, filterForTable } from './hooks/useSupabaseData.js';
+import useAuthState from './hooks/useAuthState.js';
 import { useLocalStorage, useSyncStatus, sanitizeForStorage } from './hooks/useLocalStorage.js';
 import useAnalytics from './hooks/useAnalytics.js';
 import { STORAGE_KEYS } from './utils/constants.js';
@@ -48,9 +49,26 @@ export default function App() {
     } catch(e) {}
     return 'landing';
   });
-  const [premium, setPremium] = useState(() => {
-    return localStorage.getItem(STORAGE_KEYS.PREMIUM_STATUS) === 'true';
-  });
+  // Supabase auth + premium state (extracted to useAuthState hook)
+  const authState = useAuthState();
+
+  // Destructure for convenience — preserves all existing variable names
+  const {
+    user, loading: authLoading, isRecovery: authIsRecovery,
+    authError, clearAuthError, signUp, signIn, signInWithGoogle,
+    signInWithApple, signOut: authSignOut, resetPassword, updatePassword,
+    checkPremium, setPremiumStatus, clearRecovery,
+    isAuthenticated, premium, setPremium,
+  } = authState;
+
+  // Legacy auth object — used by pages that expect { user, signIn, ... }
+  const auth = {
+    user, loading: authLoading, isRecovery: authIsRecovery,
+    authError, clearAuthError, signUp, signIn, signInWithGoogle,
+    signInWithApple, signOut: authSignOut, resetPassword, updatePassword,
+    checkPremium, setPremiumStatus, clearRecovery,
+  };
+
   const [forceOffline, setForceOffline] = useState(false);
   const [cancelSubDialog, setCancelSubDialog] = useState(false);
   const [syncError, setSyncError] = useState(null); // temporary error banner for failed Supabase writes
@@ -68,12 +86,8 @@ export default function App() {
     localStorage.setItem('mtxtrkr_selected_vehicle', id);
   }, []);
 
-  // Supabase auth
-  const auth = useSupabaseAuth();
-  const isAuthenticated = !!auth.user;
-
   // Analytics hook — auto-tracks page views and user identity (after auth)
-  const analytics = useAnalytics(page, auth.user, premium);
+  const analytics = useAnalytics(page, user, premium);
 
   // Activate premium from URL parameter (mobile-friendly activation link)
   useEffect(() => {
@@ -376,166 +390,6 @@ export default function App() {
   const fuelLogsStore = localFuelLogs;
   const modsStore = localMods;
   const documentsStore = localDocuments;
-
-  // Premium persistence hardening
-  // Rule: automated sync can only grant/restore premium, never remove it.
-  const persistPremiumBackup = useCallback(async (userId) => {
-    if (!userId) return;
-    try {
-      const { error } = await supabase
-        .from('profiles')
-        .upsert({ id: userId, premium: true, updated_at: new Date().toISOString() });
-      if (error) {
-        console.warn('[Premium Sync] Failed to persist premium backup:', error);
-      }
-    } catch (error) {
-      console.warn('[Premium Sync] Failed to persist premium backup:', error);
-    }
-  }, []);
-
-  const fetchProfilePremium = useCallback(async (userId) => {
-    if (!userId) return { ok: false, premium: null };
-    try {
-      const { data, error } = await supabase
-        .from('profiles')
-        .select('premium')
-        .eq('id', userId)
-        .maybeSingle();
-
-      if (error) {
-        console.warn('[Premium Sync] Premium query failed:', {
-          message: error.message,
-          code: error.code,
-          details: error.details,
-          hint: error.hint,
-        });
-        console.log('[Premium Sync] DB response: premium=null, ok=false');
-        return { ok: false, premium: null };
-      }
-
-      const premiumValue = data?.premium ?? null;
-      console.log(`[Premium Sync] DB response: premium=${String(premiumValue)}, ok=true`);
-      return { ok: true, premium: premiumValue };
-    } catch (error) {
-      console.warn('[Premium Sync] Premium query failed:', {
-        message: error?.message,
-        code: error?.code,
-        details: error?.details,
-        hint: error?.hint,
-      });
-      console.log('[Premium Sync] DB response: premium=null, ok=false');
-      return { ok: false, premium: null };
-    }
-  }, []);
-
-  // Sync premium status between Supabase and localStorage
-  // - Query profiles.premium directly (with retries on auth change)
-  // - Never auto-downgrade premium from DB false, empty result, or query failure
-  // - If local premium is true, always push it back to Supabase as backup
-  useEffect(() => {
-    if (!isAuthenticated || !auth.user?.id) return;
-
-    let cancelled = false;
-    const timeoutEntries = [];
-    const waitWithTimeout = (ms) => new Promise((resolve) => {
-      const entry = {
-        timeoutId: null,
-        resolve,
-      };
-      entry.timeoutId = setTimeout(() => {
-        const idx = timeoutEntries.indexOf(entry);
-        if (idx >= 0) timeoutEntries.splice(idx, 1);
-        resolve();
-      }, ms);
-      timeoutEntries.push(entry);
-    });
-
-    const syncPremiumStatus = async () => {
-      const localPremium = localStorage.getItem(STORAGE_KEYS.PREMIUM_STATUS) === 'true' || premium === true;
-
-      // Local premium is source-of-truth fallback — always back it up to DB.
-      if (localPremium) {
-        localStorage.setItem(STORAGE_KEYS.PREMIUM_STATUS, 'true');
-        if (!premium) setPremium(true);
-        await persistPremiumBackup(auth.user.id);
-      }
-
-      let result = null;
-      let attemptsCompleted = 0;
-      const attemptDelays = [0, 1000, 1000, 5000, 15000, 30000];
-
-      for (let index = 0; index < attemptDelays.length; index += 1) {
-        if (cancelled) return;
-
-        await waitWithTimeout(attemptDelays[index]);
-        if (cancelled) return;
-
-        const attemptNumber = index + 1;
-        attemptsCompleted = attemptNumber;
-        console.log(`[Premium Sync] Fetch attempt ${attemptNumber}/6`);
-
-        const query = await fetchProfilePremium(auth.user.id);
-        if (!query.ok) {
-          continue;
-        }
-
-        result = query;
-
-        if (query.premium === true) {
-          break;
-        }
-
-        if (query.premium === false) {
-          // Profile exists and explicitly says premium is false — respect it.
-          break;
-        }
-
-        // premium is null (no row yet / not populated) — keep retrying.
-      }
-
-      if (cancelled) return;
-
-      if (!result) {
-        if (attemptsCompleted >= 6) {
-          console.warn('[Premium Sync] Premium lookup failed after 6 attempts. Keeping local premium state.');
-        } else {
-          console.warn('[Premium Sync] Keeping local premium after profile query failure.');
-        }
-        return;
-      }
-
-      if (result.premium === true) {
-        setPremium(true);
-        localStorage.setItem(STORAGE_KEYS.PREMIUM_STATUS, 'true');
-        setSubscriptionData({ plan: 'monthly', status: 'active', nextBilling: null });
-        return;
-      }
-
-      if (result.premium === null) {
-        if (attemptsCompleted >= 6) {
-          console.warn('[Premium Sync] Premium remained null after 6 attempts. Keeping local premium state.');
-        }
-        return;
-      }
-
-      // DB responded with premium=false. Never auto-downgrade.
-      // If local premium is true, back it up again as a guardrail.
-      if (localStorage.getItem(STORAGE_KEYS.PREMIUM_STATUS) === 'true' || premium === true) {
-        await persistPremiumBackup(auth.user.id);
-      }
-    };
-
-    syncPremiumStatus();
-
-    return () => {
-      cancelled = true;
-      timeoutEntries.forEach(({ timeoutId, resolve }) => {
-        clearTimeout(timeoutId);
-        resolve();
-      });
-      timeoutEntries.length = 0;
-    };
-  }, [isAuthenticated, auth.user?.id, premium, fetchProfilePremium, persistPremiumBackup]);
 
   // Sync localStorage ↔ Supabase for data persistence
   // localStorage is always the primary source. Supabase is cloud backup.
