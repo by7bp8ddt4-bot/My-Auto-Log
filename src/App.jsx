@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect, useRef } from 'react';
+import { useState, useCallback, useEffect, useRef, lazy, Suspense } from 'react';
 import Layout from './components/Layout.jsx';
 import LandingPage from './components/LandingPage.jsx';
 import Dashboard from './components/Dashboard.jsx';
@@ -10,11 +10,9 @@ import PremiumPaywall from './components/PremiumPaywall.jsx';
 import Settings from './components/Settings.jsx';
 import SyncIndicator from './components/SyncIndicator.jsx';
 import AuthPage from './components/AuthPage.jsx';
-import MaintenanceSchedule from './components/MaintenanceSchedule.jsx';
 import FuelLog from './components/FuelLog.jsx';
 import MileageChart from './components/MileageChart.jsx';
 import Modifications from './components/Modifications.jsx';
-import FuseBox from './components/FuseBox.jsx';
 import ContactSupport from './components/ContactSupport.jsx';
 import SubscriptionManagement, { setSubscriptionData, getSubscriptionData, clearSubscriptionData } from './components/SubscriptionManagement.jsx';
 import ErrorBoundary, { setupGlobalErrorHandlers } from './components/ErrorBoundary.jsx';
@@ -22,9 +20,22 @@ import { useSupabaseData, useSupabaseAuth, filterForTable } from './hooks/useSup
 import { useLocalStorage, useSyncStatus, sanitizeForStorage } from './hooks/useLocalStorage.js';
 import useAnalytics from './hooks/useAnalytics.js';
 import { STORAGE_KEYS } from './utils/constants.js';
-import { generateAutoReminders, summarizeAutoReminders } from './utils/autoReminders.js';
-import { isSameService } from './hooks/useMaintenanceSchedule.js';
+import { isSameService } from './utils/serviceMatcher.js';
 import { supabase } from './lib/supabase.js';
+
+// Lazy-loaded page components — code-splits the heavy data files
+// (maintenance-schedules.js 192KB and fuse-boxes.js 188KB) out of the main bundle.
+const MaintenanceSchedule = lazy(() => import('./components/MaintenanceSchedule.jsx'));
+const FuseBox = lazy(() => import('./components/FuseBox.jsx'));
+
+// Lightweight loading fallback for lazy pages
+function PageLoader() {
+  return (
+    <div className="flex items-center justify-center py-20">
+      <div className="w-8 h-8 border-2 border-blue-500/30 border-t-blue-500 rounded-full animate-spin" />
+    </div>
+  );
+}
 
 // Migration: myautolog_ → mtxtrkr_ localStorage keys (runs once on import)
 try {
@@ -1028,7 +1039,7 @@ export default function App() {
     localVehicles, localLogs, localReminders, localFuelLogs, localMods, localDocuments]);
 
   // Add vehicle
-  const addVehicle = useCallback((data) => {
+  const addVehicle = useCallback(async (data) => {
     if (!premium && vehiclesStore.data.length >= 1) {
       analytics.track('premium_gate_hit', { gate: 'add_vehicle', vehicleCount: vehiclesStore.data.length });
       setPage('premium');
@@ -1040,14 +1051,22 @@ export default function App() {
     const savedVehicle = vehiclesStore.add(vehicleData);
 
     // Auto-create reminders from manufacturer schedule (via VIN-decoded make/model)
-    const autoReminders = generateAutoReminders(savedVehicle, remindersStore.data);
-    autoReminders.forEach(reminder => {
-      remindersStore.add(reminder);
-    });
-    
-    analytics.track('vehicle_added', { make: data.make, model: data.model, year: data.year, autoReminders: autoReminders.length });
-    if (autoReminders.length > 0) {
-      analytics.track('auto_reminders_created', { count: autoReminders.length });
+    // Dynamic import: autoReminders.js transitively imports maintenance-schedules.js (192KB),
+    // so we only load it when a user actually adds a vehicle.
+    try {
+      const { generateAutoReminders } = await import('./utils/autoReminders.js');
+      const autoReminders = generateAutoReminders(savedVehicle, remindersStore.data);
+      autoReminders.forEach(reminder => {
+        remindersStore.add(reminder);
+      });
+      
+      analytics.track('vehicle_added', { make: data.make, model: data.model, year: data.year, autoReminders: autoReminders.length });
+      if (autoReminders.length > 0) {
+        analytics.track('auto_reminders_created', { count: autoReminders.length });
+      }
+    } catch (e) {
+      console.warn('[addVehicle] Failed to load auto-reminders module:', e);
+      analytics.track('vehicle_added', { make: data.make, model: data.model, year: data.year, autoReminders: 0 });
     }
     sync.markChanged();
     // No longer redirect to dashboard on first vehicle — user stays on garage
@@ -1584,13 +1603,13 @@ export default function App() {
     mileage: <div className="p-4 max-w-4xl mx-auto">
       <MileageChart logs={logsStore.data} vehicles={vehiclesStore.data} isPremium={premium} />
     </div>,
-    schedule: <MaintenanceSchedule
+    schedule: <Suspense fallback={<PageLoader />}><MaintenanceSchedule
       vehicle={vehiclesStore.data.find(v => v.id === selectedVehicleId) || vehiclesStore.data[0] || null}
       logs={logsStore.data}
       onAddLog={addLog}
       onNavigate={navigate}
       selectedVehicleId={selectedVehicleId}
-    />,
+    /></Suspense>,
     fuel: <FuelLog
       logs={fuelLogsStore.data}
       vehicles={vehiclesStore.data}
@@ -1627,9 +1646,9 @@ export default function App() {
       onNavigate={navigate}
       userId={auth.user?.id}
     />,
-    wiring: <FuseBox
+    wiring: <Suspense fallback={<PageLoader />}><FuseBox
       selectedVehicle={vehiclesStore.data.find(v => v.id === selectedVehicleId) || vehiclesStore.data[0] || null}
-    />,
+    /></Suspense>,
     subscription: <SubscriptionManagement
       userId={auth.user?.id}
       isPremium={premium}
