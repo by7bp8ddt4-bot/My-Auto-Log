@@ -8,8 +8,8 @@ const allNavItems = [
   { id: 'vehicles', label: 'Garage', icon: Car },
   { id: 'schedule', label: 'Scheduled Maintenance', icon: Calendar },
   { id: 'logs', label: 'Service Logs', icon: ClipboardList },
-  { id: 'fuel', label: 'Fuel Logs', icon: Fuel },
   { id: 'mods', label: 'Performance Mods', icon: Wrench },
+  { id: 'fuel', label: 'Fuel Logs', icon: Fuel },
   { id: 'documents', label: 'Documents', icon: FileText },
   { id: 'wiring', label: 'Wiring Diagrams', icon: Zap },
   { id: 'reminders', label: 'Reminders', icon: Bell },
@@ -17,10 +17,10 @@ const allNavItems = [
 
 // Primary items shown in bottom nav; rest go in the More drawer
 const primaryNavItems = allNavItems.filter(i =>
-  ['dashboard', 'vehicles', 'schedule', 'logs', 'fuel'].includes(i.id)
+  ['dashboard', 'vehicles', 'schedule', 'logs'].includes(i.id)
 );
 const moreNavItems = allNavItems.filter(i =>
-  ['mods', 'documents', 'wiring', 'reminders'].includes(i.id)
+  ['mods', 'fuel', 'documents', 'wiring', 'reminders'].includes(i.id)
 );
 
 export default function Layout({ currentPage, onNavigate, onLogout, children }) {
