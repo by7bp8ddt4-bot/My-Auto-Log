@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import {
-  Car, AlertTriangle, Clock, DollarSign, Bell, Gauge,
+  Car, AlertTriangle, Clock, DollarSign, Gauge,
   TrendingUp, Wrench, ArrowUpRight, Calendar, Plus, Fuel,
   FileText, Download,
   Tractor, Package, Ship, Anchor, Cog
@@ -821,34 +821,6 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
           </p>
         </div>
       )}
-
-      {/* Quick Actions */}
-      <div className="mt-8 p-5 rounded-2xl bg-gradient-to-r from-blue-600/5 to-cyan-600/5 border border-blue-500/20">
-        <h3 className="text-sm font-semibold text-white mb-4">Quick Actions</h3>
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-          {[
-            { label: 'Log Service', icon: Wrench, action: 'logs' },
-            { label: 'Add Vehicle', icon: Car, action: 'vehicles' },
-            { label: 'Add Reminder', icon: Bell, action: 'reminders' },
-            ...(isPremium
-              ? [{ label: 'Resale Report', icon: FileText, action: 'logs' }]
-              : [{ label: 'View Premium', icon: TrendingUp, action: 'premium' }]
-            ),
-          ].map(q => {
-            const Icon = q.icon;
-            return (
-              <button
-                key={q.label}
-                onClick={() => onNavigate(q.action)}
-                className="flex flex-col items-center gap-2 p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 hover:border-blue-500/30 hover:bg-slate-900 transition-all"
-              >
-                <Icon className="w-5 h-5 text-blue-400" />
-                <span className="text-xs font-medium text-slate-300">{q.label}</span>
-              </button>
-            );
-          })}
-        </div>
-      </div>
 
       {isPremium ? (
         <div className="mt-6 p-5 rounded-2xl bg-slate-900/60 border border-slate-800">
