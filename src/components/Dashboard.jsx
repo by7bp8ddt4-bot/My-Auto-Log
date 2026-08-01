@@ -597,12 +597,12 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
 
         {/* Schedule Maintenance with Progress Bars */}
         <div className="p-5 rounded-2xl bg-slate-900/60 border border-slate-800">
-          <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center mb-4">
             <h3 className="text-sm font-semibold text-white flex items-center gap-2">
               <Calendar className="w-4 h-4 text-emerald-400" />
               Schedule Maintenance
             </h3>
-            <button onClick={() => onNavigate('schedule')} className="text-xs text-blue-400 hover:text-blue-300">
+            <button onClick={() => onNavigate('schedule')} className="ml-auto text-xs text-blue-400 hover:text-blue-300">
               View all
             </button>
           </div>
