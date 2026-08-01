@@ -116,7 +116,7 @@ export default function Layout({ currentPage, onNavigate, onLogout, children }) 
                 style={{ minHeight: '48px', minWidth: '56px' }}
               >
                 <Icon className={`w-5 h-5 ${isActive ? 'text-blue-400 drop-shadow-[0_0_8px_rgba(59,130,246,0.5)]' : ''}`} />
-                <span className={`text-[10px] font-medium ${isActive ? 'text-blue-400' : ''}`}>{item.label}</span>
+                <span className={`text-[10px] font-medium ${item.id === 'schedule' ? '-ml-10' : ''} ${isActive ? 'text-blue-400' : ''}`}>{item.label}</span>
                 {isActive && <div className="w-1 h-1 rounded-full bg-blue-400" />}
               </button>
             );
