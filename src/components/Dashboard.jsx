@@ -598,7 +598,7 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
         {/* Schedule Maintenance with Progress Bars */}
         <div className="p-5 rounded-2xl bg-slate-900/60 border border-slate-800">
           <div className="flex items-center mb-4">
-            <h3 className="text-sm font-semibold text-white flex items-center gap-2 ml-4">
+            <h3 className="text-sm font-semibold text-white flex items-center gap-2 ml-10">
               <Calendar className="w-4 h-4 text-emerald-400" />
               Schedule Maintenance
             </h3>
