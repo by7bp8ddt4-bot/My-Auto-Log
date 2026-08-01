@@ -537,12 +537,12 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
       <div className="grid lg:grid-cols-2 gap-6">
         {/* Recent Activity */}
         <div className="p-5 rounded-2xl bg-slate-900/60 border border-slate-800">
-          <div className="flex items-center mb-4">
+          <div className="flex items-center justify-between mb-4">
             <h3 className="text-sm font-semibold text-white flex items-center gap-2">
               <Clock className="w-4 h-4 text-blue-400" />
               Recent Activity
             </h3>
-            <button onClick={() => onNavigate('logs')} className="ml-auto text-xs text-blue-400 hover:text-blue-300">
+            <button onClick={() => onNavigate('logs')} className="text-xs text-blue-400 hover:text-blue-300">
               View all
             </button>
           </div>
