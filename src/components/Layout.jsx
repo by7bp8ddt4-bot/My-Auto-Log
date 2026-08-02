@@ -78,13 +78,13 @@ export default function Layout({ currentPage, onNavigate, onLogout, children }) 
                 <button
                   key={item.id}
                   onClick={() => onNavigate(item.id)}
-                  className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${
+                  className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${item.id === 'schedule' ? 'gap-0' : ''} ${
                     isActive
                       ? 'bg-blue-500/15 text-blue-400 shadow-sm'
                       : 'text-slate-400 hover:text-white hover:bg-slate-800/50'
                   }`}
                 >
-                  <Icon className="w-4.5 h-4.5" />
+                  <Icon className={`w-4.5 h-4.5 ${item.id === 'schedule' ? 'mr-3' : ''}`} />
                   <span className={item.id === 'schedule' ? '-ml-10' : ''}>{item.label}</span>
                   {isActive && <ChevronRight className="w-4 h-4 ml-auto" />}
                 </button>
