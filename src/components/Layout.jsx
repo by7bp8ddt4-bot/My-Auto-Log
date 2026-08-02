@@ -85,7 +85,7 @@ export default function Layout({ currentPage, onNavigate, onLogout, children }) 
                   }`}
                 >
                   <Icon className="w-4.5 h-4.5" />
-                  <span className={item.id === 'schedule' ? '-ml-10' : ''}>{item.label}</span>
+                  <span>{item.label}</span>
                   {isActive && <ChevronRight className="w-4 h-4 ml-auto" />}
                 </button>
               );
