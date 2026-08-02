@@ -6,7 +6,7 @@ import { LayoutDashboard, Car, ClipboardList, Bell, Settings, LogOut, ChevronRig
 const allNavItems = [
   { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { id: 'vehicles', label: 'Garage', icon: Car },
-  { id: 'schedule', label: 'Schedule', icon: Calendar },
+  { id: 'schedule', label: 'Scheduled Maintenance', icon: Calendar },
   { id: 'logs', label: 'Service Logs', icon: ClipboardList },
   { id: 'mods', label: 'Performance Mods', icon: Wrench },
   { id: 'fuel', label: 'Fuel Logs', icon: Fuel },
@@ -85,7 +85,7 @@ export default function Layout({ currentPage, onNavigate, onLogout, children }) 
                   }`}
                 >
                   <Icon className="w-4.5 h-4.5" />
-                  <span>{item.label}</span>
+                  <span className={item.id === 'schedule' ? '-ml-3' : ''}>{item.label}</span>
                   {isActive && <ChevronRight className="w-4 h-4 ml-auto" />}
                 </button>
               );
