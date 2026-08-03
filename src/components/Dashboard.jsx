@@ -456,83 +456,6 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
         </div>
       )}
 
-      {/* Maintenance Schedule Card */}
-      {activeVehicle && (
-        <div className="mb-8 p-5 rounded-2xl bg-slate-900/60 border border-slate-800">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-sm font-semibold text-white flex items-center gap-2">
-              <Calendar className="w-4 h-4 text-emerald-400" />
-              Your Vehicle's Maintenance Schedule
-            </h3>
-            <button 
-              onClick={() => onNavigate('schedule')}
-              className="text-xs text-blue-400 hover:text-blue-300 flex items-center gap-1"
-            >
-              Full Schedule <ArrowUpRight className="w-3 h-3" />
-            </button>
-          </div>
-          
-          <div className="flex items-center gap-4 mb-4 p-3 bg-slate-800/30 rounded-xl">
-            <ManufacturerBadge make={activeVehicle.make} size={24} />
-            <div className="flex-1">
-              <div className="text-xs text-slate-400 mb-1">Active Vehicle</div>
-              <div className="text-sm font-bold text-white">{activeVehicle.year} {activeVehicle.make} {activeVehicle.model}</div>
-            </div>
-            <div className="flex gap-2">
-              {overdueCount > 0 && (
-                <div className="px-2 py-1 rounded bg-red-500/10 border border-red-500/20 text-[10px] font-bold text-red-400">
-                  {overdueCount} OVERDUE
-                </div>
-              )}
-              {dueSoonCount > 0 && (
-                <div className="px-2 py-1 rounded bg-amber-500/10 border border-amber-500/20 text-[10px] font-bold text-amber-400">
-                  {dueSoonCount} DUE SOON
-                </div>
-              )}
-              {overdueCount === 0 && dueSoonCount === 0 && (
-                <div className="px-2 py-1 rounded bg-emerald-500/10 border border-emerald-500/20 text-[10px] font-bold text-emerald-400">
-                  ALL CAUGHT UP
-                </div>
-              )}
-            </div>
-          </div>
-
-          <div className="space-y-3">
-            {schedule.slice(0, 3).map((item, idx) => (
-              <div key={idx} className="flex items-center justify-between gap-3 p-3 rounded-xl bg-slate-950/40 border border-slate-800/50">
-                <div className="flex-1">
-                  <div className="text-xs font-bold text-white mb-0.5">{item.service}</div>
-                  <div className="text-[10px] text-slate-500">
-                    Due in {formatNumber(item.milesUntilDue)} mi / ~{Math.round(item.daysUntilDue / 30)} months
-                  </div>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-16 h-1 rounded-full bg-slate-800 overflow-hidden">
-                    <div 
-                      className={`h-full rounded-full ${item.status === 'overdue' ? 'bg-red-500' : item.status === 'due-soon' ? 'bg-amber-500' : 'bg-blue-500'}`}
-                      style={{ width: `${item.percentComplete}%` }}
-                    />
-                  </div>
-                  <button 
-                    onClick={() => {
-                      sessionStorage.setItem('mtxtrkr_pending_schedule_service', JSON.stringify({
-                        vehicleId: activeVehicle.id,
-                        serviceType: item.service,
-                      }));
-                      onNavigate('logs');
-                    }}
-                    className="p-1.5 rounded-lg bg-blue-600/20 hover:bg-blue-600/40 text-blue-400 transition-all"
-                    title="Log this service"
-                  >
-                    <Plus className="w-3.5 h-3.5" />
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
       {/* Recent Activity & Upcoming Reminders */}
       <div className="grid lg:grid-cols-2 gap-6">
         {/* Recent Activity */}
@@ -600,7 +523,7 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-sm font-semibold text-white flex items-center gap-2">
               <Calendar className="w-4 h-4 text-emerald-400" />
-              Schedule Maintenance
+              Scheduled Maintenance
             </h3>
             <button onClick={() => onNavigate('schedule')} className="text-xs text-blue-400 hover:text-blue-300">
               View all
