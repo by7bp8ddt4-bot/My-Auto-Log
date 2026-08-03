@@ -124,10 +124,14 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
     .slice(0, 6);
   const maxCatCost = sortedCategories.length > 0 ? Math.max(...sortedCategories.map(([_, v]) => v)) : 1;
 
-  // Compute last mileage update date across service + fuel logs for Update Mileage button
+  // Compute last mileage update date across service + fuel logs + vehicle edits for Update Mileage button
   const logDates = vehicleLogs.map(l => l.date).filter(Boolean);
   const fuelDates = vehicleFuelLogs.map(f => f.date).filter(Boolean);
-  const allDates = [...logDates, ...fuelDates];
+  const vehicleUpdateTs = activeVehicle?.updatedAt || activeVehicle?.updated_at;
+  const vehicleUpdateDate = vehicleUpdateTs
+    ? (typeof vehicleUpdateTs === 'string' ? vehicleUpdateTs.slice(0, 10) : vehicleUpdateTs)
+    : null;
+  const allDates = [...logDates, ...fuelDates, vehicleUpdateDate].filter(Boolean);
   const latestDateStr = allDates.length > 0 ? allDates.reduce((a, b) => a > b ? a : b) : null;
   const latestDate = latestDateStr ? new Date(latestDateStr + 'T00:00:00') : null;
   const todayStart = new Date(); todayStart.setHours(0, 0, 0, 0);
