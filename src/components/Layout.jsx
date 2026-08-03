@@ -78,7 +78,7 @@ export default function Layout({ currentPage, onNavigate, onLogout, children }) 
                 <button
                   key={item.id}
                   onClick={() => onNavigate(item.id)}
-                  className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${
+                  className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${item.id === 'schedule' ? 'pl-1.5' : ''} ${
                     isActive
                       ? 'bg-blue-500/15 text-blue-400 shadow-sm'
                       : 'text-slate-400 hover:text-white hover:bg-slate-800/50'
