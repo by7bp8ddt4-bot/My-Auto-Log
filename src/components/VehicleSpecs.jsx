@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
-import { Info, Gauge, Cog, Wrench, CircuitBoard, Car, Lightbulb, MapPin } from 'lucide-react';
+import { Info, Gauge, Cog, Wrench, CircuitBoard, Car, Lightbulb, MapPin, Zap, Battery } from 'lucide-react';
 import { referenceSpecs } from '../data/reference-specs.js';
+import { MAINTENANCE_SCHEDULES } from '../data/maintenance-schedules.js';
 
 /**
  * Matches a vehicle (make, model, year) to the appropriate reference specs data.
@@ -49,6 +50,17 @@ function findSpecs(make, model, year) {
   return null;
 }
 
+/**
+ * Looks up make-level specs from maintenance-schedules.js.
+ * This covers ALL 75+ makes — used as a fallback when reference-specs.js
+ * has no per-model match for the specific year range.
+ */
+function findMaintenanceSpecs(make, model) {
+  if (!make) return null;
+  const key = make.toLowerCase().trim().replace(/\s+/g, '-');
+  return MAINTENANCE_SCHEDULES[key]?.specs || null;
+}
+
 /** Renders a single spec row: label + value */
 function SpecRow({ label, value, className = '' }) {
   return (
@@ -77,9 +89,14 @@ function SpecSection({ icon: Icon, title, children }) {
 export default function VehicleSpecs({ selectedVehicle }) {
   const vehicle = selectedVehicle;
 
-  const specs = useMemo(() => {
+  const refSpecs = useMemo(() => {
     if (!vehicle) return null;
     return findSpecs(vehicle.make, vehicle.model, vehicle.year);
+  }, [vehicle]);
+
+  const msSpecs = useMemo(() => {
+    if (!vehicle) return null;
+    return findMaintenanceSpecs(vehicle.make, vehicle.model);
   }, [vehicle]);
 
   // No vehicle selected
@@ -95,8 +112,8 @@ export default function VehicleSpecs({ selectedVehicle }) {
     );
   }
 
-  // No specs data for this vehicle
-  if (!specs) {
+  // No specs data from either source
+  if (!refSpecs && !msSpecs) {
     return (
       <div className="max-w-4xl mx-auto">
         <div className="flex items-center justify-between mb-6">
@@ -117,6 +134,82 @@ export default function VehicleSpecs({ selectedVehicle }) {
       </div>
     );
   }
+
+  // Maintenance-schedules fallback layout (per-make data, no model-year granularity)
+  if (!refSpecs && msSpecs) {
+    const s = msSpecs;
+    return (
+      <div className="max-w-4xl mx-auto">
+        {/* Header */}
+        <div className="flex items-center justify-between mb-6">
+          <div>
+            <h2 className="text-xl font-bold text-white">Vehicle Specs</h2>
+            <p className="text-sm text-slate-400 mt-0.5">
+              {vehicle.year} {vehicle.make} {vehicle.model}
+            </p>
+          </div>
+        </div>
+
+        {/* Make-level fallback notice */}
+        <div className="bg-amber-900/20 border border-amber-800/40 rounded-lg px-4 py-3 mb-5 flex items-start gap-2.5">
+          <Info className="w-4 h-4 text-amber-400 mt-0.5 shrink-0" />
+          <p className="text-sm text-amber-300/90">
+            Make-level specifications — may vary by model year. Check your owner's manual to confirm.
+          </p>
+        </div>
+
+        <div className="space-y-4">
+          {/* Engine */}
+          <SpecSection icon={Gauge} title="Engine">
+            {s.oil?.viscosity && <SpecRow label="Oil Viscosity" value={s.oil.viscosity} />}
+            {s.oil?.type && <SpecRow label="Oil Type" value={s.oil.type} />}
+            {s.oil?.capacity && <SpecRow label="Oil Capacity" value={s.oil.capacity} />}
+            {s.coolant?.type && <SpecRow label="Coolant Type" value={s.coolant.type} />}
+          </SpecSection>
+
+          {/* Transmission */}
+          {s.transmission && (
+            <SpecSection icon={Cog} title="Transmission">
+              {s.transmission?.type && <SpecRow label="Fluid Type" value={s.transmission.type} />}
+              {s.transmission?.capacity && <SpecRow label="Capacity" value={s.transmission.capacity} />}
+            </SpecSection>
+          )}
+
+          {/* Brakes */}
+          {s.brakeFluid?.type && (
+            <SpecSection icon={Car} title="Brakes">
+              <SpecRow label="Brake Fluid Type" value={s.brakeFluid.type} />
+            </SpecSection>
+          )}
+
+          {/* Tires */}
+          {s.tirePressure?.psi != null && (
+            <SpecSection icon={Gauge} title="Tires">
+              <SpecRow label="Recommended PSI" value={`${s.tirePressure.psi} PSI`} />
+            </SpecSection>
+          )}
+
+          {/* Spark Plugs */}
+          {(s.sparkPlugs?.type || s.sparkPlugs?.gap) && (
+            <SpecSection icon={Zap} title="Spark Plugs">
+              {s.sparkPlugs?.type && <SpecRow label="Type" value={s.sparkPlugs.type} />}
+              {s.sparkPlugs?.gap && <SpecRow label="Gap" value={s.sparkPlugs.gap} />}
+            </SpecSection>
+          )}
+
+          {/* Battery */}
+          {s.battery?.groupSize && (
+            <SpecSection icon={Battery} title="Battery">
+              <SpecRow label="Group Size" value={s.battery.groupSize} />
+            </SpecSection>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  // Reference-specs layout (unchanged)
+  const specs = refSpecs;
 
   return (
     <div className="max-w-4xl mx-auto">
