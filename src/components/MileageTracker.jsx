@@ -398,13 +398,13 @@ export default function MileageTracker({ activeVehicle, vehicleLogs = [], isPrem
       {/* ════════════════════════════════════════
           YOUR MILEAGE STORY — narrative card
           ════════════════════════════════════════ */}
-      <div className="relative rounded-2xl bg-gradient-to-br from-[#16161f] to-[#12121a] border border-white/5 overflow-hidden">
+      <div className="relative rounded-xl bg-gradient-to-br from-[#16161f] to-[#12121a] border border-white/5 overflow-hidden">
         {/* Top accent line */}
         <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-[#2563eb] via-[#3b82f6] to-[#3b82f6]" />
 
-        <div className="p-6">
+        <div className="p-4">
           <div className="text-[10px] font-medium uppercase tracking-wider text-blue-400 mb-4">
-            📖 Your Mileage Story
+            📖 Mileage Story
           </div>
 
           <div className="text-sm sm:text-base leading-relaxed text-[#c0c0d0]">
@@ -420,7 +420,7 @@ export default function MileageTracker({ activeVehicle, vehicleLogs = [], isPrem
 
           {/* Three big-number summary cards */}
           <div className="flex gap-3 mt-5">
-            <div className="flex-1 rounded-xl bg-white/[0.02] border border-white/5 p-4 text-center">
+            <div className="flex-1 rounded-xl bg-white/[0.02] border border-white/5 p-3 text-center">
               <div className="text-[11px] font-semibold uppercase tracking-wider text-[#666] mb-1">Purchased</div>
               <div className="text-lg sm:text-xl font-bold tracking-tight text-white">
                 {purchaseMileage != null ? formatNumber(purchaseMileage) : '—'}
@@ -428,7 +428,7 @@ export default function MileageTracker({ activeVehicle, vehicleLogs = [], isPrem
               </div>
               <div className="text-[11px] text-[#555] mt-0.5">{purchaseDate ? formatDateShort(purchaseDate) : ''}</div>
             </div>
-            <div className="flex-1 rounded-xl bg-blue-900/10 border border-blue-900/20 p-4 text-center">
+            <div className="flex-1 rounded-xl bg-blue-900/10 border border-blue-900/20 p-3 text-center">
               <div className="text-[11px] font-semibold uppercase tracking-wider text-[#666] mb-1">Current</div>
               <div className="text-lg sm:text-xl font-bold tracking-tight text-blue-400">
                 {formatNumber(currentMileage)}
@@ -436,7 +436,7 @@ export default function MileageTracker({ activeVehicle, vehicleLogs = [], isPrem
               </div>
               <div className="text-[11px] text-[#555] mt-0.5">Today</div>
             </div>
-            <div className="flex-1 rounded-xl bg-white/[0.02] border border-white/5 p-4 text-center">
+            <div className="flex-1 rounded-xl bg-white/[0.02] border border-white/5 p-3 text-center">
               <div className="text-[11px] font-semibold uppercase tracking-wider text-[#666] mb-1">So Far</div>
               <div className="text-lg sm:text-xl font-bold tracking-tight text-white">
                 {drivenMileage != null ? formatNumber(drivenMileage) : '—'}
