@@ -393,7 +393,7 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-sm font-semibold text-white flex items-center gap-2">
               <TrendingUp className="w-4 h-4 text-blue-400" />
-              AI Mileage Prediction
+              Fuel Logging & Reports
             </h3>
             <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${
               aiMileagePrediction.confidence >= 70 ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' :
@@ -441,10 +441,10 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
         <div className="mb-8 p-5 rounded-2xl bg-gradient-to-r from-blue-600/5 to-cyan-600/5 border border-blue-500/20">
           <div className="flex items-center gap-2 mb-2">
             <TrendingUp className="w-4 h-4 text-blue-400" />
-            <h3 className="text-sm font-semibold text-white">AI Mileage Prediction</h3>
+            <h3 className="text-sm font-semibold text-white">Fuel Logging & Reports</h3>
           </div>
           <p className="text-xs text-slate-400 mb-3">
-            Log your first fill-up to unlock real AI-powered mileage predictions based on your driving patterns.
+            Log your first fill up
           </p>
           <button
             onClick={() => onNavigate('fuel')}
@@ -452,6 +452,25 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
           >
             <Fuel className="w-3.5 h-3.5" />
             Log Your First Fill-Up →
+          </button>
+        </div>
+      )}
+
+      {isPremium && !aiMileagePrediction && vehicleFuelLogs.length > 0 && (
+        <div className="mb-8 p-5 rounded-2xl bg-gradient-to-r from-blue-600/5 to-cyan-600/5 border border-blue-500/20">
+          <div className="flex items-center gap-2 mb-2">
+            <TrendingUp className="w-4 h-4 text-blue-400" />
+            <h3 className="text-sm font-semibold text-white">Fuel Logging & Reports</h3>
+          </div>
+          <p className="text-xs text-slate-400 mb-3">
+            Fuel Logging
+          </p>
+          <button
+            onClick={() => onNavigate('fuel')}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-blue-600/20 border border-blue-500/30 text-blue-400 text-xs font-medium hover:bg-blue-600/30 transition-all"
+          >
+            <Fuel className="w-3.5 h-3.5" />
+            View Fuel Logs →
           </button>
         </div>
       )}
