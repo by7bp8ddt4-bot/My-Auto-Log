@@ -3778,6 +3778,121 @@ for (const spaced of ['c 300', 'c 43', 'c 63', 'e 350', 'e 300', 'e 450', 'e 63'
   const unspaced = spaced.replace(/\s/g, '');
   if (referenceSpecs.mercedes[unspaced]) referenceSpecs.mercedes[spaced] = referenceSpecs.mercedes[unspaced];
 }
+// ── Wave 5 motorcycle reference data (2005-2025) ─────────────────────────────
+const motorcycleSpec = (engineDescription, oilViscosity, diagnosticLocation, shaftDrive = false) => ({
+  engine: { oilViscosity, oilCapacity: "Consult owner's manual", oilFilterPN: "Consult owner's manual", coolantType: "Consult owner's manual", coolantCapacity: "Consult owner's manual" },
+  transmission: { fluidType: `${oilViscosity} — shared engine/transmission oil; wet-clutch compatible (JASO MA/MA2)`, capacity: "Consult owner's manual", note: 'Motorcycle gearbox shares engine oil unless noted; verify exact model manual.' },
+  transferCase: null, differentials: { front: null, rear: shaftDrive ? { fluidType: 'Hypoid final-drive gear oil', capacity: "Consult owner's manual", note: 'Shaft-drive final drive; not a differential service on chain/belt models.' } : null },
+  brakeFluid: 'DOT 4 (DOT 5.1 where specified; never use silicone DOT 5)', tires: { frontPSI: 36, rearPSI: 42, oemSizes: ['120/70ZR17 front / 180/55ZR17 rear (common sport)', '100/90-19 front / 150/80B16 rear (common cruiser)'], lugNutTorque: 80 },
+  bulbs: { lowBeam: "Consult owner's manual", highBeam: "Consult owner's manual", frontTurn: "Consult owner's manual", rearTurn: "Consult owner's manual", tailBrake: "Consult owner's manual", interior: 'N/A', license: "Consult owner's manual" },
+  obd2Location: diagnosticLocation, note: engineDescription + '. Motorcycles generally do not use a standard OBD-II port; use the manufacturer diagnostic connector.'
+});
+const wave5Specs = {
+  'harley-davidson': {
+    'sportster': {
+      '2005-2006': motorcycleSpec('883/1200 Evolution air-cooled', '20W-50 motorcycle oil, JASO MA/MA2', 'Sportster diagnostic connector under seat/left side cover', false),
+      '2007-2022': motorcycleSpec('883/1200 Evolution air-cooled', '20W-50 motorcycle oil, JASO MA/MA2', '4-pin Harley diagnostic connector under seat or left side cover', false),
+    },
+    'softail': {
+      '2005-2016': motorcycleSpec('Twin Cam 88/96/103 air-cooled V-twin', '20W-50 motorcycle oil, JASO MA/MA2', '4-pin Harley diagnostic connector under seat', false),
+      '2017-2024': motorcycleSpec('Milwaukee-Eight 107/114/117 air-cooled/oil-cooled V-twin', '20W-50 motorcycle oil, JASO MA/MA2', 'Harley 4-pin diagnostic connector under seat/side cover', false),
+    },
+    'touring': {
+      '2005-2016': motorcycleSpec('Twin Cam 88/96/103 V-twin', '20W-50 motorcycle oil, JASO MA/MA2', 'Harley 4-pin diagnostic connector under seat or fairing', false),
+      '2017-2024': motorcycleSpec('Milwaukee-Eight 107/114/117 V-twin', '20W-50 motorcycle oil, JASO MA/MA2', 'Harley 4-pin diagnostic connector under seat or fairing', false),
+    },
+  },
+  'yamaha': {
+    'yzf-r6': {
+      '2005-2005': motorcycleSpec('600cc liquid-cooled inline-4', '10W-40 motorcycle oil, JASO MA/MA2', 'Yamaha 4-pin diagnostic coupler under rider seat', false),
+      '2006-2020': motorcycleSpec('600cc liquid-cooled inline-4', '10W-40 motorcycle oil, JASO MA/MA2', 'Yamaha 4-pin diagnostic coupler under rider seat', false),
+    },
+    'yzf-r1': {
+      '2005-2014': motorcycleSpec('998cc liquid-cooled inline-4', '10W-40 motorcycle oil, JASO MA/MA2', 'Yamaha diagnostic coupler under rider seat', false),
+      '2015-2024': motorcycleSpec('998cc crossplane inline-4', '10W-40 motorcycle oil, JASO MA/MA2', 'Yamaha diagnostic coupler under rider seat', false),
+    },
+    'mt-07': {
+      '2015-2017': motorcycleSpec('689cc liquid-cooled parallel twin (FZ-07)', '10W-40 motorcycle oil, JASO MA/MA2', 'Yamaha diagnostic coupler under rider seat', false),
+      '2018-2024': motorcycleSpec('689cc liquid-cooled parallel twin', '10W-40 motorcycle oil, JASO MA/MA2', 'Yamaha diagnostic coupler under rider seat', false),
+    },
+    'mt-09': {
+      '2014-2020': motorcycleSpec('847cc liquid-cooled inline triple (FZ-09)', '10W-40 motorcycle oil, JASO MA/MA2', 'Yamaha diagnostic coupler under rider seat', false),
+      '2021-2024': motorcycleSpec('890cc liquid-cooled inline triple', '10W-40 motorcycle oil, JASO MA/MA2', 'Yamaha diagnostic coupler under rider seat', false),
+    },
+  },
+  'honda': {
+    'cbr600rr': {
+      '2005-2006': motorcycleSpec('599cc liquid-cooled inline-4', '10W-40 motorcycle oil, JASO MA/MA2', 'Honda 4-pin DLC under seat', false),
+      '2007-2024': motorcycleSpec('599cc liquid-cooled inline-4', '10W-40 motorcycle oil, JASO MA/MA2', 'Honda 4-pin DLC under seat', false),
+    },
+    'cbr1000rr': {
+      '2005-2016': motorcycleSpec('999cc liquid-cooled inline-4 Fireblade', '10W-40 motorcycle oil, JASO MA/MA2', 'Honda 4-pin DLC under seat', false),
+      '2017-2024': motorcycleSpec('999cc liquid-cooled inline-4 Fireblade', '10W-40 motorcycle oil, JASO MA/MA2', 'Honda 4-pin DLC under seat', false),
+    },
+    'gold wing': {
+      '2005-2017': motorcycleSpec('1832cc liquid-cooled flat-6, shaft drive', '10W-30 motorcycle oil, JASO MA/MA2', 'Honda DLC under left side cover', true),
+      '2018-2024': motorcycleSpec('1833cc liquid-cooled flat-6, shaft drive', '10W-30 motorcycle oil, JASO MA/MA2', 'Honda DLC under left side cover', true),
+    },
+  },
+  'kawasaki': {
+    'ninja 650': {
+      '2006-2016': motorcycleSpec('649cc liquid-cooled parallel twin (ER-6f)', '10W-40 motorcycle oil, JASO MA/MA2', 'Kawasaki 4-pin diagnostic connector under seat', false),
+      '2017-2024': motorcycleSpec('649cc liquid-cooled parallel twin', '10W-40 motorcycle oil, JASO MA/MA2', 'Kawasaki 4-pin diagnostic connector under seat', false),
+    },
+    'ninja zx-6r': {
+      '2005-2008': motorcycleSpec('636cc liquid-cooled inline-4', '10W-40 motorcycle oil, JASO MA/MA2', 'Kawasaki diagnostic connector under seat', false),
+      '2009-2012': motorcycleSpec('599cc liquid-cooled inline-4', '10W-40 motorcycle oil, JASO MA/MA2', 'Kawasaki diagnostic connector under seat', false),
+      '2013-2024': motorcycleSpec('636cc liquid-cooled inline-4', '10W-40 motorcycle oil, JASO MA/MA2', 'Kawasaki diagnostic connector under seat', false),
+    },
+    'ninja zx-10r': {
+      '2005-2010': motorcycleSpec('998cc liquid-cooled inline-4', '10W-40 motorcycle oil, JASO MA/MA2', 'Kawasaki diagnostic connector under seat', false),
+      '2011-2024': motorcycleSpec('998cc liquid-cooled inline-4', '10W-40 motorcycle oil, JASO MA/MA2', 'Kawasaki diagnostic connector under seat', false),
+    },
+  },
+  'suzuki': {
+    'gsx-r600': {
+      '2005-2010': motorcycleSpec('599cc liquid-cooled inline-4', '10W-40 motorcycle oil, JASO MA/MA2', 'Suzuki SDS diagnostic connector under seat', false),
+      '2011-2024': motorcycleSpec('599cc liquid-cooled inline-4', '10W-40 motorcycle oil, JASO MA/MA2', 'Suzuki SDS diagnostic connector under seat', false),
+    },
+    'gsx-r750': {
+      '2005-2010': motorcycleSpec('750cc liquid-cooled inline-4', '10W-40 motorcycle oil, JASO MA/MA2', 'Suzuki SDS diagnostic connector under seat', false),
+      '2011-2024': motorcycleSpec('750cc liquid-cooled inline-4', '10W-40 motorcycle oil, JASO MA/MA2', 'Suzuki SDS diagnostic connector under seat', false),
+    },
+    'hayabusa': {
+      '2005-2007': motorcycleSpec('1299cc liquid-cooled inline-4', '10W-40 motorcycle oil, JASO MA/MA2', 'Suzuki SDS diagnostic connector under seat', false),
+      '2008-2020': motorcycleSpec('1340cc liquid-cooled inline-4', '10W-40 motorcycle oil, JASO MA/MA2', 'Suzuki SDS diagnostic connector under seat', false),
+      '2021-2024': motorcycleSpec('1340cc liquid-cooled inline-4', '10W-40 motorcycle oil, JASO MA/MA2', 'Suzuki SDS diagnostic connector under seat', false),
+    },
+  },
+  'bmw motorrad': {
+    'r1250gs': {
+      '2005-2012': motorcycleSpec('1170cc air/oil-cooled boxer, shaft drive (R1200GS)', '15W-50 motorcycle oil, JASO MA/MA2', 'BMW Motorrad 10-pin diagnostic connector under seat', true),
+      '2013-2018': motorcycleSpec('1170cc liquid-cooled boxer, shaft drive (R1200GS)', '5W-40 motorcycle oil, JASO MA/MA2', 'BMW Motorrad 10-pin diagnostic connector under seat', true),
+      '2019-2024': motorcycleSpec('1254cc liquid-cooled boxer, shaft drive', '5W-40 motorcycle oil, JASO MA/MA2', 'BMW Motorrad 10-pin diagnostic connector under seat', true),
+    },
+    's1000rr': {
+      '2010-2014': motorcycleSpec('999cc liquid-cooled inline-4', '5W-40 motorcycle oil, JASO MA/MA2', 'BMW Motorrad 10-pin diagnostic connector under passenger seat', false),
+      '2015-2018': motorcycleSpec('999cc liquid-cooled inline-4', '5W-40 motorcycle oil, JASO MA/MA2', 'BMW Motorrad 10-pin diagnostic connector under passenger seat', false),
+      '2019-2024': motorcycleSpec('999cc liquid-cooled inline-4', '5W-40 motorcycle oil, JASO MA/MA2', 'BMW Motorrad 10-pin diagnostic connector under passenger seat', false),
+    },
+  },
+  'indian': {
+    'scout': {
+      '2015-2020': motorcycleSpec('1133cc liquid-cooled V-twin', '15W-60 motorcycle oil, JASO MA/MA2', 'Indian 4-pin diagnostic connector under seat', false),
+      '2021-2024': motorcycleSpec('1250cc liquid-cooled V-twin', '15W-60 motorcycle oil, JASO MA/MA2', 'Indian 4-pin diagnostic connector under seat', false),
+    },
+    'chieftain': {
+      '2014-2018': motorcycleSpec('111ci (1811cc) air-cooled Thunder Stroke V-twin', '20W-40 motorcycle oil, JASO MA/MA2', 'Indian 4-pin diagnostic connector under seat', false),
+      '2019-2024': motorcycleSpec('116ci (1890cc) air-cooled Thunder Stroke V-twin', '20W-40 motorcycle oil, JASO MA/MA2', 'Indian 4-pin diagnostic connector under seat', false),
+    },
+  },
+};
+// Common VPIC aliases for motorcycle model names.
+wave5Specs.yamaha['fz-07'] = wave5Specs.yamaha['mt-07']; wave5Specs.yamaha['fz-09'] = wave5Specs.yamaha['mt-09'];
+wave5Specs.kawasaki['er-6f'] = wave5Specs.kawasaki['ninja 650'];
+wave5Specs.bmw = wave5Specs['bmw motorrad'];
+for (const [make, models] of Object.entries(wave5Specs)) { referenceSpecs[make] = referenceSpecs[make] || {}; for (const [model, years] of Object.entries(models)) referenceSpecs[make][model] = { ...referenceSpecs[make][model], ...years }; }
+
 // ── Wave 4 merge (Audi, Volvo, Lexus, Acura, Dodge, Chrysler, Tesla, Mitsubishi, Lincoln, Infiniti, Buick, Pontiac) ──────────
 // All 12 makes are new to reference-specs.js — per-model spread merge is safe.
 for (const make of Object.keys(wave4Specs)) {
