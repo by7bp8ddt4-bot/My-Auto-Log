@@ -124,15 +124,55 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
     .slice(0, 6);
   const maxCatCost = sortedCategories.length > 0 ? Math.max(...sortedCategories.map(([_, v]) => v)) : 1;
 
+  // Compute last mileage update date across service + fuel logs for Update Mileage button
+  const logDates = vehicleLogs.map(l => l.date).filter(Boolean);
+  const fuelDates = vehicleFuelLogs.map(f => f.date).filter(Boolean);
+  const allDates = [...logDates, ...fuelDates];
+  const latestDateStr = allDates.length > 0 ? allDates.reduce((a, b) => a > b ? a : b) : null;
+  const latestDate = latestDateStr ? new Date(latestDateStr + 'T00:00:00') : null;
+  const todayStart = new Date(); todayStart.setHours(0, 0, 0, 0);
+  const daysSinceUpdate = latestDate ? Math.floor((todayStart - latestDate) / (1000 * 60 * 60 * 24)) : Infinity;
+  const isMileageStale = daysSinceUpdate > 7;
+
   return (
     <div>
       {/* Welcome */}
       <div className="mb-6 flex items-center justify-between">
-        <div>
-          <h2 className="text-xl font-bold text-white">Dashboard</h2>
-          <p className="text-sm text-slate-400 mt-0.5">
-            {vehicles.length} {vehicles.length === 1 ? 'vehicle' : 'vehicles'} • {vehicleLogs.length} service records
-          </p>
+        <div className="flex items-center gap-3">
+          <div>
+            <h2 className="text-xl font-bold text-white">Dashboard</h2>
+            <p className="text-sm text-slate-400 mt-0.5">
+              {vehicles.length} {vehicles.length === 1 ? 'vehicle' : 'vehicles'} • {vehicleLogs.length} service records
+            </p>
+          </div>
+          {effectiveVehicleId && (
+            <div className="flex flex-col items-start">
+              <button 
+                onClick={() => {
+                  sessionStorage.setItem('mtxtrkr_pending_edit_vehicle', effectiveVehicleId);
+                  onNavigate('vehicles');
+                }}
+                className={`flex items-center gap-2 px-3 py-1.5 rounded-lg border text-xs font-medium transition-all ${
+                  isMileageStale 
+                    ? 'bg-red-600/20 border-red-500/30 text-red-400 hover:bg-red-600/30'
+                    : 'bg-emerald-600/20 border-emerald-500/30 text-emerald-400 hover:bg-emerald-600/30'
+                }`}
+              >
+                <Gauge className="w-3.5 h-3.5" />
+                Update Mileage
+              </button>
+              {isMileageStale && daysSinceUpdate !== Infinity && (
+                <span className="text-[10px] text-red-400/70 mt-0.5 ml-1">
+                  {daysSinceUpdate} days since last update
+                </span>
+              )}
+              {!isMileageStale && daysSinceUpdate !== Infinity && (
+                <span className="text-[10px] text-emerald-400/70 mt-0.5 ml-1">
+                  Updated {daysSinceUpdate === 0 ? 'today' : `${daysSinceUpdate} days ago`}
+                </span>
+              )}
+            </div>
+          )}
         </div>
         <button 
           onClick={() => onNavigate('fuel')}
