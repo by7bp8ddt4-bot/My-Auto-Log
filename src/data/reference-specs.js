@@ -5677,6 +5677,78 @@ for (const [make, models] of Object.entries(wave15Specs)) {
   referenceSpecs[make] = referenceSpecs[make] || {};
   for (const [model, years] of Object.entries(models)) referenceSpecs[make][model] = { ...referenceSpecs[make][model], ...years };
 }
+// ── Wave 16: final RV reference-spec audit gaps ─────────────────────────────
+// These models are present in MAINTENANCE_SCHEDULES but were not covered by
+// Wave 8. Values are chassis-level references; verify VIN/build-specific data
+// in both the chassis and coach owner's manuals.
+const wave16Specs = {
+  winnebago: {
+    solis: {
+      '2020-2025': rvSpec(
+        'Mercedes-Benz Sprinter chassis, 2.0L turbo-diesel',
+        'MB 229.52 5W-30 full-synthetic diesel oil',
+        'Mercedes-Benz 7G-Tronic automatic',
+        'Onan gasoline generator oil',
+        '2020-2025'
+      )
+    },
+    ekko: {
+      '2022-2025': rvSpec(
+        'Ford Transit AWD chassis, 3.5L EcoBoost V6 gasoline',
+        '5W-30 full-synthetic Ford-spec oil',
+        'Ford 10-speed automatic',
+        'Onan gasoline generator oil',
+        '2022-2025'
+      )
+    }
+  },
+  thor: {
+    'four winds': {
+      '2015-2025': rvSpec(
+        'Ford E-350/E-450 chassis, 7.3L Godzilla V8 or 6.8L Triton V10 gasoline',
+        '5W-20/5W-30 chassis oil (engine and model year dependent)',
+        'Ford TorqShift 6-speed automatic',
+        'Onan gasoline generator oil',
+        '2015-2025'
+      )
+    },
+    tellaro: {
+      '2022-2025': rvSpec(
+        'Ram ProMaster chassis, 3.6L Pentastar V6 gasoline',
+        '0W-20 full-synthetic oil',
+        'Ram 9-speed automatic, front-wheel drive',
+        'Onan gasoline generator oil',
+        '2022-2025'
+      )
+    }
+  },
+  airstream: {
+    atlas: {
+      '2019-2025': rvSpec(
+        'Mercedes-Benz Sprinter chassis, turbo-diesel',
+        'MB 229.52 5W-30 full-synthetic diesel oil',
+        'Mercedes-Benz 7G-Tronic/9G-Tronic automatic',
+        'Onan diesel generator oil',
+        '2019-2025'
+      )
+    },
+    bambi: {
+      '2015-2025': rvSpec(
+        'Trailer — no engine or transmission. See tow vehicle specs.',
+        'N/A — no chassis engine',
+        'N/A — travel trailer',
+        'N/A or consult generator manual',
+        '2015-2025'
+      )
+    }
+  }
+};
+for (const [make, models] of Object.entries(wave16Specs)) {
+  referenceSpecs[make] = referenceSpecs[make] || {};
+  for (const [model, years] of Object.entries(models)) {
+    referenceSpecs[make][model] = { ...referenceSpecs[make][model], ...years };
+  }
+}
 export default referenceSpecs;
 
 
