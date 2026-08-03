@@ -5309,6 +5309,45 @@ for (const [make, models] of Object.entries(wave9Specs)) {
   for (const [model, years] of Object.entries(models)) referenceSpecs[make][model] = { ...referenceSpecs[make][model], ...years };
 }
 
+
+// ── Wave 10: thin-auto coverage and high-value current aliases ─────────────
+const wave10Spec = ({ engine, oil = consult, oilCapacity = consult, transmission, tires = ['Consult owner\'s manual'], psi = consult, note, brake = 'DOT 3', obd = 'Under driver side dashboard, near the steering column.' }) => ({
+  engine: { oilViscosity: oil, oilCapacity, oilFilterPN: consult, coolantType: engine.includes('EV') ? 'EV thermal management coolant — consult owner\'s manual' : 'Manufacturer-specified long-life coolant', coolantCapacity: consult, description: engine },
+  transmission: { fluidType: transmission, capacity: consult },
+  transferCase: null,
+  differentials: { front: null, rear: null },
+  brakeFluid: brake,
+  tires: { frontPSI: psi, rearPSI: psi, oemSizes: tires, lugNutTorque: consult },
+  bulbs: { lowBeam: 'LED or halogen depending on trim — consult owner\'s manual', highBeam: 'LED or halogen depending on trim — consult owner\'s manual', frontTurn: 'Consult owner\'s manual', rearTurn: 'Consult owner\'s manual', tailBrake: 'Consult owner\'s manual', interior: 'LED or vehicle-specific bulb — consult owner\'s manual', license: 'Consult owner\'s manual' },
+  obd2Location: obd,
+  ...(note ? { note } : {})
+});
+const wave10EV = (engine, transmission, note) => wave10Spec({ engine: `${engine} EV — no engine oil or oil filter service`, oil: 'N/A — full battery electric vehicle; no engine oil change', oilCapacity: 'N/A — no internal-combustion engine', transmission, note, brake: 'DOT 4' });
+const wave10Specs = {
+  chrysler: { pacifica: { '2017-2025': wave10Spec({ engine: '3.6L Pentastar V6 gasoline / 3.6L Pentastar V6 plug-in hybrid', oil: '0W-20 full synthetic', oilCapacity: '5.0 qt with filter (gasoline); PHEV consult owner\'s manual', transmission: 'Mopar ZF 9-speed automatic; PHEV electronically variable transmission', tires: ['235/65R17', '235/60R18', '245/50R20'], psi: 36, note: 'FWD or AWD gasoline models; PHEV is front-wheel drive.' }) } },
+  pontiac: {
+    solstice: { '2006-2010': wave10Spec({ engine: '2.4L Ecotec I4; 2.0L turbocharged Ecotec I4 (GXP)', oil: '5W-30', oilCapacity: '5.0 qt with filter', transmission: '5-speed manual or 5-speed automatic', tires: ['225/50R18', '245/45R18 (GXP)'], psi: 30, note: 'Rear-wheel drive.' }) },
+    g8: { '2008-2009': wave10Spec({ engine: '3.6L V6; 6.0L LS2 V8 (GXP)', oil: '5W-30', oilCapacity: '6.0 qt with filter (V6); 6.0 qt with filter (V8)', transmission: '5L40E 5-speed automatic (V6) / 6L80 6-speed automatic or 6-speed manual (V8)', tires: ['245/45R18', '245/40R19 (GXP)'], psi: 35, note: 'Rear-wheel drive; Holden Commodore platform.' }) },
+    vibe: { '2003-2010': wave10Spec({ engine: '1.8L or 2.4L Toyota I4', oil: '5W-30 (1.8L); 5W-20 (2.4L)', oilCapacity: '4.2 qt with filter (1.8L); 4.5 qt with filter (2.4L)', transmission: '5-speed manual or 4-speed automatic', tires: ['205/55R16', '215/50R17'], psi: 32, note: 'Front-wheel drive or all-wheel drive; Toyota Matrix twin.' }) },
+    firebird: { '1993-2002': wave10Spec({ engine: '3.8L V6; 5.7L LT1 or LS1 V8', oil: '5W-30', oilCapacity: '4.5 qt with filter (V6); 5.5 qt with filter (V8)', transmission: '4L60E 4-speed automatic or T-56 6-speed manual', tires: ['215/60R16', '245/50R16', '275/40ZR17 (Trans Am)'], psi: 30, brake: 'DOT 3', note: 'Rear-wheel drive; OBD-II on 1996-2002 models.' }) }
+  },
+  mitsubishi: { lancer: { '2008-2017': wave10Spec({ engine: '2.0L or 2.4L I4 (Lancer Evolution is separate)', oil: '5W-20 or 5W-30', oilCapacity: '4.5 qt with filter', transmission: 'CVT or 5-speed manual', tires: ['205/60R16', '215/45R18'], psi: 32, note: 'Front-wheel drive or AWD depending on trim; Evolution specifications differ.' }) } },
+  dodge: { 'grand caravan': { '2008-2020': wave10Spec({ engine: '3.6L Pentastar V6 (2011-2020); 3.3L/3.8L V6 (2008-2010)', oil: '5W-20 (3.6L)', oilCapacity: '5.9 qt with filter (3.6L)', transmission: '62TE 6-speed automatic', tires: ['225/65R17', '235/60R16'], psi: 36, note: 'Front-wheel drive.' }) } },
+  jeep: { 'grand wagoneer': { '2022-2025': wave10Spec({ engine: '6.4L HEMI V8; 3.0L Hurricane twin-turbo I6', oil: '0W-40 full synthetic (6.4L); 0W-30 (3.0L Hurricane)', oilCapacity: '7.0 qt with filter (6.4L); consult owner\'s manual (3.0L)', transmission: 'ZF 8HP75 8-speed automatic', tires: ['265/65R18', '275/55R20', '285/45R22'], psi: 36, note: 'Four-wheel drive.' }) } },
+  hyundai: { 'ioniq 5': { '2022-2025': wave10EV('Hyundai Ioniq 5 58/77.4 kWh battery, RWD or AWD', 'Single-speed electric gear reduction unit; Hyundai EV reduction gear oil', 'No engine oil, transmission fluid, spark plugs, or exhaust service. Reduction-unit fluid is vehicle-specific.') }, 'santa cruz': { '2022-2025': wave10Spec({ engine: '2.5L I4; 2.5L turbocharged I4', oil: '0W-20 (2.5L); 0W-30 (turbo)', oilCapacity: '5.1 qt with filter (2.5L); consult owner\'s manual (turbo)', transmission: '8-speed automatic or 8-speed wet dual-clutch automatic', tires: ['245/60R18', '245/50R20'], psi: 35, note: 'FWD or HTRAC AWD.' }) } },
+  nissan: { armada: { '2017-2025': wave10Spec({ engine: '5.6L Endurance V8', oil: '0W-20 full synthetic', oilCapacity: '6.9 qt with filter', transmission: '7-speed automatic', tires: ['275/60R20', '275/50R22'], psi: 35, note: 'RWD or 4WD.' }) }, leaf: { '2011-2025': wave10EV('Nissan LEAF 24/30/40/62 kWh battery, front-wheel drive', 'Single-speed electric gear reduction unit; Nissan Genuine Matic S or specified reduction gear fluid', 'No engine oil or conventional transmission service; reduction gear fluid and battery cooling/brake systems follow the owner\'s manual.') } },
+  mazda: { mazda3: { '2014-2025': wave10Spec({ engine: '2.0L or 2.5L SKYACTIV-G I4; 2.5L turbocharged SKYACTIV-G', oil: '0W-20 (2.0L/2.5L); 5W-30 (2.5L turbo where specified)', oilCapacity: '4.5 qt with filter (2.0L); 5.0 qt with filter (2.5L)', transmission: '6-speed SKYACTIV-Drive automatic or 6-speed manual', tires: ['205/60R16', '215/45R18', '215/50R18'], psi: 36, note: 'FWD or AWD depending on year/trim.' }) } },
+  volkswagen: { 'id.4': { '2021-2025': wave10EV('Volkswagen ID.4 battery electric motor, RWD or AWD', 'Single-speed electric drive gearbox; VW-approved gear oil', 'No engine oil, oil filter, spark plug, or conventional transmission service.') } },
+  gmc: { sierra: { '2019-2025': wave10Spec({ engine: '2.7L turbo I4; 5.3L/6.2L V8; 3.0L Duramax turbo-diesel I6', oil: '0W-20 (gasoline); dexosD 0W-20 or 5W-30 diesel — verify engine', oilCapacity: 'Consult owner\'s manual by engine', transmission: '8-speed or 10-speed automatic', tires: ['255/70R17', '275/60R20', '275/50R22'], psi: 35, note: '2WD or 4WD; engine-specific fluids and capacities vary.' }) } , yukon: { '2015-2025': wave10Spec({ engine: '5.3L/6.2L V8; 3.0L Duramax turbo-diesel I6 (2021+)', oil: '0W-20 gasoline; diesel specification varies by model year', oilCapacity: 'Consult owner\'s manual by engine', transmission: '6-speed automatic (earlier) or 10-speed automatic', tires: ['265/65R18', '275/55R20', '275/50R22'], psi: 35, note: '2WD or 4WD; engine-specific fluids and capacities vary.' }) } },
+  lexus: { nx: { '2015-2025': wave10Spec({ engine: 'NX 250/350 2.5L I4; NX 350 2.4L turbo; NX 350h hybrid; NX 450h+ plug-in hybrid', oil: '0W-16 or 0W-20 depending on engine', oilCapacity: 'Consult owner\'s manual by engine', transmission: '8-speed automatic (gas); eCVT (hybrid and plug-in hybrid)', tires: ['225/65R17', '235/60R18', '235/50R20'], psi: 35, note: 'FWD/AWD availability varies by powertrain and year.' }) } },
+  acura: { integra: { '2023-2025': wave10Spec({ engine: '1.5L turbocharged I4; 2.0L turbocharged I4 (Type S)', oil: '0W-20', oilCapacity: '4.8 qt with filter (1.5L); consult owner\'s manual (Type S)', transmission: 'CVT or 6-speed manual (Type S)', tires: ['235/40R18', '265/30ZR19 (Type S)'], psi: 35, note: 'Front-wheel drive.' }) } },
+  kia: { k5: { '2021-2025': wave10Spec({ engine: '1.6L turbocharged I4; 2.5L turbocharged I4 (GT)', oil: '0W-20', oilCapacity: '5.5 qt with filter (1.6L); 6.0 qt with filter (2.5L)', transmission: '8-speed automatic or 8-speed wet dual-clutch automatic (GT)', tires: ['235/45R18', '245/40R19'], psi: 35, note: 'FWD or AWD depending on trim.' }) } }
+};
+for (const [make, models] of Object.entries(wave10Specs)) {
+  referenceSpecs[make] = referenceSpecs[make] || {};
+  for (const [model, years] of Object.entries(models)) referenceSpecs[make][model] = { ...referenceSpecs[make][model], ...years };
+}
+
 export default referenceSpecs;
 
 
