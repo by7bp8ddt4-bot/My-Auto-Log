@@ -471,6 +471,22 @@ export default function MileageTracker({ activeVehicle, vehicleLogs = [], isPrem
   const isHourVehicle = activeVehicle && ['ag-equipment', 'forklift', 'watercraft', 'outboard', 'marine-diesel'].includes(activeVehicle.type);
   const unit = isHourVehicle ? 'hrs' : 'mi';
 
+  // Average monthly mileage: drivenMileage ÷ months since purchase (or first log)
+  const avgMonthlyMileage = useMemo(() => {
+    if (drivenMileage == null || drivenMileage === 0) return null;
+    let startDate = purchaseDate;
+    if (!startDate && vehicleLogs?.length > 0) {
+      // Fall back to earliest log date
+      const sorted = [...vehicleLogs].sort((a, b) => new Date(a.date) - new Date(b.date));
+      startDate = sorted[0]?.date;
+    }
+    if (!startDate) return null;
+    const msPerMonth = 30.44 * 24 * 60 * 60 * 1000;
+    const months = (Date.now() - new Date(startDate).getTime()) / msPerMonth;
+    if (months < 0.5) return null; // too recent to be meaningful
+    return Math.round(drivenMileage / months);
+  }, [drivenMileage, purchaseDate, vehicleLogs]);
+
   if (!activeVehicle) return null;
 
   // ── Chart SVG ──
@@ -711,6 +727,14 @@ export default function MileageTracker({ activeVehicle, vehicleLogs = [], isPrem
               <span className="text-sm font-semibold text-slate-400 ml-0.5">{unit}</span>
             </div>
             <div className="text-[10px] text-slate-500 mt-0">driven</div>
+          </div>
+          <div className="flex-1 rounded-xl bg-white/[0.02] border border-white/5 p-2 text-center">
+            <div className="text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-0.5">Avg. Monthly</div>
+            <div className="text-base sm:text-lg font-bold tracking-tight text-white">
+              {avgMonthlyMileage != null ? formatNumber(avgMonthlyMileage) : '—'}
+              <span className="text-sm font-semibold text-slate-400 ml-0.5">{unit}</span>
+            </div>
+            <div className="text-[10px] text-slate-500 mt-0">{avgMonthlyMileage != null ? 'per month' : ''}</div>
           </div>
         </div>
       </div>
