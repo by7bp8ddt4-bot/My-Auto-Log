@@ -5539,6 +5539,52 @@ for (const [make, models] of Object.entries(wave12Specs)) {
   referenceSpecs[make] = referenceSpecs[make] || {};
   for (const [model, years] of Object.entries(models)) referenceSpecs[make][model] = { ...referenceSpecs[make][model], ...years };
 }
+
+// Wave 13 — classic Yanmar YM-series tractor reference specs (1975-1990 era).
+// YT/SA series were already added in Wave 7; this closes the remaining
+// yanmar-ag maintenance-schedule gap (ym2000/ym1500/ym2500/ym3000/ym336/ym342/ym347/ym359).
+const agTractorSpec = (engineDescription, oilViscosity, hydraulicFluid, transmissionNote, fourWheelDrive = false) => ({
+  engine: {
+    oilViscosity,
+    oilCapacity: "Consult owner's manual",
+    oilFilterPN: "Consult owner's manual (OEM filter)",
+    coolantType: 'Ethylene-glycol diesel coolant (Yanmar OEM specification; green IAT on classic YM models — verify SCA requirements)',
+    coolantCapacity: "Consult owner's manual"
+  },
+  transmission: {
+    fluidType: hydraulicFluid,
+    capacity: "Consult owner's manual",
+    note: transmissionNote + '; use the manufacturer-specified UTF (Yanmar TF500A / John Deere Hy-Gard or JD 303 equivalent) only.'
+  },
+  transferCase: null,
+  differentials: {
+    front: fourWheelDrive ? { fluidType: 'Manufacturer-specified front axle gear oil', capacity: "Consult owner's manual", note: '4WD/front axle models only; 2WD models: N/A.' } : null,
+    rear: { fluidType: 'Manufacturer-specified rear axle gear oil', capacity: "Consult owner's manual", note: 'Drive-axle models only; verify axle configuration.' }
+  },
+  brakeFluid: 'N/A — wet hydraulic tractor brakes; no automotive brake-fluid reservoir',
+  tires: { frontPSI: 'Consult owner\'s manual', rearPSI: 'Consult owner\'s manual', oemSizes: ['Consult owner\'s manual'], lugNutTorque: "Consult owner's manual" },
+  bulbs: { lowBeam: 'Consult owner\'s manual', highBeam: 'Consult owner\'s manual', frontTurn: 'Consult owner\'s manual', rearTurn: 'Consult owner\'s manual', tailBrake: 'Consult owner\'s manual', interior: 'N/A', license: 'N/A' },
+  obd2Location: 'No OBD-II. Yanmar diesel service/diagnostic port location varies by model era; consult the operator manual.',
+  serviceUnit: 'hrs',
+  note: engineDescription + '. Hour-based maintenance intervals; verify exact interval and fluid capacity in the model-year operator manual.'
+});
+const wave13Specs = {
+  'yanmar tractor': {
+    ym1500: { '1975-1990': agTractorSpec('Yanmar YM1500 — classic 2-cylinder diesel (2T72UA), ~15 hp gear-drive compact tractor', 'SAE 15W-40 diesel engine oil (CJ-4)', 'Yanmar hydraulic fluid or John Deere 303 equivalent', 'Manual gear transmission (8F/2R typical), 2WD') },
+    ym2000: { '1975-1990': agTractorSpec('Yanmar YM2000 — classic 2-cylinder diesel (2T75), ~20 hp gear-drive compact tractor', 'SAE 15W-40 diesel engine oil (CJ-4)', 'Yanmar hydraulic fluid or John Deere 303 equivalent', 'Manual gear transmission (8F/2R typical), 2WD') },
+    ym2500: { '1975-1990': agTractorSpec('Yanmar YM2500 — classic 3-cylinder diesel (3T75), ~25 hp gear-drive compact tractor', 'SAE 15W-40 diesel engine oil (CJ-4)', 'Yanmar hydraulic fluid or John Deere 303 equivalent', 'Manual gear transmission, 2WD') },
+    ym3000: { '1975-1990': agTractorSpec('Yanmar YM3000 — classic 3-cylinder diesel (3T80), ~30 hp gear-drive compact tractor', 'SAE 15W-40 diesel engine oil (CJ-4)', 'Yanmar hydraulic fluid or John Deere 303 equivalent', 'Manual gear transmission, 2WD') },
+    ym336: { '1975-1990': agTractorSpec('Yanmar YM336 — 3-cylinder diesel (3T84), ~33 hp compact tractor', 'SAE 15W-40 diesel engine oil (CJ-4); 10W-30 acceptable in cold climates', 'Yanmar TF500A hydraulic/transmission fluid or John Deere Hy-Gard J20C equivalent', 'Hydrostatic (HST) or gear transmission option; shared hydraulic/transmission reservoir', true) },
+    ym342: { '1975-1990': agTractorSpec('Yanmar YM342 — 3-cylinder diesel, ~34 hp compact tractor', 'SAE 15W-40 diesel engine oil (CJ-4); 10W-30 acceptable in cold climates', 'Yanmar TF500A hydraulic/transmission fluid or John Deere Hy-Gard J20C equivalent', 'Hydrostatic (HST) or gear transmission option; shared hydraulic/transmission reservoir', true) },
+    ym347: { '1975-1990': agTractorSpec('Yanmar YM347 — 3-cylinder diesel, ~35 hp compact tractor (4WD variant)', 'SAE 15W-40 diesel engine oil (CJ-4); 10W-30 acceptable in cold climates', 'Yanmar TF500A hydraulic/transmission fluid or John Deere Hy-Gard J20C equivalent', 'Hydrostatic (HST) or gear transmission option; shared hydraulic/transmission reservoir', true) },
+    ym359: { '1975-1990': agTractorSpec('Yanmar YM359 — 3-cylinder diesel, ~36 hp compact tractor (4WD variant)', 'SAE 15W-40 diesel engine oil (CJ-4); 10W-30 acceptable in cold climates', 'Yanmar TF500A hydraulic/transmission fluid or John Deere Hy-Gard J20C equivalent', 'Hydrostatic (HST) or gear transmission option; shared hydraulic/transmission reservoir', true) }
+  }
+};
+for (const [make, models] of Object.entries(wave13Specs)) {
+  referenceSpecs[make] = referenceSpecs[make] || {};
+  for (const [model, years] of Object.entries(models)) referenceSpecs[make][model] = { ...referenceSpecs[make][model], ...years };
+}
+
 export default referenceSpecs;
 
 
