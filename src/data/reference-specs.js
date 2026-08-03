@@ -5749,6 +5749,143 @@ for (const [make, models] of Object.entries(wave16Specs)) {
     referenceSpecs[make][model] = { ...referenceSpecs[make][model], ...years };
   }
 }
+
+// ═══════════════════════════════════════════════════════════════════════════
+// Wave 17: final-audit gap closure — last genuinely missing reference-specs
+// entries (models present in MAINTENANCE_SCHEDULES with no per-model spec,
+// plus earlier-year coverage for Wave 14 John Deere family keys). Values
+// follow the same factory conventions as prior waves; unverifiable specifics
+// are marked "Consult owner's manual".
+// ═══════════════════════════════════════════════════════════════════════════
+const wave17Specs = {
+  mercury: {
+    verado: {
+      '2005-2014': {
+        ...marineOutboardSpec(
+          'Mercury Verado — supercharged 4-stroke outboard (2.6L/3.4L V6 generations, 200-300 hp)',
+          'Mercury/Quicksilver 4-Stroke Outboard Oil SAE 10W-30 (NMMA FC-W certified)',
+          'Mercury High Performance Gear Lube / Quicksilver Premium Blend (SAE 80W-90)',
+          'Mercury SmartCraft / VesselView diagnostic connector under the cowl — dealer software; no OBD-II port.'),
+        serviceUnit: 'hrs'
+      },
+      '2015-2025': {
+        ...marineOutboardSpec(
+          'Mercury Verado — supercharged 4-stroke outboard (3.4L V6 / 4.6L V8 generations, 200-400 hp)',
+          'Mercury/Quicksilver 4-Stroke Outboard Oil SAE 10W-30 (NMMA FC-W certified)',
+          'Mercury High Performance Gear Lube / Quicksilver Premium Blend (SAE 80W-90)',
+          'Mercury SmartCraft / VesselView diagnostic connector under the cowl — dealer software; no OBD-II port.'),
+        serviceUnit: 'hrs'
+      }
+    }
+  },
+  kubota: {
+    lx3310: {
+      '2019-2025': agSpec(
+        'Kubota LX3310 — L Series compact utility tractor (D1703-M-E4 3-cylinder diesel; HST)',
+        '15W-40 diesel oil (Kubota DH-1 spec)',
+        'Kubota Super UDT2 or equivalent UTF')
+    }
+  },
+  'volvo trucks': {
+    vnl: {
+      '2005-2014': {
+        ...semiSpec('Volvo VNL — Volvo D13/D16 diesel (I-Shift AMT or manual)', 'Volvo VDS-4.5 15W-40 diesel oil', 'Volvo I-Shift AMT / Eaton Fuller manual', '2005-2014'),
+        serviceUnit: 'hrs'
+      },
+      '2015-2025': {
+        ...semiSpec('Volvo VNL — Volvo D13/D16 diesel (I-Shift AMT or manual)', 'Volvo VDS-4.5 15W-40 diesel oil', 'Volvo I-Shift AMT / Eaton Fuller manual', '2015-2025'),
+        serviceUnit: 'hrs'
+      }
+    }
+  },
+  'western star': {
+    '4700': {
+      '2005-2014': {
+        ...semiSpec('Western Star 4700 — Detroit DD13/DD15 diesel (DT12 AMT or manual)', '15W-40 CK-4 diesel oil', 'Detroit DT12 AMT / Eaton Fuller manual', '2005-2014'),
+        serviceUnit: 'hrs'
+      },
+      '2015-2025': {
+        ...semiSpec('Western Star 4700 — Detroit DD13/DD15 diesel (DT12 AMT or manual)', '15W-40 CK-4 diesel oil', 'Detroit DT12 AMT / Eaton Fuller manual', '2015-2025'),
+        serviceUnit: 'hrs'
+      }
+    }
+  },
+  yamaha: {
+    'fx cruiser': {
+      '2005-2019': {
+        ...yamahaPwcSpec('Yamaha WaveRunner FX Cruiser / FX Cruiser HO — MR-1 1.0L 4-cylinder 4-stroke', 'Yamalube 4W 10W-40'),
+        serviceUnit: 'hrs'
+      },
+      '2020-2025': {
+        ...yamahaPwcSpec('Yamaha WaveRunner FX Cruiser / FX Cruiser HO — 1.8L HO 4-stroke', 'Yamalube 4W 10W-40'),
+        serviceUnit: 'hrs'
+      }
+    }
+  },
+  'hyster electric': {
+    e30: {
+      '2005-2014': forkliftSpec('Hyster E30 electric forklift — 3,000 lb capacity; lead-acid traction battery; voltage/capacity varies by truck configuration', 'electric'),
+      '2015-2025': forkliftSpec('Hyster E30 electric forklift — 3,000 lb capacity; lead-acid traction battery; voltage/capacity varies by truck configuration', 'electric')
+    }
+  },
+  'john deere': {
+    // Wave 14 already covered these family keys for 2015-2025 (merged below);
+    // add the earlier model years so pre-2015 tractors/Gators resolve too.
+    '3000': { '2005-2014': agSpec('John Deere 3 Series compact tractor — 3-cylinder diesel; HST or gear', '15W-40 diesel oil', 'John Deere Hy-Gard') },
+    '4000': { '2005-2014': agSpec('John Deere 4 Series compact utility tractor — 4-cylinder diesel; HST or gear', '15W-40 diesel oil', 'John Deere Hy-Gard') },
+    '5000': { '2005-2014': agSpec('John Deere 5 Series utility tractor — 3- or 4-cylinder diesel', '15W-40 diesel oil', 'John Deere Hy-Gard') },
+    '6r': { '2012-2014': agSpec('John Deere 6R Series — diesel row-crop tractor; IVT or PowerShift', '15W-40 JD Plus-50 II diesel oil', 'John Deere Hy-Gard') },
+    xuv: { '2005-2014': jdGatorSpec('John Deere Gator XUV utility vehicle', 'gasoline/diesel') }
+  },
+  polaris: {
+    rzr: {
+      '2008-2025': polarisSpec(
+        'Polaris RZR — ProStar twin-cylinder 4-stroke side-by-side (570/900/XP 1000 and Turbo variants)',
+        'Polaris PS-4 full-synthetic 5W-50 (equivalents: 5W-50 full synthetic, e.g., AMSOIL/Mobil 1)',
+        "Consult owner's manual",
+        '10-15 psi (model-dependent)', '10-15 psi (model-dependent)',
+        ["Consult owner's manual (27-32 in tires per model)"], 80)
+    },
+    general: {
+      '2016-2025': polarisSpec(
+        'Polaris General — ProStar twin-cylinder 4-stroke side-by-side (1000/XP)',
+        'Polaris PS-4 full-synthetic 5W-50 (equivalents: 5W-50 full synthetic, e.g., AMSOIL/Mobil 1)',
+        "Consult owner's manual",
+        '12-15 psi (model-dependent)', '12-15 psi (model-dependent)',
+        ["Consult owner's manual (30 in tires typical)"], 80)
+    },
+    sportsman: {
+      '2005-2025': polarisSpec(
+        'Polaris Sportsman — 4-stroke ATV (450/570/850/1000, single- and twin-cylinder)',
+        'Polaris PS-4 full-synthetic 5W-50 (equivalents: 5W-50 full synthetic, e.g., AMSOIL/Mobil 1)',
+        "Consult owner's manual",
+        7, 7, ["Consult owner's manual (26-27 in tires typical)"], 55)
+    },
+    ace: {
+      '2014-2025': polarisSpec(
+        'Polaris ACE — single-seat single-cylinder ProStar ORV (570/900)',
+        'Polaris PS-4 full-synthetic 5W-50 (equivalents: 5W-50 full synthetic, e.g., AMSOIL/Mobil 1)',
+        "Consult owner's manual",
+        '10-12 psi (model-dependent)', '10-12 psi (model-dependent)',
+        ["Consult owner's manual"], 55)
+    },
+    ranger: {
+      '2005-2025': polarisSpec(
+        'Polaris Ranger — ProStar twin-cylinder 4-stroke utility side-by-side (570/900/1000)',
+        'Polaris PS-4 full-synthetic 5W-50 (equivalents: 5W-50 full synthetic, e.g., AMSOIL/Mobil 1)',
+        "Consult owner's manual",
+        '10-15 psi (model-dependent)', '10-15 psi (model-dependent)',
+        ["Consult owner's manual (27 in tires typical)"], 80)
+    }
+  }
+};
+for (const [make, models] of Object.entries(wave17Specs)) {
+  referenceSpecs[make] = referenceSpecs[make] || {};
+  for (const [model, years] of Object.entries(models)) {
+    referenceSpecs[make][model] = { ...referenceSpecs[make][model], ...years };
+  }
+}
+
 export default referenceSpecs;
 
 
