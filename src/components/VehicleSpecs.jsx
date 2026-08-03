@@ -4,6 +4,22 @@ import { referenceSpecs } from '../data/reference-specs.js';
 import { MAINTENANCE_SCHEDULES } from '../data/maintenance-schedules.js';
 
 /**
+ * Maps hyphenated make keys (from VPIC VIN decoder / maintenance-schedules)
+ * to space-separated make keys used in reference-specs.js.
+ * reference-specs uses human-readable keys (e.g., "volvo trucks", "western star")
+ * while the VPIC decoder returns hyphenated forms (e.g., "volvo-trucks", "western-star").
+ */
+const KEY_MAP = {
+  'yamaha-wc': 'yamaha',
+  'kawasaki-wc': 'kawasaki',
+  'yanmar-ag': 'yanmar tractor',
+  'volvo-trucks': 'volvo trucks',
+  'western-star': 'western star',
+  'forest-river': 'forest river',
+  'grand-design': 'grand design',
+};
+
+/**
  * Matches a vehicle (make, model, year) to the appropriate reference specs data.
  * Traverses make → model → yearRange, checking if the vehicle year falls within the range.
  */
@@ -13,7 +29,8 @@ function findSpecs(make, model, year) {
   const makeLower = make.toLowerCase();
   const modelLower = model.toLowerCase();
 
-  const makeData = referenceSpecs[makeLower];
+  const normalizedMake = KEY_MAP[makeLower] || makeLower;
+  const makeData = referenceSpecs[normalizedMake] || referenceSpecs[makeLower];
   if (!makeData) return null;
 
   // Try exact model match first
