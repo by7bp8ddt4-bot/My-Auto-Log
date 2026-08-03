@@ -48,7 +48,7 @@ export default function LandingPage({ onGetStarted, onViewPremium }) {
               <p className="text-base sm:text-lg text-slate-500 leading-relaxed mt-4">
                 <em className="text-white italic">An App that knows your Service Maintenance Schedule</em><br />
                 Expert-to-Novice Maintenance Logging / Record Keeping / Spec Reference<br />
-                / Technical Inquiry. Single Vehicle to an Entire-Diverse-Fleet.
+                Technical Inquiry / Single Vehicle to an Entire-Diverse-Fleet.
               </p>
             </div>
 
