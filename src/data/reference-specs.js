@@ -5348,6 +5348,142 @@ for (const [make, models] of Object.entries(wave10Specs)) {
   for (const [model, years] of Object.entries(models)) referenceSpecs[make][model] = { ...referenceSpecs[make][model], ...years };
 }
 
+// ═══════════════════════════════════════════════════════════════════════════
+// Wave 11: final real-model automotive coverage — Chevrolet Camaro, Ford
+// Bronco/Ranger/Maverick, Toyota GR86/bZ4X (first Toyota EV), International LT
+// (Class 8 semi). Model keys match MAINTENANCE_SCHEDULES model lists. Values
+// from OEM owner's manuals / service data; unverifiable values marked consult.
+// ═══════════════════════════════════════════════════════════════════════════
+const wave11Spec = ({ engine, oil = consult, oilCapacity = consult, coolant, transmission, transNote, tcase = null, diffF = null, diffR = null, tires = ['Consult owner\'s manual'], psi = consult, brake = 'DOT 3', obd = 'Under driver side dashboard, near the steering column.', note }) => ({
+  engine: {
+    oilViscosity: oil,
+    oilCapacity,
+    oilFilterPN: consult,
+    coolantType: coolant || (engine.includes('EV') ? 'EV thermal management coolant — consult owner\'s manual' : 'Manufacturer-specified long-life coolant'),
+    coolantCapacity: consult,
+    description: engine
+  },
+  transmission: { fluidType: transmission, capacity: consult, ...(transNote ? { note: transNote } : {}) },
+  transferCase: tcase,
+  differentials: { front: diffF, rear: diffR },
+  brakeFluid: brake,
+  tires: { frontPSI: psi, rearPSI: psi, oemSizes: tires, lugNutTorque: consult },
+  bulbs: { lowBeam: 'LED or halogen depending on trim — consult owner\'s manual', highBeam: 'LED or halogen depending on trim — consult owner\'s manual', frontTurn: 'Consult owner\'s manual', rearTurn: 'Consult owner\'s manual', tailBrake: 'Consult owner\'s manual', interior: 'LED or vehicle-specific bulb — consult owner\'s manual', license: 'Consult owner\'s manual' },
+  obd2Location: obd,
+  ...(note ? { note } : {})
+});
+const wave11Specs = {
+  chevrolet: {
+    camaro: {
+      '2016-2024': wave11Spec({
+        engine: '2.0L turbo I4 (2016-2023); 3.6L V6; 6.2L LT1 V8 (SS); 6.2L LT4 supercharged V8 (ZL1)',
+        oil: '5W-30 dexos1 full synthetic (2.0T, 3.6L); 0W-40 dexos2 full synthetic (LT1/LT4)',
+        oilCapacity: '5.0 qt w/filter (2.0T); 5.5 qt w/filter (3.6L); 10.0 qt w/filter (LT1/LT4) — approx',
+        coolant: 'Dex-Cool (OAT, orange)',
+        transmission: '6-speed manual (Tremec TR-3160 on 2.0T/3.6, TR-6060 on SS/ZL1); 8-speed automatic (8L45 on 2.0T/3.6, 8L90 on SS); 10-speed automatic (10L80 SS, 10L90 ZL1, 2019+)',
+        transNote: 'DEXRON HP (8-speed); DEXRON ULV (10-speed); Tremec/GM manual transmission fluid (manual)',
+        diffR: { fluidType: '75W-90 GL-5 (SS/ZL1 limited-slip w/ friction modifier); 75W-85 GL-5 (2.0T/3.6)', capacity: '1.7 qt approx' },
+        tires: ['245/45R18 (base)', '245/40R20 F / 275/35R20 R (SS)', '285/30ZR20 F / 305/30ZR20 R (ZL1)'],
+        psi: 36,
+        brake: 'DOT 4 (SS/ZL1); DOT 3 acceptable on base trims — verify',
+        note: 'Rear-wheel drive. 1LE package uses wider/stickier tires — see door sticker. ZL1 has extra front brake cooling ducts to inspect.'
+      })
+    }
+  },
+  ford: {
+    bronco: {
+      '2021-2025': wave11Spec({
+        engine: '2.3L EcoBoost I4; 2.7L EcoBoost V6; 3.0L EcoBoost V6 (Raptor)',
+        oil: '5W-30 full synthetic',
+        oilCapacity: '6.0 qt w/filter (2.3L); 6.0 qt w/filter (2.7L); 6.0 qt w/filter (3.0L) — approx',
+        coolant: 'Motorcraft Orange (OAT, prediluted)',
+        transmission: '7-speed manual (Getrag MTI-550, 2.3L only) or 10-speed automatic (10R60)',
+        transNote: 'MERCON ULV (10R60); manual transmission fluid per Ford spec',
+        tcase: { fluidType: 'Motorcraft MERCON LV (2-speed part-time); full-time 4A unit: MERCON ULV — verify', capacity: consult },
+        diffF: { fluidType: '75W-85 GL-5 (front axle; electronic locker on higher trims)', capacity: consult },
+        diffR: { fluidType: '75W-85 GL-5 (rear axle; electronic locker)', capacity: consult },
+        tires: ['255/70R16', '255/75R17', '285/70R17', '315/70R17 (Sasquatch)', '37x12.50R17LT (Raptor)'],
+        psi: 35,
+        brake: 'DOT 4 Low Viscosity',
+        note: 'Four-wheel drive (part-time or full-time). Sasquatch and Raptor run larger tires with different pressures — use the door sticker. Heavy off-road use shortens axle/transfer case service intervals.'
+      })
+    },
+    ranger: {
+      '2019-2025': wave11Spec({
+        engine: '2.3L EcoBoost I4; 2.7L or 3.0L EcoBoost V6 (Raptor, 2024+)',
+        oil: '5W-30 full synthetic',
+        oilCapacity: '6.0 qt w/filter (2.3L); Raptor engines consult owner\'s manual',
+        coolant: 'Motorcraft Orange (OAT, prediluted)',
+        transmission: '10-speed automatic (10R80; 10R60 on Raptor)',
+        transNote: 'MERCON ULV',
+        tcase: { fluidType: 'Motorcraft MERCON LV (part-time 4WD transfer case)', capacity: consult },
+        diffF: { fluidType: '75W-85 GL-5 (front independent axle)', capacity: consult },
+        diffR: { fluidType: '75W-85 GL-5 (8.8-inch rear axle; electronic locking on some trims)', capacity: consult },
+        tires: ['255/70R16', '265/70R17', '265/60R18', '285/70R17 (Raptor)'],
+        psi: 35,
+        brake: 'DOT 4 Low Viscosity',
+        note: 'RWD or 4WD. 2019-2023 are 2.3L only; 2024+ adds Raptor with the 2.7L/3.0L EcoBoost V6.'
+      })
+    },
+    maverick: {
+      '2022-2025': wave11Spec({
+        engine: '2.5L hybrid I4 (eCVT) / 2.0L EcoBoost I4 (8-speed automatic)',
+        oil: '0W-20 full synthetic (2.5L hybrid); 5W-30 full synthetic (2.0L EcoBoost)',
+        oilCapacity: '5.0 qt w/filter (hybrid); 5.5 qt w/filter (EcoBoost) — approx',
+        coolant: 'Motorcraft Orange (OAT, prediluted)',
+        transmission: 'eCVT (hybrid, FWD); 8F35 8-speed automatic (EcoBoost)',
+        transNote: 'MERCON ULV (both)',
+        tcase: { fluidType: 'Motorcraft MERCON ULV (power transfer unit on AWD EcoBoost models only)', capacity: consult },
+        diffR: { fluidType: '75W-85 GL-5 (rear drive unit, AWD EcoBoost)', capacity: consult },
+        tires: ['225/65R17', '225/60R18', '245/45R19 (Tremor)'],
+        psi: 35,
+        brake: 'DOT 4 Low Viscosity',
+        note: 'Compact unibody pickup. Hybrid is front-wheel drive; EcoBoost offers AWD with a power transfer unit (PTU) and rear drive unit.'
+      })
+    }
+  },
+  toyota: {
+    gr86: {
+      '2022-2025': wave11Spec({
+        engine: '2.4L FA24D boxer I4 (Subaru-built)',
+        oil: '0W-20 full synthetic (5W-30 for track use)',
+        oilCapacity: '5.4 qt w/filter',
+        coolant: 'Toyota Super Long Life Coolant (pink)',
+        transmission: '6-speed manual or 6-speed automatic',
+        transNote: '6AT: Toyota Genuine ATF WS; 6MT: 75W-90 GL-4 manual transmission fluid',
+        diffR: { fluidType: 'Toyota Differential Gear Oil LT 75W-85 GL-5', capacity: '1.2 qt approx' },
+        tires: ['215/40R18', '235/40R18'],
+        psi: 35,
+        brake: 'DOT 3 or DOT 4',
+        note: 'Rear-wheel drive sports coupe; Subaru BRZ twin. Frequent high-RPM/track driving warrants shorter oil and fluid intervals.'
+      })
+    },
+    bz4x: {
+      '2023-2025': wave11Spec({
+        engine: 'EV — single front motor (FWD) or dual front+rear motors (AWD); 71.4 kWh lithium-ion battery',
+        oil: 'N/A — full battery electric; no engine oil change',
+        oilCapacity: 'N/A — no internal-combustion engine',
+        coolant: 'Toyota Super Long Life Coolant (pink) — EV thermal management and cabin heat',
+        transmission: 'Single-speed gear reduction unit (front; AWD adds rear reduction unit)',
+        transNote: 'Toyota Genuine reduction gear fluid — drain and refill per maintenance schedule (60,000 mi / 48 mo)',
+        tires: ['235/60R18', '235/50R20'],
+        psi: 36,
+        brake: 'DOT 3',
+        note: 'First Toyota EV in the reference library. No engine oil, transmission fluid, spark plugs, or exhaust service. Coolant serves battery thermal management and cabin heat. Brake fluid test every 2 years (regenerative braking).'
+      })
+    }
+  },
+  international: {
+    lt: {
+      '2017-2025': semiSpec('Cummins X15 or International A26 (LT series)', '15W-40 CJ-4/CK-4 diesel oil', 'Eaton Fuller 10/13/18-speed manual or Allison automatic', '2017-2025')
+    }
+  }
+};
+for (const [make, models] of Object.entries(wave11Specs)) {
+  referenceSpecs[make] = referenceSpecs[make] || {};
+  for (const [model, years] of Object.entries(models)) referenceSpecs[make][model] = { ...referenceSpecs[make][model], ...years };
+}
+
 export default referenceSpecs;
 
 
