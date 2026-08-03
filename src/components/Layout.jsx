@@ -86,7 +86,7 @@ export default function Layout({ currentPage, onNavigate, onLogout, children }) 
                 >
                   <Icon className="w-4.5 h-4.5" />
                   {item.id === 'schedule' ? (
-                    <span className="-ml-2 inline-flex shrink-0 flex-col items-center">
+                    <span className="inline-flex shrink-0 flex-col items-start">
                       <span>Scheduled</span>
                       <span>Maintenance</span>
                     </span>
