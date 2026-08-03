@@ -471,23 +471,6 @@ export default function MileageTracker({ activeVehicle, vehicleLogs = [], isPrem
   const isHourVehicle = activeVehicle && ['ag-equipment', 'forklift', 'watercraft', 'outboard', 'marine-diesel'].includes(activeVehicle.type);
   const unit = isHourVehicle ? 'hrs' : 'mi';
 
-  // Lease calculations
-  const isLeased = activeVehicle?.isLeased;
-  const leaseLimit = activeVehicle?.leaseMileageLimit;
-  const leaseEndDate = activeVehicle?.leaseEndDate;
-  const leaseWarning = isLeased && leaseLimit && leaseEndDate && projection
-    ? {
-        projected: projection.projectedMileage,
-        limit: leaseLimit,
-        endDate: leaseEndDate,
-        isOver: projection.projectedMileage > leaseLimit,
-        diff: Math.abs(projection.projectedMileage - leaseLimit),
-        earlyMonths: projection.projectedMileage > leaseLimit
-          ? Math.round((projection.projectedMileage - leaseLimit) / (projection.monthlyPace || 1))
-          : 0,
-      }
-    : null;
-
   if (!activeVehicle) return null;
 
   // ── Chart SVG ──
@@ -752,31 +735,6 @@ export default function MileageTracker({ activeVehicle, vehicleLogs = [], isPrem
         </div>
       )}
 
-      {/* ════════════════════════════════════════
-          LEASE WARNING — only when leased
-          ════════════════════════════════════════ */}
-      {isLeased && leaseLimit && leaseEndDate && (
-        <div className="flex items-center gap-2 rounded-xl bg-yellow-900/10 border border-yellow-900/20 p-3.5">
-          <span className="text-lg shrink-0">📋</span>
-          {projection ? (
-            <span className="text-xs text-[#a0a0b0]">
-              If this is a lease, you're on track to hit your{' '}
-              <strong className="text-yellow-500 font-semibold">{formatNumber(leaseLimit)} {unit}</strong> limit
-              by <strong className="text-yellow-500 font-semibold">{formatMonthYear(projection.projectedDate)}</strong>
-              {leaseWarning.isOver
-                ? <> — <span className="text-red-500 font-semibold">{formatNumber(leaseWarning.diff)} {unit} over.</span></>
-                : <> with <span className="text-emerald-400 font-semibold">{formatNumber(leaseWarning.diff)} {unit}</span> to spare.</>
-              }
-            </span>
-          ) : (
-            <span className="text-xs text-[#a0a0b0]">
-              Lease ends <strong className="text-yellow-500 font-semibold">{formatDate(leaseEndDate)}</strong>
-              {' '}with a <strong className="text-yellow-500 font-semibold">{formatNumber(leaseLimit)} {unit}</strong> limit.
-              Log services with mileage to see projection.
-            </span>
-          )}
-        </div>
-      )}
     </div>
   );
 }
