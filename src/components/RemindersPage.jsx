@@ -179,7 +179,10 @@ export default function RemindersPage({ reminders, vehicles, logs, onAdd, onUpda
             odometer reading — or log in to update it instantly.
           </p>
           <button
-            onClick={() => onNavigate('dashboard')}
+            onClick={() => {
+              sessionStorage.setItem('mtxtrkr_pending_edit_vehicle', selectedVehicleId || vehicles[0]?.id);
+              onNavigate('vehicles');
+            }}
             className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-xs font-medium transition-all"
           >
             <Gauge className="w-3.5 h-3.5" />
@@ -214,7 +217,10 @@ export default function RemindersPage({ reminders, vehicles, logs, onAdd, onUpda
                 <p className="text-xs text-slate-400">See your mileage projection and remaining allowance</p>
               </div>
               <button
-                onClick={() => onNavigate('dashboard')}
+                onClick={() => {
+                  sessionStorage.setItem('mtxtrkr_scroll_to_lease', '1');
+                  onNavigate('dashboard');
+                }}
                 className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-amber-600 hover:bg-amber-500 text-white text-xs font-medium transition-all"
               >
                 <ArrowRight className="w-3.5 h-3.5" />

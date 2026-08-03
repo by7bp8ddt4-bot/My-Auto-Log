@@ -88,6 +88,17 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
       setTargetDate(d.toISOString().split('T')[0]);
     }
   }, [activeVehicle?.id, activeVehicle?.isLeased]);
+
+  // Scroll to lease projector when navigated from Reminders page
+  useEffect(() => {
+    if (sessionStorage.getItem('mtxtrkr_scroll_to_lease')) {
+      sessionStorage.removeItem('mtxtrkr_scroll_to_lease');
+      setTimeout(() => {
+        document.getElementById('lease-mileage-projector')?.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+    }
+  }, []);
+
   const daysSincePurchase = activeVehicle?.purchaseDate
     ? Math.floor((Date.now() - new Date(activeVehicle.purchaseDate).getTime()) / (24 * 60 * 60 * 1000))
     : 1;
@@ -303,7 +314,7 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
 
       {/* Lease Mileage Projector — Premium */}
       {isPremium && activeVehicle?.isLeased && activeVehicle?.purchaseDate && activeVehicle?.purchaseMileage >= 0 ? (
-        <div className="mb-8 p-5 rounded-2xl bg-gradient-to-r from-violet-600/5 to-purple-600/5 border border-violet-500/20">
+        <div id="lease-mileage-projector" className="mb-8 p-5 rounded-2xl bg-gradient-to-r from-violet-600/5 to-purple-600/5 border border-violet-500/20">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-sm font-semibold text-white flex items-center gap-2">
               <TrendingUp className="w-4 h-4 text-violet-400" />
