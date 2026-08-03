@@ -5484,6 +5484,61 @@ for (const [make, models] of Object.entries(wave11Specs)) {
   for (const [model, years] of Object.entries(models)) referenceSpecs[make][model] = { ...referenceSpecs[make][model], ...years };
 }
 
+// ── Wave 12: Kawasaki PWC and Cummins marine diesel audit coverage ───────────
+const wave12PwcSpec = (engineDescription, oilViscosity, jetPumpNote) => ({
+  ...pwcSpec(
+    engineDescription,
+    oilViscosity,
+    'Kawasaki closed-loop cooling system — premixed marine coolant; consult owner\'s manual',
+    'N/A — no service brakes on PWC',
+    'Kawasaki Diagnostic System (KDS) connector under the seat; no OBD-II.'
+  ),
+  serviceUnit: 'hrs',
+  differentials: {
+    front: null,
+    rear: {
+      fluidType: 'Kawasaki jet pump gear oil / final drive lubricant',
+      capacity: "Consult owner's manual",
+      note: jetPumpNote
+    }
+  }
+});
+const wave12MarineDieselSpec = (engineDescription, oilViscosity, oilCapacity) => ({
+  ...marineDieselSpec(
+    engineDescription,
+    oilViscosity,
+    oilCapacity,
+    'Cummins Insite via J1939/CAN data link connector near the engine; no OBD-II. Analog gauges may be fitted.'
+  ),
+  serviceUnit: 'hrs',
+  transmission: {
+    fluidType: 'ZF or Hurth marine transmission/gear oil — installed marine gear specification applies',
+    capacity: "Consult owner's manual (gearbox-specific)",
+    note: 'Marine gear is separate from the engine; verify the installed ZF/Hurth model and use its approved fluid.'
+  },
+  note: `${engineDescription}. Wet exhaust system; hour-based service intervals. No OBD-II — J1939 or analog gauges.`
+});
+const wave12Specs = {
+  kawasaki: {
+    'stx 160': {
+      '2018-2025': wave12PwcSpec('Kawasaki STX 160 — 1.6L 4-stroke naturally aspirated marine engine (160 hp)', '10W-40 4-stroke marine oil', 'Jet pump final drive; use Kawasaki-specified gear oil and verify level/service interval.')
+    },
+    'sx-r': {
+      '2017-2025': wave12PwcSpec('Kawasaki SX-R — 1.5L 4-stroke stand-up PWC engine', '10W-40 4-stroke marine oil', 'Jet pump final drive; use Kawasaki-specified lubricant and verify service procedure.')
+    }
+  },
+  cummins: {
+    qsb: { '2005-2025': wave12MarineDieselSpec('Cummins QSB 6.7 marine diesel', 'SAE 15W-40 CJ-4/CK-4', 'Approximately 19 qt; verify oil pan configuration in owner\'s manual') },
+    qsl: { '2005-2025': wave12MarineDieselSpec('Cummins QSL 9 marine diesel', 'SAE 15W-40 CJ-4/CK-4', 'Approximately 28 qt; verify oil pan configuration in owner\'s manual') },
+    qsx15: { '2005-2025': wave12MarineDieselSpec('Cummins QSX15 heavy-duty marine diesel', 'SAE 15W-40 CJ-4/CK-4', 'Approximately 44 qt; verify oil pan configuration in owner\'s manual') },
+    '6bta': { '1990-2006': wave12MarineDieselSpec('Cummins 6BTA 5.9 legacy mechanical-injection marine diesel', 'SAE 15W-40', 'Approximately 15 qt; verify engine configuration in owner\'s manual') },
+    '6cta': { '1990-2006': wave12MarineDieselSpec('Cummins 6CTA 8.3 legacy mechanical-injection marine diesel', 'SAE 15W-40', 'Approximately 22 qt; verify engine configuration in owner\'s manual') }
+  }
+};
+for (const [make, models] of Object.entries(wave12Specs)) {
+  referenceSpecs[make] = referenceSpecs[make] || {};
+  for (const [model, years] of Object.entries(models)) referenceSpecs[make][model] = { ...referenceSpecs[make][model], ...years };
+}
 export default referenceSpecs;
 
 
