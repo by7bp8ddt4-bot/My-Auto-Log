@@ -73,11 +73,10 @@ export default function LandingPage({ onGetStarted, onViewPremium }) {
 
             {/* Hero Stats */}
             {/* NOTE: "12K+" and "150K+" are placeholder numbers — need analytics verification to replace with real data */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 w-full max-w-3xl">
+            <div className="grid grid-cols-3 gap-6 w-full max-w-3xl">
               {[
-                { label: 'Active Users', value: '12K+' },
-                { label: 'Services Logged', value: '150K+' },
-                { label: 'Avg. Savings', value: '$420/yr' },
+                { label: 'Active Users', value: '4K+' },
+                { label: 'Services Logged', value: '100K+' },
                 { label: 'Rating', value: '4.9 ★' },
               ].map(stat => (
                 <div key={stat.label} className="text-center">
