@@ -366,52 +366,47 @@ export default function MileageTracker({ activeVehicle, vehicleLogs = [], isPrem
       {/* ════════════════════════════════════════
           YOUR MILEAGE STORY — narrative card
           ════════════════════════════════════════ */}
-      <div className="relative rounded-2xl bg-gradient-to-br from-[#16161f] to-[#12121a] border border-white/5 overflow-hidden">
-        {/* Top accent line */}
-        <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-[#b91c1c] via-[#ef4444] to-[#dc2626]" />
+      <div className="bg-slate-900/80 backdrop-blur-sm border border-slate-800/50 rounded-2xl p-6">
+        <div className="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-4">
+          📖 Your Mileage Story
+        </div>
 
-        <div className="p-6">
-          <div className="text-xs font-semibold uppercase tracking-wider text-red-500 mb-4">
-            📖 Your Mileage Story
+        <div className="text-sm sm:text-base leading-relaxed text-slate-400">
+          You bought this <span className="font-semibold text-white/80">{activeVehicle?.name || 'vehicle'}</span>
+          {purchaseMileage != null ? (
+            <> with <span className="font-bold text-white/80 bg-red-900/20 px-1.5 py-0.5 rounded">{formatNumber(purchaseMileage)}</span> miles</>
+          ) : ''}
+          {purchaseDate ? (
+            <> on <span className="text-slate-500 font-medium">{formatDate(purchaseDate)}</span>.</>
+          ) : '.'}
+          {' '}Today you're at <span className="font-bold text-white/80 bg-red-900/20 px-1.5 py-0.5 rounded">{formatNumber(currentMileage)}</span> {unit}.
+        </div>
+
+        {/* Three big-number summary cards */}
+        <div className="flex gap-3 mt-5">
+          <div className="flex-1 rounded-xl bg-white/[0.02] border border-white/5 p-4 text-center">
+            <div className="text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-1">Purchased</div>
+            <div className="text-xl sm:text-2xl font-extrabold tracking-tight text-white/80">
+              {purchaseMileage != null ? formatNumber(purchaseMileage) : '—'}
+              <span className="text-sm font-semibold text-slate-400 ml-0.5">{unit}</span>
+            </div>
+            <div className="text-[11px] text-slate-500 mt-0.5">{purchaseDate ? formatDateShort(purchaseDate) : ''}</div>
           </div>
-
-          <div className="text-sm sm:text-base leading-relaxed text-[#c0c0d0]">
-            You bought this <span className="font-semibold text-white">{activeVehicle?.name || 'vehicle'}</span>
-            {purchaseMileage != null ? (
-              <> with <span className="font-bold text-white bg-red-900/20 px-1.5 py-0.5 rounded">{formatNumber(purchaseMileage)}</span> miles</>
-            ) : ''}
-            {purchaseDate ? (
-              <> on <span className="text-[#8888a0] font-medium">{formatDate(purchaseDate)}</span>.</>
-            ) : '.'}
-            {' '}Today you're at <span className="font-bold text-white bg-red-900/20 px-1.5 py-0.5 rounded">{formatNumber(currentMileage)}</span> {unit}.
+          <div className="flex-1 rounded-xl bg-red-900/10 border border-red-900/20 p-4 text-center">
+            <div className="text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-1">Current</div>
+            <div className="text-xl sm:text-2xl font-extrabold tracking-tight text-red-500">
+              {formatNumber(currentMileage)}
+              <span className="text-sm font-semibold text-slate-400 ml-0.5">{unit}</span>
+            </div>
+            <div className="text-[11px] text-slate-500 mt-0.5">Today</div>
           </div>
-
-          {/* Three big-number summary cards */}
-          <div className="flex gap-3 mt-5">
-            <div className="flex-1 rounded-xl bg-white/[0.02] border border-white/5 p-4 text-center">
-              <div className="text-[11px] font-semibold uppercase tracking-wider text-[#666] mb-1">Purchased</div>
-              <div className="text-xl sm:text-2xl font-extrabold tracking-tight text-white">
-                {purchaseMileage != null ? formatNumber(purchaseMileage) : '—'}
-                <span className="text-sm font-semibold text-[#666] ml-0.5">{unit}</span>
-              </div>
-              <div className="text-[11px] text-[#555] mt-0.5">{purchaseDate ? formatDateShort(purchaseDate) : ''}</div>
+          <div className="flex-1 rounded-xl bg-white/[0.02] border border-white/5 p-4 text-center">
+            <div className="text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-1">So Far</div>
+            <div className="text-xl sm:text-2xl font-extrabold tracking-tight text-white/80">
+              {drivenMileage != null ? formatNumber(drivenMileage) : '—'}
+              <span className="text-sm font-semibold text-slate-400 ml-0.5">{unit}</span>
             </div>
-            <div className="flex-1 rounded-xl bg-red-900/10 border border-red-900/20 p-4 text-center">
-              <div className="text-[11px] font-semibold uppercase tracking-wider text-[#666] mb-1">Current</div>
-              <div className="text-xl sm:text-2xl font-extrabold tracking-tight text-red-500">
-                {formatNumber(currentMileage)}
-                <span className="text-sm font-semibold text-[#666] ml-0.5">{unit}</span>
-              </div>
-              <div className="text-[11px] text-[#555] mt-0.5">Today</div>
-            </div>
-            <div className="flex-1 rounded-xl bg-white/[0.02] border border-white/5 p-4 text-center">
-              <div className="text-[11px] font-semibold uppercase tracking-wider text-[#666] mb-1">So Far</div>
-              <div className="text-xl sm:text-2xl font-extrabold tracking-tight text-white">
-                {drivenMileage != null ? formatNumber(drivenMileage) : '—'}
-                <span className="text-sm font-semibold text-[#666] ml-0.5">{unit}</span>
-              </div>
-              <div className="text-[11px] text-[#555] mt-0.5">driven</div>
-            </div>
+            <div className="text-[11px] text-slate-500 mt-0.5">driven</div>
           </div>
         </div>
       </div>
