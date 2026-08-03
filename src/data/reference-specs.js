@@ -5634,6 +5634,49 @@ const wave14Specs = {
 for (const [make, models] of Object.entries(wave14Specs)) {
   referenceSpecs[make] = referenceSpecs[make] || {};
   for (const [model, years] of Object.entries(models)) referenceSpecs[make][model] = { ...referenceSpecs[make][model], ...years };
-}export default referenceSpecs;
+}
+
+// ── Wave 15: individual Hyster IC/legacy forklift model coverage ────────────
+// These names are explicit maintenance-schedule model keys, not duplicates of
+// Wave 7's grouped aliases (h40-60ft, h70-110ft, s40-70ft, h50ct).
+const wave15ForkliftSpec = (engineDescription, oilViscosity, transmission, hydraulicFluid, yearRange) => {
+  const spec = forkliftSpec(engineDescription, 'diesel/LP', hydraulicFluid);
+  return {
+    ...spec,
+    engine: { ...spec.engine, oilViscosity },
+    transmission: { ...spec.transmission, fluidType: transmission },
+    note: `${engineDescription}. Oil viscosity varies by fuel, ambient temperature, and engine; verify the serial-number operator manual. No OBD-II — use the engine hour meter, hydraulic pressure gauges, and Hyster service tool.`,
+    yearRange
+  };
+};
+const wave15Specs = { hyster: {} };
+const hysterModern = ['h50', 'h60', 'h70', 'h80', 'h100', 'h120', 's50', 's60', 's70'];
+for (const model of hysterModern) {
+  wave15Specs.hyster[model] = {
+    '2000-2025': wave15ForkliftSpec(
+      `Hyster ${model.toUpperCase()} internal-combustion counterbalanced forklift — LP gas or diesel configuration`,
+      'SAE 10W-30 (LP gas) or SAE 15W-40 (diesel)',
+      'Dexron III ATF or Hyster HTF powershift fluid',
+      'ISO 32 or AW-32 hydraulic fluid',
+      '2000-2025'
+    )
+  };
+}
+for (const model of ['50', 'h50a', 'h50b', 'h50c']) {
+  wave15Specs.hyster[model] = {
+    '1970-1999': wave15ForkliftSpec(
+      `Hyster ${model.toUpperCase()} legacy internal-combustion forklift — model-year engine and fuel configuration varies`,
+      'SAE 30W or SAE 10W-30',
+      'Dexron II or Dexron III ATF / Hyster-approved transmission fluid',
+      'ISO 32 or AW-32 hydraulic fluid',
+      '1970-1999'
+    )
+  };
+}
+for (const [make, models] of Object.entries(wave15Specs)) {
+  referenceSpecs[make] = referenceSpecs[make] || {};
+  for (const [model, years] of Object.entries(models)) referenceSpecs[make][model] = { ...referenceSpecs[make][model], ...years };
+}
+export default referenceSpecs;
 
 
