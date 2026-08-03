@@ -45,6 +45,9 @@ export default function LandingPage({ onGetStarted, onViewPremium }) {
               <p className="text-base sm:text-lg text-slate-500 leading-relaxed">
                 MTXtrkr translates your vehicle's engineering into plain English — so you know when a <strong className="text-slate-300">transmission flush</strong>, a <strong className="text-slate-300">differential service</strong>, or a <strong className="text-slate-300">coolant exchange</strong> is actually due. No more nodding along at the mechanic. No more costly breakdowns from what you didn't know you were missing.
               </p>
+              <p className="text-base sm:text-lg text-slate-500 leading-relaxed mt-4">
+                <strong className="text-white">An App that knows your Service Maintenance Schedule;</strong> Expert-to-Novice Maintenance Logging / Record Keeping / Spec Reference / Technical Inquiry. Single Vehicle to an Entire-Diverse-Fleet.
+              </p>
             </div>
 
             {/* CTA Buttons */}
