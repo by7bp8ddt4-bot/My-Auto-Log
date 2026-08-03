@@ -278,8 +278,8 @@ export default function MileageTracker({ activeVehicle, vehicleLogs = [], isPrem
       <svg viewBox={chartLayout.viewBox} xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
         <defs>
           <linearGradient id="mileageFill" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#ef4444" stopOpacity="0.20" />
-            <stop offset="100%" stopColor="#ef4444" stopOpacity="0.02" />
+            <stop offset="0%" stopColor="#3b82f6" stopOpacity="0.20" />
+            <stop offset="100%" stopColor="#3b82f6" stopOpacity="0.02" />
           </linearGradient>
           <linearGradient id="mileageFillBlue" x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%" stopColor="#3b82f6" stopOpacity="0.15" />
@@ -300,11 +300,11 @@ export default function MileageTracker({ activeVehicle, vehicleLogs = [], isPrem
         <path d={chartLayout.areaPath} fill="url(#mileageFill)" opacity="0.5" />
 
         {/* Solid trend line */}
-        <path d={chartLayout.solidPath} stroke="#ef4444" strokeWidth="2.5" strokeLinecap="round" fill="none" />
+        <path d={chartLayout.solidPath} stroke="#3b82f6" strokeWidth="2.5" strokeLinecap="round" fill="none" />
 
         {/* Dashed projection line */}
         {chartLayout.dashPath && (
-          <path d={chartLayout.dashPath} stroke="#ef4444" strokeWidth="2" strokeDasharray="5 4" strokeLinecap="round" fill="none" opacity="0.5" />
+          <path d={chartLayout.dashPath} stroke="#3b82f6" strokeWidth="2" strokeDasharray="5 4" strokeLinecap="round" fill="none" opacity="0.5" />
         )}
 
         {/* Dots */}
@@ -318,8 +318,13 @@ export default function MileageTracker({ activeVehicle, vehicleLogs = [], isPrem
               </>
             ) : d.isCurrent ? (
               <>
-                <circle cx={d.x} cy={d.y} r="6" fill="#ef4444" stroke="#0f0f16" strokeWidth="2" />
-                <text x={d.x} y={d.y - 8} fill="#ef4444" fontSize="9" fontWeight="700" textAnchor="middle">Now</text>
+                <circle cx={d.x} cy={d.y} r="6" fill="#3b82f6" stroke="#0f0f16" strokeWidth="2" />
+                <text x={d.x} y={d.y - 8} fill="#3b82f6" fontSize="9" fontWeight="700" textAnchor="middle">Now</text>
+              </>
+            ) : d.isLog ? (
+              <>
+                <title>{d.label}: {formatNumber(d.mileage)} {unit}</title>
+                <circle cx={d.x} cy={d.y} r="3" fill="#3b82f6" opacity="0.7" />
               </>
             ) : null}
           </g>
@@ -329,9 +334,9 @@ export default function MileageTracker({ activeVehicle, vehicleLogs = [], isPrem
         {chartLayout.projectedDot && (
           <g>
             <circle cx={chartLayout.projectedDot.x} cy={chartLayout.projectedDot.y} r="4"
-              fill="none" stroke="#ef4444" strokeWidth="1.5" strokeDasharray="3 2" />
+              fill="none" stroke="#3b82f6" strokeWidth="1.5" strokeDasharray="3 2" />
             <text x={chartLayout.projectedDot.x} y={chartLayout.projectedDot.y - 8}
-              fill="#ef4444" fontSize="8" fontWeight="600" textAnchor="middle" opacity="0.7">Projected</text>
+              fill="#3b82f6" fontSize="8" fontWeight="600" textAnchor="middle" opacity="0.7">Projected</text>
             <text x={chartLayout.projectedDot.x} y={chartLayout.projectedDot.y + 14}
               fill="#555" fontSize="7" textAnchor="middle" opacity="0.6">{formatNumber(chartLayout.projectedDot.mileage)} {unit}</text>
           </g>
@@ -364,58 +369,10 @@ export default function MileageTracker({ activeVehicle, vehicleLogs = [], isPrem
   return (
     <div className="space-y-4">
       {/* ════════════════════════════════════════
-          YOUR MILEAGE STORY — narrative card
-          ════════════════════════════════════════ */}
-      <div className="bg-slate-900/80 backdrop-blur-sm border border-slate-800/50 rounded-2xl p-6">
-        <div className="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-4">
-          📖 Your Mileage Story
-        </div>
-
-        <div className="text-sm sm:text-base leading-relaxed text-slate-400">
-          You bought this <span className="font-semibold text-white/80">{activeVehicle?.name || 'vehicle'}</span>
-          {purchaseMileage != null ? (
-            <> with <span className="font-bold text-white/80 bg-red-900/20 px-1.5 py-0.5 rounded">{formatNumber(purchaseMileage)}</span> miles</>
-          ) : ''}
-          {purchaseDate ? (
-            <> on <span className="text-slate-500 font-medium">{formatDate(purchaseDate)}</span>.</>
-          ) : '.'}
-          {' '}Today you're at <span className="font-bold text-white/80 bg-red-900/20 px-1.5 py-0.5 rounded">{formatNumber(currentMileage)}</span> {unit}.
-        </div>
-
-        {/* Three big-number summary cards */}
-        <div className="flex gap-3 mt-5">
-          <div className="flex-1 rounded-xl bg-white/[0.02] border border-white/5 p-4 text-center">
-            <div className="text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-1">Purchased</div>
-            <div className="text-xl sm:text-2xl font-extrabold tracking-tight text-white/80">
-              {purchaseMileage != null ? formatNumber(purchaseMileage) : '—'}
-              <span className="text-sm font-semibold text-slate-400 ml-0.5">{unit}</span>
-            </div>
-            <div className="text-[11px] text-slate-500 mt-0.5">{purchaseDate ? formatDateShort(purchaseDate) : ''}</div>
-          </div>
-          <div className="flex-1 rounded-xl bg-red-900/10 border border-red-900/20 p-4 text-center">
-            <div className="text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-1">Current</div>
-            <div className="text-xl sm:text-2xl font-extrabold tracking-tight text-red-500">
-              {formatNumber(currentMileage)}
-              <span className="text-sm font-semibold text-slate-400 ml-0.5">{unit}</span>
-            </div>
-            <div className="text-[11px] text-slate-500 mt-0.5">Today</div>
-          </div>
-          <div className="flex-1 rounded-xl bg-white/[0.02] border border-white/5 p-4 text-center">
-            <div className="text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-1">So Far</div>
-            <div className="text-xl sm:text-2xl font-extrabold tracking-tight text-white/80">
-              {drivenMileage != null ? formatNumber(drivenMileage) : '—'}
-              <span className="text-sm font-semibold text-slate-400 ml-0.5">{unit}</span>
-            </div>
-            <div className="text-[11px] text-slate-500 mt-0.5">driven</div>
-          </div>
-        </div>
-      </div>
-
-      {/* ════════════════════════════════════════
           CHART
           ════════════════════════════════════════
           Premium users see the full chart
-          Free users see story card + blurred empty chart + upgrade nudge */}
+          Free users see blurred empty chart + upgrade nudge */}
       <div className="relative rounded-2xl bg-white/[0.02] border border-white/5 p-4">
         <div className={`${isPremium ? '' : 'blur-sm pointer-events-none select-none opacity-40'}`}>
           <div className="h-[220px]">
@@ -430,7 +387,7 @@ export default function MileageTracker({ activeVehicle, vehicleLogs = [], isPrem
             <p className="text-xs text-slate-400 mb-3">Upgrade for full mileage tracking with projections.</p>
             <button
               onClick={() => onNavigate?.('premium')}
-              className="px-6 py-2.5 rounded-full bg-red-600 text-white text-sm font-bold hover:bg-red-500 transition-all shadow-lg shadow-red-600/30"
+              className="px-6 py-2.5 rounded-full bg-blue-600 text-white text-sm font-bold hover:bg-blue-500 transition-all shadow-lg shadow-blue-600/30"
             >
               Upgrade to Premium →
             </button>
@@ -439,16 +396,69 @@ export default function MileageTracker({ activeVehicle, vehicleLogs = [], isPrem
       </div>
 
       {/* ════════════════════════════════════════
+          YOUR MILEAGE STORY — narrative card
+          ════════════════════════════════════════ */}
+      <div className="relative rounded-2xl bg-gradient-to-br from-[#16161f] to-[#12121a] border border-white/5 overflow-hidden">
+        {/* Top accent line */}
+        <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-[#2563eb] via-[#3b82f6] to-[#3b82f6]" />
+
+        <div className="p-6">
+          <div className="text-[10px] font-medium uppercase tracking-wider text-blue-400 mb-4">
+            📖 Your Mileage Story
+          </div>
+
+          <div className="text-sm sm:text-base leading-relaxed text-[#c0c0d0]">
+            You bought this <span className="font-semibold text-white">{activeVehicle?.name || 'vehicle'}</span>
+            {purchaseMileage != null ? (
+              <> with <span className="font-bold text-white bg-blue-900/20 px-1.5 py-0.5 rounded">{formatNumber(purchaseMileage)}</span> miles</>
+            ) : ''}
+            {purchaseDate ? (
+              <> on <span className="text-[#8888a0] font-medium">{formatDate(purchaseDate)}</span>.</>
+            ) : '.'}
+            {' '}Today you're at <span className="font-bold text-white bg-blue-900/20 px-1.5 py-0.5 rounded">{formatNumber(currentMileage)}</span> {unit}.
+          </div>
+
+          {/* Three big-number summary cards */}
+          <div className="flex gap-3 mt-5">
+            <div className="flex-1 rounded-xl bg-white/[0.02] border border-white/5 p-4 text-center">
+              <div className="text-[11px] font-semibold uppercase tracking-wider text-[#666] mb-1">Purchased</div>
+              <div className="text-lg sm:text-xl font-bold tracking-tight text-white">
+                {purchaseMileage != null ? formatNumber(purchaseMileage) : '—'}
+                <span className="text-sm font-semibold text-[#666] ml-0.5">{unit}</span>
+              </div>
+              <div className="text-[11px] text-[#555] mt-0.5">{purchaseDate ? formatDateShort(purchaseDate) : ''}</div>
+            </div>
+            <div className="flex-1 rounded-xl bg-blue-900/10 border border-blue-900/20 p-4 text-center">
+              <div className="text-[11px] font-semibold uppercase tracking-wider text-[#666] mb-1">Current</div>
+              <div className="text-lg sm:text-xl font-bold tracking-tight text-blue-400">
+                {formatNumber(currentMileage)}
+                <span className="text-sm font-semibold text-[#666] ml-0.5">{unit}</span>
+              </div>
+              <div className="text-[11px] text-[#555] mt-0.5">Today</div>
+            </div>
+            <div className="flex-1 rounded-xl bg-white/[0.02] border border-white/5 p-4 text-center">
+              <div className="text-[11px] font-semibold uppercase tracking-wider text-[#666] mb-1">So Far</div>
+              <div className="text-lg sm:text-xl font-bold tracking-tight text-white">
+                {drivenMileage != null ? formatNumber(drivenMileage) : '—'}
+                <span className="text-sm font-semibold text-[#666] ml-0.5">{unit}</span>
+              </div>
+              <div className="text-[11px] text-[#555] mt-0.5">driven</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ════════════════════════════════════════
           PROJECTED OUTCOME — Premium only
           ════════════════════════════════════════ */}
       {isPremium && projection && (
-        <div className="rounded-xl bg-red-900/10 border border-red-900/20 p-4 flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-red-900/20 flex items-center justify-center shrink-0 text-xl">
+        <div className="rounded-xl bg-blue-900/10 border border-blue-900/20 p-4 flex items-center gap-3">
+          <div className="w-10 h-10 rounded-xl bg-blue-900/20 flex items-center justify-center shrink-0 text-xl">
             🔮
           </div>
           <div className="flex-1 min-w-0">
-            <div className="text-[11px] font-semibold uppercase tracking-wider text-red-500 mb-0.5">Projected</div>
-            <div className="text-xl font-extrabold tracking-tight text-white">
+            <div className="text-[11px] font-semibold uppercase tracking-wider text-blue-400 mb-0.5">Projected</div>
+            <div className="text-lg sm:text-xl font-bold tracking-tight text-white">
               {formatNumber(projection.projectedMileage)} <span className="text-sm font-semibold text-[#666]">{unit}</span>
             </div>
             <div className="text-xs text-[#777] mt-0.5">
