@@ -23,6 +23,18 @@ function findFuseData(make, model, year) {
     const matchedKey = modelKeys.find(k => modelLower.startsWith(k) || k.startsWith(modelLower));
     if (matchedKey) modelData = makeData[matchedKey];
   }
+  if (!modelData) {
+    // Strip make name from model prefix (e.g., "mazda3" → "3", "toyota camry" → "camry")
+    const strippedModel = modelLower.replace(new RegExp('^' + makeLower + '\\s*', 'i'), '').trim();
+    if (strippedModel && strippedModel !== modelLower) {
+      modelData = makeData[strippedModel];
+      if (!modelData) {
+        const modelKeys2 = Object.keys(makeData);
+        const matchedKey2 = modelKeys2.find(k => strippedModel.startsWith(k) || k.startsWith(strippedModel));
+        if (matchedKey2) modelData = makeData[matchedKey2];
+      }
+    }
+  }
   if (!modelData) return null;
   
   // Find matching year range
