@@ -4073,6 +4073,12 @@ const wave6Specs = {
       '2005-2018': yamahaPwcSpec('Yamaha WaveRunner VX Cruiser / VX Deluxe / VX Limited — TR-1 1.0L 3-cylinder 4-stroke', 'Yamalube 4W 10W-40'),
       '2019-2025': yamahaPwcSpec('Yamaha WaveRunner VX Cruiser / VX Deluxe / VX Limited — TR-1 HO 1.0L 3-cylinder 4-stroke', 'Yamalube 4W 10W-40')
     },
+    'vx-c': {
+      '2019-2025': yamahaPwcSpec('Yamaha WaveRunner VX-C — TR-1 1.0L 3-cylinder 4-stroke; regular unleaded (87 octane)', 'Yamalube 4W 10W-40')
+    },
+    'vx limited ho': {
+      '2019-2025': yamahaPwcSpec('Yamaha WaveRunner VX Limited HO — 1.8L HO 4-stroke; premium recommended (91 octane)', 'Yamalube 4W 10W-40')
+    },
     'fx ho': {
       '2005-2019': yamahaPwcSpec('Yamaha WaveRunner FX HO / FX Cruiser HO — MR-1 1.0L 4-cylinder 4-stroke', 'Yamalube 4W 10W-40'),
       '2020-2025': yamahaPwcSpec('Yamaha WaveRunner FX HO / FX Cruiser HO — 1.8L HO 4-stroke', 'Yamalube 4W 10W-40')
