@@ -16,6 +16,13 @@ function formatMonthYear(dateStr) {
   return `${months[d.getMonth()]} ${d.getFullYear()}`;
 }
 
+function formatDayMonth(date) {
+  if (!date) return '';
+  const d = date instanceof Date ? date : new Date(date);
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  return `${months[d.getMonth()]} ${d.getDate()}`;
+}
+
 /**
  * Build mileage data points: purchase point + service log entries + current point.
  * Returns sorted array of { x: dateObj, y: mileage, label: string, isPurchase, isCurrent }
@@ -197,8 +204,10 @@ function computeChartLayout(points, projection, width = 340, height = 180) {
     y: toY(p.y),
     isPurchase: p.isPurchase,
     isCurrent: p.isCurrent,
+    isLog: p.isLog,
     mileage: p.y,
     label: p.label,
+    logDate: p.isLog ? formatDayMonth(p.x) : null,
   }));
 
   // Pace badge
@@ -324,7 +333,9 @@ export default function MileageTracker({ activeVehicle, vehicleLogs = [], isPrem
             ) : d.isLog ? (
               <>
                 <title>{d.label}: {formatNumber(d.mileage)} {unit}</title>
-                <circle cx={d.x} cy={d.y} r="3" fill="#3b82f6" opacity="0.7" />
+                <circle cx={d.x} cy={d.y} r="4" fill="#3b82f6" opacity="0.9" />
+                <text x={d.x} y={d.y - 8} fill="#3b82f6" fontSize="7" textAnchor="middle">{formatNumber(d.mileage)}</text>
+                <text x={d.x} y={d.y + 12} fill="#555" fontSize="7" textAnchor="middle">{d.logDate}</text>
               </>
             ) : null}
           </g>
@@ -399,11 +410,11 @@ export default function MileageTracker({ activeVehicle, vehicleLogs = [], isPrem
           YOUR MILEAGE STORY — narrative card
           ════════════════════════════════════════ */}
       <div className="rounded-xl bg-blue-900/10 border border-blue-900/20 p-4">
-        <div className="text-[10px] font-medium uppercase tracking-wider text-blue-400 mb-4">
+        <div className="text-[10px] font-medium uppercase tracking-wider text-blue-400 mb-2">
           📖 Mileage Story
         </div>
 
-        <div className="text-sm sm:text-base leading-relaxed text-slate-400">
+        <div className="text-xs sm:text-sm leading-relaxed text-slate-400">
           You bought this <span className="font-semibold text-white">{activeVehicle?.name || 'vehicle'}</span>
           {purchaseMileage != null ? (
             <> with <span className="font-bold text-white bg-blue-900/20 px-1.5 py-0.5 rounded">{formatNumber(purchaseMileage)}</span> miles</>
@@ -415,30 +426,30 @@ export default function MileageTracker({ activeVehicle, vehicleLogs = [], isPrem
         </div>
 
         {/* Three big-number summary cards */}
-        <div className="flex gap-3 mt-5">
-          <div className="flex-1 rounded-xl bg-white/[0.02] border border-white/5 p-3 text-center">
-            <div className="text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-1">Purchased</div>
-            <div className="text-lg sm:text-xl font-bold tracking-tight text-white">
+        <div className="flex gap-2 mt-3">
+          <div className="flex-1 rounded-xl bg-white/[0.02] border border-white/5 p-2 text-center">
+            <div className="text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-0.5">Purchased</div>
+            <div className="text-base sm:text-lg font-bold tracking-tight text-white">
               {purchaseMileage != null ? formatNumber(purchaseMileage) : '—'}
               <span className="text-sm font-semibold text-slate-400 ml-0.5">{unit}</span>
             </div>
-            <div className="text-[11px] text-slate-500 mt-0.5">{purchaseDate ? formatDateShort(purchaseDate) : ''}</div>
+            <div className="text-[10px] text-slate-500 mt-0">{purchaseDate ? formatDateShort(purchaseDate) : ''}</div>
           </div>
-          <div className="flex-1 rounded-xl bg-blue-900/10 border border-blue-900/20 p-3 text-center">
-            <div className="text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-1">Current</div>
-            <div className="text-lg sm:text-xl font-bold tracking-tight text-blue-400">
+          <div className="flex-1 rounded-xl bg-blue-900/10 border border-blue-900/20 p-2 text-center">
+            <div className="text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-0.5">Current</div>
+            <div className="text-base sm:text-lg font-bold tracking-tight text-blue-400">
               {formatNumber(currentMileage)}
               <span className="text-sm font-semibold text-slate-400 ml-0.5">{unit}</span>
             </div>
-            <div className="text-[11px] text-slate-500 mt-0.5">Today</div>
+            <div className="text-[10px] text-slate-500 mt-0">Today</div>
           </div>
-          <div className="flex-1 rounded-xl bg-white/[0.02] border border-white/5 p-3 text-center">
-            <div className="text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-1">So Far</div>
-            <div className="text-lg sm:text-xl font-bold tracking-tight text-white">
+          <div className="flex-1 rounded-xl bg-white/[0.02] border border-white/5 p-2 text-center">
+            <div className="text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-0.5">So Far</div>
+            <div className="text-base sm:text-lg font-bold tracking-tight text-white">
               {drivenMileage != null ? formatNumber(drivenMileage) : '—'}
               <span className="text-sm font-semibold text-slate-400 ml-0.5">{unit}</span>
             </div>
-            <div className="text-[11px] text-slate-500 mt-0.5">driven</div>
+            <div className="text-[10px] text-slate-500 mt-0">driven</div>
           </div>
         </div>
       </div>
