@@ -85,7 +85,14 @@ export default function Layout({ currentPage, onNavigate, onLogout, children }) 
                   }`}
                 >
                   <Icon className="w-4.5 h-4.5" />
-                  <span>{item.label}</span>
+                  {item.id === 'schedule' ? (
+                    <span className="inline-flex shrink-0 flex-col items-start">
+                      <span>Scheduled</span>
+                      <span>Maintenance</span>
+                    </span>
+                  ) : (
+                    <span>{item.label}</span>
+                  )}
                   {isActive && <ChevronRight className="w-4 h-4 ml-auto" />}
                 </button>
               );
