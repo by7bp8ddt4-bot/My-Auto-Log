@@ -16,6 +16,7 @@ import SchedulePage from './pages/SchedulePage.jsx';
 import FuelPage from './pages/FuelPage.jsx';
 import ModsPage from './pages/ModsPage.jsx';
 import DocumentsPage from './pages/DocumentsPage.jsx';
+import SpecsPage from './pages/SpecsPage.jsx';
 import WiringPage from './pages/WiringPage.jsx';
 import SubscriptionPage from './pages/SubscriptionPage.jsx';
 import ContactPage from './pages/ContactPage.jsx';
@@ -212,6 +213,10 @@ export default function Router({
       vehicles={vehiclesStore.data}
       navigate={navigate}
       userId={auth.user?.id}
+    />,
+    specs: <SpecsPage
+      vehicles={vehiclesStore.data}
+      selectedVehicleId={selectedVehicleId}
     />,
     wiring: <WiringPage
       vehicles={vehiclesStore.data}

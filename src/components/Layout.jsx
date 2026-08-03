@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import logoImg from '/assets/logo.png';
 import iconImg from '/assets/icon-1024.png';
-import { LayoutDashboard, Car, ClipboardList, Bell, Settings, LogOut, ChevronRight, Calendar, Fuel, Wrench, Grid3X3, X, FileText, Zap } from 'lucide-react';
+import { LayoutDashboard, Car, ClipboardList, Bell, Settings, LogOut, ChevronRight, Calendar, Fuel, Wrench, Grid3X3, X, FileText, Zap, Info } from 'lucide-react';
 
 const allNavItems = [
   { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
@@ -10,6 +10,7 @@ const allNavItems = [
   { id: 'logs', label: 'Service Logs', icon: ClipboardList },
   { id: 'mods', label: 'Performance Mods', icon: Wrench },
   { id: 'fuel', label: 'Fuel Logs', icon: Fuel },
+  { id: 'specs', label: 'Vehicle Specs', icon: Info },
   { id: 'wiring', label: 'Wiring Diagrams', icon: Zap },
   { id: 'documents', label: 'Documents', icon: FileText },
   { id: 'reminders', label: 'Reminders', icon: Bell },
@@ -20,7 +21,7 @@ const primaryNavItems = allNavItems.filter(i =>
   ['dashboard', 'vehicles', 'schedule', 'logs'].includes(i.id)
 );
 const moreNavItems = allNavItems.filter(i =>
-  ['mods', 'fuel', 'wiring', 'documents', 'reminders'].includes(i.id)
+  ['mods', 'fuel', 'specs', 'wiring', 'documents', 'reminders'].includes(i.id)
 );
 
 export default function Layout({ currentPage, onNavigate, onLogout, children }) {
