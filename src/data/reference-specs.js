@@ -5540,6 +5540,7 @@ for (const [make, models] of Object.entries(wave12Specs)) {
   for (const [model, years] of Object.entries(models)) referenceSpecs[make][model] = { ...referenceSpecs[make][model], ...years };
 }
 
+
 // Wave 13 — classic Yanmar YM-series tractor reference specs (1975-1990 era).
 // YT/SA series were already added in Wave 7; this closes the remaining
 // yanmar-ag maintenance-schedule gap (ym2000/ym1500/ym2500/ym3000/ym336/ym342/ym347/ym359).
@@ -5585,6 +5586,54 @@ for (const [make, models] of Object.entries(wave13Specs)) {
   for (const [model, years] of Object.entries(models)) referenceSpecs[make][model] = { ...referenceSpecs[make][model], ...years };
 }
 
-export default referenceSpecs;
+// ── Wave 14: John Deere tractor and Gator utility vehicle audit coverage ────
+// Shared factories keep the model entries consistent while preserving the
+// drivetrain/fluid distinctions called out by the John Deere operator manuals.
+const jdGatorSpec = (engineDescription, fuelType) => ({
+  ...agSpec(engineDescription, fuelType === 'diesel' ? '15W-40 diesel oil' : '10W-30 gasoline engine oil', 'John Deere Hy-Gard or Low-Viscosity Hy-Gard'),
+  transmission: {
+    fluidType: 'John Deere Hy-Gard or Low-Viscosity Hy-Gard',
+    capacity: "Consult owner's manual",
+    note: 'CVT belt drive/transaxle; use the fluid specified for the installed transaxle and model year.'
+  },
+  obd2Location: 'No OBD-II. Small-engine diagnostic connector/service port; consult the model-year service manual.',
+  note: `${engineDescription} (${fuelType}). CVT belt-drive utility vehicle; hour-based intervals and model-specific capacities apply.`
+});
+const wave14Specs = {
+  'john deere': {
+    // R-series row-crop/utility tractors: diesel, Hy-Gard, IVT or PowerShift, 4WD.
+    '6r': { '2015-2025': agSpec('John Deere 6R Series — diesel row-crop/utility tractor; IVT or PowerShift', '15W-40 JD Plus-50 II diesel oil', 'John Deere Hy-Gard') },
+    '5r': { '2015-2025': agSpec('John Deere 5R Series — diesel compact utility tractor; IVT or PowerShift', '15W-40 JD Plus-50 II diesel oil', 'John Deere Hy-Gard') },
+    '7r': { '2015-2025': agSpec('John Deere 7R Series — diesel row-crop tractor; IVT or PowerShift', '15W-40 JD Plus-50 II diesel oil', 'John Deere Hy-Gard') },
+    '8r': { '2015-2025': agSpec('John Deere 8R Series — diesel row-crop tractor; IVT or PowerShift', '15W-40 JD Plus-50 II diesel oil', 'John Deere Hy-Gard') },
+    '9r': { '2015-2025': agSpec('John Deere 9R Series — diesel articulated/row-crop tractor; IVT or PowerShift', '15W-40 JD Plus-50 II diesel oil', 'John Deere Hy-Gard') },
+    // 3/4/5 Series compact and utility tractors.
+    '3000': { '2015-2025': agSpec('John Deere 3 Series compact tractor — 3-cylinder Yanmar diesel; HST or gear', '15W-40 diesel oil', 'John Deere Hy-Gard') },
+    '3039r': { '2015-2025': agSpec('John Deere 3039R — 3-cylinder Yanmar diesel compact tractor; HST', '15W-40 diesel oil', 'John Deere Hy-Gard') },
+    '3046r': { '2015-2025': agSpec('John Deere 3046R — 3-cylinder Yanmar diesel compact tractor; HST', '15W-40 diesel oil', 'John Deere Hy-Gard') },
+    '4000': { '2015-2025': agSpec('John Deere 4 Series compact tractor — 4-cylinder diesel; HST or gear', '15W-40 diesel oil', 'John Deere Hy-Gard') },
+    '4105': { '2015-2025': agSpec('John Deere 4105 — 4-cylinder diesel compact utility tractor; gear drive', '15W-40 diesel oil', 'John Deere Hy-Gard') },
+    '4120': { '2015-2025': agSpec('John Deere 4120 — 4-cylinder diesel compact utility tractor; HST or gear', '15W-40 diesel oil', 'John Deere Hy-Gard') },
+    '4052m': { '2015-2025': agSpec('John Deere 4052M — 4-cylinder diesel compact utility tractor; HST', '15W-40 diesel oil', 'John Deere Hy-Gard') },
+    '5000': { '2015-2025': agSpec('John Deere 5 Series utility tractor — 3- or 4-cylinder diesel', '15W-40 diesel oil', 'John Deere Hy-Gard') },
+    '5045e': { '2015-2025': agSpec('John Deere 5045E — 3-cylinder diesel utility tractor', '15W-40 diesel oil', 'John Deere Hy-Gard') },
+    '5055e': { '2015-2025': agSpec('John Deere 5055E — 3-cylinder diesel utility tractor', '15W-40 diesel oil', 'John Deere Hy-Gard') },
+    '5065e': { '2015-2025': agSpec('John Deere 5065E — 3-cylinder diesel utility tractor', '15W-40 diesel oil', 'John Deere Hy-Gard') },
+    // Gator utility vehicles: gasoline/diesel engine oil and CVT transaxle fluid.
+    'xuv': { '2015-2025': jdGatorSpec('John Deere Gator XUV utility vehicle', 'gasoline/diesel') },
+    'xuv825m': { '2015-2025': jdGatorSpec('John Deere Gator XUV825M — 812cc gasoline utility vehicle', 'gasoline') },
+    'xuv865m': { '2015-2025': jdGatorSpec('John Deere Gator XUV865M — diesel utility vehicle', 'diesel') },
+    'xuv590e': { '2015-2025': jdGatorSpec('John Deere Gator XUV590E — gasoline utility vehicle', 'gasoline') },
+    'xuv560e': { '2015-2025': jdGatorSpec('John Deere Gator XUV560E — gasoline utility vehicle', 'gasoline') },
+    'gator-xuv-835': { '2015-2025': jdGatorSpec('John Deere Gator XUV835 — gasoline utility vehicle', 'gasoline') },
+    'gator-hpx': { '2015-2025': jdGatorSpec('John Deere Gator HPX — gasoline/diesel utility vehicle', 'gasoline/diesel') },
+    'gator-te': { '2015-2025': jdGatorSpec('John Deere Gator TE — electric utility vehicle', 'electric') },
+    'gator-tx': { '2015-2025': jdGatorSpec('John Deere Gator TX — gasoline utility vehicle', 'gasoline') }
+  }
+};
+for (const [make, models] of Object.entries(wave14Specs)) {
+  referenceSpecs[make] = referenceSpecs[make] || {};
+  for (const [model, years] of Object.entries(models)) referenceSpecs[make][model] = { ...referenceSpecs[make][model], ...years };
+}export default referenceSpecs;
 
 
