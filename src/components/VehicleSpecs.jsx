@@ -18,13 +18,15 @@ const KEY_MAP = {
   'forest-river': 'forest river',
   'grand-design': 'grand design',
   'bmw-mc': 'bmw motorrad',
-  'honda-mc': 'honda',
-  'yamaha-mc': 'yamaha',
-  'kawasaki-mc': 'kawasaki',
-  'suzuki-mc': 'suzuki',
   'harley-davidson': 'harley-davidson',
+  'honda-mc': 'honda',
+  'hyster-e': 'hyster electric',
   'indian': 'indian',
+  'john-deere': 'john deere',
+  'kawasaki-mc': 'kawasaki',
   'mercury': 'mercury',
+  'suzuki-mc': 'suzuki',
+  'yamaha-mc': 'yamaha',
 };
 
 /**
