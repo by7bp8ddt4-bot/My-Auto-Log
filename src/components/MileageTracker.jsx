@@ -1,5 +1,5 @@
-import { useMemo } from 'react';
-import { TrendingUp, Gauge, Lock } from 'lucide-react';
+import { useMemo, useState, useRef, useEffect, useCallback } from 'react';
+import { TrendingUp, Gauge, Lock, ZoomIn, ZoomOut, RotateCcw } from 'lucide-react';
 import { formatNumber, formatDate } from '../utils/helpers';
 
 function formatDateShort(dateStr) {
@@ -246,6 +246,165 @@ export default function MileageTracker({ activeVehicle, vehicleLogs = [], isPrem
     return computeChartLayout(dataPoints, projection);
   }, [dataPoints, projection]);
 
+  // ── Zoom / Pan state ──
+  const [viewBox, setViewBox] = useState(null); // null = auto-fit
+  const [isPanning, setIsPanning] = useState(false);
+  const svgRef = useRef(null);
+  const panStartRef = useRef({ x: 0, y: 0 });
+  const isPanningRef = useRef(false);
+
+  // Parse the chartLayout viewBox string into an object we can manipulate
+  const originalViewBox = useMemo(() => {
+    if (!chartLayout) return { x: 0, y: 0, w: 340, h: 180 };
+    const parts = chartLayout.viewBox.split(' ').map(Number);
+    return { x: parts[0], y: parts[1], w: parts[2], h: parts[3] };
+  }, [chartLayout]);
+
+  // Reset zoom whenever the chart data changes
+  useEffect(() => {
+    setViewBox(null);
+  }, [chartLayout]);
+
+  // Stable refs so the wheel listener always sees current values
+  const viewBoxRef = useRef(viewBox);
+  viewBoxRef.current = viewBox;
+  const originalViewBoxRef = useRef(originalViewBox);
+  originalViewBoxRef.current = originalViewBox;
+
+  // Compute the effective viewBox string for the SVG
+  const effectiveViewBox = viewBox || originalViewBox;
+  const viewBoxStr = `${effectiveViewBox.x} ${effectiveViewBox.y} ${effectiveViewBox.w} ${effectiveViewBox.h}`;
+  const isZoomed = viewBox !== null;
+
+  // ── Zoom handlers ──
+  const zoom = useCallback((factor) => {
+    setViewBox(prev => {
+      const vb = prev || originalViewBoxRef.current;
+      const newW = vb.w * factor;
+      const newH = vb.h * factor;
+      const newX = vb.x + (vb.w - newW) / 2;
+      const newY = vb.y + (vb.h - newH) / 2;
+      return { x: newX, y: newY, w: newW, h: newH };
+    });
+  }, []);
+
+  const handleZoomIn = useCallback(() => zoom(0.7), [zoom]);
+
+  const handleZoomOut = useCallback(() => {
+    setViewBox(prev => {
+      if (!prev) return prev; // already at max extent
+      const factor = 1 / 0.7;
+      const newW = prev.w * factor;
+      const newH = prev.h * factor;
+      const ob = originalViewBoxRef.current;
+      // Clamp to original viewBox — if we'd exceed it, reset to null
+      if (newW >= ob.w && newH >= ob.h) return null;
+      const newX = prev.x - (newW - prev.w) / 2;
+      const newY = prev.y - (newH - prev.h) / 2;
+      return { x: newX, y: newY, w: newW, h: newH };
+    });
+  }, []);
+
+  const handleReset = useCallback(() => setViewBox(null), []);
+
+  // ── Wheel zoom (non-passive listener on the SVG element) ──
+  useEffect(() => {
+    const svg = svgRef.current;
+    if (!svg) return;
+
+    const onWheel = (e) => {
+      e.preventDefault();
+      const vb = viewBoxRef.current || originalViewBoxRef.current;
+      const ob = originalViewBoxRef.current;
+      const rect = svg.getBoundingClientRect();
+
+      // Mouse position relative to SVG element
+      const mouseX = e.clientX - rect.left;
+      const mouseY = e.clientY - rect.top;
+
+      // Convert to SVG coordinate space
+      const svgX = vb.x + (mouseX / rect.width) * vb.w;
+      const svgY = vb.y + (mouseY / rect.height) * vb.h;
+
+      const zoomFactor = e.deltaY < 0 ? 0.7 : 1 / 0.7;
+      const newW = vb.w * zoomFactor;
+      const newH = vb.h * zoomFactor;
+
+      // Clamp zoom-out: don't let viewBox exceed original
+      if (zoomFactor > 1 && newW >= ob.w && newH >= ob.h) {
+        setViewBox(null);
+        return;
+      }
+
+      // Calculate new origin so the point under the cursor stays fixed
+      const newX = svgX - (mouseX / rect.width) * newW;
+      const newY = svgY - (mouseY / rect.height) * newH;
+
+      setViewBox({ x: newX, y: newY, w: newW, h: newH });
+    };
+
+    svg.addEventListener('wheel', onWheel, { passive: false });
+    return () => svg.removeEventListener('wheel', onWheel);
+  }, [chartLayout]);
+
+  // ── Pan handlers (mouse + touch) ──
+  const handlePanStart = useCallback((e) => {
+    e.preventDefault();
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+    panStartRef.current = { x: clientX, y: clientY };
+    isPanningRef.current = true;
+    setIsPanning(true);
+  }, []);
+
+  // Pan-move attached to window so dragging outside the SVG still works
+  useEffect(() => {
+    if (!isPanning) return;
+
+    const onMove = (e) => {
+      if (!isPanningRef.current) return;
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+
+      const dx = clientX - panStartRef.current.x;
+      const dy = clientY - panStartRef.current.y;
+      panStartRef.current = { x: clientX, y: clientY };
+
+      const svg = svgRef.current;
+      if (!svg) return;
+      const rect = svg.getBoundingClientRect();
+
+      setViewBox(prev => {
+        const vb = prev || originalViewBoxRef.current;
+        const scaleX = vb.w / rect.width;
+        const scaleY = vb.h / rect.height;
+        return {
+          x: vb.x - dx * scaleX,
+          y: vb.y - dy * scaleY,
+          w: vb.w,
+          h: vb.h,
+        };
+      });
+    };
+
+    const onEnd = () => {
+      isPanningRef.current = false;
+      setIsPanning(false);
+    };
+
+    window.addEventListener('mousemove', onMove);
+    window.addEventListener('mouseup', onEnd);
+    window.addEventListener('touchmove', onMove, { passive: false });
+    window.addEventListener('touchend', onEnd);
+    return () => {
+      window.removeEventListener('mousemove', onMove);
+      window.removeEventListener('mouseup', onEnd);
+      window.removeEventListener('touchmove', onMove);
+      window.removeEventListener('touchend', onEnd);
+    };
+  }, [isPanning]);
+
+  // ── Business logic (unchanged) ──
   const purchaseMileage = activeVehicle?.purchaseMileage ?? null;
   const currentMileage = activeVehicle?.mileage ?? 0;
   const drivenMileage = (purchaseMileage != null) ? Math.max(0, currentMileage - purchaseMileage) : null;
@@ -284,7 +443,14 @@ export default function MileageTracker({ activeVehicle, vehicleLogs = [], isPrem
     }
 
     return (
-      <svg viewBox={chartLayout.viewBox} xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+      <svg
+        ref={svgRef}
+        viewBox={viewBoxStr}
+        xmlns="http://www.w3.org/2000/svg"
+        className={`w-full h-full select-none ${isPanning ? 'cursor-grabbing' : 'cursor-grab'}`}
+        onMouseDown={handlePanStart}
+        onTouchStart={handlePanStart}
+      >
         <defs>
           <linearGradient id="mileageFill" x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%" stopColor="#3b82f6" stopOpacity="0.20" />
@@ -377,6 +543,8 @@ export default function MileageTracker({ activeVehicle, vehicleLogs = [], isPrem
     );
   };
 
+  const showZoomControls = isPremium && chartLayout && dataPoints.length >= 2;
+
   return (
     <div className="space-y-4">
       {/* ════════════════════════════════════════
@@ -386,8 +554,40 @@ export default function MileageTracker({ activeVehicle, vehicleLogs = [], isPrem
           Free users see blurred empty chart + upgrade nudge */}
       <div className="relative rounded-2xl bg-white/[0.02] border border-white/5 p-4">
         <div className={`${isPremium ? '' : 'blur-sm pointer-events-none select-none opacity-40'}`}>
-          <div className="h-[220px]">
+          <div className="relative h-[220px]">
             {renderChart()}
+
+            {/* Zoom controls — top-right corner of chart area */}
+            {showZoomControls && (
+              <div className="absolute top-1 right-1 flex gap-0.5 z-10">
+                <button
+                  onClick={handleZoomIn}
+                  className="p-1 rounded bg-white/[0.06] hover:bg-white/[0.12] text-slate-400 hover:text-white transition-colors"
+                  title="Zoom in"
+                  aria-label="Zoom in"
+                >
+                  <ZoomIn className="w-3.5 h-3.5" />
+                </button>
+                <button
+                  onClick={handleZoomOut}
+                  className="p-1 rounded bg-white/[0.06] hover:bg-white/[0.12] text-slate-400 hover:text-white transition-colors"
+                  title="Zoom out"
+                  aria-label="Zoom out"
+                >
+                  <ZoomOut className="w-3.5 h-3.5" />
+                </button>
+                {isZoomed && (
+                  <button
+                    onClick={handleReset}
+                    className="p-1 rounded bg-white/[0.06] hover:bg-white/[0.12] text-slate-400 hover:text-white transition-colors"
+                    title="Reset zoom"
+                    aria-label="Reset zoom"
+                  >
+                    <RotateCcw className="w-3.5 h-3.5" />
+                  </button>
+                )}
+              </div>
+            )}
           </div>
         </div>
 
