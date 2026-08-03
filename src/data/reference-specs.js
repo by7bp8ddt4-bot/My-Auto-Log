@@ -4322,10 +4322,10 @@ const wave6Specs = {
   },
   'caterpillar': {
     'c7': {
-      '2005-2012': marineDieselSpec('CAT C7 — 7.2L inline-6 marine diesel (350-450 hp ratings)',
+      '2005-2012': { ...marineDieselSpec('CAT C7 — 7.2L inline-6 marine diesel (350-450 hp ratings)',
         '15W-40 (CAT ECF-1-a / API CJ-4 — CAT DEO or equivalent)',
         "Consult owner's manual (oil pan option dependent; ~30 qt typical)",
-        'CAT Electronic Technician (ET) via the ECM data link connector near the engine/helm; no OBD-II.')
+        'CAT Electronic Technician (ET) via the ECM data link connector near the engine/helm; no OBD-II.'), serviceUnit: 'hrs' }
     },
     'c12': {
       '2005-2008': marineDieselSpec('CAT C12 — 12L inline-6 marine diesel (up to 825 hp ratings)',

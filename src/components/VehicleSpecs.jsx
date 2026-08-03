@@ -17,6 +17,14 @@ const KEY_MAP = {
   'western-star': 'western star',
   'forest-river': 'forest river',
   'grand-design': 'grand design',
+  'bmw-mc': 'bmw motorrad',
+  'honda-mc': 'honda',
+  'yamaha-mc': 'yamaha',
+  'kawasaki-mc': 'kawasaki',
+  'suzuki-mc': 'suzuki',
+  'harley-davidson': 'harley-davidson',
+  'indian': 'indian',
+  'mercury': 'mercury',
 };
 
 /**
