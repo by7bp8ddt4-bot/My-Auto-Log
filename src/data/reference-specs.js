@@ -4606,6 +4606,709 @@ for (const [make, models] of Object.entries(rvModels)) for (const [model, [engin
 // Correct OEM naming typo while retaining normalized lookup keys.
 for (const [make, models] of Object.entries(wave8Specs)) { referenceSpecs[make] = referenceSpecs[make] || {}; for (const [model, years] of Object.entries(models)) referenceSpecs[make][model] = { ...referenceSpecs[make][model], ...years }; }
 
+// ═══════════════════════════════════════════════════════════════════════════
+// Wave 9: Classic & defunct automotive makes — AMC, MG, Plymouth, Oldsmobile
+// Model lists extracted from MAINTENANCE_SCHEDULES (src/data/maintenance-schedules.js).
+// All models are pre-1996 (except 1996+ Plymouth/Oldsmobile models, which are
+// OBD-II). Era-typical values; unverifiable values marked "Consult owner's manual".
+// ═══════════════════════════════════════════════════════════════════════════
+const classicCarSpec = (o) => ({
+  engine: {
+    oilViscosity: o.oil,
+    oilCapacity: o.oilCap || consult,
+    oilFilterPN: o.filterPN || consult,
+    coolantType: o.coolant || 'Green IAT coolant (ethylene glycol)',
+    coolantCapacity: o.coolantCap || consult
+  },
+  transmission: { fluidType: o.trans, capacity: o.transCap || consult, ...(o.transNote ? { note: o.transNote } : {}) },
+  transferCase: o.tcase ?? null,
+  differentials: { front: o.diffF ?? null, rear: o.diffR ?? null },
+  brakeFluid: o.brake || 'DOT 3',
+  tires: { frontPSI: o.psiF ?? 30, rearPSI: o.psiR ?? 30, oemSizes: o.sizes || [consult], lugNutTorque: o.lug ?? consult },
+  bulbs: o.bulbs || {},
+  obd2Location: o.obd2 || consult,
+  ...(o.note ? { note: o.note } : {})
+});
+
+// ── AMC (1950-1988) ────────────────────────────────────────────────────────
+const AMC_OBD2 = 'OBD-II not available (pre-1996). AMC diagnostic port: under hood near fender relay, 2-wire connector.';
+const amcBulbs = {
+  lowBeam: '7" round sealed beam (H5006/H6024) — H4656 rectangular on 1975+ models',
+  highBeam: '7" round sealed beam (H5001) / H4651 rectangular (1975+)',
+  frontTurn: '1157 (double filament) / 1156',
+  rearTurn: '1156',
+  tailBrake: '1157',
+  interior: 'BA9s (181 dome/map)',
+  license: '67 (bayonet) early — 168/194 (wedge) on later models'
+};
+const amcSpec = (o) => classicCarSpec({ coolant: 'Green IAT coolant (ethylene glycol)', brake: 'DOT 3', bulbs: amcBulbs, obd2: AMC_OBD2, psiF: 28, psiR: 28, ...o });
+
+// ── MG (1952-2000) ─────────────────────────────────────────────────────────
+const mgBulbs = {
+  lowBeam: '7" round sealed beam (H5006) — H4 halogen on 1974+ North American MGB and Metro/Maestro/RV8; H1 projector on MGF',
+  highBeam: '7" round sealed beam (H5001) / H4 (later models)',
+  frontTurn: '1157 (double filament) — BA15s (382) on very early cars',
+  rearTurn: '1156 / BA15s',
+  tailBrake: '1157 (LED conversions common on classics)',
+  interior: 'BA9s (181/987)',
+  license: 'BA9s (987) early — 168/194 (wedge) on later models'
+};
+const MG_PRE96_OBD2 = 'OBD-II not available (pre-1996). SU carburetor tuning via manual adjustment; points ignition on classics — set gap per manual.';
+const mgSpec = (o) => classicCarSpec({ coolant: 'Green IAT coolant (ethylene glycol)', brake: 'DOT 4 (Girling)', bulbs: mgBulbs, obd2: MG_PRE96_OBD2, psiF: 26, psiR: 26, ...o });
+
+// ── Plymouth (1960-2001) ───────────────────────────────────────────────────
+const PLY_PRE96_OBD2 = 'OBD-II not available (pre-1996). Chrysler diagnostic connector (older: 6-pin under dash; 1990s: 12-pin CCD under hood near battery) — use DRB/scan tool.';
+const PLY_OBD2_1996 = 'OBD-II port under driver side dashboard (16-pin), left of steering column.';
+const plymouthBulbs = {
+  lowBeam: '7" round sealed beam (H5006/H6024) — H4656 rectangular (1975+)',
+  highBeam: '7" round sealed beam (H5001) / H4651 rectangular (1975+)',
+  frontTurn: '1157 (double filament) / 1156',
+  rearTurn: '1156',
+  tailBrake: '1157',
+  interior: 'BA9s (181/1895)',
+  license: '67 — 168/194 (wedge) on 1990s models'
+};
+const plymouthSpec = (o) => classicCarSpec({ coolant: 'Green IAT coolant (ethylene glycol) — Mopar OAT (purple) on 1996+ models', brake: 'DOT 3', bulbs: plymouthBulbs, obd2: PLY_PRE96_OBD2, psiF: 30, psiR: 30, ...o });
+
+// ── Oldsmobile (1960-2004) ─────────────────────────────────────────────────
+const OLDS_PRE96_OBD2 = 'OBD-II not available (pre-1996). GM ALDL diagnostic connector — 5-pin (1980s) or 12-pin (1990s) under driver side dash; use GM scan tool.';
+const OLDS_OBD2_1996 = 'OBD-II port under driver side dashboard (16-pin), left of steering column.';
+const OLDS_SPAN_OBD2 = 'Pre-1996: GM ALDL 12-pin connector under driver side dash (no OBD-II). 1996+: OBD-II port under driver side dashboard (16-pin).';
+const oldsBulbs = {
+  lowBeam: '9006 (halogen composite, 1985+) / 7" sealed beam H4656 (earlier)',
+  highBeam: '9005 (1985+) / H4651 (earlier)',
+  frontTurn: '1157 (3157 on 1990s models)',
+  rearTurn: '1156 / 3156 (1990s)',
+  tailBrake: '1157 / 3157 (1990s)',
+  interior: '194/168 wedge (DE3022) — BA9s (181) on earlier models',
+  license: '168/194'
+};
+const oldsSpec = (o) => classicCarSpec({ coolant: 'Green IAT coolant (ethylene glycol) — Dex-Cool (orange) on 1995+ models', brake: 'DOT 3', bulbs: oldsBulbs, obd2: OLDS_PRE96_OBD2, psiF: 30, psiR: 30, ...o });
+
+// ═══════════════════════════════════════════════════════════════════════════
+// wave9Specs — merged at module bottom with ...wave9Specs
+// ═══════════════════════════════════════════════════════════════════════════
+const wave9Specs = {
+  amc: {
+    eagle: {
+      '1979-1988': amcSpec({
+        engine: 'AMC 258ci (4.2L) I6 — 2-bbl carburetor; 304ci V8 optional 1979-1981',
+        oil: 'SAE 10W-30 (high-zinc for flat-tappet cam)', oilCap: '5.0 qt (I6 w/filter) / 5.0 qt (V8 w/filter)',
+        trans: 'TorqueFlite 998 3-speed auto (Dexron III) / T-4 4-speed manual (GL-4 80W-90)',
+        tcase: { fluidType: 'Dexron III ATF (NP119/NP129 full-time 4WD)', capacity: consult, note: 'Full-time 4WD standard on all Eagles.' },
+        diffF: { fluidType: 'SAE 80W-90 GL-5 (Dana 30 IFS)', capacity: consult },
+        diffR: { fluidType: 'SAE 80W-90 GL-5 (AMC Model 15/35)', capacity: consult },
+        sizes: ['P195/75R15 or P205/70R15 (common radial replacement)'],
+        lug: 90,
+        note: 'Eagle (1979-1988) — the original American crossover. Vacuum-operated 4WD; check vacuum lines and CV joints.'
+      })
+    },
+    hornet: {
+      '1970-1977': amcSpec({
+        engine: 'AMC 232ci (3.8L) / 258ci (4.2L) I6; 304ci V8 (1971-1974)',
+        oil: 'SAE 10W-30 (high-zinc)', oilCap: '5.0 qt (I6 w/filter) / 5.0 qt (V8 w/filter)',
+        trans: 'TorqueFlite 904 3-speed auto (Dexron III) / TorqueFlite 727 (V8) / Borg-Warner T-10 4-speed manual (GL-4 80W-90)',
+        diffR: { fluidType: 'SAE 80W-90 GL-5 (AMC Model 15 — I6 / Model 20 — V8)', capacity: consult },
+        sizes: ['D78-14 or E78-14 (era bias-belted)'],
+        lug: 85,
+        note: 'Hornet X-body (1970-1977) — also the basis for the Gremlin, Concord, Spirit and Eagle.'
+      })
+    },
+    pacer: {
+      '1975-1980': amcSpec({
+        engine: 'AMC 232ci / 258ci I6 (no V8 option)',
+        oil: 'SAE 10W-30 (high-zinc)', oilCap: '5.0 qt (w/filter)',
+        trans: 'TorqueFlite 998 3-speed auto (Dexron III) / T-150 3-speed manual (GL-4)',
+        diffR: { fluidType: 'SAE 80W-90 GL-5 (AMC Model 15)', capacity: consult },
+        sizes: ['ER78-14 (era bias-belted)'],
+        lug: 85,
+        note: 'Pacer (1975-1980) — wide-body "flying fishbowl"; famous heavy passenger door hinge check.'
+      })
+    },
+    javelin: {
+      '1968-1974': amcSpec({
+        engine: '290/304/343/360/390/401ci V8; 232/258ci I6 (base)',
+        oil: 'SAE 10W-40 or 20W-50 (high-zinc for flat-tappet cams)', oilCap: '5.0 qt (w/filter)',
+        trans: 'TorqueFlite 727 3-speed auto (Dexron III) / Borg-Warner T-10 4-speed manual (GL-4 80W-90)',
+        diffR: { fluidType: 'SAE 80W-90 GL-5 (AMC Model 20; Twin-Grip limited-slip — add friction modifier)', capacity: consult },
+        sizes: ['E70-14 / F70-14 (era bias-belted)'],
+        lug: 85,
+        note: 'Javelin pony car — 390/401 solid-lifter engines require hot valve adjustment (0.012" intake / 0.018" exhaust).'
+      })
+    },
+    matador: {
+      '1971-1978': amcSpec({
+        engine: '258ci I6 / 304ci / 360ci V8 (401ci on Ambassador)',
+        oil: 'SAE 10W-30 (20W-50 for 401)', oilCap: '5.0 qt (w/filter)',
+        trans: 'TorqueFlite 727 3-speed auto (Dexron III) / Borg-Warner M11/M12 3-speed manual (GL-4)',
+        diffR: { fluidType: 'SAE 80W-90 GL-5 (AMC Model 20)', capacity: consult },
+        sizes: ['F78-14 / G78-15 (era bias-belted)'],
+        lug: 85,
+        note: 'Matador (1971-1978) — AMC intermediate; Ambassador (1958-1974) shared the full-size platform.'
+      })
+    },
+    rambler: {
+      '1950-1969': amcSpec({
+        engine: '195.6ci I6 (flathead through 1956, OHV 1956+); 199ci/232ci I6 on later models',
+        oil: 'SAE 10W-30 (high-zinc)', oilCap: '5.0 qt (w/filter)',
+        trans: 'TorqueFlite 904 3-speed auto (Dexron III) / Borg-Warner M11/M12 3-speed manual (GL-4)',
+        diffR: { fluidType: 'SAE 80W-90 GL-5 (AMC Model 15/27)', capacity: consult },
+        sizes: ['6.50-13 / 7.00-13 (era bias-ply)'],
+        lug: 85,
+        note: 'Rambler marque (1950-1969) — economy pioneer; later Rambler American shared 1964+ Classic/Rebel drivelines.'
+      })
+    },
+    'cj-7': {
+      '1976-1986': amcSpec({
+        engine: '258ci I6 (standard); 304ci V8 optional (1980-1981); earlier CJ-5: 134ci Hurricane I4, 225ci Dauntless V6, 232ci I6',
+        oil: 'SAE 10W-30 (high-zinc)', oilCap: '5.0 qt (w/filter)',
+        trans: 'T-150/T-176 4-speed manual (GL-4 80W-90) / TorqueFlite 999 3-speed auto (Dexron III, 1980+)',
+        tcase: { fluidType: 'Dana 300 — GL-5 80W-90 or ATF (check year; Dana 20 on earlier models)', capacity: consult },
+        diffF: { fluidType: 'SAE 80W-90 GL-5 (Dana 30)', capacity: consult },
+        diffR: { fluidType: 'SAE 80W-90 GL-5 (AMC Model 20 / Dana 44)', capacity: consult },
+        sizes: ['L78-15 (era) — 31x10.50R15 common off-road replacement'],
+        psiF: 26, psiR: 26, lug: 75,
+        note: 'AMC-era Jeep CJ — legendary off-roader; Dana 300 transfer case and AMC Model 20 rear are the strong points.'
+      })
+    },
+    wagoneer: {
+      '1963-1990': amcSpec({
+        engine: '258ci I6 / 360ci V8 (401ci V8 optional through 1974)',
+        oil: 'SAE 10W-30 (high-zinc)', oilCap: '5.0 qt (w/filter)',
+        trans: 'TorqueFlite 727/999 3-speed auto (Dexron III) / TH400 (some 1970s models)',
+        tcase: { fluidType: 'NP208/NP228/NP229 (Selec-Trac) — ATF for chain-driven cases', capacity: consult, note: 'Full-time 4WD available from 1973.' },
+        diffF: { fluidType: 'SAE 80W-90 GL-5 (Dana 44)', capacity: consult },
+        diffR: { fluidType: 'SAE 80W-90 GL-5 (AMC Model 20 / Dana 44)', capacity: consult },
+        sizes: ['H78-15 (era) — LT235/75R15 common replacement'],
+        psiF: 30, psiR: 30, lug: 100,
+        note: 'SJ Wagoneer (1963-1990) — the original luxury 4x4 SUV.'
+      })
+    },
+    'grand wagoneer': {
+      '1984-1991': amcSpec({
+        engine: '360ci V8 (standard); 258ci I6 (1984-1985 only)',
+        oil: 'SAE 10W-30 (high-zinc)', oilCap: '5.0 qt (w/filter)',
+        trans: 'TorqueFlite 727/999 3-speed auto (Dexron III)',
+        tcase: { fluidType: 'NP228/NP229 (Selec-Trac) — ATF for chain-driven cases', capacity: consult, note: 'Full-time 4WD (Quadra-Trac / Selec-Trac).' },
+        diffF: { fluidType: 'SAE 80W-90 GL-5 (Dana 44)', capacity: consult },
+        diffR: { fluidType: 'SAE 80W-90 GL-5 (AMC Model 20 / Dana 44)', capacity: consult },
+        sizes: ['LT235/75R15 (common)'],
+        psiF: 30, psiR: 30, lug: 100,
+        note: 'Grand Wagoneer (1984-1991) — wood-paneled full-size luxury SUV.'
+      })
+    },
+    'cherokee xj': {
+      '1984-2001': amcSpec({
+        engine: '2.5L AMC I4 / 4.0L AMC I6 (Renix 1987-1990, H.O. 1991+)',
+        oil: 'SAE 10W-30 (5W-30 acceptable in cold climates)', oilCap: '4.5 qt (2.5L w/filter) / 6.0 qt (4.0L w/filter)',
+        trans: 'TorqueFlite 904/999 3-speed auto (Dexron III) / AX-5 5-speed manual (GL-4) / AX-15 5-speed (1990+)',
+        tcase: { fluidType: 'NP207 (1984-1986) / NP231 (1988+) / NP242 Selec-Trac — Dexron III ATF', capacity: consult, note: 'Command-Trac (part-time) standard; Selec-Trac (full-time) optional.' },
+        diffF: { fluidType: 'SAE 80W-90 GL-5 (Dana 30)', capacity: consult },
+        diffR: { fluidType: 'SAE 80W-90 GL-5 (Dana 35 — Dana 44 optional)', capacity: consult },
+        sizes: ['P205/75R15 / P215/75R15 (common)'],
+        psiF: 30, psiR: 30, lug: 90,
+        note: 'XJ Cherokee (1984-2001) — AMC-engineered unibody SUV; the 4.0 I6 is legendary for longevity.'
+      })
+    }
+  },
+  mg: {
+    'mg td': {
+      '1950-1953': mgSpec({
+        engine: 'XPAG 1250cc I4 (54 hp) — twin SU carburetors, points ignition',
+        oil: 'SAE 20W-50 (high-zinc)', oilCap: '3.5 qt (approx 6 imp pints)',
+        trans: '4-speed manual — GL-4 80W-90 (or 30/40 engine oil class per early manuals)',
+        diffR: { fluidType: 'SAE 90 GL-5 (hypoid — early: 30/40 engine oil class)', capacity: consult },
+        sizes: ['5.50-15 (48-spoke wire wheels)'],
+        psiF: 26, psiR: 26, lug: consult,
+        note: 'MG TD — classic 1950s roadster; wire wheel knock-off hubs (no lug nuts). Brakes: 4-wheel drums (Girling).'
+      })
+    },
+    'mg tf': {
+      '1953-1955': mgSpec({
+        engine: 'XPEG 1466cc I4 (TF1500) — twin SU carburetors, points ignition',
+        oil: 'SAE 20W-50 (high-zinc)', oilCap: '3.5 qt (approx 6 imp pints)',
+        trans: '4-speed manual — GL-4 80W-90 (or 30/40 engine oil class per early manuals)',
+        diffR: { fluidType: 'SAE 90 GL-5 (hypoid)', capacity: consult },
+        sizes: ['5.50-15 (48-spoke wire wheels)'],
+        psiF: 26, psiR: 26, lug: consult,
+        note: 'MG TF — final XPAG-era car; TF1500 upgraded to 1466cc. 4-wheel drum brakes.'
+      })
+    },
+    'mg a': {
+      '1955-1962': mgSpec({
+        engine: 'BMC B-series 1489cc (1500) / 1588cc (1600) / 1622cc (MkII) I4 — twin SU carburetors',
+        oil: 'SAE 20W-50 (high-zinc)', oilCap: '4.0 qt (approx 6.5 imp pints)',
+        trans: '4-speed manual — GL-4 80W-90',
+        diffR: { fluidType: 'SAE 90 GL-5', capacity: consult },
+        sizes: ['5.60-15 (steel disc wheels; wire wheels optional)'],
+        psiF: 26, psiR: 26, lug: 50,
+        note: 'MGA — front disc brakes from 1956; 4-lug 5" bolt circle.'
+      })
+    },
+    'mga twin cam': {
+      '1958-1960': mgSpec({
+        engine: 'MGA Twin Cam 1588cc DOHC I4 (108 hp) — twin SU carburetors',
+        oil: 'SAE 20W-50 (high-zinc)', oilCap: '4.0 qt (approx 6.5 imp pints)',
+        trans: '4-speed manual — GL-4 80W-90',
+        diffR: { fluidType: 'SAE 90 GL-5', capacity: consult },
+        sizes: ['5.60-15'],
+        psiF: 26, psiR: 26, lug: 50,
+        note: 'MGA Twin Cam — exotic DOHC head; alloy brakes. Only 2,111 built.'
+      })
+    },
+    'mg midget': {
+      '1961-1979': mgSpec({
+        engine: 'BMC A-series 948cc (1961-1964) / 1098cc (1964-1974) / 1275cc (1974-1979) I4 — single SU carburetor',
+        oil: 'SAE 20W-50 (high-zinc)', oilCap: '4.0 qt (w/filter, approx)',
+        trans: '4-speed manual — GL-4 80W-90',
+        diffR: { fluidType: 'SAE 90 GL-5', capacity: consult },
+        sizes: ['145R12 (early) — 155SR13 (1972+)'],
+        psiF: 24, psiR: 24, lug: 50,
+        note: 'Midget (badged Austin-Healey Sprite twin) — tiny A-series; 1974+ got rubber bumpers and raised ride.'
+      })
+    },
+    'mg b': {
+      '1962-1980': mgSpec({
+        engine: 'BMC B-series 1798cc I4 (95 hp) — twin SU HIF4 carburetors, points ignition',
+        oil: 'SAE 20W-50 (high-zinc)', oilCap: '5.1 qt (w/filter)',
+        trans: '4-speed manual — GL-4 80W-90 (overdrive unit: engine oil / GL-4 20W-50)',
+        diffR: { fluidType: 'SAE 90 GL-5 (banjo axle — early: 30/40 engine oil class)', capacity: consult },
+        sizes: ['155SR14 (early) — 165SR14 (1976+)'],
+        psiF: 26, psiR: 26, lug: 55,
+        note: 'MGB — best-selling British sports car (over 500k built). Front disc / rear drum brakes (Girling).'
+      })
+    },
+    'mg b gt v8': {
+      '1973-1976': mgSpec({
+        engine: 'Rover 3.5L (3528cc) V8 (137 hp) — twin SU HIF6 carburetors',
+        oil: 'SAE 20W-50 (high-zinc)', oilCap: '4.8 qt (w/filter)',
+        trans: '4-speed manual (Rover LT77 or MGB 4-syncro) — GL-4 80W-90',
+        diffR: { fluidType: 'SAE 90 GL-5 (MGB Salisbury axle — stronger 3.5L diff)', capacity: consult },
+        sizes: ['165HR14 (radial)'],
+        psiF: 28, psiR: 28, lug: 55,
+        note: 'MGB GT V8 — factory Rover V8 conversion; only 2,591 built.'
+      })
+    },
+    'mg c': {
+      '1967-1969': mgSpec({
+        engine: 'BMC C-series 2912cc I6 (145 hp) — three SU carburetors, points ignition',
+        oil: 'SAE 20W-50 (high-zinc)', oilCap: '6.0 qt (approx)',
+        trans: '4-speed manual — GL-4 80W-90',
+        diffR: { fluidType: 'SAE 90 GL-5 (Salisbury 4HA axle)', capacity: consult },
+        sizes: ['165HR15 (radial)'],
+        psiF: 28, psiR: 28, lug: 55,
+        note: 'MGC — 6-cylinder MGB; heavier nose, fewer than 9,000 built.'
+      })
+    },
+    'mg metro': {
+      '1980-1990': mgSpec({
+        engine: 'BMC A-series 1275cc I4 (MG Metro 72 hp; MG Metro Turbo 93 hp) — single SU carburetor',
+        oil: 'SAE 20W-50 (10W-40 acceptable)', oilCap: '4.0 qt (approx)',
+        trans: '4-speed manual — GL-4 80W-90',
+        diffR: { fluidType: 'SAE 90 GL-5 (transverse transaxle final drive)', capacity: consult },
+        sizes: ['145/80R13'],
+        psiF: 28, psiR: 28, lug: 65,
+        note: 'MG Metro — hot hatch on the Austin Metro platform; Turbo version has intercooled A-series.'
+      })
+    },
+    'mg maestro': {
+      '1983-1991': mgSpec({
+        engine: '1.6L S-series I4 (MG Maestro 1.6) / 2.0L O-series I4 (2.0 EFI / 2.0i)',
+        oil: 'SAE 10W-40 (5W-30 acceptable in cold climates)', oilCap: '4.5 qt (approx)',
+        trans: '5-speed manual — GL-4 80W-90',
+        diffR: { fluidType: 'SAE 90 GL-5 (transverse transaxle final drive)', capacity: consult },
+        sizes: ['175/70R13 (1.6) — 185/60R14 (2.0i)'],
+        psiF: 28, psiR: 28, lug: 65,
+        note: 'MG Maestro — 1980s Austin Maestro with MG trim; 2.0i was the first MG with fuel injection.'
+      })
+    },
+    'mg rv8': {
+      '1992-1995': mgSpec({
+        engine: 'Rover 3.9L V8 (190 hp) — hot-wire fuel injection, Lucas ignition',
+        oil: 'SAE 10W-40 (20W-50 for hard use)', oilCap: '5.0 qt (w/filter)',
+        trans: '5-speed manual (Rover R380) — MTF94 or GL-4 80W-90',
+        diffR: { fluidType: 'SAE 90 GL-5 (Salisbury axle)', capacity: consult },
+        sizes: ['205/65VR15'],
+        psiF: 28, psiR: 28, lug: 65,
+        note: 'MG RV8 — modernized MGB roadster with Rover 3.9 V8; only 2,000 built.'
+      })
+    },
+    'mg f': {
+      '1995-2002': mgSpec({
+        engine: 'Rover K-series 1.8L I4 (118 hp; VVC 143 hp) — MEMS engine management',
+        oil: 'SAE 10W-40 (Rover spec — K-series needs correct oil level discipline)', oilCap: '4.8 qt (w/filter)',
+        trans: '5-speed manual (Rover PG1) — MTF94 or GL-4 75W-90',
+        diffR: { fluidType: 'SAE 90 GL-5 (transaxle final drive)', capacity: consult },
+        sizes: ['185/55R15 front / 205/50R15 rear'],
+        psiF: 26, psiR: 28, lug: 65,
+        obd2: 'Rover MEMS engine-management diagnostic connector (5-pin) near ECU behind passenger kick panel — no standard OBD-II port.',
+        note: 'MGF — mid-engine roadster; K-series head-gasket failure is a known weakness — monitor coolant level.'
+      })
+    }
+  },
+  plymouth: {
+    'road runner': {
+      '1968-1980': plymouthSpec({
+        engine: '383ci (6.3L) / 440ci (7.2L) RB big-block; 426 Hemi (1968-1970); 318/340/360 LA small-block (1971+)',
+        oil: 'SAE 10W-40 (10W-30 for small-blocks; 20W-50 for 440/Hemi — high-zinc for flat-tappet cams)', oilCap: '5.0 qt (small-block w/filter) / 6.0 qt (big-block w/filter)',
+        trans: 'TorqueFlite 727 3-speed auto (Dexron III/Mercon — Type F pre-1968) / A-833 4-speed manual (GL-4 80W-90)',
+        diffR: { fluidType: 'SAE 80W-90 GL-5 (8.75" axle / Dana 60 — Sure-Grip limited-slip: add friction modifier)', capacity: consult },
+        sizes: ['E70-14 / F70-14 (era bias-belted)', 'P215/70R14 or P235/60R15 (common radial replacement)'],
+        psiF: 30, psiR: 30, lug: 85,
+        note: 'Road Runner (1968-1980) — the budget muscle car with the beep-beep horn; Hemi option is a legend.'
+      })
+    },
+    barracuda: {
+      '1964-1974': plymouthSpec({
+        engine: '225 Slant-6 / 273, 318, 340 V8 (1964-1969); 318/340/383/440 V8, 426 Hemi (1970-1974 E-body)',
+        oil: 'SAE 10W-40 (high-zinc; 20W-50 for 440/Hemi)', oilCap: '5.0 qt (small-block w/filter) / 6.0 qt (big-block w/filter)',
+        trans: 'TorqueFlite 727 3-speed auto (Dexron III/Mercon) / A-833 4-speed manual (GL-4 80W-90)',
+        diffR: { fluidType: 'SAE 80W-90 GL-5 (7.25" / 8.75" / Dana 60 axle — Sure-Grip optional)', capacity: consult },
+        sizes: ['E70-14 / F70-14 (era) — P215/70R14 (common replacement)'],
+        psiF: 30, psiR: 30, lug: 85,
+        note: 'Barracuda (1964-1974) — Plymouth pony car; 1970-1974 E-body is the collectible generation.'
+      })
+    },
+    superbird: {
+      '1970-1970': plymouthSpec({
+        engine: '440ci (7.2L) Super Commando V8 (375 hp) / 426 Hemi (425 hp)',
+        oil: 'SAE 20W-50 (high-zinc for flat-tappet cams)', oilCap: '6.0 qt (w/filter)',
+        trans: 'TorqueFlite 727 3-speed auto (Dexron III/Mercon) / A-833 4-speed manual (GL-4 80W-90)',
+        diffR: { fluidType: 'SAE 80W-90 GL-5 (8.75" / Dana 60 — Sure-Grip optional)', capacity: consult },
+        sizes: ['F70-14 (era) — P235/60R15 (common replacement)'],
+        psiF: 30, psiR: 30, lug: 85,
+        note: 'Superbird (1970 only) — 1,920 built with the famous nose cone and tall rear wing for NASCAR homologation.'
+      })
+    },
+    gtx: {
+      '1967-1971': plymouthSpec({
+        engine: '383ci V8 (1967-1969: 383/440); 440ci Six-Pack (1970-1971); 426 Hemi (1970-1971)',
+        oil: 'SAE 10W-40 (20W-50 for 440/Hemi — high-zinc)', oilCap: '5.0 qt (383 w/filter) / 6.0 qt (440/Hemi w/filter)',
+        trans: 'TorqueFlite 727 3-speed auto (Dexron III/Mercon) / A-833 4-speed manual (GL-4 80W-90)',
+        diffR: { fluidType: 'SAE 80W-90 GL-5 (8.75" axle — Sure-Grip optional)', capacity: consult },
+        sizes: ['E70-14 / F70-14 (era)'],
+        psiF: 30, psiR: 30, lug: 85,
+        note: 'GTX (1967-1971) — "Gentleman\'s Muscle Car"; 440 Six-Pack with triple 2-bbl carbs from 1970.'
+      })
+    },
+    duster: {
+      '1970-1976': plymouthSpec({
+        engine: '198ci / 225ci Slant-6; 318ci / 340ci LA V8 (Duster 340)',
+        oil: 'SAE 10W-30 (10W-40 for V8s)', oilCap: '4.0 qt (Slant-6 w/filter) / 5.0 qt (V8 w/filter)',
+        trans: 'TorqueFlite 904 3-speed auto (Dexron III/Mercon) / A-833 4-speed manual (GL-4 80W-90)',
+        diffR: { fluidType: 'SAE 80W-90 GL-5 (7.25" / 8.75" axle)', capacity: consult },
+        sizes: ['E70-14 (era) — P215/70R14 (common replacement)'],
+        psiF: 30, psiR: 30, lug: 85,
+        note: 'Duster (1970-1976) — A-body "mini muscle" on the Valiant platform; Duster 340 was the budget hot rod.'
+      })
+    },
+    valiant: {
+      '1960-1976': plymouthSpec({
+        engine: '170ci / 198ci / 225ci Slant-6 (the legendary "leaning tower of power"); 273ci / 318ci V8 (1964+)',
+        oil: 'SAE 10W-30', oilCap: '4.0 qt (Slant-6 w/filter) / 5.0 qt (V8 w/filter)',
+        trans: 'TorqueFlite 904 3-speed auto (Dexron III/Mercon) / A-833 4-speed manual (GL-4 80W-90)',
+        diffR: { fluidType: 'SAE 80W-90 GL-5 (7.25" axle)', capacity: consult },
+        sizes: ['6.50-13 (early) — D78-14 / E78-14 (later)'],
+        psiF: 30, psiR: 30, lug: 85,
+        note: 'Valiant (1960-1976) — the Slant-6 is famously indestructible; early push-button TorqueFlite (1960-1964).'
+      })
+    },
+    satellite: {
+      '1965-1974': plymouthSpec({
+        engine: '225 Slant-6 / 273, 318, 383ci V8 (1965-1970); 318/360/400/440 V8 (1971-1974)',
+        oil: 'SAE 10W-30 (10W-40 for big-blocks)', oilCap: '5.0 qt (small-block w/filter) / 6.0 qt (big-block w/filter)',
+        trans: 'TorqueFlite 727 3-speed auto (Dexron III/Mercon) / A-833 4-speed manual (GL-4 80W-90)',
+        diffR: { fluidType: 'SAE 80W-90 GL-5 (8.75" axle)', capacity: consult },
+        sizes: ['F78-14 (era)'],
+        psiF: 30, psiR: 30, lug: 85,
+        note: 'Satellite (1965-1974) — B-body intermediate; basis for the Road Runner and GTX.'
+      })
+    },
+    fury: {
+      '1956-1978': plymouthSpec({
+        engine: '277/301/318 Poly V8 (1956-1958); 318/361/383/440 V8 (1959-1978); 225 Slant-6 on base models',
+        oil: 'SAE 10W-30 (10W-40 for big-blocks)', oilCap: '5.0 qt (small-block w/filter) / 6.0 qt (big-block w/filter)',
+        trans: 'TorqueFlite 727 3-speed auto (Dexron III/Mercon — Type F pre-1968) / A-833 manual (GL-4 80W-90)',
+        diffR: { fluidType: 'SAE 80W-90 GL-5 (8.75" axle)', capacity: consult },
+        sizes: ['7.50-14 / 8.50-14 (era bias-ply)'],
+        psiF: 30, psiR: 30, lug: 95,
+        note: 'Fury (1956-1978) — full-size Plymouth; the 1958 Fury of Stephen King fame.'
+      })
+    },
+    belvedere: {
+      '1954-1970': plymouthSpec({
+        engine: '230ci flathead I6 (1954-1959); 318/361/383 V8 (1960s); 225 Slant-6 on base models',
+        oil: 'SAE 10W-30 (10W-40 for V8s)', oilCap: '5.0 qt (w/filter)',
+        trans: 'TorqueFlite 727 3-speed auto (Dexron III/Mercon — Type F pre-1968) / 3-speed manual (GL-4 80W-90)',
+        diffR: { fluidType: 'SAE 80W-90 GL-5 (8.75" axle)', capacity: consult },
+        sizes: ['6.70-15 (early) — F78-14 (later)'],
+        psiF: 30, psiR: 30, lug: 95,
+        note: 'Belvedere (1954-1970) — the mid-size B-body line that spawned the GTX.'
+      })
+    },
+    voyager: {
+      '1984-2000': plymouthSpec({
+        engine: '2.5L I4 / 3.0L Mitsubishi V6 / 3.3L V6 / 3.8L V6 (1996+)',
+        oil: 'SAE 5W-30', oilCap: '4.5 qt (2.5L/3.0L/3.3L w/filter) / 5.0 qt (3.8L w/filter)',
+        trans: 'TorqueFlite A-413 3-speed auto (Dexron II — 1984-1988) / A604/41TE 4-speed auto (ATF+3 — 1989-1996) / ATF+4 (1997+)',
+        tcase: { fluidType: 'Mopar ATF+4 (AWD transfer case)', capacity: consult, note: 'AWD models (1991-2000) only. FWD: no transfer case.' },
+        diffF: { fluidType: 'SAE 75W-90 GL-5', capacity: consult, note: 'AWD models only.' },
+        diffR: { fluidType: 'SAE 75W-90 GL-5', capacity: consult, note: 'All models.' },
+        sizes: ['P195/75R14 (1984-1990)', 'P205/70R15 (1991-2000)'],
+        psiF: 32, psiR: 32, lug: 95,
+        note: 'Voyager (1984-2000) — the original minivan; Grand Voyager (1987-2000) is the long-wheelbase version.'
+      })
+    },
+    horizon: {
+      '1978-1990': plymouthSpec({
+        engine: '1.6L (Simca) I4 / 1.7L VW I4 / 2.2L Chrysler I4',
+        oil: 'SAE 10W-30 (5W-30 acceptable)', oilCap: '4.0 qt (w/filter)',
+        trans: 'A404 (TorqueFlite 3-speed auto, Dexron II) / A460 4-speed manual (GL-4 80W-90)',
+        sizes: ['P155/80R13 / P175/70R13'],
+        psiF: 30, psiR: 30, lug: 80,
+        note: 'Horizon (1978-1990) — Dodge Omni twin; European-derived L-body hatchback.'
+      })
+    },
+    reliant: {
+      '1981-1989': plymouthSpec({
+        engine: '2.2L I4 (carbureted early, TBI later) / 2.5L I4 (1986+)',
+        oil: 'SAE 5W-30 (10W-30 acceptable)', oilCap: '4.5 qt (w/filter)',
+        trans: 'A413 3-speed auto (Dexron II / ATF+3) / A525 5-speed manual (GL-4 80W-90)',
+        sizes: ['P175/80R13 / P185/75R14'],
+        psiF: 30, psiR: 30, lug: 80,
+        note: 'Reliant (1981-1989) — K-car; one of the cars that saved Chrysler in the 1980s.'
+      })
+    },
+    breeze: {
+      '1996-2000': plymouthSpec({
+        engine: '2.0L DOHC I4 / 2.4L I4 / 2.5L V6',
+        oil: 'SAE 5W-30', oilCap: '4.5 qt (I4 w/filter) / 4.5 qt (V6 w/filter)',
+        trans: '31TH 3-speed auto / A413 4-speed auto (ATF+4) / NV-T350 5-speed manual (GL-4)',
+        sizes: ['P185/70R14 (base)', 'P195/70R14 (LX)'],
+        psiF: 32, psiR: 32, lug: 100,
+        obd2: PLY_OBD2_1996,
+        note: 'Breeze (1996-2000) — JA-body sedan; Dodge Stratus / Chrysler Cirrus platform mate.'
+      })
+    },
+    neon: {
+      '1995-2001': plymouthSpec({
+        engine: '2.0L SOHC I4 (132 hp) / 2.0L DOHC I4 (150 hp)',
+        oil: 'SAE 5W-30', oilCap: '4.5 qt (w/filter)',
+        trans: '31TH 3-speed auto (ATF+4) / NV-T350 5-speed manual (GL-4)',
+        sizes: ['P185/65R14 (base)', 'P185/60R15 (Sport)'],
+        psiF: 32, psiR: 32, lug: 100,
+        obd2: '1995: Chrysler OBD-I 6-pin connector under dash. 1996-2001: OBD-II port under driver side dashboard (16-pin).',
+        note: 'Neon (1995-2001) — first-gen Neon; ACR and R/T versions were track-capable.'
+      })
+    },
+    prowler: {
+      '1997-2001': plymouthSpec({
+        engine: '3.5L SOHC 24-valve V6 (250 hp)',
+        oil: 'SAE 5W-30', oilCap: '5.0 qt (w/filter)',
+        trans: '42RLE 4-speed auto (ATF+4)',
+        sizes: ['225/45R17 front / 295/40R20 rear'],
+        psiF: 30, psiR: 32, lug: 100,
+        obd2: PLY_OBD2_1996,
+        note: 'Prowler (1997-2001) — retro hot rod; aluminum body, 4-speed auto only.'
+      })
+    }
+  },
+  oldsmobile: {
+    '88': {
+      '1960-1999': oldsSpec({
+        engine: 'Rocket V8: 330/350/403ci (1960s-70s); 307ci V8 (1980s); 231ci V6 (1986+)',
+        oil: 'SAE 10W-30 (5W-30 for 1980s+ engines)', oilCap: '5.0 qt (w/filter)',
+        trans: 'TH350/TH400 3-speed auto (Dexron II/III) — TH200-4R 4-speed auto (1981+)',
+        diffR: { fluidType: 'SAE 80W-90 GL-5 (8.5" / 8.875" axle)', capacity: consult },
+        sizes: ['7.50-14 (era) — P205/75R14 / P215/75R15 (later)'],
+        psiF: 30, psiR: 30, lug: 100,
+        obd2: OLDS_SPAN_OBD2,
+        note: 'Dynamic 88 / Delta 88 (1965-1985) / 88 (1986-1999) — Oldsmobile full-size; front-drive from 1986.'
+      })
+    },
+    '98': {
+      '1960-1996': oldsSpec({
+        engine: 'Rocket V8: 330/394/425ci (1960s); 455ci V8 (1968-1976); 307ci V8 / 3800 V6 (1980s-90s)',
+        oil: 'SAE 10W-30 (5W-30 for 1980s+ engines)', oilCap: '5.0 qt (w/filter)',
+        trans: 'TH400 3-speed auto (Dexron II/III) — TH440-T4 / 4T60 (front-drive, 1985+)',
+        diffR: { fluidType: 'SAE 80W-90 GL-5 (RWD: 8.5" / 8.875" axle)', capacity: consult, note: 'Front-drive 98s (1985+): final drive in transaxle — no rear differential.' },
+        sizes: ['8.00-14 / 8.50-14 (era) — P215/75R15 (later)'],
+        psiF: 30, psiR: 30, lug: 100,
+        obd2: OLDS_SPAN_OBD2,
+        note: 'Ninety-Eight — Oldsmobile flagship since 1941; front-wheel drive from 1985.'
+      })
+    },
+    '442': {
+      '1964-1991': oldsSpec({
+        engine: '330/400ci V8 (1964-1968); 455ci V8 (1968-1976); 403ci V8 / 260 diesel (1977-1980); 3.4L DOHC V6 (1990-1991 Cutlass Supreme 442)',
+        oil: 'SAE 10W-30 (20W-50 for 455 — high-zinc)', oilCap: '5.0 qt (w/filter)',
+        trans: 'TH350/TH400 3-speed auto (Dexron II/III) / M21/M22 4-speed manual (GL-4 80W-90) — 4T60-E (1990-1991 FWD)',
+        diffR: { fluidType: 'SAE 80W-90 GL-5 (8.5" / 8.875" axle — Anti-Spin limited-slip: add friction modifier)', capacity: consult },
+        sizes: ['F70-14 / G70-14 (era)'],
+        psiF: 30, psiR: 30, lug: 100,
+        obd2: OLDS_PRE96_OBD2,
+        note: '442 (1964-1980 RWD muscle; 1990-1991 FWD revival) — "4-4-2": four-barrel, four-speed, dual exhaust.'
+      })
+    },
+    cutlass: {
+      '1961-1999': oldsSpec({
+        engine: 'Rocket V8: 330/350/400/403/455ci (1960s-70s); 231ci V6 / 307ci V8 (1970s-80s RWD); 2.5L Tech IV I4 / 3.3L V6 (1980s-90s FWD)',
+        oil: 'SAE 10W-30 (5W-30 for 1980s+ engines)', oilCap: '5.0 qt (w/filter)',
+        trans: 'TH350/TH400 (RWD, Dexron II/III) — 3T40/4T60 (FWD, 1982+)',
+        diffR: { fluidType: 'SAE 80W-90 GL-5 (RWD: 8.5" axle)', capacity: consult, note: 'Front-drive Cutlasses (1982+): final drive in transaxle.' },
+        sizes: ['7.50-14 (era) — P195/75R14 / P205/70R14 (later)'],
+        psiF: 30, psiR: 30, lug: 100,
+        obd2: OLDS_SPAN_OBD2,
+        note: 'Cutlass (1961-1999) — Oldsmobile best-seller; RWD muscle through 1987, front-drive after.'
+      })
+    },
+    'cutlass supreme': {
+      '1970-1997': oldsSpec({
+        engine: '350/455ci V8 (1970-1977); 231/260/307 V8 & 350 diesel (1978-1987 RWD); 2.3L Quad 4 / 3.1L V6 / 3.4L DOHC V6 (1988-1997 FWD W-body)',
+        oil: 'SAE 10W-30 (5W-30 for 1980s+ engines)', oilCap: '5.0 qt (V8 w/filter) / 4.5 qt (V6/Quad 4 w/filter)',
+        trans: 'TH350/TH400 (RWD, Dexron II/III) — 4T60/4T60-E (FWD 1988+, Dexron III)',
+        diffR: { fluidType: 'SAE 80W-90 GL-5 (RWD models)', capacity: consult, note: 'Front-drive Supreme (1988+): final drive in transaxle.' },
+        sizes: ['F78-14 (era) — P195/75R14 / P205/70R15 (later)'],
+        psiF: 30, psiR: 30, lug: 100,
+        obd2: OLDS_SPAN_OBD2,
+        note: 'Cutlass Supreme (1970-1997) — RWD muscle/colonnade coupe through 1987; W-body FWD coupe/sedan after.'
+      })
+    },
+    'cutlass ciera': {
+      '1982-1996': oldsSpec({
+        engine: '2.5L Tech IV I4 / 2.8L & 3.3L V6 / 3.8L V6 (later years)',
+        oil: 'SAE 5W-30 (10W-30 acceptable)', oilCap: '4.5 qt (w/filter)',
+        trans: '3T40 3-speed auto (Dexron II/III) / 4T60 4-speed auto (Dexron III)',
+        sizes: ['P185/75R14 / P195/75R14'],
+        psiF: 30, psiR: 30, lug: 100,
+        obd2: OLDS_SPAN_OBD2,
+        note: 'Cutlass Ciera (1982-1996) — A-body front-drive; one of GM\'s most common 1980s-90s family cars.'
+      })
+    },
+    toronado: {
+      '1966-1992': oldsSpec({
+        engine: '425ci V8 (1966-1970); 455ci V8 (1971-1978); 307ci V8 / 3800 V6 (1986-1992)',
+        oil: 'SAE 10W-30 (5W-30 for later engines)', oilCap: '5.0 qt (w/filter)',
+        trans: 'TH425 Turbo-Hydramatic transaxle (Dexron II/III) — TH440-T4 (1986+)',
+        diffR: null,
+        sizes: ['8.45-15 (era) — P215/75R15 (later)'],
+        psiF: 30, psiR: 30, lug: 100,
+        obd2: OLDS_PRE96_OBD2,
+        note: 'Toronado (1966-1992) — the first American front-wheel-drive production car (1966).'
+      })
+    },
+    silhouette: {
+      '1990-2004': oldsSpec({
+        engine: '3.1L V6 (1990-1995) / 3.4L V6 (1996-2004)',
+        oil: 'SAE 5W-30', oilCap: '4.5 qt (w/filter)',
+        trans: '3T40 3-speed auto (1990-1991, Dexron III) / 4T60-E 4-speed auto (1992+, Dexron III/VI)',
+        sizes: ['P205/70R15 / P215/70R15'],
+        psiF: 32, psiR: 32, lug: 100,
+        obd2: OLDS_SPAN_OBD2,
+        note: 'Silhouette (1990-2004) — GM U-body minivan; 1997+ got the dustbuster-style front end.'
+      })
+    },
+    intrigue: {
+      '1998-2002': oldsSpec({
+        engine: '3.5L LX5 Shortstar DOHC V6 (215 hp)',
+        oil: 'SAE 5W-30', oilCap: '4.5 qt (w/filter)',
+        trans: '4T65-E 4-speed auto (Dexron III/VI)',
+        sizes: ['P215/70R15 / P225/60R16'],
+        psiF: 32, psiR: 32, lug: 100,
+        obd2: OLDS_OBD2_1996,
+        note: 'Intrigue (1998-2002) — W-body sedan; the all-aluminum Shortstar V6 was a highlight.'
+      })
+    },
+    alero: {
+      '1999-2004': oldsSpec({
+        engine: '2.2L Ecotec I4 (1999-2002) / 2.4L Twin Cam I4 / 3.4L LA1 V6',
+        oil: 'SAE 5W-30', oilCap: '4.5 qt (w/filter)',
+        trans: '4T45-E 4-speed auto (I4, Dexron III/VI) / 4T65-E 4-speed auto (V6, Dexron III/VI)',
+        sizes: ['P195/70R14 / P205/65R15 / P225/50R16 (GLS)'],
+        psiF: 32, psiR: 32, lug: 100,
+        obd2: OLDS_OBD2_1996,
+        note: 'Alero (1999-2004) — the final Oldsmobile; N-body coupe/sedan.'
+      })
+    },
+    aurora: {
+      '1995-2003': oldsSpec({
+        engine: '4.0L Northstar V8 (1995-1999, 250 hp); 3.5L Shortstar V6 / 4.0L Northstar (2001-2003)',
+        oil: 'SAE 5W-30 (GM 4718M spec)', oilCap: '7.0 qt (4.0L w/filter)',
+        trans: '4T80-E 4-speed auto (Dexron III/VI)',
+        sizes: ['P235/60R16 (4.0L) / P225/60R16 (3.5L)'],
+        psiF: 32, psiR: 32, lug: 100,
+        obd2: OLDS_SPAN_OBD2,
+        note: 'Aurora (1995-2003) — Oldsmobile flagship; 1995 is OBD 1.5 (ALDL), 1996+ is OBD-II. Northstar needs regular coolant condition checks.'
+      })
+    },
+    bravada: {
+      '1991-2004': oldsSpec({
+        engine: '4.3L Vortec V6 (1991-2001) / 4.2L Vortec I6 (2002-2004)',
+        oil: 'SAE 5W-30', oilCap: '4.5 qt (4.3L w/filter) / 6.0 qt (4.2L w/filter)',
+        trans: '4L60-E 4-speed auto (Dexron III)',
+        tcase: { fluidType: 'Dexron III ATF (SmartTrak AWD transfer case)', capacity: consult, note: 'All-time AWD (1991-2001); AWD optional 2002-2004.' },
+        diffF: { fluidType: 'SAE 75W-90 GL-5 (front axle — AWD models)', capacity: consult },
+        diffR: { fluidType: 'SAE 75W-90 GL-5 (rear axle)', capacity: consult },
+        sizes: ['P235/70R15 / P235/70R16'],
+        psiF: 32, psiR: 32, lug: 100,
+        obd2: OLDS_SPAN_OBD2,
+        note: 'Bravada (1991-2004) — luxury S-10-based SUV; the only Oldsmobile SUV.'
+      })
+    }
+  }
+};
+
+// ── Wave 9 alias references (mirror MAINTENANCE_SCHEDULES grouping) ─────────
+// AMC: platform groups
+wave9Specs.amc['eagle sx/4'] = wave9Specs.amc.eagle;      // 1981-1983 within eagle range
+wave9Specs.amc['eagle wagon'] = wave9Specs.amc.eagle;     // 1980-1988 within eagle range
+wave9Specs.amc.concord = wave9Specs.amc.hornet;           // X-body, 2WD
+wave9Specs.amc.spirit = wave9Specs.amc.hornet;            // X-body, 2WD
+wave9Specs.amc.gremlin = wave9Specs.amc.hornet;           // X-body
+wave9Specs.amc.amx = wave9Specs.amc.javelin;              // 1968-1970 within javelin range
+wave9Specs.amc.ambassador = wave9Specs.amc.matador;       // 1958-1974 within matador range
+// Rambler-era family (own year keys, same driveline data)
+const ramblerFamily = {
+  classic: { '1961-1966': wave9Specs.amc.rambler['1950-1969'] },
+  rebel: { '1967-1970': wave9Specs.amc.rambler['1950-1969'] },
+  marlin: { '1965-1967': wave9Specs.amc.rambler['1950-1969'] },
+  machine: { '1969-1970': amcSpec({
+    engine: '390ci V8 (340 hp) — Rebel Machine; high-zinc oil required',
+    oil: 'SAE 20W-50 (high-zinc for flat-tappet cam)', oilCap: '5.0 qt (w/filter)',
+    trans: 'TorqueFlite 727 3-speed auto (Dexron III) / Borg-Warner T-10 4-speed manual (GL-4 80W-90)',
+    diffR: { fluidType: 'SAE 80W-90 GL-5 (AMC Model 20, Twin-Grip limited-slip)', capacity: consult },
+    sizes: ['E70-14 (era)'],
+    lug: 85,
+    note: 'Rebel Machine (1969-1970) — AMC 390ci muscle; red-white-blue hood treatment.'
+  }) },
+  'sc/rambler': { '1969-1969': amcSpec({
+    engine: '390ci V8 (315 hp) — SC/Rambler Hurst; high-zinc oil required',
+    oil: 'SAE 20W-50 (high-zinc for flat-tappet cam)', oilCap: '5.0 qt (w/filter)',
+    trans: 'Borg-Warner T-10 4-speed manual (GL-4 80W-90)',
+    diffR: { fluidType: 'SAE 80W-90 GL-5 (AMC Model 20, Twin-Grip limited-slip)', capacity: consult },
+    sizes: ['E70-14 (era)'],
+    lug: 85,
+    note: 'SC/Rambler (1969 only) — 1,512 built; "A" in the tail stripe stands for Air (scoops).'
+  }) }
+};
+Object.assign(wave9Specs.amc, ramblerFamily);
+wave9Specs.amc['cj-5'] = wave9Specs.amc['cj-7'];          // 1954-1983 within cj-7 range
+wave9Specs.amc['cj-8 scrambler'] = wave9Specs.amc['cj-7']; // 1981-1985 within cj-7 range
+// MG
+wave9Specs.mg['mg b gt'] = wave9Specs.mg['mg b'];         // 1965-1980 within mg b range
+wave9Specs.mg['mg montego'] = wave9Specs.mg['mg maestro']; // 1984-1991 within maestro range
+// Plymouth
+wave9Specs.plymouth.cuda = wave9Specs.plymouth.barracuda; // 1970-1974 within barracuda range
+wave9Specs.plymouth['grand voyager'] = wave9Specs.plymouth.voyager; // 1987-2000 within voyager range
+// Oldsmobile
+wave9Specs.oldsmobile['delta 88'] = wave9Specs.oldsmobile['88']; // 1965-1985 within 88 range
+
+// ── Wave 9 merge ────────────────────────────────────────────────────────────
+for (const [make, models] of Object.entries(wave9Specs)) {
+  referenceSpecs[make] = referenceSpecs[make] || {};
+  for (const [model, years] of Object.entries(models)) referenceSpecs[make][model] = { ...referenceSpecs[make][model], ...years };
+}
+
 export default referenceSpecs;
 
 
