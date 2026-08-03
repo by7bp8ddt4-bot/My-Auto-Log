@@ -1,8 +1,11 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import {
-  Gauge, Calendar, Bell, Crown, ArrowRight, X, Plus
+  Gauge, Calendar, AlertTriangle, Clock,
+  ChevronRight, Crown, ArrowRight,
+  X, ToggleRight, ToggleLeft,
+  Bell, Plus
 } from 'lucide-react';
-import { formatNumber } from '../utils/helpers';
+import { formatNumber, calculateReminderStatus } from '../utils/helpers';
 import { DEFAULT_REMINDER_TEMPLATES } from '../utils/constants';
 
 // ---------- Premium Gate ----------
@@ -31,39 +34,109 @@ function PremiumGate({ onNavigate }) {
   );
 }
 
-// ---------- Highlight Card ----------
+// ---------- Folder Tab Component ----------
 
-function HighlightCard({ icon: Icon, iconColor, title, subtitle, action }) {
-  const colorMap = {
-    blue: 'bg-blue-500/10 text-blue-400 border-blue-500/20',
-    amber: 'bg-amber-500/10 text-amber-400 border-amber-500/20',
-    purple: 'bg-purple-500/10 text-purple-400 border-purple-500/20',
-  };
-
+function FolderTab({ icon: Icon, title, count, isExpanded, onToggle, children }) {
   return (
-    <div className="p-4 rounded-xl border border-slate-800 bg-slate-900/60">
-      <div className="flex items-start gap-3">
-        <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${colorMap[iconColor]}`}>
-          <Icon className="w-5 h-5" />
+    <div className="rounded-2xl border border-slate-800 bg-slate-900/40 overflow-hidden">
+      <div
+        onClick={onToggle}
+        className="flex items-center justify-between p-4 cursor-pointer hover:bg-slate-800/40 transition-all"
+      >
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-slate-800">
+            <Icon className="w-5 h-5 text-slate-400" />
+          </div>
+          <div>
+            <h3 className="font-semibold text-white text-sm">{title}</h3>
+            <p className="text-xs text-slate-500">{count} {count === 1 ? 'item' : 'items'}</p>
+          </div>
         </div>
-        <div className="flex-1 min-w-0">
-          <h4 className="text-sm font-semibold text-white">{title}</h4>
-          <p className="text-xs text-slate-400 mt-0.5 leading-relaxed">{subtitle}</p>
-          {action && (
-            <div className="mt-3">
-              {action}
-            </div>
-          )}
-        </div>
+        <ChevronRight className={`w-4 h-4 text-slate-500 transition-transform ${isExpanded ? 'rotate-90' : ''}`} />
       </div>
+      {isExpanded && (
+        <div className="px-4 pb-4 space-y-3">
+          {children}
+        </div>
+      )}
     </div>
   );
 }
 
 // ---------- Main Component ----------
 
-export default function RemindersPage({ vehicles, onAdd, onNavigate, isPremium, selectedVehicleId }) {
-  const [showReminderModal, setShowReminderModal] = useState(false);
+export default function RemindersPage({ reminders, vehicles, logs, onAdd, onUpdate, onDelete, onNavigate, isPremium, selectedVehicleId }) {
+  const [expandedTabs, setExpandedTabs] = useState({
+    mileage: true,
+    lease: true,
+    custom: true,
+  });
+  const [showReminderForm, setShowReminderForm] = useState(false);
+
+  const toggleTab = (tab) => {
+    setExpandedTabs(prev => ({ ...prev, [tab]: !prev[tab] }));
+  };
+
+  // Filter reminders by selected vehicle
+  const filteredReminders = selectedVehicleId
+    ? reminders.filter(r => r.vehicleId === selectedVehicleId)
+    : reminders;
+
+  // Compute status for each reminder
+  const remindersWithStatus = useMemo(() => {
+    return filteredReminders.map(r => {
+      const vehicle = vehicles.find(v => v.id === r.vehicleId);
+      const status = calculateReminderStatus(r, vehicle?.mileage || 0, r.vehicleId);
+      return { ...r, ...status, vehicleName: vehicle?.name || 'Unknown' };
+    });
+  }, [filteredReminders, vehicles]);
+
+  // Lease reminders: build from leased vehicles
+  const leasedVehicles = useMemo(() => {
+    return vehicles.filter(v => v.isLeased);
+  }, [vehicles]);
+
+  const leaseReminders = useMemo(() => {
+    return leasedVehicles.map(v => {
+      const mileage = v.mileage || 0;
+      const purchaseMileage = v.purchaseMileage || 0;
+      const purchaseDate = v.purchaseDate ? new Date(v.purchaseDate) : null;
+      const leaseEndDate = v.leaseEndDate ? new Date(v.leaseEndDate) : null;
+      const leaseLimit = v.leaseMileageLimit || 0;
+
+      // Calculate daily average
+      let dailyAvg = 0;
+      if (purchaseDate && leaseEndDate) {
+        const daysOwned = Math.max(1, Math.ceil((Date.now() - purchaseDate.getTime()) / (24 * 60 * 60 * 1000)));
+        const milesDriven = mileage - purchaseMileage;
+        dailyAvg = milesDriven / daysOwned;
+      }
+
+      // Days remaining on lease
+      const daysRemaining = leaseEndDate ? Math.ceil((leaseEndDate.getTime() - Date.now()) / (24 * 60 * 60 * 1000)) : 0;
+
+      // Projected mileage at lease end
+      const projectedMileage = leaseEndDate && dailyAvg > 0
+        ? Math.round(mileage + dailyAvg * daysRemaining)
+        : mileage;
+
+      const overUnder = projectedMileage - leaseLimit;
+
+      return {
+        vehicleId: v.id,
+        vehicleName: v.name,
+        vehicleMake: v.make,
+        vehicleModel: v.model,
+        mileage,
+        leaseLimit,
+        leaseEndDate: v.leaseEndDate,
+        daysRemaining,
+        projectedMileage,
+        overUnder,
+        dailyAvg,
+      };
+    });
+  }, [leasedVehicles, vehicles]);
 
   // ---------- Premium Gate ----------
 
@@ -73,27 +146,13 @@ export default function RemindersPage({ vehicles, onAdd, onNavigate, isPremium, 
         <div className="flex items-center justify-between mb-6">
           <div>
             <h2 className="text-xl font-bold text-white">Reminders</h2>
-            <p className="text-sm text-slate-400 mt-0.5">Stay on top of your maintenance</p>
+            <p className="text-sm text-slate-400 mt-0.5">Smart vehicle alerts</p>
           </div>
         </div>
         <PremiumGate onNavigate={onNavigate} />
       </div>
     );
   }
-
-  const handleUpdateMileage = () => {
-    try {
-      sessionStorage.setItem('mtxtrkr_pending_edit_vehicle', selectedVehicleId);
-    } catch (e) {
-      // sessionStorage may be unavailable; deep-link will still navigate
-    }
-    onNavigate('vehicles');
-  };
-
-  const handleSaveReminder = (data) => {
-    onAdd(data);
-    setShowReminderModal(false);
-  };
 
   // ---------- Render ----------
 
@@ -102,61 +161,104 @@ export default function RemindersPage({ vehicles, onAdd, onNavigate, isPremium, 
       {/* Header */}
       <div>
         <h2 className="text-xl font-bold text-white">Reminders</h2>
-        <p className="text-sm text-slate-400 mt-0.5">Stay on top of your maintenance</p>
+        <p className="text-sm text-slate-400 mt-0.5">{remindersWithStatus.length} total items</p>
       </div>
 
-      {/* Highlight Cards */}
-      <div className="space-y-3">
-        <HighlightCard
-          icon={Gauge}
-          iconColor="blue"
-          title="Mileage Reminders"
-          subtitle="Periodic email reminders to keep your odometer current for accurate predictions."
-        />
-
-        <HighlightCard
-          icon={Calendar}
-          iconColor="amber"
-          title="Lease Reminders"
-          subtitle="Monthly lease projection emails comparing your pace against your mileage limit."
-        />
-
-        <HighlightCard
-          icon={Bell}
-          iconColor="purple"
-          title="Custom Reminders"
-          subtitle="Set your own service reminders with mileage and date intervals."
-          action={
-            <button
-              onClick={() => setShowReminderModal(true)}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-purple-600 hover:bg-purple-500 text-white text-xs font-medium transition-all"
-            >
-              <Plus className="w-3.5 h-3.5" />
-              Add Reminder
-            </button>
-          }
-        />
-      </div>
-
-      {/* Update Mileage Button */}
-      <button
-        onClick={handleUpdateMileage}
-        className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-sm font-semibold transition-all"
+      {/* 1. Mileage Reminders */}
+      <FolderTab
+        icon={Gauge}
+        title="Mileage Reminders"
+        count=""
+        isExpanded={expandedTabs.mileage}
+        onToggle={() => toggleTab('mileage')}
       >
-        <Gauge className="w-4 h-4" />
-        Update Mileage
-      </button>
+        <div className="space-y-4">
+          <p className="text-xs text-slate-400 leading-relaxed">
+            MTXtrkr sends you periodic mileage update requests via email to keep your
+            maintenance predictions accurate. When we ask, simply reply with your current
+            odometer reading — or log in to update it instantly.
+          </p>
+          <button
+            onClick={() => onNavigate('dashboard')}
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-xs font-medium transition-all"
+          >
+            <Gauge className="w-3.5 h-3.5" />
+            Update Mileage
+          </button>
+        </div>
+      </FolderTab>
+
+      {/* 2. Lease Reminders */}
+      <FolderTab
+        icon={Calendar}
+        title="Lease Reminders"
+        count=""
+        isExpanded={expandedTabs.lease}
+        onToggle={() => toggleTab('lease')}
+      >
+        <div className="space-y-4">
+          <p className="text-xs text-slate-400 leading-relaxed">
+            MTXtrkr sends you monthly lease mileage projection emails comparing your
+            actual driving pace against your lease mileage limit — so you always know
+            where you stand before turn-in.
+          </p>
+
+          {/* Check Lease Status CTA */}
+          <div className="p-4 rounded-xl bg-gradient-to-r from-amber-600/10 to-orange-600/10 border border-amber-500/20">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center shrink-0">
+                <Calendar className="w-5 h-5 text-amber-400" />
+              </div>
+              <div className="flex-1">
+                <h4 className="text-sm font-semibold text-white">Check Your Lease Status</h4>
+                <p className="text-xs text-slate-400">See your mileage projection and remaining allowance</p>
+              </div>
+              <button
+                onClick={() => onNavigate('dashboard')}
+                className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-amber-600 hover:bg-amber-500 text-white text-xs font-medium transition-all"
+              >
+                <ArrowRight className="w-3.5 h-3.5" />
+                Dashboard
+              </button>
+            </div>
+          </div>
+        </div>
+      </FolderTab>
+
+      {/* 3. Custom Reminders */}
+      <FolderTab
+        icon={Bell}
+        title="Custom Reminders"
+        count=""
+        isExpanded={expandedTabs.custom}
+        onToggle={() => toggleTab('custom')}
+      >
+        <div className="space-y-4">
+          <p className="text-xs text-slate-400 leading-relaxed">
+            Set custom maintenance reminders with mileage and date intervals. Get
+            notified when specific services are due based on your own schedule.
+          </p>
+          <button
+            onClick={() => setShowReminderForm(true)}
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-purple-600 hover:bg-purple-500 text-white text-xs font-medium transition-all"
+          >
+            <Plus className="w-3.5 h-3.5" />
+            Add Reminder
+          </button>
+        </div>
+      </FolderTab>
 
       {/* Reminder Form Modal */}
-      {showReminderModal && (
+      {showReminderForm && (
         <ReminderFormModal
           vehicles={vehicles}
           templates={DEFAULT_REMINDER_TEMPLATES}
           selectedVehicleId={selectedVehicleId}
-          onSave={handleSaveReminder}
-          onClose={() => setShowReminderModal(false)}
+          onSave={(data) => { onAdd(data); setShowReminderForm(false); }}
+          onClose={() => setShowReminderForm(false)}
         />
       )}
+
     </div>
   );
 }
