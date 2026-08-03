@@ -3985,6 +3985,20 @@ const pwcSpec = (engineDescription, oilViscosity, coolantType, brakeFluid, diagn
   note: engineDescription + '. Hour-based service intervals (e.g., 50/100 hr). No OBD-II — manufacturer diagnostic software only.'
 });
 
+const yamahaPwcSpec = (engineDescription, oilViscosity) => ({
+  ...pwcSpec(engineDescription, oilViscosity,
+    'Yamaha closed-loop cooling system — ethylene-glycol coolant; consult owner\'s manual',
+    'N/A — no service brakes on PWC',
+    'Yamaha Diagnostic System (YDS) connector — dealer diagnostic tool; no OBD-II port.'),
+  differentials: {
+    front: null,
+    rear: {
+      fluidType: 'Yamaha jet pump oil — EP 75W-90 marine gear oil',
+      capacity: "Consult owner's manual",
+      note: 'Jet pump final drive; use Yamaha-specified EP 75W-90 marine gear oil and verify service procedure for the model year.'
+    }
+  }
+});
 const marineDieselSpec = (engineDescription, oilViscosity, oilCapacity, diagnosticLocation) => ({
   engine: {
     oilViscosity,
@@ -4055,6 +4069,26 @@ const polarisSpec = (engineDescription, oilViscosity, oilCapacity, frontPSI, rea
 
 const wave6Specs = {
   'yamaha': {
+    'vx': {
+      '2005-2018': yamahaPwcSpec('Yamaha WaveRunner VX Cruiser / VX Deluxe / VX Limited — TR-1 1.0L 3-cylinder 4-stroke', 'Yamalube 4W 10W-40'),
+      '2019-2025': yamahaPwcSpec('Yamaha WaveRunner VX Cruiser / VX Deluxe / VX Limited — TR-1 HO 1.0L 3-cylinder 4-stroke', 'Yamalube 4W 10W-40')
+    },
+    'fx ho': {
+      '2005-2019': yamahaPwcSpec('Yamaha WaveRunner FX HO / FX Cruiser HO — MR-1 1.0L 4-cylinder 4-stroke', 'Yamalube 4W 10W-40'),
+      '2020-2025': yamahaPwcSpec('Yamaha WaveRunner FX HO / FX Cruiser HO — 1.8L HO 4-stroke', 'Yamalube 4W 10W-40')
+    },
+    'fx svho': {
+      '2014-2025': yamahaPwcSpec('Yamaha WaveRunner FX SVHO — 1.8L supercharged 4-stroke', 'Yamalube 4W 10W-40')
+    },
+    'gp1800': {
+      '2017-2025': yamahaPwcSpec('Yamaha WaveRunner GP1800R — 1.8L supercharged (SVHO / GP HO variants)', 'Yamalube 4W 10W-40')
+    },
+    'gp1300r': {
+      '2005-2008': yamahaPwcSpec('Yamaha WaveRunner GP1300R — 1.3L 2-stroke', 'Yamalube 2W 2-stroke oil')
+    },
+    'ex': {
+      '2017-2025': yamahaPwcSpec('Yamaha WaveRunner EX / EX Sport / EX Deluxe — TR-1 1.0L 3-cylinder 4-stroke', 'Yamalube 4W 10W-40')
+    },
     'f25': {
       '2006-2025': marineOutboardSpec('Yamaha F25 — 25 hp 3-cylinder 4-stroke (early carbureted, later EFI)',
         'Yamalube 4M or NMMA FC-W certified 4-stroke outboard oil, SAE 10W-30 (20W-40 per manual in warm climates)',
