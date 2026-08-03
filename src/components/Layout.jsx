@@ -10,8 +10,8 @@ const allNavItems = [
   { id: 'logs', label: 'Service Logs', icon: ClipboardList },
   { id: 'mods', label: 'Performance Mods', icon: Wrench },
   { id: 'fuel', label: 'Fuel Logs', icon: Fuel },
-  { id: 'documents', label: 'Documents', icon: FileText },
   { id: 'wiring', label: 'Wiring Diagrams', icon: Zap },
+  { id: 'documents', label: 'Documents', icon: FileText },
   { id: 'reminders', label: 'Reminders', icon: Bell },
 ];
 
@@ -20,7 +20,7 @@ const primaryNavItems = allNavItems.filter(i =>
   ['dashboard', 'vehicles', 'schedule', 'logs'].includes(i.id)
 );
 const moreNavItems = allNavItems.filter(i =>
-  ['mods', 'fuel', 'documents', 'wiring', 'reminders'].includes(i.id)
+  ['mods', 'fuel', 'wiring', 'documents', 'reminders'].includes(i.id)
 );
 
 export default function Layout({ currentPage, onNavigate, onLogout, children }) {
