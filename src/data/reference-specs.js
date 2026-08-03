@@ -4441,6 +4441,85 @@ const wave6Specs = {
     }
   }
 };
+// Wave 7 — agricultural equipment and industrial forklifts.
+const agSpec = (engineDescription, oilViscosity, hydraulicFluid, fourWheelDrive = true) => ({
+  engine: {
+    oilViscosity,
+    oilCapacity: "Consult owner's manual",
+    oilFilterPN: "Consult owner's manual (OEM filter)",
+    coolantType: 'Long-life ethylene-glycol diesel coolant (Kubota/Yanmar/John Deere OEM specification; verify SCA requirements)',
+    coolantCapacity: "Consult owner's manual"
+  },
+  transmission: {
+    fluidType: hydraulicFluid,
+    capacity: "Consult owner's manual",
+    note: 'Shared tractor hydraulic/transmission reservoir; use the manufacturer-specified UTF/J20C/J20D or equivalent only.'
+  },
+  transferCase: null,
+  differentials: {
+    front: fourWheelDrive ? { fluidType: 'Manufacturer-specified front axle gear oil', capacity: "Consult owner's manual", note: '4WD/front axle models only; 2WD models: N/A.' } : null,
+    rear: fourWheelDrive ? { fluidType: 'Manufacturer-specified rear axle gear oil', capacity: "Consult owner's manual", note: '4WD/drive-axle models only; verify axle configuration.' } : null
+  },
+  brakeFluid: 'N/A — wet hydraulic tractor brakes; no automotive brake-fluid reservoir',
+  tires: { frontPSI: 'Consult owner\'s manual', rearPSI: 'Consult owner\'s manual', oemSizes: ['Consult owner\'s manual'], lugNutTorque: "Consult owner's manual" },
+  bulbs: { lowBeam: 'Consult owner\'s manual', highBeam: 'Consult owner\'s manual', frontTurn: 'Consult owner\'s manual', rearTurn: 'Consult owner\'s manual', tailBrake: 'Consult owner\'s manual', interior: 'N/A', license: 'N/A' },
+  obd2Location: 'No OBD-II. Manufacturer diagnostic connector/service port near the instrument panel or ECU; consult dealer manual.',
+  serviceUnit: 'hrs',
+  note: engineDescription + '. Hour-based maintenance intervals; verify exact interval and fluid capacity in the model-year operator manual.'
+});
+const forkliftSpec = (engineDescription, fuel, hydraulicFluid = 'Hyster-approved hydraulic fluid') => ({
+  engine: {
+    oilViscosity: fuel === 'electric' ? 'N/A — electric traction motor' : '15W-40 diesel engine oil (or OEM viscosity by ambient temperature)',
+    oilCapacity: fuel === 'electric' ? 'N/A' : "Consult owner's manual",
+    oilFilterPN: fuel === 'electric' ? 'N/A' : "Consult owner's manual",
+    coolantType: fuel === 'electric' ? 'N/A — air-cooled electric drive components' : 'Heavy-duty ethylene-glycol diesel coolant; verify OEM specification',
+    coolantCapacity: fuel === 'electric' ? 'N/A' : "Consult owner's manual",
+    battery: fuel === 'electric' ? { type: 'Industrial lead-acid traction battery', voltage: "Consult owner's manual (24/36/48 V configuration varies)", capacity: "Consult owner's manual (Ah rating varies by truck/battery compartment)" } : { type: '12 V industrial starting battery', voltage: '12 V', capacity: "Consult owner's manual" }
+  },
+  transmission: { fluidType: fuel === 'electric' ? 'N/A — electric traction drive' : 'Powershift transmission fluid / axle oil per Hyster specification', capacity: fuel === 'electric' ? 'N/A' : "Consult owner's manual", note: 'Industrial drivetrain; not a conventional automotive transmission service.' },
+  transferCase: null,
+  differentials: { front: null, rear: { fluidType: 'Drive axle gear oil per Hyster specification', capacity: "Consult owner's manual" } },
+  brakeFluid: 'N/A — wet-disc/service brake system; no automotive DOT-fluid reservoir',
+  tires: { frontPSI: "Consult owner's manual", rearPSI: "Consult owner's manual", oemSizes: ['Consult owner\'s manual'], lugNutTorque: "Consult owner's manual" },
+  bulbs: { lowBeam: 'N/A — work lights; consult manual', highBeam: 'N/A', frontTurn: 'N/A', rearTurn: 'N/A', tailBrake: 'N/A', interior: 'N/A', license: 'N/A' },
+  obd2Location: 'No OBD-II. Hyster truck diagnostic connector near the instrument panel/service access area; use Hyster service tool.',
+  hydraulicSystem: { fluidType: hydraulicFluid, capacity: "Consult owner's manual" },
+  serviceUnit: 'hrs',
+  note: engineDescription + '. Hour-based maintenance; lift hydraulics use dedicated hydraulic fluid. Consult the truck serial-number manual for capacities.'
+});
+const wave7Specs = {
+  kubota: {},
+  'yanmar tractor': {},
+  'john deere': {},
+  hyster: {},
+  'hyster electric': {}
+};
+for (const model of ['l3301', 'l3901', 'l4701']) {
+  wave7Specs.kubota[model] = { '2005-2013': agSpec('Kubota L Series — diesel compact utility tractor', '15W-40 diesel oil', 'Kubota Super UDT2 or equivalent UTF'), '2014-2025': agSpec('Kubota L Series — diesel compact utility tractor', '15W-40 diesel oil', 'Kubota Super UDT2 or equivalent UTF') };
+}
+for (const model of ['m5', 'm6', 'm7']) {
+  wave7Specs.kubota[model] = { '2005-2013': agSpec('Kubota M Series — diesel utility/agricultural tractor', '15W-40 diesel oil', 'Kubota Super UDT2 or equivalent UTF'), '2014-2025': agSpec('Kubota M Series — diesel utility/agricultural tractor', '15W-40 diesel oil', 'Kubota Super UDT2 or equivalent UTF') };
+}
+for (const model of ['bx1880', 'bx2380', 'bx2680']) {
+  wave7Specs.kubota[model] = { '2005-2013': agSpec('Kubota BX Series — diesel sub-compact tractor', '15W-40 diesel oil', 'Kubota Super UDT2 or equivalent UTF'), '2014-2025': agSpec('Kubota BX Series — diesel sub-compact tractor', '15W-40 diesel oil', 'Kubota Super UDT2 or equivalent UTF') };
+}
+for (const model of ['yt235', 'yt347', 'yt359']) {
+  wave7Specs['yanmar tractor'][model] = { '2005-2015': agSpec('Yanmar YT Series — diesel compact tractor', '15W-40 diesel oil', 'Yanmar UDT or equivalent UTF'), '2016-2025': agSpec('Yanmar YT Series — diesel compact tractor', '15W-40 diesel oil', 'Yanmar UDT or equivalent UTF') };
+}
+for (const model of ['sa223', 'sa325', 'sa425']) {
+  wave7Specs['yanmar tractor'][model] = { '2005-2015': agSpec('Yanmar SA Series — diesel compact tractor', '15W-40 diesel oil', 'Yanmar UDT or equivalent UTF'), '2016-2025': agSpec('Yanmar SA Series — diesel compact tractor', '15W-40 diesel oil', 'Yanmar UDT or equivalent UTF') };
+}
+for (const model of ['3032e', '3038e']) wave7Specs['john deere'][model] = { '2005-2012': agSpec('John Deere 3 Series — diesel compact utility tractor', '15W-40 diesel oil', 'John Deere Hy-Gard'), '2013-2025': agSpec('John Deere 3 Series — diesel compact utility tractor', '15W-40 diesel oil', 'John Deere Hy-Gard') };
+for (const model of ['4044m', '4066m']) wave7Specs['john deere'][model] = { '2015-2020': agSpec('John Deere 4M Series — diesel utility tractor', '15W-40 diesel oil', 'John Deere Hy-Gard'), '2021-2025': agSpec('John Deere 4M Series — diesel utility tractor', '15W-40 diesel oil', 'John Deere Hy-Gard') };
+for (const model of ['5075e', '5100e']) wave7Specs['john deere'][model] = { '2005-2016': agSpec('John Deere 5E Series — diesel utility tractor', '15W-40 diesel oil', 'John Deere Hy-Gard'), '2017-2025': agSpec('John Deere 5E Series — diesel utility tractor', '15W-40 diesel oil', 'John Deere Hy-Gard') };
+for (const model of ['6110m', '6140m']) wave7Specs['john deere'][model] = { '2012-2019': agSpec('John Deere 6M Series — diesel row-crop/utility tractor', '15W-40 diesel oil', 'John Deere Hy-Gard'), '2020-2025': agSpec('John Deere 6M Series — diesel row-crop/utility tractor', '15W-40 diesel oil', 'John Deere Hy-Gard') };
+for (const model of ['h40-60ft', 'h70-110ft', 's40-70ft', 'h50ct']) wave7Specs.hyster[model] = { '2005-2014': forkliftSpec('Hyster internal-combustion counterbalanced forklift — diesel/LP configuration varies by model', 'diesel/LP'), '2015-2025': forkliftSpec('Hyster internal-combustion counterbalanced forklift — diesel/LP configuration varies by model', 'diesel/LP') };
+for (const model of ['j30-40xnt', 'e30-50xn']) wave7Specs['hyster electric'][model] = { '2005-2014': forkliftSpec('Hyster electric forklift — lead-acid traction battery; voltage/capacity varies by truck configuration', 'electric'), '2015-2025': forkliftSpec('Hyster electric forklift — lead-acid traction battery; voltage/capacity varies by truck configuration', 'electric') };
+for (const [make, models] of Object.entries(wave7Specs)) {
+  referenceSpecs[make] = referenceSpecs[make] || {};
+  for (const [model, years] of Object.entries(models)) referenceSpecs[make][model] = { ...referenceSpecs[make][model], ...years };
+}
+
 // Common model-name aliases (user-typed / VPIC-style variants).
 wave6Specs.yamaha['f 115'] = wave6Specs.yamaha.f115; wave6Specs.yamaha['f 150'] = wave6Specs.yamaha.f150;
 wave6Specs.yamaha['f 200'] = wave6Specs.yamaha.f200; wave6Specs.yamaha['f 250'] = wave6Specs.yamaha.f250;
