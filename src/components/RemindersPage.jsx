@@ -218,7 +218,7 @@ export default function RemindersPage({ reminders, vehicles, logs, onAdd, onUpda
                 className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-amber-600 hover:bg-amber-500 text-white text-xs font-medium transition-all"
               >
                 <ArrowRight className="w-3.5 h-3.5" />
-                Dashboard
+                Lease Tracking
               </button>
             </div>
           </div>
