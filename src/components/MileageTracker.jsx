@@ -487,6 +487,10 @@ export default function MileageTracker({ activeVehicle, vehicleLogs = [], isPrem
     return Math.round(drivenMileage / months);
   }, [drivenMileage, purchaseDate, vehicleLogs]);
 
+  const avgYearlyMileage = useMemo(() => {
+    return avgMonthlyMileage != null ? avgMonthlyMileage * 12 : null;
+  }, [avgMonthlyMileage]);
+
   if (!activeVehicle) return null;
 
   // ── Chart SVG ──
@@ -735,6 +739,14 @@ export default function MileageTracker({ activeVehicle, vehicleLogs = [], isPrem
               <span className="text-sm font-semibold text-slate-400 ml-0.5">{unit}</span>
             </div>
             <div className="text-[10px] text-slate-500 mt-0">{avgMonthlyMileage != null ? 'per month' : ''}</div>
+          </div>
+          <div className="flex-1 rounded-xl bg-white/[0.02] border border-white/5 p-2 text-center">
+            <div className="text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-0.5">Avg. Yearly</div>
+            <div className="text-base sm:text-lg font-bold tracking-tight text-white">
+              {avgYearlyMileage != null ? formatNumber(avgYearlyMileage) : '—'}
+              <span className="text-sm font-semibold text-slate-400 ml-0.5">{unit}</span>
+            </div>
+            <div className="text-[10px] text-slate-500 mt-0">{avgYearlyMileage != null ? 'per year' : ''}</div>
           </div>
         </div>
       </div>
