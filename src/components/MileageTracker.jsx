@@ -210,6 +210,65 @@ function computeChartLayout(points, projection, width = 340, height = 180) {
     logDate: p.isLog ? formatDayMonth(p.x) : null,
   }));
 
+  // ── Collision detection for log dots ──
+  const CLUSTER_THRESHOLD = 25; // px — dots closer than this form an overlap group
+  const TIGHT_THRESHOLD = 15;   // px — 3+ dots within this are a "tight" cluster
+
+  const logIndices = [];
+  dots.forEach((d, i) => { if (d.isLog) logIndices.push(i); });
+
+  const clusters = [];
+  let currentCluster = [];
+  for (let i = 0; i < logIndices.length; i++) {
+    const idx = logIndices[i];
+    if (currentCluster.length === 0) {
+      currentCluster = [idx];
+    } else {
+      const prevIdx = currentCluster[currentCluster.length - 1];
+      if (dots[idx].x - dots[prevIdx].x < CLUSTER_THRESHOLD) {
+        currentCluster.push(idx);
+      } else {
+        if (currentCluster.length > 1) clusters.push(currentCluster);
+        else clusters.push([currentCluster[0]]);
+        currentCluster = [idx];
+      }
+    }
+  }
+  if (currentCluster.length > 0) clusters.push(currentCluster);
+
+  for (const cluster of clusters) {
+    const isTight = cluster.length >= 3 && (() => {
+      for (let j = 1; j < cluster.length; j++) {
+        if (dots[cluster[j]].x - dots[cluster[j - 1]].x >= TIGHT_THRESHOLD) return false;
+      }
+      return true;
+    })();
+
+    for (let j = 0; j < cluster.length; j++) {
+      const dotIdx = cluster[j];
+      const dot = dots[dotIdx];
+      dot._clusterSize = cluster.length;
+      dot._staggerIndex = j;
+      if (cluster.length === 1) {
+        dot._clusterPosition = 'solo';
+        dot._showBadge = false;
+      } else if (isTight && j > 0 && j < cluster.length - 1) {
+        dot._clusterPosition = 'middle-tight';
+        dot._showBadge = false;
+      } else if (j === cluster.length - 1) {
+        dot._clusterPosition = 'last';
+        dot._showBadge = isTight;
+        dot._badgeCount = cluster.length - 1;
+      } else if (j === 0) {
+        dot._clusterPosition = 'first';
+        dot._showBadge = false;
+      } else {
+        dot._clusterPosition = 'middle';
+        dot._showBadge = false;
+      }
+    }
+  }
+
   // Pace badge
   const paceText = projection?.monthlyPace != null
     ? `~${formatNumber(Math.abs(projection.monthlyPace))} mi/mo pace`
@@ -496,14 +555,33 @@ export default function MileageTracker({ activeVehicle, vehicleLogs = [], isPrem
                 <circle cx={d.x} cy={d.y} r="6" fill="#3b82f6" stroke="#0f0f16" strokeWidth="2" />
                 <text x={d.x} y={d.y - 8} fill="#3b82f6" fontSize="9" fontWeight="700" textAnchor="middle">Now</text>
               </>
-            ) : d.isLog ? (
-              <>
-                <title>{d.label}: {formatNumber(d.mileage)} {unit}</title>
-                <circle cx={d.x} cy={d.y} r="4" fill="#3b82f6" opacity="0.9" />
-                <text x={d.x} y={d.y - 8} fill="#3b82f6" fontSize="7" textAnchor="middle">{formatNumber(d.mileage)}</text>
-                <text x={d.x} y={d.y + 12} fill="#555" fontSize="7" textAnchor="middle">{d.logDate}</text>
-              </>
-            ) : null}
+            ) : d.isLog ? (() => {
+                const isTightMiddle = d._clusterPosition === 'middle-tight';
+                const stagger = d._staggerIndex || 0;
+                const above = stagger % 2 === 0;
+                // Mileage label: above for even stagger, below for odd
+                const mileageY = above ? d.y - 8 : d.y + 14;
+                // Date label: mirrored — if mileage above, date below; if mileage below, date above
+                const dateY = above ? d.y + 14 : d.y - 8;
+                return (
+                  <>
+                    <title>{d.label}: {formatNumber(d.mileage)} {unit}</title>
+                    <circle cx={d.x} cy={d.y} r="4" fill="#3b82f6" opacity="0.9" />
+                    {!isTightMiddle && (
+                      <>
+                        <text x={d.x} y={mileageY} fill="#3b82f6" fontSize="7" textAnchor="middle">{formatNumber(d.mileage)}</text>
+                        <text x={d.x} y={dateY} fill="#555" fontSize="7" textAnchor="middle">{d.logDate}</text>
+                      </>
+                    )}
+                    {d._showBadge && (
+                      <g>
+                        <rect x={d.x + 6} y={d.y - 12} width="14" height="10" rx="5" fill="#3b82f6" opacity="0.85" />
+                        <text x={d.x + 13} y={d.y - 4} fill="#fff" fontSize="6" fontWeight="700" textAnchor="middle">+{d._badgeCount}</text>
+                      </g>
+                    )}
+                  </>
+                );
+              })() : null}
           </g>
         ))}
 
