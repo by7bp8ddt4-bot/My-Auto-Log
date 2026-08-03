@@ -3907,6 +3907,532 @@ for (const [perfModel, baseModel] of [['s4', 'a4'], ['s6', 'a6'], ['sq5', 'q5'],
   if (referenceSpecs.audi?.[baseModel]) referenceSpecs.audi[perfModel] = referenceSpecs.audi[baseModel];
 }
 
+
+// ── Wave 6 Marine & Powersports reference data (2005-2025) ───────────────────
+// Marine outboards, personal watercraft, marine diesels, and Polaris powersports.
+// Units: outboards/PWC/marine diesels run on engine hours ("hrs" vehicle unit);
+// Polaris runs on miles ("mi"). Non-automotive vehicles have no OBD-II port —
+// obd2Location describes the manufacturer diagnostic connector instead.
+const marineOutboardSpec = (engineDescription, oilViscosity, gearcaseLube, diagnosticLocation) => ({
+  engine: {
+    oilViscosity,
+    oilCapacity: "Consult owner's manual (FC-W certified 4-stroke outboard oil; capacity varies by model/generation)",
+    oilFilterPN: "Consult owner's manual",
+    coolantType: 'N/A — raw-water cooled (no coolant loop)',
+    coolantCapacity: 'N/A — raw-water cooled'
+  },
+  transmission: {
+    fluidType: 'N/A — outboards have no transmission; shift mechanism is inside the lower unit',
+    capacity: 'N/A',
+    note: 'Engine oil spec is engine-specific (see Engine). No transmission fluid; the lower unit gearcase uses marine-grade gear oil (see Differentials).'
+  },
+  transferCase: null,
+  differentials: {
+    front: null,
+    rear: {
+      fluidType: gearcaseLube,
+      capacity: "Consult owner's manual (gearcase capacity varies by model)",
+      note: 'Lower unit gearcase (forward/neutral/reverse gears) — drain and refill through the gearcase screws; check level with the oil level screw. Marine-grade gear oil only.'
+    }
+  },
+  brakeFluid: 'N/A — no hydraulic brakes (steering/hydraulic assists are boat rigging, not engine service)',
+  tires: {
+    frontPSI: 'N/A',
+    rearPSI: 'N/A',
+    oemSizes: ['N/A — no road wheels (trailer wheels are trailer-side, not engine service)'],
+    lugNutTorque: 'N/A'
+  },
+  bulbs: {
+    lowBeam: 'N/A', highBeam: 'N/A', frontTurn: 'N/A', rearTurn: 'N/A',
+    tailBrake: 'N/A', interior: 'N/A', license: 'N/A'
+  },
+  obd2Location: diagnosticLocation,
+  note: engineDescription + '. Hour-based service intervals (e.g., 100 hr). No standard OBD-II port — manufacturer diagnostic software only.'
+});
+
+const pwcSpec = (engineDescription, oilViscosity, coolantType, brakeFluid, diagnosticLocation) => ({
+  engine: {
+    oilViscosity,
+    oilCapacity: "Consult owner's manual",
+    oilFilterPN: "Consult owner's manual",
+    coolantType,
+    coolantCapacity: "Consult owner's manual"
+  },
+  transmission: {
+    fluidType: 'N/A — direct drive to jet pump; no transmission',
+    capacity: 'N/A',
+    note: 'PWC have no gearbox — the engine drives the jet pump directly.'
+  },
+  transferCase: null,
+  differentials: {
+    front: null,
+    rear: {
+      fluidType: 'Jet pump oil (OEM-specified — BRP XPS / Kawasaki jet pump lubricant where applicable)',
+      capacity: "Consult owner's manual",
+      note: "Final drive is the jet pump impeller assembly. Some models specify jet pump oil; others use water-lubricated bearings with greased splines — check the owner's manual for the exact service."
+    }
+  },
+  brakeFluid,
+  tires: {
+    frontPSI: 'N/A', rearPSI: 'N/A',
+    oemSizes: ['N/A — no road wheels'], lugNutTorque: 'N/A'
+  },
+  bulbs: {
+    lowBeam: 'N/A', highBeam: 'N/A', frontTurn: 'N/A', rearTurn: 'N/A',
+    tailBrake: 'N/A', interior: 'N/A', license: 'N/A'
+  },
+  obd2Location: diagnosticLocation,
+  note: engineDescription + '. Hour-based service intervals (e.g., 50/100 hr). No OBD-II — manufacturer diagnostic software only.'
+});
+
+const marineDieselSpec = (engineDescription, oilViscosity, oilCapacity, diagnosticLocation) => ({
+  engine: {
+    oilViscosity,
+    oilCapacity,
+    oilFilterPN: "Consult owner's manual",
+    coolantType: '50/50 ethylene-glycol coolant (OEM spec — e.g., CAT DEAC/ELC, Cummins Fleetguard ES Compleat, Yanmar original coolant)',
+    coolantCapacity: "Consult owner's manual (varies with heat-exchanger/expansion-tank configuration)"
+  },
+  transmission: {
+    fluidType: 'Marine gearbox oil — per installed transmission (ZF, Twin Disc, Yanmar KMH/YD series); commonly 15W-40 engine oil or ATF per gearbox spec',
+    capacity: "Consult owner's manual (gearbox-specific)",
+    note: 'The marine transmission is a separate gearbox (not part of the engine) — service fluid per the gearbox manufacturer, not the engine manual.'
+  },
+  transferCase: null,
+  differentials: { front: null, rear: null },
+  brakeFluid: 'N/A — no hydraulic brakes (marine)',
+  tires: {
+    frontPSI: 'N/A', rearPSI: 'N/A',
+    oemSizes: ['N/A — no road wheels'], lugNutTorque: 'N/A'
+  },
+  bulbs: {
+    lowBeam: 'N/A', highBeam: 'N/A', frontTurn: 'N/A', rearTurn: 'N/A',
+    tailBrake: 'N/A', interior: 'N/A', license: 'N/A'
+  },
+  obd2Location: diagnosticLocation,
+  note: engineDescription + '. Hour-based service intervals (e.g., 250/500 hr). No OBD-II — manufacturer diagnostic software (CAT ET, Cummins Insite, Yanmar) over the marine CAN data link.'
+});
+
+const polarisSpec = (engineDescription, oilViscosity, oilCapacity, frontPSI, rearPSI, oemSizes, lugNutTorque) => ({
+  engine: {
+    oilViscosity,
+    oilCapacity,
+    oilFilterPN: "Consult owner's manual (OEM Polaris oil filter)",
+    coolantType: 'Polaris 50/50 premixed antifreeze (OEM coolant; standard ethylene-glycol 50/50 acceptable)',
+    coolantCapacity: "Consult owner's manual"
+  },
+  transmission: {
+    fluidType: 'Polaris PVT is belt-driven (no transmission fluid); oil-filled gearbox/gearcase uses Polaris Demand Drive Plus',
+    capacity: "Consult owner's manual",
+    note: 'PVT (Polaris Variable Transmission) belt primary drive — inspect/replace the belt per the manual; no ATF-style transmission fluid on most models.'
+  },
+  transferCase: null,
+  differentials: {
+    front: {
+      fluidType: 'Polaris Demand Drive Plus (synthetic 75W-90 gear lube) — front gearcase (on-demand AWD)',
+      capacity: "Consult owner's manual",
+      note: 'Equivalents: synthetic 75W-90 GL-5 gear oil.'
+    },
+    rear: {
+      fluidType: 'Polaris Demand Drive Plus (synthetic 75W-90 gear lube) — rear gearcase; Demand Drive HD (75W-140) for heavy-duty use',
+      capacity: "Consult owner's manual",
+      note: 'Equivalents: 75W-90 synthetic GL-5; Polaris Demand Drive (non-synthetic 80W-90) on some models.'
+    }
+  },
+  brakeFluid: 'DOT 4',
+  tires: { frontPSI, rearPSI, oemSizes, lugNutTorque },
+  bulbs: {
+    lowBeam: 'LED (most current models) / halogen per trim — Consult owner\'s manual',
+    highBeam: 'LED / halogen per trim — Consult owner\'s manual',
+    frontTurn: 'LED / halogen per trim — Consult owner\'s manual',
+    rearTurn: 'LED / halogen per trim — Consult owner\'s manual',
+    tailBrake: 'LED (most current models) — Consult owner\'s manual',
+    interior: 'N/A', license: 'N/A'
+  },
+  obd2Location: 'No standard OBD-II. Polaris Digital Wrench diagnostic connector under the dash/seat area (dealer tool).',
+  note: engineDescription + '. Mileage-based service intervals (e.g., 100 mi break-in, then 500-1000 mi).'
+});
+
+const wave6Specs = {
+  'yamaha': {
+    'f25': {
+      '2006-2025': marineOutboardSpec('Yamaha F25 — 25 hp 3-cylinder 4-stroke (early carbureted, later EFI)',
+        'Yamalube 4M or NMMA FC-W certified 4-stroke outboard oil, SAE 10W-30 (20W-40 per manual in warm climates)',
+        'Yamalube Marine Gearcase Lube / OEM gearcase lube (SAE 80W-90 class)',
+        'Yamaha diagnostic connector under the cowl — dealer YDIS/CLOM software; no OBD-II port.')
+    },
+    'f70': {
+      '2009-2025': marineOutboardSpec('Yamaha F70 — 70 hp 4-stroke (F70/F60 shared platform)',
+        'Yamalube 4M or NMMA FC-W certified 4-stroke outboard oil, SAE 10W-30 (20W-40 per manual in warm climates)',
+        'Yamalube Marine Gearcase Lube / OEM gearcase lube (SAE 80W-90 class)',
+        'Yamaha diagnostic connector under the cowl — dealer YDIS/CLOM software; no OBD-II port.')
+    },
+    'f115': {
+      '2005-2019': marineOutboardSpec('Yamaha F115 — 115 hp 4-cylinder 4-stroke (1.8L)',
+        'Yamalube 4M or NMMA FC-W certified 4-stroke outboard oil, SAE 10W-30 (20W-40 per manual in warm climates)',
+        'Yamalube Marine Gearcase Lube / OEM gearcase lube (SAE 80W-90 class)',
+        'Yamaha diagnostic connector under the cowl — dealer YDIS/CLOM software; no OBD-II port.'),
+      '2020-2025': marineOutboardSpec('Yamaha F115 — 115 hp 4-stroke, redesigned generation (2020+)',
+        'Yamalube 4M or NMMA FC-W certified 4-stroke outboard oil, SAE 10W-30 (20W-40 per manual in warm climates)',
+        'Yamalube Marine Gearcase Lube / OEM gearcase lube (SAE 80W-90 class)',
+        'Yamaha diagnostic connector under the cowl — dealer YDIS/CLOM software; no OBD-II port.')
+    },
+    'f150': {
+      '2005-2019': marineOutboardSpec('Yamaha F150 — 150 hp V6 4-stroke',
+        'Yamalube 4M or NMMA FC-W certified 4-stroke outboard oil, SAE 10W-30 (20W-40 per manual in warm climates)',
+        'Yamalube Marine Gearcase Lube / OEM gearcase lube (SAE 80W-90 class)',
+        'Yamaha diagnostic connector under the cowl — dealer YDIS/CLOM software; no OBD-II port.'),
+      '2020-2025': marineOutboardSpec('Yamaha F150 — 150 hp 4-stroke, redesigned generation (2020+)',
+        'Yamalube 4M or NMMA FC-W certified 4-stroke outboard oil, SAE 10W-30 (20W-40 per manual in warm climates)',
+        'Yamalube Marine Gearcase Lube / OEM gearcase lube (SAE 80W-90 class)',
+        'Yamaha diagnostic connector under the cowl — dealer YDIS/CLOM software; no OBD-II port.')
+    },
+    'f200': {
+      '2005-2019': marineOutboardSpec('Yamaha F200 — 200 hp V6 4-stroke',
+        'Yamalube 4M or NMMA FC-W certified 4-stroke outboard oil, SAE 10W-30 (20W-40 per manual in warm climates)',
+        'Yamalube Marine Gearcase Lube / OEM gearcase lube (SAE 80W-90 class)',
+        'Yamaha diagnostic connector under the cowl — dealer YDIS/CLOM software; no OBD-II port.'),
+      '2020-2025': marineOutboardSpec('Yamaha F200 — 200 hp 4-stroke, redesigned generation (2020+)',
+        'Yamalube 4M or NMMA FC-W certified 4-stroke outboard oil, SAE 10W-30 (20W-40 per manual in warm climates)',
+        'Yamalube Marine Gearcase Lube / OEM gearcase lube (SAE 80W-90 class)',
+        'Yamaha diagnostic connector under the cowl — dealer YDIS/CLOM software; no OBD-II port.')
+    },
+    'f250': {
+      '2005-2015': marineOutboardSpec('Yamaha F250 — 250 hp V6 4-stroke (earlier generation)',
+        'Yamalube 4M or NMMA FC-W certified 4-stroke outboard oil, SAE 10W-30 (20W-40 per manual in warm climates)',
+        'Yamalube Marine Gearcase Lube / OEM gearcase lube (SAE 80W-90 class)',
+        'Yamaha diagnostic connector under the cowl — dealer YDIS/CLOM software; no OBD-II port.'),
+      '2016-2025': marineOutboardSpec('Yamaha F250 — 250 hp V6 4-stroke (4.2L, redesigned 2016)',
+        'Yamalube 4M or NMMA FC-W certified 4-stroke outboard oil, SAE 10W-30 (20W-40 per manual in warm climates)',
+        'Yamalube Marine Gearcase Lube / OEM gearcase lube (SAE 80W-90 class)',
+        'Yamaha diagnostic connector under the cowl — dealer YDIS/CLOM software; no OBD-II port.')
+    },
+    'f300': {
+      '2016-2025': marineOutboardSpec('Yamaha F300 — 300 hp V6 4-stroke (4.2L, launched 2016)',
+        'Yamalube 4M or NMMA FC-W certified 4-stroke outboard oil, SAE 10W-30 (20W-40 per manual in warm climates)',
+        'Yamalube Marine Gearcase Lube / OEM gearcase lube (SAE 80W-90 class)',
+        'Yamaha diagnostic connector under the cowl — dealer YDIS/CLOM software; no OBD-II port.')
+    }
+  },
+  'mercury': {
+    '40 fourstroke': {
+      '2005-2018': marineOutboardSpec('Mercury 40 FourStroke — 40 hp 3-cylinder 4-stroke',
+        'Mercury/Quicksilver 4-Stroke Outboard Oil SAE 10W-30 (NMMA FC-W certified)',
+        'Mercury High Performance Gear Lube / Quicksilver Premium Blend (SAE 80W-90)',
+        'Mercury SmartCraft / diagnostic connector under the cowl — dealer software; no OBD-II port.'),
+      '2019-2025': marineOutboardSpec('Mercury 40 FourStroke — 40 hp 4-stroke, redesigned 40-60 hp family (2019+)',
+        'Mercury/Quicksilver 4-Stroke Outboard Oil SAE 10W-30 (NMMA FC-W certified)',
+        'Mercury High Performance Gear Lube / Quicksilver Premium Blend (SAE 80W-90)',
+        'Mercury SmartCraft / diagnostic connector under the cowl — dealer software; no OBD-II port.')
+    },
+    '75 fourstroke': {
+      '2005-2018': marineOutboardSpec('Mercury 75 FourStroke — 75 hp 4-stroke',
+        'Mercury/Quicksilver 4-Stroke Outboard Oil SAE 10W-30 (NMMA FC-W certified)',
+        'Mercury High Performance Gear Lube / Quicksilver Premium Blend (SAE 80W-90)',
+        'Mercury SmartCraft / diagnostic connector under the cowl — dealer software; no OBD-II port.'),
+      '2019-2025': marineOutboardSpec('Mercury 75 FourStroke — 75 hp 4-stroke, redesigned 75-115 hp family (2019+)',
+        'Mercury/Quicksilver 4-Stroke Outboard Oil SAE 10W-30 (NMMA FC-W certified)',
+        'Mercury High Performance Gear Lube / Quicksilver Premium Blend (SAE 80W-90)',
+        'Mercury SmartCraft / diagnostic connector under the cowl — dealer software; no OBD-II port.')
+    },
+    '90 fourstroke': {
+      '2005-2018': marineOutboardSpec('Mercury 90 FourStroke — 90 hp 4-stroke',
+        'Mercury/Quicksilver 4-Stroke Outboard Oil SAE 10W-30 (NMMA FC-W certified)',
+        'Mercury High Performance Gear Lube / Quicksilver Premium Blend (SAE 80W-90)',
+        'Mercury SmartCraft / diagnostic connector under the cowl — dealer software; no OBD-II port.'),
+      '2019-2025': marineOutboardSpec('Mercury 90 FourStroke — 90 hp 4-stroke, redesigned 75-115 hp family (2019+)',
+        'Mercury/Quicksilver 4-Stroke Outboard Oil SAE 10W-30 (NMMA FC-W certified)',
+        'Mercury High Performance Gear Lube / Quicksilver Premium Blend (SAE 80W-90)',
+        'Mercury SmartCraft / diagnostic connector under the cowl — dealer software; no OBD-II port.')
+    },
+    '115 pro xs': {
+      '2015-2025': marineOutboardSpec('Mercury 115 Pro XS — 115 hp high-output 4-stroke (redesigned family from ~2019)',
+        'Mercury/Quicksilver 4-Stroke Outboard Oil SAE 10W-30 (NMMA FC-W certified)',
+        'Mercury High Performance Gear Lube / Quicksilver Premium Blend (SAE 80W-90)',
+        'Mercury SmartCraft / diagnostic connector under the cowl — dealer software; no OBD-II port.')
+    },
+    '150 fourstroke': {
+      '2018-2025': marineOutboardSpec('Mercury 150 FourStroke — 150 hp 4-stroke V6 (current-generation 3.0L V6 family, 2018+)',
+        'Mercury/Quicksilver 4-Stroke Outboard Oil SAE 10W-30 (NMMA FC-W certified)',
+        'Mercury High Performance Gear Lube / Quicksilver Premium Blend (SAE 80W-90)',
+        'Mercury SmartCraft / diagnostic connector under the cowl — dealer software; no OBD-II port.')
+    },
+    '250 verado': {
+      '2005-2010': marineOutboardSpec('Mercury 250 Verado — 250 hp supercharged 2.6L inline-6',
+        'Mercury 4-Stroke Outboard Oil SAE 10W-30 (FC-W) — Verado spec, tighter change intervals for supercharged duty',
+        'Mercury High Performance Gear Lube (SAE 80W-90; synthetic 75W-90 for heavy duty)',
+        'Mercury SmartCraft CAN diagnostic connector under the cowl — dealer software; no OBD-II port.'),
+      '2011-2025': marineOutboardSpec('Mercury 250 Verado — 250 hp supercharged 3.4L V6 (redesigned 2011+)',
+        'Mercury 4-Stroke Outboard Oil SAE 10W-30 (FC-W) — Verado spec, tighter change intervals for supercharged duty',
+        'Mercury High Performance Gear Lube (SAE 80W-90; synthetic 75W-90 for heavy duty)',
+        'Mercury SmartCraft CAN diagnostic connector under the cowl — dealer software; no OBD-II port.')
+    },
+    '300 verado': {
+      '2015-2025': marineOutboardSpec('Mercury 300 Verado — 300 hp 4.6L V8 (launched 2015)',
+        'Mercury 4-Stroke Outboard Oil SAE 10W-30 (FC-W) — Verado spec, tighter change intervals for supercharged duty',
+        'Mercury High Performance Gear Lube (SAE 80W-90; synthetic 75W-90 for heavy duty)',
+        'Mercury SmartCraft CAN diagnostic connector under the cowl — dealer software; no OBD-II port.')
+    },
+    '350 verado': {
+      '2015-2025': marineOutboardSpec('Mercury 350 Verado — 350 hp supercharged 4.6L V8 (launched 2015)',
+        'Mercury 4-Stroke Outboard Oil SAE 10W-30 (FC-W) — Verado spec, tighter change intervals for supercharged duty',
+        'Mercury High Performance Gear Lube (SAE 80W-90; synthetic 75W-90 for heavy duty)',
+        'Mercury SmartCraft CAN diagnostic connector under the cowl — dealer software; no OBD-II port.')
+    }
+  },
+  'sea-doo': {
+    'spark': {
+      '2014-2025': pwcSpec('Sea-Doo Spark — Rotax 900 ACE 3-cylinder (60/90 hp), launched 2014',
+        'BRP XPS 4-stroke synthetic 5W-40 (Rotax ACE spec)',
+        'BRP XPS premixed coolant (closed-loop, 50/50 ethylene glycol)',
+        'N/A — Spark has no hydraulic brake',
+        'BRP B.U.D.S. diagnostic via the DESS post / MPEM connector under the seat; no OBD-II.')
+    },
+    'gti': {
+      '2005-2011': pwcSpec('Sea-Doo GTI — Rotax 4-TEC 155 (1503cc), GTI SE 2010-2011',
+        'BRP XPS 4-stroke synthetic 5W-40 (4-TEC spec)',
+        'BRP XPS premixed coolant (closed-loop, 50/50 ethylene glycol)',
+        'DOT 4 (BRP XPS DOT 4) on iBR-equipped models; N/A otherwise',
+        'BRP B.U.D.S. diagnostic via the DESS post / MPEM connector under the seat; no OBD-II.'),
+      '2016-2025': pwcSpec('Sea-Doo GTI — Rotax 1630 ACE 3-cylinder (130/155/170 hp), relaunched 2016',
+        'BRP XPS 4-stroke synthetic 5W-40 (1630 ACE spec)',
+        'BRP XPS premixed coolant (closed-loop, 50/50 ethylene glycol)',
+        'DOT 4 (BRP XPS DOT 4) on iBR-equipped models; N/A otherwise',
+        'BRP B.U.D.S. diagnostic via the DESS post / MPEM connector under the seat; no OBD-II.')
+    },
+    'gtx': {
+      '2005-2013': pwcSpec('Sea-Doo GTX — Rotax 4-TEC (155/215/255 hp)',
+        'BRP XPS 4-stroke synthetic 5W-40 (4-TEC spec)',
+        'BRP XPS premixed coolant (closed-loop, 50/50 ethylene glycol)',
+        'DOT 4 (BRP XPS DOT 4) — iBR hydraulic brake',
+        'BRP B.U.D.S. diagnostic via the DESS post / MPEM connector under the seat; no OBD-II.'),
+      '2014-2019': pwcSpec('Sea-Doo GTX — 4-TEC 215/260, then 1630 ACE 300 from 2017',
+        'BRP XPS 4-stroke synthetic 5W-40 (4-TEC, then 1630 ACE spec)',
+        'BRP XPS premixed coolant (closed-loop, 50/50 ethylene glycol)',
+        'DOT 4 (BRP XPS DOT 4) — iBR hydraulic brake',
+        'BRP B.U.D.S. diagnostic via the DESS post / MPEM connector under the seat; no OBD-II.'),
+      '2020-2025': pwcSpec('Sea-Doo GTX — redesigned hull, Rotax 1630 ACE (170/230/300 hp)',
+        'BRP XPS 4-stroke synthetic 5W-40 (1630 ACE spec)',
+        'BRP XPS premixed coolant (closed-loop, 50/50 ethylene glycol)',
+        'DOT 4 (BRP XPS DOT 4) — iBR hydraulic brake',
+        'BRP B.U.D.S. diagnostic via the DESS post / MPEM connector under the seat; no OBD-II.')
+    },
+    'rxp': {
+      '2005-2008': pwcSpec('Sea-Doo RXP — Rotax 4-TEC 215/255 supercharged',
+        'BRP XPS 4-stroke synthetic 5W-40 (4-TEC spec)',
+        'BRP XPS premixed coolant (closed-loop, 50/50 ethylene glycol)',
+        'DOT 4 (BRP XPS DOT 4) — iBR hydraulic brake',
+        'BRP B.U.D.S. diagnostic via the DESS post / MPEM connector under the seat; no OBD-II.'),
+      '2009-2019': pwcSpec('Sea-Doo RXP-X — 4-TEC 255 supercharged, then 1630 ACE 300',
+        'BRP XPS 4-stroke synthetic 5W-40 (4-TEC, then 1630 ACE spec)',
+        'BRP XPS premixed coolant (closed-loop, 50/50 ethylene glycol)',
+        'DOT 4 (BRP XPS DOT 4) — iBR hydraulic brake',
+        'BRP B.U.D.S. diagnostic via the DESS post / MPEM connector under the seat; no OBD-II.'),
+      '2020-2025': pwcSpec('Sea-Doo RXP-X — redesigned, Rotax 1630 ACE (300/325 hp)',
+        'BRP XPS 4-stroke synthetic 5W-40 (1630 ACE spec)',
+        'BRP XPS premixed coolant (closed-loop, 50/50 ethylene glycol)',
+        'DOT 4 (BRP XPS DOT 4) — iBR hydraulic brake',
+        'BRP B.U.D.S. diagnostic via the DESS post / MPEM connector under the seat; no OBD-II.')
+    },
+    'rxt': {
+      '2005-2009': pwcSpec('Sea-Doo RXT — Rotax 4-TEC 215 supercharged',
+        'BRP XPS 4-stroke synthetic 5W-40 (4-TEC spec)',
+        'BRP XPS premixed coolant (closed-loop, 50/50 ethylene glycol)',
+        'DOT 4 (BRP XPS DOT 4) — iBR hydraulic brake',
+        'BRP B.U.D.S. diagnostic via the DESS post / MPEM connector under the seat; no OBD-II.'),
+      '2010-2019': pwcSpec('Sea-Doo RXT-X — 4-TEC 260, then 1630 ACE 300',
+        'BRP XPS 4-stroke synthetic 5W-40 (4-TEC, then 1630 ACE spec)',
+        'BRP XPS premixed coolant (closed-loop, 50/50 ethylene glycol)',
+        'DOT 4 (BRP XPS DOT 4) — iBR hydraulic brake',
+        'BRP B.U.D.S. diagnostic via the DESS post / MPEM connector under the seat; no OBD-II.'),
+      '2020-2025': pwcSpec('Sea-Doo RXT-X — redesigned, Rotax 1630 ACE 300',
+        'BRP XPS 4-stroke synthetic 5W-40 (1630 ACE spec)',
+        'BRP XPS premixed coolant (closed-loop, 50/50 ethylene glycol)',
+        'DOT 4 (BRP XPS DOT 4) — iBR hydraulic brake',
+        'BRP B.U.D.S. diagnostic via the DESS post / MPEM connector under the seat; no OBD-II.')
+    },
+    'fish pro': {
+      '2021-2025': pwcSpec('Sea-Doo Fish Pro — Rotax 1630 ACE (130/170 hp), launched 2021',
+        'BRP XPS 4-stroke synthetic 5W-40 (1630 ACE spec)',
+        'BRP XPS premixed coolant (closed-loop, 50/50 ethylene glycol)',
+        'DOT 4 (BRP XPS DOT 4) — iBR hydraulic brake (170 hp)',
+        'BRP B.U.D.S. diagnostic via the DESS post / MPEM connector under the seat; no OBD-II.')
+    }
+  },
+  'kawasaki': {
+    'stx': {
+      '2005-2008': pwcSpec('Kawasaki Jet Ski STX-12F / STX-160 — 1.2L 4-cylinder',
+        'Kawasaki Performance 4-cycle oil, SAE 10W-40 (API SL/SM/SN)',
+        'Kawasaki Super Long Life Coolant (closed-loop, premixed)',
+        'N/A — no hydraulic brake (jet pump reverse)',
+        'Kawasaki Diagnostic System (KDS) connector under the seat; no OBD-II.'),
+      '2010-2025': pwcSpec('Kawasaki Jet Ski STX-15F — 1498cc 4-cylinder (160 hp)',
+        'Kawasaki Performance 4-cycle oil, SAE 10W-40 (API SL/SM/SN)',
+        'Kawasaki Super Long Life Coolant (closed-loop, premixed)',
+        'N/A — no hydraulic brake (jet pump reverse)',
+        'Kawasaki Diagnostic System (KDS) connector under the seat; no OBD-II.')
+    },
+    'ultra 310': {
+      '2014-2025': pwcSpec('Kawasaki Jet Ski Ultra 310X/310LX — 1498cc supercharged 4-cylinder (310 hp)',
+        'Kawasaki Performance 4-cycle oil, SAE 10W-40 (API SL/SM/SN)',
+        'Kawasaki Super Long Life Coolant (closed-loop, premixed)',
+        'N/A — no hydraulic brake (jet pump reverse)',
+        'Kawasaki Diagnostic System (KDS) connector under the seat; no OBD-II.')
+    }
+  },
+  'caterpillar': {
+    'c7': {
+      '2005-2012': marineDieselSpec('CAT C7 — 7.2L inline-6 marine diesel (350-450 hp ratings)',
+        '15W-40 (CAT ECF-1-a / API CJ-4 — CAT DEO or equivalent)',
+        "Consult owner's manual (oil pan option dependent; ~30 qt typical)",
+        'CAT Electronic Technician (ET) via the ECM data link connector near the engine/helm; no OBD-II.')
+    },
+    'c12': {
+      '2005-2008': marineDieselSpec('CAT C12 — 12L inline-6 marine diesel (up to 825 hp ratings)',
+        '15W-40 (CAT ECF-1-a / API CJ-4 — CAT DEO or equivalent)',
+        "Consult owner's manual (oil pan option dependent; ~40 qt typical)",
+        'CAT Electronic Technician (ET) via the ECM data link connector near the engine/helm; no OBD-II.')
+    },
+    'c18': {
+      '2005-2025': marineDieselSpec('CAT C18 — 18.1L inline-6 ACERT marine diesel (up to 1000 hp ratings)',
+        '15W-40 (CAT ECF-1-a / API CJ-4 — CAT DEO or equivalent)',
+        "Consult owner's manual (oil pan option dependent; ~52 qt typical)",
+        'CAT Electronic Technician (ET) via the ECM data link connector near the engine/helm; no OBD-II.')
+    },
+    'c32': {
+      '2005-2025': marineDieselSpec('CAT C32 — 32.1L V12 marine diesel (1000-2000 hp ratings)',
+        '15W-40 (CAT ECF-1-a / API CJ-4 — CAT DEO or equivalent)',
+        "Consult owner's manual (oil pan option dependent; ~130 qt typical)",
+        'CAT Electronic Technician (ET) via the ECM data link connector near the engine/helm; no OBD-II.')
+    }
+  },
+  'cummins': {
+    'qsb 6.7': {
+      '2007-2025': marineDieselSpec('Cummins QSB6.7 — 6.7L inline-6 common-rail marine diesel (230-550 hp ratings)',
+        '15W-40 (Cummins CES 20081 / API CJ-4 — Fleetguard ES or equivalent)',
+        'approx 14 qt (verify oil pan option in manual)',
+        'Cummins Insite via the CAN data link connector on the OEM harness near the engine; no OBD-II.')
+    },
+    'qsc 8.3': {
+      '2007-2018': marineDieselSpec('Cummins QSC8.3 — 8.3L inline-6 marine diesel (up to 550 hp ratings)',
+        '15W-40 (Cummins CES 20081 / API CJ-4 — Fleetguard ES or equivalent)',
+        'approx 16 qt (verify oil pan option in manual)',
+        'Cummins Insite via the CAN data link connector on the OEM harness near the engine; no OBD-II.')
+    },
+    'qsm11': {
+      '2005-2015': marineDieselSpec('Cummins QSM11 — 11L inline-6 marine diesel (up to 715 hp ratings)',
+        '15W-40 (Cummins CES 20081 / API CJ-4 — Fleetguard ES or equivalent)',
+        'approx 30 qt (verify oil pan option in manual)',
+        'Cummins Insite via the CAN data link connector on the OEM harness near the engine; no OBD-II.')
+    },
+    'kta19': {
+      '2005-2025': marineDieselSpec('Cummins KTA19 — 19L inline-6 marine diesel (600-800 hp ratings)',
+        '15W-40 (Cummins CES 20081 / API CI-4/CJ-4 — Fleetguard ES or equivalent)',
+        'approx 64 qt (verify oil pan option in manual)',
+        'Cummins Insite via the CAN data link connector on the OEM harness near the engine; no OBD-II.')
+    }
+  },
+  'yanmar': {
+    '4jh': {
+      '2005-2011': marineDieselSpec('Yanmar 4JH3E — 4-cylinder marine diesel (2.2L, ~40-54 hp)',
+        '15W-40 (API CF-4/CG-4/CH-4 — Yanmar Marine Engine Oil or equivalent)',
+        "Consult owner's manual",
+        'Yanmar — no OBD-II; check engine/ECS panel alarms; dealer diagnostics via CAN where fitted.'),
+      '2012-2025': marineDieselSpec('Yanmar 4JH40/45/57 — 4-cylinder marine diesel (2.2L, 39-57 hp)',
+        '15W-40 (API CF-4/CG-4/CH-4/CJ-4 — Yanmar Marine Engine Oil or equivalent)',
+        "Consult owner's manual",
+        'Yanmar — no OBD-II; check engine/ECS panel alarms; dealer diagnostics via CAN where fitted.')
+    },
+    '6ly': {
+      '2005-2025': marineDieselSpec('Yanmar 6LY/6LY2/6LY3 — 6-cylinder marine diesel (8.1L, up to 440 hp ratings)',
+        '15W-40 (API CF-4/CG-4/CH-4/CJ-4 — Yanmar Marine Engine Oil or equivalent)',
+        "Consult owner's manual",
+        'Yanmar — no OBD-II; check engine/ECS panel alarms; dealer diagnostics via CAN where fitted.')
+    },
+    '6cx': {
+      '2005-2025': marineDieselSpec('Yanmar 6CX-GT/GTE — 6-cylinder marine diesel (480-600 hp ratings)',
+        '15W-40 (API CF-4/CG-4/CH-4/CJ-4 — Yanmar Marine Engine Oil or equivalent)',
+        "Consult owner's manual",
+        'Yanmar — no OBD-II; check engine/ECS panel alarms; dealer diagnostics via CAN where fitted.')
+    },
+    '8lv': {
+      '2014-2025': marineDieselSpec('Yanmar 8LV — 8.9L V8 common-rail marine diesel (250-440 hp ratings)',
+        '15W-40 (API CJ-4 — Yanmar original or equivalent)',
+        "Consult owner's manual",
+        'Yanmar — no OBD-II; check engine/ECS panel alarms; dealer diagnostics via CAN where fitted.')
+    }
+  },
+  'polaris': {
+    'sportsman 570': {
+      '2014-2025': polarisSpec('Polaris Sportsman 570 — 567cc single-cylinder ProStar (44 hp)',
+        'Polaris PS-4 full-synthetic 5W-50 (equivalents: 5W-50 full synthetic, e.g., AMSOIL/Mobil 1)',
+        'approx 2 qt (verify in manual)',
+        7, 7, ['26x8-12 front / 26x10-12 rear (common)'], 55)
+    },
+    'sportsman 850': {
+      '2016-2025': polarisSpec('Polaris Sportsman 850 — 850cc twin-cylinder ProStar (78 hp)',
+        'Polaris PS-4 full-synthetic 5W-50 (equivalents: 5W-50 full synthetic, e.g., AMSOIL/Mobil 1)',
+        'approx 2 qt (verify in manual)',
+        7, 7, ["Consult owner's manual (27x9-12 front / 27x11-12 rear typical)"], 55)
+    },
+    'rzr 1000': {
+      '2014-2025': polarisSpec('Polaris RZR XP 1000 — 999cc twin-cylinder ProStar (100 hp)',
+        'Polaris PS-4 full-synthetic 5W-50 (equivalents: 5W-50 full synthetic, e.g., AMSOIL/Mobil 1)',
+        "Consult owner's manual",
+        15, 15, ['29x9-14 front / 29x11-14 rear (XP 1000)'], 80)
+    },
+    'rzr turbo r': {
+      '2022-2025': polarisSpec('Polaris RZR Turbo R — 225 hp turbocharged ProStar engine (launched 2022)',
+        'Polaris PS-4 full-synthetic 5W-50 (equivalents: 5W-50 full synthetic, e.g., AMSOIL/Mobil 1)',
+        "Consult owner's manual",
+        15, 15, ['32x10-15 front / 32x12-15 rear (Turbo R)'], 80)
+    },
+    'general 1000': {
+      '2016-2025': polarisSpec('Polaris General 1000 — 999cc twin-cylinder ProStar (100 hp), launched 2016',
+        'Polaris PS-4 full-synthetic 5W-50 (equivalents: 5W-50 full synthetic, e.g., AMSOIL/Mobil 1)',
+        "Consult owner's manual",
+        15, 15, ['30x9-14 front / 30x11-14 rear (typical)'], 80)
+    },
+    'ranger 1000': {
+      '2014-2025': polarisSpec('Polaris Ranger XP 1000 — 999cc twin-cylinder ProStar (100 hp)',
+        'Polaris PS-4 full-synthetic 5W-50 (equivalents: 5W-50 full synthetic, e.g., AMSOIL/Mobil 1)',
+        "Consult owner's manual",
+        15, 15, ['27x9-12 front / 27x11-12 rear (typical)'], 80)
+    }
+  }
+};
+// Common model-name aliases (user-typed / VPIC-style variants).
+wave6Specs.yamaha['f 115'] = wave6Specs.yamaha.f115; wave6Specs.yamaha['f 150'] = wave6Specs.yamaha.f150;
+wave6Specs.yamaha['f 200'] = wave6Specs.yamaha.f200; wave6Specs.yamaha['f 250'] = wave6Specs.yamaha.f250;
+wave6Specs.mercury['40 four stroke'] = wave6Specs.mercury['40 fourstroke'];
+wave6Specs.mercury['75 four stroke'] = wave6Specs.mercury['75 fourstroke'];
+wave6Specs.mercury['90 four stroke'] = wave6Specs.mercury['90 fourstroke'];
+wave6Specs.mercury['150 four stroke'] = wave6Specs.mercury['150 fourstroke'];
+wave6Specs.seadoo = wave6Specs['sea-doo'];
+wave6Specs.kawasaki['stx-15f'] = wave6Specs.kawasaki.stx; wave6Specs.kawasaki['stx-12f'] = wave6Specs.kawasaki.stx;
+wave6Specs.kawasaki['ultra 310x'] = wave6Specs.kawasaki['ultra 310']; wave6Specs.kawasaki['ultra 310lx'] = wave6Specs.kawasaki['ultra 310'];
+wave6Specs.cat = wave6Specs.caterpillar;
+wave6Specs.caterpillar['c-7'] = wave6Specs.caterpillar.c7; wave6Specs.caterpillar['c-12'] = wave6Specs.caterpillar.c12;
+wave6Specs.caterpillar['c-18'] = wave6Specs.caterpillar.c18; wave6Specs.caterpillar['c-32'] = wave6Specs.caterpillar.c32;
+wave6Specs.cummins['qsb6.7'] = wave6Specs.cummins['qsb 6.7'];
+wave6Specs.cummins['qsc8.3'] = wave6Specs.cummins['qsc 8.3'];
+wave6Specs.yanmar['4jh40'] = wave6Specs.yanmar['4jh']; wave6Specs.yanmar['4jh45'] = wave6Specs.yanmar['4jh'];
+wave6Specs.yanmar['4jh57'] = wave6Specs.yanmar['4jh']; wave6Specs.yanmar['4jh3e'] = wave6Specs.yanmar['4jh'];
+wave6Specs.yanmar['6ly2'] = wave6Specs.yanmar['6ly']; wave6Specs.yanmar['6ly3'] = wave6Specs.yanmar['6ly'];
+wave6Specs.yanmar['6cx-gt'] = wave6Specs.yanmar['6cx'];
+wave6Specs.yanmar['8lv250'] = wave6Specs.yanmar['8lv']; wave6Specs.yanmar['8lv320'] = wave6Specs.yanmar['8lv'];
+wave6Specs.yanmar['8lv370'] = wave6Specs.yanmar['8lv']; wave6Specs.yanmar['8lv440'] = wave6Specs.yanmar['8lv'];
+wave6Specs.polaris['rzr xp 1000'] = wave6Specs.polaris['rzr 1000'];
+wave6Specs.polaris['ranger xp 1000'] = wave6Specs.polaris['ranger 1000'];
+wave6Specs.polaris['sportsman 570 touring'] = wave6Specs.polaris['sportsman 570'];
+wave6Specs.polaris['sportsman 850 high lifter'] = wave6Specs.polaris['sportsman 850'];
+for (const [make, models] of Object.entries(wave6Specs)) {
+  referenceSpecs[make] = referenceSpecs[make] || {};
+  for (const [model, years] of Object.entries(models)) {
+    referenceSpecs[make][model] = { ...referenceSpecs[make][model], ...years };
+  }
+}
+
 export default referenceSpecs;
 
 
