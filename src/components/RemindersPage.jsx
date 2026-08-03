@@ -1,18 +1,9 @@
-import { useState, useMemo } from 'react';
+import { useState } from 'react';
 import {
-  Gauge, Calendar, TrendingUp, AlertTriangle, Clock,
-  ChevronRight, Crown, ArrowRight, Car,
-  CheckCircle2, X, ToggleRight, ToggleLeft,
-  Info
+  Gauge, Calendar, Bell, Crown, ArrowRight, X, Plus
 } from 'lucide-react';
-import { formatNumber, calculateReminderStatus } from '../utils/helpers';
-import MotorcycleIcon from './MotorcycleIcon';
-import SemiTruckIcon from './SemiTruckIcon';
-import RVIcon from './RVIcon';
-import ATVIcon from './ATVIcon';
-
-// Map icon names to components for vehicle type display
-const TYPE_ICONS = { Car, Motorcycle: MotorcycleIcon, ATV: ATVIcon, Tractor: Car, Package: Car, Ship: Car, Anchor: Car, Cog: Car, SemiTruck: SemiTruckIcon, RV: RVIcon };
+import { formatNumber } from '../utils/helpers';
+import { DEFAULT_REMINDER_TEMPLATES } from '../utils/constants';
 
 // ---------- Premium Gate ----------
 
@@ -40,196 +31,39 @@ function PremiumGate({ onNavigate }) {
   );
 }
 
-// ---------- Reminder Card (reused across tabs) ----------
+// ---------- Highlight Card ----------
 
-function ReminderCard({ reminder, vehicleName, onToggle, onDelete }) {
-  const statusColor = reminder.status === 'overdue' ? 'red' : reminder.status === 'due-soon' ? 'amber' : 'slate';
-  const dotColors = { red: 'bg-red-400', amber: 'bg-amber-400', slate: 'bg-slate-500' };
-  const borderColors = { red: 'border-red-500/20', amber: 'border-amber-500/20', slate: 'border-slate-700/50' };
-  const progressColors = { red: 'bg-red-500', amber: 'bg-amber-500', slate: 'bg-blue-500' };
-  const bgColors = { red: 'bg-red-950/30', amber: 'bg-amber-950/30', slate: 'bg-slate-900/80' };
+function HighlightCard({ icon: Icon, iconColor, title, subtitle, action }) {
+  const colorMap = {
+    blue: 'bg-blue-500/10 text-blue-400 border-blue-500/20',
+    amber: 'bg-amber-500/10 text-amber-400 border-amber-500/20',
+    purple: 'bg-purple-500/10 text-purple-400 border-purple-500/20',
+  };
 
   return (
-    <div className={`p-4 rounded-xl transition-all ${borderColors[statusColor]} border ${bgColors[statusColor]}`}>
-      <div className="flex items-start justify-between gap-3 mb-3">
-        <div className="flex items-center gap-2 min-w-0">
-          <AlertTriangle className={`w-4 h-4 shrink-0 ${
-            statusColor === 'red' ? 'text-red-400' : statusColor === 'amber' ? 'text-amber-400' : 'text-slate-500'
-          }`} />
-          <div className="min-w-0">
-            <div className="text-sm font-medium text-white truncate">{reminder.title}</div>
-            {vehicleName && (
-              <span className="text-[10px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-400">
-                {vehicleName}
-              </span>
-            )}
-          </div>
+    <div className="p-4 rounded-xl border border-slate-800 bg-slate-900/60">
+      <div className="flex items-start gap-3">
+        <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${colorMap[iconColor]}`}>
+          <Icon className="w-5 h-5" />
         </div>
-        <div className="flex items-center gap-1 shrink-0">
-          {onToggle && (
-            <button
-              onClick={() => onToggle(reminder.id, { enabled: !reminder.enabled })}
-              className="p-1 rounded hover:bg-slate-800 text-slate-500"
-            >
-              {reminder.enabled ? <ToggleRight className="w-4 h-4 text-blue-400" /> : <ToggleLeft className="w-4 h-4" />}
-            </button>
-          )}
-          {onDelete && (
-            <button onClick={() => { if (window.confirm('Delete this reminder?')) onDelete(reminder.id); }} className="p-1 rounded hover:bg-red-500/10 text-slate-500 hover:text-red-400">
-              <X className="w-3.5 h-3.5" />
-            </button>
+        <div className="flex-1 min-w-0">
+          <h4 className="text-sm font-semibold text-white">{title}</h4>
+          <p className="text-xs text-slate-400 mt-0.5 leading-relaxed">{subtitle}</p>
+          {action && (
+            <div className="mt-3">
+              {action}
+            </div>
           )}
         </div>
       </div>
-
-      {/* Progress */}
-      <div className="mb-2">
-        <div className="flex items-center justify-between text-[10px] text-slate-500 mb-1">
-          <span className="flex items-center gap-1">
-            <Gauge className="w-3 h-3" />
-            {reminder.milesUntilDue !== undefined ? (
-              <span className={reminder.milesUntilDue < 0 ? 'text-red-400' : ''}>
-                {formatNumber(Math.abs(reminder.milesUntilDue))} mi {reminder.milesUntilDue < 0 ? 'overdue' : 'remaining'}
-              </span>
-            ) : (
-              <span>Mileage-based</span>
-            )}
-          </span>
-          {reminder.daysUntilDue !== undefined && (
-            <span className="flex items-center gap-1">
-              <Clock className="w-3 h-3" />
-              {reminder.daysUntilDue < 0 ? `${Math.abs(reminder.daysUntilDue)}d overdue` : `${reminder.daysUntilDue}d left`}
-            </span>
-          )}
-        </div>
-        {reminder.percentComplete !== undefined && (
-          <div className="w-full h-2 rounded-full bg-slate-800 overflow-hidden">
-            <div
-              className={`h-full rounded-full transition-all duration-500 ${progressColors[statusColor]}`}
-              style={{ width: `${Math.min(100, reminder.percentComplete)}%` }}
-            />
-          </div>
-        )}
-      </div>
-
-      {/* Urgency Warning */}
-      {statusColor === 'red' && reminder.milesUntilDue !== undefined && (
-        <div className="flex items-center gap-1.5 text-[10px] text-red-400/80 bg-red-500/5 rounded-lg px-2 py-1.5">
-          <AlertTriangle className="w-3 h-3" />
-          <span>Immediate attention required — {formatNumber(Math.abs(reminder.milesUntilDue))} miles past due</span>
-        </div>
-      )}
-      {statusColor === 'amber' && reminder.milesUntilDue !== undefined && (
-        <div className="flex items-center gap-1.5 text-[10px] text-amber-400/80 bg-amber-500/5 rounded-lg px-2 py-1.5">
-          <Clock className="w-3 h-3" />
-          <span>Schedule soon — only {formatNumber(Math.abs(reminder.milesUntilDue))} miles remaining</span>
-        </div>
-      )}
-    </div>
-  );
-}
-
-// ---------- Folder Tab Component ----------
-
-function FolderTab({ icon: Icon, title, count, isExpanded, onToggle, children }) {
-  return (
-    <div className="rounded-2xl border border-slate-800 bg-slate-900/40 overflow-hidden">
-      <div
-        onClick={onToggle}
-        className="flex items-center justify-between p-4 cursor-pointer hover:bg-slate-800/40 transition-all"
-      >
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-slate-800">
-            <Icon className="w-5 h-5 text-slate-400" />
-          </div>
-          <div>
-            <h3 className="font-semibold text-white text-sm">{title}</h3>
-            <p className="text-xs text-slate-500">{count} {count === 1 ? 'item' : 'items'}</p>
-          </div>
-        </div>
-        <ChevronRight className={`w-4 h-4 text-slate-500 transition-transform ${isExpanded ? 'rotate-90' : ''}`} />
-      </div>
-      {isExpanded && (
-        <div className="px-4 pb-4 space-y-3">
-          {children}
-        </div>
-      )}
     </div>
   );
 }
 
 // ---------- Main Component ----------
 
-export default function RemindersPage({ reminders, vehicles, logs, onAdd, onUpdate, onDelete, onNavigate, isPremium, selectedVehicleId }) {
-  const [expandedTabs, setExpandedTabs] = useState({
-    mileage: true,
-    lease: true,
-  });
-
-  const toggleTab = (tab) => {
-    setExpandedTabs(prev => ({ ...prev, [tab]: !prev[tab] }));
-  };
-
-  // Filter reminders by selected vehicle
-  const filteredReminders = selectedVehicleId
-    ? reminders.filter(r => r.vehicleId === selectedVehicleId)
-    : reminders;
-
-  // Compute status for each reminder
-  const remindersWithStatus = useMemo(() => {
-    return filteredReminders.map(r => {
-      const vehicle = vehicles.find(v => v.id === r.vehicleId);
-      const status = calculateReminderStatus(r, vehicle?.mileage || 0, r.vehicleId);
-      return { ...r, ...status, vehicleName: vehicle?.name || 'Unknown' };
-    });
-  }, [filteredReminders, vehicles]);
-
-  // Lease reminders: build from leased vehicles
-  const leasedVehicles = useMemo(() => {
-    return vehicles.filter(v => v.isLeased);
-  }, [vehicles]);
-
-  const leaseReminders = useMemo(() => {
-    return leasedVehicles.map(v => {
-      const mileage = v.mileage || 0;
-      const purchaseMileage = v.purchaseMileage || 0;
-      const purchaseDate = v.purchaseDate ? new Date(v.purchaseDate) : null;
-      const leaseEndDate = v.leaseEndDate ? new Date(v.leaseEndDate) : null;
-      const leaseLimit = v.leaseMileageLimit || 0;
-
-      // Calculate daily average
-      let dailyAvg = 0;
-      if (purchaseDate && leaseEndDate) {
-        const daysOwned = Math.max(1, Math.ceil((Date.now() - purchaseDate.getTime()) / (24 * 60 * 60 * 1000)));
-        const milesDriven = mileage - purchaseMileage;
-        dailyAvg = milesDriven / daysOwned;
-      }
-
-      // Days remaining on lease
-      const daysRemaining = leaseEndDate ? Math.ceil((leaseEndDate.getTime() - Date.now()) / (24 * 60 * 60 * 1000)) : 0;
-
-      // Projected mileage at lease end
-      const projectedMileage = leaseEndDate && dailyAvg > 0
-        ? Math.round(mileage + dailyAvg * daysRemaining)
-        : mileage;
-
-      const overUnder = projectedMileage - leaseLimit;
-
-      return {
-        vehicleId: v.id,
-        vehicleName: v.name,
-        vehicleMake: v.make,
-        vehicleModel: v.model,
-        mileage,
-        leaseLimit,
-        leaseEndDate: v.leaseEndDate,
-        daysRemaining,
-        projectedMileage,
-        overUnder,
-        dailyAvg,
-      };
-    });
-  }, [leasedVehicles, vehicles]);
+export default function RemindersPage({ vehicles, onAdd, onNavigate, isPremium, selectedVehicleId }) {
+  const [showReminderModal, setShowReminderModal] = useState(false);
 
   // ---------- Premium Gate ----------
 
@@ -239,7 +73,7 @@ export default function RemindersPage({ reminders, vehicles, logs, onAdd, onUpda
         <div className="flex items-center justify-between mb-6">
           <div>
             <h2 className="text-xl font-bold text-white">Reminders</h2>
-            <p className="text-sm text-slate-400 mt-0.5">Smart vehicle alerts</p>
+            <p className="text-sm text-slate-400 mt-0.5">Stay on top of your maintenance</p>
           </div>
         </div>
         <PremiumGate onNavigate={onNavigate} />
@@ -247,186 +81,87 @@ export default function RemindersPage({ reminders, vehicles, logs, onAdd, onUpda
     );
   }
 
+  const handleUpdateMileage = () => {
+    try {
+      sessionStorage.setItem('mtxtrkr_pending_edit_vehicle', selectedVehicleId);
+    } catch (e) {
+      // sessionStorage may be unavailable; deep-link will still navigate
+    }
+    onNavigate('vehicles');
+  };
+
+  const handleSaveReminder = (data) => {
+    onAdd(data);
+    setShowReminderModal(false);
+  };
+
   // ---------- Render ----------
 
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-xl font-bold text-white">Reminders</h2>
-          <p className="text-sm text-slate-400 mt-0.5">
-            {remindersWithStatus.length} total items
-          </p>
-        </div>
+      <div>
+        <h2 className="text-xl font-bold text-white">Reminders</h2>
+        <p className="text-sm text-slate-400 mt-0.5">Stay on top of your maintenance</p>
       </div>
 
-      {/* 1. Mileage Reminders — Educational Section */}
-      <FolderTab
-        icon={Gauge}
-        title="Mileage Reminders"
-        count=""
-        isExpanded={expandedTabs.mileage}
-        onToggle={() => toggleTab('mileage')}
+      {/* Highlight Cards */}
+      <div className="space-y-3">
+        <HighlightCard
+          icon={Gauge}
+          iconColor="blue"
+          title="Mileage Reminders"
+          subtitle="Periodic email reminders to keep your odometer current for accurate predictions."
+        />
+
+        <HighlightCard
+          icon={Calendar}
+          iconColor="amber"
+          title="Lease Reminders"
+          subtitle="Monthly lease projection emails comparing your pace against your mileage limit."
+        />
+
+        <HighlightCard
+          icon={Bell}
+          iconColor="purple"
+          title="Custom Reminders"
+          subtitle="Set your own service reminders with mileage and date intervals."
+          action={
+            <button
+              onClick={() => setShowReminderModal(true)}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-purple-600 hover:bg-purple-500 text-white text-xs font-medium transition-all"
+            >
+              <Plus className="w-3.5 h-3.5" />
+              Add Reminder
+            </button>
+          }
+        />
+      </div>
+
+      {/* Update Mileage Button */}
+      <button
+        onClick={handleUpdateMileage}
+        className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-sm font-semibold transition-all"
       >
-        <div className="space-y-4">
-          {/* WHAT */}
-          <div className="p-4 rounded-xl bg-slate-900/60 border border-slate-700/50">
-            <h4 className="flex items-center gap-2 text-sm font-semibold text-white mb-2">
-              <Info className="w-4 h-4 text-blue-400" />
-              What Are Mileage Reminder Emails?
-            </h4>
-            <p className="text-xs text-slate-400 leading-relaxed">
-              MTXtrkr sends you periodic mileage update requests via email so we can keep
-              your maintenance predictions accurate. When we ask, simply reply with your
-              current odometer reading — or log in to update it instantly.
-            </p>
-          </div>
+        <Gauge className="w-4 h-4" />
+        Update Mileage
+      </button>
 
-          {/* WHEN */}
-          <div className="p-4 rounded-xl bg-slate-900/60 border border-slate-700/50">
-            <h4 className="flex items-center gap-2 text-sm font-semibold text-white mb-2">
-              <Clock className="w-4 h-4 text-blue-400" />
-              When Do We Send Updates?
-            </h4>
-            <p className="text-xs text-slate-400 leading-relaxed">
-              Mileage reminder emails are triggered based on your driving activity. You'll
-              receive a request if we haven't seen a mileage update in over 30 days, or
-              when a scheduled maintenance item is approaching its due mileage. You can
-              also proactively update your mileage at any time.
-            </p>
-          </div>
-
-          {/* WHY */}
-          <div className="p-4 rounded-xl bg-slate-900/60 border border-slate-700/50">
-            <h4 className="flex items-center gap-2 text-sm font-semibold text-white mb-2">
-              <TrendingUp className="w-4 h-4 text-emerald-400" />
-              Why Keeping Mileage Current Matters
-            </h4>
-            <ul className="space-y-2 mt-2">
-              {[
-                'Accurate prediction of upcoming maintenance needs',
-                'Lease mileage tracking — avoid costly overage fees',
-                'Precise schedule timing for oil, tires, and more',
-                'Realistic resale value estimates for your vehicle',
-                'Timely alerts when you\'re approaching a service threshold',
-              ].map((item, i) => (
-                <li key={i} className="flex items-start gap-2 text-xs text-slate-400">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 mt-0.5 shrink-0" />
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Update Mileage CTA */}
-          <div className="p-4 rounded-xl bg-gradient-to-r from-blue-600/10 to-cyan-600/10 border border-blue-500/20">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center shrink-0">
-                <Gauge className="w-5 h-5 text-blue-400" />
-              </div>
-              <div className="flex-1">
-                <h4 className="text-sm font-semibold text-white">Update Your Mileage</h4>
-                <p className="text-xs text-slate-400">Keep your predictions accurate — update now</p>
-              </div>
-              <button
-                onClick={() => onNavigate('dashboard')}
-                className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-xs font-medium transition-all"
-              >
-                <ArrowRight className="w-3.5 h-3.5" />
-                Dashboard
-              </button>
-            </div>
-          </div>
-        </div>
-      </FolderTab>
-
-      {/* 2. Lease Reminders — Educational Section */}
-      <FolderTab
-        icon={Calendar}
-        title="Lease Reminders"
-        count=""
-        isExpanded={expandedTabs.lease}
-        onToggle={() => toggleTab('lease')}
-      >
-        <div className="space-y-4">
-          {/* WHAT */}
-          <div className="p-4 rounded-xl bg-slate-900/60 border border-slate-700/50">
-            <h4 className="flex items-center gap-2 text-sm font-semibold text-white mb-2">
-              <Info className="w-4 h-4 text-blue-400" />
-              What Are Lease Projection Emails?
-            </h4>
-            <p className="text-xs text-slate-400 leading-relaxed">
-              MTXtrkr sends you monthly lease mileage projection emails that compare your
-              actual driving pace against your lease mileage limit. Every month, you'll
-              see whether you're on track, approaching your limit, or at risk of going
-              over — so there are no surprises at turn-in.
-            </p>
-          </div>
-
-          {/* WHEN */}
-          <div className="p-4 rounded-xl bg-slate-900/60 border border-slate-700/50">
-            <h4 className="flex items-center gap-2 text-sm font-semibold text-white mb-2">
-              <Clock className="w-4 h-4 text-blue-400" />
-              When Do We Send Lease Alerts?
-            </h4>
-            <p className="text-xs text-slate-400 leading-relaxed">
-              Lease projection emails are sent <strong className="text-slate-200">monthly</strong> for each vehicle marked
-              as leased in your account. Each email calculates your daily average mileage
-              and projects your odometer reading at your lease end date — comparing it
-              against your mileage limit so you know exactly where you stand.
-            </p>
-          </div>
-
-          {/* WHY */}
-          <div className="p-4 rounded-xl bg-slate-900/60 border border-slate-700/50">
-            <h4 className="flex items-center gap-2 text-sm font-semibold text-white mb-2">
-              <TrendingUp className="w-4 h-4 text-emerald-400" />
-              Why Lease Tracking Matters
-            </h4>
-            <ul className="space-y-2 mt-2">
-              {[
-                'Average overage fee: $0.25/mile — 5,000 miles over = $1,250',
-                'Monthly awareness prevents last-minute surprises at turn-in',
-                'Plan ahead: reduce driving, carpool, or arrange early turn-in',
-                'Accurate projection based on YOUR driving patterns, not guesses',
-                'Free basic tracking included — Premium adds monthly email alerts',
-              ].map((item, i) => (
-                <li key={i} className="flex items-start gap-2 text-xs text-slate-400">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 mt-0.5 shrink-0" />
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Check Lease Status CTA */}
-          <div className="p-4 rounded-xl bg-gradient-to-r from-amber-600/10 to-orange-600/10 border border-amber-500/20">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center shrink-0">
-                <Calendar className="w-5 h-5 text-amber-400" />
-              </div>
-              <div className="flex-1">
-                <h4 className="text-sm font-semibold text-white">Check Your Lease Status</h4>
-                <p className="text-xs text-slate-400">See your mileage projection and remaining allowance</p>
-              </div>
-              <button
-                onClick={() => onNavigate('dashboard')}
-                className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-amber-600 hover:bg-amber-500 text-white text-xs font-medium transition-all"
-              >
-                <ArrowRight className="w-3.5 h-3.5" />
-                Dashboard
-              </button>
-            </div>
-          </div>
-        </div>
-      </FolderTab>
-
+      {/* Reminder Form Modal */}
+      {showReminderModal && (
+        <ReminderFormModal
+          vehicles={vehicles}
+          templates={DEFAULT_REMINDER_TEMPLATES}
+          selectedVehicleId={selectedVehicleId}
+          onSave={handleSaveReminder}
+          onClose={() => setShowReminderModal(false)}
+        />
+      )}
     </div>
   );
 }
 
-// ---------- Reminder Form Modal (from RemindersList) ----------
+// ---------- Reminder Form Modal ----------
 
 function ReminderFormModal({ vehicles, templates, selectedVehicleId, onSave, onClose }) {
   const [selectedTemplate, setSelectedTemplate] = useState(null);
