@@ -4552,6 +4552,60 @@ for (const [make, models] of Object.entries(wave6Specs)) {
   }
 }
 
+
+// Wave 8: heavy trucks and recreational vehicles. OEM manuals vary by engine,
+// axle ratio, coach builder and chassis GVWR; values shown as ranges are
+// representative service references and intentionally defer uncertain values.
+const consult = "Consult owner's manual";
+const semiSpec = (engine, oil, transmission, years) => ({
+  engine: { oilViscosity: oil, oilCapacity: 'Consult owner\'s manual (engine/filter configuration)', oilFilterPN: consult, coolantType: 'Fleetguard Compleat OAT / OEM-approved heavy-duty ELC', coolantCapacity: consult, fuelType: 'Diesel' },
+  transmission: { fluidType: transmission, capacity: consult }, transferCase: null,
+  differentials: { front: null, rear: { fluidType: 'SAE 75W-90 or 80W-90 API GL-5 drive-axle gear oil', capacity: consult } },
+  brakeFluid: 'N/A — full air brake system; no traditional brake-fluid reservoir',
+  tires: { frontPSI: consult, rearPSI: consult, oemSizes: [consult], lugNutTorque: consult },
+  bulbs: { lowBeam: consult, highBeam: consult, frontTurn: consult, rearTurn: consult, tailBrake: consult, interior: consult, license: consult },
+  obd2Location: 'No OBD-II. OEM diagnostic connector (9-pin/16-pin J1939) typically beneath instrument panel or near driver seat; use OEM service tool.',
+  note: `${engine}; model/chassis configuration and axle ratio determine capacities. Service by VIN/build sheet.`, serviceUnit: 'mi', modelYears: years
+});
+const rvSpec = (engine, oil, transmission, generator, years) => ({
+  engine: { oilViscosity: oil, oilCapacity: consult, oilFilterPN: consult, coolantType: engine.includes('diesel') ? 'Fleetguard Compleat OAT / OEM-approved diesel ELC' : 'Motorcraft or Dex-Cool coolant per chassis manual', coolantCapacity: consult, fuelType: engine.includes('diesel') ? 'Diesel' : 'Gasoline' },
+  transmission: { fluidType: transmission, capacity: consult }, transferCase: consult,
+  differentials: { front: null, rear: { fluidType: 'Chassis axle gear oil per Ford/GM/Mercedes manual', capacity: consult } },
+  brakeFluid: 'DOT 3 or DOT 4 on hydraulic chassis; diesel coach air-brake variants: N/A — full air system',
+  tires: { frontPSI: consult, rearPSI: consult, oemSizes: [consult], lugNutTorque: consult },
+  bulbs: { lowBeam: consult, highBeam: consult, frontTurn: consult, rearTurn: consult, tailBrake: consult, interior: consult, license: consult },
+  obd2Location: 'Chassis diagnostic connector under driver-side dash on modern Ford/GM/Mercedes platforms; older motorhome chassis may have proprietary connector. Coach systems are not OBD-II.',
+  generator: { oilType: generator, capacity: consult },
+  note: `${engine}; chassis and coach-builder options change fluids, tire pressures and torque. Verify both chassis and coach manuals.`, serviceUnit: 'mi', modelYears: years
+});
+const wave8Specs = { freightliner: {}, kenworth: {}, peterbilt: {}, mack: {}, international: {}, 'volvo trucks': {}, 'western star': {}, winnebago: {}, thor: {}, jayco: {}, airstream: {}, newmar: {}, 'forest river': {}, 'grand design': {} };
+const semiModels = {
+  freightliner: { cascadia: ['Detroit DD13/DD15/DD16', '15W-40 CJ-4/CK-4 diesel oil', 'Eaton Fuller manual / Detroit DT12 AMT'], 'm2 106': ['Detroit DD5/DD8 or Cummins B6.7', '15W-40 CK-4 diesel oil', 'Allison automatic / Eaton Fuller manual'], '114sd': ['Detroit DD13 or Cummins X12', '15W-40 CK-4 diesel oil', 'Allison automatic / Eaton Fuller manual'], columbia: ['Detroit Series 60 / MBE 4000', '15W-40 diesel oil', 'Eaton Fuller manual / Allison automatic'] },
+  kenworth: { t680: ['PACCAR MX-13 or Cummins X15', '15W-40 CK-4 diesel oil', 'PACCAR TX-12 AMT / Eaton Fuller manual'], t880: ['PACCAR MX-13 or Cummins X15', '15W-40 CK-4 diesel oil', 'PACCAR TX-12 AMT / Eaton Fuller manual'], w900: ['Cummins ISX/X15 or PACCAR MX-13', '15W-40 diesel oil', 'Eaton Fuller manual'], t370: ['PACCAR PX-7/PX-9 or Cummins B6.7', '15W-40 CK-4 diesel oil', 'Allison automatic / Eaton Fuller manual'] },
+  peterbilt: { '579': ['PACCAR MX-13 or Cummins X15', '15W-40 CK-4 diesel oil', 'PACCAR TX-12 AMT / Eaton Fuller manual'], '389': ['PACCAR MX-13 or Cummins X15', '15W-40 diesel oil', 'Eaton Fuller manual'], '567': ['PACCAR MX-13 or Cummins X15', '15W-40 CK-4 diesel oil', 'PACCAR TX-12 AMT / Eaton Fuller manual'], '337': ['PACCAR PX-7/PX-9 or Cummins B6.7', '15W-40 CK-4 diesel oil', 'Allison automatic / Eaton Fuller manual'] },
+  mack: { anthem: ['Mack MP8', '15W-40 CK-4 diesel oil', 'Mack mDRIVE AMT / TMD manual'], granite: ['Mack MP7/MP8', '15W-40 CK-4 diesel oil', 'Mack mDRIVE AMT / Allison automatic'], pinnacle: ['Mack MP7/MP8', '15W-40 diesel oil', 'Mack mDRIVE AMT / Eaton Fuller manual'], lr: ['Mack MP7', '15W-40 CK-4 diesel oil', 'Allison automatic / Mack mDRIVE AMT'] },
+  international: { 'lt series': ['Cummins X15 or International A26', '15W-40 CK-4 diesel oil', 'Eaton Endurant AMT / Eaton Fuller manual'], 'hx series': ['Cummins X15 or International A26', '15W-40 CK-4 diesel oil', 'Eaton Fuller manual / Allison automatic'], 'mv series': ['Cummins B6.7 or International A26', '15W-40 CK-4 diesel oil', 'Allison automatic'], 'hv series': ['Cummins X15 or International A26', '15W-40 CK-4 diesel oil', 'Allison automatic / Eaton Fuller manual'] },
+  'volvo trucks': { 'vnl 760': ['Volvo D13/D16', 'Volvo VDS-4.5 15W-40 diesel oil', 'Volvo I-Shift AMT / Eaton Fuller manual'], 'vnl 860': ['Volvo D13/D16', 'Volvo VDS-4.5 15W-40 diesel oil', 'Volvo I-Shift AMT'], vhd: ['Volvo D11/D13', 'Volvo VDS-4.5 15W-40 diesel oil', 'Volvo I-Shift AMT / Allison automatic'], vah: ['Volvo D11', 'Volvo VDS-4.5 15W-40 diesel oil', 'Volvo I-Shift AMT'] },
+  'western star': { '49x': ['Detroit DD13/DD15/DD16', '15W-40 CK-4 diesel oil', 'Detroit DT12 AMT / Eaton Fuller manual'], '47x': ['Detroit DD13/DD15', '15W-40 CK-4 diesel oil', 'Detroit DT12 AMT / Eaton Fuller manual'], '5700xe': ['Detroit DD13/DD15/DD16', '15W-40 diesel oil', 'Detroit DT12 AMT / Eaton Fuller manual'] }
+};
+for (const [make, models] of Object.entries(semiModels)) for (const [model, [engine, oil, trans]] of Object.entries(models)) {
+  wave8Specs[make][model] = { '2005-2014': semiSpec(engine, oil, trans, '2005-2014'), '2015-2025': semiSpec(engine, oil, trans, '2015-2025') };
+}
+const rvModels = {
+  winnebago: { vista: ['Ford Triton V10 gasoline / Ford 7.3L V8', '5W-20/5W-30 Ford synthetic blend', 'Ford 6-speed automatic', 'Onan gasoline generator oil'], 'minnie winnie': ['Ford Triton V10 or Chevrolet 6.0L/8.1L Vortec gasoline', '5W-20/5W-30 chassis oil', 'Ford/GM automatic', 'Onan gasoline generator oil'], 'view/navion': ['Mercedes OM642 diesel / Mercedes 3.0L diesel', '5W-30 MB diesel oil', 'Mercedes 5-speed/7-speed automatic', 'Onan diesel generator oil'], travato: ['Chrysler Pentastar V6 gasoline / Ram ProMaster chassis', '5W-20 synthetic blend', 'Chrysler automatic', 'Onan gasoline generator oil'], revel: ['Mercedes OM642 3.0L diesel', '5W-30 MB diesel oil', 'Mercedes 9-speed automatic', 'Onan diesel generator oil'] },
+  thor: { 'freedom elite': ['Ford Triton V10 / Ford 7.3L V8 gasoline', '5W-20/5W-30 chassis oil', 'Ford automatic', 'Onan gasoline generator oil'], chateau: ['Ford Triton V10 or GM 6.0L Vortec gasoline', '5W-20/5W-30 chassis oil', 'Ford/GM automatic', 'Onan gasoline generator oil'], ace: ['Ford Triton V10 / Ford 7.3L V8 gasoline', '5W-20/5W-30 chassis oil', 'Ford automatic', 'Onan gasoline generator oil'], palazzo: ['Cummins ISB diesel', '15W-40 CK-4 diesel oil', 'Allison automatic', 'Onan diesel generator oil'], tuscany: ['Cummins ISB diesel', '15W-40 CK-4 diesel oil', 'Allison automatic', 'Onan diesel generator oil'] },
+  jayco: { redhawk: ['Ford Triton V10 / Ford 7.3L V8 gasoline', '5W-20/5W-30 chassis oil', 'Ford automatic', 'Onan gasoline generator oil'], greyhawk: ['Ford Triton V10 / Ford 7.3L V8 gasoline', '5W-20/5W-30 chassis oil', 'Ford automatic', 'Onan gasoline generator oil'], seneca: ['Cummins ISB diesel', '15W-40 CK-4 diesel oil', 'Allison automatic', 'Onan diesel generator oil'], eagle: ['Ford or GM gasoline chassis (model-year dependent)', '5W-20/5W-30 chassis oil', 'Ford/GM automatic', 'Onan gasoline generator oil'] },
+  airstream: { classic: ['Ford Triton V10 / Ford 7.3L V8 gasoline chassis', '5W-20/5W-30 chassis oil', 'Ford automatic', 'Onan gasoline generator oil'], 'flying cloud': ['Tow vehicle-dependent; no engine/transmission in travel trailer', 'N/A — no chassis engine', 'N/A — travel trailer', 'N/A or consult generator manual'], globetrotter: ['Tow vehicle-dependent; no engine/transmission in travel trailer', 'N/A — no chassis engine', 'N/A — travel trailer', 'N/A or consult generator manual'], interstate: ['Mercedes OM642 3.0L diesel', '5W-30 MB diesel oil', 'Mercedes automatic', 'Onan diesel generator oil'] },
+  newmar: { 'bay star': ['Ford Triton V10 / Ford 7.3L V8 gasoline', '5W-20/5W-30 chassis oil', 'Ford automatic', 'Onan gasoline generator oil'], ventana: ['Cummins ISB diesel', '15W-40 CK-4 diesel oil', 'Allison automatic', 'Onan diesel generator oil'], 'dutch star': ['Cummins ISB/ISL diesel', '15W-40 CK-4 diesel oil', 'Allison automatic', 'Onan diesel generator oil'], 'king aire': ['Cummins ISM/ISX diesel', '15W-40 CK-4 diesel oil', 'Allison automatic', 'Onan diesel generator oil'] },
+  'forest river': { sunseeker: ['Ford Triton V10 / Ford 7.3L V8 gasoline', '5W-20/5W-30 chassis oil', 'Ford automatic', 'Onan gasoline generator oil'], forester: ['Ford Triton V10 / Ford 7.3L V8 gasoline', '5W-20/5W-30 chassis oil', 'Ford automatic', 'Onan gasoline generator oil'], georgetown: ['Ford Triton V10 / Ford 7.3L V8 gasoline', '5W-20/5W-30 chassis oil', 'Ford automatic', 'Onan gasoline generator oil'], fr3: ['Ford Triton V10 / Ford 7.3L V8 gasoline', '5W-20/5W-30 chassis oil', 'Ford automatic', 'Onan gasoline generator oil'], rockwood: ['Tow vehicle-dependent; no engine/transmission in travel trailer', 'N/A — no chassis engine', 'N/A — travel trailer', 'N/A or consult generator manual'] },
+  'grand design': { reflection: ['Tow vehicle-dependent; no engine/transmission in fifth wheel', 'N/A — no chassis engine', 'N/A — fifth wheel', 'N/A or consult generator manual'], solitude: ['Tow vehicle-dependent; no engine/transmission in fifth wheel', 'N/A — no chassis engine', 'N/A — fifth wheel', 'N/A or consult generator manual'], momentum: ['Tow vehicle-dependent; no engine/transmission in fifth wheel', 'N/A — no chassis engine', 'N/A — fifth wheel', 'N/A or consult generator manual'], imagine: ['Tow vehicle-dependent; no engine/transmission in travel trailer', 'N/A — no chassis engine', 'N/A — travel trailer', 'N/A or consult generator manual'], transcend: ['Tow vehicle-dependent; no engine/transmission in travel trailer', 'N/A — no chassis engine', 'N/A — travel trailer', 'N/A or consult generator manual'] }
+};
+for (const [make, models] of Object.entries(rvModels)) for (const [model, [engine, oil, trans, gen]] of Object.entries(models)) {
+  wave8Specs[make][model] = { '2005-2014': rvSpec(engine, oil, trans, gen, '2005-2014'), '2015-2025': rvSpec(engine, oil, trans, gen, '2015-2025') };
+}
+// Correct OEM naming typo while retaining normalized lookup keys.
+for (const [make, models] of Object.entries(wave8Specs)) { referenceSpecs[make] = referenceSpecs[make] || {}; for (const [model, years] of Object.entries(models)) referenceSpecs[make][model] = { ...referenceSpecs[make][model], ...years }; }
+
 export default referenceSpecs;
 
 
