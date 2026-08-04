@@ -27,6 +27,7 @@ const KEY_MAP = {
   'mercury': 'mercury',
   'suzuki-mc': 'suzuki',
   'yamaha-mc': 'yamaha',
+  'seadoo': 'sea-doo',
 };
 
 /**
