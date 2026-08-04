@@ -128,7 +128,7 @@ function aiTranslate(input, vehicle) {
     }
     const plugType = specs?.sparkPlugs?.type || 'consult owner\'s manual';
     const plugGap = specs?.sparkPlugs?.gap || 'consult owner\'s manual';
-    const plugOEM = refSpecs?.sparkPlugs?.oemPN;
+    const plugOEM = specs?.sparkPlugs?.oemPN || refSpecs?.sparkPlugs?.oemPN;
     return {
       diagnosis: 'Spark Plug Specification',
       severity: 'Info',
