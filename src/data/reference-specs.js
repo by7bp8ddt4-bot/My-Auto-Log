@@ -3775,10 +3775,14 @@ for (const [model, years] of Object.entries(wave3Specs.bmw)) referenceSpecs.bmw 
 referenceSpecs.mercedes = referenceSpecs.mercedes || {};
 for (const [model, years] of Object.entries(wave3Specs.mercedes)) referenceSpecs.mercedes = { ...referenceSpecs.mercedes, [model]: years };
 // Mercedes: NHTSA VPIC often returns model names with spaces ("C 300", "E 350", "GLE 350") —
-// alias the spaced forms to the same data as the unspaced keys.
+// alias the spaced forms to the same data as the unspaced keys, then delete the unspaced
+// duplicates so the spaced (canonical) forms are the sole keys.
 for (const spaced of ['c 300', 'c 43', 'c 63', 'e 350', 'e 300', 'e 450', 'e 63', 'gle 350', 'gle 450', 'gle 53', 'gle 63', 'glc 300', 'glc 43', 'glc 63', 'ml 350']) {
   const unspaced = spaced.replace(/\s/g, '');
-  if (referenceSpecs.mercedes[unspaced]) referenceSpecs.mercedes[spaced] = referenceSpecs.mercedes[unspaced];
+  if (referenceSpecs.mercedes[unspaced]) {
+    referenceSpecs.mercedes[spaced] = { ...referenceSpecs.mercedes[unspaced] };
+    delete referenceSpecs.mercedes[unspaced];
+  }
 }
 // ── Wave 5 motorcycle reference data (2005-2025) ─────────────────────────────
 const motorcycleSpec = (engineDescription, oilViscosity, diagnosticLocation, shaftDrive = false, sparkPlugs = SPARK_PLUG_DEFAULT) => ({
@@ -4530,7 +4534,6 @@ wave6Specs.mercury['40 four stroke'] = wave6Specs.mercury['40 fourstroke'];
 wave6Specs.mercury['75 four stroke'] = wave6Specs.mercury['75 fourstroke'];
 wave6Specs.mercury['90 four stroke'] = wave6Specs.mercury['90 fourstroke'];
 wave6Specs.mercury['150 four stroke'] = wave6Specs.mercury['150 fourstroke'];
-wave6Specs.seadoo = wave6Specs['sea-doo'];
 wave6Specs.kawasaki['stx-15f'] = wave6Specs.kawasaki.stx; wave6Specs.kawasaki['stx-12f'] = wave6Specs.kawasaki.stx;
 wave6Specs.kawasaki['ultra 310x'] = wave6Specs.kawasaki['ultra 310']; wave6Specs.kawasaki['ultra 310lx'] = wave6Specs.kawasaki['ultra 310'];
 wave6Specs.cat = wave6Specs.caterpillar;
