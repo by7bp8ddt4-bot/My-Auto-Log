@@ -33,7 +33,7 @@ const KEY_MAP = {
  * Matches a vehicle (make, model, year) to the appropriate reference specs data.
  * Traverses make → model → yearRange, checking if the vehicle year falls within the range.
  */
-function findSpecs(make, model, year) {
+export function findSpecs(make, model, year) {
   if (!make || !model || !year) return null;
 
   const makeLower = make.toLowerCase();
