@@ -631,28 +631,6 @@ function VehicleFormModal({ vehicle, onSave, onClose, initialType = 'car', focus
             />
           </div>
 
-          {/* Battery Group Size */}
-          <div>
-            <label className="block text-xs text-slate-400 mb-1.5 font-medium">Battery Group Size</label>
-            <input
-              type="text"
-              value={form.batteryGroupSize}
-              onChange={e => setForm(f => ({ ...f, batteryGroupSize: e.target.value }))}
-              placeholder="e.g. Group 35, Group 48, Group 51R"
-              className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
-            />
-            {form.make && form.model && (() => {
-              const specs = getSpecsForVehicle(form.make, form.model);
-              if (specs?.battery?.groupSize && form.batteryGroupSize !== specs.battery.groupSize) {
-                return (
-                  <p className="text-[10px] text-slate-500 mt-1">
-                    Suggested: {specs.battery.groupSize} (from manufacturer specs)
-                  </p>
-                );
-              }
-              return null;
-            })()}
-          </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
