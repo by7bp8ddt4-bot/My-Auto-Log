@@ -5909,32 +5909,32 @@ const autoSpec = ({ engine, sparkPlugs = SPARK_PLUG_DEFAULT }) => ({
 const SP = (type, gap, oemPN) => ({ type, gap, oemPN });
 const wave18SparkPlugs = {
   chevrolet: {
-    silverado: { '2019-2025': autoSpec({ engine: '2.7L Turbo / 5.3L V8 / 6.2L V8', sparkPlugs: SP('ACDelco 41-162 (5.3L/6.2L); ACDelco 41-106-IP (2.7L Turbo)', '0.040"', 'ACDelco 41-162 / 41-106-IP') }) },
+    silverado: { '2019-2025': autoSpec({ engine: '2.7L Turbo / 4.3L V6 / 5.3L V8 / 6.2L V8', sparkPlugs: SP('ACDelco 41-162 (Iridium \u2014 5.3L/6.2L V8) / ACDelco 41-106-IP (Iridium \u2014 2.7L Turbo) / ACDelco 41-114 (Iridium \u2014 4.3L V6)', '0.040"', 'ACDelco 41-162 / 41-106-IP / 41-114') }) },
     equinox: { '2018-2024': autoSpec({ engine: '1.5L Turbo / 2.0L Turbo', sparkPlugs: SP('ACDelco Iridium', '0.040"', 'ACDelco 41-162') }) }
   },
-  gmc: { sierra: { '2019-2025': autoSpec({ engine: '2.7L Turbo / 5.3L V8 / 6.2L V8', sparkPlugs: SP('ACDelco Iridium (5.3L/6.2L); 2.7L Turbo engine-specific', '0.040"', 'ACDelco 41-162 / 41-106-IP') }) } },
+  gmc: { sierra: { '2019-2025': autoSpec({ engine: '2.7L Turbo / 4.3L V6 / 5.3L V8 / 6.2L V8', sparkPlugs: SP('ACDelco 41-162 (Iridium \u2014 5.3L/6.2L V8) / ACDelco 41-106-IP (Iridium \u2014 2.7L Turbo) / ACDelco 41-114 (Iridium \u2014 4.3L V6)', '0.040"', 'ACDelco 41-162 / 41-106-IP / 41-114') }) } },
   ford: {
-    'f-150': { '2015-2025': autoSpec({ engine: '3.5L EcoBoost / 5.0L V8', sparkPlugs: SP('Motorcraft SP-580 (5.0L V8) / SP-594 (3.5L EcoBoost)', '0.028-0.030"', 'Motorcraft SP-580 / SP-594') }) },
+    'f-150': { '2015-2025': autoSpec({ engine: '2.7L EcoBoost / 3.3L V6 / 3.5L EcoBoost / 3.5L PowerBoost hybrid / 5.0L V8', sparkPlugs: SP('Motorcraft SP-580 (5.0L V8) / Motorcraft SP-594 (2.7L & 3.5L EcoBoost, PowerBoost hybrid) / Motorcraft SP-586 (3.3L V6)', '0.028-0.030"', 'Motorcraft SP-580 / SP-586 / SP-594') }) },
     escape: { '2013-2024': autoSpec({ engine: '1.5L/2.0L EcoBoost', sparkPlugs: SP('Motorcraft Iridium', '0.028-0.030"', 'Motorcraft SP-530') }) },
-    explorer: { '2011-2024': autoSpec({ engine: '2.3L EcoBoost / 3.0L EcoBoost', sparkPlugs: SP('Motorcraft Iridium', '0.028-0.030"', 'Motorcraft SP-580') }) }
+    explorer: { '2011-2024': autoSpec({ engine: '2.3L EcoBoost / 3.0L EcoBoost', sparkPlugs: SP('Motorcraft SP-594 (2.3L EcoBoost) / Motorcraft SP-578 (3.0L EcoBoost)', '0.028-0.030"', 'Motorcraft SP-578 / SP-594') }) }
   },
   toyota: {
     camry: { '2012-2024': autoSpec({ engine: '2.5L I4', sparkPlugs: SP('Denso Iridium Long Life', '0.043"', 'Denso 3474 / Toyota 90919-01253') }) },
     rav4: { '2013-2024': autoSpec({ engine: '2.5L I4', sparkPlugs: SP('Denso Iridium Long Life', '0.043"', 'Denso 3474 / Toyota 90919-01253') }) },
-    tacoma: { '2016-2024': autoSpec({ engine: '3.5L V6', sparkPlugs: SP('Denso Iridium', '0.044"', 'Denso 3461') }) },
+    tacoma: { '2016-2024': autoSpec({ engine: '2.7L I4 / 3.5L V6', sparkPlugs: SP('Denso 3461 (Iridium \u2014 3.5L V6) / NGK BKR5EKB-11 or Denso K16HPR11 (2.7L I4)', '0.043-0.044"', 'Denso 3461 (3.5L) / NGK BKR5EKB-11 (2.7L)') }) },
     corolla: { '2009-2024': autoSpec({ engine: '1.8L/2.0L I4', sparkPlugs: SP('Denso Iridium', '0.043"', 'Denso 3474') }) }
   },
   honda: {
     civic: { '2016-2024': autoSpec({ engine: '1.5L Turbo / 2.0L I4', sparkPlugs: SP('NGK (1.5L Turbo) / Denso (2.0L)', '0.028-0.044"', 'NGK 96964 / Denso 3492') }) },
     'cr-v': { '2017-2024': autoSpec({ engine: '1.5L Turbo / 2.0L I4', sparkPlugs: SP('NGK Iridium', '0.028-0.044"', 'NGK 96964 / Denso 3492') }) }
   },
-  jeep: { wrangler: { '2012-2024': autoSpec({ engine: '3.6L Pentastar V6', sparkPlugs: SP('Mopar / NGK Iridium', '0.043"', 'Mopar SP143877AA / NGK 92145') }) } },
-  ram: { '1500': { '2009-2024': autoSpec({ engine: '5.7L HEMI V8', sparkPlugs: SP('Mopar / NGK Iridium', '0.043"', 'Mopar SP143877AA / NGK 92145') }) } },
-  subaru: { outback: { '2010-2024': autoSpec({ engine: '2.5L Boxer I4', sparkPlugs: SP('NGK Iridium', '0.039-0.044"', 'NGK 93209 / Subaru 22401AA830') }) }, forester: { '2011-2024': autoSpec({ engine: '2.5L Boxer I4', sparkPlugs: SP('NGK Iridium', '0.039-0.044"', 'NGK 93209 / Subaru 22401AA830') }) } },
+  jeep: { wrangler: { '2012-2024': autoSpec({ engine: '2.0L Turbo / 3.6L Pentastar V6', sparkPlugs: SP('Mopar SP143877AA / NGK 92145 (3.6L V6) / NGK ILZKR7A8 (2.0L Turbo)', '0.028-0.043"', 'Mopar SP143877AA / NGK 92145 (3.6L); NGK ILZKR7A8 / Mopar 68418729AA (2.0T)') }) } },
+  ram: { '1500': { '2009-2024': autoSpec({ engine: '3.6L Pentastar V6 / 5.7L HEMI V8', sparkPlugs: SP('Mopar SP143877AA / NGK 92145 (3.6L V6 & 5.7L V8)', '0.043"', 'Mopar SP143877AA / NGK 92145') }) } },
+  subaru: { outback: { '2010-2024': autoSpec({ engine: '2.4L Turbo (2020+) / 2.5L Boxer I4', sparkPlugs: SP('NGK 93209 (2.5L I4) / NGK ILFR6B10 (2.4L Turbo)', '0.039-0.044"', 'NGK 93209 / Subaru 22401AA830 (2.5L); NGK ILFR6B10 / Subaru 22401AA81A (2.4T)') }) }, forester: { '2011-2024': autoSpec({ engine: '2.5L Boxer I4', sparkPlugs: SP('NGK Iridium', '0.039-0.044"', 'NGK 93209 / Subaru 22401AA830') }) } },
   nissan: { altima: { '2013-2024': autoSpec({ engine: '2.5L I4', sparkPlugs: SP('NGK Iridium', '0.043"', 'NGK 9029 / Denso 3452') }) }, rogue: { '2014-2024': autoSpec({ engine: '2.5L I4', sparkPlugs: SP('NGK Iridium', '0.043"', 'NGK 9029 / Denso 3452') }) } },
   hyundai: { tucson: { '2016-2024': autoSpec({ engine: '2.0L I4', sparkPlugs: SP('NGK Iridium', '0.039"', 'NGK 97265') }) }, elantra: { '2011-2024': autoSpec({ engine: '2.0L I4', sparkPlugs: SP('NGK Iridium', '0.039"', 'NGK 97265') }) } },
   kia: { sportage: { '2017-2024': autoSpec({ engine: '2.0L I4', sparkPlugs: SP('NGK Iridium', '0.039"', 'NGK 97265') }) } },
-  mazda: { 'cx-5': { '2013-2024': autoSpec({ engine: '2.5L SKYACTIV-G', sparkPlugs: SP('NGK Iridium / Denso Iridium', '0.039-0.043"', 'NGK 94109 / Denso 3484') }) } },
+  mazda: { 'cx-5': { '2013-2024': autoSpec({ engine: '2.5L SKYACTIV-G / 2.5L Turbo (2019+)', sparkPlugs: SP('NGK 94109 / Denso 3484 (2.5L NA) / NGK ILKAR7H6 (2.5T)', '0.039-0.043"', 'NGK 94109 / Denso 3484 (2.5L); NGK ILKAR7H6 (2.5T)') }) } },
   bmw: { '3 series': { '2013-2024': autoSpec({ engine: 'B48/B58 turbocharged I4/I6', sparkPlugs: SP('Bosch Iridium', '0.028-0.031"', 'Bosch ZR5TPP33 / BMW 12120037638') }) } },
   mercedes: { 'c-class': { '2015-2024': autoSpec({ engine: 'M274/M264 turbocharged I4', sparkPlugs: SP('Bosch Iridium', '0.028"', 'Bosch 0242245580 / Mercedes 0041591803') }) } }
 };
