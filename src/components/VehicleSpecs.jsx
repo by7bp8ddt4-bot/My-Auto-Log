@@ -217,10 +217,11 @@ export default function VehicleSpecs({ selectedVehicle }) {
           )}
 
           {/* Spark Plugs */}
-          {(s.sparkPlugs?.type || s.sparkPlugs?.gap) && (
+          {(s.sparkPlugs?.type || s.sparkPlugs?.gap || s.sparkPlugs?.oemPN) && (
             <SpecSection icon={Zap} title="Spark Plugs">
               {s.sparkPlugs?.type && <SpecRow label="Type" value={s.sparkPlugs.type} />}
               {s.sparkPlugs?.gap && <SpecRow label="Gap" value={s.sparkPlugs.gap} />}
+              {s.sparkPlugs?.oemPN && <SpecRow label="OEM Part #" value={s.sparkPlugs.oemPN} />}
             </SpecSection>
           )}
 

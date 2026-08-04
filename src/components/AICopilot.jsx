@@ -128,10 +128,11 @@ function aiTranslate(input, vehicle) {
     }
     const plugType = specs?.sparkPlugs?.type || 'consult owner\'s manual';
     const plugGap = specs?.sparkPlugs?.gap || 'consult owner\'s manual';
+    const plugOEM = refSpecs?.sparkPlugs?.oemPN;
     return {
       diagnosis: 'Spark Plug Specification',
       severity: 'Info',
-      action: `Your ${make} ${model} uses ${plugType} spark plugs with a gap of ${plugGap}.`,
+      action: `Your ${make} ${model} uses ${plugType} spark plugs with a gap of ${plugGap}${plugOEM ? ` (OEM Part #: ${plugOEM})` : ''}.`,
       estimatedCost: 'N/A'
     };
   }
