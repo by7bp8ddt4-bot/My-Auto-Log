@@ -6076,6 +6076,444 @@ for (const [make, models] of Object.entries(wave18SparkPlugs)) {
   }
 }
 
+// ═══════════════════════════════════════════════════════════════════════════
+// Wave 19: pre-2015 backfill (part A — Toyota / Honda / Ford).
+// Adds year ranges for earlier generations of models whose data previously
+// started at 2015+ but that existed well before 2015. All new ranges are
+// non-overlapping with existing entries (findSpecs returns the first match).
+// Values from OEM owner's manuals / service data; uncertain values marked.
+// Merged at module bottom after the wave18 spark-plug patch (so patch ranges
+// never collide with these additions).
+// ═══════════════════════════════════════════════════════════════════════════
+const wave19BackfillA = {
+  toyota: {
+    tacoma: {
+      '1995-2004': {
+        engine: {
+          oilViscosity: '5W-30 (2.4L 2RZ-FE / 2.7L 3RZ-FE I4 / 3.4L 5VZ-FE V6)',
+          oilCapacity: '4.9 qt (2.4L) / 5.6 qt (2.7L) / 5.0 qt (3.4L) — approx',
+          oilFilterPN: 'Toyota 90915-YZZD1 — verify by engine',
+          coolantType: 'Toyota Genuine Long Life Coolant (red)',
+          coolantCapacity: '7.5 qt (3.4L) — approx'
+        },
+        transmission: {
+          fluidType: 'Toyota ATF Type T-IV (A340F 4-speed auto) / SAE 75W-90 GL-4 (5-speed manual)',
+          capacity: '2.5 qt drain-and-refill (auto)'
+        },
+        transferCase: { fluidType: 'Toyota Genuine Transfer Gear Oil LF 75W (older units: GL-4 75W-90 — verify)', capacity: '1.5 qt', note: '4WD models only.' },
+        differentials: {
+          front: { fluidType: 'SAE 75W-90 GL-5', capacity: '2.1 qt', note: '4WD models only.' },
+          rear: { fluidType: 'SAE 75W-90 GL-5', capacity: '2.4 qt' }
+        },
+        brakeFluid: 'DOT 3',
+        tires: {
+          frontPSI: 26, rearPSI: 29,
+          oemSizes: ['P225/75R15 (2WD)', 'P235/75R15 (4WD)', 'P265/70R16 (TRD)'],
+          lugNutTorque: 83
+        },
+        bulbs: {
+          lowBeam: '9006 (halogen) — verify by trim',
+          highBeam: '9005 (halogen) — verify by trim',
+          frontTurn: '1157 (amber) — verify',
+          rearTurn: '1157 — verify',
+          tailBrake: '1157 — verify',
+          interior: 'DE3175 (dome/map)',
+          license: '168 (W5W)'
+        },
+        obd2Location: 'Under driver side dashboard (OBD-II on 1996+ models; 1995 uses pre-OBD-II connector).'
+      },
+      '2005-2015': {
+        engine: {
+          oilViscosity: '5W-30 (2005-2009) / 0W-20 (2010-2015) — 2.7L 2TR-FE I4 / 4.0L 1GR-FE V6',
+          oilCapacity: '5.6 qt (2.7L w/filter) / 6.1 qt (4.0L w/filter) — approx',
+          oilFilterPN: 'Toyota 90915-YZZD1 (2.7L) / 90915-YZZD3 (4.0L)',
+          coolantType: 'Toyota Long Life Coolant (red) / Super Long Life Coolant (pink)',
+          coolantCapacity: '7.1 qt (2.7L) / 8.7 qt (4.0L) — approx'
+        },
+        transmission: {
+          fluidType: 'Toyota ATF WS (4-speed auto 2005-2009 / 5-speed auto 2010-2015) / 75W-90 GL-4 (6-speed manual)',
+          capacity: '2.5 qt drain-and-refill (auto) — approx'
+        },
+        transferCase: { fluidType: 'Toyota Genuine Transfer Gear Oil LF 75W', capacity: '1.5 qt', note: '4WD models only.' },
+        differentials: {
+          front: { fluidType: 'SAE 75W-90 GL-5', capacity: '2.2 qt', note: '4WD models only.' },
+          rear: { fluidType: 'SAE 75W-90 GL-5 (limited-slip: add friction modifier)', capacity: '2.6 qt' }
+        },
+        brakeFluid: 'DOT 3',
+        tires: {
+          frontPSI: 29, rearPSI: 29,
+          oemSizes: ['P245/75R16 (SR5)', 'P265/70R16 (TRD Off-Road)', 'P265/65R17 (TRD Sport)', 'P265/60R18 (Limited)'],
+          lugNutTorque: 83
+        },
+        bulbs: {
+          lowBeam: '9006 (halogen) — verify by trim',
+          highBeam: '9005 (halogen) — verify by trim',
+          frontTurn: '7444NA (amber)',
+          rearTurn: '7440 (amber)',
+          tailBrake: '7443',
+          interior: 'DE3175 (dome/map)',
+          license: '168 (W5W)'
+        },
+        obd2Location: 'Under driver side dashboard, near the hood release.'
+      }
+    },
+    camry: {
+      '2007-2011': {
+        engine: {
+          oilViscosity: '5W-30 (2.4L 2AZ-FE I4 / 3.5L 2GR-FE V6)',
+          oilCapacity: '4.6 qt (2.4L w/filter) / 6.4 qt (3.5L w/filter)',
+          oilFilterPN: 'Toyota 90915-YZZD1',
+          coolantType: 'Toyota Genuine Long Life Coolant (red) — Super Long Life (pink) on later years',
+          coolantCapacity: '6.9 qt (2.4L) / 9.3 qt (3.5L) — approx'
+        },
+        transmission: {
+          fluidType: 'Toyota ATF WS (U250E 5-speed auto 2.4L / U660E 6-speed auto 3.5L) / eCVT fluid (hybrid)',
+          capacity: '3.9 qt drain-and-refill (auto)'
+        },
+        transferCase: null,
+        differentials: { front: null, rear: null },
+        brakeFluid: 'DOT 3',
+        tires: {
+          frontPSI: 30, rearPSI: 30,
+          oemSizes: ['P205/65R16 (CE, LE)', 'P215/60R16 (SE)', 'P215/55R17 (XLE)'],
+          lugNutTorque: 76
+        },
+        bulbs: {
+          lowBeam: '9006 (halogen)',
+          highBeam: '9005 (halogen)',
+          frontTurn: '7444NA (amber)',
+          rearTurn: '7440 (amber)',
+          tailBrake: '7443',
+          interior: 'DE3175 (dome/map)',
+          license: '168 (W5W)'
+        },
+        obd2Location: 'Under driver side dashboard, near the hood release lever.'
+      },
+      '2012-2017': {
+        engine: {
+          oilViscosity: '0W-20 (2.5L 2AR-FE I4 / 3.5L 2GR-FE V6 / 2.5L hybrid)',
+          oilCapacity: '4.6 qt (2.5L w/filter) / 6.4 qt (3.5L w/filter)',
+          oilFilterPN: 'Toyota 90915-YZZF1',
+          coolantType: 'Toyota Super Long Life Coolant (pink)',
+          coolantCapacity: '6.9 qt (2.5L) / 9.5 qt (3.5L) — approx'
+        },
+        transmission: {
+          fluidType: 'Toyota ATF WS (U760E 6-speed auto 2.5L / U660E 6-speed auto 3.5L) / eCVT fluid (hybrid)',
+          capacity: '3.9 qt drain-and-refill (auto)'
+        },
+        transferCase: null,
+        differentials: { front: null, rear: null },
+        brakeFluid: 'DOT 3',
+        tires: {
+          frontPSI: 32, rearPSI: 32,
+          oemSizes: ['P205/65R16 (L, LE)', 'P215/55R17 (SE, XLE)', 'P225/45R18 (XSE)'],
+          lugNutTorque: 76
+        },
+        bulbs: {
+          lowBeam: 'H11 (halogen) — verify by trim',
+          highBeam: '9005 (halogen)',
+          frontTurn: '7444NA (amber)',
+          rearTurn: '7440 (amber)',
+          tailBrake: '7443',
+          interior: 'DE3175 (dome/map)',
+          license: '168 (W5W)'
+        },
+        obd2Location: 'Under driver side dashboard, near the hood release lever.'
+      }
+    },
+    rav4: {
+      '2013-2018': {
+        engine: {
+          oilViscosity: '0W-20 (2.5L 2AR-FE I4 / 2.5L hybrid)',
+          oilCapacity: '4.6 qt (2.5L w/filter)',
+          oilFilterPN: 'Toyota 90915-YZZF1',
+          coolantType: 'Toyota Super Long Life Coolant (pink)',
+          coolantCapacity: '6.5 qt — approx'
+        },
+        transmission: {
+          fluidType: 'Toyota ATF WS (U760E 6-speed auto) / eCVT fluid (hybrid)',
+          capacity: '3.9 qt drain-and-refill (auto)'
+        },
+        transferCase: {
+          fluidType: 'Toyota Transfer Gear Oil LF 75W',
+          capacity: '0.5 qt',
+          note: 'AWD gas models only. Hybrid AWD uses rear electric motor — no transfer case fluid.'
+        },
+        differentials: {
+          front: null,
+          rear: { fluidType: 'Toyota Differential Gear Oil LT 75W-85 GL-5', capacity: '0.5 qt', note: 'AWD gas models only.' }
+        },
+        brakeFluid: 'DOT 3',
+        tires: {
+          frontPSI: 32, rearPSI: 32,
+          oemSizes: ['P225/65R17 (LE, XLE)', 'P235/55R18 (Limited)'],
+          lugNutTorque: 76
+        },
+        bulbs: {
+          lowBeam: 'H11 (halogen) / LED (Limited)',
+          highBeam: '9005 (halogen) / LED (Limited)',
+          frontTurn: '7444NA (amber)',
+          rearTurn: '7440 (amber)',
+          tailBrake: '7443',
+          interior: 'DE3175 (dome/map)',
+          license: '168 (W5W)'
+        },
+        obd2Location: 'Under driver side dashboard, near the hood release lever.'
+      }
+    }
+  },
+  honda: {
+    civic: {
+      '2006-2011': {
+        engine: {
+          oilViscosity: '5W-20 (1.8L R18A1 / 2.0L K20Z3 Si)',
+          oilCapacity: '3.8 qt (1.8L w/filter) / 4.5 qt (Si w/filter)',
+          oilFilterPN: 'Honda 15400-PLM-A02',
+          coolantType: 'Honda Type 2 (blue)',
+          coolantCapacity: '5.0 qt (1.8L) — approx'
+        },
+        transmission: {
+          fluidType: 'Honda ATF DW-1 (5-speed auto; Z1 on 2006-2009) / Honda Manual Transmission Fluid (5-speed manual)',
+          capacity: '2.5 qt drain-and-refill (auto)'
+        },
+        transferCase: null,
+        differentials: { front: null, rear: null },
+        brakeFluid: 'DOT 3',
+        tires: {
+          frontPSI: 32, rearPSI: 32,
+          oemSizes: ['P195/65R15 (DX, LX)', 'P205/55R16 (EX)', 'P215/45R17 (Si)'],
+          lugNutTorque: 80
+        },
+        bulbs: {
+          lowBeam: '9006 (halogen)',
+          highBeam: '9005 (halogen)',
+          frontTurn: '7444NA (amber)',
+          rearTurn: '7440 (amber)',
+          tailBrake: '7443',
+          interior: 'DE3175 (dome/map)',
+          license: '168 (W5W)'
+        },
+        obd2Location: 'Under driver side dashboard, left of steering column.'
+      },
+      '2012-2015': {
+        engine: {
+          oilViscosity: '0W-20 (1.8L R18A1 / 2.4L K24Z7 Si / 1.5L hybrid)',
+          oilCapacity: '4.4 qt (1.8L w/filter) / 4.6 qt (Si w/filter)',
+          oilFilterPN: 'Honda 15400-PLM-A02',
+          coolantType: 'Honda Type 2 (blue)',
+          coolantCapacity: '5.5 qt (1.8L) — approx'
+        },
+        transmission: {
+          fluidType: 'Honda HCF-2 (CVT, 2014-2015) / Honda ATF DW-1 (5-speed auto 2012-2013) / Honda MTF (manual)',
+          capacity: '3.7 qt drain-and-refill (CVT) / 2.5 qt (auto)'
+        },
+        transferCase: null,
+        differentials: { front: null, rear: null },
+        brakeFluid: 'DOT 3',
+        tires: {
+          frontPSI: 32, rearPSI: 32,
+          oemSizes: ['P195/65R15 (LX)', 'P205/55R16 (EX)', 'P215/45R17 (Si)'],
+          lugNutTorque: 80
+        },
+        bulbs: {
+          lowBeam: 'H11 (halogen) — verify by trim',
+          highBeam: '9005 (halogen)',
+          frontTurn: '7444NA (amber)',
+          rearTurn: '7440 (amber)',
+          tailBrake: '7443',
+          interior: 'DE3175 (dome/map)',
+          license: '168 (W5W)'
+        },
+        obd2Location: 'Under driver side dashboard, left of steering column.'
+      }
+    }
+  },
+  ford: {
+    'f-250': {
+      '1999-2007': {
+        engine: {
+          oilViscosity: '5W-20 (5.4L Triton V8 / 6.8L V10 gas) / 15W-40 CJ-4 (7.3L Power Stroke 1999-2003 / 6.0L Power Stroke 2003-2007 diesel)',
+          oilCapacity: '6.0 qt (5.4L/6.8L w/filter) / 15 qt (7.3L) / 15 qt (6.0L) — approx',
+          oilFilterPN: 'Motorcraft FL-820S (gas) / FL-2016 (7.3L) / FL-1995 (6.0L) — verify',
+          coolantType: 'Motorcraft Premium Gold (diesel) / Green (gas)',
+          coolantCapacity: "Consult owner's manual (large system, 25+ qt)"
+        },
+        transmission: {
+          fluidType: 'Mercon (4R100 4-speed auto 1999-2003) / Mercon SP (5R110W 5-speed auto 2003-2007) / manual per Ford spec',
+          capacity: '4.5 qt drain-and-refill (4R100) — approx'
+        },
+        transferCase: { fluidType: 'Motorcraft MERCON (part-time 4x4)', capacity: '2.5 qt', note: '4x4 models only.' },
+        differentials: {
+          front: { fluidType: 'SAE 75W-90 GL-5', capacity: '4.0 qt — approx', note: '4x4 models only.' },
+          rear: { fluidType: 'SAE 75W-140 GL-5 (limited-slip: add friction modifier)', capacity: '3.5 qt — approx' }
+        },
+        brakeFluid: 'DOT 3',
+        tires: {
+          frontPSI: 55, rearPSI: 80,
+          oemSizes: ['LT245/75R16E', 'LT265/75R16E'],
+          lugNutTorque: 140
+        },
+        bulbs: {
+          lowBeam: '9007 (halogen) — verify',
+          highBeam: '9007 (halogen) — verify',
+          frontTurn: '3157NA (amber)',
+          rearTurn: '3157',
+          tailBrake: '3157',
+          interior: '906/912 (dome/map) — verify',
+          license: '168 (W5W)'
+        },
+        obd2Location: 'Under driver side dashboard, left of steering column (OBD-II from 1996).'
+      },
+      '2008-2016': {
+        engine: {
+          oilViscosity: '5W-20 (5.4L V8 gas 2008-2010) / 5W-30 (6.2L V8 gas 2011-2016) / 15W-40 CJ-4 (6.4L diesel 2008-2010 / 6.7L Power Stroke diesel 2011-2016)',
+          oilCapacity: '6.0 qt (5.4L w/filter) / 7.0 qt (6.2L w/filter) / 15.0 qt (6.4L) / 13.0 qt (6.7L) — approx',
+          oilFilterPN: 'Motorcraft FL-820S (gas) / FL-1995 (6.4L) / FL-2051 (6.7L) — verify',
+          coolantType: 'Motorcraft Gold (6.4L) / Motorcraft Orange (6.7L diesel & 6.2L gas) / Green (5.4L)',
+          coolantCapacity: "Consult owner's manual (large system)"
+        },
+        transmission: {
+          fluidType: 'Mercon SP (5R110W 5-speed auto 2008-2010) / Mercon LV (6R140 6-speed auto 2011-2016)',
+          capacity: '5.0 qt drain-and-refill — approx'
+        },
+        transferCase: { fluidType: 'Motorcraft MERCON/MERCON V (part-time 4x4)', capacity: '2.5 qt', note: '4x4 models only.' },
+        differentials: {
+          front: { fluidType: 'SAE 75W-90 GL-5', capacity: '4.0 qt — approx', note: '4x4 models only.' },
+          rear: { fluidType: 'SAE 75W-140 GL-5 (limited-slip: add friction modifier)', capacity: '3.5 qt — approx' }
+        },
+        brakeFluid: 'DOT 3',
+        tires: {
+          frontPSI: 60, rearPSI: 80,
+          oemSizes: ['LT245/75R17E', 'LT265/70R17E', 'LT275/65R18E', 'LT275/70R18E'],
+          lugNutTorque: 150
+        },
+        bulbs: {
+          lowBeam: 'H13 (9008) — verify',
+          highBeam: 'H13 (9008) — verify',
+          frontTurn: '3157NA (amber)',
+          rearTurn: '3157',
+          tailBrake: '3157',
+          interior: '906/912 (dome/map) — verify',
+          license: '168 (W5W)'
+        },
+        obd2Location: 'Under driver side dashboard, left of steering column.'
+      }
+    },
+    ranger: {
+      '1998-2011': {
+        engine: {
+          oilViscosity: '5W-30 (2.3L/2.5L I4, 3.0L Vulcan V6, 4.0L V6)',
+          oilCapacity: '5.0 qt (2.3L w/filter) / 4.5 qt (3.0L w/filter) / 5.0 qt (4.0L w/filter) — approx',
+          oilFilterPN: 'Motorcraft FL-400S (2.3L/2.5L) / FL-820S (3.0L/4.0L)',
+          coolantType: 'Motorcraft Premium Gold (later years) / Green (earlier)',
+          coolantCapacity: '7.5 qt (4.0L) — approx'
+        },
+        transmission: {
+          fluidType: 'Mercon V (5R44E/5R55E 5-speed auto) / Mercon (4R44E 1998-2000) / M5OD-R1 manual: Mercon',
+          capacity: '2.0 qt drain-and-refill (auto) — approx'
+        },
+        transferCase: { fluidType: 'Mercon (BorgWarner 1354)', capacity: '1.5 qt', note: '4x4 models only.' },
+        differentials: {
+          front: { fluidType: 'SAE 75W-90 GL-5', capacity: '2.0 qt', note: '4x4 models only.' },
+          rear: { fluidType: 'SAE 75W-90 GL-5 (limited-slip: add friction modifier)', capacity: '2.0 qt' }
+        },
+        brakeFluid: 'DOT 3',
+        tires: {
+          frontPSI: 30, rearPSI: 30,
+          oemSizes: ['P215/70R15', 'P225/70R15', 'P235/75R15', 'P255/70R16 (FX4)'],
+          lugNutTorque: 100
+        },
+        bulbs: {
+          lowBeam: '9007 (halogen) — verify',
+          highBeam: '9007 (halogen) — verify',
+          frontTurn: '3157NA (amber)',
+          rearTurn: '3157',
+          tailBrake: '3157',
+          interior: '906 (dome) — verify',
+          license: '168 (W5W)'
+        },
+        obd2Location: 'Under driver side dashboard (OBD-II from 1996).'
+      }
+    },
+    escape: {
+      '2001-2012': {
+        engine: {
+          oilViscosity: '5W-20 (2.0L Zetec / 2.3L Duratec I4 / 3.0L Duratec V6)',
+          oilCapacity: '4.5 qt (2.0L w/filter) / 4.5 qt (2.3L w/filter) / 5.0 qt (3.0L w/filter) — approx',
+          oilFilterPN: 'Motorcraft FL-400S (I4) / FL-820S (V6)',
+          coolantType: 'Motorcraft Premium Gold',
+          coolantCapacity: '8.0 qt — approx'
+        },
+        transmission: {
+          fluidType: 'Mercon V (CD4E 4-speed auto) / Mercon (manual)',
+          capacity: '2.0 qt drain-and-refill (auto) — approx'
+        },
+        transferCase: { fluidType: 'Mercon V (PTU)', capacity: '0.5 qt', note: 'AWD models only.' },
+        differentials: {
+          front: null,
+          rear: { fluidType: 'Mercon V (rear drive unit)', capacity: '1.0 qt', note: 'AWD models only.' }
+        },
+        brakeFluid: 'DOT 3',
+        tires: {
+          frontPSI: 30, rearPSI: 30,
+          oemSizes: ['P215/70R16', 'P235/70R16', 'P225/65R17 (2008+)'],
+          lugNutTorque: 100
+        },
+        bulbs: {
+          lowBeam: '9006 (halogen) — verify',
+          highBeam: '9005 (halogen) — verify',
+          frontTurn: '3157NA (amber)',
+          rearTurn: '3157',
+          tailBrake: '3157',
+          interior: '906/912 (dome/map) — verify',
+          license: '168 (W5W)'
+        },
+        obd2Location: 'Under driver side dashboard.'
+      },
+      '2013-2019': {
+        engine: {
+          oilViscosity: '5W-20 (1.6L EcoBoost / 2.0L EcoBoost / 2.5L)',
+          oilCapacity: '4.5 qt (1.6L w/filter) / 5.0 qt (2.0L w/filter) / 4.5 qt (2.5L w/filter) — approx',
+          oilFilterPN: 'Motorcraft FL-910S',
+          coolantType: 'Motorcraft Orange',
+          coolantCapacity: '7.5 qt — approx'
+        },
+        transmission: {
+          fluidType: 'Motorcraft MERCON LV (6F35 6-speed auto)',
+          capacity: '2.0 qt drain-and-refill — approx'
+        },
+        transferCase: { fluidType: 'Motorcraft MERCON LV (PTU)', capacity: '0.5 qt', note: 'AWD models only.' },
+        differentials: {
+          front: null,
+          rear: { fluidType: 'Motorcraft MERCON LV (RDU)', capacity: '1.0 qt', note: 'AWD models only.' }
+        },
+        brakeFluid: 'DOT 3',
+        tires: {
+          frontPSI: 34, rearPSI: 34,
+          oemSizes: ['P235/70R16', 'P225/65R17', 'P235/50R18 (Titanium)'],
+          lugNutTorque: 100
+        },
+        bulbs: {
+          lowBeam: 'H11 (halogen) — verify by trim',
+          highBeam: '9005 (halogen)',
+          frontTurn: '7444NA (amber)',
+          rearTurn: '7440 (amber)',
+          tailBrake: '7443',
+          interior: 'DE3175 (dome/map) — verify',
+          license: '168 (W5W)'
+        },
+        obd2Location: 'Under driver side dashboard.'
+      }
+    }
+  }
+};
+for (const [make, models] of Object.entries(wave19BackfillA)) {
+  referenceSpecs[make] = referenceSpecs[make] || {};
+  for (const [model, years] of Object.entries(models)) {
+    referenceSpecs[make][model] = { ...referenceSpecs[make][model], ...years };
+  }
+}
+
 export default referenceSpecs;
 
 
