@@ -5909,10 +5909,10 @@ const autoSpec = ({ engine, sparkPlugs = SPARK_PLUG_DEFAULT }) => ({
 const SP = (type, gap, oemPN) => ({ type, gap, oemPN });
 const wave18SparkPlugs = {
   chevrolet: {
-    silverado: { '2019-2025': autoSpec({ engine: '2.7L Turbo / 4.3L V6 / 5.3L V8 / 6.2L V8', sparkPlugs: SP('ACDelco 41-162 (Iridium \u2014 5.3L/6.2L V8) / ACDelco 41-106-IP (Iridium \u2014 2.7L Turbo) / ACDelco 41-114 (Iridium \u2014 4.3L V6)', '0.040"', 'ACDelco 41-162 / 41-106-IP / 41-114') }) },
+    silverado: { '2014-2018': autoSpec({ engine: '4.3L EcoTec3 V6 (LV3) / 5.3L EcoTec3 V8 (L83) / 6.2L EcoTec3 V8 (L86)', sparkPlugs: SP('ACDelco 41-114 (Iridium \u2014 4.3L V6 / 5.3L V8 / 6.2L V8)', '0.040 in', 'ACDelco 41-114') }), '2019-2025': autoSpec({ engine: '2.7L Turbo / 4.3L V6 / 5.3L V8 / 6.2L V8', sparkPlugs: SP('ACDelco 41-162 (Iridium \u2014 5.3L/6.2L V8) / ACDelco 41-106-IP (Iridium \u2014 2.7L Turbo) / ACDelco 41-114 (Iridium \u2014 4.3L V6)', '0.040"', 'ACDelco 41-162 / 41-106-IP / 41-114') }) },
     equinox: { '2018-2024': autoSpec({ engine: '1.5L Turbo / 2.0L Turbo', sparkPlugs: SP('ACDelco Iridium', '0.040"', 'ACDelco 41-162') }) }
   },
-  gmc: { sierra: { '2019-2025': autoSpec({ engine: '2.7L Turbo / 4.3L V6 / 5.3L V8 / 6.2L V8', sparkPlugs: SP('ACDelco 41-162 (Iridium \u2014 5.3L/6.2L V8) / ACDelco 41-106-IP (Iridium \u2014 2.7L Turbo) / ACDelco 41-114 (Iridium \u2014 4.3L V6)', '0.040"', 'ACDelco 41-162 / 41-106-IP / 41-114') }) } },
+  gmc: { sierra: { '2014-2018': autoSpec({ engine: '4.3L EcoTec3 V6 (LV3) / 5.3L EcoTec3 V8 (L83) / 6.2L EcoTec3 V8 (L86)', sparkPlugs: SP('ACDelco 41-114 (Iridium \u2014 4.3L V6 / 5.3L V8 / 6.2L V8)', '0.040 in', 'ACDelco 41-114') }), '2019-2025': autoSpec({ engine: '2.7L Turbo / 4.3L V6 / 5.3L V8 / 6.2L V8', sparkPlugs: SP('ACDelco 41-162 (Iridium \u2014 5.3L/6.2L V8) / ACDelco 41-106-IP (Iridium \u2014 2.7L Turbo) / ACDelco 41-114 (Iridium \u2014 4.3L V6)', '0.040"', 'ACDelco 41-162 / 41-106-IP / 41-114') }) } },
   ford: {
     'f-150': { '2015-2025': autoSpec({ engine: '2.7L EcoBoost / 3.3L V6 / 3.5L EcoBoost / 3.5L PowerBoost hybrid / 5.0L V8', sparkPlugs: SP('Motorcraft SP-580 (5.0L V8) / Motorcraft SP-594 (2.7L & 3.5L EcoBoost, PowerBoost hybrid) / Motorcraft SP-586 (3.3L V6)', '0.028-0.030"', 'Motorcraft SP-580 / SP-586 / SP-594') }) },
     escape: { '2013-2024': autoSpec({ engine: '1.5L/2.0L EcoBoost', sparkPlugs: SP('Motorcraft Iridium', '0.028-0.030"', 'Motorcraft SP-530') }) },
