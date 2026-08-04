@@ -98,7 +98,7 @@ export function findBestSymptomMatch(input) {
     }
   }
 
-  const MIN_SCORE = 2;
+  const MIN_SCORE = 3;
   if (!bestMatch || bestScore < MIN_SCORE) {
     return null;
   }
