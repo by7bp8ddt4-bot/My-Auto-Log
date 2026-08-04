@@ -29,6 +29,8 @@
  * NHTSA PDFs, startmycar.com (cross-referenced).
  */
 
+const SPARK_PLUG_DEFAULT = { type: "Consult owner's manual", gap: "Consult owner's manual", oemPN: "Consult owner's manual" };
+
 export const referenceSpecs = {
   toyota: {
     camry: {
@@ -3779,7 +3781,8 @@ for (const spaced of ['c 300', 'c 43', 'c 63', 'e 350', 'e 300', 'e 450', 'e 63'
   if (referenceSpecs.mercedes[unspaced]) referenceSpecs.mercedes[spaced] = referenceSpecs.mercedes[unspaced];
 }
 // ── Wave 5 motorcycle reference data (2005-2025) ─────────────────────────────
-const motorcycleSpec = (engineDescription, oilViscosity, diagnosticLocation, shaftDrive = false) => ({
+const motorcycleSpec = (engineDescription, oilViscosity, diagnosticLocation, shaftDrive = false, sparkPlugs = SPARK_PLUG_DEFAULT) => ({
+  sparkPlugs: { ...sparkPlugs },
   engine: { oilViscosity, oilCapacity: "Consult owner's manual", oilFilterPN: "Consult owner's manual", coolantType: "Consult owner's manual", coolantCapacity: "Consult owner's manual" },
   transmission: { fluidType: `${oilViscosity} — shared engine/transmission oil; wet-clutch compatible (JASO MA/MA2)`, capacity: "Consult owner's manual", note: 'Motorcycle gearbox shares engine oil unless noted; verify exact model manual.' },
   transferCase: null, differentials: { front: null, rear: shaftDrive ? { fluidType: 'Hypoid final-drive gear oil', capacity: "Consult owner's manual", note: 'Shaft-drive final drive; not a differential service on chain/belt models.' } : null },
@@ -4557,7 +4560,8 @@ for (const [make, models] of Object.entries(wave6Specs)) {
 // axle ratio, coach builder and chassis GVWR; values shown as ranges are
 // representative service references and intentionally defer uncertain values.
 const consult = "Consult owner's manual";
-const semiSpec = (engine, oil, transmission, years) => ({
+const semiSpec = (engine, oil, transmission, years, sparkPlugs = SPARK_PLUG_DEFAULT) => ({
+  sparkPlugs: { ...sparkPlugs },
   engine: { oilViscosity: oil, oilCapacity: 'Consult owner\'s manual (engine/filter configuration)', oilFilterPN: consult, coolantType: 'Fleetguard Compleat OAT / OEM-approved heavy-duty ELC', coolantCapacity: consult, fuelType: 'Diesel' },
   transmission: { fluidType: transmission, capacity: consult }, transferCase: null,
   differentials: { front: null, rear: { fluidType: 'SAE 75W-90 or 80W-90 API GL-5 drive-axle gear oil', capacity: consult } },
@@ -4567,7 +4571,8 @@ const semiSpec = (engine, oil, transmission, years) => ({
   obd2Location: 'No OBD-II. OEM diagnostic connector (9-pin/16-pin J1939) typically beneath instrument panel or near driver seat; use OEM service tool.',
   note: `${engine}; model/chassis configuration and axle ratio determine capacities. Service by VIN/build sheet.`, serviceUnit: 'mi', modelYears: years
 });
-const rvSpec = (engine, oil, transmission, generator, years) => ({
+const rvSpec = (engine, oil, transmission, generator, years, sparkPlugs = SPARK_PLUG_DEFAULT) => ({
+  sparkPlugs: { ...sparkPlugs },
   engine: { oilViscosity: oil, oilCapacity: consult, oilFilterPN: consult, coolantType: engine.includes('diesel') ? 'Fleetguard Compleat OAT / OEM-approved diesel ELC' : 'Motorcraft or Dex-Cool coolant per chassis manual', coolantCapacity: consult, fuelType: engine.includes('diesel') ? 'Diesel' : 'Gasoline' },
   transmission: { fluidType: transmission, capacity: consult }, transferCase: consult,
   differentials: { front: null, rear: { fluidType: 'Chassis axle gear oil per Ford/GM/Mercedes manual', capacity: consult } },
@@ -4613,6 +4618,7 @@ for (const [make, models] of Object.entries(wave8Specs)) { referenceSpecs[make] 
 // OBD-II). Era-typical values; unverifiable values marked "Consult owner's manual".
 // ═══════════════════════════════════════════════════════════════════════════
 const classicCarSpec = (o) => ({
+  sparkPlugs: { ...(o.sparkPlugs || SPARK_PLUG_DEFAULT) },
   engine: {
     oilViscosity: o.oil,
     oilCapacity: o.oilCap || consult,
@@ -5311,7 +5317,8 @@ for (const [make, models] of Object.entries(wave9Specs)) {
 
 
 // ── Wave 10: thin-auto coverage and high-value current aliases ─────────────
-const wave10Spec = ({ engine, oil = consult, oilCapacity = consult, transmission, tires = ['Consult owner\'s manual'], psi = consult, note, brake = 'DOT 3', obd = 'Under driver side dashboard, near the steering column.' }) => ({
+const wave10Spec = ({ engine, oil = consult, sparkPlugs = SPARK_PLUG_DEFAULT, oilCapacity = consult, transmission, tires = ['Consult owner\'s manual'], psi = consult, note, brake = 'DOT 3', obd = 'Under driver side dashboard, near the steering column.' }) => ({
+  sparkPlugs: { ...sparkPlugs },
   engine: { oilViscosity: oil, oilCapacity, oilFilterPN: consult, coolantType: engine.includes('EV') ? 'EV thermal management coolant — consult owner\'s manual' : 'Manufacturer-specified long-life coolant', coolantCapacity: consult, description: engine },
   transmission: { fluidType: transmission, capacity: consult },
   transferCase: null,
@@ -5354,7 +5361,8 @@ for (const [make, models] of Object.entries(wave10Specs)) {
 // (Class 8 semi). Model keys match MAINTENANCE_SCHEDULES model lists. Values
 // from OEM owner's manuals / service data; unverifiable values marked consult.
 // ═══════════════════════════════════════════════════════════════════════════
-const wave11Spec = ({ engine, oil = consult, oilCapacity = consult, coolant, transmission, transNote, tcase = null, diffF = null, diffR = null, tires = ['Consult owner\'s manual'], psi = consult, brake = 'DOT 3', obd = 'Under driver side dashboard, near the steering column.', note }) => ({
+const wave11Spec = ({ engine, oil = consult, sparkPlugs = SPARK_PLUG_DEFAULT, oilCapacity = consult, coolant, transmission, transNote, tcase = null, diffF = null, diffR = null, tires = ['Consult owner\'s manual'], psi = consult, brake = 'DOT 3', obd = 'Under driver side dashboard, near the steering column.', note }) => ({
+  sparkPlugs: { ...sparkPlugs },
   engine: {
     oilViscosity: oil,
     oilCapacity,
@@ -5884,6 +5892,55 @@ for (const [make, models] of Object.entries(wave17Specs)) {
   for (const [model, years] of Object.entries(models)) {
     referenceSpecs[make][model] = { ...referenceSpecs[make][model], ...years };
   }
+}
+
+
+// Wave 18: OEM spark-plug references for high-volume automotive models. Values
+// are engine-specific where the same model is sold with multiple powertrains.
+const autoSpec = ({ engine, sparkPlugs = SPARK_PLUG_DEFAULT }) => ({
+  sparkPlugs: { ...sparkPlugs },
+  engine: { description: engine, oilViscosity: consult, oilCapacity: consult, oilFilterPN: consult, coolantType: consult, coolantCapacity: consult },
+  transmission: { fluidType: consult, capacity: consult }, transferCase: null,
+  differentials: { front: null, rear: null }, brakeFluid: consult,
+  tires: { frontPSI: consult, rearPSI: consult, oemSizes: [consult], lugNutTorque: consult },
+  bulbs: { lowBeam: consult, highBeam: consult, frontTurn: consult, rearTurn: consult, tailBrake: consult, interior: consult, license: consult },
+  obd2Location: consult
+});
+const SP = (type, gap, oemPN) => ({ type, gap, oemPN });
+const wave18SparkPlugs = {
+  chevrolet: {
+    silverado: { '2019-2025': autoSpec({ engine: '2.7L Turbo / 5.3L V8 / 6.2L V8', sparkPlugs: SP('ACDelco 41-162 (5.3L/6.2L); ACDelco 41-106-IP (2.7L Turbo)', '0.040"', 'ACDelco 41-162 / 41-106-IP') }) },
+    equinox: { '2018-2024': autoSpec({ engine: '1.5L Turbo / 2.0L Turbo', sparkPlugs: SP('ACDelco Iridium', '0.040"', 'ACDelco 41-162') }) }
+  },
+  gmc: { sierra: { '2019-2025': autoSpec({ engine: '2.7L Turbo / 5.3L V8 / 6.2L V8', sparkPlugs: SP('ACDelco Iridium (5.3L/6.2L); 2.7L Turbo engine-specific', '0.040"', 'ACDelco 41-162 / 41-106-IP') }) } },
+  ford: {
+    'f-150': { '2015-2025': autoSpec({ engine: '3.5L EcoBoost / 5.0L V8', sparkPlugs: SP('Motorcraft SP-580 (5.0L V8) / SP-594 (3.5L EcoBoost)', '0.028-0.030"', 'Motorcraft SP-580 / SP-594') }) },
+    escape: { '2013-2024': autoSpec({ engine: '1.5L/2.0L EcoBoost', sparkPlugs: SP('Motorcraft Iridium', '0.028-0.030"', 'Motorcraft SP-530') }) },
+    explorer: { '2011-2024': autoSpec({ engine: '2.3L EcoBoost / 3.0L EcoBoost', sparkPlugs: SP('Motorcraft Iridium', '0.028-0.030"', 'Motorcraft SP-580') }) }
+  },
+  toyota: {
+    camry: { '2012-2024': autoSpec({ engine: '2.5L I4', sparkPlugs: SP('Denso Iridium Long Life', '0.043"', 'Denso 3474 / Toyota 90919-01253') }) },
+    rav4: { '2013-2024': autoSpec({ engine: '2.5L I4', sparkPlugs: SP('Denso Iridium Long Life', '0.043"', 'Denso 3474 / Toyota 90919-01253') }) },
+    tacoma: { '2016-2024': autoSpec({ engine: '3.5L V6', sparkPlugs: SP('Denso Iridium', '0.044"', 'Denso 3461') }) },
+    corolla: { '2009-2024': autoSpec({ engine: '1.8L/2.0L I4', sparkPlugs: SP('Denso Iridium', '0.043"', 'Denso 3474') }) }
+  },
+  honda: {
+    civic: { '2016-2024': autoSpec({ engine: '1.5L Turbo / 2.0L I4', sparkPlugs: SP('NGK (1.5L Turbo) / Denso (2.0L)', '0.028-0.044"', 'NGK 96964 / Denso 3492') }) },
+    'cr-v': { '2017-2024': autoSpec({ engine: '1.5L Turbo / 2.0L I4', sparkPlugs: SP('NGK Iridium', '0.028-0.044"', 'NGK 96964 / Denso 3492') }) }
+  },
+  jeep: { wrangler: { '2012-2024': autoSpec({ engine: '3.6L Pentastar V6', sparkPlugs: SP('Mopar / NGK Iridium', '0.043"', 'Mopar SP143877AA / NGK 92145') }) } },
+  ram: { '1500': { '2009-2024': autoSpec({ engine: '5.7L HEMI V8', sparkPlugs: SP('Mopar / NGK Iridium', '0.043"', 'Mopar SP143877AA / NGK 92145') }) } },
+  subaru: { outback: { '2010-2024': autoSpec({ engine: '2.5L Boxer I4', sparkPlugs: SP('NGK Iridium', '0.039-0.044"', 'NGK 93209 / Subaru 22401AA830') }) }, forester: { '2011-2024': autoSpec({ engine: '2.5L Boxer I4', sparkPlugs: SP('NGK Iridium', '0.039-0.044"', 'NGK 93209 / Subaru 22401AA830') }) } },
+  nissan: { altima: { '2013-2024': autoSpec({ engine: '2.5L I4', sparkPlugs: SP('NGK Iridium', '0.043"', 'NGK 9029 / Denso 3452') }) }, rogue: { '2014-2024': autoSpec({ engine: '2.5L I4', sparkPlugs: SP('NGK Iridium', '0.043"', 'NGK 9029 / Denso 3452') }) } },
+  hyundai: { tucson: { '2016-2024': autoSpec({ engine: '2.0L I4', sparkPlugs: SP('NGK Iridium', '0.039"', 'NGK 97265') }) }, elantra: { '2011-2024': autoSpec({ engine: '2.0L I4', sparkPlugs: SP('NGK Iridium', '0.039"', 'NGK 97265') }) } },
+  kia: { sportage: { '2017-2024': autoSpec({ engine: '2.0L I4', sparkPlugs: SP('NGK Iridium', '0.039"', 'NGK 97265') }) } },
+  mazda: { 'cx-5': { '2013-2024': autoSpec({ engine: '2.5L SKYACTIV-G', sparkPlugs: SP('NGK Iridium / Denso Iridium', '0.039-0.043"', 'NGK 94109 / Denso 3484') }) } },
+  bmw: { '3 series': { '2013-2024': autoSpec({ engine: 'B48/B58 turbocharged I4/I6', sparkPlugs: SP('Bosch Iridium', '0.028-0.031"', 'Bosch ZR5TPP33 / BMW 12120037638') }) } },
+  mercedes: { 'c-class': { '2015-2024': autoSpec({ engine: 'M274/M264 turbocharged I4', sparkPlugs: SP('Bosch Iridium', '0.028"', 'Bosch 0242245580 / Mercedes 0041591803') }) } }
+};
+for (const [make, models] of Object.entries(wave18SparkPlugs)) {
+  referenceSpecs[make] = referenceSpecs[make] || {};
+  for (const [model, years] of Object.entries(models)) referenceSpecs[make][model] = { ...referenceSpecs[make][model], ...years };
 }
 
 export default referenceSpecs;
