@@ -34,7 +34,7 @@ const SPARK_PLUG_DEFAULT = { type: "Consult owner's manual", gap: "Consult owner
 export const referenceSpecs = {
   toyota: {
     camry: {
-      '2018-2024': {
+      '2018-2026': {
         engine: {
           oilViscosity: '0W-16 (2.5L) / 0W-20 (3.5L V6)',
           oilCapacity: '4.8 qt (2.5L w/filter) / 6.0 qt (3.5L V6)',
@@ -75,7 +75,7 @@ export const referenceSpecs = {
       }
     },
     rav4: {
-      '2019-2024': {
+      '2019-2026': {
         engine: {
           oilViscosity: '0W-16 (2.5L gas) / 0W-16 (2.5L hybrid)',
           oilCapacity: '4.8 qt (2.5L w/filter)',
@@ -120,7 +120,7 @@ export const referenceSpecs = {
       }
     },
     tacoma: {
-      '2016-2024': {
+      '2016-2026': {
         engine: {
           oilViscosity: '0W-20 (2.7L I4 & 3.5L V6)',
           oilCapacity: '4.8 qt (2.7L I4 w/filter) / 5.7 qt (3.5L V6 w/filter)',
@@ -298,7 +298,7 @@ export const referenceSpecs = {
         },
         obd2Location: 'Under driver side dashboard, near the hood release lever and kick panel.'
       },
-      '2023-2025': {
+      '2023-2026': {
         engine: {
           oilViscosity: '0W-20 (1.8L gas & 1.8L hybrid) / 0W-16 (2.0L)',
           oilCapacity: '4.5 qt (1.8L gas w/filter) / 4.4 qt (1.8L hybrid w/filter) / 4.6 qt (2.0L w/filter)',
@@ -462,7 +462,7 @@ export const referenceSpecs = {
         },
         obd2Location: 'Under driver side dashboard, near the hood release lever and kick panel.'
       },
-      '2023-2025': {
+      '2023-2026': {
         engine: {
           oilViscosity: '0W-16 (2.4L turbo T24A-FTS & 2.5L hybrid A25A-FXS)',
           oilCapacity: '6.1 qt (2.4L w/filter — approx) / 4.8 qt (2.5L hybrid w/filter)',
@@ -555,7 +555,7 @@ export const referenceSpecs = {
         },
         obd2Location: 'Under driver side dashboard, left of steering column near the kick panel.'
       },
-      '2010-2024': {
+      '2010-2026': {
         engine: {
           oilViscosity: '0W-20',
           oilCapacity: '6.2 qt (4.0L V6 1GR-FE w/filter)',
@@ -602,7 +602,7 @@ export const referenceSpecs = {
         },
         obd2Location: 'Under driver side dashboard, left of steering column near the hood release.'
       },
-      '2025-2025': {
+      '2025-2026': {
         engine: {
           oilViscosity: '0W-16',
           oilCapacity: '6.1 qt (2.4L turbo T24A-FTS w/filter — approx)',
@@ -839,7 +839,7 @@ export const referenceSpecs = {
         },
         obd2Location: 'Under driver side dashboard, left of steering column near the kick panel.'
       },
-      '2022-2025': {
+      '2022-2026': {
         engine: {
           oilViscosity: '0W-20 (3.5L twin-turbo V35A-FTS & 3.4L twin-turbo hybrid i-Force Max)',
           oilCapacity: '6.4 qt (w/filter — approx)',
@@ -984,7 +984,7 @@ export const referenceSpecs = {
         },
         obd2Location: 'Under driver side dashboard, left of steering column near the kick panel.'
       },
-      '2023-2025': {
+      '2023-2026': {
         engine: {
           oilViscosity: '0W-16 (2.0L M20A-FXS hybrid)',
           oilCapacity: '4.6 qt (2.0L w/filter)',
@@ -1104,7 +1104,7 @@ export const referenceSpecs = {
         },
         obd2Location: 'Under driver side dashboard, left of steering column near the kick panel.'
       },
-      '2021-2025': {
+      '2021-2026': {
         engine: {
           oilViscosity: '0W-16 (2.5L A25A-FXS hybrid)',
           oilCapacity: '4.8 qt (2.5L hybrid w/filter)',
@@ -1336,7 +1336,7 @@ export const referenceSpecs = {
         },
         obd2Location: 'Under driver side dashboard, left of steering column, near the parking brake release.'
       },
-      '2021-2025': {
+      '2021-2026': {
         engine: {
           oilViscosity: '5W-30 (2.7L/3.5L EcoBoost, 5.0L V8) / 5W-30 (3.5L PowerBoost hybrid)',
           oilCapacity: '6.0 qt (2.7L/3.5L/5.0L w/filter) / 6.0 qt (PowerBoost hybrid)',
@@ -1385,7 +1385,7 @@ export const referenceSpecs = {
       }
     },
     'f-250': {
-      '2017-2024': {
+      '2017-2026': {
         engine: {
           oilViscosity: '5W-30 (6.2L gas) / 5W-40 or 15W-40 (6.7L Power Stroke diesel) / 5W-30 (7.3L Godzilla gas)',
           oilCapacity: '7.0 qt (6.2L w/filter) / 13.0 qt (6.7L diesel) / 8.0 qt (7.3L gas)',
@@ -1434,7 +1434,7 @@ export const referenceSpecs = {
       }
     },
     'e-250': {
-      '2009-2024': {
+      '2009-2026': {
         engine: {
           oilViscosity: '5W-20 (4.6L V8) / 5W-30 (5.4L V8) / 5W-30 (6.8L V10)',
           oilCapacity: '6.0 qt (4.6L/5.4L w/filter) / 7.0 qt (6.8L V10 w/filter)',
@@ -1475,7 +1475,7 @@ export const referenceSpecs = {
       }
     },
     escape: {
-      '2020-2024': {
+      '2020-2026': {
         engine: {
           oilViscosity: '5W-30 (1.5L EcoBoost) / 5W-30 (2.0L EcoBoost) / 0W-20 (2.5L hybrid/plug-in hybrid)',
           oilCapacity: '5.0 qt (1.5L w/filter) / 5.5 qt (2.0L w/filter) / 5.7 qt (2.5L hybrid)',
@@ -1653,7 +1653,7 @@ export const referenceSpecs = {
         },
         obd2Location: 'Under driver side dashboard, left of steering column near the kick panel.'
       },
-      '2020-2025': {
+      '2020-2026': {
         engine: {
           oilViscosity: '5W-30 (2.3L EcoBoost & 3.0L EcoBoost) / 5W-30 (3.3L hybrid — 2020-2024)',
           oilCapacity: '5.5 qt (2.3L w/filter) / 6.0 qt (3.0L w/filter) / 5.7 qt (3.3L hybrid w/filter)',
@@ -1854,7 +1854,7 @@ export const referenceSpecs = {
         },
         obd2Location: 'Under driver side dashboard, left of steering column near the kick panel.'
       },
-      '2024-2025': {
+      '2024-2026': {
         engine: {
           oilViscosity: '5W-30 (2.3L EcoBoost & 5.0L Coyote gen 4)',
           oilCapacity: '5.5 qt (2.3L w/filter) / 8.8 qt (5.0L w/filter)',
@@ -2023,7 +2023,7 @@ export const referenceSpecs = {
         },
         obd2Location: 'Under driver side dashboard, left of steering column near the kick panel.'
       },
-      '2019-2024': {
+      '2019-2026': {
         engine: {
           oilViscosity: '5W-30 (2.0L EcoBoost & 2.7L EcoBoost ST — through 2023)',
           oilCapacity: '5.0 qt (2.0L w/filter) / 6.0 qt (2.7L w/filter)',
@@ -2280,7 +2280,7 @@ export const referenceSpecs = {
         },
         obd2Location: 'Under driver side dashboard, left of steering column, near the kick panel/fuse box area.'
       },
-      '2022-2024': {
+      '2022-2026': {
         engine: {
           oilViscosity: '0W-20 (2.0L K20C2 / 1.5L Turbo L15CA)',
           oilCapacity: '3.7 qt (2.0L w/filter) / 3.5 qt (1.5L Turbo w/filter)',
@@ -2477,7 +2477,7 @@ export const referenceSpecs = {
         },
         obd2Location: 'Under driver side dashboard, left of steering column, above kick panel near fuse box.'
       },
-      '2023-2025': {
+      '2023-2026': {
         engine: {
           oilViscosity: '0W-20 (1.5L Turbo L15BE / 2.0L hybrid)',
           oilCapacity: '3.7 qt (1.5L Turbo w/filter) / 4.0 qt (2.0L hybrid w/filter)',
@@ -2651,7 +2651,7 @@ export const referenceSpecs = {
         },
         obd2Location: 'Under driver side dashboard, left of steering column, near the kick panel.'
       },
-      '2023-2025': {
+      '2023-2026': {
         engine: {
           oilViscosity: '0W-20 (1.5L Turbo — LX, EX through 2024) / 0W-20 (2.0L hybrid — 2025 standard)',
           oilCapacity: '4.2 qt (1.5T w/filter) / 3.8 qt (2.0L hybrid w/filter)',
@@ -2804,7 +2804,7 @@ export const referenceSpecs = {
         },
         obd2Location: 'Under driver side dashboard, left of steering column, near the kick panel.'
       },
-      '2023-2025': {
+      '2023-2026': {
         engine: {
           oilViscosity: '0W-20 (3.5L J35Y6)',
           oilCapacity: '4.5 qt (3.5L w/filter)',
@@ -2911,7 +2911,7 @@ export const referenceSpecs = {
         },
         obd2Location: 'Under driver side dashboard, left of steering column, near the kick panel.'
       },
-      '2018-2025': {
+      '2018-2026': {
         engine: {
           oilViscosity: '0W-20 (3.5L J35Y6)',
           oilCapacity: '4.5 qt (3.5L w/filter)',
@@ -2949,7 +2949,7 @@ export const referenceSpecs = {
 
   chevrolet: {
     silverado: {
-      '2019-2024': {
+      '2019-2026': {
         engine: {
           oilViscosity: '0W-20 (2.7L Turbo I4 & 5.3L V8) / 0W-20 (6.2L V8) / 15W-40 (3.0L Duramax diesel)',
           oilCapacity: '6.0 qt (2.7L w/filter) / 8.0 qt (5.3L V8 w/filter) / 8.0 qt (6.2L w/filter) / 7.0 qt (3.0L diesel)',
@@ -3002,7 +3002,7 @@ export const referenceSpecs = {
 
   mazda: {
     '3': {
-      '2019-2024': {
+      '2019-2026': {
         engine: {
           oilViscosity: '0W-20 (2.5L SkyActiv-G) / 5W-30 (2.5L Turbo SkyActiv-G)',
           oilCapacity: '4.8 qt (2.5L w/filter) / 4.5 qt (2.5L Turbo w/filter)',
@@ -3051,7 +3051,7 @@ export const referenceSpecs = {
 
   gmc: {
     'yukon xl': {
-      '2015-2024': {
+      '2015-2026': {
         engine: {
           oilViscosity: '0W-20 (5.3L V8, 6.2L V8 — 2015-2020) / 0W-20 (5.3L/6.2L — 2021+) / 15W-40 (3.0L Duramax diesel — 2021+)',
           oilCapacity: '8.0 qt (5.3L/6.2L w/filter) / 7.0 qt (3.0L diesel w/filter)',
@@ -3104,7 +3104,7 @@ export const referenceSpecs = {
 
   nissan: {
     rogue: {
-      '2014-2024': {
+      '2014-2026': {
         engine: {
           oilViscosity: '0W-20 (2.5L QR25DE — 2014-2020) / 0W-20 (2.5L PR25DD — 2021+) / 0W-20 (1.5L VC-Turbo KR15DDT — 2022+)',
           oilCapacity: '4.8 qt (2.5L w/filter) / 5.1 qt (1.5L VC-Turbo w/filter)',
@@ -3150,7 +3150,7 @@ export const referenceSpecs = {
       }
     },
     murano: {
-      '2015-2024': {
+      '2015-2026': {
         engine: {
           oilViscosity: '0W-20 (3.5L V6 VQ35DE)',
           oilCapacity: '5.1 qt (w/filter)',
@@ -3798,11 +3798,11 @@ const wave5Specs = {
     },
     'softail': {
       '2005-2016': motorcycleSpec('Twin Cam 88/96/103 air-cooled V-twin', '20W-50 motorcycle oil, JASO MA/MA2', '4-pin Harley diagnostic connector under seat', false),
-      '2017-2024': motorcycleSpec('Milwaukee-Eight 107/114/117 air-cooled/oil-cooled V-twin', '20W-50 motorcycle oil, JASO MA/MA2', 'Harley 4-pin diagnostic connector under seat/side cover', false),
+      '2017-2026': motorcycleSpec('Milwaukee-Eight 107/114/117 air-cooled/oil-cooled V-twin', '20W-50 motorcycle oil, JASO MA/MA2', 'Harley 4-pin diagnostic connector under seat/side cover', false),
     },
     'touring': {
       '2005-2016': motorcycleSpec('Twin Cam 88/96/103 V-twin', '20W-50 motorcycle oil, JASO MA/MA2', 'Harley 4-pin diagnostic connector under seat or fairing', false),
-      '2017-2024': motorcycleSpec('Milwaukee-Eight 107/114/117 V-twin', '20W-50 motorcycle oil, JASO MA/MA2', 'Harley 4-pin diagnostic connector under seat or fairing', false),
+      '2017-2026': motorcycleSpec('Milwaukee-Eight 107/114/117 V-twin', '20W-50 motorcycle oil, JASO MA/MA2', 'Harley 4-pin diagnostic connector under seat or fairing', false),
     },
   },
   'yamaha': {
@@ -3812,81 +3812,81 @@ const wave5Specs = {
     },
     'yzf-r1': {
       '2005-2014': motorcycleSpec('998cc liquid-cooled inline-4', '10W-40 motorcycle oil, JASO MA/MA2', 'Yamaha diagnostic coupler under rider seat', false),
-      '2015-2024': motorcycleSpec('998cc crossplane inline-4', '10W-40 motorcycle oil, JASO MA/MA2', 'Yamaha diagnostic coupler under rider seat', false),
+      '2015-2026': motorcycleSpec('998cc crossplane inline-4', '10W-40 motorcycle oil, JASO MA/MA2', 'Yamaha diagnostic coupler under rider seat', false),
     },
     'mt-07': {
       '2015-2017': motorcycleSpec('689cc liquid-cooled parallel twin (FZ-07)', '10W-40 motorcycle oil, JASO MA/MA2', 'Yamaha diagnostic coupler under rider seat', false),
-      '2018-2024': motorcycleSpec('689cc liquid-cooled parallel twin', '10W-40 motorcycle oil, JASO MA/MA2', 'Yamaha diagnostic coupler under rider seat', false),
+      '2018-2026': motorcycleSpec('689cc liquid-cooled parallel twin', '10W-40 motorcycle oil, JASO MA/MA2', 'Yamaha diagnostic coupler under rider seat', false),
     },
     'mt-09': {
       '2014-2020': motorcycleSpec('847cc liquid-cooled inline triple (FZ-09)', '10W-40 motorcycle oil, JASO MA/MA2', 'Yamaha diagnostic coupler under rider seat', false),
-      '2021-2024': motorcycleSpec('890cc liquid-cooled inline triple', '10W-40 motorcycle oil, JASO MA/MA2', 'Yamaha diagnostic coupler under rider seat', false),
+      '2021-2026': motorcycleSpec('890cc liquid-cooled inline triple', '10W-40 motorcycle oil, JASO MA/MA2', 'Yamaha diagnostic coupler under rider seat', false),
     },
   },
   'honda': {
     'cbr600rr': {
       '2005-2006': motorcycleSpec('599cc liquid-cooled inline-4', '10W-40 motorcycle oil, JASO MA/MA2', 'Honda 4-pin DLC under seat', false),
-      '2007-2024': motorcycleSpec('599cc liquid-cooled inline-4', '10W-40 motorcycle oil, JASO MA/MA2', 'Honda 4-pin DLC under seat', false),
+      '2007-2026': motorcycleSpec('599cc liquid-cooled inline-4', '10W-40 motorcycle oil, JASO MA/MA2', 'Honda 4-pin DLC under seat', false),
     },
     'cbr1000rr': {
       '2005-2016': motorcycleSpec('999cc liquid-cooled inline-4 Fireblade', '10W-40 motorcycle oil, JASO MA/MA2', 'Honda 4-pin DLC under seat', false),
-      '2017-2024': motorcycleSpec('999cc liquid-cooled inline-4 Fireblade', '10W-40 motorcycle oil, JASO MA/MA2', 'Honda 4-pin DLC under seat', false),
+      '2017-2026': motorcycleSpec('999cc liquid-cooled inline-4 Fireblade', '10W-40 motorcycle oil, JASO MA/MA2', 'Honda 4-pin DLC under seat', false),
     },
     'gold wing': {
       '2005-2017': motorcycleSpec('1832cc liquid-cooled flat-6, shaft drive', '10W-30 motorcycle oil, JASO MA/MA2', 'Honda DLC under left side cover', true),
-      '2018-2024': motorcycleSpec('1833cc liquid-cooled flat-6, shaft drive', '10W-30 motorcycle oil, JASO MA/MA2', 'Honda DLC under left side cover', true),
+      '2018-2026': motorcycleSpec('1833cc liquid-cooled flat-6, shaft drive', '10W-30 motorcycle oil, JASO MA/MA2', 'Honda DLC under left side cover', true),
     },
   },
   'kawasaki': {
     'ninja 650': {
       '2006-2016': motorcycleSpec('649cc liquid-cooled parallel twin (ER-6f)', '10W-40 motorcycle oil, JASO MA/MA2', 'Kawasaki 4-pin diagnostic connector under seat', false),
-      '2017-2024': motorcycleSpec('649cc liquid-cooled parallel twin', '10W-40 motorcycle oil, JASO MA/MA2', 'Kawasaki 4-pin diagnostic connector under seat', false),
+      '2017-2026': motorcycleSpec('649cc liquid-cooled parallel twin', '10W-40 motorcycle oil, JASO MA/MA2', 'Kawasaki 4-pin diagnostic connector under seat', false),
     },
     'ninja zx-6r': {
       '2005-2008': motorcycleSpec('636cc liquid-cooled inline-4', '10W-40 motorcycle oil, JASO MA/MA2', 'Kawasaki diagnostic connector under seat', false),
       '2009-2012': motorcycleSpec('599cc liquid-cooled inline-4', '10W-40 motorcycle oil, JASO MA/MA2', 'Kawasaki diagnostic connector under seat', false),
-      '2013-2024': motorcycleSpec('636cc liquid-cooled inline-4', '10W-40 motorcycle oil, JASO MA/MA2', 'Kawasaki diagnostic connector under seat', false),
+      '2013-2026': motorcycleSpec('636cc liquid-cooled inline-4', '10W-40 motorcycle oil, JASO MA/MA2', 'Kawasaki diagnostic connector under seat', false),
     },
     'ninja zx-10r': {
       '2005-2010': motorcycleSpec('998cc liquid-cooled inline-4', '10W-40 motorcycle oil, JASO MA/MA2', 'Kawasaki diagnostic connector under seat', false),
-      '2011-2024': motorcycleSpec('998cc liquid-cooled inline-4', '10W-40 motorcycle oil, JASO MA/MA2', 'Kawasaki diagnostic connector under seat', false),
+      '2011-2026': motorcycleSpec('998cc liquid-cooled inline-4', '10W-40 motorcycle oil, JASO MA/MA2', 'Kawasaki diagnostic connector under seat', false),
     },
   },
   'suzuki': {
     'gsx-r600': {
       '2005-2010': motorcycleSpec('599cc liquid-cooled inline-4', '10W-40 motorcycle oil, JASO MA/MA2', 'Suzuki SDS diagnostic connector under seat', false),
-      '2011-2024': motorcycleSpec('599cc liquid-cooled inline-4', '10W-40 motorcycle oil, JASO MA/MA2', 'Suzuki SDS diagnostic connector under seat', false),
+      '2011-2026': motorcycleSpec('599cc liquid-cooled inline-4', '10W-40 motorcycle oil, JASO MA/MA2', 'Suzuki SDS diagnostic connector under seat', false),
     },
     'gsx-r750': {
       '2005-2010': motorcycleSpec('750cc liquid-cooled inline-4', '10W-40 motorcycle oil, JASO MA/MA2', 'Suzuki SDS diagnostic connector under seat', false),
-      '2011-2024': motorcycleSpec('750cc liquid-cooled inline-4', '10W-40 motorcycle oil, JASO MA/MA2', 'Suzuki SDS diagnostic connector under seat', false),
+      '2011-2026': motorcycleSpec('750cc liquid-cooled inline-4', '10W-40 motorcycle oil, JASO MA/MA2', 'Suzuki SDS diagnostic connector under seat', false),
     },
     'hayabusa': {
       '2005-2007': motorcycleSpec('1299cc liquid-cooled inline-4', '10W-40 motorcycle oil, JASO MA/MA2', 'Suzuki SDS diagnostic connector under seat', false),
       '2008-2020': motorcycleSpec('1340cc liquid-cooled inline-4', '10W-40 motorcycle oil, JASO MA/MA2', 'Suzuki SDS diagnostic connector under seat', false),
-      '2021-2024': motorcycleSpec('1340cc liquid-cooled inline-4', '10W-40 motorcycle oil, JASO MA/MA2', 'Suzuki SDS diagnostic connector under seat', false),
+      '2021-2026': motorcycleSpec('1340cc liquid-cooled inline-4', '10W-40 motorcycle oil, JASO MA/MA2', 'Suzuki SDS diagnostic connector under seat', false),
     },
   },
   'bmw motorrad': {
     'r1250gs': {
       '2005-2012': motorcycleSpec('1170cc air/oil-cooled boxer, shaft drive (R1200GS)', '15W-50 motorcycle oil, JASO MA/MA2', 'BMW Motorrad 10-pin diagnostic connector under seat', true),
       '2013-2018': motorcycleSpec('1170cc liquid-cooled boxer, shaft drive (R1200GS)', '5W-40 motorcycle oil, JASO MA/MA2', 'BMW Motorrad 10-pin diagnostic connector under seat', true),
-      '2019-2024': motorcycleSpec('1254cc liquid-cooled boxer, shaft drive', '5W-40 motorcycle oil, JASO MA/MA2', 'BMW Motorrad 10-pin diagnostic connector under seat', true),
+      '2019-2026': motorcycleSpec('1254cc liquid-cooled boxer, shaft drive', '5W-40 motorcycle oil, JASO MA/MA2', 'BMW Motorrad 10-pin diagnostic connector under seat', true),
     },
     's1000rr': {
       '2010-2014': motorcycleSpec('999cc liquid-cooled inline-4', '5W-40 motorcycle oil, JASO MA/MA2', 'BMW Motorrad 10-pin diagnostic connector under passenger seat', false),
       '2015-2018': motorcycleSpec('999cc liquid-cooled inline-4', '5W-40 motorcycle oil, JASO MA/MA2', 'BMW Motorrad 10-pin diagnostic connector under passenger seat', false),
-      '2019-2024': motorcycleSpec('999cc liquid-cooled inline-4', '5W-40 motorcycle oil, JASO MA/MA2', 'BMW Motorrad 10-pin diagnostic connector under passenger seat', false),
+      '2019-2026': motorcycleSpec('999cc liquid-cooled inline-4', '5W-40 motorcycle oil, JASO MA/MA2', 'BMW Motorrad 10-pin diagnostic connector under passenger seat', false),
     },
   },
   'indian': {
     'scout': {
       '2015-2020': motorcycleSpec('1133cc liquid-cooled V-twin', '15W-60 motorcycle oil, JASO MA/MA2', 'Indian 4-pin diagnostic connector under seat', false),
-      '2021-2024': motorcycleSpec('1250cc liquid-cooled V-twin', '15W-60 motorcycle oil, JASO MA/MA2', 'Indian 4-pin diagnostic connector under seat', false),
+      '2021-2026': motorcycleSpec('1250cc liquid-cooled V-twin', '15W-60 motorcycle oil, JASO MA/MA2', 'Indian 4-pin diagnostic connector under seat', false),
     },
     'chieftain': {
       '2014-2018': motorcycleSpec('111ci (1811cc) air-cooled Thunder Stroke V-twin', '20W-40 motorcycle oil, JASO MA/MA2', 'Indian 4-pin diagnostic connector under seat', false),
-      '2019-2024': motorcycleSpec('116ci (1890cc) air-cooled Thunder Stroke V-twin', '20W-40 motorcycle oil, JASO MA/MA2', 'Indian 4-pin diagnostic connector under seat', false),
+      '2019-2026': motorcycleSpec('116ci (1890cc) air-cooled Thunder Stroke V-twin', '20W-40 motorcycle oil, JASO MA/MA2', 'Indian 4-pin diagnostic connector under seat', false),
     },
   },
 };
@@ -4074,38 +4074,38 @@ const wave6Specs = {
   'yamaha': {
     'vx': {
       '2005-2018': yamahaPwcSpec('Yamaha WaveRunner VX Cruiser / VX Deluxe / VX Limited — TR-1 1.0L 3-cylinder 4-stroke', 'Yamalube 4W 10W-40'),
-      '2019-2025': yamahaPwcSpec('Yamaha WaveRunner VX Cruiser / VX Deluxe / VX Limited — TR-1 HO 1.0L 3-cylinder 4-stroke', 'Yamalube 4W 10W-40')
+      '2019-2026': yamahaPwcSpec('Yamaha WaveRunner VX Cruiser / VX Deluxe / VX Limited — TR-1 HO 1.0L 3-cylinder 4-stroke', 'Yamalube 4W 10W-40')
     },
     'vx-c': {
-      '2019-2025': yamahaPwcSpec('Yamaha WaveRunner VX-C — TR-1 1.0L 3-cylinder 4-stroke; regular unleaded (87 octane)', 'Yamalube 4W 10W-40')
+      '2019-2026': yamahaPwcSpec('Yamaha WaveRunner VX-C — TR-1 1.0L 3-cylinder 4-stroke; regular unleaded (87 octane)', 'Yamalube 4W 10W-40')
     },
     'vx limited ho': {
-      '2019-2025': yamahaPwcSpec('Yamaha WaveRunner VX Limited HO — 1.8L HO 4-stroke; premium recommended (91 octane)', 'Yamalube 4W 10W-40')
+      '2019-2026': yamahaPwcSpec('Yamaha WaveRunner VX Limited HO — 1.8L HO 4-stroke; premium recommended (91 octane)', 'Yamalube 4W 10W-40')
     },
     'fx ho': {
       '2005-2019': yamahaPwcSpec('Yamaha WaveRunner FX HO / FX Cruiser HO — MR-1 1.0L 4-cylinder 4-stroke', 'Yamalube 4W 10W-40'),
-      '2020-2025': yamahaPwcSpec('Yamaha WaveRunner FX HO / FX Cruiser HO — 1.8L HO 4-stroke', 'Yamalube 4W 10W-40')
+      '2020-2026': yamahaPwcSpec('Yamaha WaveRunner FX HO / FX Cruiser HO — 1.8L HO 4-stroke', 'Yamalube 4W 10W-40')
     },
     'fx svho': {
-      '2014-2025': yamahaPwcSpec('Yamaha WaveRunner FX SVHO — 1.8L supercharged 4-stroke', 'Yamalube 4W 10W-40')
+      '2014-2026': yamahaPwcSpec('Yamaha WaveRunner FX SVHO — 1.8L supercharged 4-stroke', 'Yamalube 4W 10W-40')
     },
     'gp1800': {
-      '2017-2025': yamahaPwcSpec('Yamaha WaveRunner GP1800R — 1.8L supercharged (SVHO / GP HO variants)', 'Yamalube 4W 10W-40')
+      '2017-2026': yamahaPwcSpec('Yamaha WaveRunner GP1800R — 1.8L supercharged (SVHO / GP HO variants)', 'Yamalube 4W 10W-40')
     },
     'gp1300r': {
       '2005-2008': yamahaPwcSpec('Yamaha WaveRunner GP1300R — 1.3L 2-stroke', 'Yamalube 2W 2-stroke oil')
     },
     'ex': {
-      '2017-2025': yamahaPwcSpec('Yamaha WaveRunner EX / EX Sport / EX Deluxe — TR-1 1.0L 3-cylinder 4-stroke', 'Yamalube 4W 10W-40')
+      '2017-2026': yamahaPwcSpec('Yamaha WaveRunner EX / EX Sport / EX Deluxe — TR-1 1.0L 3-cylinder 4-stroke', 'Yamalube 4W 10W-40')
     },
     'f25': {
-      '2006-2025': marineOutboardSpec('Yamaha F25 — 25 hp 3-cylinder 4-stroke (early carbureted, later EFI)',
+      '2006-2026': marineOutboardSpec('Yamaha F25 — 25 hp 3-cylinder 4-stroke (early carbureted, later EFI)',
         'Yamalube 4M or NMMA FC-W certified 4-stroke outboard oil, SAE 10W-30 (20W-40 per manual in warm climates)',
         'Yamalube Marine Gearcase Lube / OEM gearcase lube (SAE 80W-90 class)',
         'Yamaha diagnostic connector under the cowl — dealer YDIS/CLOM software; no OBD-II port.')
     },
     'f70': {
-      '2009-2025': marineOutboardSpec('Yamaha F70 — 70 hp 4-stroke (F70/F60 shared platform)',
+      '2009-2026': marineOutboardSpec('Yamaha F70 — 70 hp 4-stroke (F70/F60 shared platform)',
         'Yamalube 4M or NMMA FC-W certified 4-stroke outboard oil, SAE 10W-30 (20W-40 per manual in warm climates)',
         'Yamalube Marine Gearcase Lube / OEM gearcase lube (SAE 80W-90 class)',
         'Yamaha diagnostic connector under the cowl — dealer YDIS/CLOM software; no OBD-II port.')
@@ -4115,7 +4115,7 @@ const wave6Specs = {
         'Yamalube 4M or NMMA FC-W certified 4-stroke outboard oil, SAE 10W-30 (20W-40 per manual in warm climates)',
         'Yamalube Marine Gearcase Lube / OEM gearcase lube (SAE 80W-90 class)',
         'Yamaha diagnostic connector under the cowl — dealer YDIS/CLOM software; no OBD-II port.'),
-      '2020-2025': marineOutboardSpec('Yamaha F115 — 115 hp 4-stroke, redesigned generation (2020+)',
+      '2020-2026': marineOutboardSpec('Yamaha F115 — 115 hp 4-stroke, redesigned generation (2020+)',
         'Yamalube 4M or NMMA FC-W certified 4-stroke outboard oil, SAE 10W-30 (20W-40 per manual in warm climates)',
         'Yamalube Marine Gearcase Lube / OEM gearcase lube (SAE 80W-90 class)',
         'Yamaha diagnostic connector under the cowl — dealer YDIS/CLOM software; no OBD-II port.')
@@ -4125,7 +4125,7 @@ const wave6Specs = {
         'Yamalube 4M or NMMA FC-W certified 4-stroke outboard oil, SAE 10W-30 (20W-40 per manual in warm climates)',
         'Yamalube Marine Gearcase Lube / OEM gearcase lube (SAE 80W-90 class)',
         'Yamaha diagnostic connector under the cowl — dealer YDIS/CLOM software; no OBD-II port.'),
-      '2020-2025': marineOutboardSpec('Yamaha F150 — 150 hp 4-stroke, redesigned generation (2020+)',
+      '2020-2026': marineOutboardSpec('Yamaha F150 — 150 hp 4-stroke, redesigned generation (2020+)',
         'Yamalube 4M or NMMA FC-W certified 4-stroke outboard oil, SAE 10W-30 (20W-40 per manual in warm climates)',
         'Yamalube Marine Gearcase Lube / OEM gearcase lube (SAE 80W-90 class)',
         'Yamaha diagnostic connector under the cowl — dealer YDIS/CLOM software; no OBD-II port.')
@@ -4135,7 +4135,7 @@ const wave6Specs = {
         'Yamalube 4M or NMMA FC-W certified 4-stroke outboard oil, SAE 10W-30 (20W-40 per manual in warm climates)',
         'Yamalube Marine Gearcase Lube / OEM gearcase lube (SAE 80W-90 class)',
         'Yamaha diagnostic connector under the cowl — dealer YDIS/CLOM software; no OBD-II port.'),
-      '2020-2025': marineOutboardSpec('Yamaha F200 — 200 hp 4-stroke, redesigned generation (2020+)',
+      '2020-2026': marineOutboardSpec('Yamaha F200 — 200 hp 4-stroke, redesigned generation (2020+)',
         'Yamalube 4M or NMMA FC-W certified 4-stroke outboard oil, SAE 10W-30 (20W-40 per manual in warm climates)',
         'Yamalube Marine Gearcase Lube / OEM gearcase lube (SAE 80W-90 class)',
         'Yamaha diagnostic connector under the cowl — dealer YDIS/CLOM software; no OBD-II port.')
@@ -4145,13 +4145,13 @@ const wave6Specs = {
         'Yamalube 4M or NMMA FC-W certified 4-stroke outboard oil, SAE 10W-30 (20W-40 per manual in warm climates)',
         'Yamalube Marine Gearcase Lube / OEM gearcase lube (SAE 80W-90 class)',
         'Yamaha diagnostic connector under the cowl — dealer YDIS/CLOM software; no OBD-II port.'),
-      '2016-2025': marineOutboardSpec('Yamaha F250 — 250 hp V6 4-stroke (4.2L, redesigned 2016)',
+      '2016-2026': marineOutboardSpec('Yamaha F250 — 250 hp V6 4-stroke (4.2L, redesigned 2016)',
         'Yamalube 4M or NMMA FC-W certified 4-stroke outboard oil, SAE 10W-30 (20W-40 per manual in warm climates)',
         'Yamalube Marine Gearcase Lube / OEM gearcase lube (SAE 80W-90 class)',
         'Yamaha diagnostic connector under the cowl — dealer YDIS/CLOM software; no OBD-II port.')
     },
     'f300': {
-      '2016-2025': marineOutboardSpec('Yamaha F300 — 300 hp V6 4-stroke (4.2L, launched 2016)',
+      '2016-2026': marineOutboardSpec('Yamaha F300 — 300 hp V6 4-stroke (4.2L, launched 2016)',
         'Yamalube 4M or NMMA FC-W certified 4-stroke outboard oil, SAE 10W-30 (20W-40 per manual in warm climates)',
         'Yamalube Marine Gearcase Lube / OEM gearcase lube (SAE 80W-90 class)',
         'Yamaha diagnostic connector under the cowl — dealer YDIS/CLOM software; no OBD-II port.')
@@ -4163,7 +4163,7 @@ const wave6Specs = {
         'Mercury/Quicksilver 4-Stroke Outboard Oil SAE 10W-30 (NMMA FC-W certified)',
         'Mercury High Performance Gear Lube / Quicksilver Premium Blend (SAE 80W-90)',
         'Mercury SmartCraft / diagnostic connector under the cowl — dealer software; no OBD-II port.'),
-      '2019-2025': marineOutboardSpec('Mercury 40 FourStroke — 40 hp 4-stroke, redesigned 40-60 hp family (2019+)',
+      '2019-2026': marineOutboardSpec('Mercury 40 FourStroke — 40 hp 4-stroke, redesigned 40-60 hp family (2019+)',
         'Mercury/Quicksilver 4-Stroke Outboard Oil SAE 10W-30 (NMMA FC-W certified)',
         'Mercury High Performance Gear Lube / Quicksilver Premium Blend (SAE 80W-90)',
         'Mercury SmartCraft / diagnostic connector under the cowl — dealer software; no OBD-II port.')
@@ -4173,7 +4173,7 @@ const wave6Specs = {
         'Mercury/Quicksilver 4-Stroke Outboard Oil SAE 10W-30 (NMMA FC-W certified)',
         'Mercury High Performance Gear Lube / Quicksilver Premium Blend (SAE 80W-90)',
         'Mercury SmartCraft / diagnostic connector under the cowl — dealer software; no OBD-II port.'),
-      '2019-2025': marineOutboardSpec('Mercury 75 FourStroke — 75 hp 4-stroke, redesigned 75-115 hp family (2019+)',
+      '2019-2026': marineOutboardSpec('Mercury 75 FourStroke — 75 hp 4-stroke, redesigned 75-115 hp family (2019+)',
         'Mercury/Quicksilver 4-Stroke Outboard Oil SAE 10W-30 (NMMA FC-W certified)',
         'Mercury High Performance Gear Lube / Quicksilver Premium Blend (SAE 80W-90)',
         'Mercury SmartCraft / diagnostic connector under the cowl — dealer software; no OBD-II port.')
@@ -4183,19 +4183,19 @@ const wave6Specs = {
         'Mercury/Quicksilver 4-Stroke Outboard Oil SAE 10W-30 (NMMA FC-W certified)',
         'Mercury High Performance Gear Lube / Quicksilver Premium Blend (SAE 80W-90)',
         'Mercury SmartCraft / diagnostic connector under the cowl — dealer software; no OBD-II port.'),
-      '2019-2025': marineOutboardSpec('Mercury 90 FourStroke — 90 hp 4-stroke, redesigned 75-115 hp family (2019+)',
+      '2019-2026': marineOutboardSpec('Mercury 90 FourStroke — 90 hp 4-stroke, redesigned 75-115 hp family (2019+)',
         'Mercury/Quicksilver 4-Stroke Outboard Oil SAE 10W-30 (NMMA FC-W certified)',
         'Mercury High Performance Gear Lube / Quicksilver Premium Blend (SAE 80W-90)',
         'Mercury SmartCraft / diagnostic connector under the cowl — dealer software; no OBD-II port.')
     },
     '115 pro xs': {
-      '2015-2025': marineOutboardSpec('Mercury 115 Pro XS — 115 hp high-output 4-stroke (redesigned family from ~2019)',
+      '2015-2026': marineOutboardSpec('Mercury 115 Pro XS — 115 hp high-output 4-stroke (redesigned family from ~2019)',
         'Mercury/Quicksilver 4-Stroke Outboard Oil SAE 10W-30 (NMMA FC-W certified)',
         'Mercury High Performance Gear Lube / Quicksilver Premium Blend (SAE 80W-90)',
         'Mercury SmartCraft / diagnostic connector under the cowl — dealer software; no OBD-II port.')
     },
     '150 fourstroke': {
-      '2018-2025': marineOutboardSpec('Mercury 150 FourStroke — 150 hp 4-stroke V6 (current-generation 3.0L V6 family, 2018+)',
+      '2018-2026': marineOutboardSpec('Mercury 150 FourStroke — 150 hp 4-stroke V6 (current-generation 3.0L V6 family, 2018+)',
         'Mercury/Quicksilver 4-Stroke Outboard Oil SAE 10W-30 (NMMA FC-W certified)',
         'Mercury High Performance Gear Lube / Quicksilver Premium Blend (SAE 80W-90)',
         'Mercury SmartCraft / diagnostic connector under the cowl — dealer software; no OBD-II port.')
@@ -4205,19 +4205,19 @@ const wave6Specs = {
         'Mercury 4-Stroke Outboard Oil SAE 10W-30 (FC-W) — Verado spec, tighter change intervals for supercharged duty',
         'Mercury High Performance Gear Lube (SAE 80W-90; synthetic 75W-90 for heavy duty)',
         'Mercury SmartCraft CAN diagnostic connector under the cowl — dealer software; no OBD-II port.'),
-      '2011-2025': marineOutboardSpec('Mercury 250 Verado — 250 hp supercharged 3.4L V6 (redesigned 2011+)',
+      '2011-2026': marineOutboardSpec('Mercury 250 Verado — 250 hp supercharged 3.4L V6 (redesigned 2011+)',
         'Mercury 4-Stroke Outboard Oil SAE 10W-30 (FC-W) — Verado spec, tighter change intervals for supercharged duty',
         'Mercury High Performance Gear Lube (SAE 80W-90; synthetic 75W-90 for heavy duty)',
         'Mercury SmartCraft CAN diagnostic connector under the cowl — dealer software; no OBD-II port.')
     },
     '300 verado': {
-      '2015-2025': marineOutboardSpec('Mercury 300 Verado — 300 hp 4.6L V8 (launched 2015)',
+      '2015-2026': marineOutboardSpec('Mercury 300 Verado — 300 hp 4.6L V8 (launched 2015)',
         'Mercury 4-Stroke Outboard Oil SAE 10W-30 (FC-W) — Verado spec, tighter change intervals for supercharged duty',
         'Mercury High Performance Gear Lube (SAE 80W-90; synthetic 75W-90 for heavy duty)',
         'Mercury SmartCraft CAN diagnostic connector under the cowl — dealer software; no OBD-II port.')
     },
     '350 verado': {
-      '2015-2025': marineOutboardSpec('Mercury 350 Verado — 350 hp supercharged 4.6L V8 (launched 2015)',
+      '2015-2026': marineOutboardSpec('Mercury 350 Verado — 350 hp supercharged 4.6L V8 (launched 2015)',
         'Mercury 4-Stroke Outboard Oil SAE 10W-30 (FC-W) — Verado spec, tighter change intervals for supercharged duty',
         'Mercury High Performance Gear Lube (SAE 80W-90; synthetic 75W-90 for heavy duty)',
         'Mercury SmartCraft CAN diagnostic connector under the cowl — dealer software; no OBD-II port.')
@@ -4225,7 +4225,7 @@ const wave6Specs = {
   },
   'sea-doo': {
     'spark': {
-      '2014-2025': pwcSpec('Sea-Doo Spark — Rotax 900 ACE 3-cylinder (60/90 hp), launched 2014',
+      '2014-2026': pwcSpec('Sea-Doo Spark — Rotax 900 ACE 3-cylinder (60/90 hp), launched 2014',
         'BRP XPS 4-stroke synthetic 5W-40 (Rotax ACE spec)',
         'BRP XPS premixed coolant (closed-loop, 50/50 ethylene glycol)',
         'N/A — Spark has no hydraulic brake',
@@ -4237,7 +4237,7 @@ const wave6Specs = {
         'BRP XPS premixed coolant (closed-loop, 50/50 ethylene glycol)',
         'DOT 4 (BRP XPS DOT 4) on iBR-equipped models; N/A otherwise',
         'BRP B.U.D.S. diagnostic via the DESS post / MPEM connector under the seat; no OBD-II.'),
-      '2016-2025': pwcSpec('Sea-Doo GTI — Rotax 1630 ACE 3-cylinder (130/155/170 hp), relaunched 2016',
+      '2016-2026': pwcSpec('Sea-Doo GTI — Rotax 1630 ACE 3-cylinder (130/155/170 hp), relaunched 2016',
         'BRP XPS 4-stroke synthetic 5W-40 (1630 ACE spec)',
         'BRP XPS premixed coolant (closed-loop, 50/50 ethylene glycol)',
         'DOT 4 (BRP XPS DOT 4) on iBR-equipped models; N/A otherwise',
@@ -4254,7 +4254,7 @@ const wave6Specs = {
         'BRP XPS premixed coolant (closed-loop, 50/50 ethylene glycol)',
         'DOT 4 (BRP XPS DOT 4) — iBR hydraulic brake',
         'BRP B.U.D.S. diagnostic via the DESS post / MPEM connector under the seat; no OBD-II.'),
-      '2020-2025': pwcSpec('Sea-Doo GTX — redesigned hull, Rotax 1630 ACE (170/230/300 hp)',
+      '2020-2026': pwcSpec('Sea-Doo GTX — redesigned hull, Rotax 1630 ACE (170/230/300 hp)',
         'BRP XPS 4-stroke synthetic 5W-40 (1630 ACE spec)',
         'BRP XPS premixed coolant (closed-loop, 50/50 ethylene glycol)',
         'DOT 4 (BRP XPS DOT 4) — iBR hydraulic brake',
@@ -4271,7 +4271,7 @@ const wave6Specs = {
         'BRP XPS premixed coolant (closed-loop, 50/50 ethylene glycol)',
         'DOT 4 (BRP XPS DOT 4) — iBR hydraulic brake',
         'BRP B.U.D.S. diagnostic via the DESS post / MPEM connector under the seat; no OBD-II.'),
-      '2020-2025': pwcSpec('Sea-Doo RXP-X — redesigned, Rotax 1630 ACE (300/325 hp)',
+      '2020-2026': pwcSpec('Sea-Doo RXP-X — redesigned, Rotax 1630 ACE (300/325 hp)',
         'BRP XPS 4-stroke synthetic 5W-40 (1630 ACE spec)',
         'BRP XPS premixed coolant (closed-loop, 50/50 ethylene glycol)',
         'DOT 4 (BRP XPS DOT 4) — iBR hydraulic brake',
@@ -4288,14 +4288,14 @@ const wave6Specs = {
         'BRP XPS premixed coolant (closed-loop, 50/50 ethylene glycol)',
         'DOT 4 (BRP XPS DOT 4) — iBR hydraulic brake',
         'BRP B.U.D.S. diagnostic via the DESS post / MPEM connector under the seat; no OBD-II.'),
-      '2020-2025': pwcSpec('Sea-Doo RXT-X — redesigned, Rotax 1630 ACE 300',
+      '2020-2026': pwcSpec('Sea-Doo RXT-X — redesigned, Rotax 1630 ACE 300',
         'BRP XPS 4-stroke synthetic 5W-40 (1630 ACE spec)',
         'BRP XPS premixed coolant (closed-loop, 50/50 ethylene glycol)',
         'DOT 4 (BRP XPS DOT 4) — iBR hydraulic brake',
         'BRP B.U.D.S. diagnostic via the DESS post / MPEM connector under the seat; no OBD-II.')
     },
     'fish pro': {
-      '2021-2025': pwcSpec('Sea-Doo Fish Pro — Rotax 1630 ACE (130/170 hp), launched 2021',
+      '2021-2026': pwcSpec('Sea-Doo Fish Pro — Rotax 1630 ACE (130/170 hp), launched 2021',
         'BRP XPS 4-stroke synthetic 5W-40 (1630 ACE spec)',
         'BRP XPS premixed coolant (closed-loop, 50/50 ethylene glycol)',
         'DOT 4 (BRP XPS DOT 4) — iBR hydraulic brake (170 hp)',
@@ -4309,14 +4309,14 @@ const wave6Specs = {
         'Kawasaki Super Long Life Coolant (closed-loop, premixed)',
         'N/A — no hydraulic brake (jet pump reverse)',
         'Kawasaki Diagnostic System (KDS) connector under the seat; no OBD-II.'),
-      '2010-2025': pwcSpec('Kawasaki Jet Ski STX-15F — 1498cc 4-cylinder (160 hp)',
+      '2010-2026': pwcSpec('Kawasaki Jet Ski STX-15F — 1498cc 4-cylinder (160 hp)',
         'Kawasaki Performance 4-cycle oil, SAE 10W-40 (API SL/SM/SN)',
         'Kawasaki Super Long Life Coolant (closed-loop, premixed)',
         'N/A — no hydraulic brake (jet pump reverse)',
         'Kawasaki Diagnostic System (KDS) connector under the seat; no OBD-II.')
     },
     'ultra 310': {
-      '2014-2025': pwcSpec('Kawasaki Jet Ski Ultra 310X/310LX — 1498cc supercharged 4-cylinder (310 hp)',
+      '2014-2026': pwcSpec('Kawasaki Jet Ski Ultra 310X/310LX — 1498cc supercharged 4-cylinder (310 hp)',
         'Kawasaki Performance 4-cycle oil, SAE 10W-40 (API SL/SM/SN)',
         'Kawasaki Super Long Life Coolant (closed-loop, premixed)',
         'N/A — no hydraulic brake (jet pump reverse)',
@@ -4337,13 +4337,13 @@ const wave6Specs = {
         'CAT Electronic Technician (ET) via the ECM data link connector near the engine/helm; no OBD-II.')
     },
     'c18': {
-      '2005-2025': marineDieselSpec('CAT C18 — 18.1L inline-6 ACERT marine diesel (up to 1000 hp ratings)',
+      '2005-2026': marineDieselSpec('CAT C18 — 18.1L inline-6 ACERT marine diesel (up to 1000 hp ratings)',
         '15W-40 (CAT ECF-1-a / API CJ-4 — CAT DEO or equivalent)',
         "Consult owner's manual (oil pan option dependent; ~52 qt typical)",
         'CAT Electronic Technician (ET) via the ECM data link connector near the engine/helm; no OBD-II.')
     },
     'c32': {
-      '2005-2025': marineDieselSpec('CAT C32 — 32.1L V12 marine diesel (1000-2000 hp ratings)',
+      '2005-2026': marineDieselSpec('CAT C32 — 32.1L V12 marine diesel (1000-2000 hp ratings)',
         '15W-40 (CAT ECF-1-a / API CJ-4 — CAT DEO or equivalent)',
         "Consult owner's manual (oil pan option dependent; ~130 qt typical)",
         'CAT Electronic Technician (ET) via the ECM data link connector near the engine/helm; no OBD-II.')
@@ -4351,7 +4351,7 @@ const wave6Specs = {
   },
   'cummins': {
     'qsb 6.7': {
-      '2007-2025': marineDieselSpec('Cummins QSB6.7 — 6.7L inline-6 common-rail marine diesel (230-550 hp ratings)',
+      '2007-2026': marineDieselSpec('Cummins QSB6.7 — 6.7L inline-6 common-rail marine diesel (230-550 hp ratings)',
         '15W-40 (Cummins CES 20081 / API CJ-4 — Fleetguard ES or equivalent)',
         'approx 14 qt (verify oil pan option in manual)',
         'Cummins Insite via the CAN data link connector on the OEM harness near the engine; no OBD-II.')
@@ -4369,7 +4369,7 @@ const wave6Specs = {
         'Cummins Insite via the CAN data link connector on the OEM harness near the engine; no OBD-II.')
     },
     'kta19': {
-      '2005-2025': marineDieselSpec('Cummins KTA19 — 19L inline-6 marine diesel (600-800 hp ratings)',
+      '2005-2026': marineDieselSpec('Cummins KTA19 — 19L inline-6 marine diesel (600-800 hp ratings)',
         '15W-40 (Cummins CES 20081 / API CI-4/CJ-4 — Fleetguard ES or equivalent)',
         'approx 64 qt (verify oil pan option in manual)',
         'Cummins Insite via the CAN data link connector on the OEM harness near the engine; no OBD-II.')
@@ -4381,25 +4381,25 @@ const wave6Specs = {
         '15W-40 (API CF-4/CG-4/CH-4 — Yanmar Marine Engine Oil or equivalent)',
         "Consult owner's manual",
         'Yanmar — no OBD-II; check engine/ECS panel alarms; dealer diagnostics via CAN where fitted.'),
-      '2012-2025': marineDieselSpec('Yanmar 4JH40/45/57 — 4-cylinder marine diesel (2.2L, 39-57 hp)',
+      '2012-2026': marineDieselSpec('Yanmar 4JH40/45/57 — 4-cylinder marine diesel (2.2L, 39-57 hp)',
         '15W-40 (API CF-4/CG-4/CH-4/CJ-4 — Yanmar Marine Engine Oil or equivalent)',
         "Consult owner's manual",
         'Yanmar — no OBD-II; check engine/ECS panel alarms; dealer diagnostics via CAN where fitted.')
     },
     '6ly': {
-      '2005-2025': marineDieselSpec('Yanmar 6LY/6LY2/6LY3 — 6-cylinder marine diesel (8.1L, up to 440 hp ratings)',
+      '2005-2026': marineDieselSpec('Yanmar 6LY/6LY2/6LY3 — 6-cylinder marine diesel (8.1L, up to 440 hp ratings)',
         '15W-40 (API CF-4/CG-4/CH-4/CJ-4 — Yanmar Marine Engine Oil or equivalent)',
         "Consult owner's manual",
         'Yanmar — no OBD-II; check engine/ECS panel alarms; dealer diagnostics via CAN where fitted.')
     },
     '6cx': {
-      '2005-2025': marineDieselSpec('Yanmar 6CX-GT/GTE — 6-cylinder marine diesel (480-600 hp ratings)',
+      '2005-2026': marineDieselSpec('Yanmar 6CX-GT/GTE — 6-cylinder marine diesel (480-600 hp ratings)',
         '15W-40 (API CF-4/CG-4/CH-4/CJ-4 — Yanmar Marine Engine Oil or equivalent)',
         "Consult owner's manual",
         'Yanmar — no OBD-II; check engine/ECS panel alarms; dealer diagnostics via CAN where fitted.')
     },
     '8lv': {
-      '2014-2025': marineDieselSpec('Yanmar 8LV — 8.9L V8 common-rail marine diesel (250-440 hp ratings)',
+      '2014-2026': marineDieselSpec('Yanmar 8LV — 8.9L V8 common-rail marine diesel (250-440 hp ratings)',
         '15W-40 (API CJ-4 — Yanmar original or equivalent)',
         "Consult owner's manual",
         'Yanmar — no OBD-II; check engine/ECS panel alarms; dealer diagnostics via CAN where fitted.')
@@ -4407,37 +4407,37 @@ const wave6Specs = {
   },
   'polaris': {
     'sportsman 570': {
-      '2014-2025': polarisSpec('Polaris Sportsman 570 — 567cc single-cylinder ProStar (44 hp)',
+      '2014-2026': polarisSpec('Polaris Sportsman 570 — 567cc single-cylinder ProStar (44 hp)',
         'Polaris PS-4 full-synthetic 5W-50 (equivalents: 5W-50 full synthetic, e.g., AMSOIL/Mobil 1)',
         'approx 2 qt (verify in manual)',
         7, 7, ['26x8-12 front / 26x10-12 rear (common)'], 55)
     },
     'sportsman 850': {
-      '2016-2025': polarisSpec('Polaris Sportsman 850 — 850cc twin-cylinder ProStar (78 hp)',
+      '2016-2026': polarisSpec('Polaris Sportsman 850 — 850cc twin-cylinder ProStar (78 hp)',
         'Polaris PS-4 full-synthetic 5W-50 (equivalents: 5W-50 full synthetic, e.g., AMSOIL/Mobil 1)',
         'approx 2 qt (verify in manual)',
         7, 7, ["Consult owner's manual (27x9-12 front / 27x11-12 rear typical)"], 55)
     },
     'rzr 1000': {
-      '2014-2025': polarisSpec('Polaris RZR XP 1000 — 999cc twin-cylinder ProStar (100 hp)',
+      '2014-2026': polarisSpec('Polaris RZR XP 1000 — 999cc twin-cylinder ProStar (100 hp)',
         'Polaris PS-4 full-synthetic 5W-50 (equivalents: 5W-50 full synthetic, e.g., AMSOIL/Mobil 1)',
         "Consult owner's manual",
         15, 15, ['29x9-14 front / 29x11-14 rear (XP 1000)'], 80)
     },
     'rzr turbo r': {
-      '2022-2025': polarisSpec('Polaris RZR Turbo R — 225 hp turbocharged ProStar engine (launched 2022)',
+      '2022-2026': polarisSpec('Polaris RZR Turbo R — 225 hp turbocharged ProStar engine (launched 2022)',
         'Polaris PS-4 full-synthetic 5W-50 (equivalents: 5W-50 full synthetic, e.g., AMSOIL/Mobil 1)',
         "Consult owner's manual",
         15, 15, ['32x10-15 front / 32x12-15 rear (Turbo R)'], 80)
     },
     'general 1000': {
-      '2016-2025': polarisSpec('Polaris General 1000 — 999cc twin-cylinder ProStar (100 hp), launched 2016',
+      '2016-2026': polarisSpec('Polaris General 1000 — 999cc twin-cylinder ProStar (100 hp), launched 2016',
         'Polaris PS-4 full-synthetic 5W-50 (equivalents: 5W-50 full synthetic, e.g., AMSOIL/Mobil 1)',
         "Consult owner's manual",
         15, 15, ['30x9-14 front / 30x11-14 rear (typical)'], 80)
     },
     'ranger 1000': {
-      '2014-2025': polarisSpec('Polaris Ranger XP 1000 — 999cc twin-cylinder ProStar (100 hp)',
+      '2014-2026': polarisSpec('Polaris Ranger XP 1000 — 999cc twin-cylinder ProStar (100 hp)',
         'Polaris PS-4 full-synthetic 5W-50 (equivalents: 5W-50 full synthetic, e.g., AMSOIL/Mobil 1)',
         "Consult owner's manual",
         15, 15, ['27x9-12 front / 27x11-12 rear (typical)'], 80)
@@ -4498,26 +4498,26 @@ const wave7Specs = {
   'hyster electric': {}
 };
 for (const model of ['l3301', 'l3901', 'l4701']) {
-  wave7Specs.kubota[model] = { '2005-2013': agSpec('Kubota L Series — diesel compact utility tractor', '15W-40 diesel oil', 'Kubota Super UDT2 or equivalent UTF'), '2014-2025': agSpec('Kubota L Series — diesel compact utility tractor', '15W-40 diesel oil', 'Kubota Super UDT2 or equivalent UTF') };
+  wave7Specs.kubota[model] = { '2005-2013': agSpec('Kubota L Series — diesel compact utility tractor', '15W-40 diesel oil', 'Kubota Super UDT2 or equivalent UTF'), '2014-2026': agSpec('Kubota L Series — diesel compact utility tractor', '15W-40 diesel oil', 'Kubota Super UDT2 or equivalent UTF') };
 }
 for (const model of ['m5', 'm6', 'm7']) {
-  wave7Specs.kubota[model] = { '2005-2013': agSpec('Kubota M Series — diesel utility/agricultural tractor', '15W-40 diesel oil', 'Kubota Super UDT2 or equivalent UTF'), '2014-2025': agSpec('Kubota M Series — diesel utility/agricultural tractor', '15W-40 diesel oil', 'Kubota Super UDT2 or equivalent UTF') };
+  wave7Specs.kubota[model] = { '2005-2013': agSpec('Kubota M Series — diesel utility/agricultural tractor', '15W-40 diesel oil', 'Kubota Super UDT2 or equivalent UTF'), '2014-2026': agSpec('Kubota M Series — diesel utility/agricultural tractor', '15W-40 diesel oil', 'Kubota Super UDT2 or equivalent UTF') };
 }
 for (const model of ['bx1880', 'bx2380', 'bx2680']) {
-  wave7Specs.kubota[model] = { '2005-2013': agSpec('Kubota BX Series — diesel sub-compact tractor', '15W-40 diesel oil', 'Kubota Super UDT2 or equivalent UTF'), '2014-2025': agSpec('Kubota BX Series — diesel sub-compact tractor', '15W-40 diesel oil', 'Kubota Super UDT2 or equivalent UTF') };
+  wave7Specs.kubota[model] = { '2005-2013': agSpec('Kubota BX Series — diesel sub-compact tractor', '15W-40 diesel oil', 'Kubota Super UDT2 or equivalent UTF'), '2014-2026': agSpec('Kubota BX Series — diesel sub-compact tractor', '15W-40 diesel oil', 'Kubota Super UDT2 or equivalent UTF') };
 }
 for (const model of ['yt235', 'yt347', 'yt359']) {
-  wave7Specs['yanmar tractor'][model] = { '2005-2015': agSpec('Yanmar YT Series — diesel compact tractor', '15W-40 diesel oil', 'Yanmar UDT or equivalent UTF'), '2016-2025': agSpec('Yanmar YT Series — diesel compact tractor', '15W-40 diesel oil', 'Yanmar UDT or equivalent UTF') };
+  wave7Specs['yanmar tractor'][model] = { '2005-2015': agSpec('Yanmar YT Series — diesel compact tractor', '15W-40 diesel oil', 'Yanmar UDT or equivalent UTF'), '2016-2026': agSpec('Yanmar YT Series — diesel compact tractor', '15W-40 diesel oil', 'Yanmar UDT or equivalent UTF') };
 }
 for (const model of ['sa223', 'sa325', 'sa425']) {
-  wave7Specs['yanmar tractor'][model] = { '2005-2015': agSpec('Yanmar SA Series — diesel compact tractor', '15W-40 diesel oil', 'Yanmar UDT or equivalent UTF'), '2016-2025': agSpec('Yanmar SA Series — diesel compact tractor', '15W-40 diesel oil', 'Yanmar UDT or equivalent UTF') };
+  wave7Specs['yanmar tractor'][model] = { '2005-2015': agSpec('Yanmar SA Series — diesel compact tractor', '15W-40 diesel oil', 'Yanmar UDT or equivalent UTF'), '2016-2026': agSpec('Yanmar SA Series — diesel compact tractor', '15W-40 diesel oil', 'Yanmar UDT or equivalent UTF') };
 }
-for (const model of ['3032e', '3038e']) wave7Specs['john deere'][model] = { '2005-2012': agSpec('John Deere 3 Series — diesel compact utility tractor', '15W-40 diesel oil', 'John Deere Hy-Gard'), '2013-2025': agSpec('John Deere 3 Series — diesel compact utility tractor', '15W-40 diesel oil', 'John Deere Hy-Gard') };
-for (const model of ['4044m', '4066m']) wave7Specs['john deere'][model] = { '2015-2020': agSpec('John Deere 4M Series — diesel utility tractor', '15W-40 diesel oil', 'John Deere Hy-Gard'), '2021-2025': agSpec('John Deere 4M Series — diesel utility tractor', '15W-40 diesel oil', 'John Deere Hy-Gard') };
-for (const model of ['5075e', '5100e']) wave7Specs['john deere'][model] = { '2005-2016': agSpec('John Deere 5E Series — diesel utility tractor', '15W-40 diesel oil', 'John Deere Hy-Gard'), '2017-2025': agSpec('John Deere 5E Series — diesel utility tractor', '15W-40 diesel oil', 'John Deere Hy-Gard') };
-for (const model of ['6110m', '6140m']) wave7Specs['john deere'][model] = { '2012-2019': agSpec('John Deere 6M Series — diesel row-crop/utility tractor', '15W-40 diesel oil', 'John Deere Hy-Gard'), '2020-2025': agSpec('John Deere 6M Series — diesel row-crop/utility tractor', '15W-40 diesel oil', 'John Deere Hy-Gard') };
-for (const model of ['h40-60ft', 'h70-110ft', 's40-70ft', 'h50ct']) wave7Specs.hyster[model] = { '2005-2014': forkliftSpec('Hyster internal-combustion counterbalanced forklift — diesel/LP configuration varies by model', 'diesel/LP'), '2015-2025': forkliftSpec('Hyster internal-combustion counterbalanced forklift — diesel/LP configuration varies by model', 'diesel/LP') };
-for (const model of ['j30-40xnt', 'e30-50xn']) wave7Specs['hyster electric'][model] = { '2005-2014': forkliftSpec('Hyster electric forklift — lead-acid traction battery; voltage/capacity varies by truck configuration', 'electric'), '2015-2025': forkliftSpec('Hyster electric forklift — lead-acid traction battery; voltage/capacity varies by truck configuration', 'electric') };
+for (const model of ['3032e', '3038e']) wave7Specs['john deere'][model] = { '2005-2012': agSpec('John Deere 3 Series — diesel compact utility tractor', '15W-40 diesel oil', 'John Deere Hy-Gard'), '2013-2026': agSpec('John Deere 3 Series — diesel compact utility tractor', '15W-40 diesel oil', 'John Deere Hy-Gard') };
+for (const model of ['4044m', '4066m']) wave7Specs['john deere'][model] = { '2015-2020': agSpec('John Deere 4M Series — diesel utility tractor', '15W-40 diesel oil', 'John Deere Hy-Gard'), '2021-2026': agSpec('John Deere 4M Series — diesel utility tractor', '15W-40 diesel oil', 'John Deere Hy-Gard') };
+for (const model of ['5075e', '5100e']) wave7Specs['john deere'][model] = { '2005-2016': agSpec('John Deere 5E Series — diesel utility tractor', '15W-40 diesel oil', 'John Deere Hy-Gard'), '2017-2026': agSpec('John Deere 5E Series — diesel utility tractor', '15W-40 diesel oil', 'John Deere Hy-Gard') };
+for (const model of ['6110m', '6140m']) wave7Specs['john deere'][model] = { '2012-2019': agSpec('John Deere 6M Series — diesel row-crop/utility tractor', '15W-40 diesel oil', 'John Deere Hy-Gard'), '2020-2026': agSpec('John Deere 6M Series — diesel row-crop/utility tractor', '15W-40 diesel oil', 'John Deere Hy-Gard') };
+for (const model of ['h40-60ft', 'h70-110ft', 's40-70ft', 'h50ct']) wave7Specs.hyster[model] = { '2005-2014': forkliftSpec('Hyster internal-combustion counterbalanced forklift — diesel/LP configuration varies by model', 'diesel/LP'), '2015-2026': forkliftSpec('Hyster internal-combustion counterbalanced forklift — diesel/LP configuration varies by model', 'diesel/LP') };
+for (const model of ['j30-40xnt', 'e30-50xn']) wave7Specs['hyster electric'][model] = { '2005-2014': forkliftSpec('Hyster electric forklift — lead-acid traction battery; voltage/capacity varies by truck configuration', 'electric'), '2015-2026': forkliftSpec('Hyster electric forklift — lead-acid traction battery; voltage/capacity varies by truck configuration', 'electric') };
 for (const [make, models] of Object.entries(wave7Specs)) {
   referenceSpecs[make] = referenceSpecs[make] || {};
   for (const [model, years] of Object.entries(models)) referenceSpecs[make][model] = { ...referenceSpecs[make][model], ...years };
@@ -4594,7 +4594,7 @@ const semiModels = {
   'western star': { '49x': ['Detroit DD13/DD15/DD16', '15W-40 CK-4 diesel oil', 'Detroit DT12 AMT / Eaton Fuller manual'], '47x': ['Detroit DD13/DD15', '15W-40 CK-4 diesel oil', 'Detroit DT12 AMT / Eaton Fuller manual'], '5700xe': ['Detroit DD13/DD15/DD16', '15W-40 diesel oil', 'Detroit DT12 AMT / Eaton Fuller manual'] }
 };
 for (const [make, models] of Object.entries(semiModels)) for (const [model, [engine, oil, trans]] of Object.entries(models)) {
-  wave8Specs[make][model] = { '2005-2014': semiSpec(engine, oil, trans, '2005-2014'), '2015-2025': semiSpec(engine, oil, trans, '2015-2025') };
+  wave8Specs[make][model] = { '2005-2014': semiSpec(engine, oil, trans, '2005-2014'), '2015-2026': semiSpec(engine, oil, trans, '2015-2025') };
 }
 const rvModels = {
   winnebago: { vista: ['Ford Triton V10 gasoline / Ford 7.3L V8', '5W-20/5W-30 Ford synthetic blend', 'Ford 6-speed automatic', 'Onan gasoline generator oil'], 'minnie winnie': ['Ford Triton V10 or Chevrolet 6.0L/8.1L Vortec gasoline', '5W-20/5W-30 chassis oil', 'Ford/GM automatic', 'Onan gasoline generator oil'], 'view/navion': ['Mercedes OM642 diesel / Mercedes 3.0L diesel', '5W-30 MB diesel oil', 'Mercedes 5-speed/7-speed automatic', 'Onan diesel generator oil'], travato: ['Chrysler Pentastar V6 gasoline / Ram ProMaster chassis', '5W-20 synthetic blend', 'Chrysler automatic', 'Onan gasoline generator oil'], revel: ['Mercedes OM642 3.0L diesel', '5W-30 MB diesel oil', 'Mercedes 9-speed automatic', 'Onan diesel generator oil'] },
@@ -4606,7 +4606,7 @@ const rvModels = {
   'grand design': { reflection: ['Tow vehicle-dependent; no engine/transmission in fifth wheel', 'N/A — no chassis engine', 'N/A — fifth wheel', 'N/A or consult generator manual'], solitude: ['Tow vehicle-dependent; no engine/transmission in fifth wheel', 'N/A — no chassis engine', 'N/A — fifth wheel', 'N/A or consult generator manual'], momentum: ['Tow vehicle-dependent; no engine/transmission in fifth wheel', 'N/A — no chassis engine', 'N/A — fifth wheel', 'N/A or consult generator manual'], imagine: ['Tow vehicle-dependent; no engine/transmission in travel trailer', 'N/A — no chassis engine', 'N/A — travel trailer', 'N/A or consult generator manual'], transcend: ['Tow vehicle-dependent; no engine/transmission in travel trailer', 'N/A — no chassis engine', 'N/A — travel trailer', 'N/A or consult generator manual'] }
 };
 for (const [make, models] of Object.entries(rvModels)) for (const [model, [engine, oil, trans, gen]] of Object.entries(models)) {
-  wave8Specs[make][model] = { '2005-2014': rvSpec(engine, oil, trans, gen, '2005-2014'), '2015-2025': rvSpec(engine, oil, trans, gen, '2015-2025') };
+  wave8Specs[make][model] = { '2005-2014': rvSpec(engine, oil, trans, gen, '2005-2014'), '2015-2026': rvSpec(engine, oil, trans, gen, '2015-2025') };
 }
 // Correct OEM naming typo while retaining normalized lookup keys.
 for (const [make, models] of Object.entries(wave8Specs)) { referenceSpecs[make] = referenceSpecs[make] || {}; for (const [model, years] of Object.entries(models)) referenceSpecs[make][model] = { ...referenceSpecs[make][model], ...years }; }
@@ -5331,7 +5331,7 @@ const wave10Spec = ({ engine, oil = consult, sparkPlugs = SPARK_PLUG_DEFAULT, oi
 });
 const wave10EV = (engine, transmission, note) => wave10Spec({ engine: `${engine} EV — no engine oil or oil filter service`, oil: 'N/A — full battery electric vehicle; no engine oil change', oilCapacity: 'N/A — no internal-combustion engine', transmission, note, brake: 'DOT 4' });
 const wave10Specs = {
-  chrysler: { pacifica: { '2017-2025': wave10Spec({ engine: '3.6L Pentastar V6 gasoline / 3.6L Pentastar V6 plug-in hybrid', oil: '0W-20 full synthetic', oilCapacity: '5.0 qt with filter (gasoline); PHEV consult owner\'s manual', transmission: 'Mopar ZF 9-speed automatic; PHEV electronically variable transmission', tires: ['235/65R17', '235/60R18', '245/50R20'], psi: 36, note: 'FWD or AWD gasoline models; PHEV is front-wheel drive.' }) } },
+  chrysler: { pacifica: { '2017-2026': wave10Spec({ engine: '3.6L Pentastar V6 gasoline / 3.6L Pentastar V6 plug-in hybrid', oil: '0W-20 full synthetic', oilCapacity: '5.0 qt with filter (gasoline); PHEV consult owner\'s manual', transmission: 'Mopar ZF 9-speed automatic; PHEV electronically variable transmission', tires: ['235/65R17', '235/60R18', '245/50R20'], psi: 36, note: 'FWD or AWD gasoline models; PHEV is front-wheel drive.' }) } },
   pontiac: {
     solstice: { '2006-2010': wave10Spec({ engine: '2.4L Ecotec I4; 2.0L turbocharged Ecotec I4 (GXP)', oil: '5W-30', oilCapacity: '5.0 qt with filter', transmission: '5-speed manual or 5-speed automatic', tires: ['225/50R18', '245/45R18 (GXP)'], psi: 30, note: 'Rear-wheel drive.' }) },
     g8: { '2008-2009': wave10Spec({ engine: '3.6L V6; 6.0L LS2 V8 (GXP)', oil: '5W-30', oilCapacity: '6.0 qt with filter (V6); 6.0 qt with filter (V8)', transmission: '5L40E 5-speed automatic (V6) / 6L80 6-speed automatic or 6-speed manual (V8)', tires: ['245/45R18', '245/40R19 (GXP)'], psi: 35, note: 'Rear-wheel drive; Holden Commodore platform.' }) },
@@ -5340,15 +5340,15 @@ const wave10Specs = {
   },
   mitsubishi: { lancer: { '2008-2017': wave10Spec({ engine: '2.0L or 2.4L I4 (Lancer Evolution is separate)', oil: '5W-20 or 5W-30', oilCapacity: '4.5 qt with filter', transmission: 'CVT or 5-speed manual', tires: ['205/60R16', '215/45R18'], psi: 32, note: 'Front-wheel drive or AWD depending on trim; Evolution specifications differ.' }) } },
   dodge: { 'grand caravan': { '2008-2020': wave10Spec({ engine: '3.6L Pentastar V6 (2011-2020); 3.3L/3.8L V6 (2008-2010)', oil: '5W-20 (3.6L)', oilCapacity: '5.9 qt with filter (3.6L)', transmission: '62TE 6-speed automatic', tires: ['225/65R17', '235/60R16'], psi: 36, note: 'Front-wheel drive.' }) } },
-  jeep: { 'grand wagoneer': { '2022-2025': wave10Spec({ engine: '6.4L HEMI V8; 3.0L Hurricane twin-turbo I6', oil: '0W-40 full synthetic (6.4L); 0W-30 (3.0L Hurricane)', oilCapacity: '7.0 qt with filter (6.4L); consult owner\'s manual (3.0L)', transmission: 'ZF 8HP75 8-speed automatic', tires: ['265/65R18', '275/55R20', '285/45R22'], psi: 36, note: 'Four-wheel drive.' }) } },
-  hyundai: { 'ioniq 5': { '2022-2025': wave10EV('Hyundai Ioniq 5 58/77.4 kWh battery, RWD or AWD', 'Single-speed electric gear reduction unit; Hyundai EV reduction gear oil', 'No engine oil, transmission fluid, spark plugs, or exhaust service. Reduction-unit fluid is vehicle-specific.') }, 'santa cruz': { '2022-2025': wave10Spec({ engine: '2.5L I4; 2.5L turbocharged I4', oil: '0W-20 (2.5L); 0W-30 (turbo)', oilCapacity: '5.1 qt with filter (2.5L); consult owner\'s manual (turbo)', transmission: '8-speed automatic or 8-speed wet dual-clutch automatic', tires: ['245/60R18', '245/50R20'], psi: 35, note: 'FWD or HTRAC AWD.' }) } },
-  nissan: { armada: { '2017-2025': wave10Spec({ engine: '5.6L Endurance V8', oil: '0W-20 full synthetic', oilCapacity: '6.9 qt with filter', transmission: '7-speed automatic', tires: ['275/60R20', '275/50R22'], psi: 35, note: 'RWD or 4WD.' }) }, leaf: { '2011-2025': wave10EV('Nissan LEAF 24/30/40/62 kWh battery, front-wheel drive', 'Single-speed electric gear reduction unit; Nissan Genuine Matic S or specified reduction gear fluid', 'No engine oil or conventional transmission service; reduction gear fluid and battery cooling/brake systems follow the owner\'s manual.') } },
-  mazda: { mazda3: { '2014-2025': wave10Spec({ engine: '2.0L or 2.5L SKYACTIV-G I4; 2.5L turbocharged SKYACTIV-G', oil: '0W-20 (2.0L/2.5L); 5W-30 (2.5L turbo where specified)', oilCapacity: '4.5 qt with filter (2.0L); 5.0 qt with filter (2.5L)', transmission: '6-speed SKYACTIV-Drive automatic or 6-speed manual', tires: ['205/60R16', '215/45R18', '215/50R18'], psi: 36, note: 'FWD or AWD depending on year/trim.' }) } },
-  volkswagen: { 'id.4': { '2021-2025': wave10EV('Volkswagen ID.4 battery electric motor, RWD or AWD', 'Single-speed electric drive gearbox; VW-approved gear oil', 'No engine oil, oil filter, spark plug, or conventional transmission service.') } },
-  gmc: { sierra: { '2019-2025': wave10Spec({ engine: '2.7L turbo I4; 5.3L/6.2L V8; 3.0L Duramax turbo-diesel I6', oil: '0W-20 (gasoline); dexosD 0W-20 or 5W-30 diesel — verify engine', oilCapacity: 'Consult owner\'s manual by engine', transmission: '8-speed or 10-speed automatic', tires: ['255/70R17', '275/60R20', '275/50R22'], psi: 35, note: '2WD or 4WD; engine-specific fluids and capacities vary.' }) } , yukon: { '2015-2025': wave10Spec({ engine: '5.3L/6.2L V8; 3.0L Duramax turbo-diesel I6 (2021+)', oil: '0W-20 gasoline; diesel specification varies by model year', oilCapacity: 'Consult owner\'s manual by engine', transmission: '6-speed automatic (earlier) or 10-speed automatic', tires: ['265/65R18', '275/55R20', '275/50R22'], psi: 35, note: '2WD or 4WD; engine-specific fluids and capacities vary.' }) } },
-  lexus: { nx: { '2015-2025': wave10Spec({ engine: 'NX 250/350 2.5L I4; NX 350 2.4L turbo; NX 350h hybrid; NX 450h+ plug-in hybrid', oil: '0W-16 or 0W-20 depending on engine', oilCapacity: 'Consult owner\'s manual by engine', transmission: '8-speed automatic (gas); eCVT (hybrid and plug-in hybrid)', tires: ['225/65R17', '235/60R18', '235/50R20'], psi: 35, note: 'FWD/AWD availability varies by powertrain and year.' }) } },
-  acura: { integra: { '2023-2025': wave10Spec({ engine: '1.5L turbocharged I4; 2.0L turbocharged I4 (Type S)', oil: '0W-20', oilCapacity: '4.8 qt with filter (1.5L); consult owner\'s manual (Type S)', transmission: 'CVT or 6-speed manual (Type S)', tires: ['235/40R18', '265/30ZR19 (Type S)'], psi: 35, note: 'Front-wheel drive.' }) } },
-  kia: { k5: { '2021-2025': wave10Spec({ engine: '1.6L turbocharged I4; 2.5L turbocharged I4 (GT)', oil: '0W-20', oilCapacity: '5.5 qt with filter (1.6L); 6.0 qt with filter (2.5L)', transmission: '8-speed automatic or 8-speed wet dual-clutch automatic (GT)', tires: ['235/45R18', '245/40R19'], psi: 35, note: 'FWD or AWD depending on trim.' }) } }
+  jeep: { 'grand wagoneer': { '2022-2026': wave10Spec({ engine: '6.4L HEMI V8; 3.0L Hurricane twin-turbo I6', oil: '0W-40 full synthetic (6.4L); 0W-30 (3.0L Hurricane)', oilCapacity: '7.0 qt with filter (6.4L); consult owner\'s manual (3.0L)', transmission: 'ZF 8HP75 8-speed automatic', tires: ['265/65R18', '275/55R20', '285/45R22'], psi: 36, note: 'Four-wheel drive.' }) } },
+  hyundai: { 'ioniq 5': { '2022-2026': wave10EV('Hyundai Ioniq 5 58/77.4 kWh battery, RWD or AWD', 'Single-speed electric gear reduction unit; Hyundai EV reduction gear oil', 'No engine oil, transmission fluid, spark plugs, or exhaust service. Reduction-unit fluid is vehicle-specific.') }, 'santa cruz': { '2022-2026': wave10Spec({ engine: '2.5L I4; 2.5L turbocharged I4', oil: '0W-20 (2.5L); 0W-30 (turbo)', oilCapacity: '5.1 qt with filter (2.5L); consult owner\'s manual (turbo)', transmission: '8-speed automatic or 8-speed wet dual-clutch automatic', tires: ['245/60R18', '245/50R20'], psi: 35, note: 'FWD or HTRAC AWD.' }) } },
+  nissan: { armada: { '2017-2026': wave10Spec({ engine: '5.6L Endurance V8', oil: '0W-20 full synthetic', oilCapacity: '6.9 qt with filter', transmission: '7-speed automatic', tires: ['275/60R20', '275/50R22'], psi: 35, note: 'RWD or 4WD.' }) }, leaf: { '2011-2026': wave10EV('Nissan LEAF 24/30/40/62 kWh battery, front-wheel drive', 'Single-speed electric gear reduction unit; Nissan Genuine Matic S or specified reduction gear fluid', 'No engine oil or conventional transmission service; reduction gear fluid and battery cooling/brake systems follow the owner\'s manual.') } },
+  mazda: { mazda3: { '2014-2026': wave10Spec({ engine: '2.0L or 2.5L SKYACTIV-G I4; 2.5L turbocharged SKYACTIV-G', oil: '0W-20 (2.0L/2.5L); 5W-30 (2.5L turbo where specified)', oilCapacity: '4.5 qt with filter (2.0L); 5.0 qt with filter (2.5L)', transmission: '6-speed SKYACTIV-Drive automatic or 6-speed manual', tires: ['205/60R16', '215/45R18', '215/50R18'], psi: 36, note: 'FWD or AWD depending on year/trim.' }) } },
+  volkswagen: { 'id.4': { '2021-2026': wave10EV('Volkswagen ID.4 battery electric motor, RWD or AWD', 'Single-speed electric drive gearbox; VW-approved gear oil', 'No engine oil, oil filter, spark plug, or conventional transmission service.') } },
+  gmc: { sierra: { '2019-2026': wave10Spec({ engine: '2.7L turbo I4; 5.3L/6.2L V8; 3.0L Duramax turbo-diesel I6', oil: '0W-20 (gasoline); dexosD 0W-20 or 5W-30 diesel — verify engine', oilCapacity: 'Consult owner\'s manual by engine', transmission: '8-speed or 10-speed automatic', tires: ['255/70R17', '275/60R20', '275/50R22'], psi: 35, note: '2WD or 4WD; engine-specific fluids and capacities vary.' }) } , yukon: { '2015-2026': wave10Spec({ engine: '5.3L/6.2L V8; 3.0L Duramax turbo-diesel I6 (2021+)', oil: '0W-20 gasoline; diesel specification varies by model year', oilCapacity: 'Consult owner\'s manual by engine', transmission: '6-speed automatic (earlier) or 10-speed automatic', tires: ['265/65R18', '275/55R20', '275/50R22'], psi: 35, note: '2WD or 4WD; engine-specific fluids and capacities vary.' }) } },
+  lexus: { nx: { '2015-2026': wave10Spec({ engine: 'NX 250/350 2.5L I4; NX 350 2.4L turbo; NX 350h hybrid; NX 450h+ plug-in hybrid', oil: '0W-16 or 0W-20 depending on engine', oilCapacity: 'Consult owner\'s manual by engine', transmission: '8-speed automatic (gas); eCVT (hybrid and plug-in hybrid)', tires: ['225/65R17', '235/60R18', '235/50R20'], psi: 35, note: 'FWD/AWD availability varies by powertrain and year.' }) } },
+  acura: { integra: { '2023-2026': wave10Spec({ engine: '1.5L turbocharged I4; 2.0L turbocharged I4 (Type S)', oil: '0W-20', oilCapacity: '4.8 qt with filter (1.5L); consult owner\'s manual (Type S)', transmission: 'CVT or 6-speed manual (Type S)', tires: ['235/40R18', '265/30ZR19 (Type S)'], psi: 35, note: 'Front-wheel drive.' }) } },
+  kia: { k5: { '2021-2026': wave10Spec({ engine: '1.6L turbocharged I4; 2.5L turbocharged I4 (GT)', oil: '0W-20', oilCapacity: '5.5 qt with filter (1.6L); 6.0 qt with filter (2.5L)', transmission: '8-speed automatic or 8-speed wet dual-clutch automatic (GT)', tires: ['235/45R18', '245/40R19'], psi: 35, note: 'FWD or AWD depending on trim.' }) } }
 };
 for (const [make, models] of Object.entries(wave10Specs)) {
   referenceSpecs[make] = referenceSpecs[make] || {};
@@ -5383,7 +5383,7 @@ const wave11Spec = ({ engine, oil = consult, sparkPlugs = SPARK_PLUG_DEFAULT, oi
 const wave11Specs = {
   chevrolet: {
     camaro: {
-      '2016-2024': wave11Spec({
+      '2016-2026': wave11Spec({
         engine: '2.0L turbo I4 (2016-2023); 3.6L V6; 6.2L LT1 V8 (SS); 6.2L LT4 supercharged V8 (ZL1)',
         oil: '5W-30 dexos1 full synthetic (2.0T, 3.6L); 0W-40 dexos2 full synthetic (LT1/LT4)',
         oilCapacity: '5.0 qt w/filter (2.0T); 5.5 qt w/filter (3.6L); 10.0 qt w/filter (LT1/LT4) — approx',
@@ -5400,7 +5400,7 @@ const wave11Specs = {
   },
   ford: {
     bronco: {
-      '2021-2025': wave11Spec({
+      '2021-2026': wave11Spec({
         engine: '2.3L EcoBoost I4; 2.7L EcoBoost V6; 3.0L EcoBoost V6 (Raptor)',
         oil: '5W-30 full synthetic',
         oilCapacity: '6.0 qt w/filter (2.3L); 6.0 qt w/filter (2.7L); 6.0 qt w/filter (3.0L) — approx',
@@ -5417,7 +5417,7 @@ const wave11Specs = {
       })
     },
     ranger: {
-      '2019-2025': wave11Spec({
+      '2019-2026': wave11Spec({
         engine: '2.3L EcoBoost I4; 2.7L or 3.0L EcoBoost V6 (Raptor, 2024+)',
         oil: '5W-30 full synthetic',
         oilCapacity: '6.0 qt w/filter (2.3L); Raptor engines consult owner\'s manual',
@@ -5434,7 +5434,7 @@ const wave11Specs = {
       })
     },
     maverick: {
-      '2022-2025': wave11Spec({
+      '2022-2026': wave11Spec({
         engine: '2.5L hybrid I4 (eCVT) / 2.0L EcoBoost I4 (8-speed automatic)',
         oil: '0W-20 full synthetic (2.5L hybrid); 5W-30 full synthetic (2.0L EcoBoost)',
         oilCapacity: '5.0 qt w/filter (hybrid); 5.5 qt w/filter (EcoBoost) — approx',
@@ -5452,7 +5452,7 @@ const wave11Specs = {
   },
   toyota: {
     gr86: {
-      '2022-2025': wave11Spec({
+      '2022-2026': wave11Spec({
         engine: '2.4L FA24D boxer I4 (Subaru-built)',
         oil: '0W-20 full synthetic (5W-30 for track use)',
         oilCapacity: '5.4 qt w/filter',
@@ -5467,7 +5467,7 @@ const wave11Specs = {
       })
     },
     bz4x: {
-      '2023-2025': wave11Spec({
+      '2023-2026': wave11Spec({
         engine: 'EV — single front motor (FWD) or dual front+rear motors (AWD); 71.4 kWh lithium-ion battery',
         oil: 'N/A — full battery electric; no engine oil change',
         oilCapacity: 'N/A — no internal-combustion engine',
@@ -5483,7 +5483,7 @@ const wave11Specs = {
   },
   international: {
     lt: {
-      '2017-2025': semiSpec('Cummins X15 or International A26 (LT series)', '15W-40 CJ-4/CK-4 diesel oil', 'Eaton Fuller 10/13/18-speed manual or Allison automatic', '2017-2025')
+      '2017-2026': semiSpec('Cummins X15 or International A26 (LT series)', '15W-40 CJ-4/CK-4 diesel oil', 'Eaton Fuller 10/13/18-speed manual or Allison automatic', '2017-2025')
     }
   }
 };
@@ -5529,16 +5529,16 @@ const wave12MarineDieselSpec = (engineDescription, oilViscosity, oilCapacity) =>
 const wave12Specs = {
   kawasaki: {
     'stx 160': {
-      '2018-2025': wave12PwcSpec('Kawasaki STX 160 — 1.6L 4-stroke naturally aspirated marine engine (160 hp)', '10W-40 4-stroke marine oil', 'Jet pump final drive; use Kawasaki-specified gear oil and verify level/service interval.')
+      '2018-2026': wave12PwcSpec('Kawasaki STX 160 — 1.6L 4-stroke naturally aspirated marine engine (160 hp)', '10W-40 4-stroke marine oil', 'Jet pump final drive; use Kawasaki-specified gear oil and verify level/service interval.')
     },
     'sx-r': {
-      '2017-2025': wave12PwcSpec('Kawasaki SX-R — 1.5L 4-stroke stand-up PWC engine', '10W-40 4-stroke marine oil', 'Jet pump final drive; use Kawasaki-specified lubricant and verify service procedure.')
+      '2017-2026': wave12PwcSpec('Kawasaki SX-R — 1.5L 4-stroke stand-up PWC engine', '10W-40 4-stroke marine oil', 'Jet pump final drive; use Kawasaki-specified lubricant and verify service procedure.')
     }
   },
   cummins: {
-    qsb: { '2005-2025': wave12MarineDieselSpec('Cummins QSB 6.7 marine diesel', 'SAE 15W-40 CJ-4/CK-4', 'Approximately 19 qt; verify oil pan configuration in owner\'s manual') },
-    qsl: { '2005-2025': wave12MarineDieselSpec('Cummins QSL 9 marine diesel', 'SAE 15W-40 CJ-4/CK-4', 'Approximately 28 qt; verify oil pan configuration in owner\'s manual') },
-    qsx15: { '2005-2025': wave12MarineDieselSpec('Cummins QSX15 heavy-duty marine diesel', 'SAE 15W-40 CJ-4/CK-4', 'Approximately 44 qt; verify oil pan configuration in owner\'s manual') },
+    qsb: { '2005-2026': wave12MarineDieselSpec('Cummins QSB 6.7 marine diesel', 'SAE 15W-40 CJ-4/CK-4', 'Approximately 19 qt; verify oil pan configuration in owner\'s manual') },
+    qsl: { '2005-2026': wave12MarineDieselSpec('Cummins QSL 9 marine diesel', 'SAE 15W-40 CJ-4/CK-4', 'Approximately 28 qt; verify oil pan configuration in owner\'s manual') },
+    qsx15: { '2005-2026': wave12MarineDieselSpec('Cummins QSX15 heavy-duty marine diesel', 'SAE 15W-40 CJ-4/CK-4', 'Approximately 44 qt; verify oil pan configuration in owner\'s manual') },
     '6bta': { '1990-2006': wave12MarineDieselSpec('Cummins 6BTA 5.9 legacy mechanical-injection marine diesel', 'SAE 15W-40', 'Approximately 15 qt; verify engine configuration in owner\'s manual') },
     '6cta': { '1990-2006': wave12MarineDieselSpec('Cummins 6CTA 8.3 legacy mechanical-injection marine diesel', 'SAE 15W-40', 'Approximately 22 qt; verify engine configuration in owner\'s manual') }
   }
@@ -5610,33 +5610,33 @@ const jdGatorSpec = (engineDescription, fuelType) => ({
 const wave14Specs = {
   'john deere': {
     // R-series row-crop/utility tractors: diesel, Hy-Gard, IVT or PowerShift, 4WD.
-    '6r': { '2015-2025': agSpec('John Deere 6R Series — diesel row-crop/utility tractor; IVT or PowerShift', '15W-40 JD Plus-50 II diesel oil', 'John Deere Hy-Gard') },
-    '5r': { '2015-2025': agSpec('John Deere 5R Series — diesel compact utility tractor; IVT or PowerShift', '15W-40 JD Plus-50 II diesel oil', 'John Deere Hy-Gard') },
-    '7r': { '2015-2025': agSpec('John Deere 7R Series — diesel row-crop tractor; IVT or PowerShift', '15W-40 JD Plus-50 II diesel oil', 'John Deere Hy-Gard') },
-    '8r': { '2015-2025': agSpec('John Deere 8R Series — diesel row-crop tractor; IVT or PowerShift', '15W-40 JD Plus-50 II diesel oil', 'John Deere Hy-Gard') },
-    '9r': { '2015-2025': agSpec('John Deere 9R Series — diesel articulated/row-crop tractor; IVT or PowerShift', '15W-40 JD Plus-50 II diesel oil', 'John Deere Hy-Gard') },
+    '6r': { '2015-2026': agSpec('John Deere 6R Series — diesel row-crop/utility tractor; IVT or PowerShift', '15W-40 JD Plus-50 II diesel oil', 'John Deere Hy-Gard') },
+    '5r': { '2015-2026': agSpec('John Deere 5R Series — diesel compact utility tractor; IVT or PowerShift', '15W-40 JD Plus-50 II diesel oil', 'John Deere Hy-Gard') },
+    '7r': { '2015-2026': agSpec('John Deere 7R Series — diesel row-crop tractor; IVT or PowerShift', '15W-40 JD Plus-50 II diesel oil', 'John Deere Hy-Gard') },
+    '8r': { '2015-2026': agSpec('John Deere 8R Series — diesel row-crop tractor; IVT or PowerShift', '15W-40 JD Plus-50 II diesel oil', 'John Deere Hy-Gard') },
+    '9r': { '2015-2026': agSpec('John Deere 9R Series — diesel articulated/row-crop tractor; IVT or PowerShift', '15W-40 JD Plus-50 II diesel oil', 'John Deere Hy-Gard') },
     // 3/4/5 Series compact and utility tractors.
-    '3000': { '2015-2025': agSpec('John Deere 3 Series compact tractor — 3-cylinder Yanmar diesel; HST or gear', '15W-40 diesel oil', 'John Deere Hy-Gard') },
-    '3039r': { '2015-2025': agSpec('John Deere 3039R — 3-cylinder Yanmar diesel compact tractor; HST', '15W-40 diesel oil', 'John Deere Hy-Gard') },
-    '3046r': { '2015-2025': agSpec('John Deere 3046R — 3-cylinder Yanmar diesel compact tractor; HST', '15W-40 diesel oil', 'John Deere Hy-Gard') },
-    '4000': { '2015-2025': agSpec('John Deere 4 Series compact tractor — 4-cylinder diesel; HST or gear', '15W-40 diesel oil', 'John Deere Hy-Gard') },
-    '4105': { '2015-2025': agSpec('John Deere 4105 — 4-cylinder diesel compact utility tractor; gear drive', '15W-40 diesel oil', 'John Deere Hy-Gard') },
-    '4120': { '2015-2025': agSpec('John Deere 4120 — 4-cylinder diesel compact utility tractor; HST or gear', '15W-40 diesel oil', 'John Deere Hy-Gard') },
-    '4052m': { '2015-2025': agSpec('John Deere 4052M — 4-cylinder diesel compact utility tractor; HST', '15W-40 diesel oil', 'John Deere Hy-Gard') },
-    '5000': { '2015-2025': agSpec('John Deere 5 Series utility tractor — 3- or 4-cylinder diesel', '15W-40 diesel oil', 'John Deere Hy-Gard') },
-    '5045e': { '2015-2025': agSpec('John Deere 5045E — 3-cylinder diesel utility tractor', '15W-40 diesel oil', 'John Deere Hy-Gard') },
-    '5055e': { '2015-2025': agSpec('John Deere 5055E — 3-cylinder diesel utility tractor', '15W-40 diesel oil', 'John Deere Hy-Gard') },
-    '5065e': { '2015-2025': agSpec('John Deere 5065E — 3-cylinder diesel utility tractor', '15W-40 diesel oil', 'John Deere Hy-Gard') },
+    '3000': { '2015-2026': agSpec('John Deere 3 Series compact tractor — 3-cylinder Yanmar diesel; HST or gear', '15W-40 diesel oil', 'John Deere Hy-Gard') },
+    '3039r': { '2015-2026': agSpec('John Deere 3039R — 3-cylinder Yanmar diesel compact tractor; HST', '15W-40 diesel oil', 'John Deere Hy-Gard') },
+    '3046r': { '2015-2026': agSpec('John Deere 3046R — 3-cylinder Yanmar diesel compact tractor; HST', '15W-40 diesel oil', 'John Deere Hy-Gard') },
+    '4000': { '2015-2026': agSpec('John Deere 4 Series compact tractor — 4-cylinder diesel; HST or gear', '15W-40 diesel oil', 'John Deere Hy-Gard') },
+    '4105': { '2015-2026': agSpec('John Deere 4105 — 4-cylinder diesel compact utility tractor; gear drive', '15W-40 diesel oil', 'John Deere Hy-Gard') },
+    '4120': { '2015-2026': agSpec('John Deere 4120 — 4-cylinder diesel compact utility tractor; HST or gear', '15W-40 diesel oil', 'John Deere Hy-Gard') },
+    '4052m': { '2015-2026': agSpec('John Deere 4052M — 4-cylinder diesel compact utility tractor; HST', '15W-40 diesel oil', 'John Deere Hy-Gard') },
+    '5000': { '2015-2026': agSpec('John Deere 5 Series utility tractor — 3- or 4-cylinder diesel', '15W-40 diesel oil', 'John Deere Hy-Gard') },
+    '5045e': { '2015-2026': agSpec('John Deere 5045E — 3-cylinder diesel utility tractor', '15W-40 diesel oil', 'John Deere Hy-Gard') },
+    '5055e': { '2015-2026': agSpec('John Deere 5055E — 3-cylinder diesel utility tractor', '15W-40 diesel oil', 'John Deere Hy-Gard') },
+    '5065e': { '2015-2026': agSpec('John Deere 5065E — 3-cylinder diesel utility tractor', '15W-40 diesel oil', 'John Deere Hy-Gard') },
     // Gator utility vehicles: gasoline/diesel engine oil and CVT transaxle fluid.
-    'xuv': { '2015-2025': jdGatorSpec('John Deere Gator XUV utility vehicle', 'gasoline/diesel') },
-    'xuv825m': { '2015-2025': jdGatorSpec('John Deere Gator XUV825M — 812cc gasoline utility vehicle', 'gasoline') },
-    'xuv865m': { '2015-2025': jdGatorSpec('John Deere Gator XUV865M — diesel utility vehicle', 'diesel') },
-    'xuv590e': { '2015-2025': jdGatorSpec('John Deere Gator XUV590E — gasoline utility vehicle', 'gasoline') },
-    'xuv560e': { '2015-2025': jdGatorSpec('John Deere Gator XUV560E — gasoline utility vehicle', 'gasoline') },
-    'gator-xuv-835': { '2015-2025': jdGatorSpec('John Deere Gator XUV835 — gasoline utility vehicle', 'gasoline') },
-    'gator-hpx': { '2015-2025': jdGatorSpec('John Deere Gator HPX — gasoline/diesel utility vehicle', 'gasoline/diesel') },
-    'gator-te': { '2015-2025': jdGatorSpec('John Deere Gator TE — electric utility vehicle', 'electric') },
-    'gator-tx': { '2015-2025': jdGatorSpec('John Deere Gator TX — gasoline utility vehicle', 'gasoline') }
+    'xuv': { '2015-2026': jdGatorSpec('John Deere Gator XUV utility vehicle', 'gasoline/diesel') },
+    'xuv825m': { '2015-2026': jdGatorSpec('John Deere Gator XUV825M — 812cc gasoline utility vehicle', 'gasoline') },
+    'xuv865m': { '2015-2026': jdGatorSpec('John Deere Gator XUV865M — diesel utility vehicle', 'diesel') },
+    'xuv590e': { '2015-2026': jdGatorSpec('John Deere Gator XUV590E — gasoline utility vehicle', 'gasoline') },
+    'xuv560e': { '2015-2026': jdGatorSpec('John Deere Gator XUV560E — gasoline utility vehicle', 'gasoline') },
+    'gator-xuv-835': { '2015-2026': jdGatorSpec('John Deere Gator XUV835 — gasoline utility vehicle', 'gasoline') },
+    'gator-hpx': { '2015-2026': jdGatorSpec('John Deere Gator HPX — gasoline/diesel utility vehicle', 'gasoline/diesel') },
+    'gator-te': { '2015-2026': jdGatorSpec('John Deere Gator TE — electric utility vehicle', 'electric') },
+    'gator-tx': { '2015-2026': jdGatorSpec('John Deere Gator TX — gasoline utility vehicle', 'gasoline') }
   }
 };
 for (const [make, models] of Object.entries(wave14Specs)) {
@@ -5661,7 +5661,7 @@ const wave15Specs = { hyster: {} };
 const hysterModern = ['h50', 'h60', 'h70', 'h80', 'h100', 'h120', 's50', 's60', 's70'];
 for (const model of hysterModern) {
   wave15Specs.hyster[model] = {
-    '2000-2025': wave15ForkliftSpec(
+    '2000-2026': wave15ForkliftSpec(
       `Hyster ${model.toUpperCase()} internal-combustion counterbalanced forklift — LP gas or diesel configuration`,
       'SAE 10W-30 (LP gas) or SAE 15W-40 (diesel)',
       'Dexron III ATF or Hyster HTF powershift fluid',
@@ -5692,7 +5692,7 @@ for (const [make, models] of Object.entries(wave15Specs)) {
 const wave16Specs = {
   winnebago: {
     solis: {
-      '2020-2025': rvSpec(
+      '2020-2026': rvSpec(
         'Mercedes-Benz Sprinter chassis, 2.0L turbo-diesel',
         'MB 229.52 5W-30 full-synthetic diesel oil',
         'Mercedes-Benz 7G-Tronic automatic',
@@ -5701,7 +5701,7 @@ const wave16Specs = {
       )
     },
     ekko: {
-      '2022-2025': rvSpec(
+      '2022-2026': rvSpec(
         'Ford Transit AWD chassis, 3.5L EcoBoost V6 gasoline',
         '5W-30 full-synthetic Ford-spec oil',
         'Ford 10-speed automatic',
@@ -5712,7 +5712,7 @@ const wave16Specs = {
   },
   thor: {
     'four winds': {
-      '2015-2025': rvSpec(
+      '2015-2026': rvSpec(
         'Ford E-350/E-450 chassis, 7.3L Godzilla V8 or 6.8L Triton V10 gasoline',
         '5W-20/5W-30 chassis oil (engine and model year dependent)',
         'Ford TorqShift 6-speed automatic',
@@ -5721,7 +5721,7 @@ const wave16Specs = {
       )
     },
     tellaro: {
-      '2022-2025': rvSpec(
+      '2022-2026': rvSpec(
         'Ram ProMaster chassis, 3.6L Pentastar V6 gasoline',
         '0W-20 full-synthetic oil',
         'Ram 9-speed automatic, front-wheel drive',
@@ -5732,7 +5732,7 @@ const wave16Specs = {
   },
   airstream: {
     atlas: {
-      '2019-2025': rvSpec(
+      '2019-2026': rvSpec(
         'Mercedes-Benz Sprinter chassis, turbo-diesel',
         'MB 229.52 5W-30 full-synthetic diesel oil',
         'Mercedes-Benz 7G-Tronic/9G-Tronic automatic',
@@ -5741,7 +5741,7 @@ const wave16Specs = {
       )
     },
     bambi: {
-      '2015-2025': rvSpec(
+      '2015-2026': rvSpec(
         'Trailer — no engine or transmission. See tow vehicle specs.',
         'N/A — no chassis engine',
         'N/A — travel trailer',
@@ -5776,7 +5776,7 @@ const wave17Specs = {
           'Mercury SmartCraft / VesselView diagnostic connector under the cowl — dealer software; no OBD-II port.'),
         serviceUnit: 'hrs'
       },
-      '2015-2025': {
+      '2015-2026': {
         ...marineOutboardSpec(
           'Mercury Verado — supercharged 4-stroke outboard (3.4L V6 / 4.6L V8 generations, 200-400 hp)',
           'Mercury/Quicksilver 4-Stroke Outboard Oil SAE 10W-30 (NMMA FC-W certified)',
@@ -5788,7 +5788,7 @@ const wave17Specs = {
   },
   kubota: {
     lx3310: {
-      '2019-2025': agSpec(
+      '2019-2026': agSpec(
         'Kubota LX3310 — L Series compact utility tractor (D1703-M-E4 3-cylinder diesel; HST)',
         '15W-40 diesel oil (Kubota DH-1 spec)',
         'Kubota Super UDT2 or equivalent UTF')
@@ -5800,7 +5800,7 @@ const wave17Specs = {
         ...semiSpec('Volvo VNL — Volvo D13/D16 diesel (I-Shift AMT or manual)', 'Volvo VDS-4.5 15W-40 diesel oil', 'Volvo I-Shift AMT / Eaton Fuller manual', '2005-2014'),
         serviceUnit: 'hrs'
       },
-      '2015-2025': {
+      '2015-2026': {
         ...semiSpec('Volvo VNL — Volvo D13/D16 diesel (I-Shift AMT or manual)', 'Volvo VDS-4.5 15W-40 diesel oil', 'Volvo I-Shift AMT / Eaton Fuller manual', '2015-2025'),
         serviceUnit: 'hrs'
       }
@@ -5812,7 +5812,7 @@ const wave17Specs = {
         ...semiSpec('Western Star 4700 — Detroit DD13/DD15 diesel (DT12 AMT or manual)', '15W-40 CK-4 diesel oil', 'Detroit DT12 AMT / Eaton Fuller manual', '2005-2014'),
         serviceUnit: 'hrs'
       },
-      '2015-2025': {
+      '2015-2026': {
         ...semiSpec('Western Star 4700 — Detroit DD13/DD15 diesel (DT12 AMT or manual)', '15W-40 CK-4 diesel oil', 'Detroit DT12 AMT / Eaton Fuller manual', '2015-2025'),
         serviceUnit: 'hrs'
       }
@@ -5824,7 +5824,7 @@ const wave17Specs = {
         ...yamahaPwcSpec('Yamaha WaveRunner FX Cruiser / FX Cruiser HO — MR-1 1.0L 4-cylinder 4-stroke', 'Yamalube 4W 10W-40'),
         serviceUnit: 'hrs'
       },
-      '2020-2025': {
+      '2020-2026': {
         ...yamahaPwcSpec('Yamaha WaveRunner FX Cruiser / FX Cruiser HO — 1.8L HO 4-stroke', 'Yamalube 4W 10W-40'),
         serviceUnit: 'hrs'
       }
@@ -5833,7 +5833,7 @@ const wave17Specs = {
   'hyster electric': {
     e30: {
       '2005-2014': forkliftSpec('Hyster E30 electric forklift — 3,000 lb capacity; lead-acid traction battery; voltage/capacity varies by truck configuration', 'electric'),
-      '2015-2025': forkliftSpec('Hyster E30 electric forklift — 3,000 lb capacity; lead-acid traction battery; voltage/capacity varies by truck configuration', 'electric')
+      '2015-2026': forkliftSpec('Hyster E30 electric forklift — 3,000 lb capacity; lead-acid traction battery; voltage/capacity varies by truck configuration', 'electric')
     }
   },
   'john deere': {
@@ -5847,7 +5847,7 @@ const wave17Specs = {
   },
   polaris: {
     rzr: {
-      '2008-2025': polarisSpec(
+      '2008-2026': polarisSpec(
         'Polaris RZR — ProStar twin-cylinder 4-stroke side-by-side (570/900/XP 1000 and Turbo variants)',
         'Polaris PS-4 full-synthetic 5W-50 (equivalents: 5W-50 full synthetic, e.g., AMSOIL/Mobil 1)',
         "Consult owner's manual",
@@ -5855,7 +5855,7 @@ const wave17Specs = {
         ["Consult owner's manual (27-32 in tires per model)"], 80)
     },
     general: {
-      '2016-2025': polarisSpec(
+      '2016-2026': polarisSpec(
         'Polaris General — ProStar twin-cylinder 4-stroke side-by-side (1000/XP)',
         'Polaris PS-4 full-synthetic 5W-50 (equivalents: 5W-50 full synthetic, e.g., AMSOIL/Mobil 1)',
         "Consult owner's manual",
@@ -5863,14 +5863,14 @@ const wave17Specs = {
         ["Consult owner's manual (30 in tires typical)"], 80)
     },
     sportsman: {
-      '2005-2025': polarisSpec(
+      '2005-2026': polarisSpec(
         'Polaris Sportsman — 4-stroke ATV (450/570/850/1000, single- and twin-cylinder)',
         'Polaris PS-4 full-synthetic 5W-50 (equivalents: 5W-50 full synthetic, e.g., AMSOIL/Mobil 1)',
         "Consult owner's manual",
         7, 7, ["Consult owner's manual (26-27 in tires typical)"], 55)
     },
     ace: {
-      '2014-2025': polarisSpec(
+      '2014-2026': polarisSpec(
         'Polaris ACE — single-seat single-cylinder ProStar ORV (570/900)',
         'Polaris PS-4 full-synthetic 5W-50 (equivalents: 5W-50 full synthetic, e.g., AMSOIL/Mobil 1)',
         "Consult owner's manual",
@@ -5878,7 +5878,7 @@ const wave17Specs = {
         ["Consult owner's manual"], 55)
     },
     ranger: {
-      '2005-2025': polarisSpec(
+      '2005-2026': polarisSpec(
         'Polaris Ranger — ProStar twin-cylinder 4-stroke utility side-by-side (570/900/1000)',
         'Polaris PS-4 full-synthetic 5W-50 (equivalents: 5W-50 full synthetic, e.g., AMSOIL/Mobil 1)',
         "Consult owner's manual",
@@ -5902,34 +5902,34 @@ for (const [make, models] of Object.entries(wave17Specs)) {
 const SP = (type, gap, oemPN) => ({ type, gap, oemPN });
 const wave18SparkPlugs = {
   chevrolet: {
-    silverado: { '2014-2018': { sparkPlugs: SP('ACDelco 41-114 (Iridium \u2014 4.3L V6 / 5.3L V8 / 6.2L V8)', '0.040 in', 'ACDelco 41-114') }, '2019-2025': { sparkPlugs: SP('ACDelco 41-162 (Iridium \u2014 5.3L/6.2L V8) / ACDelco 41-106-IP (Iridium \u2014 2.7L Turbo) / ACDelco 41-114 (Iridium \u2014 4.3L V6)', '0.040"', 'ACDelco 41-162 / 41-106-IP / 41-114') } },
-    equinox: { '2018-2024': { sparkPlugs: SP('ACDelco Iridium', '0.040"', 'ACDelco 41-162') } }
+    silverado: { '2014-2018': { sparkPlugs: SP('ACDelco 41-114 (Iridium \u2014 4.3L V6 / 5.3L V8 / 6.2L V8)', '0.040 in', 'ACDelco 41-114') }, '2019-2026': { sparkPlugs: SP('ACDelco 41-162 (Iridium \u2014 5.3L/6.2L V8) / ACDelco 41-106-IP (Iridium \u2014 2.7L Turbo) / ACDelco 41-114 (Iridium \u2014 4.3L V6)', '0.040"', 'ACDelco 41-162 / 41-106-IP / 41-114') } },
+    equinox: { '2018-2026': { sparkPlugs: SP('ACDelco Iridium', '0.040"', 'ACDelco 41-162') } }
   },
-  gmc: { sierra: { '2014-2018': { sparkPlugs: SP('ACDelco 41-114 (Iridium \u2014 4.3L V6 / 5.3L V8 / 6.2L V8)', '0.040 in', 'ACDelco 41-114') }, '2019-2025': { sparkPlugs: SP('ACDelco 41-162 (Iridium \u2014 5.3L/6.2L V8) / ACDelco 41-106-IP (Iridium \u2014 2.7L Turbo) / ACDelco 41-114 (Iridium \u2014 4.3L V6)', '0.040"', 'ACDelco 41-162 / 41-106-IP / 41-114') } } },
+  gmc: { sierra: { '2014-2018': { sparkPlugs: SP('ACDelco 41-114 (Iridium \u2014 4.3L V6 / 5.3L V8 / 6.2L V8)', '0.040 in', 'ACDelco 41-114') }, '2019-2026': { sparkPlugs: SP('ACDelco 41-162 (Iridium \u2014 5.3L/6.2L V8) / ACDelco 41-106-IP (Iridium \u2014 2.7L Turbo) / ACDelco 41-114 (Iridium \u2014 4.3L V6)', '0.040"', 'ACDelco 41-162 / 41-106-IP / 41-114') } } },
   ford: {
-    'f-150': { '2015-2025': { sparkPlugs: SP('Motorcraft SP-580 (5.0L V8) / Motorcraft SP-594 (2.7L & 3.5L EcoBoost, PowerBoost hybrid) / Motorcraft SP-586 (3.3L V6)', '0.028-0.030"', 'Motorcraft SP-580 / SP-586 / SP-594') } },
-    escape: { '2013-2024': { sparkPlugs: SP('Motorcraft Iridium', '0.028-0.030"', 'Motorcraft SP-530') } },
-    explorer: { '2011-2024': { sparkPlugs: SP('Motorcraft SP-594 (2.3L EcoBoost) / Motorcraft SP-578 (3.0L EcoBoost)', '0.028-0.030"', 'Motorcraft SP-578 / SP-594') } }
+    'f-150': { '2015-2026': { sparkPlugs: SP('Motorcraft SP-580 (5.0L V8) / Motorcraft SP-594 (2.7L & 3.5L EcoBoost, PowerBoost hybrid) / Motorcraft SP-586 (3.3L V6)', '0.028-0.030"', 'Motorcraft SP-580 / SP-586 / SP-594') } },
+    escape: { '2013-2026': { sparkPlugs: SP('Motorcraft Iridium', '0.028-0.030"', 'Motorcraft SP-530') } },
+    explorer: { '2011-2026': { sparkPlugs: SP('Motorcraft SP-594 (2.3L EcoBoost) / Motorcraft SP-578 (3.0L EcoBoost)', '0.028-0.030"', 'Motorcraft SP-578 / SP-594') } }
   },
   toyota: {
-    camry: { '2012-2024': { sparkPlugs: SP('Denso Iridium Long Life', '0.043"', 'Denso 3474 / Toyota 90919-01253') } },
-    rav4: { '2013-2024': { sparkPlugs: SP('Denso Iridium Long Life', '0.043"', 'Denso 3474 / Toyota 90919-01253') } },
-    tacoma: { '2016-2024': { sparkPlugs: SP('Denso 3461 (Iridium \u2014 3.5L V6) / NGK BKR5EKB-11 or Denso K16HPR11 (2.7L I4)', '0.043-0.044"', 'Denso 3461 (3.5L) / NGK BKR5EKB-11 (2.7L)') } },
-    corolla: { '2009-2024': { sparkPlugs: SP('Denso Iridium', '0.043"', 'Denso 3474') } }
+    camry: { '2012-2026': { sparkPlugs: SP('Denso Iridium Long Life', '0.043"', 'Denso 3474 / Toyota 90919-01253') } },
+    rav4: { '2013-2026': { sparkPlugs: SP('Denso Iridium Long Life', '0.043"', 'Denso 3474 / Toyota 90919-01253') } },
+    tacoma: { '2016-2026': { sparkPlugs: SP('Denso 3461 (Iridium \u2014 3.5L V6) / NGK BKR5EKB-11 or Denso K16HPR11 (2.7L I4)', '0.043-0.044"', 'Denso 3461 (3.5L) / NGK BKR5EKB-11 (2.7L)') } },
+    corolla: { '2009-2026': { sparkPlugs: SP('Denso Iridium', '0.043"', 'Denso 3474') } }
   },
   honda: {
-    civic: { '2016-2024': { sparkPlugs: SP('NGK (1.5L Turbo) / Denso (2.0L)', '0.028-0.044"', 'NGK 96964 / Denso 3492') } },
-    'cr-v': { '2017-2024': { sparkPlugs: SP('NGK Iridium', '0.028-0.044"', 'NGK 96964 / Denso 3492') } }
+    civic: { '2016-2026': { sparkPlugs: SP('NGK (1.5L Turbo) / Denso (2.0L)', '0.028-0.044"', 'NGK 96964 / Denso 3492') } },
+    'cr-v': { '2017-2026': { sparkPlugs: SP('NGK Iridium', '0.028-0.044"', 'NGK 96964 / Denso 3492') } }
   },
-  jeep: { wrangler: { '2012-2024': { sparkPlugs: SP('Mopar SP143877AA / NGK 92145 (3.6L V6) / NGK ILZKR7A8 (2.0L Turbo)', '0.028-0.043"', 'Mopar SP143877AA / NGK 92145 (3.6L); NGK ILZKR7A8 / Mopar 68418729AA (2.0T)') } } },
-  ram: { '1500': { '2009-2024': { sparkPlugs: SP('Mopar SP143877AA / NGK 92145 (3.6L V6 & 5.7L V8)', '0.043"', 'Mopar SP143877AA / NGK 92145') } } },
-  subaru: { outback: { '2010-2024': { sparkPlugs: SP('NGK 93209 (2.5L I4) / NGK ILFR6B10 (2.4L Turbo)', '0.039-0.044"', 'NGK 93209 / Subaru 22401AA830 (2.5L); NGK ILFR6B10 / Subaru 22401AA81A (2.4T)') } }, forester: { '2011-2024': { sparkPlugs: SP('NGK Iridium', '0.039-0.044"', 'NGK 93209 / Subaru 22401AA830') } } },
-  nissan: { altima: { '2013-2024': { sparkPlugs: SP('NGK Iridium', '0.043"', 'NGK 9029 / Denso 3452') } }, rogue: { '2014-2024': { sparkPlugs: SP('NGK Iridium', '0.043"', 'NGK 9029 / Denso 3452') } } },
-  hyundai: { tucson: { '2016-2024': { sparkPlugs: SP('NGK Iridium', '0.039"', 'NGK 97265') } }, elantra: { '2011-2024': { sparkPlugs: SP('NGK Iridium', '0.039"', 'NGK 97265') } } },
-  kia: { sportage: { '2017-2024': { sparkPlugs: SP('NGK Iridium', '0.039"', 'NGK 97265') } } },
-  mazda: { 'cx-5': { '2013-2024': { sparkPlugs: SP('NGK 94109 / Denso 3484 (2.5L NA) / NGK ILKAR7H6 (2.5T)', '0.039-0.043"', 'NGK 94109 / Denso 3484 (2.5L); NGK ILKAR7H6 (2.5T)') } } },
-  bmw: { '3 series': { '2013-2024': { sparkPlugs: SP('Bosch Iridium', '0.028-0.031"', 'Bosch ZR5TPP33 / BMW 12120037638') } } },
-  mercedes: { 'c-class': { '2015-2024': { sparkPlugs: SP('Bosch Iridium', '0.028"', 'Bosch 0242245580 / Mercedes 0041591803') } } }
+  jeep: { wrangler: { '2012-2026': { sparkPlugs: SP('Mopar SP143877AA / NGK 92145 (3.6L V6) / NGK ILZKR7A8 (2.0L Turbo)', '0.028-0.043"', 'Mopar SP143877AA / NGK 92145 (3.6L); NGK ILZKR7A8 / Mopar 68418729AA (2.0T)') } } },
+  ram: { '1500': { '2009-2026': { sparkPlugs: SP('Mopar SP143877AA / NGK 92145 (3.6L V6 & 5.7L V8)', '0.043"', 'Mopar SP143877AA / NGK 92145') } } },
+  subaru: { outback: { '2010-2026': { sparkPlugs: SP('NGK 93209 (2.5L I4) / NGK ILFR6B10 (2.4L Turbo)', '0.039-0.044"', 'NGK 93209 / Subaru 22401AA830 (2.5L); NGK ILFR6B10 / Subaru 22401AA81A (2.4T)') } }, forester: { '2011-2026': { sparkPlugs: SP('NGK Iridium', '0.039-0.044"', 'NGK 93209 / Subaru 22401AA830') } } },
+  nissan: { altima: { '2013-2026': { sparkPlugs: SP('NGK Iridium', '0.043"', 'NGK 9029 / Denso 3452') } }, rogue: { '2014-2026': { sparkPlugs: SP('NGK Iridium', '0.043"', 'NGK 9029 / Denso 3452') } } },
+  hyundai: { tucson: { '2016-2026': { sparkPlugs: SP('NGK Iridium', '0.039"', 'NGK 97265') } }, elantra: { '2011-2026': { sparkPlugs: SP('NGK Iridium', '0.039"', 'NGK 97265') } } },
+  kia: { sportage: { '2017-2026': { sparkPlugs: SP('NGK Iridium', '0.039"', 'NGK 97265') } } },
+  mazda: { 'cx-5': { '2013-2026': { sparkPlugs: SP('NGK 94109 / Denso 3484 (2.5L NA) / NGK ILKAR7H6 (2.5T)', '0.039-0.043"', 'NGK 94109 / Denso 3484 (2.5L); NGK ILKAR7H6 (2.5T)') } } },
+  bmw: { '3 series': { '2013-2026': { sparkPlugs: SP('Bosch Iridium', '0.028-0.031"', 'Bosch ZR5TPP33 / BMW 12120037638') } } },
+  mercedes: { 'c-class': { '2015-2026': { sparkPlugs: SP('Bosch Iridium', '0.028"', 'Bosch 0242245580 / Mercedes 0041591803') } } }
 };
 for (const [make, models] of Object.entries(wave18SparkPlugs)) {
   if (!referenceSpecs[make]) continue; // skip makes with no prior data
