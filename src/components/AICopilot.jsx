@@ -6,6 +6,7 @@ import { formatNumber } from '../utils/helpers';
 import { getSpecsForVehicle, isEV } from '../data/maintenance-schedules.js';
 import { findBestSymptomMatch } from '../data/symptom-decoder.js';
 import { translateJargon, extractJargon } from '../data/jargon-translator.js';
+import { findSpecs } from '../components/VehicleSpecs.jsx';
 
 // Vehicle-aware translation that pulls specs from the database
 function aiTranslate(input, vehicle) {
@@ -15,6 +16,7 @@ function aiTranslate(input, vehicle) {
   const model = vehicle?.model || '';
   const specs = getSpecsForVehicle(make, model);
   const isElectric = isEV(make, model);
+  const refSpecs = vehicle?.year ? findSpecs(make, model, vehicle.year) : null;
 
   // EV-specific handling
   if (isElectric && (lower.includes('oil') || lower.includes('lube') || lower.includes('oil change'))) {
@@ -38,7 +40,7 @@ function aiTranslate(input, vehicle) {
     };
   }
 
-  if (lower.includes('oil') || lower.includes('oil change') || lower.includes('lube')) {
+  if ((lower.includes('oil') && !lower.includes('oil filter') && !lower.includes('filter pn')) || lower.includes('oil change') || lower.includes('lube')) {
     if (isElectric) {
       return {
         diagnosis: 'No Engine Oil Required (EV)',
@@ -57,7 +59,7 @@ function aiTranslate(input, vehicle) {
     };
   }
 
-  if (lower.includes('brake') || lower.includes('squeaking') || lower.includes('grind')) {
+  if (lower.includes('squeaking') || lower.includes('grind') || (lower.includes('brake') && !lower.includes('brake fluid') && !lower.includes('brake light') && !lower.includes('brake bulb'))) {
     const fluid = specs?.brakeFluid?.type || 'DOT 3';
     return {
       diagnosis: 'Brake Pad Wear / Rotor Surface Irregularity',
@@ -67,7 +69,7 @@ function aiTranslate(input, vehicle) {
     };
   }
 
-  if (lower.includes('tire') || lower.includes('rotation') || lower.includes('flat')) {
+  if ((lower.includes('tire') && !lower.includes('tire pressure') && !lower.includes('tire size') && !lower.includes('what tires') && !lower.includes('lug nut') && !lower.includes('torque') && !lower.includes('psi') && !lower.includes('inflation')) || lower.includes('rotation') || lower.includes('flat')) {
     const psi = specs?.tirePressure?.psi || 34;
     return {
       diagnosis: 'Tire Wear / Rotation Due',
@@ -77,7 +79,7 @@ function aiTranslate(input, vehicle) {
     };
   }
 
-  if (lower.includes('battery') || lower.includes('click') || lower.includes("won't start") || lower.includes('dead')) {
+  if ((lower.includes('battery') && !lower.includes('battery group') && !lower.includes('battery size') && !lower.includes('what battery')) || lower.includes('click') || lower.includes("won't start") || lower.includes('dead')) {
     const batt = specs?.battery;
     const battStr = batt?.groupSize ? `Your ${make} ${model} typically uses a ${batt.groupSize} battery.` : '';
     return {
@@ -109,6 +111,192 @@ function aiTranslate(input, vehicle) {
         ? `Your ${make} ${model} has a single-speed gearbox. ${transStr} Check gearbox fluid level per service manual.`
         : `Check transmission fluid level and color (should be bright red/pink, not dark/burnt). ${transStr} Perform drain-and-fill if due.`,
       estimatedCost: isElectric ? '$100–$200' : '$100–$300 (drain & fill)'
+    };
+  }
+
+  // Phase 1 — Keyword branches using specs (works for all 65+ makes)
+
+  // 1. Spark plugs
+  if (lower.includes('spark plug') || lower.includes('sparkplug')) {
+    if (isElectric) {
+      return {
+        diagnosis: 'Spark Plug Specification',
+        severity: 'Info',
+        action: `No spark plugs — your ${make} ${model} is an EV.`,
+        estimatedCost: 'N/A'
+      };
+    }
+    const plugType = specs?.sparkPlugs?.type || 'consult owner\'s manual';
+    const plugGap = specs?.sparkPlugs?.gap || 'consult owner\'s manual';
+    return {
+      diagnosis: 'Spark Plug Specification',
+      severity: 'Info',
+      action: `Your ${make} ${model} uses ${plugType} spark plugs with a gap of ${plugGap}.`,
+      estimatedCost: 'N/A'
+    };
+  }
+
+  // 2. Coolant
+  if (lower.includes('coolant') || lower.includes('antifreeze')) {
+    if (isElectric) {
+      return {
+        diagnosis: 'Coolant Specification',
+        severity: 'Info',
+        action: `Your ${make} ${model} is an EV with a high-voltage battery cooling loop — check your owner's manual for the specific HV coolant type.`,
+        estimatedCost: 'N/A'
+      };
+    }
+    const coolType = specs?.coolant?.type || 'consult owner\'s manual';
+    const coolCap = specs?.coolant?.capacity || 'Check owner\'s manual';
+    return {
+      diagnosis: 'Coolant Specification',
+      severity: 'Info',
+      action: `Your ${make} ${model} uses ${coolType}. Capacity: ${coolCap}.`,
+      estimatedCost: 'N/A'
+    };
+  }
+
+  // 3. Brake fluid specification (not pad/squeaking — those go to existing brake branch)
+  if (lower.includes('brake fluid')) {
+    const bfType = specs?.brakeFluid?.type || 'consult owner\'s manual';
+    return {
+      diagnosis: 'Brake Fluid Specification',
+      severity: 'Info',
+      action: `Your ${make} ${model} uses ${bfType} brake fluid.`,
+      estimatedCost: 'N/A'
+    };
+  }
+
+  // 4. Tire pressure specification (not rotation/flat/tire wear)
+  if ((lower.includes('tire pressure') || lower.includes('psi') || lower.includes('inflation')) && !lower.includes('rotation') && !lower.includes('flat') && !lower.includes('tire wear')) {
+    const psiVal = specs?.tirePressure?.psi || 'recommended on door jamb';
+    return {
+      diagnosis: 'Tire Pressure Specification',
+      severity: 'Info',
+      action: `Recommended tire pressure: ${psiVal} PSI.${refSpecs?.tires ? ` Front: ${refSpecs.tires.frontPSI} PSI / Rear: ${refSpecs.tires.rearPSI} PSI` : ''}`,
+      estimatedCost: 'N/A'
+    };
+  }
+
+  // 5. Battery group size
+  if (lower.includes('battery group') || lower.includes('battery size') || lower.includes('what battery')) {
+    const battSize = specs?.battery?.groupSize || 'consult owner\'s manual';
+    return {
+      diagnosis: 'Battery Specification',
+      severity: 'Info',
+      action: `Your ${make} ${model} uses a ${battSize} battery.`,
+      estimatedCost: 'N/A'
+    };
+  }
+
+  // Phase 2 — Keyword branches using refSpecs (year-aware, graceful fallback)
+
+  // 6. Oil filter part number
+  if (lower.includes('oil filter') || lower.includes('filter part number') || lower.includes('filter pn')) {
+    if (refSpecs?.engine?.oilFilterPN) {
+      return {
+        diagnosis: 'Oil Filter Part Number',
+        severity: 'Info',
+        action: `Your ${make} ${model} uses oil filter: ${refSpecs.engine.oilFilterPN}.`,
+        estimatedCost: 'N/A'
+      };
+    }
+    return {
+      diagnosis: 'Oil Filter Part Number',
+      severity: 'Info',
+      action: `Oil filter part number not available in our database. Check your Specs tab or owner's manual for your ${make} ${model}.`,
+      estimatedCost: 'N/A'
+    };
+  }
+
+  // 7. Bulb types
+  if (lower.includes('headlight') || lower.includes('bulb') || lower.includes('tail light') || lower.includes('turn signal') || lower.includes('brake light') || lower.includes('what bulb')) {
+    if (refSpecs?.bulbs) {
+      const b = refSpecs.bulbs;
+      return {
+        diagnosis: 'Bulb Types',
+        severity: 'Info',
+        action: `Bulb types for your ${make} ${model}: Low Beam: ${b.lowBeam}, High Beam: ${b.highBeam}, Front Turn: ${b.frontTurn}, Rear Turn: ${b.rearTurn}, Tail/Brake: ${b.tailBrake}, Interior: ${b.interior}, License: ${b.license}.`,
+        estimatedCost: 'N/A'
+      };
+    }
+    return {
+      diagnosis: 'Bulb Types',
+      severity: 'Info',
+      action: `Bulb type data not available in our database for your ${make} ${model}. Check your Specs tab or owner's manual.`,
+      estimatedCost: 'N/A'
+    };
+  }
+
+  // 8. OBD-II diagnostic port location
+  if (lower.includes('obd') || lower.includes('diagnostic port') || lower.includes('obd2')) {
+    if (refSpecs?.obd2Location) {
+      return {
+        diagnosis: 'OBD-II Port Location',
+        severity: 'Info',
+        action: `OBD-II port location for your ${make} ${model}: ${refSpecs.obd2Location}.`,
+        estimatedCost: 'N/A'
+      };
+    }
+    return {
+      diagnosis: 'OBD-II Port Location',
+      severity: 'Info',
+      action: `OBD-II port is typically under the driver side dashboard, left of the steering column.`,
+      estimatedCost: 'N/A'
+    };
+  }
+
+  // 9. Tire sizes / lug nut torque
+  if (lower.includes('tire size') || lower.includes('what tires') || lower.includes('lug nut') || lower.includes('torque')) {
+    if (refSpecs?.tires) {
+      const t = refSpecs.tires;
+      const parts = [];
+      if (t.oemSizes?.length) parts.push(`OEM sizes: ${t.oemSizes.join(', ')}`);
+      if (t.lugNutTorque) parts.push(`Lug nut torque: ${t.lugNutTorque} ft-lbs`);
+      if (parts.length > 0) {
+        return {
+          diagnosis: 'Tire & Wheel Specification',
+          severity: 'Info',
+          action: `Your ${make} ${model}: ${parts.join('. ')}.`,
+          estimatedCost: 'N/A'
+        };
+      }
+    }
+    return {
+      diagnosis: 'Tire & Wheel Specification',
+      severity: 'Info',
+      action: `Tire size and torque data not available in our database. Check your Specs tab or owner's manual for your ${make} ${model}.`,
+      estimatedCost: 'N/A'
+    };
+  }
+
+  // 10. Differential / transfer case fluid specs
+  if (lower.includes('differential') || lower.includes('diff fluid') || lower.includes('transfer case')) {
+    if (refSpecs?.differentials || refSpecs?.transferCase) {
+      const parts = [];
+      if (refSpecs.differentials?.rear) {
+        parts.push(`Rear diff: ${refSpecs.differentials.rear.fluidType} (${refSpecs.differentials.rear.capacity})`);
+      }
+      if (refSpecs.differentials?.front) {
+        parts.push(`Front diff: ${refSpecs.differentials.front.fluidType} (${refSpecs.differentials.front.capacity})`);
+      }
+      if (refSpecs.transferCase) {
+        parts.push(`Transfer case: ${refSpecs.transferCase.fluidType} (${refSpecs.transferCase.capacity})`);
+      }
+      if (parts.length > 0) {
+        return {
+          diagnosis: 'Drivetrain Fluid Specification',
+          severity: 'Info',
+          action: `Your ${make} ${model}: ${parts.join('. ')}.`,
+          estimatedCost: 'N/A'
+        };
+      }
+    }
+    return {
+      diagnosis: 'Drivetrain Fluid Specification',
+      severity: 'Info',
+      action: `Differential and transfer case specs not available. Check your Specs tab for your ${make} ${model}.`,
+      estimatedCost: 'N/A'
     };
   }
 
