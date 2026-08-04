@@ -1,8 +1,8 @@
-import { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   Car, AlertTriangle, Clock, DollarSign, Gauge,
   TrendingUp, Wrench, ArrowUpRight, Calendar, Plus, Fuel,
-  FileText, Download,
+  FileText, Download, Loader2,
   Tractor, Package, Ship, Anchor, Cog
 } from 'lucide-react';
 import MotorcycleIcon from './MotorcycleIcon';
@@ -13,7 +13,7 @@ import { formatCurrency, formatNumber, formatDate, getLocalDateString } from '..
 import { generateResaleReport } from '../utils/generateReport';
 import { predictMileage } from '../utils/mileagePrediction';
 import MileageTracker from './MileageTracker.jsx';
-import AICopilot from './AICopilot.jsx';
+const AICopilot = React.lazy(() => import('./AICopilot.jsx'));
 import GettingStarted from './GettingStarted.jsx';
 import { useMaintenanceSchedule } from '../hooks/useMaintenanceSchedule';
 import { ManufacturerBadge } from '../utils/manufacturerBranding.jsx';
@@ -302,14 +302,21 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
 
       {/* AI Co-Pilot Section — Prominently featured */}
       <div className="mb-8">
-        <AICopilot
-          vehicles={vehicles}
-          logs={logs}
-          activeVehicleId={effectiveVehicleId}
-          onAddLog={onAddLog}
-          onNavigate={onNavigate}
-          isPremium={isPremium}
-        />
+        <React.Suspense fallback={
+          <div className="p-5 rounded-2xl bg-gradient-to-r from-purple-600/5 to-blue-600/5 border border-purple-500/20 flex items-center gap-3">
+            <Loader2 className="w-4 h-4 animate-spin text-purple-400" />
+            <span className="text-sm text-slate-400">Loading AI Co-Pilot...</span>
+          </div>
+        }>
+          <AICopilot
+            vehicles={vehicles}
+            logs={logs}
+            activeVehicleId={effectiveVehicleId}
+            onAddLog={onAddLog}
+            onNavigate={onNavigate}
+            isPremium={isPremium}
+          />
+        </React.Suspense>
       </div>
 
       {/* Lease Mileage Projector — Premium */}
