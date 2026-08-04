@@ -143,7 +143,7 @@ export default function LandingPage({ onGetStarted, onViewPremium }) {
             </div>
             <div className="p-4">
               <h3 className="text-lg font-semibold text-white mb-2">More Features</h3>
-              <p className="text-sm text-slate-400 leading-relaxed">Fuel tracking, fuse box diagrams, performance modification logging, document storage, and more — all integrated into your maintenance workflow.</p>
+              <p className="text-sm text-slate-400 leading-relaxed">All integrated into your maintenance workflow.</p>
             </div>
           </div>
 

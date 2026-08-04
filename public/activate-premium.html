@@ -58,7 +58,8 @@
   <script>
     try {
       localStorage.setItem('mtxtrkr_premium_status', 'true');
-      document.getElementById('status').innerHTML = '✅ <span class="success">Premium activated!</span>';
+      document.getElementById('status').textContent = '✅ Premium activated!';
+      document.getElementById('status').className = 'success';
       document.getElementById('goBtn').style.display = 'inline-block';
     } catch(e) {
       document.getElementById('status').textContent = 'Error: ' + e.message;

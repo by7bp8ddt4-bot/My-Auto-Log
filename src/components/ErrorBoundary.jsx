@@ -18,11 +18,19 @@ export default class ErrorBoundary extends Component {
     this.setState({ errorInfo });
     console.error('[ErrorBoundary] Caught an error:', error);
     console.error('[ErrorBoundary] Component stack:', errorInfo?.componentStack);
+
+    // If we already tried recovery and the same error re-occurred, reload as last resort
+    if (this.retryCount > 0) {
+      console.warn('[ErrorBoundary] Recovery failed after retry — reloading page');
+      window.location.reload();
+    }
   }
 
+  retryCount = 0;
+
   handleTryAgain = () => {
+    this.retryCount += 1;
     this.setState({ hasError: false, error: null, errorInfo: null });
-    window.location.reload();
   };
 
   render() {
