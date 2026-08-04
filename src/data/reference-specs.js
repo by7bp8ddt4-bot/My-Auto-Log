@@ -5936,14 +5936,17 @@ for (const [make, models] of Object.entries(wave18SparkPlugs)) {
   for (const [model, yearRanges] of Object.entries(models)) {
     if (!referenceSpecs[make][model]) continue; // skip models with no prior data
     for (const [yearRange, waveData] of Object.entries(yearRanges)) {
-      if (referenceSpecs[make][model][yearRange]) {
-        // Only patch sparkPlugs into existing entries — don't replace
-        referenceSpecs[make][model][yearRange] = {
-          ...referenceSpecs[make][model][yearRange],
-          sparkPlugs: waveData.sparkPlugs
-        };
+      const [wStart, wEnd] = yearRange.split('-').map(Number);
+      for (const [existingRange, existingData] of Object.entries(referenceSpecs[make][model])) {
+        const [eStart, eEnd] = existingRange.split('-').map(Number);
+        if (isNaN(eStart)) continue; // skip non-year-range keys
+        // Patch spark plugs into ALL overlapping year ranges
+        if (wStart <= eEnd && wEnd >= eStart) {
+          if (!existingData.sparkPlugs || !existingData.sparkPlugs.oemPN) {
+            existingData.sparkPlugs = { ...existingData.sparkPlugs, ...waveData.sparkPlugs };
+          }
+        }
       }
-      // else: year range doesn't exist in prior data → skip (don't create skeleton)
     }
   }
 }

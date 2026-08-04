@@ -126,9 +126,11 @@ function aiTranslate(input, vehicle) {
         estimatedCost: 'N/A'
       };
     }
-    const plugType = specs?.sparkPlugs?.type || 'consult owner\'s manual';
-    const plugGap = specs?.sparkPlugs?.gap || 'consult owner\'s manual';
-    const plugOEM = specs?.sparkPlugs?.oemPN || refSpecs?.sparkPlugs?.oemPN;
+    const refPlugs = refSpecs?.sparkPlugs;
+    const specsPlugs = specs?.sparkPlugs;
+    const plugType = refPlugs?.type || specsPlugs?.type || 'consult owner\'s manual';
+    const plugGap = refPlugs?.gap || specsPlugs?.gap || 'consult owner\'s manual';
+    const plugOEM = refPlugs?.oemPN || specsPlugs?.oemPN;
     return {
       diagnosis: 'Spark Plug Specification',
       severity: 'Info',
