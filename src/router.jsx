@@ -120,6 +120,7 @@ export default function Router({
       logs={logsStore.data}
       reminders={remindersStore.data}
       fuelLogs={fuelLogsStore.data}
+      modifications={modsStore.data}
       navigate={navigate}
       addLog={addLog}
       premium={premium}

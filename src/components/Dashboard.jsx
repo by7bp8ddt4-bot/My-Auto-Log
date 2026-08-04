@@ -21,7 +21,7 @@ import { ManufacturerBadge } from '../utils/manufacturerBranding.jsx';
 // Map vehicle type to icon component
 const TYPE_ICONS = { Car, Motorcycle: MotorcycleIcon, ATV: ATVIcon, Tractor, Package, Ship, Anchor, Cog, SemiTruck: SemiTruckIcon, RV: RVIcon };
 
-export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], onNavigate, onAddLog, isPremium, selectedVehicleId, onSelectVehicle, isAuthenticated }) {
+export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], modifications = [], onNavigate, onAddLog, isPremium, selectedVehicleId, onSelectVehicle, isAuthenticated }) {
   const [onboardingDismissed, setOnboardingDismissed] = useState(() =>
     localStorage.getItem('mtxtrkr_onboarding_dismissed') === 'true'
   );
@@ -33,9 +33,10 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
   const effectiveVehicleId = (vehicles.find(v => v.id === selectedVehicleId) ? selectedVehicleId : vehicles[0]?.id) || null;
   const activeVehicle = vehicles.find(v => v.id === effectiveVehicleId) || vehicles[0] || null;
 
-  // Filter logs/fuelLogs by active vehicle
+  // Filter logs/fuelLogs/mods by active vehicle
   const vehicleLogs = logs.filter(l => l.vehicleId === effectiveVehicleId);
   const vehicleFuelLogs = fuelLogs.filter(f => f.vehicleId === effectiveVehicleId);
+  const vehicleMods = modifications.filter(m => m.vehicleId === effectiveVehicleId);
 
   const schedule = useMaintenanceSchedule(activeVehicle, vehicleLogs);
   const overdueCount = schedule.filter(s => s.status === 'overdue').length;
@@ -55,7 +56,8 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
   const totalMileage = activeVehicle ? (activeVehicle.mileage || 0) : 0;
   const isHourVehicle = activeVehicle && ['ag-equipment', 'forklift', 'watercraft', 'outboard', 'marine-diesel'].includes(activeVehicle.type);
   const mileageUnit = isHourVehicle ? 'hrs' : 'mi';
-  const totalSpent = vehicleLogs.reduce((sum, l) => sum + (l.cost || 0), 0);
+  const totalSpent = vehicleLogs.reduce((sum, l) => sum + (l.cost || 0), 0)
+    + vehicleMods.reduce((sum, m) => sum + (m.cost || 0), 0);
   const servicesThisMonth = vehicleLogs.filter(l => {
     const d = new Date(l.date);
     const now = new Date();
@@ -130,6 +132,11 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
       });
     }
   });
+  // Add performance mod costs as their own category
+  const modCostTotal = vehicleMods.reduce((sum, m) => sum + (m.cost || 0), 0);
+  if (modCostTotal > 0) {
+    expenseByCategory['Performance Mods'] = (expenseByCategory['Performance Mods'] || 0) + modCostTotal;
+  }
   const sortedCategories = Object.entries(expenseByCategory)
     .sort((a, b) => b[1] - a[1])
     .slice(0, 6);
@@ -731,19 +738,28 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], on
               <p className="text-[10px] text-slate-500 mb-2">Monthly Spending Trend</p>
               <div className="flex items-end gap-1.5 h-16">
                 {Array.from({ length: 12 }, (_, i) => {
+                  const now = new Date();
                   const monthLogs = vehicleLogs.filter(l => {
                     const d = new Date(l.date);
-                    const now = new Date();
                     return d.getMonth() === (i % 12) && d.getFullYear() === now.getFullYear();
                   });
-                  const monthTotal = monthLogs.reduce((s, l) => s + (l.cost || 0), 0);
+                  const monthMods = vehicleMods.filter(m => {
+                    const d = new Date(m.date);
+                    return d.getMonth() === (i % 12) && d.getFullYear() === now.getFullYear();
+                  });
+                  const monthTotal = monthLogs.reduce((s, l) => s + (l.cost || 0), 0)
+                    + monthMods.reduce((s, m) => s + (m.cost || 0), 0);
                   const maxTotal = Math.max(...Array.from({ length: 12 }, (_, j) => {
                     const ml = vehicleLogs.filter(l => {
                       const d = new Date(l.date);
-                      const now = new Date();
                       return d.getMonth() === (j % 12) && d.getFullYear() === now.getFullYear();
                     });
-                    return ml.reduce((s, l) => s + (l.cost || 0), 0);
+                    const mm = vehicleMods.filter(m => {
+                      const d = new Date(m.date);
+                      return d.getMonth() === (j % 12) && d.getFullYear() === now.getFullYear();
+                    });
+                    return ml.reduce((s, l) => s + (l.cost || 0), 0)
+                      + mm.reduce((s, m) => s + (m.cost || 0), 0);
                   }), 1);
                   const height = (monthTotal / maxTotal) * 100;
                   const monthNames = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
