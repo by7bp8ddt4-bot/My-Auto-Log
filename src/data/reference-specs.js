@@ -5895,6 +5895,128 @@ for (const [make, models] of Object.entries(wave17Specs)) {
 }
 
 
+// Wave 19: Full K2XX (2014-2018) Silverado/Sierra 1500 reference specs. The
+// '2014-2018' range previously existed only in wave18SparkPlugs, which the
+// wave18 merge skipped (no prior data = no skeleton created). Adding the full
+// entries here gives the wave18 merge below a target so it lands the ACDelco
+// 41-114 spark plugs on both K2XX entries.
+const wave19K2XX = {
+  chevrolet: {
+    silverado: {
+      '2014-2018': {
+        engine: {
+          description: '4.3L EcoTec3 V6 (LV3) / 5.3L EcoTec3 V8 (L83) / 6.2L EcoTec3 V8 (L86, 2015+) — K2XX generation',
+          oilViscosity: '0W-20 dexos1 (4.3L/5.3L/6.2L EcoTec3); early 2014-2015 manuals also list 5W-30 dexos1 — verify oil cap label',
+          oilCapacity: '6.0 qt (4.3L V6 w/filter) / 8.0 qt (5.3L V8 w/filter) / 8.0 qt (6.2L w/filter)',
+          oilFilterPN: 'ACDelco PF63E (4.3L/5.3L/6.2L)',
+          coolantType: 'Dex-Cool (orange)',
+          coolantCapacity: '13.0 qt (4.3L V6) / 16.5 qt (5.3L V8) / 17.0 qt (6.2L) — total system; verify level at surge tank'
+        },
+        transmission: {
+          fluidType: 'DEXRON-VI (6-speed 6L80) / DEXRON-HP (8-speed 8L90 — 6.2L, 2015+)',
+          capacity: '5.0 qt drain-and-refill (6L80) / 5.0 qt (8L90)',
+          note: 'K2XX 1500 uses the 6L80 6-speed for 4.3L/5.3L; 2015+ 6.2L uses the 8L90 8-speed. DEXRON-VI for the 6L80 — do NOT use DEXRON-ULV (T1XX 8-speed fluid). GM TSB later updated the 8L90 to DEXRON-ULV; check dipstick color before servicing.'
+        },
+        transferCase: {
+          fluidType: 'AutoTrak II (blue) — 2-speed transfer case',
+          capacity: '2.0 qt',
+          note: '4WD models only. 2WD: no transfer case. AutoTrak II is blue — do not mix with standard ATF.'
+        },
+        differentials: {
+          front: {
+            fluidType: 'SAE 75W-90 GL-5 Synthetic',
+            capacity: '1.8 qt',
+            note: '4WD models only'
+          },
+          rear: {
+            fluidType: 'SAE 75W-90 GL-5 (standard) / SAE 75W-90 with friction modifier (G80 locking differential)',
+            capacity: '2.6 qt (8.6" axle) / 2.8 qt (9.5" axle) / 3.0 qt (9.76" heavy-duty axle)',
+            note: 'Add GM friction modifier (P/N 88862624) for G80 limited-slip. Confirm exact capacity on the axle RPO tag.'
+          }
+        },
+        brakeFluid: 'DOT 3',
+        tires: {
+          frontPSI: 35,
+          rearPSI: 35,
+          oemSizes: ['255/70R17 (Work Truck)', '265/65R18 (LT, Z71)', '275/55R20 (LTZ, High Country)', '275/45R22 (High Country)'],
+          lugNutTorque: 140
+        },
+        bulbs: {
+          lowBeam: 'H11 (halogen) / D3S HID (projector — 2015+ LTZ, High Country)',
+          highBeam: '9005 (halogen)',
+          fog: '5202 (fog light)',
+          frontTurn: '3157A (amber)',
+          rearTurn: '3157A (amber)',
+          tailBrake: '3157',
+          interior: '194 (map) / 578 (dome)',
+          license: '194 (W5W)'
+        },
+        obd2Location: 'Under driver side dashboard, left of steering column, above the parking brake release near the hood release.'
+      }
+    }
+  },
+  gmc: {
+    sierra: {
+      '2014-2018': {
+        engine: {
+          description: '4.3L EcoTec3 V6 (LV3) / 5.3L EcoTec3 V8 (L83) / 6.2L EcoTec3 V8 (L86, 2015+) — K2XX generation',
+          oilViscosity: '0W-20 dexos1 (4.3L/5.3L/6.2L EcoTec3); early 2014-2015 manuals also list 5W-30 dexos1 — verify oil cap label',
+          oilCapacity: '6.0 qt (4.3L V6 w/filter) / 8.0 qt (5.3L V8 w/filter) / 8.0 qt (6.2L w/filter)',
+          oilFilterPN: 'ACDelco PF63E (4.3L/5.3L/6.2L)',
+          coolantType: 'Dex-Cool (orange)',
+          coolantCapacity: '13.0 qt (4.3L V6) / 16.5 qt (5.3L V8) / 17.0 qt (6.2L) — total system; verify level at surge tank'
+        },
+        transmission: {
+          fluidType: 'DEXRON-VI (6-speed 6L80) / DEXRON-HP (8-speed 8L90 — 6.2L, 2015+)',
+          capacity: '5.0 qt drain-and-refill (6L80) / 5.0 qt (8L90)',
+          note: 'K2XX 1500 uses the 6L80 6-speed for 4.3L/5.3L; 2015+ 6.2L uses the 8L90 8-speed. DEXRON-VI for the 6L80 — do NOT use DEXRON-ULV (T1XX 8-speed fluid). GM TSB later updated the 8L90 to DEXRON-ULV; check dipstick color before servicing.'
+        },
+        transferCase: {
+          fluidType: 'AutoTrak II (blue) — 2-speed transfer case',
+          capacity: '2.0 qt',
+          note: '4WD models only. 2WD: no transfer case. AutoTrak II is blue — do not mix with standard ATF.'
+        },
+        differentials: {
+          front: {
+            fluidType: 'SAE 75W-90 GL-5 Synthetic',
+            capacity: '1.8 qt',
+            note: '4WD models only'
+          },
+          rear: {
+            fluidType: 'SAE 75W-90 GL-5 (standard) / SAE 75W-90 with friction modifier (G80 locking differential)',
+            capacity: '2.6 qt (8.6" axle) / 2.8 qt (9.5" axle) / 3.0 qt (9.76" heavy-duty axle)',
+            note: 'Add GM friction modifier (P/N 88862624) for G80 limited-slip. Confirm exact capacity on the axle RPO tag.'
+          }
+        },
+        brakeFluid: 'DOT 3',
+        tires: {
+          frontPSI: 35,
+          rearPSI: 35,
+          oemSizes: ['255/70R17 (Work Truck)', '265/65R18 (LT, Z71)', '275/55R20 (LTZ, High Country)', '275/45R22 (High Country)'],
+          lugNutTorque: 140
+        },
+        bulbs: {
+          lowBeam: 'H11 (halogen) / D3S HID (projector — 2015+ LTZ, High Country)',
+          highBeam: '9005 (halogen)',
+          fog: '5202 (fog light)',
+          frontTurn: '3157A (amber)',
+          rearTurn: '3157A (amber)',
+          tailBrake: '3157',
+          interior: '194 (map) / 578 (dome)',
+          license: '194 (W5W)'
+        },
+        obd2Location: 'Under driver side dashboard, left of steering column, above the parking brake release near the hood release.'
+      }
+    }
+  }
+};
+for (const [make, models] of Object.entries(wave19K2XX)) {
+  referenceSpecs[make] = referenceSpecs[make] || {};
+  for (const [model, years] of Object.entries(models)) {
+    referenceSpecs[make][model] = { ...referenceSpecs[make][model], ...years };
+  }
+}
+
 // Wave 18: OEM spark-plug references for high-volume automotive models. Values
 // are engine-specific where the same model is sold with multiple powertrains.
 // Merge logic: patches only sparkPlugs into EXISTING referenceSpecs entries.
