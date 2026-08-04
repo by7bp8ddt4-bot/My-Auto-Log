@@ -114,7 +114,18 @@ function aiTranslate(input, vehicle) {
 
   // Symptom Decoder fallback — check specialist's symptom database
   const symptomMatch = findBestSymptomMatch(lower);
-  if (symptomMatch && symptomMatch.causes.length > 0) {
+
+  // If symptom match was weak or nonexistent, gracefully decline
+  if (!symptomMatch) {
+    return {
+      diagnosis: 'Not Found',
+      severity: 'Info',
+      action: `I couldn't find specific information for your ${make} ${model}. For part numbers, fluid specs, tire pressures, and other reference data, check your vehicle's Specs tab. If you need further assistance, email support.`,
+      estimatedCost: 'N/A',
+    };
+  }
+
+  if (symptomMatch.causes.length > 0) {
     const topCause = symptomMatch.causes[0];
     return {
       diagnosis: symptomMatch.symptom,

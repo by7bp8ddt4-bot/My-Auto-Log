@@ -72,13 +72,20 @@ export function findBestSymptomMatch(input) {
   }
 
   // Try keyword overlap scoring
+  const STOP_WORDS = new Set([
+    'the', 'and', 'for', 'what', 'when', 'how', 'why', 'where', 'who',
+    'this', 'that', 'with', 'from', 'your', 'have', 'does', 'will',
+    'about', 'which', 'there', 'their', 'should', 'would', 'could',
+    'they', 'them', 'been', 'being', 'were', 'are', 'was', 'its'
+  ]);
   const words = lower.split(/\s+/);
+  const meaningfulWords = words.filter(w => w.length > 2 && !STOP_WORDS.has(w));
   let bestScore = 0;
   let bestMatch = null;
 
   for (const s of symptoms) {
     const target = s.symptom.toLowerCase() + ' ' + s.plainEnglish.toLowerCase();
-    const score = words.filter(w => w.length > 2 && target.includes(w)).length;
+    const score = meaningfulWords.filter(w => target.includes(w)).length;
     if (score > bestScore) {
       bestScore = score;
       bestMatch = {
@@ -89,6 +96,11 @@ export function findBestSymptomMatch(input) {
         score,
       };
     }
+  }
+
+  const MIN_SCORE = 2;
+  if (!bestMatch || bestScore < MIN_SCORE) {
+    return null;
   }
 
   return bestMatch;
