@@ -1,11 +1,8 @@
-import { useState, useCallback } from 'react';
+import { useState } from 'react';
 import {
-  Brain, Sparkles, Save, CheckCircle2, Loader2,
-  Lightbulb, Wrench, Calendar, Zap, AlertTriangle, BookOpen, Search
+  Brain, Sparkles, Loader2, Lightbulb, Wrench, AlertTriangle, BookOpen, Search
 } from 'lucide-react';
-import { formatNumber, formatDate, getLocalDateString } from '../utils/helpers';
-import { useMaintenanceSchedule } from '../hooks/useMaintenanceSchedule';
-import { getManufacturerColor, ManufacturerBadge } from '../utils/manufacturerBranding.jsx';
+import { formatNumber } from '../utils/helpers';
 import { getSpecsForVehicle, isEV } from '../data/maintenance-schedules.js';
 import { findBestSymptomMatch } from '../data/symptom-decoder.js';
 import { translateJargon, extractJargon } from '../data/jargon-translator.js';
@@ -25,8 +22,7 @@ function aiTranslate(input, vehicle) {
       diagnosis: 'No Engine Oil Required',
       severity: 'Info',
       action: `Your ${make} ${model} is an electric vehicle (EV) and does not have an engine oil system. Instead, consider: cabin air filter replacement (every 2 years), tire rotation (every 6,250 miles), or brake fluid test (every 2 years). Tesla recommends ${specs.brakeFluid.type} brake fluid and ${specs.tirePressure.psi} PSI tire pressure.`,
-      estimatedCost: 'N/A (no oil change needed)',
-      loggable: null
+      estimatedCost: 'N/A (no oil change needed)'
     };
   }
 
@@ -38,8 +34,7 @@ function aiTranslate(input, vehicle) {
       diagnosis: 'Serpentine Belt / Accessory Drive Noise',
       severity: 'Medium',
       action,
-      estimatedCost: '$120–$250',
-      loggable: !isElectric ? { serviceType: 'Belt Inspection & Replacement', description: `Diagnosed: Serpentine belt wear on ${make} ${model}. Action: Inspect belt tension and pulley bearings.`, mileage } : null
+      estimatedCost: '$120–$250'
     };
   }
 
@@ -49,8 +44,7 @@ function aiTranslate(input, vehicle) {
         diagnosis: 'No Engine Oil Required (EV)',
         severity: 'Info',
         action: `Your ${make} ${model} is an EV — no oil changes needed! Focus on tire rotations and cabin filter instead.`,
-        estimatedCost: 'N/A',
-        loggable: null
+        estimatedCost: 'N/A'
       };
     }
     const oil = specs?.oil;
@@ -59,8 +53,7 @@ function aiTranslate(input, vehicle) {
       diagnosis: 'Engine Oil & Filter Replacement',
       severity: 'Completed',
       action: `Oil change performed. Reset maintenance minder. ${oilStr}. For your ${make} ${model}, this is the most important service for engine longevity.`,
-      estimatedCost: '$45–$80',
-      loggable: { serviceType: 'Oil & Filter Change', description: `Engine oil & filter replacement completed on ${make} ${model}. Used ${oil?.viscosity || 'recommended'} ${oil?.type || 'oil'}.`, mileage }
+      estimatedCost: '$45–$80'
     };
   }
 
@@ -70,8 +63,7 @@ function aiTranslate(input, vehicle) {
       diagnosis: 'Brake Pad Wear / Rotor Surface Irregularity',
       severity: 'High',
       action: `Inspect brake pads for minimum thickness (below 3mm = replace). Measure rotor runout. Use ${fluid} brake fluid for your ${make} ${model}. Replace pads if worn, resurface or replace rotors if scored.`,
-      estimatedCost: '$150–$400 per axle',
-      loggable: { serviceType: 'Brake Service', description: `Diagnosed: Brake pad wear on ${make} ${model}. Action: Inspect pads and rotors. Use ${fluid}.`, mileage }
+      estimatedCost: '$150–$400 per axle'
     };
   }
 
@@ -81,8 +73,7 @@ function aiTranslate(input, vehicle) {
       diagnosis: 'Tire Wear / Rotation Due',
       severity: 'Medium',
       action: `Rotate tires in cross-pattern. Check tread depth (min 2/32"). Inflate to ${psi} PSI as recommended for your ${make} ${model}.${isElectric ? ' EVs are heavy — rotations are even more critical.' : ''}`,
-      estimatedCost: '$20–$40 (DIY) / $40–$60 (shop)',
-      loggable: { serviceType: 'Tire Rotation', description: `Tire rotation performed on ${make} ${model}. Inflated to ${psi} PSI.`, mileage }
+      estimatedCost: '$20–$40 (DIY) / $40–$60 (shop)'
     };
   }
 
@@ -95,8 +86,7 @@ function aiTranslate(input, vehicle) {
       action: isElectric
         ? `Test the 12V auxiliary battery in your ${make} ${model}. Even EVs have a 12V battery for accessories. Check the main HV battery state of charge too.`
         : `Test battery voltage (target 12.6V+). Load test battery. Check alternator output (13.5-14.5V). Clean corrosion from terminals. ${battStr}`,
-      estimatedCost: '$100–$200',
-      loggable: { serviceType: 'Battery Check', description: `Diagnosed: Battery/starting system issue on ${make} ${model}. ${battStr}`, mileage }
+      estimatedCost: '$100–$200'
     };
   }
 
@@ -105,8 +95,7 @@ function aiTranslate(input, vehicle) {
       diagnosis: 'Check Engine Light — Diagnostic Trouble Code Pending',
       severity: 'Varies',
       action: `Scan OBD-II system for stored/pending codes on your ${make} ${model}. Common causes: loose gas cap, O2 sensor, catalytic converter, or ignition coil.`,
-      estimatedCost: '$0–$150 (scan) + parts as needed',
-      loggable: { serviceType: 'Diagnostic Scan', description: `Check Engine Light diagnosed via OBD-II scan on ${make} ${model}.`, mileage }
+      estimatedCost: '$0–$150 (scan) + parts as needed'
     };
   }
 
@@ -119,8 +108,7 @@ function aiTranslate(input, vehicle) {
       action: isElectric
         ? `Your ${make} ${model} has a single-speed gearbox. ${transStr} Check gearbox fluid level per service manual.`
         : `Check transmission fluid level and color (should be bright red/pink, not dark/burnt). ${transStr} Perform drain-and-fill if due.`,
-      estimatedCost: isElectric ? '$100–$200' : '$100–$300 (drain & fill)',
-      loggable: { serviceType: 'Transmission Service', description: `Transmission fluid checked on ${make} ${model}. ${transStr || ''}`, mileage }
+      estimatedCost: isElectric ? '$100–$200' : '$100–$300 (drain & fill)'
     };
   }
 
@@ -133,11 +121,6 @@ function aiTranslate(input, vehicle) {
       severity: topCause.severity.includes('🔴') ? 'High' : topCause.severity.includes('⚠️') ? 'Medium' : 'Low',
       action: `${topCause.cause}. ${topCause.urgency}`,
       estimatedCost: topCause.estimatedCost,
-      loggable: topCause.severity !== '✅ Normal' ? {
-        serviceType: symptomMatch.symptom,
-        description: `Diagnosed: ${symptomMatch.symptom} on ${make} ${model}. ${topCause.cause}. Action: ${topCause.urgency}`,
-        mileage
-      } : null,
       allCauses: symptomMatch.causes,
       source: 'symptom-decoder',
     };
@@ -149,29 +132,24 @@ function aiTranslate(input, vehicle) {
     diagnosis: 'General Vehicle Inspection Recommended',
     severity: 'Low',
     action: `Perform routine multi-point inspection on your ${make} ${model}. Check all fluid levels, belts, hoses, tire pressure (${psi} PSI), and condition.${isElectric ? ' For your EV, focus on HV battery health, coolant levels, and brake caliper function.' : ''}`,
-    estimatedCost: '$0–$50 (inspection fee)',
-    loggable: { serviceType: 'Inspection', description: `Concern reported: "${input}". General inspection performed on ${make} ${model}.`, mileage }
+    estimatedCost: '$0–$50 (inspection fee)'
   };
 }
 
-export default function AICopilot({ vehicles, logs, onAddLog, onNavigate, isPremium, activeVehicleId }) {
+export default function AICopilot({ vehicles, isPremium, activeVehicleId }) {
   const [inputText, setInputText] = useState('');
   const [result, setResult] = useState(null); // { type: 'jargon' | 'symptom', data: ... }
   const [isSearching, setIsSearching] = useState(false);
-  const [saved, setSaved] = useState(false);
 
   const activeVehicle = activeVehicleId
     ? vehicles.find(v => v.id === activeVehicleId) || vehicles[0] || null
     : vehicles[0] || null;
-  const schedule = useMaintenanceSchedule(activeVehicle, logs);
-  // urgency card removed — see PR #XXX
   const specs = activeVehicle ? getSpecsForVehicle(activeVehicle.make, activeVehicle.model) : null;
   const electric = activeVehicle ? isEV(activeVehicle.make, activeVehicle.model) : false;
 
   const handleAsk = () => {
     if (!inputText.trim()) return;
     setIsSearching(true);
-    setSaved(false);
     setResult(null);
 
     setTimeout(() => {
@@ -200,23 +178,6 @@ export default function AICopilot({ vehicles, logs, onAddLog, onNavigate, isPrem
 
       setIsSearching(false);
     }, 1500);
-  };
-
-  const handleSaveToLog = () => {
-    if (result?.type !== 'symptom' || !result?.data?.loggable || !activeVehicle) return;
-    onAddLog({
-      vehicleId: activeVehicle.id,
-      date: getLocalDateString(),
-      mileage: activeVehicle.mileage,
-      serviceType: result.data.loggable.serviceType,
-      description: result.data.loggable.description,
-      cost: 0,
-      documents: [],
-      source: 'ai-copilot',
-    });
-    setSaved(true);
-    setResult(null);
-    setInputText('');
   };
 
   if (!activeVehicle) {
@@ -442,26 +403,9 @@ export default function AICopilot({ vehicles, logs, onAddLog, onNavigate, isPrem
                       </div>
                     </div>
                   )}
-                  {result.data.loggable && (
-                    <button onClick={handleSaveToLog} className="w-full flex items-center justify-center gap-2 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-medium transition-all">
-                      <Save className="w-3.5 h-3.5" /> Save to Maintenance Log
-                    </button>
-                  )}
-                  {!result.data.loggable && result.data.severity === 'Info' && (
-                    <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-300 text-xs">
-                      <AlertTriangle className="w-3.5 h-3.5" /> No maintenance log needed for your EV.
-                    </div>
-                  )}
                 </div>
               </div>
             )}
-          </div>
-        )}
-
-        {saved && (
-          <div className="mt-3 flex items-center gap-2 px-3 py-2 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 text-xs">
-            <CheckCircle2 className="w-4 h-4" />
-            Saved! <button onClick={() => onNavigate('logs')} className="underline hover:text-emerald-200">View log →</button>
           </div>
         )}
       </div>
