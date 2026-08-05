@@ -10354,3 +10354,85 @@ for (const [make, models] of Object.entries(wave22AgBackfill)) {
     referenceSpecs[make][model] = { ...referenceSpecs[make][model], ...years };
   }
 }
+
+
+// Wave 23: Yamaha WaveRunner GP and SVHO personal watercraft reference specs.
+const wave23PWCBackfill = {
+  yamaha: {
+    gp: {
+      '2018-2026': {
+        engine: {
+          oilViscosity: 'Yamalube marine 10W-40',
+          oilCapacity: "Consult owner's manual",
+          oilFilterPN: "Consult owner's manual",
+          coolantType: 'Closed-loop cooling system; marine coolant',
+          coolantCapacity: "Consult owner's manual"
+        },
+        transmission: {
+          fluidType: 'Jet pump — no conventional transmission. Use Yamalube marine grease for pump bearings.',
+          capacity: 'N/A — jet pump'
+        },
+        transferCase: null,
+        differentials: { front: null, rear: null },
+        brakeFluid: 'N/A — watercraft braking via reverse bucket / deceleration',
+        tires: {
+          frontPSI: 'N/A',
+          rearPSI: 'N/A',
+          oemSizes: [],
+          lugNutTorque: 'N/A'
+        },
+        bulbs: {
+          lowBeam: 'N/A',
+          highBeam: 'N/A',
+          frontTurn: 'N/A',
+          rearTurn: 'N/A',
+          tailBrake: 'N/A',
+          interior: 'N/A',
+          license: 'N/A'
+        },
+        obd2Location: 'Yamaha Diagnostic System (YDS) connector, typically under seat or in engine compartment. Not standard OBD-II.',
+        serviceUnit: 'hrs'
+      }
+    },
+    svho: {
+      '2015-2026': {
+        engine: {
+          oilViscosity: 'Yamalube marine 10W-40',
+          oilCapacity: "Consult owner's manual",
+          oilFilterPN: "Consult owner's manual",
+          coolantType: 'Closed-loop cooling system; marine coolant',
+          coolantCapacity: "Consult owner's manual"
+        },
+        transmission: {
+          fluidType: 'Jet pump — no conventional transmission. Use Yamalube marine grease for pump bearings.',
+          capacity: 'N/A — jet pump'
+        },
+        transferCase: null,
+        differentials: { front: null, rear: null },
+        brakeFluid: 'N/A — watercraft braking via reverse bucket / deceleration',
+        tires: {
+          frontPSI: 'N/A',
+          rearPSI: 'N/A',
+          oemSizes: [],
+          lugNutTorque: 'N/A'
+        },
+        bulbs: {
+          lowBeam: 'N/A',
+          highBeam: 'N/A',
+          frontTurn: 'N/A',
+          rearTurn: 'N/A',
+          tailBrake: 'N/A',
+          interior: 'N/A',
+          license: 'N/A'
+        },
+        obd2Location: 'Yamaha Diagnostic System (YDS) connector, typically under seat or in engine compartment. Not standard OBD-II.',
+        serviceUnit: 'hrs'
+      }
+    }
+  }
+};
+for (const [make, models] of Object.entries(wave23PWCBackfill)) {
+  referenceSpecs[make] = referenceSpecs[make] || {};
+  for (const [model, years] of Object.entries(models))
+    referenceSpecs[make][model] = { ...referenceSpecs[make][model], ...years };
+}
