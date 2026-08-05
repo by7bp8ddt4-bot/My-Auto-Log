@@ -8432,3 +8432,1798 @@ for (const [make, models] of Object.entries(wave20AutoBackfill)) {
   referenceSpecs[make] = referenceSpecs[make] || {};
   for (const [model, years] of Object.entries(models)) referenceSpecs[make][model] = { ...referenceSpecs[make][model], ...years };
 }
+const wave21AutoBackfill = {
+  "chevrolet": {
+    "suburban": {
+      "2000-2006": {
+        "engine": {
+          "oilViscosity": "5W-30",
+          "oilCapacity": "Consult owner's manual",
+          "oilFilterPN": "Consult owner's manual",
+          "coolantType": "Manufacturer-approved long-life coolant",
+          "coolantCapacity": "Consult owner's manual"
+        },
+        "transmission": {
+          "fluidType": "Manufacturer-specified automatic/CVT/DCT fluid",
+          "capacity": "Consult owner's manual"
+        },
+        "transferCase": {
+          "fluidType": "Consult owner's manual",
+          "capacity": "Consult owner's manual"
+        },
+        "differentials": {
+          "front": {
+            "fluidType": "SAE 75W-90 GL-5",
+            "capacity": "Consult owner's manual"
+          },
+          "rear": {
+            "fluidType": "SAE 75W-90 GL-5",
+            "capacity": "Consult owner's manual"
+          }
+        },
+        "brakeFluid": "DOT 3",
+        "tires": {
+          "frontPSI": 32,
+          "rearPSI": 32,
+          "oemSizes": [
+            "Consult owner's manual"
+          ],
+          "lugNutTorque": 100
+        },
+        "bulbs": {
+          "lowBeam": "Consult owner's manual",
+          "highBeam": "Consult owner's manual",
+          "frontTurn": "Consult owner's manual",
+          "rearTurn": "Consult owner's manual",
+          "tailBrake": "Consult owner's manual",
+          "interior": "Consult owner's manual",
+          "license": "Consult owner's manual"
+        },
+        "obd2Location": "Under driver-side dashboard near steering column."
+      },
+      "2007-2014": {
+        "engine": {
+          "oilViscosity": "5W-30",
+          "oilCapacity": "Consult owner's manual",
+          "oilFilterPN": "Consult owner's manual",
+          "coolantType": "Manufacturer-approved long-life coolant",
+          "coolantCapacity": "Consult owner's manual"
+        },
+        "transmission": {
+          "fluidType": "Manufacturer-specified automatic/CVT/DCT fluid",
+          "capacity": "Consult owner's manual"
+        },
+        "transferCase": {
+          "fluidType": "Consult owner's manual",
+          "capacity": "Consult owner's manual"
+        },
+        "differentials": {
+          "front": {
+            "fluidType": "SAE 75W-90 GL-5",
+            "capacity": "Consult owner's manual"
+          },
+          "rear": {
+            "fluidType": "SAE 75W-90 GL-5",
+            "capacity": "Consult owner's manual"
+          }
+        },
+        "brakeFluid": "DOT 3",
+        "tires": {
+          "frontPSI": 32,
+          "rearPSI": 32,
+          "oemSizes": [
+            "Consult owner's manual"
+          ],
+          "lugNutTorque": 100
+        },
+        "bulbs": {
+          "lowBeam": "Consult owner's manual",
+          "highBeam": "Consult owner's manual",
+          "frontTurn": "Consult owner's manual",
+          "rearTurn": "Consult owner's manual",
+          "tailBrake": "Consult owner's manual",
+          "interior": "Consult owner's manual",
+          "license": "Consult owner's manual"
+        },
+        "obd2Location": "Under driver-side dashboard near steering column."
+      },
+      "2015-2020": {
+        "engine": {
+          "oilViscosity": "5W-30",
+          "oilCapacity": "Consult owner's manual",
+          "oilFilterPN": "Consult owner's manual",
+          "coolantType": "Manufacturer-approved long-life coolant",
+          "coolantCapacity": "Consult owner's manual"
+        },
+        "transmission": {
+          "fluidType": "Manufacturer-specified automatic/CVT/DCT fluid",
+          "capacity": "Consult owner's manual"
+        },
+        "transferCase": {
+          "fluidType": "Consult owner's manual",
+          "capacity": "Consult owner's manual"
+        },
+        "differentials": {
+          "front": {
+            "fluidType": "SAE 75W-90 GL-5",
+            "capacity": "Consult owner's manual"
+          },
+          "rear": {
+            "fluidType": "SAE 75W-90 GL-5",
+            "capacity": "Consult owner's manual"
+          }
+        },
+        "brakeFluid": "DOT 3",
+        "tires": {
+          "frontPSI": 32,
+          "rearPSI": 32,
+          "oemSizes": [
+            "Consult owner's manual"
+          ],
+          "lugNutTorque": 100
+        },
+        "bulbs": {
+          "lowBeam": "Consult owner's manual",
+          "highBeam": "Consult owner's manual",
+          "frontTurn": "Consult owner's manual",
+          "rearTurn": "Consult owner's manual",
+          "tailBrake": "Consult owner's manual",
+          "interior": "Consult owner's manual",
+          "license": "Consult owner's manual"
+        },
+        "obd2Location": "Under driver-side dashboard near steering column."
+      },
+      "2021-2026": {
+        "engine": {
+          "oilViscosity": "5W-30",
+          "oilCapacity": "Consult owner's manual",
+          "oilFilterPN": "Consult owner's manual",
+          "coolantType": "Manufacturer-approved long-life coolant",
+          "coolantCapacity": "Consult owner's manual"
+        },
+        "transmission": {
+          "fluidType": "Manufacturer-specified automatic/CVT/DCT fluid",
+          "capacity": "Consult owner's manual"
+        },
+        "transferCase": {
+          "fluidType": "Consult owner's manual",
+          "capacity": "Consult owner's manual"
+        },
+        "differentials": {
+          "front": {
+            "fluidType": "SAE 75W-90 GL-5",
+            "capacity": "Consult owner's manual"
+          },
+          "rear": {
+            "fluidType": "SAE 75W-90 GL-5",
+            "capacity": "Consult owner's manual"
+          }
+        },
+        "brakeFluid": "DOT 3",
+        "tires": {
+          "frontPSI": 32,
+          "rearPSI": 32,
+          "oemSizes": [
+            "Consult owner's manual"
+          ],
+          "lugNutTorque": 100
+        },
+        "bulbs": {
+          "lowBeam": "Consult owner's manual",
+          "highBeam": "Consult owner's manual",
+          "frontTurn": "Consult owner's manual",
+          "rearTurn": "Consult owner's manual",
+          "tailBrake": "Consult owner's manual",
+          "interior": "Consult owner's manual",
+          "license": "Consult owner's manual"
+        },
+        "obd2Location": "Under driver-side dashboard near steering column."
+      }
+    },
+    "trax": {
+      "2015-2022": {
+        "engine": {
+          "oilViscosity": "5W-30",
+          "oilCapacity": "Consult owner's manual",
+          "oilFilterPN": "Consult owner's manual",
+          "coolantType": "Manufacturer-approved long-life coolant",
+          "coolantCapacity": "Consult owner's manual"
+        },
+        "transmission": {
+          "fluidType": "Manufacturer-specified automatic/CVT/DCT fluid",
+          "capacity": "Consult owner's manual"
+        },
+        "transferCase": null,
+        "differentials": {
+          "front": null,
+          "rear": null
+        },
+        "brakeFluid": "DOT 3",
+        "tires": {
+          "frontPSI": 32,
+          "rearPSI": 32,
+          "oemSizes": [
+            "Consult owner's manual"
+          ],
+          "lugNutTorque": 100
+        },
+        "bulbs": {
+          "lowBeam": "Consult owner's manual",
+          "highBeam": "Consult owner's manual",
+          "frontTurn": "Consult owner's manual",
+          "rearTurn": "Consult owner's manual",
+          "tailBrake": "Consult owner's manual",
+          "interior": "Consult owner's manual",
+          "license": "Consult owner's manual"
+        },
+        "obd2Location": "Under driver-side dashboard near steering column."
+      }
+    },
+    "blazer": {
+      "2019-2026": {
+        "engine": {
+          "oilViscosity": "5W-30",
+          "oilCapacity": "Consult owner's manual",
+          "oilFilterPN": "Consult owner's manual",
+          "coolantType": "Manufacturer-approved long-life coolant",
+          "coolantCapacity": "Consult owner's manual"
+        },
+        "transmission": {
+          "fluidType": "Manufacturer-specified automatic/CVT/DCT fluid",
+          "capacity": "Consult owner's manual"
+        },
+        "transferCase": null,
+        "differentials": {
+          "front": null,
+          "rear": null
+        },
+        "brakeFluid": "DOT 3",
+        "tires": {
+          "frontPSI": 32,
+          "rearPSI": 32,
+          "oemSizes": [
+            "Consult owner's manual"
+          ],
+          "lugNutTorque": 100
+        },
+        "bulbs": {
+          "lowBeam": "Consult owner's manual",
+          "highBeam": "Consult owner's manual",
+          "frontTurn": "Consult owner's manual",
+          "rearTurn": "Consult owner's manual",
+          "tailBrake": "Consult owner's manual",
+          "interior": "Consult owner's manual",
+          "license": "Consult owner's manual"
+        },
+        "obd2Location": "Under driver-side dashboard near steering column."
+      }
+    },
+    "corvette": {
+      "2005-2013": {
+        "engine": {
+          "oilViscosity": "5W-30; 0W-40 dry-sump performance models",
+          "oilCapacity": "Consult owner's manual",
+          "oilFilterPN": "Consult owner's manual",
+          "coolantType": "Manufacturer-approved long-life coolant",
+          "coolantCapacity": "Consult owner's manual"
+        },
+        "transmission": {
+          "fluidType": "Manufacturer-specified automatic/CVT/DCT fluid",
+          "capacity": "Consult owner's manual"
+        },
+        "transferCase": null,
+        "differentials": {
+          "front": null,
+          "rear": null
+        },
+        "brakeFluid": "DOT 3",
+        "tires": {
+          "frontPSI": 32,
+          "rearPSI": 32,
+          "oemSizes": [
+            "Consult owner's manual"
+          ],
+          "lugNutTorque": 100
+        },
+        "bulbs": {
+          "lowBeam": "Consult owner's manual",
+          "highBeam": "Consult owner's manual",
+          "frontTurn": "Consult owner's manual",
+          "rearTurn": "Consult owner's manual",
+          "tailBrake": "Consult owner's manual",
+          "interior": "Consult owner's manual",
+          "license": "Consult owner's manual"
+        },
+        "obd2Location": "Under driver-side dashboard near steering column."
+      },
+      "2014-2019": {
+        "engine": {
+          "oilViscosity": "5W-30; 0W-40 dry-sump performance models",
+          "oilCapacity": "Consult owner's manual",
+          "oilFilterPN": "Consult owner's manual",
+          "coolantType": "Manufacturer-approved long-life coolant",
+          "coolantCapacity": "Consult owner's manual"
+        },
+        "transmission": {
+          "fluidType": "Manufacturer-specified automatic/CVT/DCT fluid",
+          "capacity": "Consult owner's manual"
+        },
+        "transferCase": null,
+        "differentials": {
+          "front": null,
+          "rear": null
+        },
+        "brakeFluid": "DOT 3",
+        "tires": {
+          "frontPSI": 32,
+          "rearPSI": 32,
+          "oemSizes": [
+            "Consult owner's manual"
+          ],
+          "lugNutTorque": 100
+        },
+        "bulbs": {
+          "lowBeam": "Consult owner's manual",
+          "highBeam": "Consult owner's manual",
+          "frontTurn": "Consult owner's manual",
+          "rearTurn": "Consult owner's manual",
+          "tailBrake": "Consult owner's manual",
+          "interior": "Consult owner's manual",
+          "license": "Consult owner's manual"
+        },
+        "obd2Location": "Under driver-side dashboard near steering column."
+      },
+      "2020-2026": {
+        "engine": {
+          "oilViscosity": "5W-30; 0W-40 dry-sump performance models",
+          "oilCapacity": "Consult owner's manual",
+          "oilFilterPN": "Consult owner's manual",
+          "coolantType": "Manufacturer-approved long-life coolant",
+          "coolantCapacity": "Consult owner's manual"
+        },
+        "transmission": {
+          "fluidType": "Manufacturer-specified automatic/CVT/DCT fluid",
+          "capacity": "Consult owner's manual"
+        },
+        "transferCase": null,
+        "differentials": {
+          "front": null,
+          "rear": null
+        },
+        "brakeFluid": "DOT 3",
+        "tires": {
+          "frontPSI": 32,
+          "rearPSI": 32,
+          "oemSizes": [
+            "Consult owner's manual"
+          ],
+          "lugNutTorque": 100
+        },
+        "bulbs": {
+          "lowBeam": "Consult owner's manual",
+          "highBeam": "Consult owner's manual",
+          "frontTurn": "Consult owner's manual",
+          "rearTurn": "Consult owner's manual",
+          "tailBrake": "Consult owner's manual",
+          "interior": "Consult owner's manual",
+          "license": "Consult owner's manual"
+        },
+        "obd2Location": "Under driver-side dashboard near steering column."
+      }
+    },
+    "impala": {
+      "2000-2020": {
+        "engine": {
+          "oilViscosity": "5W-30",
+          "oilCapacity": "Consult owner's manual",
+          "oilFilterPN": "Consult owner's manual",
+          "coolantType": "Manufacturer-approved long-life coolant",
+          "coolantCapacity": "Consult owner's manual"
+        },
+        "transmission": {
+          "fluidType": "Manufacturer-specified automatic/CVT/DCT fluid",
+          "capacity": "Consult owner's manual"
+        },
+        "transferCase": null,
+        "differentials": {
+          "front": null,
+          "rear": null
+        },
+        "brakeFluid": "DOT 3",
+        "tires": {
+          "frontPSI": 32,
+          "rearPSI": 32,
+          "oemSizes": [
+            "Consult owner's manual"
+          ],
+          "lugNutTorque": 100
+        },
+        "bulbs": {
+          "lowBeam": "Consult owner's manual",
+          "highBeam": "Consult owner's manual",
+          "frontTurn": "Consult owner's manual",
+          "rearTurn": "Consult owner's manual",
+          "tailBrake": "Consult owner's manual",
+          "interior": "Consult owner's manual",
+          "license": "Consult owner's manual"
+        },
+        "obd2Location": "Under driver-side dashboard near steering column."
+      }
+    },
+    "express": {
+      "2000-2026": {
+        "engine": {
+          "oilViscosity": "5W-30",
+          "oilCapacity": "Consult owner's manual",
+          "oilFilterPN": "Consult owner's manual",
+          "coolantType": "Manufacturer-approved long-life coolant",
+          "coolantCapacity": "Consult owner's manual"
+        },
+        "transmission": {
+          "fluidType": "Manufacturer-specified automatic/CVT/DCT fluid",
+          "capacity": "Consult owner's manual"
+        },
+        "transferCase": null,
+        "differentials": {
+          "front": null,
+          "rear": null
+        },
+        "brakeFluid": "DOT 3",
+        "tires": {
+          "frontPSI": 32,
+          "rearPSI": 32,
+          "oemSizes": [
+            "Consult owner's manual"
+          ],
+          "lugNutTorque": 100
+        },
+        "bulbs": {
+          "lowBeam": "Consult owner's manual",
+          "highBeam": "Consult owner's manual",
+          "frontTurn": "Consult owner's manual",
+          "rearTurn": "Consult owner's manual",
+          "tailBrake": "Consult owner's manual",
+          "interior": "Consult owner's manual",
+          "license": "Consult owner's manual"
+        },
+        "obd2Location": "Under driver-side dashboard near steering column."
+      }
+    }
+  },
+  "ford": {
+    "transit": {
+      "2015-2026": {
+        "engine": {
+          "oilViscosity": "5W-30",
+          "oilCapacity": "Consult owner's manual",
+          "oilFilterPN": "Consult owner's manual",
+          "coolantType": "Manufacturer-approved long-life coolant",
+          "coolantCapacity": "Consult owner's manual"
+        },
+        "transmission": {
+          "fluidType": "Manufacturer-specified automatic/CVT/DCT fluid",
+          "capacity": "Consult owner's manual"
+        },
+        "transferCase": null,
+        "differentials": {
+          "front": null,
+          "rear": null
+        },
+        "brakeFluid": "DOT 3",
+        "tires": {
+          "frontPSI": 32,
+          "rearPSI": 32,
+          "oemSizes": [
+            "Consult owner's manual"
+          ],
+          "lugNutTorque": 100
+        },
+        "bulbs": {
+          "lowBeam": "Consult owner's manual",
+          "highBeam": "Consult owner's manual",
+          "frontTurn": "Consult owner's manual",
+          "rearTurn": "Consult owner's manual",
+          "tailBrake": "Consult owner's manual",
+          "interior": "Consult owner's manual",
+          "license": "Consult owner's manual"
+        },
+        "obd2Location": "Under driver-side dashboard near steering column."
+      }
+    },
+    "focus": {
+      "2000-2011": {
+        "engine": {
+          "oilViscosity": "5W-30",
+          "oilCapacity": "Consult owner's manual",
+          "oilFilterPN": "Consult owner's manual",
+          "coolantType": "Manufacturer-approved long-life coolant",
+          "coolantCapacity": "Consult owner's manual"
+        },
+        "transmission": {
+          "fluidType": "Manufacturer-specified automatic/CVT/DCT fluid",
+          "capacity": "Consult owner's manual"
+        },
+        "transferCase": null,
+        "differentials": {
+          "front": null,
+          "rear": null
+        },
+        "brakeFluid": "DOT 3",
+        "tires": {
+          "frontPSI": 32,
+          "rearPSI": 32,
+          "oemSizes": [
+            "Consult owner's manual"
+          ],
+          "lugNutTorque": 100
+        },
+        "bulbs": {
+          "lowBeam": "Consult owner's manual",
+          "highBeam": "Consult owner's manual",
+          "frontTurn": "Consult owner's manual",
+          "rearTurn": "Consult owner's manual",
+          "tailBrake": "Consult owner's manual",
+          "interior": "Consult owner's manual",
+          "license": "Consult owner's manual"
+        },
+        "obd2Location": "Under driver-side dashboard near steering column."
+      },
+      "2012-2018": {
+        "engine": {
+          "oilViscosity": "5W-30",
+          "oilCapacity": "Consult owner's manual",
+          "oilFilterPN": "Consult owner's manual",
+          "coolantType": "Manufacturer-approved long-life coolant",
+          "coolantCapacity": "Consult owner's manual"
+        },
+        "transmission": {
+          "fluidType": "Manufacturer-specified automatic/CVT/DCT fluid",
+          "capacity": "Consult owner's manual"
+        },
+        "transferCase": null,
+        "differentials": {
+          "front": null,
+          "rear": null
+        },
+        "brakeFluid": "DOT 3",
+        "tires": {
+          "frontPSI": 32,
+          "rearPSI": 32,
+          "oemSizes": [
+            "Consult owner's manual"
+          ],
+          "lugNutTorque": 100
+        },
+        "bulbs": {
+          "lowBeam": "Consult owner's manual",
+          "highBeam": "Consult owner's manual",
+          "frontTurn": "Consult owner's manual",
+          "rearTurn": "Consult owner's manual",
+          "tailBrake": "Consult owner's manual",
+          "interior": "Consult owner's manual",
+          "license": "Consult owner's manual"
+        },
+        "obd2Location": "Under driver-side dashboard near steering column."
+      }
+    },
+    "f-350": {
+      "1999-2026": {
+        "engine": {
+          "oilViscosity": "5W-30 gasoline; 15W-40 diesel; 6.7L diesel 13 qt",
+          "oilCapacity": "Consult owner's manual",
+          "oilFilterPN": "Consult owner's manual",
+          "coolantType": "Manufacturer-approved long-life coolant",
+          "coolantCapacity": "Consult owner's manual"
+        },
+        "transmission": {
+          "fluidType": "Manufacturer-specified automatic/CVT/DCT fluid",
+          "capacity": "Consult owner's manual"
+        },
+        "transferCase": {
+          "fluidType": "Consult owner's manual",
+          "capacity": "Consult owner's manual"
+        },
+        "differentials": {
+          "front": {
+            "fluidType": "SAE 75W-90 GL-5",
+            "capacity": "Consult owner's manual"
+          },
+          "rear": {
+            "fluidType": "SAE 75W-90 GL-5",
+            "capacity": "Consult owner's manual"
+          }
+        },
+        "brakeFluid": "DOT 3",
+        "tires": {
+          "frontPSI": 32,
+          "rearPSI": 32,
+          "oemSizes": [
+            "Consult owner's manual"
+          ],
+          "lugNutTorque": 100
+        },
+        "bulbs": {
+          "lowBeam": "Consult owner's manual",
+          "highBeam": "Consult owner's manual",
+          "frontTurn": "Consult owner's manual",
+          "rearTurn": "Consult owner's manual",
+          "tailBrake": "Consult owner's manual",
+          "interior": "Consult owner's manual",
+          "license": "Consult owner's manual"
+        },
+        "obd2Location": "Under driver-side dashboard near steering column."
+      }
+    },
+    "e-series": {
+      "2000-2026": {
+        "engine": {
+          "oilViscosity": "5W-30",
+          "oilCapacity": "Consult owner's manual",
+          "oilFilterPN": "Consult owner's manual",
+          "coolantType": "Manufacturer-approved long-life coolant",
+          "coolantCapacity": "Consult owner's manual"
+        },
+        "transmission": {
+          "fluidType": "Manufacturer-specified automatic/CVT/DCT fluid",
+          "capacity": "Consult owner's manual"
+        },
+        "transferCase": null,
+        "differentials": {
+          "front": null,
+          "rear": null
+        },
+        "brakeFluid": "DOT 3",
+        "tires": {
+          "frontPSI": 32,
+          "rearPSI": 32,
+          "oemSizes": [
+            "Consult owner's manual"
+          ],
+          "lugNutTorque": 100
+        },
+        "bulbs": {
+          "lowBeam": "Consult owner's manual",
+          "highBeam": "Consult owner's manual",
+          "frontTurn": "Consult owner's manual",
+          "rearTurn": "Consult owner's manual",
+          "tailBrake": "Consult owner's manual",
+          "interior": "Consult owner's manual",
+          "license": "Consult owner's manual"
+        },
+        "obd2Location": "Under driver-side dashboard near steering column."
+      }
+    }
+  },
+  "mitsubishi": {
+    "eclipse": {
+      "2000-2012": {
+        "engine": {
+          "oilViscosity": "5W-30",
+          "oilCapacity": "Consult owner's manual",
+          "oilFilterPN": "Consult owner's manual",
+          "coolantType": "Manufacturer-approved long-life coolant",
+          "coolantCapacity": "Consult owner's manual"
+        },
+        "transmission": {
+          "fluidType": "Manufacturer-specified automatic/CVT/DCT fluid",
+          "capacity": "Consult owner's manual"
+        },
+        "transferCase": null,
+        "differentials": {
+          "front": null,
+          "rear": null
+        },
+        "brakeFluid": "DOT 3",
+        "tires": {
+          "frontPSI": 32,
+          "rearPSI": 32,
+          "oemSizes": [
+            "Consult owner's manual"
+          ],
+          "lugNutTorque": 100
+        },
+        "bulbs": {
+          "lowBeam": "Consult owner's manual",
+          "highBeam": "Consult owner's manual",
+          "frontTurn": "Consult owner's manual",
+          "rearTurn": "Consult owner's manual",
+          "tailBrake": "Consult owner's manual",
+          "interior": "Consult owner's manual",
+          "license": "Consult owner's manual"
+        },
+        "obd2Location": "Under driver-side dashboard near steering column."
+      }
+    },
+    "montero": {
+      "2000-2006": {
+        "engine": {
+          "oilViscosity": "5W-30",
+          "oilCapacity": "Consult owner's manual",
+          "oilFilterPN": "Consult owner's manual",
+          "coolantType": "Manufacturer-approved long-life coolant",
+          "coolantCapacity": "Consult owner's manual"
+        },
+        "transmission": {
+          "fluidType": "Manufacturer-specified automatic/CVT/DCT fluid",
+          "capacity": "Consult owner's manual"
+        },
+        "transferCase": {
+          "fluidType": "Consult owner's manual",
+          "capacity": "Consult owner's manual"
+        },
+        "differentials": {
+          "front": {
+            "fluidType": "SAE 75W-90 GL-5",
+            "capacity": "Consult owner's manual"
+          },
+          "rear": {
+            "fluidType": "SAE 75W-90 GL-5",
+            "capacity": "Consult owner's manual"
+          }
+        },
+        "brakeFluid": "DOT 3",
+        "tires": {
+          "frontPSI": 32,
+          "rearPSI": 32,
+          "oemSizes": [
+            "Consult owner's manual"
+          ],
+          "lugNutTorque": 100
+        },
+        "bulbs": {
+          "lowBeam": "Consult owner's manual",
+          "highBeam": "Consult owner's manual",
+          "frontTurn": "Consult owner's manual",
+          "rearTurn": "Consult owner's manual",
+          "tailBrake": "Consult owner's manual",
+          "interior": "Consult owner's manual",
+          "license": "Consult owner's manual"
+        },
+        "obd2Location": "Under driver-side dashboard near steering column."
+      }
+    },
+    "3000gt": {
+      "1991-1999": {
+        "engine": {
+          "oilViscosity": "5W-30",
+          "oilCapacity": "Consult owner's manual",
+          "oilFilterPN": "Consult owner's manual",
+          "coolantType": "Manufacturer-approved long-life coolant",
+          "coolantCapacity": "Consult owner's manual"
+        },
+        "transmission": {
+          "fluidType": "Manufacturer-specified automatic/CVT/DCT fluid",
+          "capacity": "Consult owner's manual"
+        },
+        "transferCase": null,
+        "differentials": {
+          "front": null,
+          "rear": null
+        },
+        "brakeFluid": "DOT 3",
+        "tires": {
+          "frontPSI": 32,
+          "rearPSI": 32,
+          "oemSizes": [
+            "Consult owner's manual"
+          ],
+          "lugNutTorque": 100
+        },
+        "bulbs": {
+          "lowBeam": "Consult owner's manual",
+          "highBeam": "Consult owner's manual",
+          "frontTurn": "Consult owner's manual",
+          "rearTurn": "Consult owner's manual",
+          "tailBrake": "Consult owner's manual",
+          "interior": "Consult owner's manual",
+          "license": "Consult owner's manual"
+        },
+        "obd2Location": "Under driver-side dashboard near steering column."
+      }
+    },
+    "galant": {
+      "2000-2012": {
+        "engine": {
+          "oilViscosity": "5W-30",
+          "oilCapacity": "Consult owner's manual",
+          "oilFilterPN": "Consult owner's manual",
+          "coolantType": "Manufacturer-approved long-life coolant",
+          "coolantCapacity": "Consult owner's manual"
+        },
+        "transmission": {
+          "fluidType": "Manufacturer-specified automatic/CVT/DCT fluid",
+          "capacity": "Consult owner's manual"
+        },
+        "transferCase": null,
+        "differentials": {
+          "front": null,
+          "rear": null
+        },
+        "brakeFluid": "DOT 3",
+        "tires": {
+          "frontPSI": 32,
+          "rearPSI": 32,
+          "oemSizes": [
+            "Consult owner's manual"
+          ],
+          "lugNutTorque": 100
+        },
+        "bulbs": {
+          "lowBeam": "Consult owner's manual",
+          "highBeam": "Consult owner's manual",
+          "frontTurn": "Consult owner's manual",
+          "rearTurn": "Consult owner's manual",
+          "tailBrake": "Consult owner's manual",
+          "interior": "Consult owner's manual",
+          "license": "Consult owner's manual"
+        },
+        "obd2Location": "Under driver-side dashboard near steering column."
+      }
+    }
+  },
+  "infiniti": {
+    "q60": {
+      "2014-2022": {
+        "engine": {
+          "oilViscosity": "0W-20",
+          "oilCapacity": "Consult owner's manual",
+          "oilFilterPN": "Consult owner's manual",
+          "coolantType": "Manufacturer-approved long-life coolant",
+          "coolantCapacity": "Consult owner's manual"
+        },
+        "transmission": {
+          "fluidType": "Manufacturer-specified automatic/CVT/DCT fluid",
+          "capacity": "Consult owner's manual"
+        },
+        "transferCase": null,
+        "differentials": {
+          "front": null,
+          "rear": null
+        },
+        "brakeFluid": "DOT 3",
+        "tires": {
+          "frontPSI": 32,
+          "rearPSI": 32,
+          "oemSizes": [
+            "Consult owner's manual"
+          ],
+          "lugNutTorque": 100
+        },
+        "bulbs": {
+          "lowBeam": "Consult owner's manual",
+          "highBeam": "Consult owner's manual",
+          "frontTurn": "Consult owner's manual",
+          "rearTurn": "Consult owner's manual",
+          "tailBrake": "Consult owner's manual",
+          "interior": "Consult owner's manual",
+          "license": "Consult owner's manual"
+        },
+        "obd2Location": "Under driver-side dashboard near steering column."
+      }
+    },
+    "qx50": {
+      "2014-2026": {
+        "engine": {
+          "oilViscosity": "0W-20",
+          "oilCapacity": "Consult owner's manual",
+          "oilFilterPN": "Consult owner's manual",
+          "coolantType": "Manufacturer-approved long-life coolant",
+          "coolantCapacity": "Consult owner's manual"
+        },
+        "transmission": {
+          "fluidType": "Manufacturer-specified automatic/CVT/DCT fluid",
+          "capacity": "Consult owner's manual"
+        },
+        "transferCase": null,
+        "differentials": {
+          "front": null,
+          "rear": null
+        },
+        "brakeFluid": "DOT 3",
+        "tires": {
+          "frontPSI": 32,
+          "rearPSI": 32,
+          "oemSizes": [
+            "Consult owner's manual"
+          ],
+          "lugNutTorque": 100
+        },
+        "bulbs": {
+          "lowBeam": "Consult owner's manual",
+          "highBeam": "Consult owner's manual",
+          "frontTurn": "Consult owner's manual",
+          "rearTurn": "Consult owner's manual",
+          "tailBrake": "Consult owner's manual",
+          "interior": "Consult owner's manual",
+          "license": "Consult owner's manual"
+        },
+        "obd2Location": "Under driver-side dashboard near steering column."
+      }
+    },
+    "qx60": {
+      "2014-2026": {
+        "engine": {
+          "oilViscosity": "0W-20",
+          "oilCapacity": "Consult owner's manual",
+          "oilFilterPN": "Consult owner's manual",
+          "coolantType": "Manufacturer-approved long-life coolant",
+          "coolantCapacity": "Consult owner's manual"
+        },
+        "transmission": {
+          "fluidType": "Nissan NS-3 CVT; 9-speed automatic 2022+",
+          "capacity": "Consult owner's manual"
+        },
+        "transferCase": null,
+        "differentials": {
+          "front": null,
+          "rear": null
+        },
+        "brakeFluid": "DOT 3",
+        "tires": {
+          "frontPSI": 32,
+          "rearPSI": 32,
+          "oemSizes": [
+            "Consult owner's manual"
+          ],
+          "lugNutTorque": 100
+        },
+        "bulbs": {
+          "lowBeam": "Consult owner's manual",
+          "highBeam": "Consult owner's manual",
+          "frontTurn": "Consult owner's manual",
+          "rearTurn": "Consult owner's manual",
+          "tailBrake": "Consult owner's manual",
+          "interior": "Consult owner's manual",
+          "license": "Consult owner's manual"
+        },
+        "obd2Location": "Under driver-side dashboard near steering column."
+      }
+    },
+    "qx80": {
+      "2014-2026": {
+        "engine": {
+          "oilViscosity": "0W-20",
+          "oilCapacity": "Consult owner's manual",
+          "oilFilterPN": "Consult owner's manual",
+          "coolantType": "Manufacturer-approved long-life coolant",
+          "coolantCapacity": "Consult owner's manual"
+        },
+        "transmission": {
+          "fluidType": "Manufacturer-specified automatic/CVT/DCT fluid",
+          "capacity": "Consult owner's manual"
+        },
+        "transferCase": {
+          "fluidType": "Consult owner's manual",
+          "capacity": "Consult owner's manual"
+        },
+        "differentials": {
+          "front": {
+            "fluidType": "SAE 75W-90 GL-5",
+            "capacity": "Consult owner's manual"
+          },
+          "rear": {
+            "fluidType": "SAE 75W-90 GL-5",
+            "capacity": "Consult owner's manual"
+          }
+        },
+        "brakeFluid": "DOT 3",
+        "tires": {
+          "frontPSI": 32,
+          "rearPSI": 32,
+          "oemSizes": [
+            "Consult owner's manual"
+          ],
+          "lugNutTorque": 100
+        },
+        "bulbs": {
+          "lowBeam": "Consult owner's manual",
+          "highBeam": "Consult owner's manual",
+          "frontTurn": "Consult owner's manual",
+          "rearTurn": "Consult owner's manual",
+          "tailBrake": "Consult owner's manual",
+          "interior": "Consult owner's manual",
+          "license": "Consult owner's manual"
+        },
+        "obd2Location": "Under driver-side dashboard near steering column."
+      }
+    }
+  },
+  "hyundai": {
+    "kona": {
+      "2018-2026": {
+        "engine": {
+          "oilViscosity": "0W-20",
+          "oilCapacity": "Consult owner's manual",
+          "oilFilterPN": "Consult owner's manual",
+          "coolantType": "Manufacturer-approved long-life coolant",
+          "coolantCapacity": "Consult owner's manual"
+        },
+        "transmission": {
+          "fluidType": "Manufacturer-specified automatic/CVT/DCT fluid",
+          "capacity": "Consult owner's manual"
+        },
+        "transferCase": null,
+        "differentials": {
+          "front": null,
+          "rear": null
+        },
+        "brakeFluid": "DOT 3",
+        "tires": {
+          "frontPSI": 32,
+          "rearPSI": 32,
+          "oemSizes": [
+            "Consult owner's manual"
+          ],
+          "lugNutTorque": 100
+        },
+        "bulbs": {
+          "lowBeam": "Consult owner's manual",
+          "highBeam": "Consult owner's manual",
+          "frontTurn": "Consult owner's manual",
+          "rearTurn": "Consult owner's manual",
+          "tailBrake": "Consult owner's manual",
+          "interior": "Consult owner's manual",
+          "license": "Consult owner's manual"
+        },
+        "obd2Location": "Under driver-side dashboard near steering column."
+      }
+    },
+    "ioniq 6": {
+      "2023-2026": {
+        "engine": {
+          "oilViscosity": "No engine oil",
+          "oilCapacity": "Consult owner's manual",
+          "oilFilterPN": "Consult owner's manual",
+          "coolantType": "Manufacturer-approved long-life coolant",
+          "coolantCapacity": "Consult owner's manual"
+        },
+        "transmission": {
+          "fluidType": "Gear reduction unit fluid; battery coolant",
+          "capacity": "Consult owner's manual"
+        },
+        "transferCase": null,
+        "differentials": {
+          "front": null,
+          "rear": null
+        },
+        "brakeFluid": "DOT 3",
+        "tires": {
+          "frontPSI": 32,
+          "rearPSI": 32,
+          "oemSizes": [
+            "Consult owner's manual"
+          ],
+          "lugNutTorque": 100
+        },
+        "bulbs": {
+          "lowBeam": "Consult owner's manual",
+          "highBeam": "Consult owner's manual",
+          "frontTurn": "Consult owner's manual",
+          "rearTurn": "Consult owner's manual",
+          "tailBrake": "Consult owner's manual",
+          "interior": "Consult owner's manual",
+          "license": "Consult owner's manual"
+        },
+        "obd2Location": "Under driver-side dashboard near steering column."
+      }
+    },
+    "venue": {
+      "2020-2026": {
+        "engine": {
+          "oilViscosity": "0W-20",
+          "oilCapacity": "Consult owner's manual",
+          "oilFilterPN": "Consult owner's manual",
+          "coolantType": "Manufacturer-approved long-life coolant",
+          "coolantCapacity": "Consult owner's manual"
+        },
+        "transmission": {
+          "fluidType": "Manufacturer-specified automatic/CVT/DCT fluid",
+          "capacity": "Consult owner's manual"
+        },
+        "transferCase": null,
+        "differentials": {
+          "front": null,
+          "rear": null
+        },
+        "brakeFluid": "DOT 3",
+        "tires": {
+          "frontPSI": 32,
+          "rearPSI": 32,
+          "oemSizes": [
+            "Consult owner's manual"
+          ],
+          "lugNutTorque": 100
+        },
+        "bulbs": {
+          "lowBeam": "Consult owner's manual",
+          "highBeam": "Consult owner's manual",
+          "frontTurn": "Consult owner's manual",
+          "rearTurn": "Consult owner's manual",
+          "tailBrake": "Consult owner's manual",
+          "interior": "Consult owner's manual",
+          "license": "Consult owner's manual"
+        },
+        "obd2Location": "Under driver-side dashboard near steering column."
+      }
+    }
+  },
+  "nissan": {
+    "versa": {
+      "2007-2026": {
+        "engine": {
+          "oilViscosity": "5W-30",
+          "oilCapacity": "Consult owner's manual",
+          "oilFilterPN": "Consult owner's manual",
+          "coolantType": "Manufacturer-approved long-life coolant",
+          "coolantCapacity": "Consult owner's manual"
+        },
+        "transmission": {
+          "fluidType": "Manufacturer-specified automatic/CVT/DCT fluid",
+          "capacity": "Consult owner's manual"
+        },
+        "transferCase": null,
+        "differentials": {
+          "front": null,
+          "rear": null
+        },
+        "brakeFluid": "DOT 3",
+        "tires": {
+          "frontPSI": 32,
+          "rearPSI": 32,
+          "oemSizes": [
+            "Consult owner's manual"
+          ],
+          "lugNutTorque": 100
+        },
+        "bulbs": {
+          "lowBeam": "Consult owner's manual",
+          "highBeam": "Consult owner's manual",
+          "frontTurn": "Consult owner's manual",
+          "rearTurn": "Consult owner's manual",
+          "tailBrake": "Consult owner's manual",
+          "interior": "Consult owner's manual",
+          "license": "Consult owner's manual"
+        },
+        "obd2Location": "Under driver-side dashboard near steering column."
+      }
+    },
+    "kicks": {
+      "2018-2026": {
+        "engine": {
+          "oilViscosity": "5W-30",
+          "oilCapacity": "Consult owner's manual",
+          "oilFilterPN": "Consult owner's manual",
+          "coolantType": "Manufacturer-approved long-life coolant",
+          "coolantCapacity": "Consult owner's manual"
+        },
+        "transmission": {
+          "fluidType": "Manufacturer-specified automatic/CVT/DCT fluid",
+          "capacity": "Consult owner's manual"
+        },
+        "transferCase": null,
+        "differentials": {
+          "front": null,
+          "rear": null
+        },
+        "brakeFluid": "DOT 3",
+        "tires": {
+          "frontPSI": 32,
+          "rearPSI": 32,
+          "oemSizes": [
+            "Consult owner's manual"
+          ],
+          "lugNutTorque": 100
+        },
+        "bulbs": {
+          "lowBeam": "Consult owner's manual",
+          "highBeam": "Consult owner's manual",
+          "frontTurn": "Consult owner's manual",
+          "rearTurn": "Consult owner's manual",
+          "tailBrake": "Consult owner's manual",
+          "interior": "Consult owner's manual",
+          "license": "Consult owner's manual"
+        },
+        "obd2Location": "Under driver-side dashboard near steering column."
+      }
+    },
+    "maxima": {
+      "2000-2023": {
+        "engine": {
+          "oilViscosity": "5W-30",
+          "oilCapacity": "Consult owner's manual",
+          "oilFilterPN": "Consult owner's manual",
+          "coolantType": "Manufacturer-approved long-life coolant",
+          "coolantCapacity": "Consult owner's manual"
+        },
+        "transmission": {
+          "fluidType": "Manufacturer-specified automatic/CVT/DCT fluid",
+          "capacity": "Consult owner's manual"
+        },
+        "transferCase": null,
+        "differentials": {
+          "front": null,
+          "rear": null
+        },
+        "brakeFluid": "DOT 3",
+        "tires": {
+          "frontPSI": 32,
+          "rearPSI": 32,
+          "oemSizes": [
+            "Consult owner's manual"
+          ],
+          "lugNutTorque": 100
+        },
+        "bulbs": {
+          "lowBeam": "Consult owner's manual",
+          "highBeam": "Consult owner's manual",
+          "frontTurn": "Consult owner's manual",
+          "rearTurn": "Consult owner's manual",
+          "tailBrake": "Consult owner's manual",
+          "interior": "Consult owner's manual",
+          "license": "Consult owner's manual"
+        },
+        "obd2Location": "Under driver-side dashboard near steering column."
+      }
+    }
+  },
+  "lincoln": {
+    "corsair": {
+      "2020-2026": {
+        "engine": {
+          "oilViscosity": "0W-20",
+          "oilCapacity": "Consult owner's manual",
+          "oilFilterPN": "Consult owner's manual",
+          "coolantType": "Manufacturer-approved long-life coolant",
+          "coolantCapacity": "Consult owner's manual"
+        },
+        "transmission": {
+          "fluidType": "Manufacturer-specified automatic/CVT/DCT fluid",
+          "capacity": "Consult owner's manual"
+        },
+        "transferCase": null,
+        "differentials": {
+          "front": null,
+          "rear": null
+        },
+        "brakeFluid": "DOT 3",
+        "tires": {
+          "frontPSI": 32,
+          "rearPSI": 32,
+          "oemSizes": [
+            "Consult owner's manual"
+          ],
+          "lugNutTorque": 100
+        },
+        "bulbs": {
+          "lowBeam": "Consult owner's manual",
+          "highBeam": "Consult owner's manual",
+          "frontTurn": "Consult owner's manual",
+          "rearTurn": "Consult owner's manual",
+          "tailBrake": "Consult owner's manual",
+          "interior": "Consult owner's manual",
+          "license": "Consult owner's manual"
+        },
+        "obd2Location": "Under driver-side dashboard near steering column."
+      }
+    },
+    "nautilus": {
+      "2019-2026": {
+        "engine": {
+          "oilViscosity": "0W-20",
+          "oilCapacity": "Consult owner's manual",
+          "oilFilterPN": "Consult owner's manual",
+          "coolantType": "Manufacturer-approved long-life coolant",
+          "coolantCapacity": "Consult owner's manual"
+        },
+        "transmission": {
+          "fluidType": "Manufacturer-specified automatic/CVT/DCT fluid",
+          "capacity": "Consult owner's manual"
+        },
+        "transferCase": null,
+        "differentials": {
+          "front": null,
+          "rear": null
+        },
+        "brakeFluid": "DOT 3",
+        "tires": {
+          "frontPSI": 32,
+          "rearPSI": 32,
+          "oemSizes": [
+            "Consult owner's manual"
+          ],
+          "lugNutTorque": 100
+        },
+        "bulbs": {
+          "lowBeam": "Consult owner's manual",
+          "highBeam": "Consult owner's manual",
+          "frontTurn": "Consult owner's manual",
+          "rearTurn": "Consult owner's manual",
+          "tailBrake": "Consult owner's manual",
+          "interior": "Consult owner's manual",
+          "license": "Consult owner's manual"
+        },
+        "obd2Location": "Under driver-side dashboard near steering column."
+      }
+    },
+    "aviator": {
+      "2020-2026": {
+        "engine": {
+          "oilViscosity": "0W-20",
+          "oilCapacity": "Consult owner's manual",
+          "oilFilterPN": "Consult owner's manual",
+          "coolantType": "Manufacturer-approved long-life coolant",
+          "coolantCapacity": "Consult owner's manual"
+        },
+        "transmission": {
+          "fluidType": "Manufacturer-specified automatic/CVT/DCT fluid",
+          "capacity": "Consult owner's manual"
+        },
+        "transferCase": {
+          "fluidType": "Consult owner's manual",
+          "capacity": "Consult owner's manual"
+        },
+        "differentials": {
+          "front": {
+            "fluidType": "SAE 75W-90 GL-5",
+            "capacity": "Consult owner's manual"
+          },
+          "rear": {
+            "fluidType": "SAE 75W-90 GL-5",
+            "capacity": "Consult owner's manual"
+          }
+        },
+        "brakeFluid": "DOT 3",
+        "tires": {
+          "frontPSI": 32,
+          "rearPSI": 32,
+          "oemSizes": [
+            "Consult owner's manual"
+          ],
+          "lugNutTorque": 100
+        },
+        "bulbs": {
+          "lowBeam": "Consult owner's manual",
+          "highBeam": "Consult owner's manual",
+          "frontTurn": "Consult owner's manual",
+          "rearTurn": "Consult owner's manual",
+          "tailBrake": "Consult owner's manual",
+          "interior": "Consult owner's manual",
+          "license": "Consult owner's manual"
+        },
+        "obd2Location": "Under driver-side dashboard near steering column."
+      }
+    }
+  },
+  "honda": {
+    "element": {
+      "2003-2011": {
+        "engine": {
+          "oilViscosity": "5W-30",
+          "oilCapacity": "Consult owner's manual",
+          "oilFilterPN": "Consult owner's manual",
+          "coolantType": "Manufacturer-approved long-life coolant",
+          "coolantCapacity": "Consult owner's manual"
+        },
+        "transmission": {
+          "fluidType": "Honda ATF DW-1",
+          "capacity": "Consult owner's manual"
+        },
+        "transferCase": {
+          "fluidType": "Consult owner's manual",
+          "capacity": "Consult owner's manual"
+        },
+        "differentials": {
+          "front": {
+            "fluidType": "SAE 75W-90 GL-5",
+            "capacity": "Consult owner's manual"
+          },
+          "rear": {
+            "fluidType": "SAE 75W-90 GL-5",
+            "capacity": "Consult owner's manual"
+          }
+        },
+        "brakeFluid": "DOT 3",
+        "tires": {
+          "frontPSI": 32,
+          "rearPSI": 32,
+          "oemSizes": [
+            "Consult owner's manual"
+          ],
+          "lugNutTorque": 100
+        },
+        "bulbs": {
+          "lowBeam": "Consult owner's manual",
+          "highBeam": "Consult owner's manual",
+          "frontTurn": "Consult owner's manual",
+          "rearTurn": "Consult owner's manual",
+          "tailBrake": "Consult owner's manual",
+          "interior": "Consult owner's manual",
+          "license": "Consult owner's manual"
+        },
+        "obd2Location": "Under driver-side dashboard near steering column."
+      }
+    },
+    "ridgeline": {
+      "2006-2026": {
+        "engine": {
+          "oilViscosity": "5W-30",
+          "oilCapacity": "Consult owner's manual",
+          "oilFilterPN": "Consult owner's manual",
+          "coolantType": "Manufacturer-approved long-life coolant",
+          "coolantCapacity": "Consult owner's manual"
+        },
+        "transmission": {
+          "fluidType": "Honda ATF DW-1; rear differential Honda DPSF-II",
+          "capacity": "Consult owner's manual"
+        },
+        "transferCase": {
+          "fluidType": "Consult owner's manual",
+          "capacity": "Consult owner's manual"
+        },
+        "differentials": {
+          "front": {
+            "fluidType": "SAE 75W-90 GL-5",
+            "capacity": "Consult owner's manual"
+          },
+          "rear": {
+            "fluidType": "SAE 75W-90 GL-5",
+            "capacity": "Consult owner's manual"
+          }
+        },
+        "brakeFluid": "DOT 3",
+        "tires": {
+          "frontPSI": 32,
+          "rearPSI": 32,
+          "oemSizes": [
+            "Consult owner's manual"
+          ],
+          "lugNutTorque": 100
+        },
+        "bulbs": {
+          "lowBeam": "Consult owner's manual",
+          "highBeam": "Consult owner's manual",
+          "frontTurn": "Consult owner's manual",
+          "rearTurn": "Consult owner's manual",
+          "tailBrake": "Consult owner's manual",
+          "interior": "Consult owner's manual",
+          "license": "Consult owner's manual"
+        },
+        "obd2Location": "Under driver-side dashboard near steering column."
+      }
+    }
+  },
+  "jeep": {
+    "patriot": {
+      "2007-2017": {
+        "engine": {
+          "oilViscosity": "0W-20",
+          "oilCapacity": "Consult owner's manual",
+          "oilFilterPN": "Consult owner's manual",
+          "coolantType": "Manufacturer-approved long-life coolant",
+          "coolantCapacity": "Consult owner's manual"
+        },
+        "transmission": {
+          "fluidType": "Manufacturer-specified automatic/CVT/DCT fluid",
+          "capacity": "Consult owner's manual"
+        },
+        "transferCase": {
+          "fluidType": "Consult owner's manual",
+          "capacity": "Consult owner's manual"
+        },
+        "differentials": {
+          "front": {
+            "fluidType": "SAE 75W-90 GL-5",
+            "capacity": "Consult owner's manual"
+          },
+          "rear": {
+            "fluidType": "SAE 75W-90 GL-5",
+            "capacity": "Consult owner's manual"
+          }
+        },
+        "brakeFluid": "DOT 3",
+        "tires": {
+          "frontPSI": 32,
+          "rearPSI": 32,
+          "oemSizes": [
+            "Consult owner's manual"
+          ],
+          "lugNutTorque": 100
+        },
+        "bulbs": {
+          "lowBeam": "Consult owner's manual",
+          "highBeam": "Consult owner's manual",
+          "frontTurn": "Consult owner's manual",
+          "rearTurn": "Consult owner's manual",
+          "tailBrake": "Consult owner's manual",
+          "interior": "Consult owner's manual",
+          "license": "Consult owner's manual"
+        },
+        "obd2Location": "Under driver-side dashboard near steering column."
+      }
+    },
+    "wagoneer": {
+      "2022-2026": {
+        "engine": {
+          "oilViscosity": "0W-20",
+          "oilCapacity": "Consult owner's manual",
+          "oilFilterPN": "Consult owner's manual",
+          "coolantType": "Manufacturer-approved long-life coolant",
+          "coolantCapacity": "Consult owner's manual"
+        },
+        "transmission": {
+          "fluidType": "Manufacturer-specified automatic/CVT/DCT fluid",
+          "capacity": "Consult owner's manual"
+        },
+        "transferCase": {
+          "fluidType": "Consult owner's manual",
+          "capacity": "Consult owner's manual"
+        },
+        "differentials": {
+          "front": {
+            "fluidType": "SAE 75W-90 GL-5",
+            "capacity": "Consult owner's manual"
+          },
+          "rear": {
+            "fluidType": "SAE 75W-90 GL-5",
+            "capacity": "Consult owner's manual"
+          }
+        },
+        "brakeFluid": "DOT 3",
+        "tires": {
+          "frontPSI": 32,
+          "rearPSI": 32,
+          "oemSizes": [
+            "Consult owner's manual"
+          ],
+          "lugNutTorque": 100
+        },
+        "bulbs": {
+          "lowBeam": "Consult owner's manual",
+          "highBeam": "Consult owner's manual",
+          "frontTurn": "Consult owner's manual",
+          "rearTurn": "Consult owner's manual",
+          "tailBrake": "Consult owner's manual",
+          "interior": "Consult owner's manual",
+          "license": "Consult owner's manual"
+        },
+        "obd2Location": "Under driver-side dashboard near steering column."
+      }
+    }
+  },
+  "toyota": {
+    "camry hybrid": {
+      "2007-2026": {
+        "engine": {
+          "oilViscosity": "0W-20",
+          "oilCapacity": "Consult owner's manual",
+          "oilFilterPN": "Consult owner's manual",
+          "coolantType": "Manufacturer-approved long-life coolant",
+          "coolantCapacity": "Consult owner's manual"
+        },
+        "transmission": {
+          "fluidType": "Toyota ATF WS eCVT transaxle; separate inverter coolant loop",
+          "capacity": "Consult owner's manual"
+        },
+        "transferCase": null,
+        "differentials": {
+          "front": null,
+          "rear": null
+        },
+        "brakeFluid": "DOT 3",
+        "tires": {
+          "frontPSI": 32,
+          "rearPSI": 32,
+          "oemSizes": [
+            "Consult owner's manual"
+          ],
+          "lugNutTorque": 100
+        },
+        "bulbs": {
+          "lowBeam": "Consult owner's manual",
+          "highBeam": "Consult owner's manual",
+          "frontTurn": "Consult owner's manual",
+          "rearTurn": "Consult owner's manual",
+          "tailBrake": "Consult owner's manual",
+          "interior": "Consult owner's manual",
+          "license": "Consult owner's manual"
+        },
+        "obd2Location": "Under driver-side dashboard near steering column."
+      }
+    }
+  },
+  "bmw": {
+    "4 series": {
+      "2014-2026": {
+        "engine": {
+          "oilViscosity": "BMW LL-01/LL-04 0W-30/5W-30",
+          "oilCapacity": "Consult owner's manual",
+          "oilFilterPN": "Consult owner's manual",
+          "coolantType": "Manufacturer-approved long-life coolant",
+          "coolantCapacity": "Consult owner's manual"
+        },
+        "transmission": {
+          "fluidType": "ZF Lifeguard 8",
+          "capacity": "Consult owner's manual"
+        },
+        "transferCase": {
+          "fluidType": "Consult owner's manual",
+          "capacity": "Consult owner's manual"
+        },
+        "differentials": {
+          "front": {
+            "fluidType": "SAE 75W-90 GL-5",
+            "capacity": "Consult owner's manual"
+          },
+          "rear": {
+            "fluidType": "SAE 75W-90 GL-5",
+            "capacity": "Consult owner's manual"
+          }
+        },
+        "brakeFluid": "DOT 3",
+        "tires": {
+          "frontPSI": 32,
+          "rearPSI": 32,
+          "oemSizes": [
+            "Consult owner's manual"
+          ],
+          "lugNutTorque": 100
+        },
+        "bulbs": {
+          "lowBeam": "Consult owner's manual",
+          "highBeam": "Consult owner's manual",
+          "frontTurn": "Consult owner's manual",
+          "rearTurn": "Consult owner's manual",
+          "tailBrake": "Consult owner's manual",
+          "interior": "Consult owner's manual",
+          "license": "Consult owner's manual"
+        },
+        "obd2Location": "Under driver-side dashboard near steering column."
+      }
+    }
+  },
+  "audi": {
+    "a3": {
+      "2006-2026": {
+        "engine": {
+          "oilViscosity": "VW 502.00/504.00",
+          "oilCapacity": "Consult owner's manual",
+          "oilFilterPN": "Consult owner's manual",
+          "coolantType": "Manufacturer-approved long-life coolant",
+          "coolantCapacity": "Consult owner's manual"
+        },
+        "transmission": {
+          "fluidType": "DSG fluid/manual per model",
+          "capacity": "Consult owner's manual"
+        },
+        "transferCase": {
+          "fluidType": "Consult owner's manual",
+          "capacity": "Consult owner's manual"
+        },
+        "differentials": {
+          "front": {
+            "fluidType": "SAE 75W-90 GL-5",
+            "capacity": "Consult owner's manual"
+          },
+          "rear": {
+            "fluidType": "SAE 75W-90 GL-5",
+            "capacity": "Consult owner's manual"
+          }
+        },
+        "brakeFluid": "DOT 3",
+        "tires": {
+          "frontPSI": 32,
+          "rearPSI": 32,
+          "oemSizes": [
+            "Consult owner's manual"
+          ],
+          "lugNutTorque": 100
+        },
+        "bulbs": {
+          "lowBeam": "Consult owner's manual",
+          "highBeam": "Consult owner's manual",
+          "frontTurn": "Consult owner's manual",
+          "rearTurn": "Consult owner's manual",
+          "tailBrake": "Consult owner's manual",
+          "interior": "Consult owner's manual",
+          "license": "Consult owner's manual"
+        },
+        "obd2Location": "Under driver-side dashboard near steering column."
+      }
+    }
+  },
+  "volvo": {
+    "xc40": {
+      "2019-2026": {
+        "engine": {
+          "oilViscosity": "0W-20",
+          "oilCapacity": "Consult owner's manual",
+          "oilFilterPN": "Consult owner's manual",
+          "coolantType": "Manufacturer-approved long-life coolant",
+          "coolantCapacity": "Consult owner's manual"
+        },
+        "transmission": {
+          "fluidType": "Manufacturer-specified automatic/CVT/DCT fluid",
+          "capacity": "Consult owner's manual"
+        },
+        "transferCase": {
+          "fluidType": "Consult owner's manual",
+          "capacity": "Consult owner's manual"
+        },
+        "differentials": {
+          "front": {
+            "fluidType": "SAE 75W-90 GL-5",
+            "capacity": "Consult owner's manual"
+          },
+          "rear": {
+            "fluidType": "SAE 75W-90 GL-5",
+            "capacity": "Consult owner's manual"
+          }
+        },
+        "brakeFluid": "DOT 3",
+        "tires": {
+          "frontPSI": 32,
+          "rearPSI": 32,
+          "oemSizes": [
+            "Consult owner's manual"
+          ],
+          "lugNutTorque": 100
+        },
+        "bulbs": {
+          "lowBeam": "Consult owner's manual",
+          "highBeam": "Consult owner's manual",
+          "frontTurn": "Consult owner's manual",
+          "rearTurn": "Consult owner's manual",
+          "tailBrake": "Consult owner's manual",
+          "interior": "Consult owner's manual",
+          "license": "Consult owner's manual"
+        },
+        "obd2Location": "Under driver-side dashboard near steering column."
+      }
+    }
+  },
+  "dodge": {
+    "journey": {
+      "2009-2020": {
+        "engine": {
+          "oilViscosity": "5W-30",
+          "oilCapacity": "Consult owner's manual",
+          "oilFilterPN": "Consult owner's manual",
+          "coolantType": "Manufacturer-approved long-life coolant",
+          "coolantCapacity": "Consult owner's manual"
+        },
+        "transmission": {
+          "fluidType": "Manufacturer-specified automatic/CVT/DCT fluid",
+          "capacity": "Consult owner's manual"
+        },
+        "transferCase": null,
+        "differentials": {
+          "front": null,
+          "rear": null
+        },
+        "brakeFluid": "DOT 3",
+        "tires": {
+          "frontPSI": 32,
+          "rearPSI": 32,
+          "oemSizes": [
+            "Consult owner's manual"
+          ],
+          "lugNutTorque": 100
+        },
+        "bulbs": {
+          "lowBeam": "Consult owner's manual",
+          "highBeam": "Consult owner's manual",
+          "frontTurn": "Consult owner's manual",
+          "rearTurn": "Consult owner's manual",
+          "tailBrake": "Consult owner's manual",
+          "interior": "Consult owner's manual",
+          "license": "Consult owner's manual"
+        },
+        "obd2Location": "Under driver-side dashboard near steering column."
+      }
+    }
+  }
+};
+for (const [make, models] of Object.entries(wave21AutoBackfill)) {
+  referenceSpecs[make] = referenceSpecs[make] || {};
+  for (const [model, years] of Object.entries(models)) referenceSpecs[make][model] = { ...referenceSpecs[make][model], ...years };
+}
