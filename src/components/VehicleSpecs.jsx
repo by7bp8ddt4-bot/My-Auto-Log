@@ -319,6 +319,13 @@ export default function VehicleSpecs({ selectedVehicle }) {
           <SpecRow label="Lug Nut Torque" value={`${specs.tires.lugNutTorque} ft-lbs`} />
         </SpecSection>
 
+        {/* Spark Plugs */}
+        <SpecSection icon={Zap} title="Spark Plugs">
+          <SpecRow label="Type" value={specs.sparkPlugs?.type || '—'} />
+          <SpecRow label="Gap" value={specs.sparkPlugs?.gap || '—'} />
+          <SpecRow label="OEM Part #" value={specs.sparkPlugs?.oemPN || '—'} />
+        </SpecSection>
+
         {/* Bulbs */}
         <SpecSection icon={Lightbulb} title="Bulbs">
           <SpecRow label="Low Beam" value={specs.bulbs.lowBeam} />
