@@ -10760,3 +10760,5 @@ const wave27SemiTruckBackfill = {
 };
 const wave27Common = (spec) => ({ ...spec, transferCase: null, differentials: { front: null, rear: { fluidType: 'SAE 75W-90 or 85W-140 heavy-duty gear oil', capacity: "Consult owner's manual" } }, brakeFluid: 'Air brake system — no hydraulic DOT brake fluid', bulbs: { lowBeam: 'Commercial truck LED/incandescent headlamp', highBeam: 'Commercial truck LED/incandescent headlamp', frontTurn: 'Commercial truck LED/incandescent', rearTurn: 'Commercial truck LED/incandescent', tailBrake: 'Commercial truck LED/incandescent', interior: 'Commercial truck LED/incandescent', license: 'Commercial truck LED/incandescent' }, obd2Location: 'SAE J1939 9-pin heavy-duty diagnostic connector under the dash, typically near the steering column', serviceUnit: 'miles' });
 for (const [make, models] of Object.entries(wave27SemiTruckBackfill)) { referenceSpecs[make] = referenceSpecs[make] || {}; for (const [model, spec] of Object.entries(models)) referenceSpecs[make][model] = { '2000-2026': wave27Common(spec) }; }
+
+
