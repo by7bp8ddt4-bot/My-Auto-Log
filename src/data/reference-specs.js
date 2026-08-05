@@ -7079,3 +7079,1356 @@ for (const [make, models] of Object.entries(wave19BackfillB)) {
 export default referenceSpecs;
 
 
+// ── Wave 20 automotive reference backfill ─────────────
+const wave20AutoBackfill = {
+  "pontiac": {
+    "g6": {
+      "2005-2010": {
+        "engine": {
+          "oilViscosity": "5W-30 2.4L I4 / 3.5L and 3.9L V6",
+          "oilCapacity": "Consult owner's manual",
+          "oilFilterPN": "Consult owner's manual",
+          "coolantType": "Dex-Cool or manufacturer-approved coolant",
+          "coolantCapacity": "Consult owner's manual"
+        },
+        "transmission": {
+          "fluidType": "DEXRON-VI 4T45-E/6T70",
+          "capacity": "Consult owner's manual"
+        },
+        "transferCase": null,
+        "differentials": {
+          "front": null,
+          "rear": null
+        },
+        "brakeFluid": "DOT 3",
+        "tires": {
+          "frontPSI": 30,
+          "rearPSI": 30,
+          "oemSizes": [
+            "Consult owner's manual"
+          ],
+          "lugNutTorque": 100
+        },
+        "bulbs": {
+          "lowBeam": "Consult owner's manual",
+          "highBeam": "Consult owner's manual",
+          "frontTurn": "Consult owner's manual",
+          "rearTurn": "Consult owner's manual",
+          "tailBrake": "Consult owner's manual",
+          "interior": "Consult owner's manual",
+          "license": "Consult owner's manual"
+        },
+        "obd2Location": "Under driver-side dashboard near steering column."
+      }
+    },
+    "bonneville": {
+      "2000-2005": {
+        "engine": {
+          "oilViscosity": "5W-30 3.8L 3800 V6 / 4.6L Northstar V8",
+          "oilCapacity": "Consult owner's manual",
+          "oilFilterPN": "Consult owner's manual",
+          "coolantType": "Dex-Cool or manufacturer-approved coolant",
+          "coolantCapacity": "Consult owner's manual"
+        },
+        "transmission": {
+          "fluidType": "DEXRON-VI 4T65-E",
+          "capacity": "Consult owner's manual"
+        },
+        "transferCase": null,
+        "differentials": {
+          "front": null,
+          "rear": null
+        },
+        "brakeFluid": "DOT 3",
+        "tires": {
+          "frontPSI": 32,
+          "rearPSI": 32,
+          "oemSizes": [
+            "Consult owner's manual"
+          ],
+          "lugNutTorque": 100
+        },
+        "bulbs": {
+          "lowBeam": "Consult owner's manual",
+          "highBeam": "Consult owner's manual",
+          "frontTurn": "Consult owner's manual",
+          "rearTurn": "Consult owner's manual",
+          "tailBrake": "Consult owner's manual",
+          "interior": "Consult owner's manual",
+          "license": "Consult owner's manual"
+        },
+        "obd2Location": "Under driver-side dashboard near steering column."
+      }
+    },
+    "grand am": {
+      "1999-2005": {
+        "engine": {
+          "oilViscosity": "5W-30 2.2L Ecotec / 3.4L V6",
+          "oilCapacity": "Consult owner's manual",
+          "oilFilterPN": "Consult owner's manual",
+          "coolantType": "Dex-Cool or manufacturer-approved coolant",
+          "coolantCapacity": "Consult owner's manual"
+        },
+        "transmission": {
+          "fluidType": "DEXRON-VI 4T45-E",
+          "capacity": "Consult owner's manual"
+        },
+        "transferCase": null,
+        "differentials": {
+          "front": null,
+          "rear": null
+        },
+        "brakeFluid": "DOT 3",
+        "tires": {
+          "frontPSI": 30,
+          "rearPSI": 30,
+          "oemSizes": [
+            "Consult owner's manual"
+          ],
+          "lugNutTorque": 100
+        },
+        "bulbs": {
+          "lowBeam": "Consult owner's manual",
+          "highBeam": "Consult owner's manual",
+          "frontTurn": "Consult owner's manual",
+          "rearTurn": "Consult owner's manual",
+          "tailBrake": "Consult owner's manual",
+          "interior": "Consult owner's manual",
+          "license": "Consult owner's manual"
+        },
+        "obd2Location": "Under driver-side dashboard near steering column."
+      }
+    },
+    "sunfire": {
+      "1995-2005": {
+        "engine": {
+          "oilViscosity": "5W-30 2.2L/2.4L I4",
+          "oilCapacity": "Consult owner's manual",
+          "oilFilterPN": "Consult owner's manual",
+          "coolantType": "Dex-Cool or manufacturer-approved coolant",
+          "coolantCapacity": "Consult owner's manual"
+        },
+        "transmission": {
+          "fluidType": "DEXRON-VI 4T40-E",
+          "capacity": "Consult owner's manual"
+        },
+        "transferCase": null,
+        "differentials": {
+          "front": null,
+          "rear": null
+        },
+        "brakeFluid": "DOT 3",
+        "tires": {
+          "frontPSI": 30,
+          "rearPSI": 30,
+          "oemSizes": [
+            "Consult owner's manual"
+          ],
+          "lugNutTorque": 100
+        },
+        "bulbs": {
+          "lowBeam": "Consult owner's manual",
+          "highBeam": "Consult owner's manual",
+          "frontTurn": "Consult owner's manual",
+          "rearTurn": "Consult owner's manual",
+          "tailBrake": "Consult owner's manual",
+          "interior": "Consult owner's manual",
+          "license": "Consult owner's manual"
+        },
+        "obd2Location": "Under driver-side dashboard near steering column."
+      }
+    },
+    "montana": {
+      "1999-2009": {
+        "engine": {
+          "oilViscosity": "5W-30 3.4L/3.5L/3.9L V6",
+          "oilCapacity": "Consult owner's manual",
+          "oilFilterPN": "Consult owner's manual",
+          "coolantType": "Dex-Cool or manufacturer-approved coolant",
+          "coolantCapacity": "Consult owner's manual"
+        },
+        "transmission": {
+          "fluidType": "DEXRON-VI 4T65-E",
+          "capacity": "Consult owner's manual"
+        },
+        "transferCase": null,
+        "differentials": {
+          "front": null,
+          "rear": null
+        },
+        "brakeFluid": "DOT 3",
+        "tires": {
+          "frontPSI": 32,
+          "rearPSI": 32,
+          "oemSizes": [
+            "Consult owner's manual"
+          ],
+          "lugNutTorque": 100
+        },
+        "bulbs": {
+          "lowBeam": "Consult owner's manual",
+          "highBeam": "Consult owner's manual",
+          "frontTurn": "Consult owner's manual",
+          "rearTurn": "Consult owner's manual",
+          "tailBrake": "Consult owner's manual",
+          "interior": "Consult owner's manual",
+          "license": "Consult owner's manual"
+        },
+        "obd2Location": "Under driver-side dashboard near steering column."
+      }
+    },
+    "torrent": {
+      "2006-2009": {
+        "engine": {
+          "oilViscosity": "5W-30 3.4L/3.6L V6",
+          "oilCapacity": "Consult owner's manual",
+          "oilFilterPN": "Consult owner's manual",
+          "coolantType": "Dex-Cool or manufacturer-approved coolant",
+          "coolantCapacity": "Consult owner's manual"
+        },
+        "transmission": {
+          "fluidType": "DEXRON-VI 6T70",
+          "capacity": "Consult owner's manual"
+        },
+        "transferCase": {
+          "fluidType": "Consult owner's manual",
+          "capacity": "Consult owner's manual"
+        },
+        "differentials": {
+          "front": {
+            "fluidType": "SAE 75W-90 GL-5",
+            "capacity": "Consult owner's manual"
+          },
+          "rear": {
+            "fluidType": "SAE 75W-90 GL-5",
+            "capacity": "Consult owner's manual"
+          }
+        },
+        "brakeFluid": "DOT 3",
+        "tires": {
+          "frontPSI": 32,
+          "rearPSI": 32,
+          "oemSizes": [
+            "Consult owner's manual"
+          ],
+          "lugNutTorque": 100
+        },
+        "bulbs": {
+          "lowBeam": "Consult owner's manual",
+          "highBeam": "Consult owner's manual",
+          "frontTurn": "Consult owner's manual",
+          "rearTurn": "Consult owner's manual",
+          "tailBrake": "Consult owner's manual",
+          "interior": "Consult owner's manual",
+          "license": "Consult owner's manual"
+        },
+        "obd2Location": "Under driver-side dashboard near steering column."
+      }
+    },
+    "solstice gxp": {
+      "2007-2009": {
+        "engine": {
+          "oilViscosity": "5W-30 2.0L turbo Ecotec LNF",
+          "oilCapacity": "Consult owner's manual",
+          "oilFilterPN": "Consult owner's manual",
+          "coolantType": "Dex-Cool or manufacturer-approved coolant",
+          "coolantCapacity": "Consult owner's manual"
+        },
+        "transmission": {
+          "fluidType": "DEXRON-VI 5-speed manual/5L40-E",
+          "capacity": "Consult owner's manual"
+        },
+        "transferCase": null,
+        "differentials": {
+          "front": null,
+          "rear": null
+        },
+        "brakeFluid": "DOT 3",
+        "tires": {
+          "frontPSI": 32,
+          "rearPSI": 32,
+          "oemSizes": [
+            "Consult owner's manual"
+          ],
+          "lugNutTorque": 100
+        },
+        "bulbs": {
+          "lowBeam": "Consult owner's manual",
+          "highBeam": "Consult owner's manual",
+          "frontTurn": "Consult owner's manual",
+          "rearTurn": "Consult owner's manual",
+          "tailBrake": "Consult owner's manual",
+          "interior": "Consult owner's manual",
+          "license": "Consult owner's manual"
+        },
+        "obd2Location": "Under driver-side dashboard near steering column."
+      }
+    },
+    "g8 gt": {
+      "2008-2009": {
+        "engine": {
+          "oilViscosity": "5W-30 6.0L V8 L76",
+          "oilCapacity": "Consult owner's manual",
+          "oilFilterPN": "Consult owner's manual",
+          "coolantType": "Dex-Cool or manufacturer-approved coolant",
+          "coolantCapacity": "Consult owner's manual"
+        },
+        "transmission": {
+          "fluidType": "DEXRON-VI 6L80",
+          "capacity": "Consult owner's manual"
+        },
+        "transferCase": {
+          "fluidType": "Consult owner's manual",
+          "capacity": "Consult owner's manual"
+        },
+        "differentials": {
+          "front": null,
+          "rear": {
+            "fluidType": "SAE 75W-90 GL-5",
+            "capacity": "Consult owner's manual"
+          }
+        },
+        "brakeFluid": "DOT 3",
+        "tires": {
+          "frontPSI": 32,
+          "rearPSI": 32,
+          "oemSizes": [
+            "Consult owner's manual"
+          ],
+          "lugNutTorque": 100
+        },
+        "bulbs": {
+          "lowBeam": "Consult owner's manual",
+          "highBeam": "Consult owner's manual",
+          "frontTurn": "Consult owner's manual",
+          "rearTurn": "Consult owner's manual",
+          "tailBrake": "Consult owner's manual",
+          "interior": "Consult owner's manual",
+          "license": "Consult owner's manual"
+        },
+        "obd2Location": "Under driver-side dashboard near steering column."
+      }
+    },
+    "g8 gxp": {
+      "2009-2009": {
+        "engine": {
+          "oilViscosity": "5W-30 6.2L LS3 V8",
+          "oilCapacity": "Consult owner's manual",
+          "oilFilterPN": "Consult owner's manual",
+          "coolantType": "Dex-Cool or manufacturer-approved coolant",
+          "coolantCapacity": "Consult owner's manual"
+        },
+        "transmission": {
+          "fluidType": "DEXRON-VI 6L80/Tremec manual",
+          "capacity": "Consult owner's manual"
+        },
+        "transferCase": {
+          "fluidType": "Consult owner's manual",
+          "capacity": "Consult owner's manual"
+        },
+        "differentials": {
+          "front": null,
+          "rear": {
+            "fluidType": "SAE 75W-90 GL-5",
+            "capacity": "Consult owner's manual"
+          }
+        },
+        "brakeFluid": "DOT 3",
+        "tires": {
+          "frontPSI": 32,
+          "rearPSI": 32,
+          "oemSizes": [
+            "Consult owner's manual"
+          ],
+          "lugNutTorque": 100
+        },
+        "bulbs": {
+          "lowBeam": "Consult owner's manual",
+          "highBeam": "Consult owner's manual",
+          "frontTurn": "Consult owner's manual",
+          "rearTurn": "Consult owner's manual",
+          "tailBrake": "Consult owner's manual",
+          "interior": "Consult owner's manual",
+          "license": "Consult owner's manual"
+        },
+        "obd2Location": "Under driver-side dashboard near steering column."
+      }
+    },
+    "vibe gt": {
+      "2003-2006": {
+        "engine": {
+          "oilViscosity": "5W-30 1.8L 2ZZ-GE",
+          "oilCapacity": "Consult owner's manual",
+          "oilFilterPN": "Consult owner's manual",
+          "coolantType": "Dex-Cool or manufacturer-approved coolant",
+          "coolantCapacity": "Consult owner's manual"
+        },
+        "transmission": {
+          "fluidType": "Toyota manual gear oil 6-speed",
+          "capacity": "Consult owner's manual"
+        },
+        "transferCase": null,
+        "differentials": {
+          "front": null,
+          "rear": null
+        },
+        "brakeFluid": "DOT 3",
+        "tires": {
+          "frontPSI": 30,
+          "rearPSI": 30,
+          "oemSizes": [
+            "Consult owner's manual"
+          ],
+          "lugNutTorque": 100
+        },
+        "bulbs": {
+          "lowBeam": "Consult owner's manual",
+          "highBeam": "Consult owner's manual",
+          "frontTurn": "Consult owner's manual",
+          "rearTurn": "Consult owner's manual",
+          "tailBrake": "Consult owner's manual",
+          "interior": "Consult owner's manual",
+          "license": "Consult owner's manual"
+        },
+        "obd2Location": "Under driver-side dashboard near steering column."
+      }
+    },
+    "firebird trans am": {
+      "1993-2002": {
+        "engine": {
+          "oilViscosity": "5W-30 5.7L LT1/LS1 V8",
+          "oilCapacity": "Consult owner's manual",
+          "oilFilterPN": "Consult owner's manual",
+          "coolantType": "Dex-Cool or manufacturer-approved coolant",
+          "coolantCapacity": "Consult owner's manual"
+        },
+        "transmission": {
+          "fluidType": "DEXRON-II/III 4L60E or T56 fluid",
+          "capacity": "Consult owner's manual"
+        },
+        "transferCase": {
+          "fluidType": "Consult owner's manual",
+          "capacity": "Consult owner's manual"
+        },
+        "differentials": {
+          "front": null,
+          "rear": {
+            "fluidType": "SAE 75W-90 GL-5",
+            "capacity": "Consult owner's manual"
+          }
+        },
+        "brakeFluid": "DOT 3",
+        "tires": {
+          "frontPSI": 32,
+          "rearPSI": 32,
+          "oemSizes": [
+            "Consult owner's manual"
+          ],
+          "lugNutTorque": 100
+        },
+        "bulbs": {
+          "lowBeam": "Consult owner's manual",
+          "highBeam": "Consult owner's manual",
+          "frontTurn": "Consult owner's manual",
+          "rearTurn": "Consult owner's manual",
+          "tailBrake": "Consult owner's manual",
+          "interior": "Consult owner's manual",
+          "license": "Consult owner's manual"
+        },
+        "obd2Location": "Under driver-side dashboard near steering column."
+      }
+    },
+    "firebird formula": {
+      "1993-2002": {
+        "engine": {
+          "oilViscosity": "5W-30 5.7L LT1/LS1 V8",
+          "oilCapacity": "Consult owner's manual",
+          "oilFilterPN": "Consult owner's manual",
+          "coolantType": "Dex-Cool or manufacturer-approved coolant",
+          "coolantCapacity": "Consult owner's manual"
+        },
+        "transmission": {
+          "fluidType": "DEXRON-II/III 4L60E or T56 fluid",
+          "capacity": "Consult owner's manual"
+        },
+        "transferCase": {
+          "fluidType": "Consult owner's manual",
+          "capacity": "Consult owner's manual"
+        },
+        "differentials": {
+          "front": null,
+          "rear": {
+            "fluidType": "SAE 75W-90 GL-5",
+            "capacity": "Consult owner's manual"
+          }
+        },
+        "brakeFluid": "DOT 3",
+        "tires": {
+          "frontPSI": 32,
+          "rearPSI": 32,
+          "oemSizes": [
+            "Consult owner's manual"
+          ],
+          "lugNutTorque": 100
+        },
+        "bulbs": {
+          "lowBeam": "Consult owner's manual",
+          "highBeam": "Consult owner's manual",
+          "frontTurn": "Consult owner's manual",
+          "rearTurn": "Consult owner's manual",
+          "tailBrake": "Consult owner's manual",
+          "interior": "Consult owner's manual",
+          "license": "Consult owner's manual"
+        },
+        "obd2Location": "Under driver-side dashboard near steering column."
+      }
+    }
+  },
+  "mazda": {
+    "626": {
+      "1993-2002": {
+        "engine": {
+          "oilViscosity": "5W-30 2.0L FS / 2.5L KL",
+          "oilCapacity": "Consult owner's manual",
+          "oilFilterPN": "Consult owner's manual",
+          "coolantType": "Dex-Cool or manufacturer-approved coolant",
+          "coolantCapacity": "Consult owner's manual"
+        },
+        "transmission": {
+          "fluidType": "Mazda ATF M-III",
+          "capacity": "Consult owner's manual"
+        },
+        "transferCase": null,
+        "differentials": {
+          "front": null,
+          "rear": null
+        },
+        "brakeFluid": "DOT 3",
+        "tires": {
+          "frontPSI": 32,
+          "rearPSI": 32,
+          "oemSizes": [
+            "Consult owner's manual"
+          ],
+          "lugNutTorque": 100
+        },
+        "bulbs": {
+          "lowBeam": "Consult owner's manual",
+          "highBeam": "Consult owner's manual",
+          "frontTurn": "Consult owner's manual",
+          "rearTurn": "Consult owner's manual",
+          "tailBrake": "Consult owner's manual",
+          "interior": "Consult owner's manual",
+          "license": "Consult owner's manual"
+        },
+        "obd2Location": "Under driver-side dashboard near steering column."
+      }
+    },
+    "cx-50": {
+      "2023-2026": {
+        "engine": {
+          "oilViscosity": "0W-20 2.5L Skyactiv-G/turbo",
+          "oilCapacity": "Consult owner's manual",
+          "oilFilterPN": "Consult owner's manual",
+          "coolantType": "Dex-Cool or manufacturer-approved coolant",
+          "coolantCapacity": "Consult owner's manual"
+        },
+        "transmission": {
+          "fluidType": "Mazda ATF-FZ 6-speed",
+          "capacity": "Consult owner's manual"
+        },
+        "transferCase": {
+          "fluidType": "Consult owner's manual",
+          "capacity": "Consult owner's manual"
+        },
+        "differentials": {
+          "front": {
+            "fluidType": "SAE 75W-90 GL-5",
+            "capacity": "Consult owner's manual"
+          },
+          "rear": {
+            "fluidType": "SAE 75W-90 GL-5",
+            "capacity": "Consult owner's manual"
+          }
+        },
+        "brakeFluid": "DOT 3",
+        "tires": {
+          "frontPSI": 35,
+          "rearPSI": 35,
+          "oemSizes": [
+            "Consult owner's manual"
+          ],
+          "lugNutTorque": 100
+        },
+        "bulbs": {
+          "lowBeam": "Consult owner's manual",
+          "highBeam": "Consult owner's manual",
+          "frontTurn": "Consult owner's manual",
+          "rearTurn": "Consult owner's manual",
+          "tailBrake": "Consult owner's manual",
+          "interior": "Consult owner's manual",
+          "license": "Consult owner's manual"
+        },
+        "obd2Location": "Under driver-side dashboard near steering column."
+      }
+    },
+    "cx-90": {
+      "2024-2026": {
+        "engine": {
+          "oilViscosity": "0W-20 3.3L turbo I6 / 2.5L PHEV",
+          "oilCapacity": "Consult owner's manual",
+          "oilFilterPN": "Consult owner's manual",
+          "coolantType": "Dex-Cool or manufacturer-approved coolant",
+          "coolantCapacity": "Consult owner's manual"
+        },
+        "transmission": {
+          "fluidType": "Mazda ATF-FZ 8-speed",
+          "capacity": "Consult owner's manual"
+        },
+        "transferCase": {
+          "fluidType": "Consult owner's manual",
+          "capacity": "Consult owner's manual"
+        },
+        "differentials": {
+          "front": {
+            "fluidType": "SAE 75W-90 GL-5",
+            "capacity": "Consult owner's manual"
+          },
+          "rear": {
+            "fluidType": "SAE 75W-90 GL-5",
+            "capacity": "Consult owner's manual"
+          }
+        },
+        "brakeFluid": "DOT 3",
+        "tires": {
+          "frontPSI": 36,
+          "rearPSI": 36,
+          "oemSizes": [
+            "Consult owner's manual"
+          ],
+          "lugNutTorque": 100
+        },
+        "bulbs": {
+          "lowBeam": "Consult owner's manual",
+          "highBeam": "Consult owner's manual",
+          "frontTurn": "Consult owner's manual",
+          "rearTurn": "Consult owner's manual",
+          "tailBrake": "Consult owner's manual",
+          "interior": "Consult owner's manual",
+          "license": "Consult owner's manual"
+        },
+        "obd2Location": "Under driver-side dashboard near steering column."
+      }
+    },
+    "mazda6": {
+      "2003-2021": {
+        "engine": {
+          "oilViscosity": "5W-20 2.3L/2.5L or 5W-30 3.0L",
+          "oilCapacity": "Consult owner's manual",
+          "oilFilterPN": "Consult owner's manual",
+          "coolantType": "Dex-Cool or manufacturer-approved coolant",
+          "coolantCapacity": "Consult owner's manual"
+        },
+        "transmission": {
+          "fluidType": "Mazda ATF M-V/FZ",
+          "capacity": "Consult owner's manual"
+        },
+        "transferCase": null,
+        "differentials": {
+          "front": null,
+          "rear": null
+        },
+        "brakeFluid": "DOT 3",
+        "tires": {
+          "frontPSI": 32,
+          "rearPSI": 32,
+          "oemSizes": [
+            "Consult owner's manual"
+          ],
+          "lugNutTorque": 100
+        },
+        "bulbs": {
+          "lowBeam": "Consult owner's manual",
+          "highBeam": "Consult owner's manual",
+          "frontTurn": "Consult owner's manual",
+          "rearTurn": "Consult owner's manual",
+          "tailBrake": "Consult owner's manual",
+          "interior": "Consult owner's manual",
+          "license": "Consult owner's manual"
+        },
+        "obd2Location": "Under driver-side dashboard near steering column."
+      }
+    },
+    "mx-6": {
+      "1993-1997": {
+        "engine": {
+          "oilViscosity": "5W-30 2.0L/2.5L KL-DE",
+          "oilCapacity": "Consult owner's manual",
+          "oilFilterPN": "Consult owner's manual",
+          "coolantType": "Dex-Cool or manufacturer-approved coolant",
+          "coolantCapacity": "Consult owner's manual"
+        },
+        "transmission": {
+          "fluidType": "Mazda ATF M-III",
+          "capacity": "Consult owner's manual"
+        },
+        "transferCase": null,
+        "differentials": {
+          "front": null,
+          "rear": null
+        },
+        "brakeFluid": "DOT 3",
+        "tires": {
+          "frontPSI": 32,
+          "rearPSI": 32,
+          "oemSizes": [
+            "Consult owner's manual"
+          ],
+          "lugNutTorque": 100
+        },
+        "bulbs": {
+          "lowBeam": "Consult owner's manual",
+          "highBeam": "Consult owner's manual",
+          "frontTurn": "Consult owner's manual",
+          "rearTurn": "Consult owner's manual",
+          "tailBrake": "Consult owner's manual",
+          "interior": "Consult owner's manual",
+          "license": "Consult owner's manual"
+        },
+        "obd2Location": "Under driver-side dashboard near steering column."
+      }
+    },
+    "protege": {
+      "1995-2003": {
+        "engine": {
+          "oilViscosity": "5W-30 1.6L/1.8L/2.0L",
+          "oilCapacity": "Consult owner's manual",
+          "oilFilterPN": "Consult owner's manual",
+          "coolantType": "Dex-Cool or manufacturer-approved coolant",
+          "coolantCapacity": "Consult owner's manual"
+        },
+        "transmission": {
+          "fluidType": "Mazda ATF M-III",
+          "capacity": "Consult owner's manual"
+        },
+        "transferCase": null,
+        "differentials": {
+          "front": null,
+          "rear": null
+        },
+        "brakeFluid": "DOT 3",
+        "tires": {
+          "frontPSI": 32,
+          "rearPSI": 32,
+          "oemSizes": [
+            "Consult owner's manual"
+          ],
+          "lugNutTorque": 100
+        },
+        "bulbs": {
+          "lowBeam": "Consult owner's manual",
+          "highBeam": "Consult owner's manual",
+          "frontTurn": "Consult owner's manual",
+          "rearTurn": "Consult owner's manual",
+          "tailBrake": "Consult owner's manual",
+          "interior": "Consult owner's manual",
+          "license": "Consult owner's manual"
+        },
+        "obd2Location": "Under driver-side dashboard near steering column."
+      }
+    },
+    "millenia": {
+      "1995-2002": {
+        "engine": {
+          "oilViscosity": "5W-30 2.3L Miller-cycle KJ-ZEM/2.5L V6",
+          "oilCapacity": "Consult owner's manual",
+          "oilFilterPN": "Consult owner's manual",
+          "coolantType": "Dex-Cool or manufacturer-approved coolant",
+          "coolantCapacity": "Consult owner's manual"
+        },
+        "transmission": {
+          "fluidType": "Mazda ATF M-III",
+          "capacity": "Consult owner's manual"
+        },
+        "transferCase": null,
+        "differentials": {
+          "front": null,
+          "rear": null
+        },
+        "brakeFluid": "DOT 3",
+        "tires": {
+          "frontPSI": 32,
+          "rearPSI": 32,
+          "oemSizes": [
+            "Consult owner's manual"
+          ],
+          "lugNutTorque": 100
+        },
+        "bulbs": {
+          "lowBeam": "Consult owner's manual",
+          "highBeam": "Consult owner's manual",
+          "frontTurn": "Consult owner's manual",
+          "rearTurn": "Consult owner's manual",
+          "tailBrake": "Consult owner's manual",
+          "interior": "Consult owner's manual",
+          "license": "Consult owner's manual"
+        },
+        "obd2Location": "Under driver-side dashboard near steering column."
+      }
+    },
+    "b-series": {
+      "1994-2009": {
+        "engine": {
+          "oilViscosity": "5W-30 2.3L/2.5L I4 or 3.0L/4.0L V6",
+          "oilCapacity": "Consult owner's manual",
+          "oilFilterPN": "Consult owner's manual",
+          "coolantType": "Dex-Cool or manufacturer-approved coolant",
+          "coolantCapacity": "Consult owner's manual"
+        },
+        "transmission": {
+          "fluidType": "MERCON/MERCON V",
+          "capacity": "Consult owner's manual"
+        },
+        "transferCase": {
+          "fluidType": "Consult owner's manual",
+          "capacity": "Consult owner's manual"
+        },
+        "differentials": {
+          "front": {
+            "fluidType": "SAE 75W-90 GL-5",
+            "capacity": "Consult owner's manual"
+          },
+          "rear": {
+            "fluidType": "SAE 75W-90 GL-5",
+            "capacity": "Consult owner's manual"
+          }
+        },
+        "brakeFluid": "DOT 3",
+        "tires": {
+          "frontPSI": 30,
+          "rearPSI": 30,
+          "oemSizes": [
+            "Consult owner's manual"
+          ],
+          "lugNutTorque": 100
+        },
+        "bulbs": {
+          "lowBeam": "Consult owner's manual",
+          "highBeam": "Consult owner's manual",
+          "frontTurn": "Consult owner's manual",
+          "rearTurn": "Consult owner's manual",
+          "tailBrake": "Consult owner's manual",
+          "interior": "Consult owner's manual",
+          "license": "Consult owner's manual"
+        },
+        "obd2Location": "Under driver-side dashboard near steering column."
+      }
+    },
+    "rx-7": {
+      "1993-1995": {
+        "engine": {
+          "oilViscosity": "Rotary-specific oil; 1.3L 13B-REW twin-turbo with oil injection; no conventional piston-engine specification",
+          "oilCapacity": "Consult owner's manual",
+          "oilFilterPN": "Consult owner's manual",
+          "coolantType": "Dex-Cool or manufacturer-approved coolant",
+          "coolantCapacity": "Consult owner's manual"
+        },
+        "transmission": {
+          "fluidType": "API GL-4 manual transmission oil",
+          "capacity": "Consult owner's manual"
+        },
+        "transferCase": {
+          "fluidType": "Consult owner's manual",
+          "capacity": "Consult owner's manual"
+        },
+        "differentials": {
+          "front": null,
+          "rear": {
+            "fluidType": "SAE 75W-90 GL-5",
+            "capacity": "Consult owner's manual"
+          }
+        },
+        "brakeFluid": "DOT 3",
+        "tires": {
+          "frontPSI": 32,
+          "rearPSI": 32,
+          "oemSizes": [
+            "Consult owner's manual"
+          ],
+          "lugNutTorque": 100
+        },
+        "bulbs": {
+          "lowBeam": "Consult owner's manual",
+          "highBeam": "Consult owner's manual",
+          "frontTurn": "Consult owner's manual",
+          "rearTurn": "Consult owner's manual",
+          "tailBrake": "Consult owner's manual",
+          "interior": "Consult owner's manual",
+          "license": "Consult owner's manual"
+        },
+        "obd2Location": "Under driver-side dashboard near steering column."
+      }
+    },
+    "rx-8": {
+      "2004-2011": {
+        "engine": {
+          "oilViscosity": "Rotary-specific oil; 1.3L Renesis oil metering injection; frequent level checks",
+          "oilCapacity": "Consult owner's manual",
+          "oilFilterPN": "Consult owner's manual",
+          "coolantType": "Dex-Cool or manufacturer-approved coolant",
+          "coolantCapacity": "Consult owner's manual"
+        },
+        "transmission": {
+          "fluidType": "Mazda manual transmission oil or Mazda ATF M-V",
+          "capacity": "Consult owner's manual"
+        },
+        "transferCase": {
+          "fluidType": "Consult owner's manual",
+          "capacity": "Consult owner's manual"
+        },
+        "differentials": {
+          "front": null,
+          "rear": {
+            "fluidType": "SAE 75W-90 GL-5",
+            "capacity": "Consult owner's manual"
+          }
+        },
+        "brakeFluid": "DOT 3",
+        "tires": {
+          "frontPSI": 32,
+          "rearPSI": 32,
+          "oemSizes": [
+            "Consult owner's manual"
+          ],
+          "lugNutTorque": 100
+        },
+        "bulbs": {
+          "lowBeam": "Consult owner's manual",
+          "highBeam": "Consult owner's manual",
+          "frontTurn": "Consult owner's manual",
+          "rearTurn": "Consult owner's manual",
+          "tailBrake": "Consult owner's manual",
+          "interior": "Consult owner's manual",
+          "license": "Consult owner's manual"
+        },
+        "obd2Location": "Under driver-side dashboard near steering column."
+      }
+    }
+  },
+  "buick": {
+    "envision": {
+      "2016-2026": {
+        "engine": {
+          "oilViscosity": "Dexos1 5W-30 2.0L turbo/2.5L I4",
+          "oilCapacity": "Consult owner's manual",
+          "oilFilterPN": "Consult owner's manual",
+          "coolantType": "Dex-Cool or manufacturer-approved coolant",
+          "coolantCapacity": "Consult owner's manual"
+        },
+        "transmission": {
+          "fluidType": "DEXRON-VI 9T50",
+          "capacity": "Consult owner's manual"
+        },
+        "transferCase": {
+          "fluidType": "Consult owner's manual",
+          "capacity": "Consult owner's manual"
+        },
+        "differentials": {
+          "front": {
+            "fluidType": "SAE 75W-90 GL-5",
+            "capacity": "Consult owner's manual"
+          },
+          "rear": {
+            "fluidType": "SAE 75W-90 GL-5",
+            "capacity": "Consult owner's manual"
+          }
+        },
+        "brakeFluid": "DOT 3",
+        "tires": {
+          "frontPSI": 35,
+          "rearPSI": 35,
+          "oemSizes": [
+            "Consult owner's manual"
+          ],
+          "lugNutTorque": 100
+        },
+        "bulbs": {
+          "lowBeam": "Consult owner's manual",
+          "highBeam": "Consult owner's manual",
+          "frontTurn": "Consult owner's manual",
+          "rearTurn": "Consult owner's manual",
+          "tailBrake": "Consult owner's manual",
+          "interior": "Consult owner's manual",
+          "license": "Consult owner's manual"
+        },
+        "obd2Location": "Under driver-side dashboard near steering column."
+      }
+    },
+    "encore": {
+      "2013-2022": {
+        "engine": {
+          "oilViscosity": "Dexos1 5W-30 1.4L turbo LUJ/LUV",
+          "oilCapacity": "Consult owner's manual",
+          "oilFilterPN": "Consult owner's manual",
+          "coolantType": "Dex-Cool or manufacturer-approved coolant",
+          "coolantCapacity": "Consult owner's manual"
+        },
+        "transmission": {
+          "fluidType": "DEXRON-VI 6T40",
+          "capacity": "Consult owner's manual"
+        },
+        "transferCase": null,
+        "differentials": {
+          "front": null,
+          "rear": null
+        },
+        "brakeFluid": "DOT 3",
+        "tires": {
+          "frontPSI": 35,
+          "rearPSI": 35,
+          "oemSizes": [
+            "Consult owner's manual"
+          ],
+          "lugNutTorque": 100
+        },
+        "bulbs": {
+          "lowBeam": "Consult owner's manual",
+          "highBeam": "Consult owner's manual",
+          "frontTurn": "Consult owner's manual",
+          "rearTurn": "Consult owner's manual",
+          "tailBrake": "Consult owner's manual",
+          "interior": "Consult owner's manual",
+          "license": "Consult owner's manual"
+        },
+        "obd2Location": "Under driver-side dashboard near steering column."
+      }
+    },
+    "lacrosse": {
+      "2005-2009": {
+        "engine": {
+          "oilViscosity": "5W-30 3.8L V6/5.3L V8",
+          "oilCapacity": "Consult owner's manual",
+          "oilFilterPN": "Consult owner's manual",
+          "coolantType": "Dex-Cool or manufacturer-approved coolant",
+          "coolantCapacity": "Consult owner's manual"
+        },
+        "transmission": {
+          "fluidType": "DEXRON-VI 4T65-E",
+          "capacity": "Consult owner's manual"
+        },
+        "transferCase": null,
+        "differentials": {
+          "front": null,
+          "rear": null
+        },
+        "brakeFluid": "DOT 3",
+        "tires": {
+          "frontPSI": 32,
+          "rearPSI": 32,
+          "oemSizes": [
+            "Consult owner's manual"
+          ],
+          "lugNutTorque": 100
+        },
+        "bulbs": {
+          "lowBeam": "Consult owner's manual",
+          "highBeam": "Consult owner's manual",
+          "frontTurn": "Consult owner's manual",
+          "rearTurn": "Consult owner's manual",
+          "tailBrake": "Consult owner's manual",
+          "interior": "Consult owner's manual",
+          "license": "Consult owner's manual"
+        },
+        "obd2Location": "Under driver-side dashboard near steering column."
+      },
+      "2010-2016": {
+        "engine": {
+          "oilViscosity": "5W-30 2.4L eAssist/3.0L/3.6L V6",
+          "oilCapacity": "Consult owner's manual",
+          "oilFilterPN": "Consult owner's manual",
+          "coolantType": "Dex-Cool or manufacturer-approved coolant",
+          "coolantCapacity": "Consult owner's manual"
+        },
+        "transmission": {
+          "fluidType": "DEXRON-VI 6T40/6T50/6T70",
+          "capacity": "Consult owner's manual"
+        },
+        "transferCase": null,
+        "differentials": {
+          "front": null,
+          "rear": null
+        },
+        "brakeFluid": "DOT 3",
+        "tires": {
+          "frontPSI": 32,
+          "rearPSI": 32,
+          "oemSizes": [
+            "Consult owner's manual"
+          ],
+          "lugNutTorque": 100
+        },
+        "bulbs": {
+          "lowBeam": "Consult owner's manual",
+          "highBeam": "Consult owner's manual",
+          "frontTurn": "Consult owner's manual",
+          "rearTurn": "Consult owner's manual",
+          "tailBrake": "Consult owner's manual",
+          "interior": "Consult owner's manual",
+          "license": "Consult owner's manual"
+        },
+        "obd2Location": "Under driver-side dashboard near steering column."
+      },
+      "2017-2019": {
+        "engine": {
+          "oilViscosity": "5W-30 3.6L V6",
+          "oilCapacity": "Consult owner's manual",
+          "oilFilterPN": "Consult owner's manual",
+          "coolantType": "Dex-Cool or manufacturer-approved coolant",
+          "coolantCapacity": "Consult owner's manual"
+        },
+        "transmission": {
+          "fluidType": "DEXRON-VI 9-speed",
+          "capacity": "Consult owner's manual"
+        },
+        "transferCase": null,
+        "differentials": {
+          "front": null,
+          "rear": null
+        },
+        "brakeFluid": "DOT 3",
+        "tires": {
+          "frontPSI": 32,
+          "rearPSI": 32,
+          "oemSizes": [
+            "Consult owner's manual"
+          ],
+          "lugNutTorque": 100
+        },
+        "bulbs": {
+          "lowBeam": "Consult owner's manual",
+          "highBeam": "Consult owner's manual",
+          "frontTurn": "Consult owner's manual",
+          "rearTurn": "Consult owner's manual",
+          "tailBrake": "Consult owner's manual",
+          "interior": "Consult owner's manual",
+          "license": "Consult owner's manual"
+        },
+        "obd2Location": "Under driver-side dashboard near steering column."
+      }
+    },
+    "gnx": {
+      "1987-1987": {
+        "engine": {
+          "oilViscosity": "5W-30 3.8L turbo V6 LC2",
+          "oilCapacity": "Consult owner's manual",
+          "oilFilterPN": "Consult owner's manual",
+          "coolantType": "Dex-Cool or manufacturer-approved coolant",
+          "coolantCapacity": "Consult owner's manual"
+        },
+        "transmission": {
+          "fluidType": "DEXRON-II/III 200-4R",
+          "capacity": "Consult owner's manual"
+        },
+        "transferCase": {
+          "fluidType": "Consult owner's manual",
+          "capacity": "Consult owner's manual"
+        },
+        "differentials": {
+          "front": null,
+          "rear": {
+            "fluidType": "SAE 75W-90 GL-5",
+            "capacity": "Consult owner's manual"
+          }
+        },
+        "brakeFluid": "DOT 3",
+        "tires": {
+          "frontPSI": 32,
+          "rearPSI": 32,
+          "oemSizes": [
+            "Consult owner's manual"
+          ],
+          "lugNutTorque": 100
+        },
+        "bulbs": {
+          "lowBeam": "Consult owner's manual",
+          "highBeam": "Consult owner's manual",
+          "frontTurn": "Consult owner's manual",
+          "rearTurn": "Consult owner's manual",
+          "tailBrake": "Consult owner's manual",
+          "interior": "Consult owner's manual",
+          "license": "Consult owner's manual"
+        },
+        "obd2Location": "Under driver-side dashboard near steering column."
+      }
+    },
+    "riviera": {
+      "1995-1999": {
+        "engine": {
+          "oilViscosity": "5W-30 3.8L supercharged L67",
+          "oilCapacity": "Consult owner's manual",
+          "oilFilterPN": "Consult owner's manual",
+          "coolantType": "Dex-Cool or manufacturer-approved coolant",
+          "coolantCapacity": "Consult owner's manual"
+        },
+        "transmission": {
+          "fluidType": "DEXRON-III/VI 4T65-E",
+          "capacity": "Consult owner's manual"
+        },
+        "transferCase": null,
+        "differentials": {
+          "front": null,
+          "rear": null
+        },
+        "brakeFluid": "DOT 3",
+        "tires": {
+          "frontPSI": 32,
+          "rearPSI": 32,
+          "oemSizes": [
+            "Consult owner's manual"
+          ],
+          "lugNutTorque": 100
+        },
+        "bulbs": {
+          "lowBeam": "Consult owner's manual",
+          "highBeam": "Consult owner's manual",
+          "frontTurn": "Consult owner's manual",
+          "rearTurn": "Consult owner's manual",
+          "tailBrake": "Consult owner's manual",
+          "interior": "Consult owner's manual",
+          "license": "Consult owner's manual"
+        },
+        "obd2Location": "Under driver-side dashboard near steering column."
+      }
+    },
+    "lesabre": {
+      "2000-2005": {
+        "engine": {
+          "oilViscosity": "5W-30 3.8L 3800 Series II",
+          "oilCapacity": "Consult owner's manual",
+          "oilFilterPN": "Consult owner's manual",
+          "coolantType": "Dex-Cool or manufacturer-approved coolant",
+          "coolantCapacity": "Consult owner's manual"
+        },
+        "transmission": {
+          "fluidType": "DEXRON-III/VI 4T65-E",
+          "capacity": "Consult owner's manual"
+        },
+        "transferCase": null,
+        "differentials": {
+          "front": null,
+          "rear": null
+        },
+        "brakeFluid": "DOT 3",
+        "tires": {
+          "frontPSI": 32,
+          "rearPSI": 32,
+          "oemSizes": [
+            "Consult owner's manual"
+          ],
+          "lugNutTorque": 100
+        },
+        "bulbs": {
+          "lowBeam": "Consult owner's manual",
+          "highBeam": "Consult owner's manual",
+          "frontTurn": "Consult owner's manual",
+          "rearTurn": "Consult owner's manual",
+          "tailBrake": "Consult owner's manual",
+          "interior": "Consult owner's manual",
+          "license": "Consult owner's manual"
+        },
+        "obd2Location": "Under driver-side dashboard near steering column."
+      }
+    },
+    "park avenue": {
+      "1997-2005": {
+        "engine": {
+          "oilViscosity": "5W-30 3.8L 3800 Series II/III",
+          "oilCapacity": "Consult owner's manual",
+          "oilFilterPN": "Consult owner's manual",
+          "coolantType": "Dex-Cool or manufacturer-approved coolant",
+          "coolantCapacity": "Consult owner's manual"
+        },
+        "transmission": {
+          "fluidType": "DEXRON-III/VI 4T65-E",
+          "capacity": "Consult owner's manual"
+        },
+        "transferCase": null,
+        "differentials": {
+          "front": null,
+          "rear": null
+        },
+        "brakeFluid": "DOT 3",
+        "tires": {
+          "frontPSI": 32,
+          "rearPSI": 32,
+          "oemSizes": [
+            "Consult owner's manual"
+          ],
+          "lugNutTorque": 100
+        },
+        "bulbs": {
+          "lowBeam": "Consult owner's manual",
+          "highBeam": "Consult owner's manual",
+          "frontTurn": "Consult owner's manual",
+          "rearTurn": "Consult owner's manual",
+          "tailBrake": "Consult owner's manual",
+          "interior": "Consult owner's manual",
+          "license": "Consult owner's manual"
+        },
+        "obd2Location": "Under driver-side dashboard near steering column."
+      }
+    },
+    "rendezvous": {
+      "2002-2007": {
+        "engine": {
+          "oilViscosity": "5W-30 3.4L LA1/3.6L LY7",
+          "oilCapacity": "Consult owner's manual",
+          "oilFilterPN": "Consult owner's manual",
+          "coolantType": "Dex-Cool or manufacturer-approved coolant",
+          "coolantCapacity": "Consult owner's manual"
+        },
+        "transmission": {
+          "fluidType": "DEXRON-III/VI 4T65-E",
+          "capacity": "Consult owner's manual"
+        },
+        "transferCase": {
+          "fluidType": "Consult owner's manual",
+          "capacity": "Consult owner's manual"
+        },
+        "differentials": {
+          "front": {
+            "fluidType": "SAE 75W-90 GL-5",
+            "capacity": "Consult owner's manual"
+          },
+          "rear": {
+            "fluidType": "SAE 75W-90 GL-5",
+            "capacity": "Consult owner's manual"
+          }
+        },
+        "brakeFluid": "DOT 3",
+        "tires": {
+          "frontPSI": 35,
+          "rearPSI": 35,
+          "oemSizes": [
+            "Consult owner's manual"
+          ],
+          "lugNutTorque": 100
+        },
+        "bulbs": {
+          "lowBeam": "Consult owner's manual",
+          "highBeam": "Consult owner's manual",
+          "frontTurn": "Consult owner's manual",
+          "rearTurn": "Consult owner's manual",
+          "tailBrake": "Consult owner's manual",
+          "interior": "Consult owner's manual",
+          "license": "Consult owner's manual"
+        },
+        "obd2Location": "Under driver-side dashboard near steering column."
+      }
+    }
+  }
+};
+for (const [make, models] of Object.entries(wave20AutoBackfill)) {
+  referenceSpecs[make] = referenceSpecs[make] || {};
+  for (const [model, years] of Object.entries(models)) referenceSpecs[make][model] = { ...referenceSpecs[make][model], ...years };
+}
