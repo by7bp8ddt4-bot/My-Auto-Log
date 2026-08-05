@@ -10543,3 +10543,104 @@ for (const [make, models] of Object.entries(wave24RVBackfill)) {
     referenceSpecs[make][model] = { ...referenceSpecs[make][model], ...years };
   }
 }
+
+// ── Wave 25 marine reference backfill ───────────────────────────────────────
+const wave25MarineBackfill = {
+  caterpillar: {
+    c9: {
+      '2005-2026': {
+        engine: { oilViscosity: 'SAE 15W-40 diesel oil', oilCapacity: "Consult owner's manual", oilFilterPN: "Consult owner's manual", coolantType: 'Closed freshwater cooling with heat exchanger; manufacturer-approved marine coolant', coolantCapacity: "Consult owner's manual" },
+        transmission: { fluidType: 'Marine gear oil — SAE 30 or manufacturer-specified marine transmission fluid', capacity: "Consult owner's manual" },
+        transferCase: null, differentials: { front: null, rear: null }, brakeFluid: 'N/A — marine vessel (no wheel brakes)',
+        tires: { frontPSI: 'N/A', rearPSI: 'N/A', oemSizes: [], lugNutTorque: 'N/A' },
+        bulbs: { lowBeam: 'N/A', highBeam: 'N/A', frontTurn: 'N/A', rearTurn: 'N/A', tailBrake: 'N/A', interior: 'N/A', license: 'N/A' },
+        obd2Location: 'Marine diagnostic connector varies by engine — SAE J1939 for CAT marine engines. Not standard OBD-II.', serviceUnit: 'hrs',
+        note: 'Marine engine. Inline-6, 8.8L. Raw water pump impeller replacement is critical maintenance. Check zinc anodes regularly.'
+      }
+    },
+    'c4.4': {
+      '2005-2026': {
+        engine: { oilViscosity: 'SAE 15W-40 diesel oil', oilCapacity: "Consult owner's manual", oilFilterPN: "Consult owner's manual", coolantType: 'Closed freshwater cooling with heat exchanger; manufacturer-approved marine coolant', coolantCapacity: "Consult owner's manual" },
+        transmission: { fluidType: 'Marine gear oil — SAE 30 or manufacturer-specified marine transmission fluid', capacity: "Consult owner's manual" },
+        transferCase: null, differentials: { front: null, rear: null }, brakeFluid: 'N/A — marine vessel (no wheel brakes)',
+        tires: { frontPSI: 'N/A', rearPSI: 'N/A', oemSizes: [], lugNutTorque: 'N/A' },
+        bulbs: { lowBeam: 'N/A', highBeam: 'N/A', frontTurn: 'N/A', rearTurn: 'N/A', tailBrake: 'N/A', interior: 'N/A', license: 'N/A' },
+        obd2Location: 'Marine diagnostic connector varies by engine — SAE J1939 for CAT marine engines. Not standard OBD-II.', serviceUnit: 'hrs',
+        note: 'Marine engine. 4-cylinder, 4.4L. Raw water pump impeller replacement is critical maintenance. Check zinc anodes regularly.'
+      }
+    },
+    'c6.6': {
+      '2005-2026': {
+        engine: { oilViscosity: 'SAE 15W-40 diesel oil', oilCapacity: "Consult owner's manual", oilFilterPN: "Consult owner's manual", coolantType: 'Closed freshwater cooling with heat exchanger; manufacturer-approved marine coolant', coolantCapacity: "Consult owner's manual" },
+        transmission: { fluidType: 'Marine gear oil — SAE 30 or manufacturer-specified marine transmission fluid', capacity: "Consult owner's manual" },
+        transferCase: null, differentials: { front: null, rear: null }, brakeFluid: 'N/A — marine vessel (no wheel brakes)',
+        tires: { frontPSI: 'N/A', rearPSI: 'N/A', oemSizes: [], lugNutTorque: 'N/A' },
+        bulbs: { lowBeam: 'N/A', highBeam: 'N/A', frontTurn: 'N/A', rearTurn: 'N/A', tailBrake: 'N/A', interior: 'N/A', license: 'N/A' },
+        obd2Location: 'Marine diagnostic connector varies by engine — SAE J1939 for CAT marine engines. Not standard OBD-II.', serviceUnit: 'hrs',
+        note: 'Marine engine. Inline-6, 6.6L. Raw water pump impeller replacement is critical maintenance. Check zinc anodes regularly.'
+      }
+    },
+    'c8.7': {
+      '2010-2026': {
+        engine: { oilViscosity: 'SAE 15W-40 diesel oil', oilCapacity: "Consult owner's manual", oilFilterPN: "Consult owner's manual", coolantType: 'Closed freshwater cooling with heat exchanger; manufacturer-approved marine coolant', coolantCapacity: "Consult owner's manual" },
+        transmission: { fluidType: 'Marine gear oil — SAE 30 or manufacturer-specified marine transmission fluid', capacity: "Consult owner's manual" },
+        transferCase: null, differentials: { front: null, rear: null }, brakeFluid: 'N/A — marine vessel (no wheel brakes)',
+        tires: { frontPSI: 'N/A', rearPSI: 'N/A', oemSizes: [], lugNutTorque: 'N/A' },
+        bulbs: { lowBeam: 'N/A', highBeam: 'N/A', frontTurn: 'N/A', rearTurn: 'N/A', tailBrake: 'N/A', interior: 'N/A', license: 'N/A' },
+        obd2Location: 'Marine diagnostic connector varies by engine — SAE J1939 for CAT marine engines. Not standard OBD-II.', serviceUnit: 'hrs',
+        note: 'Marine engine. Inline-6, 8.7L. Raw water pump impeller replacement is critical maintenance. Check zinc anodes regularly.'
+      }
+    }
+  },
+  mercury: {
+    'pro xs': {
+      '2010-2026': {
+        engine: { oilViscosity: '10W-30 Mercury/Quicksilver 4-stroke oil; 25W-40 for some models', oilCapacity: "Consult owner's manual", oilFilterPN: "Consult owner's manual", coolantType: null, coolantCapacity: null },
+        transmission: { fluidType: 'Mercury High Performance gear lube', capacity: "Consult owner's manual" }, transferCase: null, differentials: { front: null, rear: null }, brakeFluid: 'N/A — marine vessel (no wheel brakes)',
+        tires: { frontPSI: 'N/A', rearPSI: 'N/A', oemSizes: [], lugNutTorque: 'N/A' }, bulbs: { lowBeam: 'N/A', highBeam: 'N/A', frontTurn: 'N/A', rearTurn: 'N/A', tailBrake: 'N/A', interior: 'N/A', license: 'N/A' },
+        obd2Location: 'No standard OBD-II; Mercury marine diagnostic connector location varies by engine.', serviceUnit: 'hrs', note: 'Marine outboard. 2.5L-4.6L V6/V8 4-stroke. Raw water cooled; water pump impeller replacement is critical maintenance.'
+      }
+    },
+    fourstroke: {
+      '2005-2026': {
+        engine: { oilViscosity: '10W-30 or 25W-40 Mercury 4-stroke oil', oilCapacity: "Consult owner's manual", oilFilterPN: "Consult owner's manual", coolantType: null, coolantCapacity: null },
+        transmission: { fluidType: 'Mercury High Performance gear lube', capacity: "Consult owner's manual" }, transferCase: null, differentials: { front: null, rear: null }, brakeFluid: 'N/A — marine vessel (no wheel brakes)',
+        tires: { frontPSI: 'N/A', rearPSI: 'N/A', oemSizes: [], lugNutTorque: 'N/A' }, bulbs: { lowBeam: 'N/A', highBeam: 'N/A', frontTurn: 'N/A', rearTurn: 'N/A', tailBrake: 'N/A', interior: 'N/A', license: 'N/A' },
+        obd2Location: 'No standard OBD-II; Mercury marine diagnostic connector location varies by engine.', serviceUnit: 'hrs', note: 'Marine outboard. Various 2.5L-4.6L displacements. Raw water cooled; water pump impeller replacement is critical maintenance.'
+      }
+    },
+    optimax: {
+      '1998-2018': {
+        engine: { oilViscosity: 'Mercury Optimax/DFI 2-stroke oil', oilCapacity: 'Separate oil injection tank; consult owner\'s manual', oilFilterPN: "Consult owner's manual", coolantType: null, coolantCapacity: null },
+        transmission: { fluidType: 'Mercury High Performance gear lube', capacity: "Consult owner's manual" }, transferCase: null, differentials: { front: null, rear: null }, brakeFluid: 'N/A — marine vessel (no wheel brakes)',
+        tires: { frontPSI: 'N/A', rearPSI: 'N/A', oemSizes: [], lugNutTorque: 'N/A' }, bulbs: { lowBeam: 'N/A', highBeam: 'N/A', frontTurn: 'N/A', rearTurn: 'N/A', tailBrake: 'N/A', interior: 'N/A', license: 'N/A' },
+        obd2Location: 'No standard OBD-II; Mercury marine diagnostic connector location varies by engine.', serviceUnit: 'hrs', note: 'Marine outboard. 2-stroke direct-injection; no crankcase oil, uses separate DFI oil injection. Raw water cooled; water pump impeller replacement is critical maintenance.'
+      }
+    }
+  },
+  yanmar: {
+    '3ym30': {
+      '2005-2026': {
+        engine: { oilViscosity: 'SAE 15W-40 diesel oil', oilCapacity: "Consult owner's manual", oilFilterPN: "Consult owner's manual", coolantType: 'Raw water cooling; manufacturer-specified marine coolant where fitted', coolantCapacity: "Consult owner's manual" },
+        transmission: { fluidType: 'Marine gear oil — SAE 30 or manufacturer-specified marine transmission fluid', capacity: "Consult owner's manual" }, transferCase: null, differentials: { front: null, rear: null }, brakeFluid: 'N/A — marine vessel (no wheel brakes)', tires: { frontPSI: 'N/A', rearPSI: 'N/A', oemSizes: [], lugNutTorque: 'N/A' }, bulbs: { lowBeam: 'N/A', highBeam: 'N/A', frontTurn: 'N/A', rearTurn: 'N/A', tailBrake: 'N/A', interior: 'N/A', license: 'N/A' }, obd2Location: 'No standard OBD-II; Yanmar marine diagnostic connector location varies by engine.', serviceUnit: 'hrs', note: 'Marine engine. 3-cylinder, 29 HP sailboat auxiliary. Raw water pump impeller replacement is critical maintenance. Check zinc anodes regularly.'
+      }
+    },
+    '4jh5': {
+      '2005-2026': {
+        engine: { oilViscosity: 'SAE 15W-40 diesel oil', oilCapacity: "Consult owner's manual", oilFilterPN: "Consult owner's manual", coolantType: 'Freshwater cooling with heat exchanger; manufacturer-approved marine coolant', coolantCapacity: "Consult owner's manual" },
+        transmission: { fluidType: 'Marine gear oil — SAE 30 or manufacturer-specified marine transmission fluid', capacity: "Consult owner's manual" }, transferCase: null, differentials: { front: null, rear: null }, brakeFluid: 'N/A — marine vessel (no wheel brakes)', tires: { frontPSI: 'N/A', rearPSI: 'N/A', oemSizes: [], lugNutTorque: 'N/A' }, bulbs: { lowBeam: 'N/A', highBeam: 'N/A', frontTurn: 'N/A', rearTurn: 'N/A', tailBrake: 'N/A', interior: 'N/A', license: 'N/A' }, obd2Location: 'No standard OBD-II; Yanmar marine diagnostic connector location varies by engine.', serviceUnit: 'hrs', note: 'Marine engine. 4-cylinder, 53 HP cruising sailboat engine. Raw water pump impeller replacement is critical maintenance. Check zinc anodes regularly.'
+      }
+    },
+    '6lp': {
+      '2005-2026': {
+        engine: { oilViscosity: 'SAE 15W-40 diesel oil', oilCapacity: "Consult owner's manual", oilFilterPN: "Consult owner's manual", coolantType: 'Freshwater cooling with heat exchanger; manufacturer-approved marine coolant', coolantCapacity: "Consult owner's manual" },
+        transmission: { fluidType: 'Marine gear oil — SAE 30 or manufacturer-specified marine transmission fluid', capacity: "Consult owner's manual" }, transferCase: null, differentials: { front: null, rear: null }, brakeFluid: 'N/A — marine vessel (no wheel brakes)', tires: { frontPSI: 'N/A', rearPSI: 'N/A', oemSizes: [], lugNutTorque: 'N/A' }, bulbs: { lowBeam: 'N/A', highBeam: 'N/A', frontTurn: 'N/A', rearTurn: 'N/A', tailBrake: 'N/A', interior: 'N/A', license: 'N/A' }, obd2Location: 'No standard OBD-II; Yanmar marine diagnostic connector location varies by engine.', serviceUnit: 'hrs', note: 'Marine engine. 6-cylinder, 250-315 HP, often turbocharged, for high-speed planing hulls. Raw water pump impeller replacement is critical maintenance. Check zinc anodes regularly.'
+      }
+    }
+  }
+};
+for (const [make, models] of Object.entries(wave25MarineBackfill)) {
+  referenceSpecs[make] = referenceSpecs[make] || {};
+  for (const [model, years] of Object.entries(models))
+    referenceSpecs[make][model] = { ...referenceSpecs[make][model], ...years };
+}
