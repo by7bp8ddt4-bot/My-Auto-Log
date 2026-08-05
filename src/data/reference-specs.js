@@ -7076,7 +7076,6 @@ for (const [make, models] of Object.entries(wave19BackfillB)) {
   }
 }
 
-export default referenceSpecs;
 
 
 // ── Wave 20 automotive reference backfill ─────────────
@@ -10644,3 +10643,90 @@ for (const [make, models] of Object.entries(wave25MarineBackfill)) {
   for (const [model, years] of Object.entries(models))
     referenceSpecs[make][model] = { ...referenceSpecs[make][model], ...years };
 }
+
+// ── Wave 26 Hyster Electric forklift reference specs ────────────────────────
+const wave26HysterElectricForklift = {
+  'hyster electric': {
+    e40: {
+      '2000-2026': {
+        engine: { oilViscosity: 'N/A — electric motor (no engine oil)', oilCapacity: 'N/A', oilFilterPN: 'N/A', coolantType: 'Manufacturer-specified coolant for motor/controller cooling', coolantCapacity: "Consult owner's manual" },
+        transmission: { fluidType: 'Hydraulic oil — manufacturer-specified lift-system fluid', capacity: "Consult owner's manual" },
+        transferCase: null, differentials: { front: null, rear: null }, brakeFluid: 'DOT 3',
+        tires: { frontPSI: 'N/A — solid cushion tires; inspect condition and wear', rearPSI: 'N/A — solid cushion tires; inspect condition and wear', oemSizes: ['Solid cushion industrial forklift tires'], lugNutTorque: "Consult owner's manual" },
+        bulbs: { lowBeam: 'Industrial LED work light', highBeam: 'Industrial LED work light', frontTurn: 'Industrial LED work light', rearTurn: 'Industrial LED work light', tailBrake: 'Industrial LED work light', interior: 'N/A', license: 'N/A' },
+        obd2Location: 'Industrial diagnostic connector; not standard OBD-II. Location varies by Hyster service model.', serviceUnit: 'hrs',
+        note: 'Electric counterbalance forklift, approximately 4,000 lb capacity. Verify hydraulic oil, coolant, tire, and lighting specifications in the model-specific Hyster service manual.'
+      }
+    },
+    e50: {
+      '2000-2026': {
+        engine: { oilViscosity: 'N/A — electric motor (no engine oil)', oilCapacity: 'N/A', oilFilterPN: 'N/A', coolantType: 'Manufacturer-specified coolant for motor/controller cooling', coolantCapacity: "Consult owner's manual" },
+        transmission: { fluidType: 'Hydraulic oil — manufacturer-specified lift-system fluid', capacity: "Consult owner's manual" }, transferCase: null, differentials: { front: null, rear: null }, brakeFluid: 'DOT 3',
+        tires: { frontPSI: 'N/A — solid cushion tires; inspect condition and wear', rearPSI: 'N/A — solid cushion tires; inspect condition and wear', oemSizes: ['Solid cushion industrial forklift tires'], lugNutTorque: "Consult owner's manual" },
+        bulbs: { lowBeam: 'Industrial LED work light', highBeam: 'Industrial LED work light', frontTurn: 'Industrial LED work light', rearTurn: 'Industrial LED work light', tailBrake: 'Industrial LED work light', interior: 'N/A', license: 'N/A' },
+        obd2Location: 'Industrial diagnostic connector; not standard OBD-II. Location varies by Hyster service model.', serviceUnit: 'hrs', note: 'Electric counterbalance forklift, approximately 5,000 lb capacity. Verify specifications in the model-specific Hyster service manual.'
+      }
+    },
+    e60: {
+      '2000-2026': {
+        engine: { oilViscosity: 'N/A — electric motor (no engine oil)', oilCapacity: 'N/A', oilFilterPN: 'N/A', coolantType: 'Manufacturer-specified coolant for motor/controller cooling', coolantCapacity: "Consult owner's manual" },
+        transmission: { fluidType: 'Hydraulic oil — manufacturer-specified lift-system fluid', capacity: "Consult owner's manual" }, transferCase: null, differentials: { front: null, rear: null }, brakeFluid: 'DOT 3',
+        tires: { frontPSI: 'N/A — solid cushion or pneumatic industrial tires; verify configuration', rearPSI: 'N/A — solid cushion or pneumatic industrial tires; verify configuration', oemSizes: ['Solid cushion or pneumatic industrial forklift tires'], lugNutTorque: "Consult owner's manual" },
+        bulbs: { lowBeam: 'Industrial LED work light', highBeam: 'Industrial LED work light', frontTurn: 'Industrial LED work light', rearTurn: 'Industrial LED work light', tailBrake: 'Industrial LED work light', interior: 'N/A', license: 'N/A' },
+        obd2Location: 'Industrial diagnostic connector; not standard OBD-II. Location varies by Hyster service model.', serviceUnit: 'hrs', note: 'Electric counterbalance forklift, approximately 6,000 lb capacity. Verify specifications in the model-specific Hyster service manual.'
+      }
+    },
+    e80: {
+      '2000-2026': {
+        engine: { oilViscosity: 'N/A — electric motor (no engine oil)', oilCapacity: 'N/A', oilFilterPN: 'N/A', coolantType: 'Manufacturer-specified coolant for motor/controller cooling', coolantCapacity: "Consult owner's manual" },
+        transmission: { fluidType: 'Hydraulic oil — manufacturer-specified lift-system fluid', capacity: "Consult owner's manual" }, transferCase: null, differentials: { front: null, rear: null }, brakeFluid: 'DOT 3',
+        tires: { frontPSI: 'N/A — solid cushion or pneumatic industrial tires; verify configuration', rearPSI: 'N/A — solid cushion or pneumatic industrial tires; verify configuration', oemSizes: ['Solid cushion or pneumatic industrial forklift tires'], lugNutTorque: "Consult owner's manual" },
+        bulbs: { lowBeam: 'Industrial LED work light', highBeam: 'Industrial LED work light', frontTurn: 'Industrial LED work light', rearTurn: 'Industrial LED work light', tailBrake: 'Industrial LED work light', interior: 'N/A', license: 'N/A' },
+        obd2Location: 'Industrial diagnostic connector; not standard OBD-II. Location varies by Hyster service model.', serviceUnit: 'hrs', note: 'Electric counterbalance forklift, approximately 8,000 lb capacity. Verify specifications in the model-specific Hyster service manual.'
+      }
+    },
+    e100: {
+      '2000-2026': {
+        engine: { oilViscosity: 'N/A — electric motor (no engine oil)', oilCapacity: 'N/A', oilFilterPN: 'N/A', coolantType: 'Manufacturer-specified coolant for motor/controller cooling', coolantCapacity: "Consult owner's manual" },
+        transmission: { fluidType: 'Hydraulic oil — manufacturer-specified lift-system fluid', capacity: "Consult owner's manual" }, transferCase: null, differentials: { front: null, rear: null }, brakeFluid: 'DOT 3',
+        tires: { frontPSI: 'N/A — solid cushion or pneumatic industrial tires; verify configuration', rearPSI: 'N/A — solid cushion or pneumatic industrial tires; verify configuration', oemSizes: ['Solid cushion or pneumatic industrial forklift tires'], lugNutTorque: "Consult owner's manual" },
+        bulbs: { lowBeam: 'Industrial LED work light', highBeam: 'Industrial LED work light', frontTurn: 'Industrial LED work light', rearTurn: 'Industrial LED work light', tailBrake: 'Industrial LED work light', interior: 'N/A', license: 'N/A' },
+        obd2Location: 'Industrial diagnostic connector; not standard OBD-II. Location varies by Hyster service model.', serviceUnit: 'hrs', note: 'Electric counterbalance forklift, approximately 10,000 lb capacity. Verify specifications in the model-specific Hyster service manual.'
+      }
+    },
+    j30: {
+      '2000-2026': {
+        engine: { oilViscosity: 'N/A — electric motor (no engine oil)', oilCapacity: 'N/A', oilFilterPN: 'N/A', coolantType: 'Manufacturer-specified coolant for motor/controller cooling', coolantCapacity: "Consult owner's manual" },
+        transmission: { fluidType: 'Hydraulic oil — manufacturer-specified lift-system fluid', capacity: "Consult owner's manual" }, transferCase: null, differentials: { front: null, rear: null }, brakeFluid: 'DOT 3',
+        tires: { frontPSI: 'N/A — solid cushion tires; inspect condition and wear', rearPSI: 'N/A — solid cushion tires; inspect condition and wear', oemSizes: ['Solid cushion industrial forklift tires'], lugNutTorque: "Consult owner's manual" },
+        bulbs: { lowBeam: 'Industrial LED work light', highBeam: 'Industrial LED work light', frontTurn: 'Industrial LED work light', rearTurn: 'Industrial LED work light', tailBrake: 'Industrial LED work light', interior: 'N/A', license: 'N/A' },
+        obd2Location: 'Industrial diagnostic connector; not standard OBD-II. Location varies by Hyster service model.', serviceUnit: 'hrs', note: 'Electric warehouse stacker, approximately 3,000 lb capacity. Verify specifications in the model-specific Hyster service manual.'
+      }
+    },
+    j40: {
+      '2000-2026': {
+        engine: { oilViscosity: 'N/A — electric motor (no engine oil)', oilCapacity: 'N/A', oilFilterPN: 'N/A', coolantType: 'Manufacturer-specified coolant for motor/controller cooling', coolantCapacity: "Consult owner's manual" },
+        transmission: { fluidType: 'Hydraulic oil — manufacturer-specified lift-system fluid', capacity: "Consult owner's manual" }, transferCase: null, differentials: { front: null, rear: null }, brakeFluid: 'DOT 3',
+        tires: { frontPSI: 'N/A — solid cushion tires; inspect condition and wear', rearPSI: 'N/A — solid cushion tires; inspect condition and wear', oemSizes: ['Solid cushion industrial forklift tires'], lugNutTorque: "Consult owner's manual" },
+        bulbs: { lowBeam: 'Industrial LED work light', highBeam: 'Industrial LED work light', frontTurn: 'Industrial LED work light', rearTurn: 'Industrial LED work light', tailBrake: 'Industrial LED work light', interior: 'N/A', license: 'N/A' },
+        obd2Location: 'Industrial diagnostic connector; not standard OBD-II. Location varies by Hyster service model.', serviceUnit: 'hrs', note: 'Electric warehouse stacker, approximately 4,000 lb capacity. Verify specifications in the model-specific Hyster service manual.'
+      }
+    },
+    j50: {
+      '2000-2026': {
+        engine: { oilViscosity: 'N/A — electric motor (no engine oil)', oilCapacity: 'N/A', oilFilterPN: 'N/A', coolantType: 'Manufacturer-specified coolant for motor/controller cooling', coolantCapacity: "Consult owner's manual" },
+        transmission: { fluidType: 'Hydraulic oil — manufacturer-specified lift-system fluid', capacity: "Consult owner's manual" }, transferCase: null, differentials: { front: null, rear: null }, brakeFluid: 'DOT 3',
+        tires: { frontPSI: 'N/A — solid cushion tires; inspect condition and wear', rearPSI: 'N/A — solid cushion tires; inspect condition and wear', oemSizes: ['Solid cushion industrial forklift tires'], lugNutTorque: "Consult owner's manual" },
+        bulbs: { lowBeam: 'Industrial LED work light', highBeam: 'Industrial LED work light', frontTurn: 'Industrial LED work light', rearTurn: 'Industrial LED work light', tailBrake: 'Industrial LED work light', interior: 'N/A', license: 'N/A' },
+        obd2Location: 'Industrial diagnostic connector; not standard OBD-II. Location varies by Hyster service model.', serviceUnit: 'hrs', note: 'Electric warehouse stacker, approximately 5,000 lb capacity. Verify specifications in the model-specific Hyster service manual.'
+      }
+    }
+  }
+};
+for (const [make, models] of Object.entries(wave26HysterElectricForklift)) {
+  referenceSpecs[make] = referenceSpecs[make] || {};
+  for (const [model, years] of Object.entries(models))
+    referenceSpecs[make][model] = { ...referenceSpecs[make][model], ...years };
+}
+
+export default referenceSpecs;
