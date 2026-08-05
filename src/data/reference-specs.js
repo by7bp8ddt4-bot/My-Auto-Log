@@ -10436,3 +10436,110 @@ for (const [make, models] of Object.entries(wave23PWCBackfill)) {
   for (const [model, years] of Object.entries(models))
     referenceSpecs[make][model] = { ...referenceSpecs[make][model], ...years };
 }
+
+// ── Wave 24 RV reference backfill ────────────────────────────────────────
+const wave24RVBackfill = {
+  'forest river': {
+    berkshire: {
+      '2010-2026': {
+        engine: {
+          oilViscosity: '15W-40 diesel engine oil (Cummins ISB/ISL; verify chassis requirements)',
+          oilCapacity: "Consult owner's manual",
+          oilFilterPN: "Consult owner's manual",
+          coolantType: 'Heavy-duty diesel engine coolant meeting Cummins/OEM specification',
+          coolantCapacity: "Consult owner's manual"
+        },
+        transmission: {
+          fluidType: 'Allison TES-295/TES-668 approved transmission fluid (verify model)',
+          capacity: "Consult owner's manual"
+        },
+        transferCase: null,
+        differentials: { front: null, rear: { fluidType: 'Consult chassis manual', capacity: "Consult owner's manual" } },
+        brakeFluid: 'Air brakes — refer to chassis manual',
+        tires: { frontPSI: 'Consult chassis placard', rearPSI: 'Consult chassis placard', oemSizes: ["Consult owner's manual"], lugNutTorque: "Consult owner's manual" },
+        bulbs: {
+          lowBeam: "Consult owner's manual", highBeam: "Consult owner's manual", frontTurn: "Consult owner's manual",
+          rearTurn: "Consult owner's manual", tailBrake: "Consult owner's manual", interior: "Consult owner's manual", license: "Consult owner's manual"
+        },
+        obd2Location: 'No conventional OBD-II — diagnostic through engine manufacturer/chassis connector.',
+        note: 'RV — consult vehicle chassis and engine manufacturer manuals for chassis-specific specs. House systems use separate fluids, including generator oil/coolant and hydraulic leveling-jack fluid.'
+      }
+    }
+  },
+  jayco: {
+    alante: {
+      '2018-2026': {
+        engine: {
+          oilViscosity: '5W-30 synthetic blend (Ford 7.3L V8; verify year)',
+          oilCapacity: "Consult owner's manual",
+          oilFilterPN: "Consult owner's manual",
+          coolantType: 'Ford-approved Motorcraft coolant',
+          coolantCapacity: "Consult owner's manual"
+        },
+        transmission: { fluidType: 'Ford MERCON ULV (TorqShift 6-speed; verify chassis year)', capacity: "Consult owner's manual" },
+        transferCase: null,
+        differentials: { front: null, rear: { fluidType: 'Consult Ford F53 chassis manual', capacity: "Consult owner's manual" } },
+        brakeFluid: 'DOT 3',
+        tires: { frontPSI: 'Consult chassis placard', rearPSI: 'Consult chassis placard', oemSizes: ["Consult owner's manual"], lugNutTorque: "Consult owner's manual" },
+        bulbs: {
+          lowBeam: "Consult owner's manual", highBeam: "Consult owner's manual", frontTurn: "Consult owner's manual",
+          rearTurn: "Consult owner's manual", tailBrake: "Consult owner's manual", interior: "Consult owner's manual", license: "Consult owner's manual"
+        },
+        obd2Location: 'Typically under driver-side dashboard for Ford F53; consult chassis manual.',
+        note: 'RV — consult Ford F53 chassis and Jayco house-system manuals. House systems use separate fluids; generator oil/coolant and hydraulic leveling-jack fluid are not engine fluids. Engine air conditioning is separate from engine cooling.'
+      }
+    },
+    precept: {
+      '2018-2026': {
+        engine: {
+          oilViscosity: '5W-30 synthetic blend (Ford 7.3L V8; verify year)',
+          oilCapacity: "Consult owner's manual",
+          oilFilterPN: "Consult owner's manual",
+          coolantType: 'Ford-approved Motorcraft coolant',
+          coolantCapacity: "Consult owner's manual"
+        },
+        transmission: { fluidType: 'Ford MERCON ULV (TorqShift 6-speed; verify chassis year)', capacity: "Consult owner's manual" },
+        transferCase: null,
+        differentials: { front: null, rear: { fluidType: 'Consult Ford F53 chassis manual', capacity: "Consult owner's manual" } },
+        brakeFluid: 'DOT 3',
+        tires: { frontPSI: 'Consult chassis placard', rearPSI: 'Consult chassis placard', oemSizes: ["Consult owner's manual"], lugNutTorque: "Consult owner's manual" },
+        bulbs: {
+          lowBeam: "Consult owner's manual", highBeam: "Consult owner's manual", frontTurn: "Consult owner's manual",
+          rearTurn: "Consult owner's manual", tailBrake: "Consult owner's manual", interior: "Consult owner's manual", license: "Consult owner's manual"
+        },
+        obd2Location: 'Typically under driver-side dashboard for Ford F53; consult chassis manual.',
+        note: 'RV — consult Ford F53 chassis and Jayco house-system manuals. House systems use separate fluids, including generator oil/coolant and hydraulic leveling-jack fluid; engine air conditioning is separate from engine cooling.'
+      }
+    }
+  },
+  newmar: {
+    'london aire': {
+      '2010-2026': {
+        engine: {
+          oilViscosity: '15W-40 diesel engine oil (Cummins; verify engine/chassis)',
+          oilCapacity: "Consult owner's manual",
+          oilFilterPN: "Consult owner's manual",
+          coolantType: 'Heavy-duty diesel engine coolant meeting Cummins/OEM specification',
+          coolantCapacity: "Consult owner's manual"
+        },
+        transmission: { fluidType: 'Allison TES-295/TES-668 approved transmission fluid (verify model)', capacity: "Consult owner's manual" },
+        transferCase: null,
+        differentials: { front: null, rear: { fluidType: 'Consult Spartan chassis manual', capacity: "Consult owner's manual" } },
+        brakeFluid: 'Air brakes — refer to chassis manual',
+        tires: { frontPSI: 'Consult chassis placard', rearPSI: 'Consult chassis placard', oemSizes: ["Consult owner's manual"], lugNutTorque: "Consult owner's manual" },
+        bulbs: {
+          lowBeam: "Consult owner's manual", highBeam: "Consult owner's manual", frontTurn: "Consult owner's manual",
+          rearTurn: "Consult owner's manual", tailBrake: "Consult owner's manual", interior: "Consult owner's manual", license: "Consult owner's manual"
+        },
+        obd2Location: 'No conventional OBD-II — diagnostic through engine manufacturer/chassis ECM connector.',
+        note: 'RV — consult Newmar, Cummins/Spartan, and chassis manuals for chassis-specific specs. House systems use separate fluids, including generator oil/coolant, hydraulic leveling-jack fluid, and Aqua-Hot hydronic heating fluid.'
+      }
+    }
+  }
+};
+for (const [make, models] of Object.entries(wave24RVBackfill)) {
+  referenceSpecs[make] = referenceSpecs[make] || {};
+  for (const [model, years] of Object.entries(models)) {
+    referenceSpecs[make][model] = { ...referenceSpecs[make][model], ...years };
+  }
+}
