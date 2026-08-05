@@ -10227,3 +10227,130 @@ for (const [make, models] of Object.entries(wave21AutoBackfill)) {
   referenceSpecs[make] = referenceSpecs[make] || {};
   for (const [model, years] of Object.entries(models)) referenceSpecs[make][model] = { ...referenceSpecs[make][model], ...years };
 }
+
+// Wave 22: Kubota agricultural equipment reference-spec backfill.
+// Values intentionally remain conservative where configurations vary by engine, market, or implement.
+const wave22AgBackfill = {
+  kubota: {
+    mx5200: {
+      '2013-2026': {
+        engine: {
+          oilViscosity: '15W-40 diesel oil (Kubota DH-2 or equivalent; viscosity varies by ambient temperature)',
+          oilCapacity: "Consult owner's manual",
+          oilFilterPN: "Consult owner's manual",
+          coolantType: 'Kubota-approved long-life diesel coolant',
+          coolantCapacity: "Consult owner's manual"
+        },
+        transmission: {
+          fluidType: 'Kubota UDT or Super UDT-2 universal trans-hydraulic fluid (HST or gear transmission)',
+          capacity: "Consult owner's manual"
+        },
+        transferCase: null,
+        differentials: {
+          front: { fluidType: 'Kubota UDT or Super UDT-2 universal trans-hydraulic fluid', capacity: "Consult owner's manual" },
+          rear: { fluidType: 'Kubota UDT or Super UDT-2 universal trans-hydraulic fluid', capacity: "Consult owner's manual" }
+        },
+        brakeFluid: 'Consult owner\'s manual',
+        tires: {
+          frontPSI: "Consult owner's manual",
+          rearPSI: "Consult owner's manual",
+          oemSizes: ["Consult owner's manual"],
+          lugNutTorque: "Consult owner's manual"
+        },
+        bulbs: {
+          lowBeam: null,
+          highBeam: null,
+          frontTurn: null,
+          rearTurn: null,
+          tailBrake: null,
+          interior: null,
+          license: null
+        },
+        obd2Location: 'No conventional OBD-II port; diagnostic connector and access vary by engine/control-system configuration. Consult dealer service information.',
+        serviceUnit: 'hrs'
+      }
+    },
+    b2601: {
+      '2014-2026': {
+        engine: {
+          oilViscosity: '15W-40 diesel oil (Kubota DH-2 or equivalent; viscosity varies by ambient temperature)',
+          oilCapacity: "Consult owner's manual",
+          oilFilterPN: "Consult owner's manual",
+          coolantType: 'Kubota-approved long-life diesel coolant',
+          coolantCapacity: "Consult owner's manual"
+        },
+        transmission: {
+          fluidType: 'Kubota UDT or Super UDT-2 universal trans-hydraulic fluid (HST)',
+          capacity: "Consult owner's manual"
+        },
+        transferCase: null,
+        differentials: {
+          front: { fluidType: 'Kubota UDT or Super UDT-2 universal trans-hydraulic fluid', capacity: "Consult owner's manual" },
+          rear: { fluidType: 'Kubota UDT or Super UDT-2 universal trans-hydraulic fluid', capacity: "Consult owner's manual" }
+        },
+        brakeFluid: 'Consult owner\'s manual',
+        tires: {
+          frontPSI: "Consult owner's manual",
+          rearPSI: "Consult owner's manual",
+          oemSizes: ["Consult owner's manual"],
+          lugNutTorque: "Consult owner's manual"
+        },
+        bulbs: {
+          lowBeam: null,
+          highBeam: null,
+          frontTurn: null,
+          rearTurn: null,
+          tailBrake: null,
+          interior: null,
+          license: null
+        },
+        obd2Location: 'No conventional OBD-II port; diagnostic connector and access vary by engine/control-system configuration. Consult dealer service information.',
+        serviceUnit: 'hrs'
+      }
+    },
+    z700: {
+      '2008-2026': {
+        engine: {
+          oilViscosity: 'Consult owner\'s manual (Kawasaki or Kohler gasoline engine; commonly SAE 10W-30)',
+          oilCapacity: "Consult owner's manual",
+          oilFilterPN: "Consult owner's manual",
+          coolantType: null,
+          coolantCapacity: null
+        },
+        transmission: {
+          fluidType: 'Hydrostatic drive fluid specified for the installed wheel motors/transaxles; consult owner\'s manual',
+          capacity: "Consult owner's manual"
+        },
+        transferCase: null,
+        differentials: {
+          front: null,
+          rear: null
+        },
+        brakeFluid: null,
+        tires: {
+          frontPSI: "Consult owner's manual",
+          rearPSI: "Consult owner's manual",
+          oemSizes: ["Consult owner's manual"],
+          lugNutTorque: "Consult owner's manual"
+        },
+        bulbs: {
+          lowBeam: null,
+          highBeam: null,
+          frontTurn: null,
+          rearTurn: null,
+          tailBrake: null,
+          interior: null,
+          license: null
+        },
+        obd2Location: 'No conventional OBD-II port; small-engine diagnostic access varies by installed Kawasaki or Kohler engine.',
+        serviceUnit: 'hrs'
+      }
+    }
+  }
+};
+for (const [make, models] of Object.entries(wave22AgBackfill)) {
+  referenceSpecs[make] = referenceSpecs[make] || {};
+  for (const [model, years] of Object.entries(models)) {
+    referenceSpecs[make][model] = { ...referenceSpecs[make][model], ...years };
+  }
+}
