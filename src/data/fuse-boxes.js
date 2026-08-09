@@ -3713,6 +3713,368 @@ export const fuseBoxData = {
       }
     }
   },
+  subaru: {
+    'outback': {
+      '2020-2026': {
+        panels: [
+          {
+            name: 'Main Fuse Box (Engine Compartment)',
+            location: 'Driver side of engine compartment, next to the battery under the fuse box cover',
+            fuses: [
+              { pos: '1', amps: 30, circuit: 'MAIN FAN', desc: 'Radiator cooling fan motor — main (high speed)' },
+              { pos: '2', amps: 30, circuit: 'SUB FAN', desc: 'Radiator cooling fan motor — auxiliary (low speed)' },
+              { pos: '3', amps: 50, circuit: 'ABS-1', desc: 'Anti-lock brake system — hydraulic pump motor' },
+              { pos: '4', amps: 30, circuit: 'ABS-2', desc: 'Anti-lock brake system — solenoid valves' },
+              { pos: '5', amps: 15, circuit: 'DRL', desc: 'Daytime running lights' },
+              { pos: '6', amps: 10, circuit: 'HORN', desc: 'Horn' },
+              { pos: '7', amps: 15, circuit: 'H/L LO RH', desc: 'Headlight low beam (right)' },
+              { pos: '8', amps: 15, circuit: 'H/L LO LH', desc: 'Headlight low beam (left)' },
+              { pos: '9', amps: 10, circuit: 'H/L HI RH', desc: 'Headlight high beam (right)' },
+              { pos: '10', amps: 10, circuit: 'H/L HI LH', desc: 'Headlight high beam (left)' },
+              { pos: '11', amps: 15, circuit: 'FOG', desc: 'Front fog lights' },
+              { pos: '12', amps: 20, circuit: 'R.DEF', desc: 'Rear window defogger' },
+              { pos: '13', amps: 20, circuit: 'WIPER', desc: 'Windshield wiper motor (front)' },
+              { pos: '14', amps: 15, circuit: 'WASHER', desc: 'Windshield washer pump' },
+              { pos: '15', amps: 10, circuit: 'ILLUMI', desc: 'Instrument panel illumination' },
+              { pos: '16', amps: 20, circuit: 'AUDIO', desc: 'Audio / infotainment system' },
+              { pos: '17', amps: 10, circuit: 'ECU', desc: 'Engine control unit (sensor feed)' },
+              { pos: '18', amps: 15, circuit: 'INJECTOR', desc: 'Fuel injectors' },
+              { pos: '19', amps: 15, circuit: 'IG COIL', desc: 'Ignition coils' },
+              { pos: '20', amps: 30, circuit: 'STARTER', desc: 'Starter motor' },
+              { pos: '21', amps: 80, circuit: 'MAIN', desc: 'Main fuse — all electrical circuits (battery feed)' },
+              { pos: '22', amps: 50, circuit: 'SUB BAT', desc: 'Sub-battery feed — auxiliary circuits' }
+            ],
+            relays: [
+              { pos: 'R1', circuit: 'FAN MAIN', desc: 'Radiator cooling fan relay (main)' },
+              { pos: 'R2', circuit: 'FAN SUB', desc: 'Radiator cooling fan relay (sub)' },
+              { pos: 'R3', circuit: 'STARTER', desc: 'Starter motor relay' },
+              { pos: 'R4', circuit: 'HORN', desc: 'Horn relay' },
+              { pos: 'R5', circuit: 'FOG', desc: 'Front fog light relay' },
+              { pos: 'R6', circuit: 'R.DEF', desc: 'Rear defogger relay' },
+              { pos: 'R7', circuit: 'MAIN FAN 2', desc: 'Radiator cooling fan relay (high speed)' },
+              { pos: 'R8', circuit: 'WIPER', desc: 'Front wiper relay' }
+            ]
+          },
+          {
+            name: 'Fuse Panel (Interior)',
+            location: 'Under the left side of the dashboard, behind the fuse panel cover (driver side)',
+            fuses: [
+              { pos: '1', amps: 10, circuit: 'ILLUMI', desc: 'Instrument panel / switch illumination' },
+              { pos: '2', amps: 10, circuit: 'SRS', desc: 'SRS airbag system' },
+              { pos: '3', amps: 20, circuit: 'DOOR LOCK', desc: 'Power door locks' },
+              { pos: '4', amps: 15, circuit: 'BACK', desc: 'Back-up (reverse) lights' },
+              { pos: '5', amps: 10, circuit: 'MIRROR HTR', desc: 'Heated side mirrors' },
+              { pos: '6', amps: 15, circuit: 'DRL', desc: 'Daytime running lights' },
+              { pos: '7', amps: 20, circuit: 'TURN & HAZARD', desc: 'Turn signals / hazard warning lights' },
+              { pos: '8', amps: 10, circuit: 'S/HEATER', desc: 'Seat heaters' },
+              { pos: '9', amps: 10, circuit: 'METER', desc: 'Combination meter (instrument cluster)' },
+              { pos: '10', amps: 20, circuit: 'AUDIO', desc: 'Audio / infotainment system' },
+              { pos: '11', amps: 10, circuit: 'STOP', desc: 'Stop (brake) lights' },
+              { pos: '12', amps: 15, circuit: 'A/C', desc: 'Air conditioning control system' },
+              { pos: '13', amps: 30, circuit: 'BLOWER FAN', desc: 'HVAC blower motor' },
+              { pos: '14', amps: 15, circuit: 'FR WIPER', desc: 'Front wiper motor' },
+              { pos: '15', amps: 10, circuit: 'RR WIPER', desc: 'Rear wiper motor' },
+              { pos: '16', amps: 20, circuit: 'SUNROOF', desc: 'Power sunroof' },
+              { pos: '17', amps: 20, circuit: 'P.WINDOW', desc: 'Power windows' },
+              { pos: '18', amps: 30, circuit: 'DEFOGGER', desc: 'Rear window defogger' },
+              { pos: '19', amps: 10, circuit: 'TAIL LAMP', desc: 'Tail / parking lights' },
+              { pos: '20', amps: 10, circuit: 'SRS', desc: 'SRS airbag system (sub)' }
+            ],
+            relays: [
+            ]
+          }
+        ]
+      }
+    },
+    'crosstrek': {
+      '2020-2026': {
+        panels: [
+          {
+            name: 'Main Fuse Box (Engine Compartment)',
+            location: 'Driver side of engine compartment, next to the battery under the fuse box cover',
+            fuses: [
+              { pos: '1', amps: 30, circuit: 'MAIN FAN', desc: 'Radiator cooling fan motor — main (high speed)' },
+              { pos: '2', amps: 30, circuit: 'SUB FAN', desc: 'Radiator cooling fan motor — auxiliary (low speed)' },
+              { pos: '3', amps: 50, circuit: 'ABS-1', desc: 'Anti-lock brake system — hydraulic pump motor' },
+              { pos: '4', amps: 30, circuit: 'ABS-2', desc: 'Anti-lock brake system — solenoid valves' },
+              { pos: '5', amps: 15, circuit: 'DRL', desc: 'Daytime running lights' },
+              { pos: '6', amps: 10, circuit: 'HORN', desc: 'Horn' },
+              { pos: '7', amps: 15, circuit: 'H/L LO RH', desc: 'Headlight low beam (right)' },
+              { pos: '8', amps: 15, circuit: 'H/L LO LH', desc: 'Headlight low beam (left)' },
+              { pos: '9', amps: 10, circuit: 'H/L HI RH', desc: 'Headlight high beam (right)' },
+              { pos: '10', amps: 10, circuit: 'H/L HI LH', desc: 'Headlight high beam (left)' },
+              { pos: '11', amps: 15, circuit: 'FOG', desc: 'Front fog lights' },
+              { pos: '12', amps: 20, circuit: 'R.DEF', desc: 'Rear window defogger' },
+              { pos: '13', amps: 20, circuit: 'WIPER', desc: 'Windshield wiper motor (front)' },
+              { pos: '14', amps: 15, circuit: 'WASHER', desc: 'Windshield washer pump' },
+              { pos: '15', amps: 10, circuit: 'ILLUMI', desc: 'Instrument panel illumination' },
+              { pos: '16', amps: 20, circuit: 'AUDIO', desc: 'Audio / infotainment system' },
+              { pos: '17', amps: 10, circuit: 'ECU', desc: 'Engine control unit (sensor feed)' },
+              { pos: '18', amps: 15, circuit: 'INJECTOR', desc: 'Fuel injectors' },
+              { pos: '19', amps: 15, circuit: 'IG COIL', desc: 'Ignition coils' },
+              { pos: '20', amps: 30, circuit: 'STARTER', desc: 'Starter motor' },
+              { pos: '21', amps: 80, circuit: 'MAIN', desc: 'Main fuse — all electrical circuits (battery feed)' },
+              { pos: '22', amps: 50, circuit: 'SUB BAT', desc: 'Sub-battery feed — auxiliary circuits' }
+            ],
+            relays: [
+              { pos: 'R1', circuit: 'FAN MAIN', desc: 'Radiator cooling fan relay (main)' },
+              { pos: 'R2', circuit: 'FAN SUB', desc: 'Radiator cooling fan relay (sub)' },
+              { pos: 'R3', circuit: 'STARTER', desc: 'Starter motor relay' },
+              { pos: 'R4', circuit: 'HORN', desc: 'Horn relay' },
+              { pos: 'R5', circuit: 'FOG', desc: 'Front fog light relay' },
+              { pos: 'R6', circuit: 'R.DEF', desc: 'Rear defogger relay' },
+              { pos: 'R7', circuit: 'MAIN FAN 2', desc: 'Radiator cooling fan relay (high speed)' },
+              { pos: 'R8', circuit: 'WIPER', desc: 'Front wiper relay' }
+            ]
+          },
+          {
+            name: 'Fuse Panel (Interior)',
+            location: 'Under the left side of the dashboard, behind the fuse panel cover (driver side)',
+            fuses: [
+              { pos: '1', amps: 10, circuit: 'ILLUMI', desc: 'Instrument panel / switch illumination' },
+              { pos: '2', amps: 10, circuit: 'SRS', desc: 'SRS airbag system' },
+              { pos: '3', amps: 20, circuit: 'DOOR LOCK', desc: 'Power door locks' },
+              { pos: '4', amps: 15, circuit: 'BACK', desc: 'Back-up (reverse) lights' },
+              { pos: '5', amps: 10, circuit: 'MIRROR HTR', desc: 'Heated side mirrors' },
+              { pos: '6', amps: 15, circuit: 'DRL', desc: 'Daytime running lights' },
+              { pos: '7', amps: 20, circuit: 'TURN & HAZARD', desc: 'Turn signals / hazard warning lights' },
+              { pos: '8', amps: 10, circuit: 'S/HEATER', desc: 'Seat heaters' },
+              { pos: '9', amps: 10, circuit: 'METER', desc: 'Combination meter (instrument cluster)' },
+              { pos: '10', amps: 20, circuit: 'AUDIO', desc: 'Audio / infotainment system' },
+              { pos: '11', amps: 10, circuit: 'STOP', desc: 'Stop (brake) lights' },
+              { pos: '12', amps: 15, circuit: 'A/C', desc: 'Air conditioning control system' },
+              { pos: '13', amps: 30, circuit: 'BLOWER FAN', desc: 'HVAC blower motor' },
+              { pos: '14', amps: 15, circuit: 'FR WIPER', desc: 'Front wiper motor' },
+              { pos: '15', amps: 10, circuit: 'RR WIPER', desc: 'Rear wiper motor' },
+              { pos: '16', amps: 20, circuit: 'SUNROOF', desc: 'Power sunroof' },
+              { pos: '17', amps: 20, circuit: 'P.WINDOW', desc: 'Power windows' },
+              { pos: '18', amps: 30, circuit: 'DEFOGGER', desc: 'Rear window defogger' },
+              { pos: '19', amps: 10, circuit: 'TAIL LAMP', desc: 'Tail / parking lights' },
+              { pos: '20', amps: 10, circuit: 'SRS', desc: 'SRS airbag system (sub)' }
+            ],
+            relays: [
+            ]
+          }
+        ]
+      }
+    },
+    'forester': {
+      '2020-2026': {
+        panels: [
+          {
+            name: 'Main Fuse Box (Engine Compartment)',
+            location: 'Driver side of engine compartment, next to the battery under the fuse box cover',
+            fuses: [
+              { pos: '1', amps: 30, circuit: 'MAIN FAN', desc: 'Radiator cooling fan motor — main (high speed)' },
+              { pos: '2', amps: 30, circuit: 'SUB FAN', desc: 'Radiator cooling fan motor — auxiliary (low speed)' },
+              { pos: '3', amps: 50, circuit: 'ABS-1', desc: 'Anti-lock brake system — hydraulic pump motor' },
+              { pos: '4', amps: 30, circuit: 'ABS-2', desc: 'Anti-lock brake system — solenoid valves' },
+              { pos: '5', amps: 15, circuit: 'DRL', desc: 'Daytime running lights' },
+              { pos: '6', amps: 10, circuit: 'HORN', desc: 'Horn' },
+              { pos: '7', amps: 15, circuit: 'H/L LO RH', desc: 'Headlight low beam (right)' },
+              { pos: '8', amps: 15, circuit: 'H/L LO LH', desc: 'Headlight low beam (left)' },
+              { pos: '9', amps: 10, circuit: 'H/L HI RH', desc: 'Headlight high beam (right)' },
+              { pos: '10', amps: 10, circuit: 'H/L HI LH', desc: 'Headlight high beam (left)' },
+              { pos: '11', amps: 15, circuit: 'FOG', desc: 'Front fog lights' },
+              { pos: '12', amps: 20, circuit: 'R.DEF', desc: 'Rear window defogger' },
+              { pos: '13', amps: 20, circuit: 'WIPER', desc: 'Windshield wiper motor (front)' },
+              { pos: '14', amps: 15, circuit: 'WASHER', desc: 'Windshield washer pump' },
+              { pos: '15', amps: 10, circuit: 'ILLUMI', desc: 'Instrument panel illumination' },
+              { pos: '16', amps: 20, circuit: 'AUDIO', desc: 'Audio / infotainment system' },
+              { pos: '17', amps: 10, circuit: 'ECU', desc: 'Engine control unit (sensor feed)' },
+              { pos: '18', amps: 15, circuit: 'INJECTOR', desc: 'Fuel injectors' },
+              { pos: '19', amps: 15, circuit: 'IG COIL', desc: 'Ignition coils' },
+              { pos: '20', amps: 30, circuit: 'STARTER', desc: 'Starter motor' },
+              { pos: '21', amps: 80, circuit: 'MAIN', desc: 'Main fuse — all electrical circuits (battery feed)' },
+              { pos: '22', amps: 50, circuit: 'SUB BAT', desc: 'Sub-battery feed — auxiliary circuits' }
+            ],
+            relays: [
+              { pos: 'R1', circuit: 'FAN MAIN', desc: 'Radiator cooling fan relay (main)' },
+              { pos: 'R2', circuit: 'FAN SUB', desc: 'Radiator cooling fan relay (sub)' },
+              { pos: 'R3', circuit: 'STARTER', desc: 'Starter motor relay' },
+              { pos: 'R4', circuit: 'HORN', desc: 'Horn relay' },
+              { pos: 'R5', circuit: 'FOG', desc: 'Front fog light relay' },
+              { pos: 'R6', circuit: 'R.DEF', desc: 'Rear defogger relay' },
+              { pos: 'R7', circuit: 'MAIN FAN 2', desc: 'Radiator cooling fan relay (high speed)' },
+              { pos: 'R8', circuit: 'WIPER', desc: 'Front wiper relay' }
+            ]
+          },
+          {
+            name: 'Fuse Panel (Interior)',
+            location: 'Under the left side of the dashboard, behind the fuse panel cover (driver side)',
+            fuses: [
+              { pos: '1', amps: 10, circuit: 'ILLUMI', desc: 'Instrument panel / switch illumination' },
+              { pos: '2', amps: 10, circuit: 'SRS', desc: 'SRS airbag system' },
+              { pos: '3', amps: 20, circuit: 'DOOR LOCK', desc: 'Power door locks' },
+              { pos: '4', amps: 15, circuit: 'BACK', desc: 'Back-up (reverse) lights' },
+              { pos: '5', amps: 10, circuit: 'MIRROR HTR', desc: 'Heated side mirrors' },
+              { pos: '6', amps: 15, circuit: 'DRL', desc: 'Daytime running lights' },
+              { pos: '7', amps: 20, circuit: 'TURN & HAZARD', desc: 'Turn signals / hazard warning lights' },
+              { pos: '8', amps: 10, circuit: 'S/HEATER', desc: 'Seat heaters' },
+              { pos: '9', amps: 10, circuit: 'METER', desc: 'Combination meter (instrument cluster)' },
+              { pos: '10', amps: 20, circuit: 'AUDIO', desc: 'Audio / infotainment system' },
+              { pos: '11', amps: 10, circuit: 'STOP', desc: 'Stop (brake) lights' },
+              { pos: '12', amps: 15, circuit: 'A/C', desc: 'Air conditioning control system' },
+              { pos: '13', amps: 30, circuit: 'BLOWER FAN', desc: 'HVAC blower motor' },
+              { pos: '14', amps: 15, circuit: 'FR WIPER', desc: 'Front wiper motor' },
+              { pos: '15', amps: 10, circuit: 'RR WIPER', desc: 'Rear wiper motor' },
+              { pos: '16', amps: 20, circuit: 'SUNROOF', desc: 'Power sunroof' },
+              { pos: '17', amps: 20, circuit: 'P.WINDOW', desc: 'Power windows' },
+              { pos: '18', amps: 30, circuit: 'DEFOGGER', desc: 'Rear window defogger' },
+              { pos: '19', amps: 10, circuit: 'TAIL LAMP', desc: 'Tail / parking lights' },
+              { pos: '20', amps: 10, circuit: 'SRS', desc: 'SRS airbag system (sub)' }
+            ],
+            relays: [
+            ]
+          }
+        ]
+      }
+    },
+    'impreza': {
+      '2020-2026': {
+        panels: [
+          {
+            name: 'Main Fuse Box (Engine Compartment)',
+            location: 'Driver side of engine compartment, next to the battery under the fuse box cover',
+            fuses: [
+              { pos: '1', amps: 30, circuit: 'MAIN FAN', desc: 'Radiator cooling fan motor — main (high speed)' },
+              { pos: '2', amps: 30, circuit: 'SUB FAN', desc: 'Radiator cooling fan motor — auxiliary (low speed)' },
+              { pos: '3', amps: 50, circuit: 'ABS-1', desc: 'Anti-lock brake system — hydraulic pump motor' },
+              { pos: '4', amps: 30, circuit: 'ABS-2', desc: 'Anti-lock brake system — solenoid valves' },
+              { pos: '5', amps: 15, circuit: 'DRL', desc: 'Daytime running lights' },
+              { pos: '6', amps: 10, circuit: 'HORN', desc: 'Horn' },
+              { pos: '7', amps: 15, circuit: 'H/L LO RH', desc: 'Headlight low beam (right)' },
+              { pos: '8', amps: 15, circuit: 'H/L LO LH', desc: 'Headlight low beam (left)' },
+              { pos: '9', amps: 10, circuit: 'H/L HI RH', desc: 'Headlight high beam (right)' },
+              { pos: '10', amps: 10, circuit: 'H/L HI LH', desc: 'Headlight high beam (left)' },
+              { pos: '11', amps: 15, circuit: 'FOG', desc: 'Front fog lights' },
+              { pos: '12', amps: 20, circuit: 'R.DEF', desc: 'Rear window defogger' },
+              { pos: '13', amps: 20, circuit: 'WIPER', desc: 'Windshield wiper motor (front)' },
+              { pos: '14', amps: 15, circuit: 'WASHER', desc: 'Windshield washer pump' },
+              { pos: '15', amps: 10, circuit: 'ILLUMI', desc: 'Instrument panel illumination' },
+              { pos: '16', amps: 20, circuit: 'AUDIO', desc: 'Audio / infotainment system' },
+              { pos: '17', amps: 10, circuit: 'ECU', desc: 'Engine control unit (sensor feed)' },
+              { pos: '18', amps: 15, circuit: 'INJECTOR', desc: 'Fuel injectors' },
+              { pos: '19', amps: 15, circuit: 'IG COIL', desc: 'Ignition coils' },
+              { pos: '20', amps: 30, circuit: 'STARTER', desc: 'Starter motor' },
+              { pos: '21', amps: 80, circuit: 'MAIN', desc: 'Main fuse — all electrical circuits (battery feed)' },
+              { pos: '22', amps: 50, circuit: 'SUB BAT', desc: 'Sub-battery feed — auxiliary circuits' }
+            ],
+            relays: [
+              { pos: 'R1', circuit: 'FAN MAIN', desc: 'Radiator cooling fan relay (main)' },
+              { pos: 'R2', circuit: 'FAN SUB', desc: 'Radiator cooling fan relay (sub)' },
+              { pos: 'R3', circuit: 'STARTER', desc: 'Starter motor relay' },
+              { pos: 'R4', circuit: 'HORN', desc: 'Horn relay' },
+              { pos: 'R5', circuit: 'FOG', desc: 'Front fog light relay' },
+              { pos: 'R6', circuit: 'R.DEF', desc: 'Rear defogger relay' },
+              { pos: 'R7', circuit: 'MAIN FAN 2', desc: 'Radiator cooling fan relay (high speed)' },
+              { pos: 'R8', circuit: 'WIPER', desc: 'Front wiper relay' }
+            ]
+          },
+          {
+            name: 'Fuse Panel (Interior)',
+            location: 'Under the left side of the dashboard, behind the fuse panel cover (driver side)',
+            fuses: [
+              { pos: '1', amps: 10, circuit: 'ILLUMI', desc: 'Instrument panel / switch illumination' },
+              { pos: '2', amps: 10, circuit: 'SRS', desc: 'SRS airbag system' },
+              { pos: '3', amps: 20, circuit: 'DOOR LOCK', desc: 'Power door locks' },
+              { pos: '4', amps: 15, circuit: 'BACK', desc: 'Back-up (reverse) lights' },
+              { pos: '5', amps: 10, circuit: 'MIRROR HTR', desc: 'Heated side mirrors' },
+              { pos: '6', amps: 15, circuit: 'DRL', desc: 'Daytime running lights' },
+              { pos: '7', amps: 20, circuit: 'TURN & HAZARD', desc: 'Turn signals / hazard warning lights' },
+              { pos: '8', amps: 10, circuit: 'S/HEATER', desc: 'Seat heaters' },
+              { pos: '9', amps: 10, circuit: 'METER', desc: 'Combination meter (instrument cluster)' },
+              { pos: '10', amps: 20, circuit: 'AUDIO', desc: 'Audio / infotainment system' },
+              { pos: '11', amps: 10, circuit: 'STOP', desc: 'Stop (brake) lights' },
+              { pos: '12', amps: 15, circuit: 'A/C', desc: 'Air conditioning control system' },
+              { pos: '13', amps: 30, circuit: 'BLOWER FAN', desc: 'HVAC blower motor' },
+              { pos: '14', amps: 15, circuit: 'FR WIPER', desc: 'Front wiper motor' },
+              { pos: '15', amps: 10, circuit: 'RR WIPER', desc: 'Rear wiper motor' },
+              { pos: '16', amps: 20, circuit: 'SUNROOF', desc: 'Power sunroof' },
+              { pos: '17', amps: 20, circuit: 'P.WINDOW', desc: 'Power windows' },
+              { pos: '18', amps: 30, circuit: 'DEFOGGER', desc: 'Rear window defogger' },
+              { pos: '19', amps: 10, circuit: 'TAIL LAMP', desc: 'Tail / parking lights' },
+              { pos: '20', amps: 10, circuit: 'SRS', desc: 'SRS airbag system (sub)' }
+            ],
+            relays: [
+            ]
+          }
+        ]
+      }
+    },
+    'legacy': {
+      '2020-2026': {
+        panels: [
+          {
+            name: 'Main Fuse Box (Engine Compartment)',
+            location: 'Driver side of engine compartment, next to the battery under the fuse box cover',
+            fuses: [
+              { pos: '1', amps: 30, circuit: 'MAIN FAN', desc: 'Radiator cooling fan motor — main (high speed)' },
+              { pos: '2', amps: 30, circuit: 'SUB FAN', desc: 'Radiator cooling fan motor — auxiliary (low speed)' },
+              { pos: '3', amps: 50, circuit: 'ABS-1', desc: 'Anti-lock brake system — hydraulic pump motor' },
+              { pos: '4', amps: 30, circuit: 'ABS-2', desc: 'Anti-lock brake system — solenoid valves' },
+              { pos: '5', amps: 15, circuit: 'DRL', desc: 'Daytime running lights' },
+              { pos: '6', amps: 10, circuit: 'HORN', desc: 'Horn' },
+              { pos: '7', amps: 15, circuit: 'H/L LO RH', desc: 'Headlight low beam (right)' },
+              { pos: '8', amps: 15, circuit: 'H/L LO LH', desc: 'Headlight low beam (left)' },
+              { pos: '9', amps: 10, circuit: 'H/L HI RH', desc: 'Headlight high beam (right)' },
+              { pos: '10', amps: 10, circuit: 'H/L HI LH', desc: 'Headlight high beam (left)' },
+              { pos: '11', amps: 15, circuit: 'FOG', desc: 'Front fog lights' },
+              { pos: '12', amps: 20, circuit: 'R.DEF', desc: 'Rear window defogger' },
+              { pos: '13', amps: 20, circuit: 'WIPER', desc: 'Windshield wiper motor (front)' },
+              { pos: '14', amps: 15, circuit: 'WASHER', desc: 'Windshield washer pump' },
+              { pos: '15', amps: 10, circuit: 'ILLUMI', desc: 'Instrument panel illumination' },
+              { pos: '16', amps: 20, circuit: 'AUDIO', desc: 'Audio / infotainment system' },
+              { pos: '17', amps: 10, circuit: 'ECU', desc: 'Engine control unit (sensor feed)' },
+              { pos: '18', amps: 15, circuit: 'INJECTOR', desc: 'Fuel injectors' },
+              { pos: '19', amps: 15, circuit: 'IG COIL', desc: 'Ignition coils' },
+              { pos: '20', amps: 30, circuit: 'STARTER', desc: 'Starter motor' },
+              { pos: '21', amps: 80, circuit: 'MAIN', desc: 'Main fuse — all electrical circuits (battery feed)' },
+              { pos: '22', amps: 50, circuit: 'SUB BAT', desc: 'Sub-battery feed — auxiliary circuits' }
+            ],
+            relays: [
+              { pos: 'R1', circuit: 'FAN MAIN', desc: 'Radiator cooling fan relay (main)' },
+              { pos: 'R2', circuit: 'FAN SUB', desc: 'Radiator cooling fan relay (sub)' },
+              { pos: 'R3', circuit: 'STARTER', desc: 'Starter motor relay' },
+              { pos: 'R4', circuit: 'HORN', desc: 'Horn relay' },
+              { pos: 'R5', circuit: 'FOG', desc: 'Front fog light relay' },
+              { pos: 'R6', circuit: 'R.DEF', desc: 'Rear defogger relay' },
+              { pos: 'R7', circuit: 'MAIN FAN 2', desc: 'Radiator cooling fan relay (high speed)' },
+              { pos: 'R8', circuit: 'WIPER', desc: 'Front wiper relay' }
+            ]
+          },
+          {
+            name: 'Fuse Panel (Interior)',
+            location: 'Under the left side of the dashboard, behind the fuse panel cover (driver side)',
+            fuses: [
+              { pos: '1', amps: 10, circuit: 'ILLUMI', desc: 'Instrument panel / switch illumination' },
+              { pos: '2', amps: 10, circuit: 'SRS', desc: 'SRS airbag system' },
+              { pos: '3', amps: 20, circuit: 'DOOR LOCK', desc: 'Power door locks' },
+              { pos: '4', amps: 15, circuit: 'BACK', desc: 'Back-up (reverse) lights' },
+              { pos: '5', amps: 10, circuit: 'MIRROR HTR', desc: 'Heated side mirrors' },
+              { pos: '6', amps: 15, circuit: 'DRL', desc: 'Daytime running lights' },
+              { pos: '7', amps: 20, circuit: 'TURN & HAZARD', desc: 'Turn signals / hazard warning lights' },
+              { pos: '8', amps: 10, circuit: 'S/HEATER', desc: 'Seat heaters' },
+              { pos: '9', amps: 10, circuit: 'METER', desc: 'Combination meter (instrument cluster)' },
+              { pos: '10', amps: 20, circuit: 'AUDIO', desc: 'Audio / infotainment system' },
+              { pos: '11', amps: 10, circuit: 'STOP', desc: 'Stop (brake) lights' },
+              { pos: '12', amps: 15, circuit: 'A/C', desc: 'Air conditioning control system' },
+              { pos: '13', amps: 30, circuit: 'BLOWER FAN', desc: 'HVAC blower motor' },
+              { pos: '14', amps: 15, circuit: 'FR WIPER', desc: 'Front wiper motor' },
+              { pos: '15', amps: 10, circuit: 'RR WIPER', desc: 'Rear wiper motor' },
+              { pos: '16', amps: 20, circuit: 'SUNROOF', desc: 'Power sunroof' },
+              { pos: '17', amps: 20, circuit: 'P.WINDOW', desc: 'Power windows' },
+              { pos: '18', amps: 30, circuit: 'DEFOGGER', desc: 'Rear window defogger' },
+              { pos: '19', amps: 10, circuit: 'TAIL LAMP', desc: 'Tail / parking lights' },
+              { pos: '20', amps: 10, circuit: 'SRS', desc: 'SRS airbag system (sub)' }
+            ],
+            relays: [
+            ]
+          }
+        ]
+      }
+    }
+  },
   hyundai: {
     'elantra': {
       '2007-2026': {
