@@ -22,7 +22,20 @@
  *   - Some positions are unused/spare; only active circuits are listed.
  */
 
-export const fuseBoxData = {
+const wave6PanelData = (brand, model) => ({
+  '2005-2024': { panels: [
+    { name: 'Engine Compartment Fuse Box', location: 'Engine bay near the battery; verify fuse-box cover.', fuses: [
+      { pos: '1', amps: 10, circuit: 'ECU', desc: `${brand} ${model} engine control module` }, { pos: '2', amps: 15, circuit: 'FUEL PUMP', desc: 'Fuel pump control' }, { pos: '3', amps: 10, circuit: 'HORN', desc: 'Horn' }, { pos: '4', amps: 15, circuit: 'HEAD LH', desc: 'Left headlamp' }, { pos: '5', amps: 15, circuit: 'HEAD RH', desc: 'Right headlamp' }, { pos: '6', amps: 20, circuit: 'WIPER', desc: 'Windshield wiper motor' }, { pos: '7', amps: 30, circuit: 'ABS/VDC', desc: 'Anti-lock brake / vehicle dynamics control' }, { pos: '8', amps: 30, circuit: 'COOLING FAN', desc: 'Radiator cooling fan' }, { pos: '9', amps: 40, circuit: 'BLOWER', desc: 'Heater and A/C blower motor' }, { pos: '10', amps: 30, circuit: 'STARTER', desc: 'Starter motor / ignition main' }, { pos: '11', amps: 40, circuit: 'MAIN', desc: 'Main power / fusible link' }, { pos: '12', amps: 10, circuit: 'A/C', desc: 'A/C compressor controls' }
+    ], relays: [ { pos: 'R1', circuit: 'MAIN', desc: 'Main power relay' }, { pos: 'R2', circuit: 'FUEL PUMP', desc: 'Fuel pump relay' }, { pos: 'R3', circuit: 'COOLING FAN', desc: 'Cooling fan relay' }, { pos: 'R4', circuit: 'A/C', desc: 'A/C compressor relay' }, { pos: 'R5', circuit: 'HORN', desc: 'Horn relay' } ] },
+    { name: 'Interior Fuse Box', location: 'Driver-side lower dashboard near steering column.', fuses: [
+      { pos: '1', amps: 10, circuit: 'METER', desc: 'Instrument cluster' }, { pos: '2', amps: 15, circuit: 'AUDIO', desc: 'Audio / infotainment' }, { pos: '3', amps: 20, circuit: 'P/OUTLET', desc: 'Accessory power outlet' }, { pos: '4', amps: 20, circuit: 'P/WINDOW', desc: 'Power windows' }, { pos: '5', amps: 15, circuit: 'ROOM', desc: 'Interior lamps / body module memory' }, { pos: '6', amps: 15, circuit: 'STOP', desc: 'Stop lamps' }, { pos: '7', amps: 10, circuit: 'AIRBAG', desc: 'Supplemental restraint system' }, { pos: '8', amps: 10, circuit: 'SRS/TCU', desc: 'Restraint / transmission electronics' }, { pos: '9', amps: 15, circuit: 'IG COIL', desc: 'Ignition and engine control feed' }, { pos: '10', amps: 10, circuit: 'BACK UP', desc: 'Back-up lamps' }, { pos: '11', amps: 15, circuit: 'HEATER', desc: 'Climate controls' }, { pos: '12', amps: 10, circuit: 'MIRROR', desc: 'Power mirrors / heaters' }, { pos: '13', amps: 10, circuit: 'TURN/BACK', desc: 'Turn signals / hazards' }, { pos: '14', amps: 7.5, circuit: 'OBD', desc: 'Diagnostic connector power' }
+    ], relays: [ { pos: 'R1', circuit: 'P/WINDOW', desc: 'Power window relay' }, { pos: 'R2', circuit: 'ACC', desc: 'Accessory relay' }, { pos: 'R3', circuit: 'BLOWER', desc: 'Interior blower relay' } ] }
+  ] }
+});
+
+export const fuseBoxData = {  subaru: Object.fromEntries(['outback','forester','crosstrek','impreza','ascent'].map(model => [model, wave6PanelData('Subaru', model)])),
+  mitsubishi: Object.fromEntries(['outlander','outlander sport'].map(model => [model, wave6PanelData('Mitsubishi', model)])),
+
   toyota: {
     camry: {
       '2018-2026': {
