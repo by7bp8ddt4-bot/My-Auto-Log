@@ -17,8 +17,9 @@ import { findFuseData, matchModelKey } from '../../src/components/FuseBox.jsx';
 import { fuseBoxData } from '../../src/data/fuse-boxes.js';
 
 describe('fuse lookup — flagged collision bugs', () => {
-  it('CX-50 does not resolve to cx-5 (no data → null)', () => {
-    // No cx-5/cx-50 keys exist on main yet — must be null, never wrong data
+  it('CX-50 does not resolve to cx-5 (no data → null, never wrong data)', () => {
+    // cx-5 data exists on main; CX-50 must NOT fall through to it
+    expect(findFuseData('Mazda', 'CX-5', 2020)).not.toBeNull();
     expect(findFuseData('Mazda', 'CX-50', 2023)).toBeNull();
   });
 
@@ -94,7 +95,8 @@ describe('fuse lookup — spaced / hyphenated / no-space normalization', () => {
     expect(findFuseData('GMC', 'Sierra 1500', 2020)).not.toBeNull();
     expect(matchModelKey({ 'sierra': {}, 'terrain': {} }, 'sierra 1500')).toBe('sierra');
     expect(matchModelKey({ 'silverado1500': {} }, 'silverado 2500hd')).toBeNull();
-    expect(findFuseData('Mazda', 'CX-5', 2020)).toBeNull();
+    expect(findFuseData('Mazda', 'CX-50', 2023)).toBeNull(); // no CX-50 data, must not hit cx-5
+    expect(matchModelKey({ 'cx-5': {}, 'cx-30': {}, 'cx-9': {} }, 'cx-50')).toBeNull();
   });
 });
 
@@ -122,6 +124,11 @@ describe('fuse lookup — regression across makes (VPIC-style names)', () => {
     ['Nissan', 'Altima', 'altima'],
     ['Nissan', 'Rogue', 'rogue'],
     ['Nissan', 'Pathfinder', 'pathfinder'],
+    ['Nissan', 'Maxima', 'maxima'],
+    ['Nissan', 'Versa', 'versa'],
+    ['Nissan', 'Armada', 'armada'],
+    ['Nissan', 'Titan', 'titan'],
+    ['Nissan', 'Leaf', 'leaf'],
     ['Hyundai', 'Elantra', 'elantra'],
     ['Hyundai', 'Santa Fe', 'santa fe'],
     ['Hyundai', 'Kona', 'kona'],
@@ -145,6 +152,11 @@ describe('fuse lookup — regression across makes (VPIC-style names)', () => {
     ['Volvo', 'S60', 's60'],
     ['Ram', '1500', '1500'],
     ['Mazda', 'Mazda3', '3'],
+    ['Mazda', 'CX-5', 'cx-5'],
+    ['Mazda', 'CX-30', 'cx-30'],
+    ['Mazda', 'CX-9', 'cx-9'],
+    ['Mazda', 'Mazda6', '6'],
+    ['Mazda', 'MX-5', 'mx-5'],
     ['Volkswagen', 'ID.4', 'id.4'],
     ['Volkswagen', 'GTI', 'gti'],
     ['Chrysler', '300', '300'],
