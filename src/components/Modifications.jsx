@@ -149,10 +149,11 @@ export default function Modifications({ mods = [], vehicles, onAdd, onUpdate, on
 
           {/* Cabinet Drawer Container — always visible, even when empty */}
           <div className="relative flex flex-col py-2 rounded-3xl bg-slate-950/20 border border-slate-900/60 shadow-inner">
-            {grouped.map(({ folder, mods: folderMods, totalCost, lastDate }, index) => {
+            {/* Render in reverse so Under the Hood sits in the foreground (last = highest z-index) */}
+            {grouped.slice().reverse().map(({ folder, mods: folderMods, totalCost, lastDate }, index, renderedOrder) => {
               // Always show all 3 folders
               const isActive = activeFolder === folder.id;
-              const isAfterActive = index > 0 && grouped[index - 1]?.folder.id === activeFolder;
+              const isAfterActive = index > 0 && renderedOrder[index - 1]?.folder.id === activeFolder;
               const config = FOLDER_CONFIG[folder.id];
               return (
                 <div
