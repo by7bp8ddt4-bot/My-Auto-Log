@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Wrench, Palette, Armchair, Plus, X, ShoppingBag, Tag, Calendar, Gauge, DollarSign, ChevronDown, Pencil } from 'lucide-react';
+import { Wrench, Palette, Armchair, Plus, X, ShoppingBag, Tag, Calendar, Gauge, DollarSign, ChevronUp, Pencil } from 'lucide-react';
 import { formatDate, formatCurrency, formatNumber, getLocalDateString } from '../utils/helpers';
 
 // 3 Folder definitions — matching the business plan
@@ -89,7 +89,12 @@ export default function Modifications({ mods = [], vehicles, onAdd, onUpdate, on
   const grouped = FOLDER_DEFS.map(folder => {
     const folderMods = filteredMods.filter(m => getModFolder(m) === folder.id);
     const folderTotal = folderMods.reduce((s, m) => s + (m.cost || 0), 0);
-    return { folder, mods: folderMods, totalCost: folderTotal };
+    const lastDate = folderMods.reduce((best, m) => {
+      const d = m.date || m.dateInstalled;
+      if (!d) return best;
+      return !best || new Date(d) > new Date(best) ? d : best;
+    }, null);
+    return { folder, mods: folderMods, totalCost: folderTotal, lastDate };
   });
 
   const toggleFolder = (folderId) => {
@@ -130,129 +135,163 @@ export default function Modifications({ mods = [], vehicles, onAdd, onUpdate, on
             </p>
           </div>
 
-          {/* No mods state */}
-          {filteredMods.length === 0 ? (
-            <div className="text-center py-12 bg-slate-900/30 rounded-2xl border border-slate-800">
-              <ShoppingBag className="w-10 h-10 text-slate-600 mx-auto mb-3" />
+          {/* No mods state — banner, cabinet stays visible below (parity with Service Logs) */}
+          {filteredMods.length === 0 && (
+            <div className="text-center py-6 bg-slate-900/30 rounded-2xl border border-slate-800 mb-4">
+              <ShoppingBag className="w-8 h-8 text-slate-600 mx-auto mb-2" />
               <p className="text-sm text-slate-400 mb-1">No parts logged yet</p>
               <button onClick={() => setShowForm(true)}
-                className="mt-3 inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-medium">
+                className="mt-2 inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-medium">
                 <Plus className="w-3.5 h-3.5" /> Log your first modification
               </button>
             </div>
-          ) : (
-            /* Folder List */
-            <div className="space-y-6">
-              {grouped.map(({ folder, mods: folderMods, totalCost }) => {
-                // Always show all 3 folders
-                const isActive = activeFolder === folder.id;
-                const config = FOLDER_CONFIG[folder.id];
-                return (
-                  <div
-                    key={folder.id}
-                    className={`rounded-2xl border transition-all overflow-hidden ${
-                      isActive
-                        ? 'bg-slate-900/80 border-slate-700 shadow-lg'
-                        : 'bg-slate-900/40 border-slate-800 hover:border-slate-700'
-                    }`}
-                  >
-                    {/* Folder Header */}
-                    <button
-                      onClick={() => toggleFolder(folder.id)}
-                      className="w-full flex items-center gap-4 p-4 text-left focus:outline-none"
-                    >
-                      <div className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 ${config.bg} ${config.border} border shadow-sm`}>
-                        <config.icon className={`w-6 h-6 ${config.color}`} />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2 mb-0.5">
-                          <h3 className="text-sm font-bold text-white truncate">{folder.label}</h3>
-                          <span className="text-[10px] px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 font-bold tracking-tight">
-                            {folderMods.length} {folderMods.length === 1 ? 'PART' : 'PARTS'}
-                          </span>
-                        </div>
-                        <p className="text-[10px] text-slate-500 flex items-center gap-1">
-                          <DollarSign className="w-3 h-3" />
-                          {formatCurrency(totalCost)} total
-                        </p>
-                      </div>
-                      <div className="text-right shrink-0">
-                        <div className={`transition-transform ${isActive ? 'rotate-0' : '-rotate-90'}`}>
-                          <ChevronDown className="w-4 h-4 text-slate-500" />
-                        </div>
-                      </div>
-                    </button>
+          )}
 
-                    {/* Expanded Content */}
-                    {isActive && (
-                      <div className="border-t border-slate-800/50 bg-slate-950/30 p-2 space-y-2">
-                        {folderMods.length > 0 ? (
-                          folderMods
-                            .sort((a, b) => new Date(b.date || b.dateInstalled || 0) - new Date(a.date || a.dateInstalled || 0))
-                            .map(mod => {
-                              const vName = getVehicleName(mod.vehicleId);
-                              const subCat = mod.subCategory || mod.category || 'Other';
-                              return (
-                                <div key={mod.id} className="p-4 rounded-xl bg-slate-900/60 border border-slate-800/50 hover:border-slate-700 transition-all group">
-                                  <div className="flex items-start justify-between gap-4">
-                                    <div className="flex-1 min-w-0">
-                                      <div className="flex items-center gap-2 mb-1.5 flex-wrap">
-                                        <span className="text-xs font-semibold text-slate-200">{vName}</span>
-                                        {subCat && (
-                                          <span className={`text-[9px] px-1.5 py-0.5 rounded-md ${config.bg} ${config.accent} font-medium`}>
-                                            {subCat}
-                                          </span>
-                                        )}
-                                      </div>
-                                      <p className="text-sm font-medium text-white mb-1">
-                                        {mod.partName || mod.name}
-                                      </p>
-                                      <div className="flex flex-wrap items-center gap-3 text-[10px] text-slate-500">
-                                        <span className="flex items-center gap-1"><Calendar className="w-3 h-3" />{formatDate(mod.date || mod.dateInstalled)}</span>
-                                        <span className="flex items-center gap-1"><Gauge className="w-3 h-3" />{formatNumber(mod.mileage || mod.mileageAtInstall || 0)} mi</span>
-                                        {mod.brand && <span className="flex items-center gap-1"><Tag className="w-3 h-3" />{mod.brand}</span>}
-                                        {mod.cost > 0 && <span className="flex items-center gap-1 text-emerald-400 font-medium"><DollarSign className="w-3 h-3" />{formatCurrency(mod.cost)}</span>}
-                                      </div>
-                                      {mod.notes && (
-                                        <p className="text-[10px] text-slate-600 mt-1.5 italic leading-relaxed">{mod.notes}</p>
-                                      )}
-                                    </div>
-                                    <button
-                                      onClick={(e) => { e.stopPropagation(); setEditingMod(mod); setShowForm(true); }}
-                                      className="p-1.5 rounded-lg hover:bg-blue-500/20 text-slate-400 hover:text-blue-400 transition-all"
-                                      title="Edit modification"
-                                    >
-                                      <Pencil className="w-3.5 h-3.5" />
-                                    </button>
-                                    <button
-                                      onClick={() => { if (window.confirm('Delete this modification? This cannot be undone.')) onDelete(mod.id); }}
-                                      className="p-1.5 rounded-lg hover:bg-red-500/20 text-slate-500 hover:text-red-400 transition-all shrink-0 opacity-0 group-hover:opacity-100"
-                                    >
-                                      <X className="w-3.5 h-3.5" />
-                                    </button>
-                                  </div>
-                                </div>
-                              );
-                            })
-                        ) : (
-                          <div className="text-center py-8">
-                            <ShoppingBag className="w-8 h-8 text-slate-700 mx-auto mb-2" />
-                            <p className="text-xs text-slate-500">No parts logged in {folder.label} yet</p>
-                            <button
-                              onClick={() => setShowForm(true)}
-                              className="mt-2 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-[10px] font-medium transition-all"
-                            >
-                              <Plus className="w-3 h-3" /> Log a modification
-                            </button>
-                          </div>
+          {/* Cabinet Drawer Container — always visible, even when empty */}
+          <div className="relative flex flex-col py-2 rounded-3xl bg-slate-950/20 border border-slate-900/60 shadow-inner">
+            {grouped.map(({ folder, mods: folderMods, totalCost, lastDate }, index) => {
+              // Always show all 3 folders
+              const isActive = activeFolder === folder.id;
+              const isAfterActive = index > 0 && grouped[index - 1]?.folder.id === activeFolder;
+              const config = FOLDER_CONFIG[folder.id];
+              return (
+                <div
+                  key={folder.id}
+                  onClick={() => toggleFolder(folder.id)}
+                  style={{ zIndex: isActive ? 40 : 10 + index }}
+                  className={`
+                    relative flex flex-col rounded-2xl border-2
+                    bg-gradient-to-b from-slate-900 to-slate-950
+                    transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] cursor-pointer select-none
+                    ${isActive
+                      ? 'border-slate-700 -translate-y-2 scale-[1.01] shadow-[0_-12px_24px_rgba(2,6,23,0.6),_0_20px_30px_rgba(0,0,0,0.5)]'
+                      : 'border-slate-800 hover:border-slate-700 shadow-[0_-4px_12px_rgba(0,0,0,0.3)]'
+                    }
+                    ${index > 0 && !isAfterActive ? '-mt-10 sm:-mt-12' : ''}
+                    ${isAfterActive ? 'mt-10 sm:mt-12' : ''}
+                  `}
+                >
+                  {/* The Tab — physically protruding from top of card */}
+                  <div
+                    className={`
+                      absolute left-4 -top-[33px] h-9 px-4 flex items-center gap-2
+                      rounded-t-xl border-t-2 border-x-2 border-b-0 transition-all duration-300 z-10
+                      ${isActive
+                        ? `${config.tabBg} backdrop-blur-md font-bold ${config.tabBorder}`
+                        : 'bg-slate-900/80 border-slate-700/40 text-slate-400 hover:text-white'
+                      }
+                    `}
+                  >
+                    {/* Icon */}
+                    <config.icon className={`w-4 h-4 shrink-0 ${isActive ? 'text-white' : 'text-slate-500'}`} />
+                    {/* Tab Label — uppercase per spec */}
+                    <span className="text-[11px] uppercase tracking-wider font-mono whitespace-nowrap">{folder.label}</span>
+                    {/* Part count badge inside tab */}
+                    <span className={`text-[9px] px-1.5 py-0.5 rounded-full font-bold ml-1 ${
+                      isActive ? 'bg-slate-950/40 text-white' : 'bg-slate-800 text-slate-400'
+                    }`}>
+                      {folderMods.length}
+                    </span>
+                  </div>
+
+                  {/* Folder Header — always visible (even when collapsed) */}
+                  <div className="flex items-center justify-between p-4 pt-5">
+                    <div>
+                      <h3 className="text-sm font-bold text-white flex items-center gap-2">
+                        {folder.label}
+                        {isActive && (
+                          <button
+                            onClick={(e) => { e.stopPropagation(); toggleFolder(folder.id); }}
+                            className="ml-1 p-1 rounded-lg hover:bg-slate-700/50 text-slate-400 hover:text-white transition-all"
+                            title="Collapse folder"
+                          >
+                            <ChevronUp className="w-3.5 h-3.5" />
+                          </button>
                         )}
+                      </h3>
+                      <p className="text-[10px] text-slate-500 mt-1">
+                        {lastDate ? `Last modded: ${formatDate(lastDate)}` : 'No modifications yet'}
+                      </p>
+                    </div>
+                    <div className="text-right shrink-0">
+                      <span className="text-sm font-bold text-emerald-400 bg-emerald-500/5 px-2 py-1 rounded-lg border border-emerald-500/10">
+                        {formatCurrency(totalCost)}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Folder Contents — revealed on active state with max-h animation */}
+                  <div
+                    className={`
+                      transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] overflow-hidden
+                      ${isActive ? 'max-h-[1200px] border-t border-slate-800 bg-slate-950/20 p-4 space-y-3' : 'max-h-0'}
+                    `}
+                  >
+                    {folderMods.length > 0 ? (
+                      folderMods
+                        .sort((a, b) => new Date(b.date || b.dateInstalled || 0) - new Date(a.date || a.dateInstalled || 0))
+                        .map(mod => {
+                          const vName = getVehicleName(mod.vehicleId);
+                          const subCat = mod.subCategory || mod.category || 'Other';
+                          return (
+                            <div key={mod.id} className="p-4 rounded-xl bg-slate-900/60 border border-slate-800/50 hover:border-slate-700 transition-all group">
+                              <div className="flex items-start justify-between gap-4">
+                                <div className="flex-1 min-w-0">
+                                  <div className="flex items-center gap-2 mb-1.5 flex-wrap">
+                                    <span className="text-xs font-semibold text-slate-200">{vName}</span>
+                                    {subCat && (
+                                      <span className={`text-[9px] px-1.5 py-0.5 rounded-md ${config.bg} ${config.accent} font-medium`}>
+                                        {subCat}
+                                      </span>
+                                    )}
+                                  </div>
+                                  <p className="text-sm font-medium text-white mb-1">
+                                    {mod.partName || mod.name}
+                                  </p>
+                                  <div className="flex flex-wrap items-center gap-3 text-[10px] text-slate-500">
+                                    <span className="flex items-center gap-1"><Calendar className="w-3 h-3" />{formatDate(mod.date || mod.dateInstalled)}</span>
+                                    <span className="flex items-center gap-1"><Gauge className="w-3 h-3" />{formatNumber(mod.mileage || mod.mileageAtInstall || 0)} mi</span>
+                                    {mod.brand && <span className="flex items-center gap-1"><Tag className="w-3 h-3" />{mod.brand}</span>}
+                                    {mod.cost > 0 && <span className="flex items-center gap-1 text-emerald-400 font-medium"><DollarSign className="w-3 h-3" />{formatCurrency(mod.cost)}</span>}
+                                  </div>
+                                  {mod.notes && (
+                                    <p className="text-[10px] text-slate-600 mt-1.5 italic leading-relaxed">{mod.notes}</p>
+                                  )}
+                                </div>
+                                <button
+                                  onClick={(e) => { e.stopPropagation(); setEditingMod(mod); setShowForm(true); }}
+                                  className="p-1.5 rounded-lg hover:bg-blue-500/20 text-slate-400 hover:text-blue-400 transition-all"
+                                  title="Edit modification"
+                                >
+                                  <Pencil className="w-3.5 h-3.5" />
+                                </button>
+                                <button
+                                  onClick={(e) => { e.stopPropagation(); if (window.confirm('Delete this modification? This cannot be undone.')) onDelete(mod.id); }}
+                                  className="p-1.5 rounded-lg hover:bg-red-500/20 text-slate-500 hover:text-red-400 transition-all shrink-0 opacity-0 group-hover:opacity-100"
+                                >
+                                  <X className="w-3.5 h-3.5" />
+                                </button>
+                              </div>
+                            </div>
+                          );
+                        })
+                    ) : (
+                      <div className="text-center py-8">
+                        <ShoppingBag className="w-8 h-8 text-slate-700 mx-auto mb-2" />
+                        <p className="text-xs text-slate-500">No parts logged in {folder.label} yet</p>
+                        <button
+                          onClick={(e) => { e.stopPropagation(); setShowForm(true); }}
+                          className="mt-2 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-[10px] font-medium transition-all"
+                        >
+                          <Plus className="w-3 h-3" /> Log a modification
+                        </button>
                       </div>
                     )}
                   </div>
-                );
-              })}
-            </div>
-          )}
+                </div>
+              );
+            })}
+          </div>
         </>
       )}
 
