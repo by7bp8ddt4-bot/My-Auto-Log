@@ -3,40 +3,122 @@ import { Search, Zap, AlertTriangle, Info, MapPin } from 'lucide-react';
 import { fuseBoxData } from '../data/fuse-boxes.js';
 
 /**
+ * Make-name aliases: map common external spellings (e.g. NHTSA VPIC returns
+ * "Mercedes-Benz", while the data uses "mercedes") to canonical fuse-boxes.js keys.
+ */
+const MAKE_ALIASES = {
+  'mercedes-benz': 'mercedes',
+};
+
+/**
+ * Model-name aliases: map a normalized (squashed) user/VPIC model string that is
+ * ambiguous or wouldn't otherwise resolve to its canonical fuse-boxes.js key.
+ * "Squashed" = lowercased with all non-alphanumeric characters removed.
+ */
+const MODEL_ALIASES = {
+  boltev: 'bolt', // Chevrolet "Bolt EV" (NHTSA model name) → 'bolt' key; "Bolt EUV" has its own key
+  silverado: 'silverado1500', // bare "Silverado" (older VPIC records / manual entry) → light-duty data
+};
+
+/**
+ * Normalize a model name for comparison.
+ * Returns { raw, tokens, squashed }:
+ *   - raw:      lowercased original
+ *   - tokens:   split on any non-alphanumeric separator (space, hyphen, period, …)
+ *   - squashed: tokens joined without separators
+ *               e.g. "Silverado 1500" → { tokens: ['silverado','1500'], squashed: 'silverado1500' }
+ *                    "Yukon XL"       → { tokens: ['yukon','xl'],     squashed: 'yukonxl' }
+ *                    "F-150"          → { tokens: ['f','150'],        squashed: 'f150' }
+ *                    "ID.4"           → { tokens: ['id','4'],         squashed: 'id4' }
+ */
+function normalizeModel(model) {
+  const raw = String(model || '').toLowerCase().trim();
+  const withAnd = raw.replace(/&/g, ' and ');
+  const tokens = withAnd.split(/[^a-z0-9]+/).filter(Boolean);
+  return { raw, tokens, squashed: tokens.join('') };
+}
+
+/**
+ * Find the best matching model key within a make's data.
+ *
+ * Priority (most → least specific):
+ *   1. Exact whole-model match (separator-insensitive) — "Silverado 1500" matches the
+ *      'silverado1500' key; "Yukon XL" matches 'yukon-xl'; "C 300" and "C300" both match 'c 300'.
+ *   2. Explicit alias map (MODEL_ALIASES).
+ *   3. Leading-token refinement: the query is a *more specific* variant of an existing key
+ *      (the key's tokens are a complete leading subsequence of the query's tokens and the key
+ *      is strictly shorter). E.g. "Sierra 1500" → 'sierra', "Bolt EV" → 'bolt',
+ *      "Civic Si" → 'civic'. Among candidates the longest (most specific) key wins.
+ *
+ * Deliberately NOT matched:
+ *   - A query that is merely a partial-string prefix of a key ("CX-50" must NOT match 'cx-5').
+ *   - A query that is a shorter prefix of a longer key ("Civic" must NOT match 'civic si',
+ *     "GLE" must NOT match 'gle 350', "Bronco" must NOT match 'bronco sport').
+ */
+export function matchModelKey(makeData, model) {
+  const q = normalizeModel(model);
+  if (!q.tokens.length) return null;
+
+  const keys = Object.keys(makeData);
+  const keyNorm = {};
+  for (const key of keys) keyNorm[key] = normalizeModel(key);
+
+  // 1. Exact whole-model match (separator-insensitive)
+  for (const key of keys) {
+    if (keyNorm[key].squashed === q.squashed) return key;
+  }
+
+  // 2. Explicit alias
+  const aliasKey = MODEL_ALIASES[q.squashed];
+  if (aliasKey && makeData[aliasKey]) return aliasKey;
+
+  // 3. Leading-token refinement (query is a more specific variant of a shorter key)
+  let bestKey = null;
+  let bestTokens = -1;
+  for (const key of keys) {
+    const n = keyNorm[key];
+    if (n.tokens.length >= q.tokens.length) continue; // key must be strictly shorter
+    const isLeading = n.tokens.every((t, i) => t === q.tokens[i]);
+    if (isLeading && n.tokens.length > bestTokens) {
+      bestKey = key;
+      bestTokens = n.tokens.length;
+    }
+  }
+  return bestKey;
+}
+
+function escapeRegExp(str) {
+  return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+/**
  * Matches a vehicle (make, model, year) to the appropriate fuse box data.
  * Traverses make → model → yearRange, checking if the vehicle year falls within the range.
  */
-function findFuseData(make, model, year) {
+export function findFuseData(make, model, year) {
   if (!make || !model || !year) return null;
-  
-  const makeLower = make.toLowerCase();
-  const modelLower = model.toLowerCase();
-  
-  const makeData = fuseBoxData[makeLower];
+
+  const makeLower = String(make).toLowerCase().trim();
+  const canonicalMake = MAKE_ALIASES[makeLower] || makeLower;
+
+  const makeData = fuseBoxData[canonicalMake];
   if (!makeData) return null;
-  
-  // Handle model name variations — try exact match first, then prefix match
-  let modelData = makeData[modelLower];
-  if (!modelData) {
-    // Try matching model prefixes (e.g., "civic" matches "civic si")
-    const modelKeys = Object.keys(makeData);
-    const matchedKey = modelKeys.find(k => modelLower.startsWith(k) || k.startsWith(modelLower));
-    if (matchedKey) modelData = makeData[matchedKey];
-  }
-  if (!modelData) {
-    // Strip make name from model prefix (e.g., "mazda3" → "3", "toyota camry" → "camry")
-    const strippedModel = modelLower.replace(new RegExp('^' + makeLower + '\\s*', 'i'), '').trim();
+
+  // Match the model directly, then with the make name stripped from the front
+  // (e.g. "mazda3" → "3", "toyota camry" → "camry").
+  let matchedKey = matchModelKey(makeData, model);
+  if (!matchedKey) {
+    const modelLower = model.toLowerCase();
+    const strippedModel = modelLower
+      .replace(new RegExp('^' + escapeRegExp(canonicalMake) + '\\s*'), '')
+      .trim();
     if (strippedModel && strippedModel !== modelLower) {
-      modelData = makeData[strippedModel];
-      if (!modelData) {
-        const modelKeys2 = Object.keys(makeData);
-        const matchedKey2 = modelKeys2.find(k => strippedModel.startsWith(k) || k.startsWith(strippedModel));
-        if (matchedKey2) modelData = makeData[matchedKey2];
-      }
+      matchedKey = matchModelKey(makeData, strippedModel);
     }
   }
-  if (!modelData) return null;
-  
+  if (!matchedKey) return null;
+
+  const modelData = makeData[matchedKey];
+
   // Find matching year range
   const numYear = parseInt(year);
   for (const [range, data] of Object.entries(modelData)) {
@@ -45,7 +127,7 @@ function findFuseData(make, model, year) {
       return data;
     }
   }
-  
+
   return null;
 }
 
