@@ -33206,12 +33206,38 @@ acura: {
 },
 mitsubishi: {
   outlander: {
-    '2014-2021': {
+    '2014-2016': {
       panels: [
         {
           name: 'Passenger Compartment Fuse Block',
           location: 'Located behind the cover at the left end of the instrument panel, on the driver\'s side.',
           fuses: [
+            { pos: '1', amps: 30, circuit: 'POWER WINDOW CONTROL', desc: 'Power window control (fusible link)' },
+            { pos: '2', amps: 30, circuit: 'DEFOGGER', desc: 'Rear window defogger (fusible link)' },
+            { pos: '3', amps: 30, circuit: 'HEATER', desc: 'Heater' },
+            { pos: '4', amps: 30, circuit: 'WINDSCREEN WIPERS', desc: 'Windshield wipers' },
+            { pos: '5', amps: 20, circuit: 'DOOR LOCKS', desc: 'Door locks' },
+            { pos: '6', amps: 10, circuit: 'REAR FOG LIGHT', desc: 'Rear fog light' },
+            { pos: '7', amps: 15, circuit: '12V POWER OUTLET', desc: '12 V power outlet' },
+            { pos: '8', amps: 15, circuit: 'REAR WINDOW WIPER', desc: 'Rear window wiper' },
+            { pos: '9', amps: 20, circuit: 'SUNROOF', desc: 'Sunroof' },
+            { pos: '10', amps: 10, circuit: 'IGNITION SWITCH', desc: 'Ignition switch' },
+            { pos: '11', amps: 10, circuit: 'OPTION', desc: 'Option' },
+            { pos: '12', amps: 15, circuit: 'HAZARD WARNING FLASHER', desc: 'Hazard warning flasher' },
+            { pos: '13', amps: 10, circuit: '4-WHEEL DRIVE SYSTEM', desc: '4-wheel drive system' },
+            { pos: '14', amps: 15, circuit: 'STOP LIGHTS', desc: 'Stop lights (brake lights)' },
+            { pos: '15', amps: 10, circuit: 'GAUGES', desc: 'Gauges' },
+            { pos: '16', amps: 7.5, circuit: 'SRS AIRBAG', desc: 'SRS airbag' },
+            { pos: '17', amps: 15, circuit: 'RADIO', desc: 'Radio' },
+            { pos: '18', amps: 7.5, circuit: 'CONTROL UNIT RELAY', desc: 'Control unit relay' },
+            { pos: '19', amps: 15, circuit: 'INTERIOR LIGHTS', desc: 'Interior lights (room lights)' },
+            { pos: '20', amps: 7.5, circuit: 'BACK-UP LIGHTS', desc: 'Back-up lights' },
+            { pos: '21', amps: 7.5, circuit: 'HEATED OUTSIDE REARVIEW MIRRORS', desc: 'Heated outside rearview mirrors' },
+            { pos: '22', amps: 10, circuit: 'OUTSIDE REARVIEW MIRRORS', desc: 'Outside rearview mirrors' },
+            { pos: '23', amps: 15, circuit: 'CIGARETTE LIGHTER', desc: 'Cigarette lighter / 12 V power outlet' },
+            { pos: '24', amps: 7.5, circuit: 'CHARGE', desc: 'Charge' },
+            { pos: '25', amps: 30, circuit: 'POWER SEAT', desc: 'Power seat (driver seat) (fusible link)' },
+            { pos: '26', amps: 30, circuit: 'HEATED SEATS', desc: 'Heated seats' }
           ],
           relays: [
           ]
@@ -33220,6 +33246,139 @@ mitsubishi: {
           name: 'Engine Compartment Fuse Block',
           location: 'Located in the engine compartment, next to the battery.',
           fuses: [
+            { pos: 'SBF1', amps: 30, circuit: 'AIR CONDITIONING CONDENSER FAN MOTOR', desc: 'Air conditioning condenser fan motor (fusible link)' },
+            { pos: 'SBF2', amps: 30, circuit: 'STARTER', desc: 'Starter (fusible link)' },
+            { pos: 'SBF3', amps: 30, circuit: 'AIR CONDITIONING CONDENSER FAN MOTOR', desc: 'Air conditioning condenser fan motor (fusible link)' },
+            { pos: 'SBF4', amps: 40, circuit: 'RADIATOR FAN MOTOR', desc: 'Radiator fan motor (fusible link)' },
+            { pos: 'SBF5', amps: 40, circuit: 'ANTI-LOCK BRAKING SYSTEM', desc: 'Anti-lock braking system (fusible link)' },
+            { pos: 'SBF6', amps: 40, circuit: 'VLC', desc: 'VLC (fusible link)' },
+            { pos: 'SBF7', amps: 30, circuit: 'ANTI-LOCK BRAKING SYSTEM', desc: 'Anti-lock braking system (fusible link)' },
+            { pos: 'BF1', amps: 30, circuit: 'POWER LIFTGATE', desc: 'Power liftgate' },
+            { pos: 'BF2', amps: 30, circuit: 'AUDIO SYSTEM AMPLIFIER', desc: 'Audio system amplifier' },
+            { pos: 'BF3', amps: 30, circuit: 'IOD', desc: 'IOD' },
+            { pos: 'BF4', amps: 30, circuit: 'DIESEL', desc: 'Diesel' },
+            { pos: 'F1', amps: 20, circuit: 'AUTOMATIC TRANSAXLE', desc: 'Automatic transaxle' },
+            { pos: 'F2', amps: 15, circuit: 'WIPER DE-ICER', desc: 'Wiper de-icer' },
+            { pos: 'F4', amps: 10, circuit: 'DAYTIME RUNNING LIGHTS', desc: 'Daytime running lights' },
+            { pos: 'F5', amps: 15, circuit: 'FRONT FOG LIGHTS', desc: 'Front fog lights' },
+            { pos: 'F6', amps: 10, circuit: 'AIR CONDITIONER', desc: 'Air conditioner' },
+            { pos: 'F7', amps: 20, circuit: 'HEADLIGHT WASHER', desc: 'Headlight washer' },
+            { pos: 'F8', amps: 20, circuit: 'SECURITY HORN', desc: 'Security horn' },
+            { pos: 'F9', amps: 10, circuit: 'HORN', desc: 'Horn' },
+            { pos: 'F10', amps: 15, circuit: 'ETV', desc: 'ETV' },
+            { pos: 'F11', amps: 7.5, circuit: 'ALTERNATOR', desc: 'Alternator' },
+            { pos: 'F12', amps: 7.5, circuit: 'ENGINE', desc: 'Engine' },
+            { pos: 'F13', amps: 20, circuit: 'ENG/POWER', desc: 'Engine power (gasoline models)' },
+            { pos: 'F13', amps: 25, circuit: 'FUEL LINE HEATER', desc: 'Fuel line heater (diesel models; same fuse position as ENG/POWER)' },
+            { pos: 'F14', amps: 15, circuit: 'FUEL PUMP', desc: 'Fuel pump' },
+            { pos: 'F15', amps: 10, circuit: 'IGNITION COIL', desc: 'Ignition coil' },
+            { pos: 'F16', amps: 10, circuit: 'ENG/POWER', desc: 'Engine power' },
+            { pos: 'F17', amps: 10, circuit: 'HEADLIGHT (HIGH BEAM)', desc: 'Headlight (high beam) (left)' },
+            { pos: 'F18', amps: 10, circuit: 'HEADLIGHT (HIGH BEAM)', desc: 'Headlight (high beam) (right)' },
+            { pos: 'F19', amps: 20, circuit: 'HEADLIGHT (LOW BEAM)', desc: 'Headlight (low beam) (left) — discharge-type' },
+            { pos: 'F20', amps: 20, circuit: 'HEADLIGHT (LOW BEAM)', desc: 'Headlight (low beam) (right) — discharge-type' },
+            { pos: 'F21', amps: 10, circuit: 'HEADLIGHT (LOW BEAM)', desc: 'Headlight (low beam) (left) — halogen' },
+            { pos: 'F22', amps: 10, circuit: 'HEADLIGHT (LOW BEAM)', desc: 'Headlight (low beam) (right) — halogen' },
+            { pos: 'F23', amps: 7.5, circuit: 'BATTERY CURRENT SENSOR', desc: 'Battery current sensor' },
+            { pos: '#1', amps: 10, circuit: 'SPARE FUSE', desc: 'Spare fuse' },
+            { pos: '#2', amps: 15, circuit: 'SPARE FUSE', desc: 'Spare fuse' },
+            { pos: '#3', amps: 20, circuit: 'SPARE FUSE', desc: 'Spare fuse' }
+          ],
+          relays: [
+          ]
+        }
+      ]
+    },
+    '2017-2021': {
+      panels: [
+        {
+          name: 'Passenger Compartment Fuse Block',
+          location: 'Located behind the cover at the left end of the instrument panel, on the driver\'s side.',
+          fuses: [
+            { pos: '1', amps: 30, circuit: 'POWER WINDOW CONTROL', desc: 'Power window control (fusible link)' },
+            { pos: '2', amps: 30, circuit: 'DEFOGGER', desc: 'Rear window defogger (fusible link)' },
+            { pos: '3', amps: 30, circuit: 'HEATER', desc: 'Heater' },
+            { pos: '4', amps: 30, circuit: 'WINDSCREEN WIPERS', desc: 'Windshield wipers' },
+            { pos: '5', amps: 20, circuit: 'DOOR LOCKS', desc: 'Door locks' },
+            { pos: '6', amps: 10, circuit: 'REAR FOG LIGHT', desc: 'Rear fog light' },
+            { pos: '7', amps: 15, circuit: '12V POWER OUTLET', desc: '12 V power outlet' },
+            { pos: '8', amps: 15, circuit: 'REAR WINDOW WIPER', desc: 'Rear window wiper' },
+            { pos: '9', amps: 20, circuit: 'SUNROOF', desc: 'Sunroof' },
+            { pos: '10', amps: 10, circuit: 'IGNITION SWITCH', desc: 'Ignition switch' },
+            { pos: '11', amps: 10, circuit: 'OPTION', desc: 'Option' },
+            { pos: '12', amps: 15, circuit: 'HAZARD WARNING FLASHER', desc: 'Hazard warning flasher' },
+            { pos: '13', amps: 10, circuit: '4-WHEEL DRIVE SYSTEM', desc: '4-wheel drive system' },
+            { pos: '14', amps: 15, circuit: 'STOP LIGHTS', desc: 'Stop lights (brake lights)' },
+            { pos: '15', amps: 10, circuit: 'GAUGES', desc: 'Gauges' },
+            { pos: '16', amps: 7.5, circuit: 'SRS AIRBAG', desc: 'SRS airbag' },
+            { pos: '17', amps: 15, circuit: 'RADIO', desc: 'Radio' },
+            { pos: '18', amps: 7.5, circuit: 'CONTROL UNIT RELAY', desc: 'Control unit relay' },
+            { pos: '19', amps: 15, circuit: 'INTERIOR LIGHTS', desc: 'Interior lights (room lights)' },
+            { pos: '20', amps: 7.5, circuit: 'BACK-UP LIGHTS', desc: 'Back-up lights' },
+            { pos: '21', amps: 7.5, circuit: 'HEATED OUTSIDE REARVIEW MIRRORS', desc: 'Heated outside rearview mirrors' },
+            { pos: '22', amps: 10, circuit: 'OUTSIDE REARVIEW MIRRORS', desc: 'Outside rearview mirrors' },
+            { pos: '23', amps: 15, circuit: 'CIGARETTE LIGHTER', desc: 'Cigarette lighter / 12 V power outlet' },
+            { pos: '24', amps: 7.5, circuit: 'CHARGE', desc: 'Charge' },
+            { pos: '25', amps: 15, circuit: 'HEATED STEERING WHEEL', desc: 'Heated steering wheel' },
+            { pos: '26', amps: 30, circuit: 'POWER SEAT', desc: 'Power seat (driver seat) (fusible link)' },
+            { pos: '27', amps: 30, circuit: 'HEATED SEATS', desc: 'Heated seats' },
+            { pos: '28', amps: 30, circuit: 'POWER SEAT', desc: 'Power seat (passenger seat) (fusible link)' }
+          ],
+          relays: [
+          ]
+        },
+        {
+          name: 'Engine Compartment Fuse Block',
+          location: 'Located in the engine compartment, next to the battery.',
+          fuses: [
+            { pos: 'SBF1', amps: 30, circuit: 'AIR CONDITIONING CONDENSER FAN MOTOR', desc: 'Air conditioning condenser fan motor (fusible link)' },
+            { pos: 'SBF2', amps: 30, circuit: 'STARTER', desc: 'Starter (fusible link)' },
+            { pos: 'SBF3', amps: 30, circuit: 'AIR CONDITIONING CONDENSER FAN MOTOR', desc: 'Air conditioning condenser fan motor (fusible link)' },
+            { pos: 'SBF4', amps: 40, circuit: 'RADIATOR FAN MOTOR', desc: 'Radiator fan motor (fusible link)' },
+            { pos: 'SBF5', amps: 40, circuit: 'ANTI-LOCK BRAKING SYSTEM', desc: 'Anti-lock braking system (fusible link)' },
+            { pos: 'SBF6', amps: 50, circuit: 'ELECTRIC PARKING BRAKE', desc: 'Electric parking brake (fusible link)' },
+            { pos: 'SBF7', amps: 30, circuit: 'ANTI-LOCK BRAKING SYSTEM', desc: 'Anti-lock braking system (fusible link)' },
+            { pos: 'BF1', amps: 30, circuit: 'POWER LIFTGATE', desc: 'Power liftgate' },
+            { pos: 'BF2', amps: 30, circuit: 'AUDIO SYSTEM AMPLIFIER', desc: 'Audio system amplifier' },
+            { pos: 'BF3', amps: 30, circuit: 'IOD', desc: 'IOD' },
+            { pos: 'BF4', amps: 30, circuit: 'DIESEL', desc: 'Diesel' },
+            { pos: 'F1', amps: 20, circuit: 'AUTOMATIC TRANSAXLE', desc: 'Automatic transaxle' },
+            { pos: 'F2', amps: 15, circuit: 'WIPER DE-ICER', desc: 'Wiper de-icer' },
+            { pos: 'F3', amps: 7.5, circuit: 'ELECTRIC PARKING BRAKE', desc: 'Electric parking brake' },
+            { pos: 'F4', amps: 10, circuit: 'DAYTIME RUNNING LIGHTS', desc: 'Daytime running lights' },
+            { pos: 'F5', amps: 15, circuit: 'FRONT FOG LIGHTS', desc: 'Front fog lights' },
+            { pos: 'F6', amps: 10, circuit: 'AIR CONDITIONER', desc: 'Air conditioner' },
+            { pos: 'F7', amps: 20, circuit: 'HEADLIGHT WASHER', desc: 'Headlight washer' },
+            { pos: 'F8', amps: 20, circuit: 'SECURITY HORN', desc: 'Security horn' },
+            { pos: 'F9', amps: 10, circuit: 'HORN', desc: 'Horn' },
+            { pos: 'F10', amps: 15, circuit: 'ETV', desc: 'ETV' },
+            { pos: 'F11', amps: 7.5, circuit: 'ALTERNATOR', desc: 'Alternator' },
+            { pos: 'F12', amps: 7.5, circuit: 'ENGINE', desc: 'Engine' },
+            { pos: 'F13', amps: 20, circuit: 'ENG/POWER', desc: 'Engine power (gasoline models)' },
+            { pos: 'F13', amps: 25, circuit: 'FUEL LINE HEATER', desc: 'Fuel line heater (diesel models; same fuse position as ENG/POWER)' },
+            { pos: 'F14', amps: 15, circuit: 'FUEL PUMP', desc: 'Fuel pump' },
+            { pos: 'F15', amps: 10, circuit: 'IGNITION COIL', desc: 'Ignition coil' },
+            { pos: 'F16', amps: 10, circuit: 'ENG/POWER', desc: 'Engine power' },
+            { pos: 'F17', amps: 10, circuit: 'HEADLIGHT (HIGH BEAM)', desc: 'Headlight (high beam) (left)' },
+            { pos: 'F18', amps: 10, circuit: 'HEADLIGHT (HIGH BEAM)', desc: 'Headlight (high beam) (right)' },
+            { pos: 'F19', amps: 20, circuit: 'HEADLIGHT (LOW BEAM)', desc: 'Headlight (low beam) (left) — LED' },
+            { pos: 'F20', amps: 20, circuit: 'HEADLIGHT (LOW BEAM)', desc: 'Headlight (low beam) (right) — LED' },
+            { pos: 'F21', amps: 10, circuit: 'HEADLIGHT (LOW BEAM)', desc: 'Headlight (low beam) (left) — halogen' },
+            { pos: 'F22', amps: 10, circuit: 'HEADLIGHT (LOW BEAM)', desc: 'Headlight (low beam) (right) — halogen' },
+            { pos: 'F23', amps: 7.5, circuit: 'BATTERY CURRENT SENSOR', desc: 'Battery current sensor' },
+            { pos: '#1', amps: 10, circuit: 'SPARE FUSE', desc: 'Spare fuse' },
+            { pos: '#2', amps: 15, circuit: 'SPARE FUSE', desc: 'Spare fuse' },
+            { pos: '#3', amps: 20, circuit: 'SPARE FUSE', desc: 'Spare fuse' }
+          ],
+          relays: [
+          ]
+        },
+        {
+          name: 'Sub Fuse Block',
+          location: 'Located in the engine compartment, on the battery.',
+          fuses: [
+            { pos: 'SBF1', amps: 30, circuit: 'ELECTRIC PARKING BRAKE', desc: 'Electric parking brake (fusible link)' },
+            { pos: 'SBF2', amps: 30, circuit: 'ELECTRIC PARKING BRAKE', desc: 'Electric parking brake (fusible link)' }
           ],
           relays: [
           ]
@@ -33228,12 +33387,35 @@ mitsubishi: {
     }
   },
   mirage: {
-    '2014-2024': {
+    '2014': {
       panels: [
         {
           name: 'Passenger Compartment Fuse Block',
           location: 'Located behind the cover on the left side of the instrument panel.',
           fuses: [
+            { pos: '1', amps: 7.5, circuit: 'TAIL LIGHT', desc: 'Tail light (left)' },
+            { pos: '2', amps: 15, circuit: 'CIGARETTE LIGHTER', desc: 'Cigarette lighter' },
+            { pos: '3', amps: 10, circuit: 'IGNITION COIL', desc: 'Ignition coil' },
+            { pos: '4', amps: 7.5, circuit: 'STARTER MOTOR', desc: 'Starter motor' },
+            { pos: '7', amps: 7.5, circuit: 'TAIL LIGHT', desc: 'Tail light (right)' },
+            { pos: '8', amps: 7.5, circuit: 'OUTSIDE REARVIEW MIRRORS', desc: 'Outside rearview mirrors' },
+            { pos: '9', amps: 7.5, circuit: 'ENGINE CONTROL UNIT', desc: 'Engine control unit' },
+            { pos: '10', amps: 7.5, circuit: 'CONTROL UNIT', desc: 'Control unit' },
+            { pos: '11', amps: 10, circuit: 'REAR FOG LIGHT', desc: 'Rear fog light' },
+            { pos: '12', amps: 15, circuit: 'DOOR LOCK', desc: 'Door lock' },
+            { pos: '13', amps: 15, circuit: 'INTERIOR LIGHT', desc: 'Interior light (dome light)' },
+            { pos: '14', amps: 15, circuit: 'REAR WINDOW WIPER', desc: 'Rear window wiper' },
+            { pos: '15', amps: 7.5, circuit: 'GAUGES', desc: 'Gauges' },
+            { pos: '16', amps: 7.5, circuit: 'RELAY', desc: 'Relay' },
+            { pos: '17', amps: 20, circuit: 'HEATED SEATS', desc: 'Heated seats' },
+            { pos: '18', amps: 10, circuit: 'OPTION', desc: 'Option' },
+            { pos: '19', amps: 7.5, circuit: 'HEATED OUTSIDE REARVIEW MIRRORS', desc: 'Heated outside rearview mirrors' },
+            { pos: '20', amps: 20, circuit: 'WINDSHIELD WIPER', desc: 'Windshield wiper' },
+            { pos: '21', amps: 7.5, circuit: 'BACK-UP LIGHT', desc: 'Back-up light' },
+            { pos: '22', amps: 30, circuit: 'DEFOGGER', desc: 'Rear window defogger' },
+            { pos: '23', amps: 30, circuit: 'HEATER', desc: 'Heater' },
+            { pos: '25', amps: 10, circuit: 'RADIO', desc: 'Radio' },
+            { pos: '26', amps: 15, circuit: 'ELECTRONIC CONTROLLED UNIT', desc: 'Electronic controlled unit' }
           ],
           relays: [
           ]
@@ -33242,6 +33424,179 @@ mitsubishi: {
           name: 'Engine Compartment Fuse Block',
           location: 'Located in the engine compartment, next to the battery.',
           fuses: [
+            { pos: 'SBF1', amps: 40, circuit: 'RADIATOR FAN MOTOR', desc: 'Radiator fan motor (fusible link)' },
+            { pos: 'SBF2', amps: 30, circuit: 'ANTI-LOCK BRAKING SYSTEM', desc: 'Anti-lock braking system (fusible link)' },
+            { pos: 'SBF3', amps: 40, circuit: 'IGNITION SWITCH', desc: 'Ignition switch (fusible link)' },
+            { pos: 'SBF4', amps: 40, circuit: 'POWER WINDOW CONTROL', desc: 'Power window control (fusible link)' },
+            { pos: 'BF1', amps: 30, circuit: 'DC-DC (P/T)', desc: 'DC-DC converter (powertrain)' },
+            { pos: 'BF2', amps: 30, circuit: 'DC-DC (AUDIO)', desc: 'DC-DC converter (audio)' },
+            { pos: 'F1', amps: 10, circuit: 'HEADLIGHT (LOW BEAM)', desc: 'Headlight (low beam) (left)' },
+            { pos: 'F2', amps: 10, circuit: 'HEADLIGHT (LOW BEAM)', desc: 'Headlight (low beam) (right)' },
+            { pos: 'F3', amps: 10, circuit: 'HEADLIGHT (HIGH BEAM)', desc: 'Headlight (high beam) (left)' },
+            { pos: 'F4', amps: 10, circuit: 'HEADLIGHT (HIGH BEAM)', desc: 'Headlight (high beam) (right)' },
+            { pos: 'F5', amps: 10, circuit: 'HORN', desc: 'Horn' },
+            { pos: 'F6', amps: 15, circuit: 'FRONT FOG LIGHTS', desc: 'Front fog lights' },
+            { pos: 'F7', amps: 10, circuit: 'DAYTIME RUNNING LIGHTS', desc: 'Daytime running lights' },
+            { pos: 'F10', amps: 7.5, circuit: 'STARTER', desc: 'Starter' },
+            { pos: 'F12', amps: 15, circuit: 'STOP LIGHTS', desc: 'Stop lights (brake lights)' },
+            { pos: 'F13', amps: 7.5, circuit: 'IGNITION COIL', desc: 'Ignition coil' },
+            { pos: 'F14', amps: 7.5, circuit: 'ENGINE CONTROL', desc: 'Engine control' },
+            { pos: 'F15', amps: 7.5, circuit: 'ALTERNATOR', desc: 'Alternator' },
+            { pos: 'F16', amps: 10, circuit: 'HAZARD WARNING FLASHER', desc: 'Hazard warning flasher' },
+            { pos: 'F17', amps: 15, circuit: 'AUTOMATIC TRANSAXLE', desc: 'Automatic transaxle' },
+            { pos: 'F18', amps: 10, circuit: 'AIR CONDITIONING', desc: 'Air conditioning' },
+            { pos: 'F19', amps: 15, circuit: 'ETV', desc: 'ETV' },
+            { pos: 'F20', amps: 7.5, circuit: 'BATTERY CURRENT SENSOR', desc: 'Battery current sensor' },
+            { pos: 'F21', amps: 15, circuit: 'CVT OIL PUMP', desc: 'CVT oil pump' },
+            { pos: 'F22', amps: 15, circuit: 'FUEL PUMP', desc: 'Fuel pump' },
+            { pos: 'F23', amps: 20, circuit: 'ENGINE', desc: 'Engine' },
+            { pos: 'F24', amps: 7.5, circuit: 'AUTOMATIC TRANSAXLE', desc: 'Automatic transaxle' },
+            { pos: '#1', amps: 20, circuit: 'SPARE FUSE', desc: 'Spare fuse' },
+            { pos: '#2', amps: 30, circuit: 'SPARE FUSE', desc: 'Spare fuse' }
+          ],
+          relays: [
+          ]
+        }
+      ]
+    },
+    '2015-2016': {
+      panels: [
+        {
+          name: 'Passenger Compartment Fuse Block',
+          location: 'Located behind the cover on the left side of the instrument panel.',
+          fuses: [
+            { pos: '1', amps: 7.5, circuit: 'TAIL LIGHT', desc: 'Tail light (left)' },
+            { pos: '2', amps: 15, circuit: 'CIGARETTE LIGHTER', desc: 'Cigarette lighter' },
+            { pos: '3', amps: 10, circuit: 'IGNITION COIL', desc: 'Ignition coil' },
+            { pos: '4', amps: 7.5, circuit: 'STARTER MOTOR', desc: 'Starter motor' },
+            { pos: '7', amps: 7.5, circuit: 'TAIL LIGHT', desc: 'Tail light (right)' },
+            { pos: '8', amps: 7.5, circuit: 'OUTSIDE REARVIEW MIRRORS', desc: 'Outside rearview mirrors' },
+            { pos: '9', amps: 7.5, circuit: 'ENGINE CONTROL UNIT', desc: 'Engine control unit' },
+            { pos: '10', amps: 7.5, circuit: 'CONTROL UNIT', desc: 'Control unit' },
+            { pos: '11', amps: 10, circuit: 'REAR FOG LIGHT', desc: 'Rear fog light' },
+            { pos: '12', amps: 15, circuit: 'DOOR LOCK', desc: 'Door lock' },
+            { pos: '13', amps: 15, circuit: 'INTERIOR LIGHT', desc: 'Interior light (dome light)' },
+            { pos: '14', amps: 15, circuit: 'REAR WINDOW WIPER', desc: 'Rear window wiper' },
+            { pos: '15', amps: 7.5, circuit: 'GAUGES', desc: 'Gauges' },
+            { pos: '16', amps: 7.5, circuit: 'RELAY', desc: 'Relay' },
+            { pos: '17', amps: 20, circuit: 'HEATED SEATS', desc: 'Heated seats' },
+            { pos: '18', amps: 10, circuit: 'OPTION', desc: 'Option' },
+            { pos: '19', amps: 7.5, circuit: 'HEATED OUTSIDE REARVIEW MIRRORS', desc: 'Heated outside rearview mirrors' },
+            { pos: '20', amps: 20, circuit: 'WINDSHIELD WIPER', desc: 'Windshield wiper' },
+            { pos: '21', amps: 7.5, circuit: 'BACK-UP LIGHT', desc: 'Back-up light' },
+            { pos: '22', amps: 30, circuit: 'DEFOGGER', desc: 'Rear window defogger' },
+            { pos: '23', amps: 30, circuit: 'HEATER', desc: 'Heater' },
+            { pos: '25', amps: 10, circuit: 'RADIO', desc: 'Radio' },
+            { pos: '26', amps: 15, circuit: 'ELECTRONIC CONTROLLED UNIT', desc: 'Electronic controlled unit' }
+          ],
+          relays: [
+          ]
+        },
+        {
+          name: 'Engine Compartment Fuse Block',
+          location: 'Located in the engine compartment, next to the battery.',
+          fuses: [
+            { pos: 'SBF1', amps: 40, circuit: 'RADIATOR FAN MOTOR', desc: 'Radiator fan motor (fusible link)' },
+            { pos: 'SBF2', amps: 30, circuit: 'ANTI-LOCK BRAKING SYSTEM', desc: 'Anti-lock braking system (fusible link)' },
+            { pos: 'SBF3', amps: 40, circuit: 'IGNITION SWITCH', desc: 'Ignition switch (fusible link)' },
+            { pos: 'SBF4', amps: 40, circuit: 'POWER WINDOW CONTROL', desc: 'Power window control (fusible link)' },
+            { pos: 'BF1', amps: 30, circuit: 'DC-DC (P/T)', desc: 'DC-DC converter (powertrain)' },
+            { pos: 'BF2', amps: 30, circuit: 'DC-DC (AUDIO)', desc: 'DC-DC converter (audio)' },
+            { pos: 'F1', amps: 10, circuit: 'HEADLIGHT (LOW BEAM)', desc: 'Headlight (low beam) (left)' },
+            { pos: 'F2', amps: 10, circuit: 'HEADLIGHT (LOW BEAM)', desc: 'Headlight (low beam) (right)' },
+            { pos: 'F3', amps: 10, circuit: 'HEADLIGHT (HIGH BEAM)', desc: 'Headlight (high beam) (left)' },
+            { pos: 'F4', amps: 10, circuit: 'HEADLIGHT (HIGH BEAM)', desc: 'Headlight (high beam) (right)' },
+            { pos: 'F5', amps: 10, circuit: 'HORN', desc: 'Horn' },
+            { pos: 'F6', amps: 15, circuit: 'FRONT FOG LIGHTS', desc: 'Front fog lights' },
+            { pos: 'F7', amps: 10, circuit: 'DAYTIME RUNNING LIGHTS', desc: 'Daytime running lights' },
+            { pos: 'F10', amps: 7.5, circuit: 'BATTERY CURRENT SENSOR', desc: 'Battery current sensor' },
+            { pos: 'F12', amps: 15, circuit: 'STOP LIGHTS', desc: 'Stop lights (brake lights)' },
+            { pos: 'F13', amps: 7.5, circuit: 'IGNITION COIL', desc: 'Ignition coil' },
+            { pos: 'F14', amps: 7.5, circuit: 'ENGINE CONTROL', desc: 'Engine control' },
+            { pos: 'F15', amps: 7.5, circuit: 'ALTERNATOR', desc: 'Alternator' },
+            { pos: 'F16', amps: 10, circuit: 'HAZARD WARNING FLASHER', desc: 'Hazard warning flasher' },
+            { pos: 'F17', amps: 15, circuit: 'AUTOMATIC TRANSAXLE', desc: 'Automatic transaxle' },
+            { pos: 'F18', amps: 10, circuit: 'AIR CONDITIONING', desc: 'Air conditioning' },
+            { pos: 'F19', amps: 15, circuit: 'ETV', desc: 'ETV' },
+            { pos: 'F20', amps: 7.5, circuit: 'STARTER', desc: 'Starter' },
+            { pos: 'F21', amps: 15, circuit: 'CVT OIL PUMP', desc: 'CVT oil pump' },
+            { pos: 'F22', amps: 15, circuit: 'FUEL PUMP', desc: 'Fuel pump' },
+            { pos: 'F23', amps: 20, circuit: 'ENGINE', desc: 'Engine' },
+            { pos: 'F24', amps: 7.5, circuit: 'AUTOMATIC TRANSAXLE', desc: 'Automatic transaxle' },
+            { pos: '#1', amps: 20, circuit: 'SPARE FUSE', desc: 'Spare fuse' },
+            { pos: '#2', amps: 30, circuit: 'SPARE FUSE', desc: 'Spare fuse' }
+          ],
+          relays: [
+          ]
+        }
+      ]
+    },
+    '2017-2024': {
+      panels: [
+        {
+          name: 'Passenger Compartment Fuse Block',
+          location: 'Located behind the cover on the left side of the instrument panel.',
+          fuses: [
+            { pos: '1', amps: 7.5, circuit: 'TAIL LIGHT', desc: 'Tail light (left)' },
+            { pos: '2', amps: 15, circuit: 'CIGARETTE LIGHTER', desc: 'Cigarette lighter' },
+            { pos: '3', amps: 10, circuit: 'IGNITION COIL', desc: 'Ignition coil' },
+            { pos: '4', amps: 7.5, circuit: 'STARTER MOTOR', desc: 'Starter motor' },
+            { pos: '7', amps: 7.5, circuit: 'TAIL LIGHT', desc: 'Tail light (right)' },
+            { pos: '8', amps: 7.5, circuit: 'OUTSIDE REARVIEW MIRRORS', desc: 'Outside rearview mirrors' },
+            { pos: '9', amps: 7.5, circuit: 'ENGINE CONTROL UNIT', desc: 'Engine control unit' },
+            { pos: '10', amps: 7.5, circuit: 'CONTROL UNIT', desc: 'Control unit' },
+            { pos: '11', amps: 10, circuit: 'REAR FOG LIGHT', desc: 'Rear fog light' },
+            { pos: '12', amps: 15, circuit: 'DOOR LOCK', desc: 'Door lock' },
+            { pos: '13', amps: 15, circuit: 'INTERIOR LIGHT', desc: 'Interior light (dome light)' },
+            { pos: '14', amps: 15, circuit: 'REAR WINDOW WIPER', desc: 'Rear window wiper' },
+            { pos: '15', amps: 7.5, circuit: 'GAUGES', desc: 'Gauges' },
+            { pos: '16', amps: 7.5, circuit: 'RELAY', desc: 'Relay' },
+            { pos: '17', amps: 20, circuit: 'HEATED SEATS', desc: 'Heated seats' },
+            { pos: '18', amps: 10, circuit: 'OPTION', desc: 'Option' },
+            { pos: '19', amps: 7.5, circuit: 'HEATED OUTSIDE REARVIEW MIRRORS', desc: 'Heated outside rearview mirrors' },
+            { pos: '20', amps: 20, circuit: 'WINDSHIELD WIPER', desc: 'Windshield wiper' },
+            { pos: '21', amps: 7.5, circuit: 'BACK-UP LIGHT', desc: 'Back-up light' },
+            { pos: '22', amps: 30, circuit: 'DEFOGGER', desc: 'Rear window defogger' },
+            { pos: '23', amps: 30, circuit: 'HEATER', desc: 'Heater' },
+            { pos: '25', amps: 10, circuit: 'RADIO', desc: 'Radio' },
+            { pos: '26', amps: 15, circuit: 'ELECTRONIC CONTROLLED UNIT', desc: 'Electronic controlled unit' }
+          ],
+          relays: [
+          ]
+        },
+        {
+          name: 'Engine Compartment Fuse Block',
+          location: 'Located in the engine compartment, next to the battery.',
+          fuses: [
+            { pos: 'SBF1', amps: 40, circuit: 'RADIATOR FAN MOTOR', desc: 'Radiator fan motor (fusible link)' },
+            { pos: 'SBF2', amps: 30, circuit: 'ANTI-LOCK BRAKING SYSTEM', desc: 'Anti-lock braking system (fusible link)' },
+            { pos: 'SBF3', amps: 40, circuit: 'IGNITION SWITCH', desc: 'Ignition switch (fusible link)' },
+            { pos: 'SBF4', amps: 40, circuit: 'POWER WINDOW CONTROL', desc: 'Power window control (fusible link)' },
+            { pos: 'BF1', amps: 30, circuit: 'DC-DC (P/T)', desc: 'DC-DC converter (powertrain)' },
+            { pos: 'BF2', amps: 30, circuit: 'DC-DC (AUDIO)', desc: 'DC-DC converter (audio)' },
+            { pos: 'F1', amps: '10/20', circuit: 'HEADLIGHT (LOW BEAM)', desc: 'Headlight (low beam) (left) — 10 A halogen, 20 A discharge' },
+            { pos: 'F2', amps: '10/20', circuit: 'HEADLIGHT (LOW BEAM)', desc: 'Headlight (low beam) (right) — 10 A halogen, 20 A discharge' },
+            { pos: 'F3', amps: 10, circuit: 'HEADLIGHT (HIGH BEAM)', desc: 'Headlight (high beam) (left)' },
+            { pos: 'F4', amps: 10, circuit: 'HEADLIGHT (HIGH BEAM)', desc: 'Headlight (high beam) (right)' },
+            { pos: 'F5', amps: 10, circuit: 'HORN', desc: 'Horn' },
+            { pos: 'F6', amps: 15, circuit: 'FRONT FOG LIGHTS', desc: 'Front fog lights' },
+            { pos: 'F7', amps: 10, circuit: 'DAYTIME RUNNING LIGHTS', desc: 'Daytime running lights' },
+            { pos: 'F10', amps: 7.5, circuit: 'BATTERY CURRENT SENSOR', desc: 'Battery current sensor' },
+            { pos: 'F12', amps: 15, circuit: 'STOP LIGHTS', desc: 'Stop lights (brake lights)' },
+            { pos: 'F13', amps: 7.5, circuit: 'IGNITION COIL', desc: 'Ignition coil' },
+            { pos: 'F14', amps: 7.5, circuit: 'ENGINE CONTROL', desc: 'Engine control' },
+            { pos: 'F15', amps: 7.5, circuit: 'ALTERNATOR', desc: 'Alternator' },
+            { pos: 'F16', amps: 10, circuit: 'HAZARD WARNING FLASHER', desc: 'Hazard warning flasher' },
+            { pos: 'F17', amps: 15, circuit: 'AUTOMATIC TRANSAXLE', desc: 'Automatic transaxle' },
+            { pos: 'F18', amps: 10, circuit: 'AIR CONDITIONING', desc: 'Air conditioning' },
+            { pos: 'F19', amps: 15, circuit: 'ETV', desc: 'ETV' },
+            { pos: 'F20', amps: 7.5, circuit: 'STARTER', desc: 'Starter' },
+            { pos: 'F21', amps: 15, circuit: 'CVT OIL PUMP', desc: 'CVT oil pump' },
+            { pos: 'F22', amps: 15, circuit: 'FUEL PUMP', desc: 'Fuel pump' },
+            { pos: 'F23', amps: 20, circuit: 'ENGINE', desc: 'Engine' },
+            { pos: 'F24', amps: 7.5, circuit: 'AUTOMATIC TRANSAXLE', desc: 'Automatic transaxle' },
+            { pos: '#1', amps: 20, circuit: 'SPARE FUSE', desc: 'Spare fuse' },
+            { pos: '#2', amps: 30, circuit: 'SPARE FUSE', desc: 'Spare fuse' }
           ],
           relays: [
           ]
