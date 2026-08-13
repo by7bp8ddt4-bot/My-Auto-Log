@@ -7390,7 +7390,65 @@ export const fuseBoxData = {
               { pos: 'R6', circuit: 'HORN', desc: 'Horn relay' },
               { pos: 'R7', circuit: 'HEAD LAMP', desc: 'Headlight relay' },
               { pos: 'R8', circuit: 'FUEL PUMP', desc: 'Fuel pump / PGM-FI main relay' }
-            ]
+            ],
+            layout: {
+              cols: 6,
+              rows: 16,
+              cells: {
+                // Relay blocks — photo shows two blocks above the fuse area
+                'R1':  { col: 1, row: 1, w: 1, h: 1 },
+                'R2':  { col: 6, row: 1, w: 1, h: 1 },
+                // Wide relay block across the top-center of the box
+                'R3':  { col: 2, row: 2, w: 3, h: 1 },
+                // Left mini-fuse stack (13 slots) — positions 1, 6-17 in
+                // the OEM's top-to-bottom numbering order
+                '1':   { col: 1, row: 3, w: 1, h: 1 },
+                '6':   { col: 1, row: 4, w: 1, h: 1 },
+                '7':   { col: 1, row: 5, w: 1, h: 1 },
+                '8':   { col: 1, row: 6, w: 1, h: 1 },
+                '9':   { col: 1, row: 7, w: 1, h: 1 },
+                '10':  { col: 1, row: 8, w: 1, h: 1 },
+                '11':  { col: 1, row: 9, w: 1, h: 1 },
+                '12':  { col: 1, row: 10, w: 1, h: 1 },
+                '13':  { col: 1, row: 11, w: 1, h: 1 },
+                '14':  { col: 1, row: 12, w: 1, h: 1 },
+                '15':  { col: 1, row: 13, w: 1, h: 1 },
+                '16':  { col: 1, row: 14, w: 1, h: 1 },
+                '17':  { col: 1, row: 15, w: 1, h: 1 },
+                // Large cartridge-fuse block — photo shows four tall
+                // multi-fuse slots in the center of the box
+                '2':   { col: 2, row: 3, w: 1, h: 11 },
+                '3':   { col: 3, row: 3, w: 1, h: 11 },
+                '4':   { col: 4, row: 3, w: 1, h: 11 },
+                '5':   { col: 5, row: 3, w: 1, h: 11 },
+                // Right mini-fuse stack (13 slots) — positions 18-30
+                '18':  { col: 6, row: 3, w: 1, h: 1 },
+                '19':  { col: 6, row: 4, w: 1, h: 1 },
+                '20':  { col: 6, row: 5, w: 1, h: 1 },
+                '21':  { col: 6, row: 6, w: 1, h: 1 },
+                '22':  { col: 6, row: 7, w: 1, h: 1 },
+                '23':  { col: 6, row: 8, w: 1, h: 1 },
+                '24':  { col: 6, row: 9, w: 1, h: 1 },
+                '25':  { col: 6, row: 10, w: 1, h: 1 },
+                '26':  { col: 6, row: 11, w: 1, h: 1 },
+                '27':  { col: 6, row: 12, w: 1, h: 1 },
+                '28':  { col: 6, row: 13, w: 1, h: 1 },
+                '29':  { col: 6, row: 14, w: 1, h: 1 },
+                '30':  { col: 6, row: 15, w: 1, h: 1 },
+                // Bottom relay row — photo shows five relay blocks below
+                // the fuse stacks
+                'R4':  { col: 1, row: 16, w: 1, h: 1 },
+                'R5':  { col: 2, row: 16, w: 1, h: 1 },
+                'R6':  { col: 3, row: 16, w: 1, h: 1 },
+                'R7':  { col: 4, row: 16, w: 1, h: 1 },
+                'R8':  { col: 5, row: 16, w: 1, h: 1 }
+              },
+              notes: [
+                'Transcribed from the fuse-box.info photo diagram (Honda Civic 2022-2026, 11th gen under-hood box).',
+                'The photo shows two vertical stacks of mini-fuse slots with a central row of four large cartridge-fuse slots and relay blocks at top and bottom.',
+                'Positions were mapped in the OEM\'s left-to-right / top-to-bottom numbering order; the large-fuse assignment (positions 2-5) and exact slot mapping are approximated from the photo and may differ by trim/region — verify against the fuse box cover.'
+              ]
+            }
           },
           {
             name: 'Interior Fuse Box',
@@ -7432,7 +7490,57 @@ export const fuseBoxData = {
               { pos: 'R2', circuit: 'IG1', desc: 'Ignition 1 relay' },
               { pos: 'R3', circuit: 'P/W RELAY', desc: 'Power window main relay' },
               { pos: 'R4', circuit: 'FUEL PUMP', desc: 'Fuel pump relay (secondary)' }
-            ]
+            ],
+            layout: {
+              cols: 7,
+              rows: 11,
+              cells: {
+                // Relay slots — photo shows two blocks above the main grid
+                'R1':  { col: 4, row: 1, w: 1, h: 1 },
+                'R2':  { col: 6, row: 1, w: 1, h: 1 },
+                // Main fuse grid — 7 columns x 8 rows; fuses 1-30 in
+                // reading order (left to right, top to bottom)
+                '1':   { col: 1, row: 2, w: 1, h: 1 },
+                '2':   { col: 2, row: 2, w: 1, h: 1 },
+                '3':   { col: 3, row: 2, w: 1, h: 1 },
+                '4':   { col: 4, row: 2, w: 1, h: 1 },
+                '5':   { col: 5, row: 2, w: 1, h: 1 },
+                '6':   { col: 6, row: 2, w: 1, h: 1 },
+                '7':   { col: 7, row: 2, w: 1, h: 1 },
+                '8':   { col: 1, row: 3, w: 1, h: 1 },
+                '9':   { col: 2, row: 3, w: 1, h: 1 },
+                '10':  { col: 3, row: 3, w: 1, h: 1 },
+                '11':  { col: 4, row: 3, w: 1, h: 1 },
+                '12':  { col: 5, row: 3, w: 1, h: 1 },
+                '13':  { col: 6, row: 3, w: 1, h: 1 },
+                '14':  { col: 7, row: 3, w: 1, h: 1 },
+                '15':  { col: 1, row: 4, w: 1, h: 1 },
+                '16':  { col: 2, row: 4, w: 1, h: 1 },
+                '17':  { col: 3, row: 4, w: 1, h: 1 },
+                '18':  { col: 4, row: 4, w: 1, h: 1 },
+                '19':  { col: 5, row: 4, w: 1, h: 1 },
+                '20':  { col: 6, row: 4, w: 1, h: 1 },
+                '21':  { col: 7, row: 4, w: 1, h: 1 },
+                '22':  { col: 1, row: 5, w: 1, h: 1 },
+                '23':  { col: 2, row: 5, w: 1, h: 1 },
+                '24':  { col: 3, row: 5, w: 1, h: 1 },
+                '25':  { col: 4, row: 5, w: 1, h: 1 },
+                '26':  { col: 5, row: 5, w: 1, h: 1 },
+                '27':  { col: 6, row: 5, w: 1, h: 1 },
+                '28':  { col: 7, row: 5, w: 1, h: 1 },
+                '29':  { col: 1, row: 6, w: 1, h: 1 },
+                '30':  { col: 2, row: 6, w: 1, h: 1 },
+                // Relay row below the main grid (photo shows extra blocks
+                // under columns 4-6)
+                'R3':  { col: 4, row: 10, w: 1, h: 1 },
+                'R4':  { col: 5, row: 10, w: 1, h: 1 }
+              },
+              notes: [
+                'Transcribed from the fuse-box.info photo diagram (Honda Civic 2022-2026 interior fuse box).',
+                'The photo shows a uniform 7x8 grid of slots with relay-sized blocks above and below; the box has more physical slots than the 30 positions listed here, so positions were mapped to the grid in reading order (left to right, top to bottom).',
+                'Exact slot assignment is approximated from the photo and may differ by trim/region — verify against the fuse box cover.'
+              ]
+            }
           }
         ]
       },
