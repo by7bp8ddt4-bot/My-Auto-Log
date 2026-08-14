@@ -81,6 +81,48 @@ export const manualIndex = {
         notes: 'Per-year interactive manual page; pattern .../digital/highlander/{year}/ — validated 2020 and 2024 (both 200 text/html). Substitute the vehicle year in the pattern.'
       }
     }
+  },
+  honda: {
+    civic: {
+      '2016-2026': {
+        url: 'https://owners.honda.com/vehicle-information/manuals/civic/2024',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Owners-portal manual route (200 text/html). Site is a Salesforce SPA — page shell renders via JS; per-model manual PDFs load through the owners API. Validated URL only; parse strategy TBD in the feature build, upload fallback also fine.'
+      }
+    },
+    accord: {
+      '2018-2026': {
+        url: 'https://owners.honda.com/vehicle-information/manuals/accord/2024',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Owners-portal manual route (200 text/html). Salesforce SPA — see civic note; validate per-model content during feature build.'
+      }
+    },
+    'cr-v': {
+      '2017-2026': {
+        url: 'https://owners.honda.com/vehicle-information/manuals/cr-v/2024',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Owners-portal manual route (200 text/html). Salesforce SPA — see civic note; validate per-model content during feature build.'
+      }
+    },
+    pilot: {
+      '2016-2026': {
+        url: 'https://owners.honda.com/vehicle-information/manuals/pilot/2024',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Owners-portal manual route (200 text/html). Salesforce SPA — see civic note; validate per-model content during feature build.'
+      }
+    },
+    odyssey: {
+      '2018-2026': {
+        url: 'https://owners.honda.com/vehicle-information/manuals/odyssey/2024',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Owners-portal manual route (200 text/html). Salesforce SPA — see civic note; validate per-model content during feature build.'
+      }
+    }
   }
 };
 
