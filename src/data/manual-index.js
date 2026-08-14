@@ -123,6 +123,48 @@ export const manualIndex = {
         notes: 'Owners-portal manual route (200 text/html). Salesforce SPA — see civic note; validate per-model content during feature build.'
       }
     }
+  },
+  kia: {
+    soul: {
+      '2014-2026': {
+        url: 'https://owners.kia.com/us/en/manuals.html',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Manuals hub page (200 text/html, model/year search). Per-model PDFs are served behind a VIN-linked lookup (getvehicleinfo) — not directly fetchable; upload fallback recommended for parse.'
+      }
+    },
+    forte: {
+      '2014-2026': {
+        url: 'https://owners.kia.com/us/en/manuals.html',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Manuals hub page (200 text/html, model/year search). Per-model PDFs are served behind a VIN-linked lookup (getvehicleinfo) — not directly fetchable; upload fallback recommended for parse.'
+      }
+    },
+    sportage: {
+      '2017-2026': {
+        url: 'https://owners.kia.com/us/en/manuals.html',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Manuals hub page (200 text/html, model/year search). Per-model PDFs are served behind a VIN-linked lookup (getvehicleinfo) — not directly fetchable; upload fallback recommended for parse.'
+      }
+    },
+    sorento: {
+      '2016-2026': {
+        url: 'https://owners.kia.com/us/en/manuals.html',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Manuals hub page (200 text/html, model/year search). Per-model PDFs are served behind a VIN-linked lookup (getvehicleinfo) — not directly fetchable; upload fallback recommended for parse.'
+      }
+    },
+    telluride: {
+      '2020-2026': {
+        url: 'https://owners.kia.com/us/en/manuals.html',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Manuals hub page (200 text/html, model/year search). Per-model PDFs are served behind a VIN-linked lookup (getvehicleinfo) — not directly fetchable; upload fallback recommended for parse.'
+      }
+    }
   }
 };
 
