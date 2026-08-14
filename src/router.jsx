@@ -18,6 +18,7 @@ import ModsPage from './pages/ModsPage.jsx';
 import DocumentsPage from './pages/DocumentsPage.jsx';
 import SpecsPage from './pages/SpecsPage.jsx';
 import WiringPage from './pages/WiringPage.jsx';
+import OwnersManualPage from './pages/OwnersManualPage.jsx';
 import SubscriptionPage from './pages/SubscriptionPage.jsx';
 import ContactPage from './pages/ContactPage.jsx';
 
@@ -222,6 +223,13 @@ export default function Router({
     wiring: <WiringPage
       vehicles={vehiclesStore.data}
       selectedVehicleId={selectedVehicleId}
+    />,
+    manual: <OwnersManualPage
+      vehicles={vehiclesStore.data}
+      selectedVehicleId={selectedVehicleId}
+      isPremium={premium}
+      navigate={navigate}
+      userId={auth.user?.id}
     />,
     subscription: <SubscriptionPage
       userId={auth.user?.id}
