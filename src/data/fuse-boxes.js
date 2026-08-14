@@ -23778,6 +23778,355 @@ dodge: {
       },
     },
     'mx-5': {
+      '1989-1997': {
+        panels: [
+          {
+            name: 'Engine Compartment Fuse Block',
+            location: 'Engine compartment, near the battery',
+            fuses: [
+              { pos: '1', amps: 30, circuit: 'HEAD', desc: 'Headlights' },
+              { pos: '2', amps: 30, circuit: 'INJ', desc: 'Fuel injection, Alternator' },
+              { pos: '3', amps: 80, circuit: 'MAIN', desc: 'For protection of all circuits' },
+              { pos: '4', amps: 40, circuit: 'BTN', desc: 'Refer to HAZARD (15A), STOP (15A), ROOM (10A), TAIL (15A)' },
+              { pos: '5', amps: 60, circuit: 'ABS', desc: 'Anti-lock brake system' },
+              { pos: '6', amps: 30, circuit: 'COOLING FAN', desc: 'Cooling fan' },
+              { pos: '7', amps: 10, circuit: 'AIR BAG', desc: 'Air bag' },
+              { pos: '8', amps: 20, circuit: 'AD FAN', desc: 'Air conditioner Additional fan' },
+              { pos: '9', amps: 10, circuit: 'ST SIG', desc: 'Fuel injection' },
+              { pos: '10', amps: 30, circuit: 'RETRACTOR', desc: 'Headlight retractor' }
+            ],
+            relays: [
+            ]
+          },
+          {
+            name: 'Instrument Panel Fuse Block',
+            location: 'Driver\'s side of the instrument panel, under the dash',
+            fuses: [
+              { pos: 'A', amps: 15, circuit: 'ENGINE', desc: 'Cooling fan' },
+              { pos: 'B', amps: 10, circuit: 'METER', desc: 'Gauges, Warning lights, Turn-signal lights, Cruise control' },
+              { pos: 'C', amps: 15, circuit: 'AIR BAG', desc: 'Air bag' },
+              { pos: 'D', amps: 30, circuit: 'HEATER', desc: 'Heater' },
+              { pos: 'F', amps: 30, circuit: 'POWER WIND', desc: 'Power windows' },
+              { pos: 'G', amps: 20, circuit: 'WIPER', desc: 'Wipers, Washer' },
+              { pos: 'I', amps: 15, circuit: 'TAIL', desc: 'Tail lights' },
+              { pos: 'K', amps: 15, circuit: 'STOP', desc: 'Shift lock, Cruise control, Horn, Stoplights' },
+              { pos: 'L', amps: 15, circuit: 'HAZARD', desc: 'Hazard warning lights' },
+              { pos: 'N', amps: 10, circuit: 'ROOM', desc: 'Interior lamps, Warning buzzers, Radio/cassette and compact disc player and clock' },
+              { pos: 'O', amps: 15, circuit: 'CIGAR', desc: 'Cigarette lighter, Radio/cassette and compact disc player and clock' }
+            ],
+            relays: [
+            ]
+          },
+          {
+            name: 'Trunk Fuse Block',
+            location: 'Trunk (luggage compartment), behind the left-side trim',
+            fuses: [
+              { pos: '1', amps: 10, circuit: 'DEFOG', desc: 'Rear defroster' },
+              { pos: '2', amps: 10, circuit: 'ANTENNA', desc: 'Auto antenna' }
+            ],
+            relays: [
+            ]
+          },
+        ]
+      },
+      '2002-2003': {
+        panels: [
+          {
+            name: 'Engine Compartment Fuse Block',
+            location: 'Engine compartment, near the battery',
+            fuses: [
+              { pos: '1', amps: 40, circuit: 'HEAD', desc: 'Headlights, Rear defroster. Auto antenna' },
+              { pos: '2', amps: 30, circuit: 'FUEL INJ', desc: 'Fuel injection' },
+              { pos: '3', amps: 100, circuit: 'MAIN', desc: 'For protection of all circuits' },
+              { pos: '4', amps: 60, circuit: 'IG KEY', desc: 'All ignition related circuits' },
+              { pos: '5', amps: 30, circuit: 'BLOWER', desc: 'Blower motor' },
+              { pos: '6', amps: 30, circuit: 'FAN', desc: 'Cooling fan. Additional fan (air conditioner)' },
+              { pos: '7', amps: 30, circuit: 'BTN 1', desc: 'Taillights, Dashboard illumination' },
+              { pos: '8', amps: 20, circuit: 'BTN 2', desc: 'Audio amp. Turn signal lights' },
+              { pos: '9', amps: 20, circuit: 'ABS', desc: 'Anti lock brake system' },
+              { pos: '10', amps: 15, circuit: 'STOP', desc: 'Brake lights, Horn, Shift lock' }
+            ],
+            relays: [
+            ]
+          },
+          {
+            name: 'Passenger Compartment Fuse Block',
+            location: 'Left side of the vehicle',
+            fuses: [
+              { pos: '1', amps: 20, circuit: 'ADD FAN', desc: 'Add fan motor, Magnet clutch' },
+              { pos: '2', amps: 15, circuit: 'HEAD.LH', desc: 'Headlights (LH)' },
+              { pos: '3', amps: 15, circuit: 'HEAD.RH', desc: 'Headlights (RH)' },
+              { pos: '5', amps: 7.5, circuit: 'ST.SIG', desc: 'Instrument cluster. Cruise control' },
+              { pos: '7', amps: 20, circuit: 'CIGAR', desc: 'Cigar lighter' },
+              { pos: '8', amps: 10, circuit: 'RADIO', desc: 'Audio' },
+              { pos: '9', amps: 15, circuit: 'F.FOG', desc: 'Fog lights' },
+              { pos: '10', amps: 15, circuit: 'TAIL', desc: 'Taillights, Front parking lights. Side-marker lights' },
+              { pos: '11', amps: 15, circuit: 'ENGINE', desc: 'Engine control system' },
+              { pos: '12', amps: 15, circuit: 'METER', desc: 'Instrument cluster' },
+              { pos: '13', amps: 7.5, circuit: 'TURN', desc: 'Turn signal lights' },
+              { pos: '14', amps: 10, circuit: 'A/B', desc: 'Supplemental restraint system. Anti lock brake system' },
+              { pos: '15', amps: 20, circuit: 'WIPER', desc: 'Windshield wipers and washer' },
+              { pos: '16', amps: 30, circuit: 'PWIND', desc: 'Power windows' },
+              { pos: '17', amps: 7.5, circuit: 'A/C', desc: 'Air conditioner' },
+              { pos: '18', amps: 10, circuit: 'HAZARD', desc: 'Turn signal lights' },
+              { pos: '19', amps: 10, circuit: 'D.LOCK', desc: 'Power door lock' },
+              { pos: '20', amps: 20, circuit: 'AUDIO', desc: 'Audio amp' },
+              { pos: '21', amps: 15, circuit: 'DEFOG', desc: 'Rear defroster' },
+              { pos: '22', amps: 10, circuit: 'ROOM', desc: 'Interior light, Auto antenna. Warning buzzers' }
+            ],
+            relays: [
+            ]
+          },
+        ]
+      },
+      '2004-2005': {
+        panels: [
+          {
+            name: 'Engine Compartment Fuse Block',
+            location: 'Engine compartment, near the battery',
+            fuses: [
+              { pos: '1', amps: 40, circuit: 'HEAD', desc: 'Headlights, Rear defroster, Auto antenna' },
+              { pos: '2', amps: 30, circuit: 'FUEL INJ', desc: 'Fuel injection' },
+              { pos: '3', amps: 100, circuit: 'MAIN', desc: 'For protection of all circuits' },
+              { pos: '4', amps: 60, circuit: 'IG KEY', desc: 'All ignition related circuits' },
+              { pos: '5', amps: 30, circuit: 'BLOWER', desc: 'Blower motor' },
+              { pos: '6', amps: 30, circuit: 'FAN', desc: 'Cooling fan, Additional fan (air conditioner)' },
+              { pos: '6', amps: 40, circuit: 'FAN', desc: 'Cooling fan, Additional fan (air conditioner)' },
+              { pos: '7', amps: 30, circuit: 'BTN 1', desc: 'Taillights, Dashboard illumination' },
+              { pos: '8', amps: 20, circuit: 'BTN 2', desc: 'Audio amp (Some models), Turn signal lights' },
+              { pos: '9', amps: 20, circuit: 'ABS', desc: 'Anti lock brake system (Some models)' },
+              { pos: '10', amps: 15, circuit: 'STOP', desc: 'Brake lights, Horn, Shift lock' }
+            ],
+            relays: [
+            ]
+          },
+          {
+            name: 'Passenger Compartment Fuse Block',
+            location: 'Left side of the vehicle',
+            fuses: [
+              { pos: '1', amps: 20, circuit: 'AD FAN (MX-5/MIATA)', desc: 'Add fan motor, Magnet clutch' },
+              { pos: '2', amps: 15, circuit: 'HEAD.LH', desc: 'Headlights (LH)' },
+              { pos: '3', amps: 15, circuit: 'HEAD.RH', desc: 'Headlights (RH)' },
+              { pos: '5', amps: 7.5, circuit: 'ST.SIG', desc: 'Instrument cluster, Cruise control (Some models)' },
+              { pos: '6', amps: 30, circuit: 'FAN (MAZDASPEED MX-5)', desc: 'Cooling fan. Additional fan (air conditioner)' },
+              { pos: '7', amps: 20, circuit: 'CIGAR', desc: 'Cigar lighter' },
+              { pos: '8', amps: 10, circuit: 'RADIO', desc: 'Audio (Some models)' },
+              { pos: '9', amps: 15, circuit: 'F.FOG', desc: 'Fog lights (Some models)' },
+              { pos: '10', amps: 15, circuit: 'TAIL', desc: 'Taillights, Front parking lights, Side-marker lights' },
+              { pos: '11', amps: 15, circuit: 'ENGINE', desc: 'Engine control system' },
+              { pos: '12', amps: 15, circuit: 'METER', desc: 'Instrument cluster' },
+              { pos: '13', amps: 7.5, circuit: 'TURN', desc: 'Turn signal lights' },
+              { pos: '14', amps: 10, circuit: 'A/B', desc: 'Supplemental restraint system. Antilock brake system (Some models)' },
+              { pos: '15', amps: 20, circuit: 'WIPER', desc: 'Windshield wipers and washer' },
+              { pos: '16', amps: 30, circuit: 'P.WIND', desc: 'Power windows' },
+              { pos: '17', amps: 7.5, circuit: 'A/C', desc: 'Air conditioner (Some models)' },
+              { pos: '18', amps: 10, circuit: 'HAZARD', desc: 'Turn signal lights' },
+              { pos: '19', amps: 10, circuit: 'D.LOCK', desc: 'Power door lock (Some models)' },
+              { pos: '20', amps: 20, circuit: 'AUDIO', desc: 'Audio amp (Some models)' },
+              { pos: '21', amps: 15, circuit: 'DEFOG', desc: 'Rear defroster' },
+              { pos: '22', amps: 10, circuit: 'ROOM', desc: 'Interior light, Auto antenna, Warning buzzers' }
+            ],
+            relays: [
+            ]
+          },
+        ]
+      },
+      '2006-2006': {
+        panels: [
+          {
+            name: 'Engine Compartment Fuse Block',
+            location: 'Engine compartment, near the battery',
+            fuses: [
+              { pos: '1', amps: 30, circuit: 'FAN', desc: 'Cooling fan' },
+              { pos: '2', amps: 7.5, circuit: 'FAN', desc: 'Cooling fan' },
+              { pos: '3', amps: 20, circuit: 'DEFOG', desc: 'Rear window defroster' },
+              { pos: '4', amps: 20, circuit: 'H/CLEAN', desc: 'H/CLEAN' },
+              { pos: '5', amps: 15, circuit: 'ROOM', desc: 'Overhead lights. Luggage compartment light. For protection of various circuits' },
+              { pos: '6', amps: 15, circuit: 'IG KEY2', desc: 'For protection of various circuits' },
+              { pos: '7', amps: 40, circuit: 'HEATER', desc: 'Air conditioner (Some models)' },
+              { pos: '8', amps: 30, circuit: 'ABS', desc: 'ABS' },
+              { pos: '9', amps: 15, circuit: 'FOG', desc: 'Front fog lights (Some models)' },
+              { pos: '10', amps: 7.5, circuit: 'R.FOG', desc: 'R.FOG' },
+              { pos: '13', amps: 7.5, circuit: 'MAG', desc: 'Air conditioner (Some models)' },
+              { pos: '14', amps: 20, circuit: 'ST', desc: 'Starter' },
+              { pos: '15', amps: 15, circuit: 'TAIL', desc: 'Taillights, Parking lights, License plate lights, Illumination' },
+              { pos: '16', amps: 40, circuit: 'ABS', desc: 'ABS' },
+              { pos: '17', amps: 30, circuit: 'BTN', desc: 'For protection of various circuits' },
+              { pos: '18', amps: 120, circuit: 'MAIN', desc: 'For protection of all circuits' },
+              { pos: '19', amps: 10, circuit: 'EGI INJ', desc: 'Injector' },
+              { pos: '20', amps: 10, circuit: 'EGI COMP1', desc: 'Engine control system' },
+              { pos: '21', amps: 10, circuit: 'EGI COMP2', desc: 'Engine control system' },
+              { pos: '22', amps: 15, circuit: 'HEAD LOW L', desc: 'Headlight low beam (LH)' },
+              { pos: '23', amps: 15, circuit: 'HEAD LOW R', desc: 'Headlight low beam (RH)' },
+              { pos: '24', amps: 15, circuit: 'HEAD', desc: 'Headlight high beams' },
+              { pos: '25', amps: 20, circuit: 'P.WIND', desc: 'Power windows' },
+              { pos: '26', amps: 15, circuit: 'ENGINE', desc: 'Engine control system' },
+              { pos: '27', amps: 20, circuit: 'WIPER', desc: 'Windshield wipers and washer' },
+              { pos: '28', amps: 15, circuit: 'DRL', desc: 'DRL (Some models), Headlight levelling (Some models)' },
+              { pos: '29', amps: 15, circuit: 'HORN', desc: 'Horn' },
+              { pos: '30', amps: 10, circuit: 'STOP', desc: 'Brake lights' },
+              { pos: '31', amps: 10, circuit: 'ETV', desc: 'Electric throttle valve' },
+              { pos: '32', amps: 15, circuit: 'FUEL PUMP', desc: 'Fuel Pump' },
+              { pos: '33', amps: 10, circuit: 'HAZARD', desc: 'Turn signals, Hazard warning flashers' },
+              { pos: '34', amps: 20, circuit: 'P.WIND2', desc: 'P.WIND2' },
+              { pos: '35', amps: 40, circuit: 'IG KEY1', desc: 'For protection of various circuits' }
+            ],
+            relays: [
+            ]
+          },
+          {
+            name: 'Passenger Compartment Fuse Block',
+            location: 'Left side of the vehicle',
+            fuses: [
+              { pos: '1', amps: 7.5, circuit: 'ACC', desc: 'Audio system. Power control mirror' },
+              { pos: '2', amps: 15, circuit: 'AUX PWR', desc: 'Accessory Socket' },
+              { pos: '3', amps: 15, circuit: 'METER', desc: 'Instrument cluster' },
+              { pos: '4', amps: 20, circuit: 'SEAT WARM', desc: 'Seat warmer (Some models)' },
+              { pos: '5', amps: 7.5, circuit: 'ILLUMI', desc: 'Illumination' },
+              { pos: '6', amps: 7.5, circuit: 'A/C', desc: 'Air conditioner (Some models)' },
+              { pos: '7', amps: 7.5, circuit: 'ENGINE', desc: 'Engine control system, For protection of various circuits' },
+              { pos: '9', amps: '—', circuit: 'M.DEF', desc: 'M.DEF' },
+              { pos: '10', amps: 20, circuit: 'AUDIO', desc: 'Audio system (Some models)' },
+              { pos: '11', amps: 20, circuit: 'D.LOCK', desc: 'Power door lock. Trunk opener' },
+              { pos: '12', amps: '—', circuit: 'SILEN', desc: 'SILEN' }
+            ],
+            relays: [
+            ]
+          },
+        ]
+      },
+      '2007-2009': {
+        panels: [
+          {
+            name: 'Engine Compartment Fuse Block',
+            location: 'Engine compartment, near the battery',
+            fuses: [
+              { pos: '1', amps: 30, circuit: 'FAN', desc: 'Cooling fan' },
+              { pos: '2', amps: 7.5, circuit: 'FAN', desc: 'Cooling fan' },
+              { pos: '3', amps: 20, circuit: 'DEFOG', desc: 'Rear window defroster' },
+              { pos: '4', amps: '—', circuit: 'H/CLEAN', desc: 'H/CLEAN' },
+              { pos: '5', amps: 15, circuit: 'ROOM', desc: 'Overhead lights. Luggage compartment light. For protection of various circuits' },
+              { pos: '6', amps: 15, circuit: 'IG KEY2', desc: 'For protection of various circuits' },
+              { pos: '7', amps: 40, circuit: 'HEATER', desc: 'Air conditioner (Some models)' },
+              { pos: '8', amps: 30, circuit: 'ABS', desc: 'ABS' },
+              { pos: '9', amps: 15, circuit: 'FOG', desc: 'Front fog lights (Some models)' },
+              { pos: '10', amps: '—', circuit: 'R.FOG', desc: 'R.FOG' },
+              { pos: '11', amps: 30, circuit: 'RHT L', desc: 'Power retractable hardtop (LH) (Some models)' },
+              { pos: '12', amps: 30, circuit: 'RHT R', desc: 'Power retractable hardtop (RH) (Some models)' },
+              { pos: '13', amps: 7.5, circuit: 'MAG', desc: 'Air conditioner (Some models)' },
+              { pos: '14', amps: 20, circuit: 'ST', desc: 'Starter' },
+              { pos: '15', amps: 20, circuit: 'TAIL', desc: 'Taillights, Parking lights, License plate lights, illuminations' },
+              { pos: '16', amps: 40, circuit: 'ABS', desc: 'ABS' },
+              { pos: '17', amps: 30, circuit: 'BTN', desc: 'For protection of various circuits' },
+              { pos: '18', amps: 120, circuit: 'MAIN', desc: 'For protection of all circuits' },
+              { pos: '19', amps: 10, circuit: 'EGI INJ', desc: 'Injector' },
+              { pos: '20', amps: 10, circuit: 'EGI COMP1', desc: 'Engine control system' },
+              { pos: '21', amps: 10, circuit: 'EGI COMP2', desc: 'Engine control system' },
+              { pos: '22', amps: 15, circuit: 'HEAD LOW L', desc: 'Headlight low beam (LH)' },
+              { pos: '23', amps: 15, circuit: 'HEAD LOW R', desc: 'Headlight low beam (RH)' },
+              { pos: '24', amps: 15, circuit: 'HEAD', desc: 'Headlight high beams' },
+              { pos: '25', amps: 20, circuit: 'P.WIND', desc: 'Power windows' },
+              { pos: '26', amps: 15, circuit: 'ENGINE', desc: 'Engine control system' },
+              { pos: '27', amps: 20, circuit: 'WIPER', desc: 'Windshield wipers and washer' },
+              { pos: '28', amps: 15, circuit: 'DRL', desc: 'DRL (Some models)' },
+              { pos: '29', amps: 15, circuit: 'HORN', desc: 'Horn' },
+              { pos: '30', amps: 10, circuit: 'STOP', desc: 'Brake lights' },
+              { pos: '31', amps: 10, circuit: 'ETV', desc: 'Electric throttle valve' },
+              { pos: '32', amps: 15, circuit: 'FUEL PUMP', desc: 'Fuel Pump' },
+              { pos: '33', amps: 10, circuit: 'HAZARD', desc: 'Turn signals, Hazard warning flashers' },
+              { pos: '34', amps: 20, circuit: 'P.WIND2', desc: 'Power windows (Some models)' },
+              { pos: '35', amps: 40, circuit: 'IG KEY1', desc: 'For protection of various circuits' }
+            ],
+            relays: [
+            ]
+          },
+          {
+            name: 'Passenger Compartment Fuse Block',
+            location: 'Left side of the vehicle',
+            fuses: [
+              { pos: '1', amps: 7.5, circuit: 'ACC', desc: 'Audio system. Power control mirror' },
+              { pos: '2', amps: 15, circuit: 'AUX PWR', desc: 'Accessory Socket' },
+              { pos: '3', amps: 15, circuit: 'METER', desc: 'Instrument cluster' },
+              { pos: '4', amps: 20, circuit: 'SEAT WARM', desc: 'Seat warmer (Some models)' },
+              { pos: '5', amps: 7.5, circuit: 'ILLUMI', desc: 'Illumination' },
+              { pos: '6', amps: 7.5, circuit: 'A/C', desc: 'Air conditioner (Some models)' },
+              { pos: '7', amps: 7.5, circuit: 'ENGINE', desc: 'Engine control system, For protection of various circuits' },
+              { pos: '9', amps: '—', circuit: 'M.DEF', desc: 'M.DEF' },
+              { pos: '10', amps: 20, circuit: 'AUDIO', desc: 'Audio system (Some models)' },
+              { pos: '11', amps: 20, circuit: 'D.LOCK', desc: 'Power door lock. Trunk opener' },
+              { pos: '12', amps: '—', circuit: 'SILEN', desc: 'SILEN' }
+            ],
+            relays: [
+            ]
+          },
+        ]
+      },
+      '2010-2015': {
+        panels: [
+          {
+            name: 'Engine Compartment Fuse Block',
+            location: 'Engine compartment, near the battery',
+            fuses: [
+              { pos: '1', amps: 30, circuit: 'FAN', desc: 'Cooling fan' },
+              { pos: '2', amps: 7.5, circuit: 'FAN', desc: 'Cooling fan' },
+              { pos: '3', amps: 20, circuit: 'DEFOG', desc: 'Rear window defroster' },
+              { pos: '4', amps: '—', circuit: 'H/CLEAN', desc: 'H/CLEAN' },
+              { pos: '5', amps: 15, circuit: 'ROOM', desc: 'Overhead lights. Luggage compartment light. For protection of various circuits' },
+              { pos: '6', amps: 15, circuit: 'IG KEY2', desc: 'For protection of various circuits' },
+              { pos: '7', amps: 40, circuit: 'HEATER', desc: 'Air conditioner (Some models)' },
+              { pos: '8', amps: 30, circuit: 'ABS', desc: 'ABS' },
+              { pos: '9', amps: 15, circuit: 'FOG', desc: 'Front fog lights (Some models)' },
+              { pos: '10', amps: '—', circuit: 'R.FOG', desc: 'R.FOG' },
+              { pos: '11', amps: 30, circuit: 'RHT L', desc: 'Power retractable hardtop (LH) (Some models)' },
+              { pos: '12', amps: 30, circuit: 'RHT R', desc: 'Power retractable hardtop (RH) (Some models)' },
+              { pos: '13', amps: 7.5, circuit: 'MAG', desc: 'Air conditioner (Some models)' },
+              { pos: '14', amps: 20, circuit: 'ST', desc: 'Starter' },
+              { pos: '15', amps: 20, circuit: 'TAIL', desc: 'Taillights, Parking lights, License plate lights, illuminations' },
+              { pos: '16', amps: 40, circuit: 'ABS', desc: 'ABS' },
+              { pos: '17', amps: 30, circuit: 'BTN', desc: 'For protection of various circuits' },
+              { pos: '18', amps: 120, circuit: 'MAIN', desc: 'For protection of all circuits' },
+              { pos: '19', amps: 10, circuit: 'EGI INJ', desc: 'Injector' },
+              { pos: '20', amps: 10, circuit: 'EGI COMP1', desc: 'Engine control system' },
+              { pos: '21', amps: 10, circuit: 'EGI COMP2', desc: 'Engine control system' },
+              { pos: '22', amps: 15, circuit: 'HEAD LOW L', desc: 'Headlight low beam (LH)' },
+              { pos: '23', amps: 15, circuit: 'HEAD LOW R', desc: 'Headlight low beam (RH)' },
+              { pos: '24', amps: 15, circuit: 'HEAD', desc: 'Headlight high beams' },
+              { pos: '25', amps: 20, circuit: 'P.WIND', desc: 'Power windows' },
+              { pos: '26', amps: 15, circuit: 'ENGINE', desc: 'Engine control system' },
+              { pos: '27', amps: 20, circuit: 'WIPER', desc: 'Windshield wipers and washer' },
+              { pos: '28', amps: 15, circuit: 'DRL', desc: 'DRL (Some models)' },
+              { pos: '29', amps: 15, circuit: 'HORN', desc: 'Horn' },
+              { pos: '30', amps: 10, circuit: 'STOP', desc: 'Brake lights' },
+              { pos: '31', amps: 10, circuit: 'ETV', desc: 'Electric throttle valve' },
+              { pos: '32', amps: 15, circuit: 'FUEL PUMP', desc: 'Fuel Pump' },
+              { pos: '33', amps: 10, circuit: 'HAZARD', desc: 'Turn signals, Hazard warning flashers' },
+              { pos: '34', amps: 20, circuit: 'P.WIND2', desc: 'Power windows (Some models)' },
+              { pos: '35', amps: 40, circuit: 'IG KEY1', desc: 'For protection of various circuits' }
+            ],
+            relays: [
+            ]
+          },
+          {
+            name: 'Passenger Compartment Fuse Block',
+            location: 'Left side of the vehicle',
+            fuses: [
+              { pos: '1', amps: 7.5, circuit: 'ACC', desc: 'Audio system. Power control mirror' },
+              { pos: '2', amps: 15, circuit: 'AUX PWR', desc: 'Accessory Socket' },
+              { pos: '3', amps: 15, circuit: 'METER', desc: 'Instrument cluster' },
+              { pos: '4', amps: 20, circuit: 'SEAT WARM', desc: 'Seat warmer (Some models)' },
+              { pos: '5', amps: 7.5, circuit: 'ILLUMI', desc: 'Illumination' },
+              { pos: '6', amps: 7.5, circuit: 'A/C', desc: 'Air conditioner (Some models)' },
+              { pos: '7', amps: 7.5, circuit: 'ENGINE', desc: 'Engine control system, For protection of various circuits' },
+              { pos: '9', amps: '—', circuit: 'M.DEF', desc: 'M.DEF' },
+              { pos: '10', amps: 20, circuit: 'AUDIO', desc: 'Audio system (Some models)' },
+              { pos: '11', amps: 20, circuit: 'D.LOCK', desc: 'Power door lock' },
+              { pos: '12', amps: '—', circuit: 'SILEN', desc: 'SILEN' }
+            ],
+            relays: [
+            ]
+          },
+        ]
+      },
       '2016-2016': {
         panels: [
           {
