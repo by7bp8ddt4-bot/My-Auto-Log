@@ -3,7 +3,7 @@
  *
  * Blocks deployment if PROTECTED_KEYS or data persistence is broken.
  * Verifies:
- *   1. PROTECTED_KEYS array matches expected 10 keys (audit from App.jsx)
+ *   1. PROTECTED_KEYS array matches expected 8 keys (audit from src/hooks/useSyncEngine.js)
  *   2. localStorage round-trip: vehicle data written → read → intact
  *   3. Simulated auth-change wipe preserves all 5 data stores
  *   4. Premium status does NOT survive auth-change wipe (verified against Supabase)
@@ -23,12 +23,14 @@ function clearLocalStorage() {
 }
 
 /**
- * Extract the PROTECTED_KEYS array from App.jsx source.
- * Returns the array of key strings, or empty array if extraction fails.
+ * Extract the PROTECTED_KEYS array from useSyncEngine.js source.
+ * PROTECTED_KEYS moved from App.jsx into src/hooks/useSyncEngine.js during
+ * the App.jsx refactor (PR #147) — the wipe logic and its allowlist both
+ * live there. Returns the array of key strings, or empty array if extraction fails.
  */
 function extractProtectedKeys() {
   try {
-    const src = readFileSync(resolve(__dirname, '../../src/App.jsx'), 'utf-8');
+    const src = readFileSync(resolve(__dirname, '../../src/hooks/useSyncEngine.js'), 'utf-8');
     // Find the PROTECTED_KEYS block: const PROTECTED_KEYS = [ ... ];
     const match = src.match(/const PROTECTED_KEYS = \[([\s\S]*?)\];/);
     if (!match) return [];
@@ -48,13 +50,14 @@ function extractProtectedKeys() {
     }
     return keys;
   } catch (e) {
-    console.error('[Gate] Failed to read App.jsx:', e);
+    console.error('[Gate] Failed to read useSyncEngine.js:', e);
     return [];
   }
 }
 
 /**
- * Simulate the auth-change wipe from App.jsx (lines ~432-437).
+ * Simulate the auth-change wipe from useSyncEngine.js (the wipe effect that
+ * moved out of App.jsx in PR #147).
  * Removes all mtxtrkr_* and supabase_cache_* keys EXCEPT those in PROTECTED_KEYS.
  */
 function simulateAuthChangeWipe(protectedKeys) {
@@ -70,7 +73,7 @@ function simulateAuthChangeWipe(protectedKeys) {
   }
 }
 
-// ── Expected PROTECTED_KEYS (from App.jsx ~lines 421-436) ───────────
+// ── Expected PROTECTED_KEYS (from useSyncEngine.js — moved out of App.jsx in PR #147) ──
 // NOTE: mtxtrkr_premium_status is protected as a fallback for slow Supabase
 // fetches. The premium sync effect verifies against Supabase on every auth
 // change, preventing cross-account contamination even when premium_status
@@ -79,6 +82,8 @@ function simulateAuthChangeWipe(protectedKeys) {
 // Subscription keys (mtxtrkr_subscription_*) were REMOVED from PROTECTED_KEYS
 // in PR #101 to fix cross-account subscription leak (Bug #1). They are
 // Stripe-managed ephemeral data that must be wiped on auth change.
+// mtxtrkr_auth_reset_backup added in PR #155 — the pre-wipe data snapshot
+// must survive the wipe so the two-way sync can restore it after Supabase loads.
 const EXPECTED_PROTECTED_KEYS = [
   'mtxtrkr_premium_status',
   'mtxtrkr_selected_vehicle',
@@ -87,6 +92,7 @@ const EXPECTED_PROTECTED_KEYS = [
   'mtxtrkr_cache_migrated',
   'mtxtrkr_supabase_cache_migrated',
   'mtxtrkr_onboarding_dismissed',
+  'mtxtrkr_auth_reset_backup',
 ];
 
 // ── 5 data store keys (must survive wipe) ──────────────────────────
@@ -111,9 +117,9 @@ describe('Data Integrity Gate', () => {
 
   // ── 1. PROTECTED_KEYS Audit ──────────────────────────────────
   describe('PROTECTED_KEYS Audit', () => {
-    it('should have exactly 7 protected keys in App.jsx', () => {
+    it('should have exactly 8 protected keys in useSyncEngine.js', () => {
       const actual = extractProtectedKeys();
-      expect(actual).toHaveLength(7);
+      expect(actual).toHaveLength(8);
     });
 
     it('should match expected PROTECTED_KEYS exactly', () => {
