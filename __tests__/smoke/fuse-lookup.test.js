@@ -17,10 +17,10 @@ import { findFuseData, matchModelKey } from '../../src/components/FuseBox.jsx';
 import { fuseBoxData } from '../../src/data/fuse-boxes.js';
 
 describe('fuse lookup — flagged collision bugs', () => {
-  it('CX-50 does not resolve to cx-5 (no data → null, never wrong data)', () => {
-    // cx-5 data exists on main; CX-50 must NOT fall through to it
+  it('CX-50 resolves to its own real key (never falls through to cx-5)', () => {
+    // cx-50 data exists now (backfill wave); CX-50 must resolve to it, not cx-5
     expect(findFuseData('Mazda', 'CX-5', 2020)).not.toBeNull();
-    expect(findFuseData('Mazda', 'CX-50', 2023)).toBeNull();
+    expect(findFuseData('Mazda', 'CX-50', 2023)).not.toBeNull();
   });
 
   it('CX-50 never matches a cx-5 key, but matches a real cx-50 key', () => {
@@ -95,7 +95,7 @@ describe('fuse lookup — spaced / hyphenated / no-space normalization', () => {
     expect(findFuseData('GMC', 'Sierra 1500', 2020)).not.toBeNull();
     expect(matchModelKey({ 'sierra': {}, 'terrain': {} }, 'sierra 1500')).toBe('sierra');
     expect(matchModelKey({ 'silverado1500': {} }, 'silverado 2500hd')).toBeNull();
-    expect(findFuseData('Mazda', 'CX-50', 2023)).toBeNull(); // no CX-50 data, must not hit cx-5
+    expect(findFuseData('Mazda', 'CX-50', 2023)).not.toBeNull(); // cx-50 data exists (backfill); must not hit cx-5
     expect(matchModelKey({ 'cx-5': {}, 'cx-30': {}, 'cx-9': {} }, 'cx-50')).toBeNull();
   });
 });
