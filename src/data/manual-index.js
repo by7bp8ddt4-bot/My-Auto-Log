@@ -199,6 +199,74 @@ export const manualIndex = {
         notes: 'Vehicle-resources hub with "Manuals & Warranties" tab (200 text/html). Per-model manual list loads via a JS component (subaru-800-manual-items), not in raw HTML; upload fallback recommended for parse.'
       }
     }
+  },
+  hyundai: {
+    elantra: {
+      '2017-2026': {
+        url: 'https://owners.hyundaiusa.com/us/en/resources/manuals-warranties.html',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Manuals & Warranties hub page (200 text/html). Per-model digital manuals live at digitalownersmanual.hyundai.com, which did NOT resolve (DNS) from the build environment at probe time; upload fallback recommended for parse.'
+      }
+    },
+    sonata: {
+      '2015-2026': {
+        url: 'https://owners.hyundaiusa.com/us/en/resources/manuals-warranties.html',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Manuals & Warranties hub page (200 text/html). Per-model digital manuals live at digitalownersmanual.hyundai.com, which did NOT resolve (DNS) from the build environment at probe time; upload fallback recommended for parse.'
+      }
+    },
+    tucson: {
+      '2016-2026': {
+        url: 'https://owners.hyundaiusa.com/us/en/resources/manuals-warranties.html',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Manuals & Warranties hub page (200 text/html). Per-model digital manuals live at digitalownersmanual.hyundai.com, which did NOT resolve (DNS) from the build environment at probe time; upload fallback recommended for parse.'
+      }
+    },
+    'santa fe': {
+      '2019-2026': {
+        url: 'https://owners.hyundaiusa.com/us/en/resources/manuals-warranties.html',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Manuals & Warranties hub page (200 text/html). Per-model digital manuals live at digitalownersmanual.hyundai.com, which did NOT resolve (DNS) from the build environment at probe time; upload fallback recommended for parse.'
+      }
+    }
+  },
+  ford: {
+    'f-150': {
+      '2015-2026': {
+        url: null,
+        fetchable: false,
+        source: 'upload',
+        notes: 'No validated URL — ford.com/support/owner-manuals and fordservicecontent.com PDFs (e.g. .../Ford_Content/Catalog/owner_information/2023-Ford-F-150-Owners-Manual-version-1_om_EN-US.pdf) time out / drop the connection from the build environment (bot protection). Retry from Vercel IPs during the feature build; upload fallback for now.'
+      }
+    },
+    escape: {
+      '2017-2026': {
+        url: null,
+        fetchable: false,
+        source: 'upload',
+        notes: 'No validated URL — Ford endpoints time out from the build environment (bot protection). Retry from Vercel IPs during the feature build; upload fallback for now.'
+      }
+    },
+    explorer: {
+      '2020-2026': {
+        url: null,
+        fetchable: false,
+        source: 'upload',
+        notes: 'No validated URL — Ford endpoints time out from the build environment (bot protection). Retry from Vercel IPs during the feature build; upload fallback for now.'
+      }
+    },
+    mustang: {
+      '2015-2026': {
+        url: null,
+        fetchable: false,
+        source: 'upload',
+        notes: 'No validated URL — Ford endpoints time out from the build environment (bot protection). Retry from Vercel IPs during the feature build; upload fallback for now.'
+      }
+    }
   }
 };
 
