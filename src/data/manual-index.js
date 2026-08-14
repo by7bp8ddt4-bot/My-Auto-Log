@@ -165,6 +165,40 @@ export const manualIndex = {
         notes: 'Manuals hub page (200 text/html, model/year search). Per-model PDFs are served behind a VIN-linked lookup (getvehicleinfo) — not directly fetchable; upload fallback recommended for parse.'
       }
     }
+  },
+  subaru: {
+    outback: {
+      '2020-2026': {
+        url: 'https://www.subaru.com/owners/vehicle-resources.html',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Vehicle-resources hub with "Manuals & Warranties" tab (200 text/html). Per-model manual list loads via a JS component (subaru-800-manual-items), not in raw HTML; upload fallback recommended for parse.'
+      }
+    },
+    forester: {
+      '2019-2026': {
+        url: 'https://www.subaru.com/owners/vehicle-resources.html',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Vehicle-resources hub with "Manuals & Warranties" tab (200 text/html). Per-model manual list loads via a JS component (subaru-800-manual-items), not in raw HTML; upload fallback recommended for parse.'
+      }
+    },
+    crosstrek: {
+      '2018-2026': {
+        url: 'https://www.subaru.com/owners/vehicle-resources.html',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Vehicle-resources hub with "Manuals & Warranties" tab (200 text/html). Per-model manual list loads via a JS component (subaru-800-manual-items), not in raw HTML; upload fallback recommended for parse.'
+      }
+    },
+    impreza: {
+      '2018-2026': {
+        url: 'https://www.subaru.com/owners/vehicle-resources.html',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Vehicle-resources hub with "Manuals & Warranties" tab (200 text/html). Per-model manual list loads via a JS component (subaru-800-manual-items), not in raw HTML; upload fallback recommended for parse.'
+      }
+    }
   }
 };
 
