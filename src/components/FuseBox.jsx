@@ -22,6 +22,7 @@ const MODEL_ALIASES = {
   silverado: 'silverado1500', // bare "Silverado" (older VPIC records / manual entry) → light-duty data
   delta88: '88',     // Oldsmobile "Delta 88" (marketing name for the 88, 1965-1985) → '88' key
   eightyeight: '88', // Oldsmobile "Eighty Eight" (word-spelled model name) → '88' key
+  ehs: 'hs-phev',    // MG "eHS" (page title / Chinese-market name for the HS PHEV) → 'hs-phev' key
 };
 
 /**
