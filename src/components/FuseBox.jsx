@@ -20,6 +20,8 @@ const MAKE_ALIASES = {
 const MODEL_ALIASES = {
   boltev: 'bolt', // Chevrolet "Bolt EV" (NHTSA model name) → 'bolt' key; "Bolt EUV" has its own key
   silverado: 'silverado1500', // bare "Silverado" (older VPIC records / manual entry) → light-duty data
+  delta88: '88',     // Oldsmobile "Delta 88" (marketing name for the 88, 1965-1985) → '88' key
+  eightyeight: '88', // Oldsmobile "Eighty Eight" (word-spelled model name) → '88' key
 };
 
 /**
