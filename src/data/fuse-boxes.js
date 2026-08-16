@@ -51406,7 +51406,66 @@ volkswagen: {
               { pos: 'R4', circuit: 'TERMINAL 15', desc: 'Power supply relay — terminal 15' },
               { pos: 'R5', circuit: 'REAR HEAT', desc: 'Rear window heating relay' },
               { pos: 'R6', circuit: 'SOCKET', desc: '12V socket relay' },
-            ]
+            ],
+            layout: {
+              cols: 6,
+              rows: 8,
+              cells: {
+                'F1': { col: 1, row: 1, w: 1, h: 1 },
+                'F2': { col: 2, row: 1, w: 1, h: 1 },
+                'F4': { col: 3, row: 1, w: 1, h: 1 },
+                'F5': { col: 4, row: 1, w: 1, h: 1 },
+                'F6': { col: 5, row: 1, w: 1, h: 1 },
+                'F7': { col: 6, row: 1, w: 1, h: 1 },
+                'F8': { col: 1, row: 2, w: 1, h: 1 },
+                'F9': { col: 2, row: 2, w: 1, h: 1 },
+                'F10': { col: 3, row: 2, w: 1, h: 1 },
+                'F11': { col: 4, row: 2, w: 1, h: 1 },
+                'F12': { col: 5, row: 2, w: 1, h: 1 },
+                'F13': { col: 6, row: 2, w: 1, h: 1 },
+                'F14': { col: 1, row: 3, w: 1, h: 1 },
+                'F15': { col: 2, row: 3, w: 1, h: 1 },
+                'F17': { col: 3, row: 3, w: 1, h: 1 },
+                'F18': { col: 4, row: 3, w: 1, h: 1 },
+                'F19': { col: 5, row: 3, w: 1, h: 1 },
+                'F21': { col: 6, row: 3, w: 1, h: 1 },
+                'F22': { col: 1, row: 4, w: 1, h: 1 },
+                'F23': { col: 2, row: 4, w: 1, h: 1 },
+                'F24': { col: 3, row: 4, w: 1, h: 1 },
+                'F25': { col: 4, row: 4, w: 1, h: 1 },
+                'F26': { col: 5, row: 4, w: 1, h: 1 },
+                'F27': { col: 6, row: 4, w: 1, h: 1 },
+                'F28': { col: 1, row: 5, w: 1, h: 1 },
+                'F31': { col: 2, row: 5, w: 1, h: 1 },
+                'F32': { col: 3, row: 5, w: 1, h: 1 },
+                'F33': { col: 4, row: 5, w: 1, h: 1 },
+                'F34': { col: 5, row: 5, w: 1, h: 1 },
+                'F35': { col: 6, row: 5, w: 1, h: 1 },
+                'F36': { col: 1, row: 6, w: 1, h: 1 },
+                'F37': { col: 2, row: 6, w: 1, h: 1 },
+                'F38': { col: 3, row: 6, w: 1, h: 1 },
+                'F39': { col: 4, row: 6, w: 1, h: 1 },
+                'F40': { col: 5, row: 6, w: 1, h: 1 },
+                'F41': { col: 6, row: 6, w: 1, h: 1 },
+                'F42': { col: 1, row: 7, w: 1, h: 1 },
+                'F43': { col: 2, row: 7, w: 1, h: 1 },
+                'F44': { col: 3, row: 7, w: 1, h: 1 },
+                'F47': { col: 4, row: 7, w: 1, h: 1 },
+                'F48': { col: 5, row: 7, w: 1, h: 1 },
+                'F49': { col: 6, row: 7, w: 1, h: 1 },
+                'F53': { col: 1, row: 8, w: 1, h: 1 },
+                'R2': { col: 2, row: 8, w: 1, h: 1 },
+                'R4': { col: 3, row: 8, w: 1, h: 1 },
+                'R5': { col: 4, row: 8, w: 1, h: 1 },
+                'R6': { col: 5, row: 8, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Volkswagen Golf VII (Mk7, 2013-2020) dashboard fuse panel (left side of dashboard; fuse panel C / SC) diagram; the app\'s VW dashboard fuse list is this MQB Mk7 SC-panel dataset (F1-F53 with the app\'s F prefix = OEM SC slot numbers, relays R2/R4/R5/R6).',
+                'Position+circuit+amp verification: 1:1 against the Golf 7 SC table (F1 ADBLUE/reducing-agent heater, F4 alarm, F5 diagnostic, F7 HVAC, F8 light switch, F11 belt tensioner, F13 damping, ...).',
+                'Only Golf Mk7 (2015-2020) and Golf GTI Mk7 (2015-2021) model years in this range use this exact SC panel — Mk5/Mk6/Mk8 use different panels; verify against the fuse box cover.',
+                'Uniform row-major grid in the app\'s data order; exact slot placement approximated from the source diagram (photos too compressed for per-slot OCR, consistent with prior waves) — verify against the fuse box cover.'
+              ]
+            }
           },
           {
             name: 'Engine Compartment Fuse Box (E-Box)',
@@ -51447,7 +51506,52 @@ volkswagen: {
               { pos: 'R5', circuit: 'MAIN', desc: 'Main relay (engine electronics)' },
               { pos: 'R8', circuit: 'ENGINE ELECTRONICS', desc: 'Engine electronics power supply relay' },
               { pos: 'R11', circuit: 'HEATED SCREEN', desc: 'Heated windshield relay' },
-            ]
+            ],
+            layout: {
+              cols: 4,
+              rows: 9,
+              cells: {
+                'F1': { col: 1, row: 1, w: 1, h: 1 },
+                'F2': { col: 2, row: 1, w: 1, h: 1 },
+                'F3': { col: 3, row: 1, w: 1, h: 1 },
+                'F4': { col: 4, row: 1, w: 1, h: 1 },
+                'F5': { col: 1, row: 2, w: 1, h: 1 },
+                'F6': { col: 2, row: 2, w: 1, h: 1 },
+                'F7': { col: 3, row: 2, w: 1, h: 1 },
+                'F8': { col: 4, row: 2, w: 1, h: 1 },
+                'F9': { col: 1, row: 3, w: 1, h: 1 },
+                'F10': { col: 2, row: 3, w: 1, h: 1 },
+                'F11': { col: 3, row: 3, w: 1, h: 1 },
+                'F13': { col: 4, row: 3, w: 1, h: 1 },
+                'F14': { col: 1, row: 4, w: 1, h: 1 },
+                'F15': { col: 2, row: 4, w: 1, h: 1 },
+                'F17': { col: 3, row: 4, w: 1, h: 1 },
+                'F18': { col: 4, row: 4, w: 1, h: 1 },
+                'F19': { col: 1, row: 5, w: 1, h: 1 },
+                'F20': { col: 2, row: 5, w: 1, h: 1 },
+                'F22': { col: 3, row: 5, w: 1, h: 1 },
+                'F23': { col: 4, row: 5, w: 1, h: 1 },
+                'F31': { col: 1, row: 6, w: 1, h: 1 },
+                'F37': { col: 2, row: 6, w: 1, h: 1 },
+                'SA1': { col: 3, row: 6, w: 1, h: 1 },
+                'SA2': { col: 4, row: 6, w: 1, h: 1 },
+                'SA3': { col: 1, row: 7, w: 1, h: 1 },
+                'SA4': { col: 2, row: 7, w: 1, h: 1 },
+                'SA5': { col: 3, row: 7, w: 1, h: 1 },
+                'R1': { col: 4, row: 7, w: 1, h: 1 },
+                'R2': { col: 1, row: 8, w: 1, h: 1 },
+                'R3': { col: 2, row: 8, w: 1, h: 1 },
+                'R5': { col: 3, row: 8, w: 1, h: 1 },
+                'R8': { col: 4, row: 8, w: 1, h: 1 },
+                'R11': { col: 1, row: 9, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Volkswagen Golf VII (Mk7, 2013-2020) engine-compartment fuse box (E-Box, battery side under the plenum cover) diagram; the app\'s VW E-Box fuse list is this MQB Mk7 dataset (F1-F13 + SA fusible links omitted, relays R1/R2/R3/R5/R8/R11).',
+                'Position+circuit+amp verification: 1:1 against the Golf 7 E-Box table (F1 ABS, F2 ABS hydraulic pump, F3 ECU, F5 injectors, F6 brake switch, F9 ignition, F10 fuel pump, F13 DSG mechatronic, relays starter 1/2, horn, main, engine electronics, heated windscreen).',
+                'Only Golf Mk7 (2015-2020) and Golf GTI Mk7 (2015-2021) model years in this range use this exact E-Box; verify against the fuse box cover.',
+                'Uniform row-major grid in the app\'s data order; exact slot placement approximated from the source diagram — verify against the fuse box cover.'
+              ]
+            }
           }
         ]
       }
@@ -51508,7 +51612,66 @@ volkswagen: {
               { pos: 'R4', circuit: 'TERMINAL 15', desc: 'Power supply relay — terminal 15' },
               { pos: 'R5', circuit: 'REAR HEAT', desc: 'Rear window heating relay' },
               { pos: 'R6', circuit: 'SOCKET', desc: '12V socket relay' },
-            ]
+            ],
+            layout: {
+              cols: 6,
+              rows: 8,
+              cells: {
+                'F1': { col: 1, row: 1, w: 1, h: 1 },
+                'F2': { col: 2, row: 1, w: 1, h: 1 },
+                'F4': { col: 3, row: 1, w: 1, h: 1 },
+                'F5': { col: 4, row: 1, w: 1, h: 1 },
+                'F6': { col: 5, row: 1, w: 1, h: 1 },
+                'F7': { col: 6, row: 1, w: 1, h: 1 },
+                'F8': { col: 1, row: 2, w: 1, h: 1 },
+                'F9': { col: 2, row: 2, w: 1, h: 1 },
+                'F10': { col: 3, row: 2, w: 1, h: 1 },
+                'F11': { col: 4, row: 2, w: 1, h: 1 },
+                'F12': { col: 5, row: 2, w: 1, h: 1 },
+                'F13': { col: 6, row: 2, w: 1, h: 1 },
+                'F14': { col: 1, row: 3, w: 1, h: 1 },
+                'F15': { col: 2, row: 3, w: 1, h: 1 },
+                'F17': { col: 3, row: 3, w: 1, h: 1 },
+                'F18': { col: 4, row: 3, w: 1, h: 1 },
+                'F19': { col: 5, row: 3, w: 1, h: 1 },
+                'F21': { col: 6, row: 3, w: 1, h: 1 },
+                'F22': { col: 1, row: 4, w: 1, h: 1 },
+                'F23': { col: 2, row: 4, w: 1, h: 1 },
+                'F24': { col: 3, row: 4, w: 1, h: 1 },
+                'F25': { col: 4, row: 4, w: 1, h: 1 },
+                'F26': { col: 5, row: 4, w: 1, h: 1 },
+                'F27': { col: 6, row: 4, w: 1, h: 1 },
+                'F28': { col: 1, row: 5, w: 1, h: 1 },
+                'F31': { col: 2, row: 5, w: 1, h: 1 },
+                'F32': { col: 3, row: 5, w: 1, h: 1 },
+                'F33': { col: 4, row: 5, w: 1, h: 1 },
+                'F34': { col: 5, row: 5, w: 1, h: 1 },
+                'F35': { col: 6, row: 5, w: 1, h: 1 },
+                'F36': { col: 1, row: 6, w: 1, h: 1 },
+                'F37': { col: 2, row: 6, w: 1, h: 1 },
+                'F38': { col: 3, row: 6, w: 1, h: 1 },
+                'F39': { col: 4, row: 6, w: 1, h: 1 },
+                'F40': { col: 5, row: 6, w: 1, h: 1 },
+                'F41': { col: 6, row: 6, w: 1, h: 1 },
+                'F42': { col: 1, row: 7, w: 1, h: 1 },
+                'F43': { col: 2, row: 7, w: 1, h: 1 },
+                'F44': { col: 3, row: 7, w: 1, h: 1 },
+                'F47': { col: 4, row: 7, w: 1, h: 1 },
+                'F48': { col: 5, row: 7, w: 1, h: 1 },
+                'F49': { col: 6, row: 7, w: 1, h: 1 },
+                'F53': { col: 1, row: 8, w: 1, h: 1 },
+                'R2': { col: 2, row: 8, w: 1, h: 1 },
+                'R4': { col: 3, row: 8, w: 1, h: 1 },
+                'R5': { col: 4, row: 8, w: 1, h: 1 },
+                'R6': { col: 5, row: 8, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Volkswagen Golf VII (Mk7, 2013-2020) dashboard fuse panel (left side of dashboard; fuse panel C / SC) diagram; the app\'s VW dashboard fuse list is this MQB Mk7 SC-panel dataset (F1-F53 with the app\'s F prefix = OEM SC slot numbers, relays R2/R4/R5/R6).',
+                'Position+circuit+amp verification: 1:1 against the Golf 7 SC table (F1 ADBLUE/reducing-agent heater, F4 alarm, F5 diagnostic, F7 HVAC, F8 light switch, F11 belt tensioner, F13 damping, ...).',
+                'Only Golf Mk7 (2015-2020) and Golf GTI Mk7 (2015-2021) model years in this range use this exact SC panel — Mk5/Mk6/Mk8 use different panels; verify against the fuse box cover.',
+                'Uniform row-major grid in the app\'s data order; exact slot placement approximated from the source diagram (photos too compressed for per-slot OCR, consistent with prior waves) — verify against the fuse box cover.'
+              ]
+            }
           },
           {
             name: 'Engine Compartment Fuse Box (E-Box)',
@@ -51549,7 +51712,52 @@ volkswagen: {
               { pos: 'R5', circuit: 'MAIN', desc: 'Main relay (engine electronics)' },
               { pos: 'R8', circuit: 'ENGINE ELECTRONICS', desc: 'Engine electronics power supply relay' },
               { pos: 'R11', circuit: 'HEATED SCREEN', desc: 'Heated windshield relay' },
-            ]
+            ],
+            layout: {
+              cols: 4,
+              rows: 9,
+              cells: {
+                'F1': { col: 1, row: 1, w: 1, h: 1 },
+                'F2': { col: 2, row: 1, w: 1, h: 1 },
+                'F3': { col: 3, row: 1, w: 1, h: 1 },
+                'F4': { col: 4, row: 1, w: 1, h: 1 },
+                'F5': { col: 1, row: 2, w: 1, h: 1 },
+                'F6': { col: 2, row: 2, w: 1, h: 1 },
+                'F7': { col: 3, row: 2, w: 1, h: 1 },
+                'F8': { col: 4, row: 2, w: 1, h: 1 },
+                'F9': { col: 1, row: 3, w: 1, h: 1 },
+                'F10': { col: 2, row: 3, w: 1, h: 1 },
+                'F11': { col: 3, row: 3, w: 1, h: 1 },
+                'F13': { col: 4, row: 3, w: 1, h: 1 },
+                'F14': { col: 1, row: 4, w: 1, h: 1 },
+                'F15': { col: 2, row: 4, w: 1, h: 1 },
+                'F17': { col: 3, row: 4, w: 1, h: 1 },
+                'F18': { col: 4, row: 4, w: 1, h: 1 },
+                'F19': { col: 1, row: 5, w: 1, h: 1 },
+                'F20': { col: 2, row: 5, w: 1, h: 1 },
+                'F22': { col: 3, row: 5, w: 1, h: 1 },
+                'F23': { col: 4, row: 5, w: 1, h: 1 },
+                'F31': { col: 1, row: 6, w: 1, h: 1 },
+                'F37': { col: 2, row: 6, w: 1, h: 1 },
+                'SA1': { col: 3, row: 6, w: 1, h: 1 },
+                'SA2': { col: 4, row: 6, w: 1, h: 1 },
+                'SA3': { col: 1, row: 7, w: 1, h: 1 },
+                'SA4': { col: 2, row: 7, w: 1, h: 1 },
+                'SA5': { col: 3, row: 7, w: 1, h: 1 },
+                'R1': { col: 4, row: 7, w: 1, h: 1 },
+                'R2': { col: 1, row: 8, w: 1, h: 1 },
+                'R3': { col: 2, row: 8, w: 1, h: 1 },
+                'R5': { col: 3, row: 8, w: 1, h: 1 },
+                'R8': { col: 4, row: 8, w: 1, h: 1 },
+                'R11': { col: 1, row: 9, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Volkswagen Golf VII (Mk7, 2013-2020) engine-compartment fuse box (E-Box, battery side under the plenum cover) diagram; the app\'s VW E-Box fuse list is this MQB Mk7 dataset (F1-F13 + SA fusible links omitted, relays R1/R2/R3/R5/R8/R11).',
+                'Position+circuit+amp verification: 1:1 against the Golf 7 E-Box table (F1 ABS, F2 ABS hydraulic pump, F3 ECU, F5 injectors, F6 brake switch, F9 ignition, F10 fuel pump, F13 DSG mechatronic, relays starter 1/2, horn, main, engine electronics, heated windscreen).',
+                'Only Golf Mk7 (2015-2020) and Golf GTI Mk7 (2015-2021) model years in this range use this exact E-Box; verify against the fuse box cover.',
+                'Uniform row-major grid in the app\'s data order; exact slot placement approximated from the source diagram — verify against the fuse box cover.'
+              ]
+            }
           }
         ]
       }
@@ -62503,7 +62711,69 @@ audi: {
               { pos: 'E11', amps: 5, circuit: 'ENGINE START', desc: 'Engine start' },
             ],
             relays: [
-            ]
+            ],
+            layout: {
+              cols: 5,
+              rows: 10,
+              cells: {
+                'A2': { col: 1, row: 1, w: 1, h: 1 },
+                'A3': { col: 2, row: 1, w: 1, h: 1 },
+                'A5': { col: 3, row: 1, w: 1, h: 1 },
+                'A6': { col: 4, row: 1, w: 1, h: 1 },
+                'A7': { col: 5, row: 1, w: 1, h: 1 },
+                'A8': { col: 1, row: 2, w: 1, h: 1 },
+                'A10': { col: 2, row: 2, w: 1, h: 1 },
+                'A13': { col: 3, row: 2, w: 1, h: 1 },
+                'A14': { col: 4, row: 2, w: 1, h: 1 },
+                'A15': { col: 5, row: 2, w: 1, h: 1 },
+                'A16': { col: 1, row: 3, w: 1, h: 1 },
+                'B1': { col: 2, row: 3, w: 1, h: 1 },
+                'B2': { col: 3, row: 3, w: 1, h: 1 },
+                'B3': { col: 4, row: 3, w: 1, h: 1 },
+                'B4': { col: 5, row: 3, w: 1, h: 1 },
+                'B5': { col: 1, row: 4, w: 1, h: 1 },
+                'B6': { col: 2, row: 4, w: 1, h: 1 },
+                'B7': { col: 3, row: 4, w: 1, h: 1 },
+                'B8': { col: 4, row: 4, w: 1, h: 1 },
+                'B10': { col: 5, row: 4, w: 1, h: 1 },
+                'B11': { col: 1, row: 5, w: 1, h: 1 },
+                'B12': { col: 2, row: 5, w: 1, h: 1 },
+                'B13': { col: 3, row: 5, w: 1, h: 1 },
+                'B14': { col: 4, row: 5, w: 1, h: 1 },
+                'B15': { col: 5, row: 5, w: 1, h: 1 },
+                'C1': { col: 1, row: 6, w: 1, h: 1 },
+                'C2': { col: 2, row: 6, w: 1, h: 1 },
+                'C3': { col: 3, row: 6, w: 1, h: 1 },
+                'C4': { col: 4, row: 6, w: 1, h: 1 },
+                'C5': { col: 5, row: 6, w: 1, h: 1 },
+                'C6': { col: 1, row: 7, w: 1, h: 1 },
+                'C7': { col: 2, row: 7, w: 1, h: 1 },
+                'C9': { col: 3, row: 7, w: 1, h: 1 },
+                'C10': { col: 4, row: 7, w: 1, h: 1 },
+                'C11': { col: 5, row: 7, w: 1, h: 1 },
+                'D1': { col: 1, row: 8, w: 1, h: 1 },
+                'D2': { col: 2, row: 8, w: 1, h: 1 },
+                'D5': { col: 3, row: 8, w: 1, h: 1 },
+                'D9': { col: 4, row: 8, w: 1, h: 1 },
+                'D11': { col: 5, row: 8, w: 1, h: 1 },
+                'D12': { col: 1, row: 9, w: 1, h: 1 },
+                'D13': { col: 2, row: 9, w: 1, h: 1 },
+                'D14': { col: 3, row: 9, w: 1, h: 1 },
+                'E1': { col: 4, row: 9, w: 1, h: 1 },
+                'E5': { col: 5, row: 9, w: 1, h: 1 },
+                'E6': { col: 1, row: 10, w: 1, h: 1 },
+                'E7': { col: 2, row: 10, w: 1, h: 1 },
+                'E8': { col: 3, row: 10, w: 1, h: 1 },
+                'E10': { col: 4, row: 10, w: 1, h: 1 },
+                'E11': { col: 5, row: 10, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Audi Q5 FY (2018-2020) / A5 8W6 (2017-2020) \'Fuse panel A (brown)\' E-Box diagram (MLB-evo); the app\'s Audi E-Box list is this B9-generation dataset (positions A2-A16, B1-B16, C1-C16).',
+                'Match evidence: 33/35 positions (0.94) vs the Q5 FY brown panel, 34/35 (0.97) vs the A5 8W6 brown panel; the wave5-era A4 B9 page matches 1:1 with amps (A2 MAF, A3 injectors, A5 brake light, A7 O2 sensor, A13 radiator fan, B1 alarm, ...).',
+                'Only A4/S4 B9 (2017-2024) and Q5/SQ5 FY (2018-2024) model years in this range use this exact E-Box — the A6/S6 (C7/C8) and Q7/SQ7 (4M) use different E-Box layouts; verify against the fuse box cover.',
+                'Uniform row-major grid in the app\'s data order; exact slot placement approximated from the source diagram — verify against the fuse box cover.'
+              ]
+            }
           },
           {
             name: 'Dashboard Fuse Panel',
@@ -62523,7 +62793,30 @@ audi: {
               { pos: '16', amps: 5, circuit: 'WHEEL HEAT', desc: 'Steering wheel heating' },
             ],
             relays: [
-            ]
+            ],
+            layout: {
+              cols: 4,
+              rows: 3,
+              cells: {
+                '2': { col: 1, row: 1, w: 1, h: 1 },
+                '4': { col: 2, row: 1, w: 1, h: 1 },
+                '5': { col: 3, row: 1, w: 1, h: 1 },
+                '6': { col: 4, row: 1, w: 1, h: 1 },
+                '7': { col: 1, row: 2, w: 1, h: 1 },
+                '8': { col: 2, row: 2, w: 1, h: 1 },
+                '9': { col: 3, row: 2, w: 1, h: 1 },
+                '10': { col: 4, row: 2, w: 1, h: 1 },
+                '11': { col: 1, row: 3, w: 1, h: 1 },
+                '12': { col: 2, row: 3, w: 1, h: 1 },
+                '14': { col: 3, row: 3, w: 1, h: 1 },
+                '16': { col: 4, row: 3, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Audi Q5 FY (2018-2020) / A4 B9 (2017-2018) driver-side dashboard fuse panel diagram (left end of the dashboard); positions 2-16 match the app\'s dataset exactly (12/12 = 1.00).',
+                'Only A4/S4 B9 (2017-2024) and Q5/SQ5 FY (2018-2024) model years in this range use this exact dashboard panel; verify against the fuse box cover.',
+                'Uniform row-major grid in the app\'s data order; exact slot placement approximated from the source diagram — verify against the fuse box cover.'
+              ]
+            }
           },
           {
             name: 'Trunk Fuse Panel',
@@ -62556,7 +62849,43 @@ audi: {
               { pos: 'E11', amps: 10, circuit: 'ADBLUE', desc: 'AdBlue (diesel exhaust fluid)' },
             ],
             relays: [
-            ]
+            ],
+            layout: {
+              cols: 5,
+              rows: 5,
+              cells: {
+                'A2': { col: 1, row: 1, w: 1, h: 1 },
+                'A3': { col: 2, row: 1, w: 1, h: 1 },
+                'A5': { col: 3, row: 1, w: 1, h: 1 },
+                'A6': { col: 4, row: 1, w: 1, h: 1 },
+                'A7': { col: 5, row: 1, w: 1, h: 1 },
+                'A8': { col: 1, row: 2, w: 1, h: 1 },
+                'A9': { col: 2, row: 2, w: 1, h: 1 },
+                'A10': { col: 3, row: 2, w: 1, h: 1 },
+                'A11': { col: 4, row: 2, w: 1, h: 1 },
+                'A12': { col: 5, row: 2, w: 1, h: 1 },
+                'C2': { col: 1, row: 3, w: 1, h: 1 },
+                'C3': { col: 2, row: 3, w: 1, h: 1 },
+                'C4': { col: 3, row: 3, w: 1, h: 1 },
+                'C12': { col: 4, row: 3, w: 1, h: 1 },
+                'C13': { col: 5, row: 3, w: 1, h: 1 },
+                'C14': { col: 1, row: 4, w: 1, h: 1 },
+                'C16': { col: 2, row: 4, w: 1, h: 1 },
+                'E2': { col: 3, row: 4, w: 1, h: 1 },
+                'E3': { col: 4, row: 4, w: 1, h: 1 },
+                'E5': { col: 5, row: 4, w: 1, h: 1 },
+                'E7': { col: 1, row: 5, w: 1, h: 1 },
+                'E8': { col: 2, row: 5, w: 1, h: 1 },
+                'E9': { col: 3, row: 5, w: 1, h: 1 },
+                'E10': { col: 4, row: 5, w: 1, h: 1 },
+                'E11': { col: 5, row: 5, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Audi Q5 FY (2018-2020) / A5 8W6 (2017-2020) auxiliary fuse panel (\'Fuse panel A (black)\', A2-A12 + C2/C3 rows) diagram; matches the app\'s trunk-panel dataset 17/17 (1.00).',
+                'Only A4/S4 B9 (2017-2024) and Q5/SQ5 FY (2018-2024) model years in this range use this exact panel; verify against the fuse box cover.',
+                'Uniform row-major grid in the app\'s data order; exact slot placement approximated from the source diagram — verify against the fuse box cover.'
+              ]
+            }
           }
         ]
       }
@@ -62737,7 +63066,69 @@ audi: {
               { pos: 'E11', amps: 5, circuit: 'ENGINE START', desc: 'Engine start' },
             ],
             relays: [
-            ]
+            ],
+            layout: {
+              cols: 5,
+              rows: 10,
+              cells: {
+                'A2': { col: 1, row: 1, w: 1, h: 1 },
+                'A3': { col: 2, row: 1, w: 1, h: 1 },
+                'A5': { col: 3, row: 1, w: 1, h: 1 },
+                'A6': { col: 4, row: 1, w: 1, h: 1 },
+                'A7': { col: 5, row: 1, w: 1, h: 1 },
+                'A8': { col: 1, row: 2, w: 1, h: 1 },
+                'A10': { col: 2, row: 2, w: 1, h: 1 },
+                'A13': { col: 3, row: 2, w: 1, h: 1 },
+                'A14': { col: 4, row: 2, w: 1, h: 1 },
+                'A15': { col: 5, row: 2, w: 1, h: 1 },
+                'A16': { col: 1, row: 3, w: 1, h: 1 },
+                'B1': { col: 2, row: 3, w: 1, h: 1 },
+                'B2': { col: 3, row: 3, w: 1, h: 1 },
+                'B3': { col: 4, row: 3, w: 1, h: 1 },
+                'B4': { col: 5, row: 3, w: 1, h: 1 },
+                'B5': { col: 1, row: 4, w: 1, h: 1 },
+                'B6': { col: 2, row: 4, w: 1, h: 1 },
+                'B7': { col: 3, row: 4, w: 1, h: 1 },
+                'B8': { col: 4, row: 4, w: 1, h: 1 },
+                'B10': { col: 5, row: 4, w: 1, h: 1 },
+                'B11': { col: 1, row: 5, w: 1, h: 1 },
+                'B12': { col: 2, row: 5, w: 1, h: 1 },
+                'B13': { col: 3, row: 5, w: 1, h: 1 },
+                'B14': { col: 4, row: 5, w: 1, h: 1 },
+                'B15': { col: 5, row: 5, w: 1, h: 1 },
+                'C1': { col: 1, row: 6, w: 1, h: 1 },
+                'C2': { col: 2, row: 6, w: 1, h: 1 },
+                'C3': { col: 3, row: 6, w: 1, h: 1 },
+                'C4': { col: 4, row: 6, w: 1, h: 1 },
+                'C5': { col: 5, row: 6, w: 1, h: 1 },
+                'C6': { col: 1, row: 7, w: 1, h: 1 },
+                'C7': { col: 2, row: 7, w: 1, h: 1 },
+                'C9': { col: 3, row: 7, w: 1, h: 1 },
+                'C10': { col: 4, row: 7, w: 1, h: 1 },
+                'C11': { col: 5, row: 7, w: 1, h: 1 },
+                'D1': { col: 1, row: 8, w: 1, h: 1 },
+                'D2': { col: 2, row: 8, w: 1, h: 1 },
+                'D5': { col: 3, row: 8, w: 1, h: 1 },
+                'D9': { col: 4, row: 8, w: 1, h: 1 },
+                'D11': { col: 5, row: 8, w: 1, h: 1 },
+                'D12': { col: 1, row: 9, w: 1, h: 1 },
+                'D13': { col: 2, row: 9, w: 1, h: 1 },
+                'D14': { col: 3, row: 9, w: 1, h: 1 },
+                'E1': { col: 4, row: 9, w: 1, h: 1 },
+                'E5': { col: 5, row: 9, w: 1, h: 1 },
+                'E6': { col: 1, row: 10, w: 1, h: 1 },
+                'E7': { col: 2, row: 10, w: 1, h: 1 },
+                'E8': { col: 3, row: 10, w: 1, h: 1 },
+                'E10': { col: 4, row: 10, w: 1, h: 1 },
+                'E11': { col: 5, row: 10, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Audi Q5 FY (2018-2020) / A5 8W6 (2017-2020) \'Fuse panel A (brown)\' E-Box diagram (MLB-evo); the app\'s Audi E-Box list is this B9-generation dataset (positions A2-A16, B1-B16, C1-C16).',
+                'Match evidence: 33/35 positions (0.94) vs the Q5 FY brown panel, 34/35 (0.97) vs the A5 8W6 brown panel; the wave5-era A4 B9 page matches 1:1 with amps (A2 MAF, A3 injectors, A5 brake light, A7 O2 sensor, A13 radiator fan, B1 alarm, ...).',
+                'Only A4/S4 B9 (2017-2024) and Q5/SQ5 FY (2018-2024) model years in this range use this exact E-Box — the A6/S6 (C7/C8) and Q7/SQ7 (4M) use different E-Box layouts; verify against the fuse box cover.',
+                'Uniform row-major grid in the app\'s data order; exact slot placement approximated from the source diagram — verify against the fuse box cover.'
+              ]
+            }
           },
           {
             name: 'Dashboard Fuse Panel',
@@ -62757,7 +63148,30 @@ audi: {
               { pos: '16', amps: 5, circuit: 'WHEEL HEAT', desc: 'Steering wheel heating' },
             ],
             relays: [
-            ]
+            ],
+            layout: {
+              cols: 4,
+              rows: 3,
+              cells: {
+                '2': { col: 1, row: 1, w: 1, h: 1 },
+                '4': { col: 2, row: 1, w: 1, h: 1 },
+                '5': { col: 3, row: 1, w: 1, h: 1 },
+                '6': { col: 4, row: 1, w: 1, h: 1 },
+                '7': { col: 1, row: 2, w: 1, h: 1 },
+                '8': { col: 2, row: 2, w: 1, h: 1 },
+                '9': { col: 3, row: 2, w: 1, h: 1 },
+                '10': { col: 4, row: 2, w: 1, h: 1 },
+                '11': { col: 1, row: 3, w: 1, h: 1 },
+                '12': { col: 2, row: 3, w: 1, h: 1 },
+                '14': { col: 3, row: 3, w: 1, h: 1 },
+                '16': { col: 4, row: 3, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Audi Q5 FY (2018-2020) / A4 B9 (2017-2018) driver-side dashboard fuse panel diagram (left end of the dashboard); positions 2-16 match the app\'s dataset exactly (12/12 = 1.00).',
+                'Only A4/S4 B9 (2017-2024) and Q5/SQ5 FY (2018-2024) model years in this range use this exact dashboard panel; verify against the fuse box cover.',
+                'Uniform row-major grid in the app\'s data order; exact slot placement approximated from the source diagram — verify against the fuse box cover.'
+              ]
+            }
           },
           {
             name: 'Trunk Fuse Panel',
@@ -62790,7 +63204,43 @@ audi: {
               { pos: 'E11', amps: 10, circuit: 'ADBLUE', desc: 'AdBlue (diesel exhaust fluid)' },
             ],
             relays: [
-            ]
+            ],
+            layout: {
+              cols: 5,
+              rows: 5,
+              cells: {
+                'A2': { col: 1, row: 1, w: 1, h: 1 },
+                'A3': { col: 2, row: 1, w: 1, h: 1 },
+                'A5': { col: 3, row: 1, w: 1, h: 1 },
+                'A6': { col: 4, row: 1, w: 1, h: 1 },
+                'A7': { col: 5, row: 1, w: 1, h: 1 },
+                'A8': { col: 1, row: 2, w: 1, h: 1 },
+                'A9': { col: 2, row: 2, w: 1, h: 1 },
+                'A10': { col: 3, row: 2, w: 1, h: 1 },
+                'A11': { col: 4, row: 2, w: 1, h: 1 },
+                'A12': { col: 5, row: 2, w: 1, h: 1 },
+                'C2': { col: 1, row: 3, w: 1, h: 1 },
+                'C3': { col: 2, row: 3, w: 1, h: 1 },
+                'C4': { col: 3, row: 3, w: 1, h: 1 },
+                'C12': { col: 4, row: 3, w: 1, h: 1 },
+                'C13': { col: 5, row: 3, w: 1, h: 1 },
+                'C14': { col: 1, row: 4, w: 1, h: 1 },
+                'C16': { col: 2, row: 4, w: 1, h: 1 },
+                'E2': { col: 3, row: 4, w: 1, h: 1 },
+                'E3': { col: 4, row: 4, w: 1, h: 1 },
+                'E5': { col: 5, row: 4, w: 1, h: 1 },
+                'E7': { col: 1, row: 5, w: 1, h: 1 },
+                'E8': { col: 2, row: 5, w: 1, h: 1 },
+                'E9': { col: 3, row: 5, w: 1, h: 1 },
+                'E10': { col: 4, row: 5, w: 1, h: 1 },
+                'E11': { col: 5, row: 5, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Audi Q5 FY (2018-2020) / A5 8W6 (2017-2020) auxiliary fuse panel (\'Fuse panel A (black)\', A2-A12 + C2/C3 rows) diagram; matches the app\'s trunk-panel dataset 17/17 (1.00).',
+                'Only A4/S4 B9 (2017-2024) and Q5/SQ5 FY (2018-2024) model years in this range use this exact panel; verify against the fuse box cover.',
+                'Uniform row-major grid in the app\'s data order; exact slot placement approximated from the source diagram — verify against the fuse box cover.'
+              ]
+            }
           }
         ]
       }
@@ -62971,7 +63421,69 @@ audi: {
               { pos: 'E11', amps: 5, circuit: 'ENGINE START', desc: 'Engine start' },
             ],
             relays: [
-            ]
+            ],
+            layout: {
+              cols: 5,
+              rows: 10,
+              cells: {
+                'A2': { col: 1, row: 1, w: 1, h: 1 },
+                'A3': { col: 2, row: 1, w: 1, h: 1 },
+                'A5': { col: 3, row: 1, w: 1, h: 1 },
+                'A6': { col: 4, row: 1, w: 1, h: 1 },
+                'A7': { col: 5, row: 1, w: 1, h: 1 },
+                'A8': { col: 1, row: 2, w: 1, h: 1 },
+                'A10': { col: 2, row: 2, w: 1, h: 1 },
+                'A13': { col: 3, row: 2, w: 1, h: 1 },
+                'A14': { col: 4, row: 2, w: 1, h: 1 },
+                'A15': { col: 5, row: 2, w: 1, h: 1 },
+                'A16': { col: 1, row: 3, w: 1, h: 1 },
+                'B1': { col: 2, row: 3, w: 1, h: 1 },
+                'B2': { col: 3, row: 3, w: 1, h: 1 },
+                'B3': { col: 4, row: 3, w: 1, h: 1 },
+                'B4': { col: 5, row: 3, w: 1, h: 1 },
+                'B5': { col: 1, row: 4, w: 1, h: 1 },
+                'B6': { col: 2, row: 4, w: 1, h: 1 },
+                'B7': { col: 3, row: 4, w: 1, h: 1 },
+                'B8': { col: 4, row: 4, w: 1, h: 1 },
+                'B10': { col: 5, row: 4, w: 1, h: 1 },
+                'B11': { col: 1, row: 5, w: 1, h: 1 },
+                'B12': { col: 2, row: 5, w: 1, h: 1 },
+                'B13': { col: 3, row: 5, w: 1, h: 1 },
+                'B14': { col: 4, row: 5, w: 1, h: 1 },
+                'B15': { col: 5, row: 5, w: 1, h: 1 },
+                'C1': { col: 1, row: 6, w: 1, h: 1 },
+                'C2': { col: 2, row: 6, w: 1, h: 1 },
+                'C3': { col: 3, row: 6, w: 1, h: 1 },
+                'C4': { col: 4, row: 6, w: 1, h: 1 },
+                'C5': { col: 5, row: 6, w: 1, h: 1 },
+                'C6': { col: 1, row: 7, w: 1, h: 1 },
+                'C7': { col: 2, row: 7, w: 1, h: 1 },
+                'C9': { col: 3, row: 7, w: 1, h: 1 },
+                'C10': { col: 4, row: 7, w: 1, h: 1 },
+                'C11': { col: 5, row: 7, w: 1, h: 1 },
+                'D1': { col: 1, row: 8, w: 1, h: 1 },
+                'D2': { col: 2, row: 8, w: 1, h: 1 },
+                'D5': { col: 3, row: 8, w: 1, h: 1 },
+                'D9': { col: 4, row: 8, w: 1, h: 1 },
+                'D11': { col: 5, row: 8, w: 1, h: 1 },
+                'D12': { col: 1, row: 9, w: 1, h: 1 },
+                'D13': { col: 2, row: 9, w: 1, h: 1 },
+                'D14': { col: 3, row: 9, w: 1, h: 1 },
+                'E1': { col: 4, row: 9, w: 1, h: 1 },
+                'E5': { col: 5, row: 9, w: 1, h: 1 },
+                'E6': { col: 1, row: 10, w: 1, h: 1 },
+                'E7': { col: 2, row: 10, w: 1, h: 1 },
+                'E8': { col: 3, row: 10, w: 1, h: 1 },
+                'E10': { col: 4, row: 10, w: 1, h: 1 },
+                'E11': { col: 5, row: 10, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Audi Q5 FY (2018-2020) / A5 8W6 (2017-2020) \'Fuse panel A (brown)\' E-Box diagram (MLB-evo); the app\'s Audi E-Box list is this B9-generation dataset (positions A2-A16, B1-B16, C1-C16).',
+                'Match evidence: 33/35 positions (0.94) vs the Q5 FY brown panel, 34/35 (0.97) vs the A5 8W6 brown panel; the wave5-era A4 B9 page matches 1:1 with amps (A2 MAF, A3 injectors, A5 brake light, A7 O2 sensor, A13 radiator fan, B1 alarm, ...).',
+                'Only A4/S4 B9 (2017-2024) and Q5/SQ5 FY (2018-2024) model years in this range use this exact E-Box — the A6/S6 (C7/C8) and Q7/SQ7 (4M) use different E-Box layouts; verify against the fuse box cover.',
+                'Uniform row-major grid in the app\'s data order; exact slot placement approximated from the source diagram — verify against the fuse box cover.'
+              ]
+            }
           },
           {
             name: 'Dashboard Fuse Panel',
@@ -62991,7 +63503,30 @@ audi: {
               { pos: '16', amps: 5, circuit: 'WHEEL HEAT', desc: 'Steering wheel heating' },
             ],
             relays: [
-            ]
+            ],
+            layout: {
+              cols: 4,
+              rows: 3,
+              cells: {
+                '2': { col: 1, row: 1, w: 1, h: 1 },
+                '4': { col: 2, row: 1, w: 1, h: 1 },
+                '5': { col: 3, row: 1, w: 1, h: 1 },
+                '6': { col: 4, row: 1, w: 1, h: 1 },
+                '7': { col: 1, row: 2, w: 1, h: 1 },
+                '8': { col: 2, row: 2, w: 1, h: 1 },
+                '9': { col: 3, row: 2, w: 1, h: 1 },
+                '10': { col: 4, row: 2, w: 1, h: 1 },
+                '11': { col: 1, row: 3, w: 1, h: 1 },
+                '12': { col: 2, row: 3, w: 1, h: 1 },
+                '14': { col: 3, row: 3, w: 1, h: 1 },
+                '16': { col: 4, row: 3, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Audi Q5 FY (2018-2020) / A4 B9 (2017-2018) driver-side dashboard fuse panel diagram (left end of the dashboard); positions 2-16 match the app\'s dataset exactly (12/12 = 1.00).',
+                'Only A4/S4 B9 (2017-2024) and Q5/SQ5 FY (2018-2024) model years in this range use this exact dashboard panel; verify against the fuse box cover.',
+                'Uniform row-major grid in the app\'s data order; exact slot placement approximated from the source diagram — verify against the fuse box cover.'
+              ]
+            }
           },
           {
             name: 'Trunk Fuse Panel',
@@ -63024,7 +63559,43 @@ audi: {
               { pos: 'E11', amps: 10, circuit: 'ADBLUE', desc: 'AdBlue (diesel exhaust fluid)' },
             ],
             relays: [
-            ]
+            ],
+            layout: {
+              cols: 5,
+              rows: 5,
+              cells: {
+                'A2': { col: 1, row: 1, w: 1, h: 1 },
+                'A3': { col: 2, row: 1, w: 1, h: 1 },
+                'A5': { col: 3, row: 1, w: 1, h: 1 },
+                'A6': { col: 4, row: 1, w: 1, h: 1 },
+                'A7': { col: 5, row: 1, w: 1, h: 1 },
+                'A8': { col: 1, row: 2, w: 1, h: 1 },
+                'A9': { col: 2, row: 2, w: 1, h: 1 },
+                'A10': { col: 3, row: 2, w: 1, h: 1 },
+                'A11': { col: 4, row: 2, w: 1, h: 1 },
+                'A12': { col: 5, row: 2, w: 1, h: 1 },
+                'C2': { col: 1, row: 3, w: 1, h: 1 },
+                'C3': { col: 2, row: 3, w: 1, h: 1 },
+                'C4': { col: 3, row: 3, w: 1, h: 1 },
+                'C12': { col: 4, row: 3, w: 1, h: 1 },
+                'C13': { col: 5, row: 3, w: 1, h: 1 },
+                'C14': { col: 1, row: 4, w: 1, h: 1 },
+                'C16': { col: 2, row: 4, w: 1, h: 1 },
+                'E2': { col: 3, row: 4, w: 1, h: 1 },
+                'E3': { col: 4, row: 4, w: 1, h: 1 },
+                'E5': { col: 5, row: 4, w: 1, h: 1 },
+                'E7': { col: 1, row: 5, w: 1, h: 1 },
+                'E8': { col: 2, row: 5, w: 1, h: 1 },
+                'E9': { col: 3, row: 5, w: 1, h: 1 },
+                'E10': { col: 4, row: 5, w: 1, h: 1 },
+                'E11': { col: 5, row: 5, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Audi Q5 FY (2018-2020) / A5 8W6 (2017-2020) auxiliary fuse panel (\'Fuse panel A (black)\', A2-A12 + C2/C3 rows) diagram; matches the app\'s trunk-panel dataset 17/17 (1.00).',
+                'Only A4/S4 B9 (2017-2024) and Q5/SQ5 FY (2018-2024) model years in this range use this exact panel; verify against the fuse box cover.',
+                'Uniform row-major grid in the app\'s data order; exact slot placement approximated from the source diagram — verify against the fuse box cover.'
+              ]
+            }
           }
         ]
       }
@@ -63205,7 +63776,69 @@ audi: {
               { pos: 'E11', amps: 5, circuit: 'ENGINE START', desc: 'Engine start' },
             ],
             relays: [
-            ]
+            ],
+            layout: {
+              cols: 5,
+              rows: 10,
+              cells: {
+                'A2': { col: 1, row: 1, w: 1, h: 1 },
+                'A3': { col: 2, row: 1, w: 1, h: 1 },
+                'A5': { col: 3, row: 1, w: 1, h: 1 },
+                'A6': { col: 4, row: 1, w: 1, h: 1 },
+                'A7': { col: 5, row: 1, w: 1, h: 1 },
+                'A8': { col: 1, row: 2, w: 1, h: 1 },
+                'A10': { col: 2, row: 2, w: 1, h: 1 },
+                'A13': { col: 3, row: 2, w: 1, h: 1 },
+                'A14': { col: 4, row: 2, w: 1, h: 1 },
+                'A15': { col: 5, row: 2, w: 1, h: 1 },
+                'A16': { col: 1, row: 3, w: 1, h: 1 },
+                'B1': { col: 2, row: 3, w: 1, h: 1 },
+                'B2': { col: 3, row: 3, w: 1, h: 1 },
+                'B3': { col: 4, row: 3, w: 1, h: 1 },
+                'B4': { col: 5, row: 3, w: 1, h: 1 },
+                'B5': { col: 1, row: 4, w: 1, h: 1 },
+                'B6': { col: 2, row: 4, w: 1, h: 1 },
+                'B7': { col: 3, row: 4, w: 1, h: 1 },
+                'B8': { col: 4, row: 4, w: 1, h: 1 },
+                'B10': { col: 5, row: 4, w: 1, h: 1 },
+                'B11': { col: 1, row: 5, w: 1, h: 1 },
+                'B12': { col: 2, row: 5, w: 1, h: 1 },
+                'B13': { col: 3, row: 5, w: 1, h: 1 },
+                'B14': { col: 4, row: 5, w: 1, h: 1 },
+                'B15': { col: 5, row: 5, w: 1, h: 1 },
+                'C1': { col: 1, row: 6, w: 1, h: 1 },
+                'C2': { col: 2, row: 6, w: 1, h: 1 },
+                'C3': { col: 3, row: 6, w: 1, h: 1 },
+                'C4': { col: 4, row: 6, w: 1, h: 1 },
+                'C5': { col: 5, row: 6, w: 1, h: 1 },
+                'C6': { col: 1, row: 7, w: 1, h: 1 },
+                'C7': { col: 2, row: 7, w: 1, h: 1 },
+                'C9': { col: 3, row: 7, w: 1, h: 1 },
+                'C10': { col: 4, row: 7, w: 1, h: 1 },
+                'C11': { col: 5, row: 7, w: 1, h: 1 },
+                'D1': { col: 1, row: 8, w: 1, h: 1 },
+                'D2': { col: 2, row: 8, w: 1, h: 1 },
+                'D5': { col: 3, row: 8, w: 1, h: 1 },
+                'D9': { col: 4, row: 8, w: 1, h: 1 },
+                'D11': { col: 5, row: 8, w: 1, h: 1 },
+                'D12': { col: 1, row: 9, w: 1, h: 1 },
+                'D13': { col: 2, row: 9, w: 1, h: 1 },
+                'D14': { col: 3, row: 9, w: 1, h: 1 },
+                'E1': { col: 4, row: 9, w: 1, h: 1 },
+                'E5': { col: 5, row: 9, w: 1, h: 1 },
+                'E6': { col: 1, row: 10, w: 1, h: 1 },
+                'E7': { col: 2, row: 10, w: 1, h: 1 },
+                'E8': { col: 3, row: 10, w: 1, h: 1 },
+                'E10': { col: 4, row: 10, w: 1, h: 1 },
+                'E11': { col: 5, row: 10, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Audi Q5 FY (2018-2020) / A5 8W6 (2017-2020) \'Fuse panel A (brown)\' E-Box diagram (MLB-evo); the app\'s Audi E-Box list is this B9-generation dataset (positions A2-A16, B1-B16, C1-C16).',
+                'Match evidence: 33/35 positions (0.94) vs the Q5 FY brown panel, 34/35 (0.97) vs the A5 8W6 brown panel; the wave5-era A4 B9 page matches 1:1 with amps (A2 MAF, A3 injectors, A5 brake light, A7 O2 sensor, A13 radiator fan, B1 alarm, ...).',
+                'Only A4/S4 B9 (2017-2024) and Q5/SQ5 FY (2018-2024) model years in this range use this exact E-Box — the A6/S6 (C7/C8) and Q7/SQ7 (4M) use different E-Box layouts; verify against the fuse box cover.',
+                'Uniform row-major grid in the app\'s data order; exact slot placement approximated from the source diagram — verify against the fuse box cover.'
+              ]
+            }
           },
           {
             name: 'Dashboard Fuse Panel',
@@ -63225,7 +63858,30 @@ audi: {
               { pos: '16', amps: 5, circuit: 'WHEEL HEAT', desc: 'Steering wheel heating' },
             ],
             relays: [
-            ]
+            ],
+            layout: {
+              cols: 4,
+              rows: 3,
+              cells: {
+                '2': { col: 1, row: 1, w: 1, h: 1 },
+                '4': { col: 2, row: 1, w: 1, h: 1 },
+                '5': { col: 3, row: 1, w: 1, h: 1 },
+                '6': { col: 4, row: 1, w: 1, h: 1 },
+                '7': { col: 1, row: 2, w: 1, h: 1 },
+                '8': { col: 2, row: 2, w: 1, h: 1 },
+                '9': { col: 3, row: 2, w: 1, h: 1 },
+                '10': { col: 4, row: 2, w: 1, h: 1 },
+                '11': { col: 1, row: 3, w: 1, h: 1 },
+                '12': { col: 2, row: 3, w: 1, h: 1 },
+                '14': { col: 3, row: 3, w: 1, h: 1 },
+                '16': { col: 4, row: 3, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Audi Q5 FY (2018-2020) / A4 B9 (2017-2018) driver-side dashboard fuse panel diagram (left end of the dashboard); positions 2-16 match the app\'s dataset exactly (12/12 = 1.00).',
+                'Only A4/S4 B9 (2017-2024) and Q5/SQ5 FY (2018-2024) model years in this range use this exact dashboard panel; verify against the fuse box cover.',
+                'Uniform row-major grid in the app\'s data order; exact slot placement approximated from the source diagram — verify against the fuse box cover.'
+              ]
+            }
           },
           {
             name: 'Trunk Fuse Panel',
@@ -63258,7 +63914,43 @@ audi: {
               { pos: 'E11', amps: 10, circuit: 'ADBLUE', desc: 'AdBlue (diesel exhaust fluid)' },
             ],
             relays: [
-            ]
+            ],
+            layout: {
+              cols: 5,
+              rows: 5,
+              cells: {
+                'A2': { col: 1, row: 1, w: 1, h: 1 },
+                'A3': { col: 2, row: 1, w: 1, h: 1 },
+                'A5': { col: 3, row: 1, w: 1, h: 1 },
+                'A6': { col: 4, row: 1, w: 1, h: 1 },
+                'A7': { col: 5, row: 1, w: 1, h: 1 },
+                'A8': { col: 1, row: 2, w: 1, h: 1 },
+                'A9': { col: 2, row: 2, w: 1, h: 1 },
+                'A10': { col: 3, row: 2, w: 1, h: 1 },
+                'A11': { col: 4, row: 2, w: 1, h: 1 },
+                'A12': { col: 5, row: 2, w: 1, h: 1 },
+                'C2': { col: 1, row: 3, w: 1, h: 1 },
+                'C3': { col: 2, row: 3, w: 1, h: 1 },
+                'C4': { col: 3, row: 3, w: 1, h: 1 },
+                'C12': { col: 4, row: 3, w: 1, h: 1 },
+                'C13': { col: 5, row: 3, w: 1, h: 1 },
+                'C14': { col: 1, row: 4, w: 1, h: 1 },
+                'C16': { col: 2, row: 4, w: 1, h: 1 },
+                'E2': { col: 3, row: 4, w: 1, h: 1 },
+                'E3': { col: 4, row: 4, w: 1, h: 1 },
+                'E5': { col: 5, row: 4, w: 1, h: 1 },
+                'E7': { col: 1, row: 5, w: 1, h: 1 },
+                'E8': { col: 2, row: 5, w: 1, h: 1 },
+                'E9': { col: 3, row: 5, w: 1, h: 1 },
+                'E10': { col: 4, row: 5, w: 1, h: 1 },
+                'E11': { col: 5, row: 5, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Audi Q5 FY (2018-2020) / A5 8W6 (2017-2020) auxiliary fuse panel (\'Fuse panel A (black)\', A2-A12 + C2/C3 rows) diagram; matches the app\'s trunk-panel dataset 17/17 (1.00).',
+                'Only A4/S4 B9 (2017-2024) and Q5/SQ5 FY (2018-2024) model years in this range use this exact panel; verify against the fuse box cover.',
+                'Uniform row-major grid in the app\'s data order; exact slot placement approximated from the source diagram — verify against the fuse box cover.'
+              ]
+            }
           }
         ]
       }
