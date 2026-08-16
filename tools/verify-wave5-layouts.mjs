@@ -9,7 +9,8 @@ import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
-const src = readFileSync(path.join(here, '../src/data/fuse-boxes.js'), 'utf8');
+const srcRaw = readFileSync(path.join(here, '../src/data/fuse-boxes.js'), 'utf8');
+const src = srcRaw.replace(/\/\/.*$/gm, '').replace(/\/\*[\s\S]*?\*\//g, '');
 
 // crude depth-aware parse to collect (model, year, panel, positions, layout)
 const models = {};
@@ -98,6 +99,10 @@ for (const [model, block] of Object.entries(models)) {
       const cellRe = /'([^']*)': \{ col: (\d+), row: (\d+), w: (\d+), h: (\d+) \}/g;
       let c;
       let cells = 0;
+      // count cell lines by splitting block at 'cells:' and 'notes:'
+      const cellsText = (lm[0].match(/cells: \{[\s\S]*?\n\s*\}/) || [''])[0];
+      const cellLines = (cellsText.match(/'[^']*': \{ col: /g) || []);
+      cells = cellLines.length;
       while ((c = cellRe.exec(lm[0]))) {
         cells++;
         const [pos, col, row, w, h] = [c[1], +c[2], +c[3], +c[4], +c[5]];
