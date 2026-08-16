@@ -56689,7 +56689,46 @@ mercedes: {
               { pos: 'N', circuit: 'CIRCUIT 87', desc: 'Circuit 87M relay' },
               { pos: 'P', circuit: 'COOLANT PUMP', desc: 'Coolant pump relay' },
               { pos: 'R', circuit: 'AIRMATIC', desc: 'AIRMATIC relay' },
-            ]
+            ],
+            layout: {
+              cols: 9,
+              rows: 3,
+              cells: {
+                '101': { col: 1, row: 1, w: 1, h: 1 },
+                '102': { col: 2, row: 1, w: 1, h: 1 },
+                '103': { col: 3, row: 1, w: 1, h: 1 },
+                '104': { col: 4, row: 1, w: 1, h: 1 },
+                '107': { col: 5, row: 1, w: 1, h: 1 },
+                '108': { col: 6, row: 1, w: 1, h: 1 },
+                '109': { col: 7, row: 1, w: 1, h: 1 },
+                '110': { col: 8, row: 1, w: 1, h: 1 },
+                '111': { col: 9, row: 1, w: 1, h: 1 },
+                '114': { col: 1, row: 2, w: 1, h: 1 },
+                '115': { col: 2, row: 2, w: 1, h: 1 },
+                '118': { col: 3, row: 2, w: 1, h: 1 },
+                '119': { col: 4, row: 2, w: 1, h: 1 },
+                '121': { col: 5, row: 2, w: 1, h: 1 },
+                '122': { col: 6, row: 2, w: 1, h: 1 },
+                '125': { col: 7, row: 2, w: 1, h: 1 },
+                '126': { col: 8, row: 2, w: 1, h: 1 },
+                '128': { col: 9, row: 2, w: 1, h: 1 },
+                'G': { col: 1, row: 3, w: 1, h: 1 },
+                'H': { col: 2, row: 3, w: 1, h: 1 },
+                'J': { col: 3, row: 3, w: 1, h: 1 },
+                'K': { col: 4, row: 3, w: 1, h: 1 },
+                'L': { col: 5, row: 3, w: 1, h: 1 },
+                'M': { col: 6, row: 3, w: 1, h: 1 },
+                'N': { col: 7, row: 3, w: 1, h: 1 },
+                'P': { col: 8, row: 3, w: 1, h: 1 },
+                'R': { col: 9, row: 3, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Mercedes-Benz C-Class W205 (2015-2018) engine-compartment fuse box diagram; the app\'s Mercedes fuse list is this W205-generation (MRA platform) dataset.',
+                'Positions follow the W205 OEM numbering (100s engine bay); relays carry the OEM letters G/H/J/K/L/M/N/P/R (hybrid-only I/O/Q are not in the app list).',
+                'Only C-Class W205 (2015-2021) and GLC X253 (2016-2022) model years in this range use this exact box — earlier/later generations (e.g. W204/W206, X254) use different boxes; verify against the fuse box cover.',
+                'Uniform row-major grid in the app\'s data order; exact slot placement approximated from the source diagram (photos too compressed for per-slot OCR, consistent with prior waves) — verify against the fuse box cover.'
+              ]
+            }
           },
           {
             name: 'Front SAM Fuse Panel (Driver Side)',
@@ -56714,7 +56753,36 @@ mercedes: {
             ],
             relays: [
               { pos: 'F', circuit: 'CIRCUIT 15R', desc: 'Relay, circuit 15R' },
-            ]
+            ],
+            layout: {
+              cols: 6,
+              rows: 3,
+              cells: {
+                '200': { col: 1, row: 1, w: 1, h: 1 },
+                '201': { col: 2, row: 1, w: 1, h: 1 },
+                '202': { col: 3, row: 1, w: 1, h: 1 },
+                '203': { col: 4, row: 1, w: 1, h: 1 },
+                '204': { col: 5, row: 1, w: 1, h: 1 },
+                '205': { col: 6, row: 1, w: 1, h: 1 },
+                '206': { col: 1, row: 2, w: 1, h: 1 },
+                '207': { col: 2, row: 2, w: 1, h: 1 },
+                '208': { col: 3, row: 2, w: 1, h: 1 },
+                '209': { col: 4, row: 2, w: 1, h: 1 },
+                '210': { col: 5, row: 2, w: 1, h: 1 },
+                '213': { col: 6, row: 2, w: 1, h: 1 },
+                '214': { col: 1, row: 3, w: 1, h: 1 },
+                '216': { col: 2, row: 3, w: 1, h: 1 },
+                '218': { col: 3, row: 3, w: 1, h: 1 },
+                '219': { col: 4, row: 3, w: 1, h: 1 },
+                'F': { col: 5, row: 3, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Mercedes-Benz C-Class W205 (2015-2018) instrument-panel fuse box (front SAM) diagram.',
+                'Positions follow the W205 OEM numbering (200s on the front SAM); relay F (circuit 15R) sits on the same module.',
+                'Only C-Class W205 (2015-2021) and GLC X253 (2016-2022) model years in this range use this exact SAM — earlier/later generations differ; verify against the fuse box cover.',
+                'Uniform row-major grid in the app\'s data order; exact slot placement approximated from the source diagram — verify against the fuse box cover.'
+              ]
+            }
           },
           {
             name: 'Passenger Footwell Fuse Panel',
@@ -56750,7 +56818,47 @@ mercedes: {
               { pos: 'MF3-6', amps: 5, circuit: 'TPMS', desc: 'Tire pressure monitor' },
             ],
             relays: [
-            ]
+            ],
+            layout: {
+              cols: 7,
+              rows: 4,
+              cells: {
+                '301': { col: 1, row: 1, w: 1, h: 1 },
+                '302': { col: 2, row: 1, w: 1, h: 1 },
+                '303': { col: 3, row: 1, w: 1, h: 1 },
+                '304': { col: 4, row: 1, w: 1, h: 1 },
+                '305': { col: 5, row: 1, w: 1, h: 1 },
+                '306': { col: 6, row: 1, w: 1, h: 1 },
+                '308': { col: 7, row: 1, w: 1, h: 1 },
+                '309': { col: 1, row: 2, w: 1, h: 1 },
+                '311': { col: 2, row: 2, w: 1, h: 1 },
+                '312': { col: 3, row: 2, w: 1, h: 1 },
+                '315': { col: 4, row: 2, w: 1, h: 1 },
+                '316': { col: 5, row: 2, w: 1, h: 1 },
+                '317': { col: 6, row: 2, w: 1, h: 1 },
+                '318': { col: 7, row: 2, w: 1, h: 1 },
+                '320': { col: 1, row: 3, w: 1, h: 1 },
+                '322': { col: 2, row: 3, w: 1, h: 1 },
+                '323': { col: 3, row: 3, w: 1, h: 1 },
+                'MF1-1': { col: 4, row: 3, w: 1, h: 1 },
+                'MF1-2': { col: 5, row: 3, w: 1, h: 1 },
+                'MF1-3': { col: 6, row: 3, w: 1, h: 1 },
+                'MF2-1': { col: 7, row: 3, w: 1, h: 1 },
+                'MF2-2': { col: 1, row: 4, w: 1, h: 1 },
+                'MF2-3': { col: 2, row: 4, w: 1, h: 1 },
+                'MF2-4': { col: 3, row: 4, w: 1, h: 1 },
+                'MF3-2': { col: 4, row: 4, w: 1, h: 1 },
+                'MF3-4': { col: 5, row: 4, w: 1, h: 1 },
+                'MF3-5': { col: 6, row: 4, w: 1, h: 1 },
+                'MF3-6': { col: 7, row: 4, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Mercedes-Benz C-Class W205 (2015-2018) front-passenger footwell fuse box diagram.',
+                'Positions follow the W205 OEM numbering (300s main block, plus MF1/MF2/MF3 mini-fuse carriers listed at the end in the app\'s data order).',
+                'Only C-Class W205 (2015-2021) and GLC X253 (2016-2022) model years in this range use this exact footwell box — earlier/later generations differ; verify against the fuse box cover.',
+                'Uniform row-major grid in the app\'s data order; exact slot placement approximated from the source diagram — verify against the fuse box cover.'
+              ]
+            }
           },
           {
             name: 'Trunk Fuse Panel (Rear SAM)',
@@ -56798,7 +56906,59 @@ mercedes: {
               { pos: 'T', circuit: 'REAR HEAT', desc: 'Rear window heater relay' },
               { pos: 'U', circuit: 'SOCKET', desc: 'Rear seat row sockets relay' },
               { pos: 'X', circuit: 'SOCKET', desc: 'Front row / trunk sockets relay' },
-            ]
+            ],
+            layout: {
+              cols: 10,
+              rows: 4,
+              cells: {
+                '400': { col: 1, row: 1, w: 1, h: 1 },
+                '401': { col: 2, row: 1, w: 1, h: 1 },
+                '403': { col: 3, row: 1, w: 1, h: 1 },
+                '404': { col: 4, row: 1, w: 1, h: 1 },
+                '406': { col: 5, row: 1, w: 1, h: 1 },
+                '408': { col: 6, row: 1, w: 1, h: 1 },
+                '410': { col: 7, row: 1, w: 1, h: 1 },
+                '411': { col: 8, row: 1, w: 1, h: 1 },
+                '413': { col: 9, row: 1, w: 1, h: 1 },
+                '414': { col: 10, row: 1, w: 1, h: 1 },
+                '417': { col: 1, row: 2, w: 1, h: 1 },
+                '418': { col: 2, row: 2, w: 1, h: 1 },
+                '420': { col: 3, row: 2, w: 1, h: 1 },
+                '423': { col: 4, row: 2, w: 1, h: 1 },
+                '424': { col: 5, row: 2, w: 1, h: 1 },
+                '431': { col: 6, row: 2, w: 1, h: 1 },
+                '433': { col: 7, row: 2, w: 1, h: 1 },
+                '434': { col: 8, row: 2, w: 1, h: 1 },
+                '435': { col: 9, row: 2, w: 1, h: 1 },
+                '436': { col: 10, row: 2, w: 1, h: 1 },
+                '440': { col: 1, row: 3, w: 1, h: 1 },
+                '442': { col: 2, row: 3, w: 1, h: 1 },
+                '443': { col: 3, row: 3, w: 1, h: 1 },
+                '446': { col: 4, row: 3, w: 1, h: 1 },
+                '447': { col: 5, row: 3, w: 1, h: 1 },
+                '450': { col: 6, row: 3, w: 1, h: 1 },
+                '451': { col: 7, row: 3, w: 1, h: 1 },
+                '452': { col: 8, row: 3, w: 1, h: 1 },
+                '453': { col: 9, row: 3, w: 1, h: 1 },
+                '456': { col: 10, row: 3, w: 1, h: 1 },
+                '460': { col: 1, row: 4, w: 1, h: 1 },
+                '462': { col: 2, row: 4, w: 1, h: 1 },
+                '463': { col: 3, row: 4, w: 1, h: 1 },
+                '464': { col: 4, row: 4, w: 1, h: 1 },
+                '465': { col: 5, row: 4, w: 1, h: 1 },
+                '466': { col: 6, row: 4, w: 1, h: 1 },
+                'S': { col: 7, row: 4, w: 1, h: 1 },
+                'T': { col: 8, row: 4, w: 1, h: 1 },
+                'U': { col: 9, row: 4, w: 1, h: 1 },
+                'X': { col: 10, row: 4, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Mercedes-Benz C-Class W205 (2015-2018) luggage-compartment fuse box (rear SAM) diagram.',
+                'Positions follow the W205 OEM numbering (400s on the rear SAM); relays S/T/U/X (AdBlue relay V and spare Y are diesel/option-only, not in the app list).',
+                'Only C-Class W205 (2015-2021) and GLC X253 (2016-2022) model years in this range use this exact rear SAM — earlier/later generations differ; verify against the fuse box cover.',
+                'Uniform row-major grid in the app\'s data order; exact slot placement approximated from the source diagram — verify against the fuse box cover.'
+              ]
+            }
           }
         ]
       }
@@ -57139,7 +57299,46 @@ mercedes: {
               { pos: 'N', circuit: 'CIRCUIT 87', desc: 'Circuit 87M relay' },
               { pos: 'P', circuit: 'COOLANT PUMP', desc: 'Coolant pump relay' },
               { pos: 'R', circuit: 'AIRMATIC', desc: 'AIRMATIC relay' },
-            ]
+            ],
+            layout: {
+              cols: 9,
+              rows: 3,
+              cells: {
+                '101': { col: 1, row: 1, w: 1, h: 1 },
+                '102': { col: 2, row: 1, w: 1, h: 1 },
+                '103': { col: 3, row: 1, w: 1, h: 1 },
+                '104': { col: 4, row: 1, w: 1, h: 1 },
+                '107': { col: 5, row: 1, w: 1, h: 1 },
+                '108': { col: 6, row: 1, w: 1, h: 1 },
+                '109': { col: 7, row: 1, w: 1, h: 1 },
+                '110': { col: 8, row: 1, w: 1, h: 1 },
+                '111': { col: 9, row: 1, w: 1, h: 1 },
+                '114': { col: 1, row: 2, w: 1, h: 1 },
+                '115': { col: 2, row: 2, w: 1, h: 1 },
+                '118': { col: 3, row: 2, w: 1, h: 1 },
+                '119': { col: 4, row: 2, w: 1, h: 1 },
+                '121': { col: 5, row: 2, w: 1, h: 1 },
+                '122': { col: 6, row: 2, w: 1, h: 1 },
+                '125': { col: 7, row: 2, w: 1, h: 1 },
+                '126': { col: 8, row: 2, w: 1, h: 1 },
+                '128': { col: 9, row: 2, w: 1, h: 1 },
+                'G': { col: 1, row: 3, w: 1, h: 1 },
+                'H': { col: 2, row: 3, w: 1, h: 1 },
+                'J': { col: 3, row: 3, w: 1, h: 1 },
+                'K': { col: 4, row: 3, w: 1, h: 1 },
+                'L': { col: 5, row: 3, w: 1, h: 1 },
+                'M': { col: 6, row: 3, w: 1, h: 1 },
+                'N': { col: 7, row: 3, w: 1, h: 1 },
+                'P': { col: 8, row: 3, w: 1, h: 1 },
+                'R': { col: 9, row: 3, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Mercedes-Benz C-Class W205 (2015-2018) engine-compartment fuse box diagram; the app\'s Mercedes fuse list is this W205-generation (MRA platform) dataset.',
+                'Positions follow the W205 OEM numbering (100s engine bay); relays carry the OEM letters G/H/J/K/L/M/N/P/R (hybrid-only I/O/Q are not in the app list).',
+                'Only C-Class W205 (2015-2021) and GLC X253 (2016-2022) model years in this range use this exact box — earlier/later generations (e.g. W204/W206, X254) use different boxes; verify against the fuse box cover.',
+                'Uniform row-major grid in the app\'s data order; exact slot placement approximated from the source diagram (photos too compressed for per-slot OCR, consistent with prior waves) — verify against the fuse box cover.'
+              ]
+            }
           },
           {
             name: 'Front SAM Fuse Panel (Driver Side)',
@@ -57164,7 +57363,36 @@ mercedes: {
             ],
             relays: [
               { pos: 'F', circuit: 'CIRCUIT 15R', desc: 'Relay, circuit 15R' },
-            ]
+            ],
+            layout: {
+              cols: 6,
+              rows: 3,
+              cells: {
+                '200': { col: 1, row: 1, w: 1, h: 1 },
+                '201': { col: 2, row: 1, w: 1, h: 1 },
+                '202': { col: 3, row: 1, w: 1, h: 1 },
+                '203': { col: 4, row: 1, w: 1, h: 1 },
+                '204': { col: 5, row: 1, w: 1, h: 1 },
+                '205': { col: 6, row: 1, w: 1, h: 1 },
+                '206': { col: 1, row: 2, w: 1, h: 1 },
+                '207': { col: 2, row: 2, w: 1, h: 1 },
+                '208': { col: 3, row: 2, w: 1, h: 1 },
+                '209': { col: 4, row: 2, w: 1, h: 1 },
+                '210': { col: 5, row: 2, w: 1, h: 1 },
+                '213': { col: 6, row: 2, w: 1, h: 1 },
+                '214': { col: 1, row: 3, w: 1, h: 1 },
+                '216': { col: 2, row: 3, w: 1, h: 1 },
+                '218': { col: 3, row: 3, w: 1, h: 1 },
+                '219': { col: 4, row: 3, w: 1, h: 1 },
+                'F': { col: 5, row: 3, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Mercedes-Benz C-Class W205 (2015-2018) instrument-panel fuse box (front SAM) diagram.',
+                'Positions follow the W205 OEM numbering (200s on the front SAM); relay F (circuit 15R) sits on the same module.',
+                'Only C-Class W205 (2015-2021) and GLC X253 (2016-2022) model years in this range use this exact SAM — earlier/later generations differ; verify against the fuse box cover.',
+                'Uniform row-major grid in the app\'s data order; exact slot placement approximated from the source diagram — verify against the fuse box cover.'
+              ]
+            }
           },
           {
             name: 'Passenger Footwell Fuse Panel',
@@ -57200,7 +57428,47 @@ mercedes: {
               { pos: 'MF3-6', amps: 5, circuit: 'TPMS', desc: 'Tire pressure monitor' },
             ],
             relays: [
-            ]
+            ],
+            layout: {
+              cols: 7,
+              rows: 4,
+              cells: {
+                '301': { col: 1, row: 1, w: 1, h: 1 },
+                '302': { col: 2, row: 1, w: 1, h: 1 },
+                '303': { col: 3, row: 1, w: 1, h: 1 },
+                '304': { col: 4, row: 1, w: 1, h: 1 },
+                '305': { col: 5, row: 1, w: 1, h: 1 },
+                '306': { col: 6, row: 1, w: 1, h: 1 },
+                '308': { col: 7, row: 1, w: 1, h: 1 },
+                '309': { col: 1, row: 2, w: 1, h: 1 },
+                '311': { col: 2, row: 2, w: 1, h: 1 },
+                '312': { col: 3, row: 2, w: 1, h: 1 },
+                '315': { col: 4, row: 2, w: 1, h: 1 },
+                '316': { col: 5, row: 2, w: 1, h: 1 },
+                '317': { col: 6, row: 2, w: 1, h: 1 },
+                '318': { col: 7, row: 2, w: 1, h: 1 },
+                '320': { col: 1, row: 3, w: 1, h: 1 },
+                '322': { col: 2, row: 3, w: 1, h: 1 },
+                '323': { col: 3, row: 3, w: 1, h: 1 },
+                'MF1-1': { col: 4, row: 3, w: 1, h: 1 },
+                'MF1-2': { col: 5, row: 3, w: 1, h: 1 },
+                'MF1-3': { col: 6, row: 3, w: 1, h: 1 },
+                'MF2-1': { col: 7, row: 3, w: 1, h: 1 },
+                'MF2-2': { col: 1, row: 4, w: 1, h: 1 },
+                'MF2-3': { col: 2, row: 4, w: 1, h: 1 },
+                'MF2-4': { col: 3, row: 4, w: 1, h: 1 },
+                'MF3-2': { col: 4, row: 4, w: 1, h: 1 },
+                'MF3-4': { col: 5, row: 4, w: 1, h: 1 },
+                'MF3-5': { col: 6, row: 4, w: 1, h: 1 },
+                'MF3-6': { col: 7, row: 4, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Mercedes-Benz C-Class W205 (2015-2018) front-passenger footwell fuse box diagram.',
+                'Positions follow the W205 OEM numbering (300s main block, plus MF1/MF2/MF3 mini-fuse carriers listed at the end in the app\'s data order).',
+                'Only C-Class W205 (2015-2021) and GLC X253 (2016-2022) model years in this range use this exact footwell box — earlier/later generations differ; verify against the fuse box cover.',
+                'Uniform row-major grid in the app\'s data order; exact slot placement approximated from the source diagram — verify against the fuse box cover.'
+              ]
+            }
           },
           {
             name: 'Trunk Fuse Panel (Rear SAM)',
@@ -57248,7 +57516,59 @@ mercedes: {
               { pos: 'T', circuit: 'REAR HEAT', desc: 'Rear window heater relay' },
               { pos: 'U', circuit: 'SOCKET', desc: 'Rear seat row sockets relay' },
               { pos: 'X', circuit: 'SOCKET', desc: 'Front row / trunk sockets relay' },
-            ]
+            ],
+            layout: {
+              cols: 10,
+              rows: 4,
+              cells: {
+                '400': { col: 1, row: 1, w: 1, h: 1 },
+                '401': { col: 2, row: 1, w: 1, h: 1 },
+                '403': { col: 3, row: 1, w: 1, h: 1 },
+                '404': { col: 4, row: 1, w: 1, h: 1 },
+                '406': { col: 5, row: 1, w: 1, h: 1 },
+                '408': { col: 6, row: 1, w: 1, h: 1 },
+                '410': { col: 7, row: 1, w: 1, h: 1 },
+                '411': { col: 8, row: 1, w: 1, h: 1 },
+                '413': { col: 9, row: 1, w: 1, h: 1 },
+                '414': { col: 10, row: 1, w: 1, h: 1 },
+                '417': { col: 1, row: 2, w: 1, h: 1 },
+                '418': { col: 2, row: 2, w: 1, h: 1 },
+                '420': { col: 3, row: 2, w: 1, h: 1 },
+                '423': { col: 4, row: 2, w: 1, h: 1 },
+                '424': { col: 5, row: 2, w: 1, h: 1 },
+                '431': { col: 6, row: 2, w: 1, h: 1 },
+                '433': { col: 7, row: 2, w: 1, h: 1 },
+                '434': { col: 8, row: 2, w: 1, h: 1 },
+                '435': { col: 9, row: 2, w: 1, h: 1 },
+                '436': { col: 10, row: 2, w: 1, h: 1 },
+                '440': { col: 1, row: 3, w: 1, h: 1 },
+                '442': { col: 2, row: 3, w: 1, h: 1 },
+                '443': { col: 3, row: 3, w: 1, h: 1 },
+                '446': { col: 4, row: 3, w: 1, h: 1 },
+                '447': { col: 5, row: 3, w: 1, h: 1 },
+                '450': { col: 6, row: 3, w: 1, h: 1 },
+                '451': { col: 7, row: 3, w: 1, h: 1 },
+                '452': { col: 8, row: 3, w: 1, h: 1 },
+                '453': { col: 9, row: 3, w: 1, h: 1 },
+                '456': { col: 10, row: 3, w: 1, h: 1 },
+                '460': { col: 1, row: 4, w: 1, h: 1 },
+                '462': { col: 2, row: 4, w: 1, h: 1 },
+                '463': { col: 3, row: 4, w: 1, h: 1 },
+                '464': { col: 4, row: 4, w: 1, h: 1 },
+                '465': { col: 5, row: 4, w: 1, h: 1 },
+                '466': { col: 6, row: 4, w: 1, h: 1 },
+                'S': { col: 7, row: 4, w: 1, h: 1 },
+                'T': { col: 8, row: 4, w: 1, h: 1 },
+                'U': { col: 9, row: 4, w: 1, h: 1 },
+                'X': { col: 10, row: 4, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Mercedes-Benz C-Class W205 (2015-2018) luggage-compartment fuse box (rear SAM) diagram.',
+                'Positions follow the W205 OEM numbering (400s on the rear SAM); relays S/T/U/X (AdBlue relay V and spare Y are diesel/option-only, not in the app list).',
+                'Only C-Class W205 (2015-2021) and GLC X253 (2016-2022) model years in this range use this exact rear SAM — earlier/later generations differ; verify against the fuse box cover.',
+                'Uniform row-major grid in the app\'s data order; exact slot placement approximated from the source diagram — verify against the fuse box cover.'
+              ]
+            }
           }
         ]
       }
@@ -57289,7 +57609,46 @@ mercedes: {
               { pos: 'N', circuit: 'CIRCUIT 87', desc: 'Circuit 87M relay' },
               { pos: 'P', circuit: 'COOLANT PUMP', desc: 'Coolant pump relay' },
               { pos: 'R', circuit: 'AIRMATIC', desc: 'AIRMATIC relay' },
-            ]
+            ],
+            layout: {
+              cols: 9,
+              rows: 3,
+              cells: {
+                '101': { col: 1, row: 1, w: 1, h: 1 },
+                '102': { col: 2, row: 1, w: 1, h: 1 },
+                '103': { col: 3, row: 1, w: 1, h: 1 },
+                '104': { col: 4, row: 1, w: 1, h: 1 },
+                '107': { col: 5, row: 1, w: 1, h: 1 },
+                '108': { col: 6, row: 1, w: 1, h: 1 },
+                '109': { col: 7, row: 1, w: 1, h: 1 },
+                '110': { col: 8, row: 1, w: 1, h: 1 },
+                '111': { col: 9, row: 1, w: 1, h: 1 },
+                '114': { col: 1, row: 2, w: 1, h: 1 },
+                '115': { col: 2, row: 2, w: 1, h: 1 },
+                '118': { col: 3, row: 2, w: 1, h: 1 },
+                '119': { col: 4, row: 2, w: 1, h: 1 },
+                '121': { col: 5, row: 2, w: 1, h: 1 },
+                '122': { col: 6, row: 2, w: 1, h: 1 },
+                '125': { col: 7, row: 2, w: 1, h: 1 },
+                '126': { col: 8, row: 2, w: 1, h: 1 },
+                '128': { col: 9, row: 2, w: 1, h: 1 },
+                'G': { col: 1, row: 3, w: 1, h: 1 },
+                'H': { col: 2, row: 3, w: 1, h: 1 },
+                'J': { col: 3, row: 3, w: 1, h: 1 },
+                'K': { col: 4, row: 3, w: 1, h: 1 },
+                'L': { col: 5, row: 3, w: 1, h: 1 },
+                'M': { col: 6, row: 3, w: 1, h: 1 },
+                'N': { col: 7, row: 3, w: 1, h: 1 },
+                'P': { col: 8, row: 3, w: 1, h: 1 },
+                'R': { col: 9, row: 3, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Mercedes-Benz C-Class W205 (2015-2018) engine-compartment fuse box diagram; the app\'s Mercedes fuse list is this W205-generation (MRA platform) dataset.',
+                'Positions follow the W205 OEM numbering (100s engine bay); relays carry the OEM letters G/H/J/K/L/M/N/P/R (hybrid-only I/O/Q are not in the app list).',
+                'Only C-Class W205 (2015-2021) and GLC X253 (2016-2022) model years in this range use this exact box — earlier/later generations (e.g. W204/W206, X254) use different boxes; verify against the fuse box cover.',
+                'Uniform row-major grid in the app\'s data order; exact slot placement approximated from the source diagram (photos too compressed for per-slot OCR, consistent with prior waves) — verify against the fuse box cover.'
+              ]
+            }
           },
           {
             name: 'Front SAM Fuse Panel (Driver Side)',
@@ -57314,7 +57673,36 @@ mercedes: {
             ],
             relays: [
               { pos: 'F', circuit: 'CIRCUIT 15R', desc: 'Relay, circuit 15R' },
-            ]
+            ],
+            layout: {
+              cols: 6,
+              rows: 3,
+              cells: {
+                '200': { col: 1, row: 1, w: 1, h: 1 },
+                '201': { col: 2, row: 1, w: 1, h: 1 },
+                '202': { col: 3, row: 1, w: 1, h: 1 },
+                '203': { col: 4, row: 1, w: 1, h: 1 },
+                '204': { col: 5, row: 1, w: 1, h: 1 },
+                '205': { col: 6, row: 1, w: 1, h: 1 },
+                '206': { col: 1, row: 2, w: 1, h: 1 },
+                '207': { col: 2, row: 2, w: 1, h: 1 },
+                '208': { col: 3, row: 2, w: 1, h: 1 },
+                '209': { col: 4, row: 2, w: 1, h: 1 },
+                '210': { col: 5, row: 2, w: 1, h: 1 },
+                '213': { col: 6, row: 2, w: 1, h: 1 },
+                '214': { col: 1, row: 3, w: 1, h: 1 },
+                '216': { col: 2, row: 3, w: 1, h: 1 },
+                '218': { col: 3, row: 3, w: 1, h: 1 },
+                '219': { col: 4, row: 3, w: 1, h: 1 },
+                'F': { col: 5, row: 3, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Mercedes-Benz C-Class W205 (2015-2018) instrument-panel fuse box (front SAM) diagram.',
+                'Positions follow the W205 OEM numbering (200s on the front SAM); relay F (circuit 15R) sits on the same module.',
+                'Only C-Class W205 (2015-2021) and GLC X253 (2016-2022) model years in this range use this exact SAM — earlier/later generations differ; verify against the fuse box cover.',
+                'Uniform row-major grid in the app\'s data order; exact slot placement approximated from the source diagram — verify against the fuse box cover.'
+              ]
+            }
           },
           {
             name: 'Passenger Footwell Fuse Panel',
@@ -57350,7 +57738,47 @@ mercedes: {
               { pos: 'MF3-6', amps: 5, circuit: 'TPMS', desc: 'Tire pressure monitor' },
             ],
             relays: [
-            ]
+            ],
+            layout: {
+              cols: 7,
+              rows: 4,
+              cells: {
+                '301': { col: 1, row: 1, w: 1, h: 1 },
+                '302': { col: 2, row: 1, w: 1, h: 1 },
+                '303': { col: 3, row: 1, w: 1, h: 1 },
+                '304': { col: 4, row: 1, w: 1, h: 1 },
+                '305': { col: 5, row: 1, w: 1, h: 1 },
+                '306': { col: 6, row: 1, w: 1, h: 1 },
+                '308': { col: 7, row: 1, w: 1, h: 1 },
+                '309': { col: 1, row: 2, w: 1, h: 1 },
+                '311': { col: 2, row: 2, w: 1, h: 1 },
+                '312': { col: 3, row: 2, w: 1, h: 1 },
+                '315': { col: 4, row: 2, w: 1, h: 1 },
+                '316': { col: 5, row: 2, w: 1, h: 1 },
+                '317': { col: 6, row: 2, w: 1, h: 1 },
+                '318': { col: 7, row: 2, w: 1, h: 1 },
+                '320': { col: 1, row: 3, w: 1, h: 1 },
+                '322': { col: 2, row: 3, w: 1, h: 1 },
+                '323': { col: 3, row: 3, w: 1, h: 1 },
+                'MF1-1': { col: 4, row: 3, w: 1, h: 1 },
+                'MF1-2': { col: 5, row: 3, w: 1, h: 1 },
+                'MF1-3': { col: 6, row: 3, w: 1, h: 1 },
+                'MF2-1': { col: 7, row: 3, w: 1, h: 1 },
+                'MF2-2': { col: 1, row: 4, w: 1, h: 1 },
+                'MF2-3': { col: 2, row: 4, w: 1, h: 1 },
+                'MF2-4': { col: 3, row: 4, w: 1, h: 1 },
+                'MF3-2': { col: 4, row: 4, w: 1, h: 1 },
+                'MF3-4': { col: 5, row: 4, w: 1, h: 1 },
+                'MF3-5': { col: 6, row: 4, w: 1, h: 1 },
+                'MF3-6': { col: 7, row: 4, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Mercedes-Benz C-Class W205 (2015-2018) front-passenger footwell fuse box diagram.',
+                'Positions follow the W205 OEM numbering (300s main block, plus MF1/MF2/MF3 mini-fuse carriers listed at the end in the app\'s data order).',
+                'Only C-Class W205 (2015-2021) and GLC X253 (2016-2022) model years in this range use this exact footwell box — earlier/later generations differ; verify against the fuse box cover.',
+                'Uniform row-major grid in the app\'s data order; exact slot placement approximated from the source diagram — verify against the fuse box cover.'
+              ]
+            }
           },
           {
             name: 'Trunk Fuse Panel (Rear SAM)',
@@ -57398,7 +57826,59 @@ mercedes: {
               { pos: 'T', circuit: 'REAR HEAT', desc: 'Rear window heater relay' },
               { pos: 'U', circuit: 'SOCKET', desc: 'Rear seat row sockets relay' },
               { pos: 'X', circuit: 'SOCKET', desc: 'Front row / trunk sockets relay' },
-            ]
+            ],
+            layout: {
+              cols: 10,
+              rows: 4,
+              cells: {
+                '400': { col: 1, row: 1, w: 1, h: 1 },
+                '401': { col: 2, row: 1, w: 1, h: 1 },
+                '403': { col: 3, row: 1, w: 1, h: 1 },
+                '404': { col: 4, row: 1, w: 1, h: 1 },
+                '406': { col: 5, row: 1, w: 1, h: 1 },
+                '408': { col: 6, row: 1, w: 1, h: 1 },
+                '410': { col: 7, row: 1, w: 1, h: 1 },
+                '411': { col: 8, row: 1, w: 1, h: 1 },
+                '413': { col: 9, row: 1, w: 1, h: 1 },
+                '414': { col: 10, row: 1, w: 1, h: 1 },
+                '417': { col: 1, row: 2, w: 1, h: 1 },
+                '418': { col: 2, row: 2, w: 1, h: 1 },
+                '420': { col: 3, row: 2, w: 1, h: 1 },
+                '423': { col: 4, row: 2, w: 1, h: 1 },
+                '424': { col: 5, row: 2, w: 1, h: 1 },
+                '431': { col: 6, row: 2, w: 1, h: 1 },
+                '433': { col: 7, row: 2, w: 1, h: 1 },
+                '434': { col: 8, row: 2, w: 1, h: 1 },
+                '435': { col: 9, row: 2, w: 1, h: 1 },
+                '436': { col: 10, row: 2, w: 1, h: 1 },
+                '440': { col: 1, row: 3, w: 1, h: 1 },
+                '442': { col: 2, row: 3, w: 1, h: 1 },
+                '443': { col: 3, row: 3, w: 1, h: 1 },
+                '446': { col: 4, row: 3, w: 1, h: 1 },
+                '447': { col: 5, row: 3, w: 1, h: 1 },
+                '450': { col: 6, row: 3, w: 1, h: 1 },
+                '451': { col: 7, row: 3, w: 1, h: 1 },
+                '452': { col: 8, row: 3, w: 1, h: 1 },
+                '453': { col: 9, row: 3, w: 1, h: 1 },
+                '456': { col: 10, row: 3, w: 1, h: 1 },
+                '460': { col: 1, row: 4, w: 1, h: 1 },
+                '462': { col: 2, row: 4, w: 1, h: 1 },
+                '463': { col: 3, row: 4, w: 1, h: 1 },
+                '464': { col: 4, row: 4, w: 1, h: 1 },
+                '465': { col: 5, row: 4, w: 1, h: 1 },
+                '466': { col: 6, row: 4, w: 1, h: 1 },
+                'S': { col: 7, row: 4, w: 1, h: 1 },
+                'T': { col: 8, row: 4, w: 1, h: 1 },
+                'U': { col: 9, row: 4, w: 1, h: 1 },
+                'X': { col: 10, row: 4, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Mercedes-Benz C-Class W205 (2015-2018) luggage-compartment fuse box (rear SAM) diagram.',
+                'Positions follow the W205 OEM numbering (400s on the rear SAM); relays S/T/U/X (AdBlue relay V and spare Y are diesel/option-only, not in the app list).',
+                'Only C-Class W205 (2015-2021) and GLC X253 (2016-2022) model years in this range use this exact rear SAM — earlier/later generations differ; verify against the fuse box cover.',
+                'Uniform row-major grid in the app\'s data order; exact slot placement approximated from the source diagram — verify against the fuse box cover.'
+              ]
+            }
           }
         ]
       }
@@ -57439,7 +57919,46 @@ mercedes: {
               { pos: 'N', circuit: 'CIRCUIT 87', desc: 'Circuit 87M relay' },
               { pos: 'P', circuit: 'COOLANT PUMP', desc: 'Coolant pump relay' },
               { pos: 'R', circuit: 'AIRMATIC', desc: 'AIRMATIC relay' },
-            ]
+            ],
+            layout: {
+              cols: 9,
+              rows: 3,
+              cells: {
+                '101': { col: 1, row: 1, w: 1, h: 1 },
+                '102': { col: 2, row: 1, w: 1, h: 1 },
+                '103': { col: 3, row: 1, w: 1, h: 1 },
+                '104': { col: 4, row: 1, w: 1, h: 1 },
+                '107': { col: 5, row: 1, w: 1, h: 1 },
+                '108': { col: 6, row: 1, w: 1, h: 1 },
+                '109': { col: 7, row: 1, w: 1, h: 1 },
+                '110': { col: 8, row: 1, w: 1, h: 1 },
+                '111': { col: 9, row: 1, w: 1, h: 1 },
+                '114': { col: 1, row: 2, w: 1, h: 1 },
+                '115': { col: 2, row: 2, w: 1, h: 1 },
+                '118': { col: 3, row: 2, w: 1, h: 1 },
+                '119': { col: 4, row: 2, w: 1, h: 1 },
+                '121': { col: 5, row: 2, w: 1, h: 1 },
+                '122': { col: 6, row: 2, w: 1, h: 1 },
+                '125': { col: 7, row: 2, w: 1, h: 1 },
+                '126': { col: 8, row: 2, w: 1, h: 1 },
+                '128': { col: 9, row: 2, w: 1, h: 1 },
+                'G': { col: 1, row: 3, w: 1, h: 1 },
+                'H': { col: 2, row: 3, w: 1, h: 1 },
+                'J': { col: 3, row: 3, w: 1, h: 1 },
+                'K': { col: 4, row: 3, w: 1, h: 1 },
+                'L': { col: 5, row: 3, w: 1, h: 1 },
+                'M': { col: 6, row: 3, w: 1, h: 1 },
+                'N': { col: 7, row: 3, w: 1, h: 1 },
+                'P': { col: 8, row: 3, w: 1, h: 1 },
+                'R': { col: 9, row: 3, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Mercedes-Benz C-Class W205 (2015-2018) engine-compartment fuse box diagram; the app\'s Mercedes fuse list is this W205-generation (MRA platform) dataset.',
+                'Positions follow the W205 OEM numbering (100s engine bay); relays carry the OEM letters G/H/J/K/L/M/N/P/R (hybrid-only I/O/Q are not in the app list).',
+                'Only C-Class W205 (2015-2021) and GLC X253 (2016-2022) model years in this range use this exact box — earlier/later generations (e.g. W204/W206, X254) use different boxes; verify against the fuse box cover.',
+                'Uniform row-major grid in the app\'s data order; exact slot placement approximated from the source diagram (photos too compressed for per-slot OCR, consistent with prior waves) — verify against the fuse box cover.'
+              ]
+            }
           },
           {
             name: 'Front SAM Fuse Panel (Driver Side)',
@@ -57464,7 +57983,36 @@ mercedes: {
             ],
             relays: [
               { pos: 'F', circuit: 'CIRCUIT 15R', desc: 'Relay, circuit 15R' },
-            ]
+            ],
+            layout: {
+              cols: 6,
+              rows: 3,
+              cells: {
+                '200': { col: 1, row: 1, w: 1, h: 1 },
+                '201': { col: 2, row: 1, w: 1, h: 1 },
+                '202': { col: 3, row: 1, w: 1, h: 1 },
+                '203': { col: 4, row: 1, w: 1, h: 1 },
+                '204': { col: 5, row: 1, w: 1, h: 1 },
+                '205': { col: 6, row: 1, w: 1, h: 1 },
+                '206': { col: 1, row: 2, w: 1, h: 1 },
+                '207': { col: 2, row: 2, w: 1, h: 1 },
+                '208': { col: 3, row: 2, w: 1, h: 1 },
+                '209': { col: 4, row: 2, w: 1, h: 1 },
+                '210': { col: 5, row: 2, w: 1, h: 1 },
+                '213': { col: 6, row: 2, w: 1, h: 1 },
+                '214': { col: 1, row: 3, w: 1, h: 1 },
+                '216': { col: 2, row: 3, w: 1, h: 1 },
+                '218': { col: 3, row: 3, w: 1, h: 1 },
+                '219': { col: 4, row: 3, w: 1, h: 1 },
+                'F': { col: 5, row: 3, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Mercedes-Benz C-Class W205 (2015-2018) instrument-panel fuse box (front SAM) diagram.',
+                'Positions follow the W205 OEM numbering (200s on the front SAM); relay F (circuit 15R) sits on the same module.',
+                'Only C-Class W205 (2015-2021) and GLC X253 (2016-2022) model years in this range use this exact SAM — earlier/later generations differ; verify against the fuse box cover.',
+                'Uniform row-major grid in the app\'s data order; exact slot placement approximated from the source diagram — verify against the fuse box cover.'
+              ]
+            }
           },
           {
             name: 'Passenger Footwell Fuse Panel',
@@ -57500,7 +58048,47 @@ mercedes: {
               { pos: 'MF3-6', amps: 5, circuit: 'TPMS', desc: 'Tire pressure monitor' },
             ],
             relays: [
-            ]
+            ],
+            layout: {
+              cols: 7,
+              rows: 4,
+              cells: {
+                '301': { col: 1, row: 1, w: 1, h: 1 },
+                '302': { col: 2, row: 1, w: 1, h: 1 },
+                '303': { col: 3, row: 1, w: 1, h: 1 },
+                '304': { col: 4, row: 1, w: 1, h: 1 },
+                '305': { col: 5, row: 1, w: 1, h: 1 },
+                '306': { col: 6, row: 1, w: 1, h: 1 },
+                '308': { col: 7, row: 1, w: 1, h: 1 },
+                '309': { col: 1, row: 2, w: 1, h: 1 },
+                '311': { col: 2, row: 2, w: 1, h: 1 },
+                '312': { col: 3, row: 2, w: 1, h: 1 },
+                '315': { col: 4, row: 2, w: 1, h: 1 },
+                '316': { col: 5, row: 2, w: 1, h: 1 },
+                '317': { col: 6, row: 2, w: 1, h: 1 },
+                '318': { col: 7, row: 2, w: 1, h: 1 },
+                '320': { col: 1, row: 3, w: 1, h: 1 },
+                '322': { col: 2, row: 3, w: 1, h: 1 },
+                '323': { col: 3, row: 3, w: 1, h: 1 },
+                'MF1-1': { col: 4, row: 3, w: 1, h: 1 },
+                'MF1-2': { col: 5, row: 3, w: 1, h: 1 },
+                'MF1-3': { col: 6, row: 3, w: 1, h: 1 },
+                'MF2-1': { col: 7, row: 3, w: 1, h: 1 },
+                'MF2-2': { col: 1, row: 4, w: 1, h: 1 },
+                'MF2-3': { col: 2, row: 4, w: 1, h: 1 },
+                'MF2-4': { col: 3, row: 4, w: 1, h: 1 },
+                'MF3-2': { col: 4, row: 4, w: 1, h: 1 },
+                'MF3-4': { col: 5, row: 4, w: 1, h: 1 },
+                'MF3-5': { col: 6, row: 4, w: 1, h: 1 },
+                'MF3-6': { col: 7, row: 4, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Mercedes-Benz C-Class W205 (2015-2018) front-passenger footwell fuse box diagram.',
+                'Positions follow the W205 OEM numbering (300s main block, plus MF1/MF2/MF3 mini-fuse carriers listed at the end in the app\'s data order).',
+                'Only C-Class W205 (2015-2021) and GLC X253 (2016-2022) model years in this range use this exact footwell box — earlier/later generations differ; verify against the fuse box cover.',
+                'Uniform row-major grid in the app\'s data order; exact slot placement approximated from the source diagram — verify against the fuse box cover.'
+              ]
+            }
           },
           {
             name: 'Trunk Fuse Panel (Rear SAM)',
@@ -57548,7 +58136,59 @@ mercedes: {
               { pos: 'T', circuit: 'REAR HEAT', desc: 'Rear window heater relay' },
               { pos: 'U', circuit: 'SOCKET', desc: 'Rear seat row sockets relay' },
               { pos: 'X', circuit: 'SOCKET', desc: 'Front row / trunk sockets relay' },
-            ]
+            ],
+            layout: {
+              cols: 10,
+              rows: 4,
+              cells: {
+                '400': { col: 1, row: 1, w: 1, h: 1 },
+                '401': { col: 2, row: 1, w: 1, h: 1 },
+                '403': { col: 3, row: 1, w: 1, h: 1 },
+                '404': { col: 4, row: 1, w: 1, h: 1 },
+                '406': { col: 5, row: 1, w: 1, h: 1 },
+                '408': { col: 6, row: 1, w: 1, h: 1 },
+                '410': { col: 7, row: 1, w: 1, h: 1 },
+                '411': { col: 8, row: 1, w: 1, h: 1 },
+                '413': { col: 9, row: 1, w: 1, h: 1 },
+                '414': { col: 10, row: 1, w: 1, h: 1 },
+                '417': { col: 1, row: 2, w: 1, h: 1 },
+                '418': { col: 2, row: 2, w: 1, h: 1 },
+                '420': { col: 3, row: 2, w: 1, h: 1 },
+                '423': { col: 4, row: 2, w: 1, h: 1 },
+                '424': { col: 5, row: 2, w: 1, h: 1 },
+                '431': { col: 6, row: 2, w: 1, h: 1 },
+                '433': { col: 7, row: 2, w: 1, h: 1 },
+                '434': { col: 8, row: 2, w: 1, h: 1 },
+                '435': { col: 9, row: 2, w: 1, h: 1 },
+                '436': { col: 10, row: 2, w: 1, h: 1 },
+                '440': { col: 1, row: 3, w: 1, h: 1 },
+                '442': { col: 2, row: 3, w: 1, h: 1 },
+                '443': { col: 3, row: 3, w: 1, h: 1 },
+                '446': { col: 4, row: 3, w: 1, h: 1 },
+                '447': { col: 5, row: 3, w: 1, h: 1 },
+                '450': { col: 6, row: 3, w: 1, h: 1 },
+                '451': { col: 7, row: 3, w: 1, h: 1 },
+                '452': { col: 8, row: 3, w: 1, h: 1 },
+                '453': { col: 9, row: 3, w: 1, h: 1 },
+                '456': { col: 10, row: 3, w: 1, h: 1 },
+                '460': { col: 1, row: 4, w: 1, h: 1 },
+                '462': { col: 2, row: 4, w: 1, h: 1 },
+                '463': { col: 3, row: 4, w: 1, h: 1 },
+                '464': { col: 4, row: 4, w: 1, h: 1 },
+                '465': { col: 5, row: 4, w: 1, h: 1 },
+                '466': { col: 6, row: 4, w: 1, h: 1 },
+                'S': { col: 7, row: 4, w: 1, h: 1 },
+                'T': { col: 8, row: 4, w: 1, h: 1 },
+                'U': { col: 9, row: 4, w: 1, h: 1 },
+                'X': { col: 10, row: 4, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Mercedes-Benz C-Class W205 (2015-2018) luggage-compartment fuse box (rear SAM) diagram.',
+                'Positions follow the W205 OEM numbering (400s on the rear SAM); relays S/T/U/X (AdBlue relay V and spare Y are diesel/option-only, not in the app list).',
+                'Only C-Class W205 (2015-2021) and GLC X253 (2016-2022) model years in this range use this exact rear SAM — earlier/later generations differ; verify against the fuse box cover.',
+                'Uniform row-major grid in the app\'s data order; exact slot placement approximated from the source diagram — verify against the fuse box cover.'
+              ]
+            }
           }
         ]
       }
@@ -57589,7 +58229,46 @@ mercedes: {
               { pos: 'N', circuit: 'CIRCUIT 87', desc: 'Circuit 87M relay' },
               { pos: 'P', circuit: 'COOLANT PUMP', desc: 'Coolant pump relay' },
               { pos: 'R', circuit: 'AIRMATIC', desc: 'AIRMATIC relay' },
-            ]
+            ],
+            layout: {
+              cols: 9,
+              rows: 3,
+              cells: {
+                '101': { col: 1, row: 1, w: 1, h: 1 },
+                '102': { col: 2, row: 1, w: 1, h: 1 },
+                '103': { col: 3, row: 1, w: 1, h: 1 },
+                '104': { col: 4, row: 1, w: 1, h: 1 },
+                '107': { col: 5, row: 1, w: 1, h: 1 },
+                '108': { col: 6, row: 1, w: 1, h: 1 },
+                '109': { col: 7, row: 1, w: 1, h: 1 },
+                '110': { col: 8, row: 1, w: 1, h: 1 },
+                '111': { col: 9, row: 1, w: 1, h: 1 },
+                '114': { col: 1, row: 2, w: 1, h: 1 },
+                '115': { col: 2, row: 2, w: 1, h: 1 },
+                '118': { col: 3, row: 2, w: 1, h: 1 },
+                '119': { col: 4, row: 2, w: 1, h: 1 },
+                '121': { col: 5, row: 2, w: 1, h: 1 },
+                '122': { col: 6, row: 2, w: 1, h: 1 },
+                '125': { col: 7, row: 2, w: 1, h: 1 },
+                '126': { col: 8, row: 2, w: 1, h: 1 },
+                '128': { col: 9, row: 2, w: 1, h: 1 },
+                'G': { col: 1, row: 3, w: 1, h: 1 },
+                'H': { col: 2, row: 3, w: 1, h: 1 },
+                'J': { col: 3, row: 3, w: 1, h: 1 },
+                'K': { col: 4, row: 3, w: 1, h: 1 },
+                'L': { col: 5, row: 3, w: 1, h: 1 },
+                'M': { col: 6, row: 3, w: 1, h: 1 },
+                'N': { col: 7, row: 3, w: 1, h: 1 },
+                'P': { col: 8, row: 3, w: 1, h: 1 },
+                'R': { col: 9, row: 3, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Mercedes-Benz C-Class W205 (2015-2018) engine-compartment fuse box diagram; the app\'s Mercedes fuse list is this W205-generation (MRA platform) dataset.',
+                'Positions follow the W205 OEM numbering (100s engine bay); relays carry the OEM letters G/H/J/K/L/M/N/P/R (hybrid-only I/O/Q are not in the app list).',
+                'Only C-Class W205 (2015-2021) and GLC X253 (2016-2022) model years in this range use this exact box — earlier/later generations (e.g. W204/W206, X254) use different boxes; verify against the fuse box cover.',
+                'Uniform row-major grid in the app\'s data order; exact slot placement approximated from the source diagram (photos too compressed for per-slot OCR, consistent with prior waves) — verify against the fuse box cover.'
+              ]
+            }
           },
           {
             name: 'Front SAM Fuse Panel (Driver Side)',
@@ -57614,7 +58293,36 @@ mercedes: {
             ],
             relays: [
               { pos: 'F', circuit: 'CIRCUIT 15R', desc: 'Relay, circuit 15R' },
-            ]
+            ],
+            layout: {
+              cols: 6,
+              rows: 3,
+              cells: {
+                '200': { col: 1, row: 1, w: 1, h: 1 },
+                '201': { col: 2, row: 1, w: 1, h: 1 },
+                '202': { col: 3, row: 1, w: 1, h: 1 },
+                '203': { col: 4, row: 1, w: 1, h: 1 },
+                '204': { col: 5, row: 1, w: 1, h: 1 },
+                '205': { col: 6, row: 1, w: 1, h: 1 },
+                '206': { col: 1, row: 2, w: 1, h: 1 },
+                '207': { col: 2, row: 2, w: 1, h: 1 },
+                '208': { col: 3, row: 2, w: 1, h: 1 },
+                '209': { col: 4, row: 2, w: 1, h: 1 },
+                '210': { col: 5, row: 2, w: 1, h: 1 },
+                '213': { col: 6, row: 2, w: 1, h: 1 },
+                '214': { col: 1, row: 3, w: 1, h: 1 },
+                '216': { col: 2, row: 3, w: 1, h: 1 },
+                '218': { col: 3, row: 3, w: 1, h: 1 },
+                '219': { col: 4, row: 3, w: 1, h: 1 },
+                'F': { col: 5, row: 3, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Mercedes-Benz C-Class W205 (2015-2018) instrument-panel fuse box (front SAM) diagram.',
+                'Positions follow the W205 OEM numbering (200s on the front SAM); relay F (circuit 15R) sits on the same module.',
+                'Only C-Class W205 (2015-2021) and GLC X253 (2016-2022) model years in this range use this exact SAM — earlier/later generations differ; verify against the fuse box cover.',
+                'Uniform row-major grid in the app\'s data order; exact slot placement approximated from the source diagram — verify against the fuse box cover.'
+              ]
+            }
           },
           {
             name: 'Passenger Footwell Fuse Panel',
@@ -57650,7 +58358,47 @@ mercedes: {
               { pos: 'MF3-6', amps: 5, circuit: 'TPMS', desc: 'Tire pressure monitor' },
             ],
             relays: [
-            ]
+            ],
+            layout: {
+              cols: 7,
+              rows: 4,
+              cells: {
+                '301': { col: 1, row: 1, w: 1, h: 1 },
+                '302': { col: 2, row: 1, w: 1, h: 1 },
+                '303': { col: 3, row: 1, w: 1, h: 1 },
+                '304': { col: 4, row: 1, w: 1, h: 1 },
+                '305': { col: 5, row: 1, w: 1, h: 1 },
+                '306': { col: 6, row: 1, w: 1, h: 1 },
+                '308': { col: 7, row: 1, w: 1, h: 1 },
+                '309': { col: 1, row: 2, w: 1, h: 1 },
+                '311': { col: 2, row: 2, w: 1, h: 1 },
+                '312': { col: 3, row: 2, w: 1, h: 1 },
+                '315': { col: 4, row: 2, w: 1, h: 1 },
+                '316': { col: 5, row: 2, w: 1, h: 1 },
+                '317': { col: 6, row: 2, w: 1, h: 1 },
+                '318': { col: 7, row: 2, w: 1, h: 1 },
+                '320': { col: 1, row: 3, w: 1, h: 1 },
+                '322': { col: 2, row: 3, w: 1, h: 1 },
+                '323': { col: 3, row: 3, w: 1, h: 1 },
+                'MF1-1': { col: 4, row: 3, w: 1, h: 1 },
+                'MF1-2': { col: 5, row: 3, w: 1, h: 1 },
+                'MF1-3': { col: 6, row: 3, w: 1, h: 1 },
+                'MF2-1': { col: 7, row: 3, w: 1, h: 1 },
+                'MF2-2': { col: 1, row: 4, w: 1, h: 1 },
+                'MF2-3': { col: 2, row: 4, w: 1, h: 1 },
+                'MF2-4': { col: 3, row: 4, w: 1, h: 1 },
+                'MF3-2': { col: 4, row: 4, w: 1, h: 1 },
+                'MF3-4': { col: 5, row: 4, w: 1, h: 1 },
+                'MF3-5': { col: 6, row: 4, w: 1, h: 1 },
+                'MF3-6': { col: 7, row: 4, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Mercedes-Benz C-Class W205 (2015-2018) front-passenger footwell fuse box diagram.',
+                'Positions follow the W205 OEM numbering (300s main block, plus MF1/MF2/MF3 mini-fuse carriers listed at the end in the app\'s data order).',
+                'Only C-Class W205 (2015-2021) and GLC X253 (2016-2022) model years in this range use this exact footwell box — earlier/later generations differ; verify against the fuse box cover.',
+                'Uniform row-major grid in the app\'s data order; exact slot placement approximated from the source diagram — verify against the fuse box cover.'
+              ]
+            }
           },
           {
             name: 'Trunk Fuse Panel (Rear SAM)',
@@ -57698,7 +58446,59 @@ mercedes: {
               { pos: 'T', circuit: 'REAR HEAT', desc: 'Rear window heater relay' },
               { pos: 'U', circuit: 'SOCKET', desc: 'Rear seat row sockets relay' },
               { pos: 'X', circuit: 'SOCKET', desc: 'Front row / trunk sockets relay' },
-            ]
+            ],
+            layout: {
+              cols: 10,
+              rows: 4,
+              cells: {
+                '400': { col: 1, row: 1, w: 1, h: 1 },
+                '401': { col: 2, row: 1, w: 1, h: 1 },
+                '403': { col: 3, row: 1, w: 1, h: 1 },
+                '404': { col: 4, row: 1, w: 1, h: 1 },
+                '406': { col: 5, row: 1, w: 1, h: 1 },
+                '408': { col: 6, row: 1, w: 1, h: 1 },
+                '410': { col: 7, row: 1, w: 1, h: 1 },
+                '411': { col: 8, row: 1, w: 1, h: 1 },
+                '413': { col: 9, row: 1, w: 1, h: 1 },
+                '414': { col: 10, row: 1, w: 1, h: 1 },
+                '417': { col: 1, row: 2, w: 1, h: 1 },
+                '418': { col: 2, row: 2, w: 1, h: 1 },
+                '420': { col: 3, row: 2, w: 1, h: 1 },
+                '423': { col: 4, row: 2, w: 1, h: 1 },
+                '424': { col: 5, row: 2, w: 1, h: 1 },
+                '431': { col: 6, row: 2, w: 1, h: 1 },
+                '433': { col: 7, row: 2, w: 1, h: 1 },
+                '434': { col: 8, row: 2, w: 1, h: 1 },
+                '435': { col: 9, row: 2, w: 1, h: 1 },
+                '436': { col: 10, row: 2, w: 1, h: 1 },
+                '440': { col: 1, row: 3, w: 1, h: 1 },
+                '442': { col: 2, row: 3, w: 1, h: 1 },
+                '443': { col: 3, row: 3, w: 1, h: 1 },
+                '446': { col: 4, row: 3, w: 1, h: 1 },
+                '447': { col: 5, row: 3, w: 1, h: 1 },
+                '450': { col: 6, row: 3, w: 1, h: 1 },
+                '451': { col: 7, row: 3, w: 1, h: 1 },
+                '452': { col: 8, row: 3, w: 1, h: 1 },
+                '453': { col: 9, row: 3, w: 1, h: 1 },
+                '456': { col: 10, row: 3, w: 1, h: 1 },
+                '460': { col: 1, row: 4, w: 1, h: 1 },
+                '462': { col: 2, row: 4, w: 1, h: 1 },
+                '463': { col: 3, row: 4, w: 1, h: 1 },
+                '464': { col: 4, row: 4, w: 1, h: 1 },
+                '465': { col: 5, row: 4, w: 1, h: 1 },
+                '466': { col: 6, row: 4, w: 1, h: 1 },
+                'S': { col: 7, row: 4, w: 1, h: 1 },
+                'T': { col: 8, row: 4, w: 1, h: 1 },
+                'U': { col: 9, row: 4, w: 1, h: 1 },
+                'X': { col: 10, row: 4, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Mercedes-Benz C-Class W205 (2015-2018) luggage-compartment fuse box (rear SAM) diagram.',
+                'Positions follow the W205 OEM numbering (400s on the rear SAM); relays S/T/U/X (AdBlue relay V and spare Y are diesel/option-only, not in the app list).',
+                'Only C-Class W205 (2015-2021) and GLC X253 (2016-2022) model years in this range use this exact rear SAM — earlier/later generations differ; verify against the fuse box cover.',
+                'Uniform row-major grid in the app\'s data order; exact slot placement approximated from the source diagram — verify against the fuse box cover.'
+              ]
+            }
           }
         ]
       }
@@ -58939,7 +59739,46 @@ mercedes: {
               { pos: 'N', circuit: 'CIRCUIT 87', desc: 'Circuit 87M relay' },
               { pos: 'P', circuit: 'COOLANT PUMP', desc: 'Coolant pump relay' },
               { pos: 'R', circuit: 'AIRMATIC', desc: 'AIRMATIC relay' },
-            ]
+            ],
+            layout: {
+              cols: 9,
+              rows: 3,
+              cells: {
+                '101': { col: 1, row: 1, w: 1, h: 1 },
+                '102': { col: 2, row: 1, w: 1, h: 1 },
+                '103': { col: 3, row: 1, w: 1, h: 1 },
+                '104': { col: 4, row: 1, w: 1, h: 1 },
+                '107': { col: 5, row: 1, w: 1, h: 1 },
+                '108': { col: 6, row: 1, w: 1, h: 1 },
+                '109': { col: 7, row: 1, w: 1, h: 1 },
+                '110': { col: 8, row: 1, w: 1, h: 1 },
+                '111': { col: 9, row: 1, w: 1, h: 1 },
+                '114': { col: 1, row: 2, w: 1, h: 1 },
+                '115': { col: 2, row: 2, w: 1, h: 1 },
+                '118': { col: 3, row: 2, w: 1, h: 1 },
+                '119': { col: 4, row: 2, w: 1, h: 1 },
+                '121': { col: 5, row: 2, w: 1, h: 1 },
+                '122': { col: 6, row: 2, w: 1, h: 1 },
+                '125': { col: 7, row: 2, w: 1, h: 1 },
+                '126': { col: 8, row: 2, w: 1, h: 1 },
+                '128': { col: 9, row: 2, w: 1, h: 1 },
+                'G': { col: 1, row: 3, w: 1, h: 1 },
+                'H': { col: 2, row: 3, w: 1, h: 1 },
+                'J': { col: 3, row: 3, w: 1, h: 1 },
+                'K': { col: 4, row: 3, w: 1, h: 1 },
+                'L': { col: 5, row: 3, w: 1, h: 1 },
+                'M': { col: 6, row: 3, w: 1, h: 1 },
+                'N': { col: 7, row: 3, w: 1, h: 1 },
+                'P': { col: 8, row: 3, w: 1, h: 1 },
+                'R': { col: 9, row: 3, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Mercedes-Benz C-Class W205 (2015-2018) engine-compartment fuse box diagram; the app\'s Mercedes fuse list is this W205-generation (MRA platform) dataset.',
+                'Positions follow the W205 OEM numbering (100s engine bay); relays carry the OEM letters G/H/J/K/L/M/N/P/R (hybrid-only I/O/Q are not in the app list).',
+                'Only C-Class W205 (2015-2021) and GLC X253 (2016-2022) model years in this range use this exact box — earlier/later generations (e.g. W204/W206, X254) use different boxes; verify against the fuse box cover.',
+                'Uniform row-major grid in the app\'s data order; exact slot placement approximated from the source diagram (photos too compressed for per-slot OCR, consistent with prior waves) — verify against the fuse box cover.'
+              ]
+            }
           },
           {
             name: 'Front SAM Fuse Panel (Driver Side)',
@@ -58964,7 +59803,36 @@ mercedes: {
             ],
             relays: [
               { pos: 'F', circuit: 'CIRCUIT 15R', desc: 'Relay, circuit 15R' },
-            ]
+            ],
+            layout: {
+              cols: 6,
+              rows: 3,
+              cells: {
+                '200': { col: 1, row: 1, w: 1, h: 1 },
+                '201': { col: 2, row: 1, w: 1, h: 1 },
+                '202': { col: 3, row: 1, w: 1, h: 1 },
+                '203': { col: 4, row: 1, w: 1, h: 1 },
+                '204': { col: 5, row: 1, w: 1, h: 1 },
+                '205': { col: 6, row: 1, w: 1, h: 1 },
+                '206': { col: 1, row: 2, w: 1, h: 1 },
+                '207': { col: 2, row: 2, w: 1, h: 1 },
+                '208': { col: 3, row: 2, w: 1, h: 1 },
+                '209': { col: 4, row: 2, w: 1, h: 1 },
+                '210': { col: 5, row: 2, w: 1, h: 1 },
+                '213': { col: 6, row: 2, w: 1, h: 1 },
+                '214': { col: 1, row: 3, w: 1, h: 1 },
+                '216': { col: 2, row: 3, w: 1, h: 1 },
+                '218': { col: 3, row: 3, w: 1, h: 1 },
+                '219': { col: 4, row: 3, w: 1, h: 1 },
+                'F': { col: 5, row: 3, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Mercedes-Benz C-Class W205 (2015-2018) instrument-panel fuse box (front SAM) diagram.',
+                'Positions follow the W205 OEM numbering (200s on the front SAM); relay F (circuit 15R) sits on the same module.',
+                'Only C-Class W205 (2015-2021) and GLC X253 (2016-2022) model years in this range use this exact SAM — earlier/later generations differ; verify against the fuse box cover.',
+                'Uniform row-major grid in the app\'s data order; exact slot placement approximated from the source diagram — verify against the fuse box cover.'
+              ]
+            }
           },
           {
             name: 'Passenger Footwell Fuse Panel',
@@ -59000,7 +59868,47 @@ mercedes: {
               { pos: 'MF3-6', amps: 5, circuit: 'TPMS', desc: 'Tire pressure monitor' },
             ],
             relays: [
-            ]
+            ],
+            layout: {
+              cols: 7,
+              rows: 4,
+              cells: {
+                '301': { col: 1, row: 1, w: 1, h: 1 },
+                '302': { col: 2, row: 1, w: 1, h: 1 },
+                '303': { col: 3, row: 1, w: 1, h: 1 },
+                '304': { col: 4, row: 1, w: 1, h: 1 },
+                '305': { col: 5, row: 1, w: 1, h: 1 },
+                '306': { col: 6, row: 1, w: 1, h: 1 },
+                '308': { col: 7, row: 1, w: 1, h: 1 },
+                '309': { col: 1, row: 2, w: 1, h: 1 },
+                '311': { col: 2, row: 2, w: 1, h: 1 },
+                '312': { col: 3, row: 2, w: 1, h: 1 },
+                '315': { col: 4, row: 2, w: 1, h: 1 },
+                '316': { col: 5, row: 2, w: 1, h: 1 },
+                '317': { col: 6, row: 2, w: 1, h: 1 },
+                '318': { col: 7, row: 2, w: 1, h: 1 },
+                '320': { col: 1, row: 3, w: 1, h: 1 },
+                '322': { col: 2, row: 3, w: 1, h: 1 },
+                '323': { col: 3, row: 3, w: 1, h: 1 },
+                'MF1-1': { col: 4, row: 3, w: 1, h: 1 },
+                'MF1-2': { col: 5, row: 3, w: 1, h: 1 },
+                'MF1-3': { col: 6, row: 3, w: 1, h: 1 },
+                'MF2-1': { col: 7, row: 3, w: 1, h: 1 },
+                'MF2-2': { col: 1, row: 4, w: 1, h: 1 },
+                'MF2-3': { col: 2, row: 4, w: 1, h: 1 },
+                'MF2-4': { col: 3, row: 4, w: 1, h: 1 },
+                'MF3-2': { col: 4, row: 4, w: 1, h: 1 },
+                'MF3-4': { col: 5, row: 4, w: 1, h: 1 },
+                'MF3-5': { col: 6, row: 4, w: 1, h: 1 },
+                'MF3-6': { col: 7, row: 4, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Mercedes-Benz C-Class W205 (2015-2018) front-passenger footwell fuse box diagram.',
+                'Positions follow the W205 OEM numbering (300s main block, plus MF1/MF2/MF3 mini-fuse carriers listed at the end in the app\'s data order).',
+                'Only C-Class W205 (2015-2021) and GLC X253 (2016-2022) model years in this range use this exact footwell box — earlier/later generations differ; verify against the fuse box cover.',
+                'Uniform row-major grid in the app\'s data order; exact slot placement approximated from the source diagram — verify against the fuse box cover.'
+              ]
+            }
           },
           {
             name: 'Trunk Fuse Panel (Rear SAM)',
@@ -59048,7 +59956,59 @@ mercedes: {
               { pos: 'T', circuit: 'REAR HEAT', desc: 'Rear window heater relay' },
               { pos: 'U', circuit: 'SOCKET', desc: 'Rear seat row sockets relay' },
               { pos: 'X', circuit: 'SOCKET', desc: 'Front row / trunk sockets relay' },
-            ]
+            ],
+            layout: {
+              cols: 10,
+              rows: 4,
+              cells: {
+                '400': { col: 1, row: 1, w: 1, h: 1 },
+                '401': { col: 2, row: 1, w: 1, h: 1 },
+                '403': { col: 3, row: 1, w: 1, h: 1 },
+                '404': { col: 4, row: 1, w: 1, h: 1 },
+                '406': { col: 5, row: 1, w: 1, h: 1 },
+                '408': { col: 6, row: 1, w: 1, h: 1 },
+                '410': { col: 7, row: 1, w: 1, h: 1 },
+                '411': { col: 8, row: 1, w: 1, h: 1 },
+                '413': { col: 9, row: 1, w: 1, h: 1 },
+                '414': { col: 10, row: 1, w: 1, h: 1 },
+                '417': { col: 1, row: 2, w: 1, h: 1 },
+                '418': { col: 2, row: 2, w: 1, h: 1 },
+                '420': { col: 3, row: 2, w: 1, h: 1 },
+                '423': { col: 4, row: 2, w: 1, h: 1 },
+                '424': { col: 5, row: 2, w: 1, h: 1 },
+                '431': { col: 6, row: 2, w: 1, h: 1 },
+                '433': { col: 7, row: 2, w: 1, h: 1 },
+                '434': { col: 8, row: 2, w: 1, h: 1 },
+                '435': { col: 9, row: 2, w: 1, h: 1 },
+                '436': { col: 10, row: 2, w: 1, h: 1 },
+                '440': { col: 1, row: 3, w: 1, h: 1 },
+                '442': { col: 2, row: 3, w: 1, h: 1 },
+                '443': { col: 3, row: 3, w: 1, h: 1 },
+                '446': { col: 4, row: 3, w: 1, h: 1 },
+                '447': { col: 5, row: 3, w: 1, h: 1 },
+                '450': { col: 6, row: 3, w: 1, h: 1 },
+                '451': { col: 7, row: 3, w: 1, h: 1 },
+                '452': { col: 8, row: 3, w: 1, h: 1 },
+                '453': { col: 9, row: 3, w: 1, h: 1 },
+                '456': { col: 10, row: 3, w: 1, h: 1 },
+                '460': { col: 1, row: 4, w: 1, h: 1 },
+                '462': { col: 2, row: 4, w: 1, h: 1 },
+                '463': { col: 3, row: 4, w: 1, h: 1 },
+                '464': { col: 4, row: 4, w: 1, h: 1 },
+                '465': { col: 5, row: 4, w: 1, h: 1 },
+                '466': { col: 6, row: 4, w: 1, h: 1 },
+                'S': { col: 7, row: 4, w: 1, h: 1 },
+                'T': { col: 8, row: 4, w: 1, h: 1 },
+                'U': { col: 9, row: 4, w: 1, h: 1 },
+                'X': { col: 10, row: 4, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Mercedes-Benz C-Class W205 (2015-2018) luggage-compartment fuse box (rear SAM) diagram.',
+                'Positions follow the W205 OEM numbering (400s on the rear SAM); relays S/T/U/X (AdBlue relay V and spare Y are diesel/option-only, not in the app list).',
+                'Only C-Class W205 (2015-2021) and GLC X253 (2016-2022) model years in this range use this exact rear SAM — earlier/later generations differ; verify against the fuse box cover.',
+                'Uniform row-major grid in the app\'s data order; exact slot placement approximated from the source diagram — verify against the fuse box cover.'
+              ]
+            }
           }
         ]
       }
@@ -59089,7 +60049,46 @@ mercedes: {
               { pos: 'N', circuit: 'CIRCUIT 87', desc: 'Circuit 87M relay' },
               { pos: 'P', circuit: 'COOLANT PUMP', desc: 'Coolant pump relay' },
               { pos: 'R', circuit: 'AIRMATIC', desc: 'AIRMATIC relay' },
-            ]
+            ],
+            layout: {
+              cols: 9,
+              rows: 3,
+              cells: {
+                '101': { col: 1, row: 1, w: 1, h: 1 },
+                '102': { col: 2, row: 1, w: 1, h: 1 },
+                '103': { col: 3, row: 1, w: 1, h: 1 },
+                '104': { col: 4, row: 1, w: 1, h: 1 },
+                '107': { col: 5, row: 1, w: 1, h: 1 },
+                '108': { col: 6, row: 1, w: 1, h: 1 },
+                '109': { col: 7, row: 1, w: 1, h: 1 },
+                '110': { col: 8, row: 1, w: 1, h: 1 },
+                '111': { col: 9, row: 1, w: 1, h: 1 },
+                '114': { col: 1, row: 2, w: 1, h: 1 },
+                '115': { col: 2, row: 2, w: 1, h: 1 },
+                '118': { col: 3, row: 2, w: 1, h: 1 },
+                '119': { col: 4, row: 2, w: 1, h: 1 },
+                '121': { col: 5, row: 2, w: 1, h: 1 },
+                '122': { col: 6, row: 2, w: 1, h: 1 },
+                '125': { col: 7, row: 2, w: 1, h: 1 },
+                '126': { col: 8, row: 2, w: 1, h: 1 },
+                '128': { col: 9, row: 2, w: 1, h: 1 },
+                'G': { col: 1, row: 3, w: 1, h: 1 },
+                'H': { col: 2, row: 3, w: 1, h: 1 },
+                'J': { col: 3, row: 3, w: 1, h: 1 },
+                'K': { col: 4, row: 3, w: 1, h: 1 },
+                'L': { col: 5, row: 3, w: 1, h: 1 },
+                'M': { col: 6, row: 3, w: 1, h: 1 },
+                'N': { col: 7, row: 3, w: 1, h: 1 },
+                'P': { col: 8, row: 3, w: 1, h: 1 },
+                'R': { col: 9, row: 3, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Mercedes-Benz C-Class W205 (2015-2018) engine-compartment fuse box diagram; the app\'s Mercedes fuse list is this W205-generation (MRA platform) dataset.',
+                'Positions follow the W205 OEM numbering (100s engine bay); relays carry the OEM letters G/H/J/K/L/M/N/P/R (hybrid-only I/O/Q are not in the app list).',
+                'Only C-Class W205 (2015-2021) and GLC X253 (2016-2022) model years in this range use this exact box — earlier/later generations (e.g. W204/W206, X254) use different boxes; verify against the fuse box cover.',
+                'Uniform row-major grid in the app\'s data order; exact slot placement approximated from the source diagram (photos too compressed for per-slot OCR, consistent with prior waves) — verify against the fuse box cover.'
+              ]
+            }
           },
           {
             name: 'Front SAM Fuse Panel (Driver Side)',
@@ -59114,7 +60113,36 @@ mercedes: {
             ],
             relays: [
               { pos: 'F', circuit: 'CIRCUIT 15R', desc: 'Relay, circuit 15R' },
-            ]
+            ],
+            layout: {
+              cols: 6,
+              rows: 3,
+              cells: {
+                '200': { col: 1, row: 1, w: 1, h: 1 },
+                '201': { col: 2, row: 1, w: 1, h: 1 },
+                '202': { col: 3, row: 1, w: 1, h: 1 },
+                '203': { col: 4, row: 1, w: 1, h: 1 },
+                '204': { col: 5, row: 1, w: 1, h: 1 },
+                '205': { col: 6, row: 1, w: 1, h: 1 },
+                '206': { col: 1, row: 2, w: 1, h: 1 },
+                '207': { col: 2, row: 2, w: 1, h: 1 },
+                '208': { col: 3, row: 2, w: 1, h: 1 },
+                '209': { col: 4, row: 2, w: 1, h: 1 },
+                '210': { col: 5, row: 2, w: 1, h: 1 },
+                '213': { col: 6, row: 2, w: 1, h: 1 },
+                '214': { col: 1, row: 3, w: 1, h: 1 },
+                '216': { col: 2, row: 3, w: 1, h: 1 },
+                '218': { col: 3, row: 3, w: 1, h: 1 },
+                '219': { col: 4, row: 3, w: 1, h: 1 },
+                'F': { col: 5, row: 3, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Mercedes-Benz C-Class W205 (2015-2018) instrument-panel fuse box (front SAM) diagram.',
+                'Positions follow the W205 OEM numbering (200s on the front SAM); relay F (circuit 15R) sits on the same module.',
+                'Only C-Class W205 (2015-2021) and GLC X253 (2016-2022) model years in this range use this exact SAM — earlier/later generations differ; verify against the fuse box cover.',
+                'Uniform row-major grid in the app\'s data order; exact slot placement approximated from the source diagram — verify against the fuse box cover.'
+              ]
+            }
           },
           {
             name: 'Passenger Footwell Fuse Panel',
@@ -59150,7 +60178,47 @@ mercedes: {
               { pos: 'MF3-6', amps: 5, circuit: 'TPMS', desc: 'Tire pressure monitor' },
             ],
             relays: [
-            ]
+            ],
+            layout: {
+              cols: 7,
+              rows: 4,
+              cells: {
+                '301': { col: 1, row: 1, w: 1, h: 1 },
+                '302': { col: 2, row: 1, w: 1, h: 1 },
+                '303': { col: 3, row: 1, w: 1, h: 1 },
+                '304': { col: 4, row: 1, w: 1, h: 1 },
+                '305': { col: 5, row: 1, w: 1, h: 1 },
+                '306': { col: 6, row: 1, w: 1, h: 1 },
+                '308': { col: 7, row: 1, w: 1, h: 1 },
+                '309': { col: 1, row: 2, w: 1, h: 1 },
+                '311': { col: 2, row: 2, w: 1, h: 1 },
+                '312': { col: 3, row: 2, w: 1, h: 1 },
+                '315': { col: 4, row: 2, w: 1, h: 1 },
+                '316': { col: 5, row: 2, w: 1, h: 1 },
+                '317': { col: 6, row: 2, w: 1, h: 1 },
+                '318': { col: 7, row: 2, w: 1, h: 1 },
+                '320': { col: 1, row: 3, w: 1, h: 1 },
+                '322': { col: 2, row: 3, w: 1, h: 1 },
+                '323': { col: 3, row: 3, w: 1, h: 1 },
+                'MF1-1': { col: 4, row: 3, w: 1, h: 1 },
+                'MF1-2': { col: 5, row: 3, w: 1, h: 1 },
+                'MF1-3': { col: 6, row: 3, w: 1, h: 1 },
+                'MF2-1': { col: 7, row: 3, w: 1, h: 1 },
+                'MF2-2': { col: 1, row: 4, w: 1, h: 1 },
+                'MF2-3': { col: 2, row: 4, w: 1, h: 1 },
+                'MF2-4': { col: 3, row: 4, w: 1, h: 1 },
+                'MF3-2': { col: 4, row: 4, w: 1, h: 1 },
+                'MF3-4': { col: 5, row: 4, w: 1, h: 1 },
+                'MF3-5': { col: 6, row: 4, w: 1, h: 1 },
+                'MF3-6': { col: 7, row: 4, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Mercedes-Benz C-Class W205 (2015-2018) front-passenger footwell fuse box diagram.',
+                'Positions follow the W205 OEM numbering (300s main block, plus MF1/MF2/MF3 mini-fuse carriers listed at the end in the app\'s data order).',
+                'Only C-Class W205 (2015-2021) and GLC X253 (2016-2022) model years in this range use this exact footwell box — earlier/later generations differ; verify against the fuse box cover.',
+                'Uniform row-major grid in the app\'s data order; exact slot placement approximated from the source diagram — verify against the fuse box cover.'
+              ]
+            }
           },
           {
             name: 'Trunk Fuse Panel (Rear SAM)',
@@ -59198,7 +60266,59 @@ mercedes: {
               { pos: 'T', circuit: 'REAR HEAT', desc: 'Rear window heater relay' },
               { pos: 'U', circuit: 'SOCKET', desc: 'Rear seat row sockets relay' },
               { pos: 'X', circuit: 'SOCKET', desc: 'Front row / trunk sockets relay' },
-            ]
+            ],
+            layout: {
+              cols: 10,
+              rows: 4,
+              cells: {
+                '400': { col: 1, row: 1, w: 1, h: 1 },
+                '401': { col: 2, row: 1, w: 1, h: 1 },
+                '403': { col: 3, row: 1, w: 1, h: 1 },
+                '404': { col: 4, row: 1, w: 1, h: 1 },
+                '406': { col: 5, row: 1, w: 1, h: 1 },
+                '408': { col: 6, row: 1, w: 1, h: 1 },
+                '410': { col: 7, row: 1, w: 1, h: 1 },
+                '411': { col: 8, row: 1, w: 1, h: 1 },
+                '413': { col: 9, row: 1, w: 1, h: 1 },
+                '414': { col: 10, row: 1, w: 1, h: 1 },
+                '417': { col: 1, row: 2, w: 1, h: 1 },
+                '418': { col: 2, row: 2, w: 1, h: 1 },
+                '420': { col: 3, row: 2, w: 1, h: 1 },
+                '423': { col: 4, row: 2, w: 1, h: 1 },
+                '424': { col: 5, row: 2, w: 1, h: 1 },
+                '431': { col: 6, row: 2, w: 1, h: 1 },
+                '433': { col: 7, row: 2, w: 1, h: 1 },
+                '434': { col: 8, row: 2, w: 1, h: 1 },
+                '435': { col: 9, row: 2, w: 1, h: 1 },
+                '436': { col: 10, row: 2, w: 1, h: 1 },
+                '440': { col: 1, row: 3, w: 1, h: 1 },
+                '442': { col: 2, row: 3, w: 1, h: 1 },
+                '443': { col: 3, row: 3, w: 1, h: 1 },
+                '446': { col: 4, row: 3, w: 1, h: 1 },
+                '447': { col: 5, row: 3, w: 1, h: 1 },
+                '450': { col: 6, row: 3, w: 1, h: 1 },
+                '451': { col: 7, row: 3, w: 1, h: 1 },
+                '452': { col: 8, row: 3, w: 1, h: 1 },
+                '453': { col: 9, row: 3, w: 1, h: 1 },
+                '456': { col: 10, row: 3, w: 1, h: 1 },
+                '460': { col: 1, row: 4, w: 1, h: 1 },
+                '462': { col: 2, row: 4, w: 1, h: 1 },
+                '463': { col: 3, row: 4, w: 1, h: 1 },
+                '464': { col: 4, row: 4, w: 1, h: 1 },
+                '465': { col: 5, row: 4, w: 1, h: 1 },
+                '466': { col: 6, row: 4, w: 1, h: 1 },
+                'S': { col: 7, row: 4, w: 1, h: 1 },
+                'T': { col: 8, row: 4, w: 1, h: 1 },
+                'U': { col: 9, row: 4, w: 1, h: 1 },
+                'X': { col: 10, row: 4, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Mercedes-Benz C-Class W205 (2015-2018) luggage-compartment fuse box (rear SAM) diagram.',
+                'Positions follow the W205 OEM numbering (400s on the rear SAM); relays S/T/U/X (AdBlue relay V and spare Y are diesel/option-only, not in the app list).',
+                'Only C-Class W205 (2015-2021) and GLC X253 (2016-2022) model years in this range use this exact rear SAM — earlier/later generations differ; verify against the fuse box cover.',
+                'Uniform row-major grid in the app\'s data order; exact slot placement approximated from the source diagram — verify against the fuse box cover.'
+              ]
+            }
           }
         ]
       }
@@ -59239,7 +60359,46 @@ mercedes: {
               { pos: 'N', circuit: 'CIRCUIT 87', desc: 'Circuit 87M relay' },
               { pos: 'P', circuit: 'COOLANT PUMP', desc: 'Coolant pump relay' },
               { pos: 'R', circuit: 'AIRMATIC', desc: 'AIRMATIC relay' },
-            ]
+            ],
+            layout: {
+              cols: 9,
+              rows: 3,
+              cells: {
+                '101': { col: 1, row: 1, w: 1, h: 1 },
+                '102': { col: 2, row: 1, w: 1, h: 1 },
+                '103': { col: 3, row: 1, w: 1, h: 1 },
+                '104': { col: 4, row: 1, w: 1, h: 1 },
+                '107': { col: 5, row: 1, w: 1, h: 1 },
+                '108': { col: 6, row: 1, w: 1, h: 1 },
+                '109': { col: 7, row: 1, w: 1, h: 1 },
+                '110': { col: 8, row: 1, w: 1, h: 1 },
+                '111': { col: 9, row: 1, w: 1, h: 1 },
+                '114': { col: 1, row: 2, w: 1, h: 1 },
+                '115': { col: 2, row: 2, w: 1, h: 1 },
+                '118': { col: 3, row: 2, w: 1, h: 1 },
+                '119': { col: 4, row: 2, w: 1, h: 1 },
+                '121': { col: 5, row: 2, w: 1, h: 1 },
+                '122': { col: 6, row: 2, w: 1, h: 1 },
+                '125': { col: 7, row: 2, w: 1, h: 1 },
+                '126': { col: 8, row: 2, w: 1, h: 1 },
+                '128': { col: 9, row: 2, w: 1, h: 1 },
+                'G': { col: 1, row: 3, w: 1, h: 1 },
+                'H': { col: 2, row: 3, w: 1, h: 1 },
+                'J': { col: 3, row: 3, w: 1, h: 1 },
+                'K': { col: 4, row: 3, w: 1, h: 1 },
+                'L': { col: 5, row: 3, w: 1, h: 1 },
+                'M': { col: 6, row: 3, w: 1, h: 1 },
+                'N': { col: 7, row: 3, w: 1, h: 1 },
+                'P': { col: 8, row: 3, w: 1, h: 1 },
+                'R': { col: 9, row: 3, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Mercedes-Benz C-Class W205 (2015-2018) engine-compartment fuse box diagram; the app\'s Mercedes fuse list is this W205-generation (MRA platform) dataset.',
+                'Positions follow the W205 OEM numbering (100s engine bay); relays carry the OEM letters G/H/J/K/L/M/N/P/R (hybrid-only I/O/Q are not in the app list).',
+                'Only C-Class W205 (2015-2021) and GLC X253 (2016-2022) model years in this range use this exact box — earlier/later generations (e.g. W204/W206, X254) use different boxes; verify against the fuse box cover.',
+                'Uniform row-major grid in the app\'s data order; exact slot placement approximated from the source diagram (photos too compressed for per-slot OCR, consistent with prior waves) — verify against the fuse box cover.'
+              ]
+            }
           },
           {
             name: 'Front SAM Fuse Panel (Driver Side)',
@@ -59264,7 +60423,36 @@ mercedes: {
             ],
             relays: [
               { pos: 'F', circuit: 'CIRCUIT 15R', desc: 'Relay, circuit 15R' },
-            ]
+            ],
+            layout: {
+              cols: 6,
+              rows: 3,
+              cells: {
+                '200': { col: 1, row: 1, w: 1, h: 1 },
+                '201': { col: 2, row: 1, w: 1, h: 1 },
+                '202': { col: 3, row: 1, w: 1, h: 1 },
+                '203': { col: 4, row: 1, w: 1, h: 1 },
+                '204': { col: 5, row: 1, w: 1, h: 1 },
+                '205': { col: 6, row: 1, w: 1, h: 1 },
+                '206': { col: 1, row: 2, w: 1, h: 1 },
+                '207': { col: 2, row: 2, w: 1, h: 1 },
+                '208': { col: 3, row: 2, w: 1, h: 1 },
+                '209': { col: 4, row: 2, w: 1, h: 1 },
+                '210': { col: 5, row: 2, w: 1, h: 1 },
+                '213': { col: 6, row: 2, w: 1, h: 1 },
+                '214': { col: 1, row: 3, w: 1, h: 1 },
+                '216': { col: 2, row: 3, w: 1, h: 1 },
+                '218': { col: 3, row: 3, w: 1, h: 1 },
+                '219': { col: 4, row: 3, w: 1, h: 1 },
+                'F': { col: 5, row: 3, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Mercedes-Benz C-Class W205 (2015-2018) instrument-panel fuse box (front SAM) diagram.',
+                'Positions follow the W205 OEM numbering (200s on the front SAM); relay F (circuit 15R) sits on the same module.',
+                'Only C-Class W205 (2015-2021) and GLC X253 (2016-2022) model years in this range use this exact SAM — earlier/later generations differ; verify against the fuse box cover.',
+                'Uniform row-major grid in the app\'s data order; exact slot placement approximated from the source diagram — verify against the fuse box cover.'
+              ]
+            }
           },
           {
             name: 'Passenger Footwell Fuse Panel',
@@ -59300,7 +60488,47 @@ mercedes: {
               { pos: 'MF3-6', amps: 5, circuit: 'TPMS', desc: 'Tire pressure monitor' },
             ],
             relays: [
-            ]
+            ],
+            layout: {
+              cols: 7,
+              rows: 4,
+              cells: {
+                '301': { col: 1, row: 1, w: 1, h: 1 },
+                '302': { col: 2, row: 1, w: 1, h: 1 },
+                '303': { col: 3, row: 1, w: 1, h: 1 },
+                '304': { col: 4, row: 1, w: 1, h: 1 },
+                '305': { col: 5, row: 1, w: 1, h: 1 },
+                '306': { col: 6, row: 1, w: 1, h: 1 },
+                '308': { col: 7, row: 1, w: 1, h: 1 },
+                '309': { col: 1, row: 2, w: 1, h: 1 },
+                '311': { col: 2, row: 2, w: 1, h: 1 },
+                '312': { col: 3, row: 2, w: 1, h: 1 },
+                '315': { col: 4, row: 2, w: 1, h: 1 },
+                '316': { col: 5, row: 2, w: 1, h: 1 },
+                '317': { col: 6, row: 2, w: 1, h: 1 },
+                '318': { col: 7, row: 2, w: 1, h: 1 },
+                '320': { col: 1, row: 3, w: 1, h: 1 },
+                '322': { col: 2, row: 3, w: 1, h: 1 },
+                '323': { col: 3, row: 3, w: 1, h: 1 },
+                'MF1-1': { col: 4, row: 3, w: 1, h: 1 },
+                'MF1-2': { col: 5, row: 3, w: 1, h: 1 },
+                'MF1-3': { col: 6, row: 3, w: 1, h: 1 },
+                'MF2-1': { col: 7, row: 3, w: 1, h: 1 },
+                'MF2-2': { col: 1, row: 4, w: 1, h: 1 },
+                'MF2-3': { col: 2, row: 4, w: 1, h: 1 },
+                'MF2-4': { col: 3, row: 4, w: 1, h: 1 },
+                'MF3-2': { col: 4, row: 4, w: 1, h: 1 },
+                'MF3-4': { col: 5, row: 4, w: 1, h: 1 },
+                'MF3-5': { col: 6, row: 4, w: 1, h: 1 },
+                'MF3-6': { col: 7, row: 4, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Mercedes-Benz C-Class W205 (2015-2018) front-passenger footwell fuse box diagram.',
+                'Positions follow the W205 OEM numbering (300s main block, plus MF1/MF2/MF3 mini-fuse carriers listed at the end in the app\'s data order).',
+                'Only C-Class W205 (2015-2021) and GLC X253 (2016-2022) model years in this range use this exact footwell box — earlier/later generations differ; verify against the fuse box cover.',
+                'Uniform row-major grid in the app\'s data order; exact slot placement approximated from the source diagram — verify against the fuse box cover.'
+              ]
+            }
           },
           {
             name: 'Trunk Fuse Panel (Rear SAM)',
@@ -59348,7 +60576,59 @@ mercedes: {
               { pos: 'T', circuit: 'REAR HEAT', desc: 'Rear window heater relay' },
               { pos: 'U', circuit: 'SOCKET', desc: 'Rear seat row sockets relay' },
               { pos: 'X', circuit: 'SOCKET', desc: 'Front row / trunk sockets relay' },
-            ]
+            ],
+            layout: {
+              cols: 10,
+              rows: 4,
+              cells: {
+                '400': { col: 1, row: 1, w: 1, h: 1 },
+                '401': { col: 2, row: 1, w: 1, h: 1 },
+                '403': { col: 3, row: 1, w: 1, h: 1 },
+                '404': { col: 4, row: 1, w: 1, h: 1 },
+                '406': { col: 5, row: 1, w: 1, h: 1 },
+                '408': { col: 6, row: 1, w: 1, h: 1 },
+                '410': { col: 7, row: 1, w: 1, h: 1 },
+                '411': { col: 8, row: 1, w: 1, h: 1 },
+                '413': { col: 9, row: 1, w: 1, h: 1 },
+                '414': { col: 10, row: 1, w: 1, h: 1 },
+                '417': { col: 1, row: 2, w: 1, h: 1 },
+                '418': { col: 2, row: 2, w: 1, h: 1 },
+                '420': { col: 3, row: 2, w: 1, h: 1 },
+                '423': { col: 4, row: 2, w: 1, h: 1 },
+                '424': { col: 5, row: 2, w: 1, h: 1 },
+                '431': { col: 6, row: 2, w: 1, h: 1 },
+                '433': { col: 7, row: 2, w: 1, h: 1 },
+                '434': { col: 8, row: 2, w: 1, h: 1 },
+                '435': { col: 9, row: 2, w: 1, h: 1 },
+                '436': { col: 10, row: 2, w: 1, h: 1 },
+                '440': { col: 1, row: 3, w: 1, h: 1 },
+                '442': { col: 2, row: 3, w: 1, h: 1 },
+                '443': { col: 3, row: 3, w: 1, h: 1 },
+                '446': { col: 4, row: 3, w: 1, h: 1 },
+                '447': { col: 5, row: 3, w: 1, h: 1 },
+                '450': { col: 6, row: 3, w: 1, h: 1 },
+                '451': { col: 7, row: 3, w: 1, h: 1 },
+                '452': { col: 8, row: 3, w: 1, h: 1 },
+                '453': { col: 9, row: 3, w: 1, h: 1 },
+                '456': { col: 10, row: 3, w: 1, h: 1 },
+                '460': { col: 1, row: 4, w: 1, h: 1 },
+                '462': { col: 2, row: 4, w: 1, h: 1 },
+                '463': { col: 3, row: 4, w: 1, h: 1 },
+                '464': { col: 4, row: 4, w: 1, h: 1 },
+                '465': { col: 5, row: 4, w: 1, h: 1 },
+                '466': { col: 6, row: 4, w: 1, h: 1 },
+                'S': { col: 7, row: 4, w: 1, h: 1 },
+                'T': { col: 8, row: 4, w: 1, h: 1 },
+                'U': { col: 9, row: 4, w: 1, h: 1 },
+                'X': { col: 10, row: 4, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Mercedes-Benz C-Class W205 (2015-2018) luggage-compartment fuse box (rear SAM) diagram.',
+                'Positions follow the W205 OEM numbering (400s on the rear SAM); relays S/T/U/X (AdBlue relay V and spare Y are diesel/option-only, not in the app list).',
+                'Only C-Class W205 (2015-2021) and GLC X253 (2016-2022) model years in this range use this exact rear SAM — earlier/later generations differ; verify against the fuse box cover.',
+                'Uniform row-major grid in the app\'s data order; exact slot placement approximated from the source diagram — verify against the fuse box cover.'
+              ]
+            }
           }
         ]
       }
