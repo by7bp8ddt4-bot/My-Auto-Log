@@ -50447,7 +50447,57 @@ bmw: {
               { pos: '69', amps: 20, circuit: 'SOCKET', desc: 'Cigarette lighter, 12V sockets' },
             ],
             relays: [
-            ]
+            ],
+            layout: {
+              cols: 10,
+              rows: 4,
+              cells: {
+                '18': { col: 1, row: 1, w: 1, h: 1 },
+                '20': { col: 2, row: 1, w: 1, h: 1 },
+                '21': { col: 3, row: 1, w: 1, h: 1 },
+                '22': { col: 4, row: 1, w: 1, h: 1 },
+                '23': { col: 5, row: 1, w: 1, h: 1 },
+                '24': { col: 6, row: 1, w: 1, h: 1 },
+                '25': { col: 7, row: 1, w: 1, h: 1 },
+                '26': { col: 8, row: 1, w: 1, h: 1 },
+                '27': { col: 9, row: 1, w: 1, h: 1 },
+                '28': { col: 10, row: 1, w: 1, h: 1 },
+                '29': { col: 1, row: 2, w: 1, h: 1 },
+                '32': { col: 2, row: 2, w: 1, h: 1 },
+                '33': { col: 3, row: 2, w: 1, h: 1 },
+                '34': { col: 4, row: 2, w: 1, h: 1 },
+                '36': { col: 5, row: 2, w: 1, h: 1 },
+                '40': { col: 6, row: 2, w: 1, h: 1 },
+                '42': { col: 7, row: 2, w: 1, h: 1 },
+                '44': { col: 8, row: 2, w: 1, h: 1 },
+                '45': { col: 9, row: 2, w: 1, h: 1 },
+                '46': { col: 10, row: 2, w: 1, h: 1 },
+                '47': { col: 1, row: 3, w: 1, h: 1 },
+                '48': { col: 2, row: 3, w: 1, h: 1 },
+                '50': { col: 3, row: 3, w: 1, h: 1 },
+                '52': { col: 4, row: 3, w: 1, h: 1 },
+                '53': { col: 5, row: 3, w: 1, h: 1 },
+                '54': { col: 6, row: 3, w: 1, h: 1 },
+                '55': { col: 7, row: 3, w: 1, h: 1 },
+                '56': { col: 8, row: 3, w: 1, h: 1 },
+                '57': { col: 9, row: 3, w: 1, h: 1 },
+                '58': { col: 10, row: 3, w: 1, h: 1 },
+                '62': { col: 1, row: 4, w: 1, h: 1 },
+                '63': { col: 2, row: 4, w: 1, h: 1 },
+                '64': { col: 3, row: 4, w: 1, h: 1 },
+                '65': { col: 4, row: 4, w: 1, h: 1 },
+                '66': { col: 5, row: 4, w: 1, h: 1 },
+                '67': { col: 6, row: 4, w: 1, h: 1 },
+                '68': { col: 7, row: 4, w: 1, h: 1 },
+                '69': { col: 8, row: 4, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info BMW 3-Series 2012-2018 (F30) engine-compartment front power distribution box photo.',
+                'The front box shows mini fuse slots in a grid; positions were mapped in the F30 OEM numbering order (left to right, top to bottom).',
+                'The app\'s fuse list for this model follows the F30-generation numbering; non-F30 model years in this range use a different physical box — verify against the fuse box cover.',
+                'Exact slot assignment is approximated from the photo and may vary by trim/region — verify against the fuse box cover.'
+              ]
+            }
           },
           {
             name: 'Rear Power Distribution Box (Trunk)',
@@ -50496,7 +50546,60 @@ bmw: {
               { pos: '165', amps: 20, circuit: 'FUEL PUMP', desc: 'Fuel pump' },
             ],
             relays: [
-            ]
+            ],
+            layout: {
+              cols: 10,
+              rows: 5,
+              cells: {
+                '100': { col: 1, row: 1, w: 1, h: 1 },
+                '103': { col: 2, row: 1, w: 1, h: 1 },
+                '104': { col: 3, row: 1, w: 1, h: 1 },
+                '107': { col: 4, row: 1, w: 1, h: 1 },
+                '113': { col: 5, row: 1, w: 1, h: 1 },
+                '114': { col: 6, row: 1, w: 1, h: 1 },
+                '116': { col: 7, row: 1, w: 1, h: 1 },
+                '117': { col: 8, row: 1, w: 1, h: 1 },
+                '120': { col: 9, row: 1, w: 1, h: 1 },
+                '121': { col: 10, row: 1, w: 1, h: 1 },
+                '122': { col: 1, row: 2, w: 1, h: 1 },
+                '123': { col: 2, row: 2, w: 1, h: 1 },
+                '124': { col: 3, row: 2, w: 1, h: 1 },
+                '126': { col: 4, row: 2, w: 1, h: 1 },
+                '128': { col: 5, row: 2, w: 1, h: 1 },
+                '129': { col: 6, row: 2, w: 1, h: 1 },
+                '130': { col: 7, row: 2, w: 1, h: 1 },
+                '132': { col: 8, row: 2, w: 1, h: 1 },
+                '137': { col: 9, row: 2, w: 1, h: 1 },
+                '139': { col: 10, row: 2, w: 1, h: 1 },
+                '140': { col: 1, row: 3, w: 1, h: 1 },
+                '141': { col: 2, row: 3, w: 1, h: 1 },
+                '142': { col: 3, row: 3, w: 1, h: 1 },
+                '144': { col: 4, row: 3, w: 1, h: 1 },
+                '145': { col: 5, row: 3, w: 1, h: 1 },
+                '146': { col: 6, row: 3, w: 1, h: 1 },
+                '147': { col: 7, row: 3, w: 1, h: 1 },
+                '148': { col: 8, row: 3, w: 1, h: 1 },
+                '149': { col: 9, row: 3, w: 1, h: 1 },
+                '150': { col: 10, row: 3, w: 1, h: 1 },
+                '151': { col: 1, row: 4, w: 1, h: 1 },
+                '152': { col: 2, row: 4, w: 1, h: 1 },
+                '153': { col: 3, row: 4, w: 1, h: 1 },
+                '154': { col: 4, row: 4, w: 1, h: 1 },
+                '159': { col: 5, row: 4, w: 1, h: 1 },
+                '160': { col: 6, row: 4, w: 1, h: 1 },
+                '161': { col: 7, row: 4, w: 1, h: 1 },
+                '162': { col: 8, row: 4, w: 1, h: 1 },
+                '163': { col: 9, row: 4, w: 1, h: 1 },
+                '164': { col: 10, row: 4, w: 1, h: 1 },
+                '165': { col: 1, row: 5, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info BMW 3-Series 2012-2018 (F30) luggage-compartment power distribution box photo.',
+                'Positions were mapped in the F30 OEM numbering order; larger fuses occupy wider slots in the source diagram.',
+                'The app\'s fuse list for this model follows the F30-generation numbering; non-F30 model years in this range use a different physical box — verify against the fuse box cover.',
+                'Exact slot assignment is approximated from the photo and may vary by trim/region — verify against the fuse box cover.'
+              ]
+            }
           },
           {
             name: 'Glovebox Fuse Panel',
@@ -50509,7 +50612,23 @@ bmw: {
               { pos: '85', amps: '7.5', circuit: 'SUNSHADE', desc: 'Electric rear sunshade' },
             ],
             relays: [
-            ]
+            ],
+            layout: {
+              cols: 5,
+              rows: 1,
+              cells: {
+                '80': { col: 1, row: 1, w: 1, h: 1 },
+                '82': { col: 2, row: 1, w: 1, h: 1 },
+                '83': { col: 3, row: 1, w: 1, h: 1 },
+                '84': { col: 4, row: 1, w: 1, h: 1 },
+                '85': { col: 5, row: 1, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info BMW 3-Series 2012-2018 (F30) luggage-compartment fuse panel (positions 80-85).',
+                'The app\'s \'Glovebox Fuse Panel\' list (80, 82, 83, 84, 85) matches the F30 luggage table\'s 80-84 entries plus the electric sunshade at 85.',
+                'Exact slot assignment is approximated — verify against the fuse box cover.'
+              ]
+            }
           }
         ]
       },
@@ -50673,7 +50792,57 @@ bmw: {
               { pos: '69', amps: 20, circuit: 'SOCKET', desc: 'Cigarette lighter, 12V sockets' },
             ],
             relays: [
-            ]
+            ],
+            layout: {
+              cols: 10,
+              rows: 4,
+              cells: {
+                '18': { col: 1, row: 1, w: 1, h: 1 },
+                '20': { col: 2, row: 1, w: 1, h: 1 },
+                '21': { col: 3, row: 1, w: 1, h: 1 },
+                '22': { col: 4, row: 1, w: 1, h: 1 },
+                '23': { col: 5, row: 1, w: 1, h: 1 },
+                '24': { col: 6, row: 1, w: 1, h: 1 },
+                '25': { col: 7, row: 1, w: 1, h: 1 },
+                '26': { col: 8, row: 1, w: 1, h: 1 },
+                '27': { col: 9, row: 1, w: 1, h: 1 },
+                '28': { col: 10, row: 1, w: 1, h: 1 },
+                '29': { col: 1, row: 2, w: 1, h: 1 },
+                '32': { col: 2, row: 2, w: 1, h: 1 },
+                '33': { col: 3, row: 2, w: 1, h: 1 },
+                '34': { col: 4, row: 2, w: 1, h: 1 },
+                '36': { col: 5, row: 2, w: 1, h: 1 },
+                '40': { col: 6, row: 2, w: 1, h: 1 },
+                '42': { col: 7, row: 2, w: 1, h: 1 },
+                '44': { col: 8, row: 2, w: 1, h: 1 },
+                '45': { col: 9, row: 2, w: 1, h: 1 },
+                '46': { col: 10, row: 2, w: 1, h: 1 },
+                '47': { col: 1, row: 3, w: 1, h: 1 },
+                '48': { col: 2, row: 3, w: 1, h: 1 },
+                '50': { col: 3, row: 3, w: 1, h: 1 },
+                '52': { col: 4, row: 3, w: 1, h: 1 },
+                '53': { col: 5, row: 3, w: 1, h: 1 },
+                '54': { col: 6, row: 3, w: 1, h: 1 },
+                '55': { col: 7, row: 3, w: 1, h: 1 },
+                '56': { col: 8, row: 3, w: 1, h: 1 },
+                '57': { col: 9, row: 3, w: 1, h: 1 },
+                '58': { col: 10, row: 3, w: 1, h: 1 },
+                '62': { col: 1, row: 4, w: 1, h: 1 },
+                '63': { col: 2, row: 4, w: 1, h: 1 },
+                '64': { col: 3, row: 4, w: 1, h: 1 },
+                '65': { col: 4, row: 4, w: 1, h: 1 },
+                '66': { col: 5, row: 4, w: 1, h: 1 },
+                '67': { col: 6, row: 4, w: 1, h: 1 },
+                '68': { col: 7, row: 4, w: 1, h: 1 },
+                '69': { col: 8, row: 4, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info BMW 3-Series 2012-2018 (F30) engine-compartment front power distribution box photo.',
+                'The front box shows mini fuse slots in a grid; positions were mapped in the F30 OEM numbering order (left to right, top to bottom).',
+                'The app\'s fuse list for this model follows the F30-generation numbering; non-F30 model years in this range use a different physical box — verify against the fuse box cover.',
+                'Exact slot assignment is approximated from the photo and may vary by trim/region — verify against the fuse box cover.'
+              ]
+            }
           },
           {
             name: 'Rear Power Distribution Box (Trunk)',
@@ -50722,7 +50891,60 @@ bmw: {
               { pos: '165', amps: 20, circuit: 'FUEL PUMP', desc: 'Fuel pump' },
             ],
             relays: [
-            ]
+            ],
+            layout: {
+              cols: 10,
+              rows: 5,
+              cells: {
+                '100': { col: 1, row: 1, w: 1, h: 1 },
+                '103': { col: 2, row: 1, w: 1, h: 1 },
+                '104': { col: 3, row: 1, w: 1, h: 1 },
+                '107': { col: 4, row: 1, w: 1, h: 1 },
+                '113': { col: 5, row: 1, w: 1, h: 1 },
+                '114': { col: 6, row: 1, w: 1, h: 1 },
+                '116': { col: 7, row: 1, w: 1, h: 1 },
+                '117': { col: 8, row: 1, w: 1, h: 1 },
+                '120': { col: 9, row: 1, w: 1, h: 1 },
+                '121': { col: 10, row: 1, w: 1, h: 1 },
+                '122': { col: 1, row: 2, w: 1, h: 1 },
+                '123': { col: 2, row: 2, w: 1, h: 1 },
+                '124': { col: 3, row: 2, w: 1, h: 1 },
+                '126': { col: 4, row: 2, w: 1, h: 1 },
+                '128': { col: 5, row: 2, w: 1, h: 1 },
+                '129': { col: 6, row: 2, w: 1, h: 1 },
+                '130': { col: 7, row: 2, w: 1, h: 1 },
+                '132': { col: 8, row: 2, w: 1, h: 1 },
+                '137': { col: 9, row: 2, w: 1, h: 1 },
+                '139': { col: 10, row: 2, w: 1, h: 1 },
+                '140': { col: 1, row: 3, w: 1, h: 1 },
+                '141': { col: 2, row: 3, w: 1, h: 1 },
+                '142': { col: 3, row: 3, w: 1, h: 1 },
+                '144': { col: 4, row: 3, w: 1, h: 1 },
+                '145': { col: 5, row: 3, w: 1, h: 1 },
+                '146': { col: 6, row: 3, w: 1, h: 1 },
+                '147': { col: 7, row: 3, w: 1, h: 1 },
+                '148': { col: 8, row: 3, w: 1, h: 1 },
+                '149': { col: 9, row: 3, w: 1, h: 1 },
+                '150': { col: 10, row: 3, w: 1, h: 1 },
+                '151': { col: 1, row: 4, w: 1, h: 1 },
+                '152': { col: 2, row: 4, w: 1, h: 1 },
+                '153': { col: 3, row: 4, w: 1, h: 1 },
+                '154': { col: 4, row: 4, w: 1, h: 1 },
+                '159': { col: 5, row: 4, w: 1, h: 1 },
+                '160': { col: 6, row: 4, w: 1, h: 1 },
+                '161': { col: 7, row: 4, w: 1, h: 1 },
+                '162': { col: 8, row: 4, w: 1, h: 1 },
+                '163': { col: 9, row: 4, w: 1, h: 1 },
+                '164': { col: 10, row: 4, w: 1, h: 1 },
+                '165': { col: 1, row: 5, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info BMW 3-Series 2012-2018 (F30) luggage-compartment power distribution box photo.',
+                'Positions were mapped in the F30 OEM numbering order; larger fuses occupy wider slots in the source diagram.',
+                'The app\'s fuse list for this model follows the F30-generation numbering; non-F30 model years in this range use a different physical box — verify against the fuse box cover.',
+                'Exact slot assignment is approximated from the photo and may vary by trim/region — verify against the fuse box cover.'
+              ]
+            }
           },
           {
             name: 'Glovebox Fuse Panel',
@@ -50735,7 +50957,23 @@ bmw: {
               { pos: '85', amps: '7.5', circuit: 'SUNSHADE', desc: 'Electric rear sunshade' },
             ],
             relays: [
-            ]
+            ],
+            layout: {
+              cols: 5,
+              rows: 1,
+              cells: {
+                '80': { col: 1, row: 1, w: 1, h: 1 },
+                '82': { col: 2, row: 1, w: 1, h: 1 },
+                '83': { col: 3, row: 1, w: 1, h: 1 },
+                '84': { col: 4, row: 1, w: 1, h: 1 },
+                '85': { col: 5, row: 1, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info BMW 3-Series 2012-2018 (F30) luggage-compartment fuse panel (positions 80-85).',
+                'The app\'s \'Glovebox Fuse Panel\' list (80, 82, 83, 84, 85) matches the F30 luggage table\'s 80-84 entries plus the electric sunshade at 85.',
+                'Exact slot assignment is approximated — verify against the fuse box cover.'
+              ]
+            }
           }
         ]
       }
@@ -51013,7 +51251,57 @@ bmw: {
               { pos: '69', amps: 20, circuit: 'SOCKET', desc: 'Cigarette lighter, 12V sockets' },
             ],
             relays: [
-            ]
+            ],
+            layout: {
+              cols: 10,
+              rows: 4,
+              cells: {
+                '18': { col: 1, row: 1, w: 1, h: 1 },
+                '20': { col: 2, row: 1, w: 1, h: 1 },
+                '21': { col: 3, row: 1, w: 1, h: 1 },
+                '22': { col: 4, row: 1, w: 1, h: 1 },
+                '23': { col: 5, row: 1, w: 1, h: 1 },
+                '24': { col: 6, row: 1, w: 1, h: 1 },
+                '25': { col: 7, row: 1, w: 1, h: 1 },
+                '26': { col: 8, row: 1, w: 1, h: 1 },
+                '27': { col: 9, row: 1, w: 1, h: 1 },
+                '28': { col: 10, row: 1, w: 1, h: 1 },
+                '29': { col: 1, row: 2, w: 1, h: 1 },
+                '32': { col: 2, row: 2, w: 1, h: 1 },
+                '33': { col: 3, row: 2, w: 1, h: 1 },
+                '34': { col: 4, row: 2, w: 1, h: 1 },
+                '36': { col: 5, row: 2, w: 1, h: 1 },
+                '40': { col: 6, row: 2, w: 1, h: 1 },
+                '42': { col: 7, row: 2, w: 1, h: 1 },
+                '44': { col: 8, row: 2, w: 1, h: 1 },
+                '45': { col: 9, row: 2, w: 1, h: 1 },
+                '46': { col: 10, row: 2, w: 1, h: 1 },
+                '47': { col: 1, row: 3, w: 1, h: 1 },
+                '48': { col: 2, row: 3, w: 1, h: 1 },
+                '50': { col: 3, row: 3, w: 1, h: 1 },
+                '52': { col: 4, row: 3, w: 1, h: 1 },
+                '53': { col: 5, row: 3, w: 1, h: 1 },
+                '54': { col: 6, row: 3, w: 1, h: 1 },
+                '55': { col: 7, row: 3, w: 1, h: 1 },
+                '56': { col: 8, row: 3, w: 1, h: 1 },
+                '57': { col: 9, row: 3, w: 1, h: 1 },
+                '58': { col: 10, row: 3, w: 1, h: 1 },
+                '62': { col: 1, row: 4, w: 1, h: 1 },
+                '63': { col: 2, row: 4, w: 1, h: 1 },
+                '64': { col: 3, row: 4, w: 1, h: 1 },
+                '65': { col: 4, row: 4, w: 1, h: 1 },
+                '66': { col: 5, row: 4, w: 1, h: 1 },
+                '67': { col: 6, row: 4, w: 1, h: 1 },
+                '68': { col: 7, row: 4, w: 1, h: 1 },
+                '69': { col: 8, row: 4, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info BMW 3-Series 2012-2018 (F30) engine-compartment front power distribution box photo.',
+                'The front box shows mini fuse slots in a grid; positions were mapped in the F30 OEM numbering order (left to right, top to bottom).',
+                'The app\'s fuse list for this model follows the F30-generation numbering; non-F30 model years in this range use a different physical box — verify against the fuse box cover.',
+                'Exact slot assignment is approximated from the photo and may vary by trim/region — verify against the fuse box cover.'
+              ]
+            }
           },
           {
             name: 'Rear Power Distribution Box (Trunk)',
@@ -51062,7 +51350,60 @@ bmw: {
               { pos: '165', amps: 20, circuit: 'FUEL PUMP', desc: 'Fuel pump' },
             ],
             relays: [
-            ]
+            ],
+            layout: {
+              cols: 10,
+              rows: 5,
+              cells: {
+                '100': { col: 1, row: 1, w: 1, h: 1 },
+                '103': { col: 2, row: 1, w: 1, h: 1 },
+                '104': { col: 3, row: 1, w: 1, h: 1 },
+                '107': { col: 4, row: 1, w: 1, h: 1 },
+                '113': { col: 5, row: 1, w: 1, h: 1 },
+                '114': { col: 6, row: 1, w: 1, h: 1 },
+                '116': { col: 7, row: 1, w: 1, h: 1 },
+                '117': { col: 8, row: 1, w: 1, h: 1 },
+                '120': { col: 9, row: 1, w: 1, h: 1 },
+                '121': { col: 10, row: 1, w: 1, h: 1 },
+                '122': { col: 1, row: 2, w: 1, h: 1 },
+                '123': { col: 2, row: 2, w: 1, h: 1 },
+                '124': { col: 3, row: 2, w: 1, h: 1 },
+                '126': { col: 4, row: 2, w: 1, h: 1 },
+                '128': { col: 5, row: 2, w: 1, h: 1 },
+                '129': { col: 6, row: 2, w: 1, h: 1 },
+                '130': { col: 7, row: 2, w: 1, h: 1 },
+                '132': { col: 8, row: 2, w: 1, h: 1 },
+                '137': { col: 9, row: 2, w: 1, h: 1 },
+                '139': { col: 10, row: 2, w: 1, h: 1 },
+                '140': { col: 1, row: 3, w: 1, h: 1 },
+                '141': { col: 2, row: 3, w: 1, h: 1 },
+                '142': { col: 3, row: 3, w: 1, h: 1 },
+                '144': { col: 4, row: 3, w: 1, h: 1 },
+                '145': { col: 5, row: 3, w: 1, h: 1 },
+                '146': { col: 6, row: 3, w: 1, h: 1 },
+                '147': { col: 7, row: 3, w: 1, h: 1 },
+                '148': { col: 8, row: 3, w: 1, h: 1 },
+                '149': { col: 9, row: 3, w: 1, h: 1 },
+                '150': { col: 10, row: 3, w: 1, h: 1 },
+                '151': { col: 1, row: 4, w: 1, h: 1 },
+                '152': { col: 2, row: 4, w: 1, h: 1 },
+                '153': { col: 3, row: 4, w: 1, h: 1 },
+                '154': { col: 4, row: 4, w: 1, h: 1 },
+                '159': { col: 5, row: 4, w: 1, h: 1 },
+                '160': { col: 6, row: 4, w: 1, h: 1 },
+                '161': { col: 7, row: 4, w: 1, h: 1 },
+                '162': { col: 8, row: 4, w: 1, h: 1 },
+                '163': { col: 9, row: 4, w: 1, h: 1 },
+                '164': { col: 10, row: 4, w: 1, h: 1 },
+                '165': { col: 1, row: 5, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info BMW 3-Series 2012-2018 (F30) luggage-compartment power distribution box photo.',
+                'Positions were mapped in the F30 OEM numbering order; larger fuses occupy wider slots in the source diagram.',
+                'The app\'s fuse list for this model follows the F30-generation numbering; non-F30 model years in this range use a different physical box — verify against the fuse box cover.',
+                'Exact slot assignment is approximated from the photo and may vary by trim/region — verify against the fuse box cover.'
+              ]
+            }
           },
           {
             name: 'Glovebox Fuse Panel',
@@ -51075,7 +51416,23 @@ bmw: {
               { pos: '85', amps: '7.5', circuit: 'SUNSHADE', desc: 'Electric rear sunshade' },
             ],
             relays: [
-            ]
+            ],
+            layout: {
+              cols: 5,
+              rows: 1,
+              cells: {
+                '80': { col: 1, row: 1, w: 1, h: 1 },
+                '82': { col: 2, row: 1, w: 1, h: 1 },
+                '83': { col: 3, row: 1, w: 1, h: 1 },
+                '84': { col: 4, row: 1, w: 1, h: 1 },
+                '85': { col: 5, row: 1, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info BMW 3-Series 2012-2018 (F30) luggage-compartment fuse panel (positions 80-85).',
+                'The app\'s \'Glovebox Fuse Panel\' list (80, 82, 83, 84, 85) matches the F30 luggage table\'s 80-84 entries plus the electric sunshade at 85.',
+                'Exact slot assignment is approximated — verify against the fuse box cover.'
+              ]
+            }
           }
         ]
       }
@@ -51127,7 +51484,57 @@ bmw: {
               { pos: '69', amps: 20, circuit: 'SOCKET', desc: 'Cigarette lighter, 12V sockets' },
             ],
             relays: [
-            ]
+            ],
+            layout: {
+              cols: 10,
+              rows: 4,
+              cells: {
+                '18': { col: 1, row: 1, w: 1, h: 1 },
+                '20': { col: 2, row: 1, w: 1, h: 1 },
+                '21': { col: 3, row: 1, w: 1, h: 1 },
+                '22': { col: 4, row: 1, w: 1, h: 1 },
+                '23': { col: 5, row: 1, w: 1, h: 1 },
+                '24': { col: 6, row: 1, w: 1, h: 1 },
+                '25': { col: 7, row: 1, w: 1, h: 1 },
+                '26': { col: 8, row: 1, w: 1, h: 1 },
+                '27': { col: 9, row: 1, w: 1, h: 1 },
+                '28': { col: 10, row: 1, w: 1, h: 1 },
+                '29': { col: 1, row: 2, w: 1, h: 1 },
+                '32': { col: 2, row: 2, w: 1, h: 1 },
+                '33': { col: 3, row: 2, w: 1, h: 1 },
+                '34': { col: 4, row: 2, w: 1, h: 1 },
+                '36': { col: 5, row: 2, w: 1, h: 1 },
+                '40': { col: 6, row: 2, w: 1, h: 1 },
+                '42': { col: 7, row: 2, w: 1, h: 1 },
+                '44': { col: 8, row: 2, w: 1, h: 1 },
+                '45': { col: 9, row: 2, w: 1, h: 1 },
+                '46': { col: 10, row: 2, w: 1, h: 1 },
+                '47': { col: 1, row: 3, w: 1, h: 1 },
+                '48': { col: 2, row: 3, w: 1, h: 1 },
+                '50': { col: 3, row: 3, w: 1, h: 1 },
+                '52': { col: 4, row: 3, w: 1, h: 1 },
+                '53': { col: 5, row: 3, w: 1, h: 1 },
+                '54': { col: 6, row: 3, w: 1, h: 1 },
+                '55': { col: 7, row: 3, w: 1, h: 1 },
+                '56': { col: 8, row: 3, w: 1, h: 1 },
+                '57': { col: 9, row: 3, w: 1, h: 1 },
+                '58': { col: 10, row: 3, w: 1, h: 1 },
+                '62': { col: 1, row: 4, w: 1, h: 1 },
+                '63': { col: 2, row: 4, w: 1, h: 1 },
+                '64': { col: 3, row: 4, w: 1, h: 1 },
+                '65': { col: 4, row: 4, w: 1, h: 1 },
+                '66': { col: 5, row: 4, w: 1, h: 1 },
+                '67': { col: 6, row: 4, w: 1, h: 1 },
+                '68': { col: 7, row: 4, w: 1, h: 1 },
+                '69': { col: 8, row: 4, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info BMW 3-Series 2012-2018 (F30) engine-compartment front power distribution box photo.',
+                'The front box shows mini fuse slots in a grid; positions were mapped in the F30 OEM numbering order (left to right, top to bottom).',
+                'The app\'s fuse list for this model follows the F30-generation numbering; non-F30 model years in this range use a different physical box — verify against the fuse box cover.',
+                'Exact slot assignment is approximated from the photo and may vary by trim/region — verify against the fuse box cover.'
+              ]
+            }
           },
           {
             name: 'Rear Power Distribution Box (Trunk)',
@@ -51176,7 +51583,60 @@ bmw: {
               { pos: '165', amps: 20, circuit: 'FUEL PUMP', desc: 'Fuel pump' },
             ],
             relays: [
-            ]
+            ],
+            layout: {
+              cols: 10,
+              rows: 5,
+              cells: {
+                '100': { col: 1, row: 1, w: 1, h: 1 },
+                '103': { col: 2, row: 1, w: 1, h: 1 },
+                '104': { col: 3, row: 1, w: 1, h: 1 },
+                '107': { col: 4, row: 1, w: 1, h: 1 },
+                '113': { col: 5, row: 1, w: 1, h: 1 },
+                '114': { col: 6, row: 1, w: 1, h: 1 },
+                '116': { col: 7, row: 1, w: 1, h: 1 },
+                '117': { col: 8, row: 1, w: 1, h: 1 },
+                '120': { col: 9, row: 1, w: 1, h: 1 },
+                '121': { col: 10, row: 1, w: 1, h: 1 },
+                '122': { col: 1, row: 2, w: 1, h: 1 },
+                '123': { col: 2, row: 2, w: 1, h: 1 },
+                '124': { col: 3, row: 2, w: 1, h: 1 },
+                '126': { col: 4, row: 2, w: 1, h: 1 },
+                '128': { col: 5, row: 2, w: 1, h: 1 },
+                '129': { col: 6, row: 2, w: 1, h: 1 },
+                '130': { col: 7, row: 2, w: 1, h: 1 },
+                '132': { col: 8, row: 2, w: 1, h: 1 },
+                '137': { col: 9, row: 2, w: 1, h: 1 },
+                '139': { col: 10, row: 2, w: 1, h: 1 },
+                '140': { col: 1, row: 3, w: 1, h: 1 },
+                '141': { col: 2, row: 3, w: 1, h: 1 },
+                '142': { col: 3, row: 3, w: 1, h: 1 },
+                '144': { col: 4, row: 3, w: 1, h: 1 },
+                '145': { col: 5, row: 3, w: 1, h: 1 },
+                '146': { col: 6, row: 3, w: 1, h: 1 },
+                '147': { col: 7, row: 3, w: 1, h: 1 },
+                '148': { col: 8, row: 3, w: 1, h: 1 },
+                '149': { col: 9, row: 3, w: 1, h: 1 },
+                '150': { col: 10, row: 3, w: 1, h: 1 },
+                '151': { col: 1, row: 4, w: 1, h: 1 },
+                '152': { col: 2, row: 4, w: 1, h: 1 },
+                '153': { col: 3, row: 4, w: 1, h: 1 },
+                '154': { col: 4, row: 4, w: 1, h: 1 },
+                '159': { col: 5, row: 4, w: 1, h: 1 },
+                '160': { col: 6, row: 4, w: 1, h: 1 },
+                '161': { col: 7, row: 4, w: 1, h: 1 },
+                '162': { col: 8, row: 4, w: 1, h: 1 },
+                '163': { col: 9, row: 4, w: 1, h: 1 },
+                '164': { col: 10, row: 4, w: 1, h: 1 },
+                '165': { col: 1, row: 5, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info BMW 3-Series 2012-2018 (F30) luggage-compartment power distribution box photo.',
+                'Positions were mapped in the F30 OEM numbering order; larger fuses occupy wider slots in the source diagram.',
+                'The app\'s fuse list for this model follows the F30-generation numbering; non-F30 model years in this range use a different physical box — verify against the fuse box cover.',
+                'Exact slot assignment is approximated from the photo and may vary by trim/region — verify against the fuse box cover.'
+              ]
+            }
           },
           {
             name: 'Glovebox Fuse Panel',
@@ -51189,7 +51649,23 @@ bmw: {
               { pos: '85', amps: '7.5', circuit: 'SUNSHADE', desc: 'Electric rear sunshade' },
             ],
             relays: [
-            ]
+            ],
+            layout: {
+              cols: 5,
+              rows: 1,
+              cells: {
+                '80': { col: 1, row: 1, w: 1, h: 1 },
+                '82': { col: 2, row: 1, w: 1, h: 1 },
+                '83': { col: 3, row: 1, w: 1, h: 1 },
+                '84': { col: 4, row: 1, w: 1, h: 1 },
+                '85': { col: 5, row: 1, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info BMW 3-Series 2012-2018 (F30) luggage-compartment fuse panel (positions 80-85).',
+                'The app\'s \'Glovebox Fuse Panel\' list (80, 82, 83, 84, 85) matches the F30 luggage table\'s 80-84 entries plus the electric sunshade at 85.',
+                'Exact slot assignment is approximated — verify against the fuse box cover.'
+              ]
+            }
           }
         ]
       }
@@ -51241,7 +51717,57 @@ bmw: {
               { pos: '69', amps: 20, circuit: 'SOCKET', desc: 'Cigarette lighter, 12V sockets' },
             ],
             relays: [
-            ]
+            ],
+            layout: {
+              cols: 10,
+              rows: 4,
+              cells: {
+                '18': { col: 1, row: 1, w: 1, h: 1 },
+                '20': { col: 2, row: 1, w: 1, h: 1 },
+                '21': { col: 3, row: 1, w: 1, h: 1 },
+                '22': { col: 4, row: 1, w: 1, h: 1 },
+                '23': { col: 5, row: 1, w: 1, h: 1 },
+                '24': { col: 6, row: 1, w: 1, h: 1 },
+                '25': { col: 7, row: 1, w: 1, h: 1 },
+                '26': { col: 8, row: 1, w: 1, h: 1 },
+                '27': { col: 9, row: 1, w: 1, h: 1 },
+                '28': { col: 10, row: 1, w: 1, h: 1 },
+                '29': { col: 1, row: 2, w: 1, h: 1 },
+                '32': { col: 2, row: 2, w: 1, h: 1 },
+                '33': { col: 3, row: 2, w: 1, h: 1 },
+                '34': { col: 4, row: 2, w: 1, h: 1 },
+                '36': { col: 5, row: 2, w: 1, h: 1 },
+                '40': { col: 6, row: 2, w: 1, h: 1 },
+                '42': { col: 7, row: 2, w: 1, h: 1 },
+                '44': { col: 8, row: 2, w: 1, h: 1 },
+                '45': { col: 9, row: 2, w: 1, h: 1 },
+                '46': { col: 10, row: 2, w: 1, h: 1 },
+                '47': { col: 1, row: 3, w: 1, h: 1 },
+                '48': { col: 2, row: 3, w: 1, h: 1 },
+                '50': { col: 3, row: 3, w: 1, h: 1 },
+                '52': { col: 4, row: 3, w: 1, h: 1 },
+                '53': { col: 5, row: 3, w: 1, h: 1 },
+                '54': { col: 6, row: 3, w: 1, h: 1 },
+                '55': { col: 7, row: 3, w: 1, h: 1 },
+                '56': { col: 8, row: 3, w: 1, h: 1 },
+                '57': { col: 9, row: 3, w: 1, h: 1 },
+                '58': { col: 10, row: 3, w: 1, h: 1 },
+                '62': { col: 1, row: 4, w: 1, h: 1 },
+                '63': { col: 2, row: 4, w: 1, h: 1 },
+                '64': { col: 3, row: 4, w: 1, h: 1 },
+                '65': { col: 4, row: 4, w: 1, h: 1 },
+                '66': { col: 5, row: 4, w: 1, h: 1 },
+                '67': { col: 6, row: 4, w: 1, h: 1 },
+                '68': { col: 7, row: 4, w: 1, h: 1 },
+                '69': { col: 8, row: 4, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info BMW 3-Series 2012-2018 (F30) engine-compartment front power distribution box photo.',
+                'The front box shows mini fuse slots in a grid; positions were mapped in the F30 OEM numbering order (left to right, top to bottom).',
+                'The app\'s fuse list for this model follows the F30-generation numbering; non-F30 model years in this range use a different physical box — verify against the fuse box cover.',
+                'Exact slot assignment is approximated from the photo and may vary by trim/region — verify against the fuse box cover.'
+              ]
+            }
           },
           {
             name: 'Rear Power Distribution Box (Trunk)',
@@ -51290,7 +51816,60 @@ bmw: {
               { pos: '165', amps: 20, circuit: 'FUEL PUMP', desc: 'Fuel pump' },
             ],
             relays: [
-            ]
+            ],
+            layout: {
+              cols: 10,
+              rows: 5,
+              cells: {
+                '100': { col: 1, row: 1, w: 1, h: 1 },
+                '103': { col: 2, row: 1, w: 1, h: 1 },
+                '104': { col: 3, row: 1, w: 1, h: 1 },
+                '107': { col: 4, row: 1, w: 1, h: 1 },
+                '113': { col: 5, row: 1, w: 1, h: 1 },
+                '114': { col: 6, row: 1, w: 1, h: 1 },
+                '116': { col: 7, row: 1, w: 1, h: 1 },
+                '117': { col: 8, row: 1, w: 1, h: 1 },
+                '120': { col: 9, row: 1, w: 1, h: 1 },
+                '121': { col: 10, row: 1, w: 1, h: 1 },
+                '122': { col: 1, row: 2, w: 1, h: 1 },
+                '123': { col: 2, row: 2, w: 1, h: 1 },
+                '124': { col: 3, row: 2, w: 1, h: 1 },
+                '126': { col: 4, row: 2, w: 1, h: 1 },
+                '128': { col: 5, row: 2, w: 1, h: 1 },
+                '129': { col: 6, row: 2, w: 1, h: 1 },
+                '130': { col: 7, row: 2, w: 1, h: 1 },
+                '132': { col: 8, row: 2, w: 1, h: 1 },
+                '137': { col: 9, row: 2, w: 1, h: 1 },
+                '139': { col: 10, row: 2, w: 1, h: 1 },
+                '140': { col: 1, row: 3, w: 1, h: 1 },
+                '141': { col: 2, row: 3, w: 1, h: 1 },
+                '142': { col: 3, row: 3, w: 1, h: 1 },
+                '144': { col: 4, row: 3, w: 1, h: 1 },
+                '145': { col: 5, row: 3, w: 1, h: 1 },
+                '146': { col: 6, row: 3, w: 1, h: 1 },
+                '147': { col: 7, row: 3, w: 1, h: 1 },
+                '148': { col: 8, row: 3, w: 1, h: 1 },
+                '149': { col: 9, row: 3, w: 1, h: 1 },
+                '150': { col: 10, row: 3, w: 1, h: 1 },
+                '151': { col: 1, row: 4, w: 1, h: 1 },
+                '152': { col: 2, row: 4, w: 1, h: 1 },
+                '153': { col: 3, row: 4, w: 1, h: 1 },
+                '154': { col: 4, row: 4, w: 1, h: 1 },
+                '159': { col: 5, row: 4, w: 1, h: 1 },
+                '160': { col: 6, row: 4, w: 1, h: 1 },
+                '161': { col: 7, row: 4, w: 1, h: 1 },
+                '162': { col: 8, row: 4, w: 1, h: 1 },
+                '163': { col: 9, row: 4, w: 1, h: 1 },
+                '164': { col: 10, row: 4, w: 1, h: 1 },
+                '165': { col: 1, row: 5, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info BMW 3-Series 2012-2018 (F30) luggage-compartment power distribution box photo.',
+                'Positions were mapped in the F30 OEM numbering order; larger fuses occupy wider slots in the source diagram.',
+                'The app\'s fuse list for this model follows the F30-generation numbering; non-F30 model years in this range use a different physical box — verify against the fuse box cover.',
+                'Exact slot assignment is approximated from the photo and may vary by trim/region — verify against the fuse box cover.'
+              ]
+            }
           },
           {
             name: 'Glovebox Fuse Panel',
@@ -51303,7 +51882,23 @@ bmw: {
               { pos: '85', amps: '7.5', circuit: 'SUNSHADE', desc: 'Electric rear sunshade' },
             ],
             relays: [
-            ]
+            ],
+            layout: {
+              cols: 5,
+              rows: 1,
+              cells: {
+                '80': { col: 1, row: 1, w: 1, h: 1 },
+                '82': { col: 2, row: 1, w: 1, h: 1 },
+                '83': { col: 3, row: 1, w: 1, h: 1 },
+                '84': { col: 4, row: 1, w: 1, h: 1 },
+                '85': { col: 5, row: 1, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info BMW 3-Series 2012-2018 (F30) luggage-compartment fuse panel (positions 80-85).',
+                'The app\'s \'Glovebox Fuse Panel\' list (80, 82, 83, 84, 85) matches the F30 luggage table\'s 80-84 entries plus the electric sunshade at 85.',
+                'Exact slot assignment is approximated — verify against the fuse box cover.'
+              ]
+            }
           }
         ]
       }
@@ -51355,7 +51950,57 @@ bmw: {
               { pos: '69', amps: 20, circuit: 'SOCKET', desc: 'Cigarette lighter, 12V sockets' },
             ],
             relays: [
-            ]
+            ],
+            layout: {
+              cols: 10,
+              rows: 4,
+              cells: {
+                '18': { col: 1, row: 1, w: 1, h: 1 },
+                '20': { col: 2, row: 1, w: 1, h: 1 },
+                '21': { col: 3, row: 1, w: 1, h: 1 },
+                '22': { col: 4, row: 1, w: 1, h: 1 },
+                '23': { col: 5, row: 1, w: 1, h: 1 },
+                '24': { col: 6, row: 1, w: 1, h: 1 },
+                '25': { col: 7, row: 1, w: 1, h: 1 },
+                '26': { col: 8, row: 1, w: 1, h: 1 },
+                '27': { col: 9, row: 1, w: 1, h: 1 },
+                '28': { col: 10, row: 1, w: 1, h: 1 },
+                '29': { col: 1, row: 2, w: 1, h: 1 },
+                '32': { col: 2, row: 2, w: 1, h: 1 },
+                '33': { col: 3, row: 2, w: 1, h: 1 },
+                '34': { col: 4, row: 2, w: 1, h: 1 },
+                '36': { col: 5, row: 2, w: 1, h: 1 },
+                '40': { col: 6, row: 2, w: 1, h: 1 },
+                '42': { col: 7, row: 2, w: 1, h: 1 },
+                '44': { col: 8, row: 2, w: 1, h: 1 },
+                '45': { col: 9, row: 2, w: 1, h: 1 },
+                '46': { col: 10, row: 2, w: 1, h: 1 },
+                '47': { col: 1, row: 3, w: 1, h: 1 },
+                '48': { col: 2, row: 3, w: 1, h: 1 },
+                '50': { col: 3, row: 3, w: 1, h: 1 },
+                '52': { col: 4, row: 3, w: 1, h: 1 },
+                '53': { col: 5, row: 3, w: 1, h: 1 },
+                '54': { col: 6, row: 3, w: 1, h: 1 },
+                '55': { col: 7, row: 3, w: 1, h: 1 },
+                '56': { col: 8, row: 3, w: 1, h: 1 },
+                '57': { col: 9, row: 3, w: 1, h: 1 },
+                '58': { col: 10, row: 3, w: 1, h: 1 },
+                '62': { col: 1, row: 4, w: 1, h: 1 },
+                '63': { col: 2, row: 4, w: 1, h: 1 },
+                '64': { col: 3, row: 4, w: 1, h: 1 },
+                '65': { col: 4, row: 4, w: 1, h: 1 },
+                '66': { col: 5, row: 4, w: 1, h: 1 },
+                '67': { col: 6, row: 4, w: 1, h: 1 },
+                '68': { col: 7, row: 4, w: 1, h: 1 },
+                '69': { col: 8, row: 4, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info BMW 3-Series 2012-2018 (F30) engine-compartment front power distribution box photo.',
+                'The front box shows mini fuse slots in a grid; positions were mapped in the F30 OEM numbering order (left to right, top to bottom).',
+                'The app\'s fuse list for this model follows the F30-generation numbering; non-F30 model years in this range use a different physical box — verify against the fuse box cover.',
+                'Exact slot assignment is approximated from the photo and may vary by trim/region — verify against the fuse box cover.'
+              ]
+            }
           },
           {
             name: 'Rear Power Distribution Box (Trunk)',
@@ -51404,7 +52049,60 @@ bmw: {
               { pos: '165', amps: 20, circuit: 'FUEL PUMP', desc: 'Fuel pump' },
             ],
             relays: [
-            ]
+            ],
+            layout: {
+              cols: 10,
+              rows: 5,
+              cells: {
+                '100': { col: 1, row: 1, w: 1, h: 1 },
+                '103': { col: 2, row: 1, w: 1, h: 1 },
+                '104': { col: 3, row: 1, w: 1, h: 1 },
+                '107': { col: 4, row: 1, w: 1, h: 1 },
+                '113': { col: 5, row: 1, w: 1, h: 1 },
+                '114': { col: 6, row: 1, w: 1, h: 1 },
+                '116': { col: 7, row: 1, w: 1, h: 1 },
+                '117': { col: 8, row: 1, w: 1, h: 1 },
+                '120': { col: 9, row: 1, w: 1, h: 1 },
+                '121': { col: 10, row: 1, w: 1, h: 1 },
+                '122': { col: 1, row: 2, w: 1, h: 1 },
+                '123': { col: 2, row: 2, w: 1, h: 1 },
+                '124': { col: 3, row: 2, w: 1, h: 1 },
+                '126': { col: 4, row: 2, w: 1, h: 1 },
+                '128': { col: 5, row: 2, w: 1, h: 1 },
+                '129': { col: 6, row: 2, w: 1, h: 1 },
+                '130': { col: 7, row: 2, w: 1, h: 1 },
+                '132': { col: 8, row: 2, w: 1, h: 1 },
+                '137': { col: 9, row: 2, w: 1, h: 1 },
+                '139': { col: 10, row: 2, w: 1, h: 1 },
+                '140': { col: 1, row: 3, w: 1, h: 1 },
+                '141': { col: 2, row: 3, w: 1, h: 1 },
+                '142': { col: 3, row: 3, w: 1, h: 1 },
+                '144': { col: 4, row: 3, w: 1, h: 1 },
+                '145': { col: 5, row: 3, w: 1, h: 1 },
+                '146': { col: 6, row: 3, w: 1, h: 1 },
+                '147': { col: 7, row: 3, w: 1, h: 1 },
+                '148': { col: 8, row: 3, w: 1, h: 1 },
+                '149': { col: 9, row: 3, w: 1, h: 1 },
+                '150': { col: 10, row: 3, w: 1, h: 1 },
+                '151': { col: 1, row: 4, w: 1, h: 1 },
+                '152': { col: 2, row: 4, w: 1, h: 1 },
+                '153': { col: 3, row: 4, w: 1, h: 1 },
+                '154': { col: 4, row: 4, w: 1, h: 1 },
+                '159': { col: 5, row: 4, w: 1, h: 1 },
+                '160': { col: 6, row: 4, w: 1, h: 1 },
+                '161': { col: 7, row: 4, w: 1, h: 1 },
+                '162': { col: 8, row: 4, w: 1, h: 1 },
+                '163': { col: 9, row: 4, w: 1, h: 1 },
+                '164': { col: 10, row: 4, w: 1, h: 1 },
+                '165': { col: 1, row: 5, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info BMW 3-Series 2012-2018 (F30) luggage-compartment power distribution box photo.',
+                'Positions were mapped in the F30 OEM numbering order; larger fuses occupy wider slots in the source diagram.',
+                'The app\'s fuse list for this model follows the F30-generation numbering; non-F30 model years in this range use a different physical box — verify against the fuse box cover.',
+                'Exact slot assignment is approximated from the photo and may vary by trim/region — verify against the fuse box cover.'
+              ]
+            }
           },
           {
             name: 'Glovebox Fuse Panel',
@@ -51417,7 +52115,23 @@ bmw: {
               { pos: '85', amps: '7.5', circuit: 'SUNSHADE', desc: 'Electric rear sunshade' },
             ],
             relays: [
-            ]
+            ],
+            layout: {
+              cols: 5,
+              rows: 1,
+              cells: {
+                '80': { col: 1, row: 1, w: 1, h: 1 },
+                '82': { col: 2, row: 1, w: 1, h: 1 },
+                '83': { col: 3, row: 1, w: 1, h: 1 },
+                '84': { col: 4, row: 1, w: 1, h: 1 },
+                '85': { col: 5, row: 1, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info BMW 3-Series 2012-2018 (F30) luggage-compartment fuse panel (positions 80-85).',
+                'The app\'s \'Glovebox Fuse Panel\' list (80, 82, 83, 84, 85) matches the F30 luggage table\'s 80-84 entries plus the electric sunshade at 85.',
+                'Exact slot assignment is approximated — verify against the fuse box cover.'
+              ]
+            }
           }
         ]
       }
@@ -51469,7 +52183,57 @@ bmw: {
               { pos: '69', amps: 20, circuit: 'SOCKET', desc: 'Cigarette lighter, 12V sockets' },
             ],
             relays: [
-            ]
+            ],
+            layout: {
+              cols: 10,
+              rows: 4,
+              cells: {
+                '18': { col: 1, row: 1, w: 1, h: 1 },
+                '20': { col: 2, row: 1, w: 1, h: 1 },
+                '21': { col: 3, row: 1, w: 1, h: 1 },
+                '22': { col: 4, row: 1, w: 1, h: 1 },
+                '23': { col: 5, row: 1, w: 1, h: 1 },
+                '24': { col: 6, row: 1, w: 1, h: 1 },
+                '25': { col: 7, row: 1, w: 1, h: 1 },
+                '26': { col: 8, row: 1, w: 1, h: 1 },
+                '27': { col: 9, row: 1, w: 1, h: 1 },
+                '28': { col: 10, row: 1, w: 1, h: 1 },
+                '29': { col: 1, row: 2, w: 1, h: 1 },
+                '32': { col: 2, row: 2, w: 1, h: 1 },
+                '33': { col: 3, row: 2, w: 1, h: 1 },
+                '34': { col: 4, row: 2, w: 1, h: 1 },
+                '36': { col: 5, row: 2, w: 1, h: 1 },
+                '40': { col: 6, row: 2, w: 1, h: 1 },
+                '42': { col: 7, row: 2, w: 1, h: 1 },
+                '44': { col: 8, row: 2, w: 1, h: 1 },
+                '45': { col: 9, row: 2, w: 1, h: 1 },
+                '46': { col: 10, row: 2, w: 1, h: 1 },
+                '47': { col: 1, row: 3, w: 1, h: 1 },
+                '48': { col: 2, row: 3, w: 1, h: 1 },
+                '50': { col: 3, row: 3, w: 1, h: 1 },
+                '52': { col: 4, row: 3, w: 1, h: 1 },
+                '53': { col: 5, row: 3, w: 1, h: 1 },
+                '54': { col: 6, row: 3, w: 1, h: 1 },
+                '55': { col: 7, row: 3, w: 1, h: 1 },
+                '56': { col: 8, row: 3, w: 1, h: 1 },
+                '57': { col: 9, row: 3, w: 1, h: 1 },
+                '58': { col: 10, row: 3, w: 1, h: 1 },
+                '62': { col: 1, row: 4, w: 1, h: 1 },
+                '63': { col: 2, row: 4, w: 1, h: 1 },
+                '64': { col: 3, row: 4, w: 1, h: 1 },
+                '65': { col: 4, row: 4, w: 1, h: 1 },
+                '66': { col: 5, row: 4, w: 1, h: 1 },
+                '67': { col: 6, row: 4, w: 1, h: 1 },
+                '68': { col: 7, row: 4, w: 1, h: 1 },
+                '69': { col: 8, row: 4, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info BMW 3-Series 2012-2018 (F30) engine-compartment front power distribution box photo.',
+                'The front box shows mini fuse slots in a grid; positions were mapped in the F30 OEM numbering order (left to right, top to bottom).',
+                'The app\'s fuse list for this model follows the F30-generation numbering; non-F30 model years in this range use a different physical box — verify against the fuse box cover.',
+                'Exact slot assignment is approximated from the photo and may vary by trim/region — verify against the fuse box cover.'
+              ]
+            }
           },
           {
             name: 'Rear Power Distribution Box (Trunk)',
@@ -51518,7 +52282,60 @@ bmw: {
               { pos: '165', amps: 20, circuit: 'FUEL PUMP', desc: 'Fuel pump' },
             ],
             relays: [
-            ]
+            ],
+            layout: {
+              cols: 10,
+              rows: 5,
+              cells: {
+                '100': { col: 1, row: 1, w: 1, h: 1 },
+                '103': { col: 2, row: 1, w: 1, h: 1 },
+                '104': { col: 3, row: 1, w: 1, h: 1 },
+                '107': { col: 4, row: 1, w: 1, h: 1 },
+                '113': { col: 5, row: 1, w: 1, h: 1 },
+                '114': { col: 6, row: 1, w: 1, h: 1 },
+                '116': { col: 7, row: 1, w: 1, h: 1 },
+                '117': { col: 8, row: 1, w: 1, h: 1 },
+                '120': { col: 9, row: 1, w: 1, h: 1 },
+                '121': { col: 10, row: 1, w: 1, h: 1 },
+                '122': { col: 1, row: 2, w: 1, h: 1 },
+                '123': { col: 2, row: 2, w: 1, h: 1 },
+                '124': { col: 3, row: 2, w: 1, h: 1 },
+                '126': { col: 4, row: 2, w: 1, h: 1 },
+                '128': { col: 5, row: 2, w: 1, h: 1 },
+                '129': { col: 6, row: 2, w: 1, h: 1 },
+                '130': { col: 7, row: 2, w: 1, h: 1 },
+                '132': { col: 8, row: 2, w: 1, h: 1 },
+                '137': { col: 9, row: 2, w: 1, h: 1 },
+                '139': { col: 10, row: 2, w: 1, h: 1 },
+                '140': { col: 1, row: 3, w: 1, h: 1 },
+                '141': { col: 2, row: 3, w: 1, h: 1 },
+                '142': { col: 3, row: 3, w: 1, h: 1 },
+                '144': { col: 4, row: 3, w: 1, h: 1 },
+                '145': { col: 5, row: 3, w: 1, h: 1 },
+                '146': { col: 6, row: 3, w: 1, h: 1 },
+                '147': { col: 7, row: 3, w: 1, h: 1 },
+                '148': { col: 8, row: 3, w: 1, h: 1 },
+                '149': { col: 9, row: 3, w: 1, h: 1 },
+                '150': { col: 10, row: 3, w: 1, h: 1 },
+                '151': { col: 1, row: 4, w: 1, h: 1 },
+                '152': { col: 2, row: 4, w: 1, h: 1 },
+                '153': { col: 3, row: 4, w: 1, h: 1 },
+                '154': { col: 4, row: 4, w: 1, h: 1 },
+                '159': { col: 5, row: 4, w: 1, h: 1 },
+                '160': { col: 6, row: 4, w: 1, h: 1 },
+                '161': { col: 7, row: 4, w: 1, h: 1 },
+                '162': { col: 8, row: 4, w: 1, h: 1 },
+                '163': { col: 9, row: 4, w: 1, h: 1 },
+                '164': { col: 10, row: 4, w: 1, h: 1 },
+                '165': { col: 1, row: 5, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info BMW 3-Series 2012-2018 (F30) luggage-compartment power distribution box photo.',
+                'Positions were mapped in the F30 OEM numbering order; larger fuses occupy wider slots in the source diagram.',
+                'The app\'s fuse list for this model follows the F30-generation numbering; non-F30 model years in this range use a different physical box — verify against the fuse box cover.',
+                'Exact slot assignment is approximated from the photo and may vary by trim/region — verify against the fuse box cover.'
+              ]
+            }
           },
           {
             name: 'Glovebox Fuse Panel',
@@ -51531,7 +52348,23 @@ bmw: {
               { pos: '85', amps: '7.5', circuit: 'SUNSHADE', desc: 'Electric rear sunshade' },
             ],
             relays: [
-            ]
+            ],
+            layout: {
+              cols: 5,
+              rows: 1,
+              cells: {
+                '80': { col: 1, row: 1, w: 1, h: 1 },
+                '82': { col: 2, row: 1, w: 1, h: 1 },
+                '83': { col: 3, row: 1, w: 1, h: 1 },
+                '84': { col: 4, row: 1, w: 1, h: 1 },
+                '85': { col: 5, row: 1, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info BMW 3-Series 2012-2018 (F30) luggage-compartment fuse panel (positions 80-85).',
+                'The app\'s \'Glovebox Fuse Panel\' list (80, 82, 83, 84, 85) matches the F30 luggage table\'s 80-84 entries plus the electric sunshade at 85.',
+                'Exact slot assignment is approximated — verify against the fuse box cover.'
+              ]
+            }
           }
         ]
       }
@@ -51583,7 +52416,57 @@ bmw: {
               { pos: '69', amps: 20, circuit: 'SOCKET', desc: 'Cigarette lighter, 12V sockets' },
             ],
             relays: [
-            ]
+            ],
+            layout: {
+              cols: 10,
+              rows: 4,
+              cells: {
+                '18': { col: 1, row: 1, w: 1, h: 1 },
+                '20': { col: 2, row: 1, w: 1, h: 1 },
+                '21': { col: 3, row: 1, w: 1, h: 1 },
+                '22': { col: 4, row: 1, w: 1, h: 1 },
+                '23': { col: 5, row: 1, w: 1, h: 1 },
+                '24': { col: 6, row: 1, w: 1, h: 1 },
+                '25': { col: 7, row: 1, w: 1, h: 1 },
+                '26': { col: 8, row: 1, w: 1, h: 1 },
+                '27': { col: 9, row: 1, w: 1, h: 1 },
+                '28': { col: 10, row: 1, w: 1, h: 1 },
+                '29': { col: 1, row: 2, w: 1, h: 1 },
+                '32': { col: 2, row: 2, w: 1, h: 1 },
+                '33': { col: 3, row: 2, w: 1, h: 1 },
+                '34': { col: 4, row: 2, w: 1, h: 1 },
+                '36': { col: 5, row: 2, w: 1, h: 1 },
+                '40': { col: 6, row: 2, w: 1, h: 1 },
+                '42': { col: 7, row: 2, w: 1, h: 1 },
+                '44': { col: 8, row: 2, w: 1, h: 1 },
+                '45': { col: 9, row: 2, w: 1, h: 1 },
+                '46': { col: 10, row: 2, w: 1, h: 1 },
+                '47': { col: 1, row: 3, w: 1, h: 1 },
+                '48': { col: 2, row: 3, w: 1, h: 1 },
+                '50': { col: 3, row: 3, w: 1, h: 1 },
+                '52': { col: 4, row: 3, w: 1, h: 1 },
+                '53': { col: 5, row: 3, w: 1, h: 1 },
+                '54': { col: 6, row: 3, w: 1, h: 1 },
+                '55': { col: 7, row: 3, w: 1, h: 1 },
+                '56': { col: 8, row: 3, w: 1, h: 1 },
+                '57': { col: 9, row: 3, w: 1, h: 1 },
+                '58': { col: 10, row: 3, w: 1, h: 1 },
+                '62': { col: 1, row: 4, w: 1, h: 1 },
+                '63': { col: 2, row: 4, w: 1, h: 1 },
+                '64': { col: 3, row: 4, w: 1, h: 1 },
+                '65': { col: 4, row: 4, w: 1, h: 1 },
+                '66': { col: 5, row: 4, w: 1, h: 1 },
+                '67': { col: 6, row: 4, w: 1, h: 1 },
+                '68': { col: 7, row: 4, w: 1, h: 1 },
+                '69': { col: 8, row: 4, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info BMW 3-Series 2012-2018 (F30) engine-compartment front power distribution box photo.',
+                'The front box shows mini fuse slots in a grid; positions were mapped in the F30 OEM numbering order (left to right, top to bottom).',
+                'The app\'s fuse list for this model follows the F30-generation numbering; non-F30 model years in this range use a different physical box — verify against the fuse box cover.',
+                'Exact slot assignment is approximated from the photo and may vary by trim/region — verify against the fuse box cover.'
+              ]
+            }
           },
           {
             name: 'Rear Power Distribution Box (Trunk)',
@@ -51632,7 +52515,60 @@ bmw: {
               { pos: '165', amps: 20, circuit: 'FUEL PUMP', desc: 'Fuel pump' },
             ],
             relays: [
-            ]
+            ],
+            layout: {
+              cols: 10,
+              rows: 5,
+              cells: {
+                '100': { col: 1, row: 1, w: 1, h: 1 },
+                '103': { col: 2, row: 1, w: 1, h: 1 },
+                '104': { col: 3, row: 1, w: 1, h: 1 },
+                '107': { col: 4, row: 1, w: 1, h: 1 },
+                '113': { col: 5, row: 1, w: 1, h: 1 },
+                '114': { col: 6, row: 1, w: 1, h: 1 },
+                '116': { col: 7, row: 1, w: 1, h: 1 },
+                '117': { col: 8, row: 1, w: 1, h: 1 },
+                '120': { col: 9, row: 1, w: 1, h: 1 },
+                '121': { col: 10, row: 1, w: 1, h: 1 },
+                '122': { col: 1, row: 2, w: 1, h: 1 },
+                '123': { col: 2, row: 2, w: 1, h: 1 },
+                '124': { col: 3, row: 2, w: 1, h: 1 },
+                '126': { col: 4, row: 2, w: 1, h: 1 },
+                '128': { col: 5, row: 2, w: 1, h: 1 },
+                '129': { col: 6, row: 2, w: 1, h: 1 },
+                '130': { col: 7, row: 2, w: 1, h: 1 },
+                '132': { col: 8, row: 2, w: 1, h: 1 },
+                '137': { col: 9, row: 2, w: 1, h: 1 },
+                '139': { col: 10, row: 2, w: 1, h: 1 },
+                '140': { col: 1, row: 3, w: 1, h: 1 },
+                '141': { col: 2, row: 3, w: 1, h: 1 },
+                '142': { col: 3, row: 3, w: 1, h: 1 },
+                '144': { col: 4, row: 3, w: 1, h: 1 },
+                '145': { col: 5, row: 3, w: 1, h: 1 },
+                '146': { col: 6, row: 3, w: 1, h: 1 },
+                '147': { col: 7, row: 3, w: 1, h: 1 },
+                '148': { col: 8, row: 3, w: 1, h: 1 },
+                '149': { col: 9, row: 3, w: 1, h: 1 },
+                '150': { col: 10, row: 3, w: 1, h: 1 },
+                '151': { col: 1, row: 4, w: 1, h: 1 },
+                '152': { col: 2, row: 4, w: 1, h: 1 },
+                '153': { col: 3, row: 4, w: 1, h: 1 },
+                '154': { col: 4, row: 4, w: 1, h: 1 },
+                '159': { col: 5, row: 4, w: 1, h: 1 },
+                '160': { col: 6, row: 4, w: 1, h: 1 },
+                '161': { col: 7, row: 4, w: 1, h: 1 },
+                '162': { col: 8, row: 4, w: 1, h: 1 },
+                '163': { col: 9, row: 4, w: 1, h: 1 },
+                '164': { col: 10, row: 4, w: 1, h: 1 },
+                '165': { col: 1, row: 5, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info BMW 3-Series 2012-2018 (F30) luggage-compartment power distribution box photo.',
+                'Positions were mapped in the F30 OEM numbering order; larger fuses occupy wider slots in the source diagram.',
+                'The app\'s fuse list for this model follows the F30-generation numbering; non-F30 model years in this range use a different physical box — verify against the fuse box cover.',
+                'Exact slot assignment is approximated from the photo and may vary by trim/region — verify against the fuse box cover.'
+              ]
+            }
           },
           {
             name: 'Glovebox Fuse Panel',
@@ -51645,7 +52581,23 @@ bmw: {
               { pos: '85', amps: '7.5', circuit: 'SUNSHADE', desc: 'Electric rear sunshade' },
             ],
             relays: [
-            ]
+            ],
+            layout: {
+              cols: 5,
+              rows: 1,
+              cells: {
+                '80': { col: 1, row: 1, w: 1, h: 1 },
+                '82': { col: 2, row: 1, w: 1, h: 1 },
+                '83': { col: 3, row: 1, w: 1, h: 1 },
+                '84': { col: 4, row: 1, w: 1, h: 1 },
+                '85': { col: 5, row: 1, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info BMW 3-Series 2012-2018 (F30) luggage-compartment fuse panel (positions 80-85).',
+                'The app\'s \'Glovebox Fuse Panel\' list (80, 82, 83, 84, 85) matches the F30 luggage table\'s 80-84 entries plus the electric sunshade at 85.',
+                'Exact slot assignment is approximated — verify against the fuse box cover.'
+              ]
+            }
           }
         ]
       }
