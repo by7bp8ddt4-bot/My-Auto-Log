@@ -38564,16 +38564,328 @@ dodge: {
   },
   nissan: {
     altima: {
-      "2019-2026": { panels: [{"name": "Interior Fuse Panel","location": "Driver side of dashboard, behind the lower trim/access cover","fuses": [{"pos": "1","amps": 20,"circuit": "SPARE","desc": "Spare fuse"},{"pos": "2","amps": 15,"circuit": "USB CHARGE","desc": "USB charger"},{"pos": "3","amps": 10,"circuit": "ACC","desc": ") Protects several circuits"},{"pos": "4","amps": 20,"circuit": "POWER SOCKET","desc": "Cigar lighter / power outlet"},{"pos": "5","amps": 10,"circuit": "VDC CONT","desc": "Vehicle dynamics control solenoid"},{"pos": "6","amps": 5,"circuit": "IGN","desc": ") Instrument cluster"},{"pos": "7","amps": 5,"circuit": "SPARE","desc": "Spare fuse"},{"pos": "8","amps": 20,"circuit": "H/SEAT FR","desc": "Front seat heater"},{"pos": "9","amps": 5,"circuit": "STRG","desc": "Steering lock"},{"pos": "10","amps": 5,"circuit": "E-PKB","desc": "E-PKB"},{"pos": "11","amps": 10,"circuit": "AIR BAG","desc": "Airbag"},{"pos": "12","amps": 5,"circuit": "IG SIG","desc": "ELEC PARTS (IG SIG)"},{"pos": "13","amps": 10,"circuit": "IG POWER","desc": "ELEC PARTS (IG POWER)"},{"pos": "14","amps": 5,"circuit": "EPS","desc": "Electric power steering"},{"pos": "15","amps": 10,"circuit": "ATR CONT","desc": "ATR CONT"},{"pos": "16","amps": 10,"circuit": "WASHER PUMP","desc": "Windshield washer"},{"pos": "17","amps": 30,"circuit": "RR DEF","desc": "Rear window defogger"},{"pos": "18","amps": 5,"circuit": "SPARE","desc": "Spare fuse"},{"pos": "19","amps": 10,"circuit": "HEATED MIRROR","desc": "Mirror heater"},{"pos": "20","amps": 5,"circuit": "BCM","desc": "Body control module"},{"pos": "21","amps": 10,"circuit": "BAT","desc": ") Instrument cluster"},{"pos": "22","amps": 10,"circuit": "AUDIO-2","desc": "Audio system"},{"pos": "23","amps": 5,"circuit": "SPARE","desc": "Spare fuse"},{"pos": "24","amps": 20,"circuit": "AUDIO -1","desc": "Audio system"},{"pos": "25","amps": 15,"circuit": "SPARE","desc": "Spare fuse"},{"pos": "26","amps": 20,"circuit": "BOSE","desc": "Audio system"},{"pos": "27","amps": 10,"circuit": "SPARE","desc": "Spare fuse"},{"pos": "28","amps": 15,"circuit": "SPARE","desc": "Spare fuse"},{"pos": "29","amps": 20,"circuit": "SPARE","desc": "Spare fuse"},{"pos": "30","amps": 30,"circuit": "BLOWER MOTOR","desc": "AC blower motor"},{"pos": "31","amps": 30,"circuit": "SPARE","desc": "Spare fuse"},{"pos": "32","amps": 5,"circuit": "ILL","desc": "Illumination"},{"pos": "33","amps": 10,"circuit": "HEATED STRG","desc": "Heated steering wheel"},{"pos": "35","amps": 10,"circuit": "BCM","desc": "Body control module"},{"pos": "36","amps": 10,"circuit": "4WD SOL","desc": "4WD SOL"},{"pos": "37","amps": 10,"circuit": "4WD CONT","desc": "4WD CONT"},{"pos": "38","amps": 10,"circuit": "ELECT PKB","desc": "ELECT PKB"},{"pos": "39","amps": 10,"circuit": "BAT","desc": "ELEC B (BAT)"},{"pos": "40","amps": 10,"circuit": "GATEWAY","desc": "GATEWAY"},{"pos": "41","amps": 10,"circuit": "TCU","desc": "Transmission control unit"},{"pos": "42","amps": 15,"circuit": "DOOR LOCK RR","desc": "Power door lock system"},{"pos": "43","amps": 15,"circuit": "DOOR LOCK FR","desc": "Power door lock system"},{"pos": "44","amps": 10,"circuit": "TURN SIGNAL","desc": "Turn signal"},{"pos": "45","amps": 15,"circuit": "RR FOG","desc": "Rear fog lights"},{"pos": "46","amps": 10,"circuit": "ROOM LAMP","desc": "Dome light and interior light"},{"pos": "47","amps": 10,"circuit": "STOP LAMP -2","desc": "Stop lights"},{"pos": "48","amps": 5,"circuit": "STOP LAMP -1","desc": "Stop lights"}],"relays": []},{"name": "Engine Compartment Fuse Box (IPDM E/R)","location": "Driver side of engine compartment, near the battery, under the fuse box cover","fuses": [{"pos": "1","amps": 10,"circuit": "CVI CONT","desc": "CVI CONT"},{"pos": "2","amps": 10,"circuit": "VCR CONT","desc": "VCR CONT"},{"pos": "4","amps": 15,"circuit": "HORN","desc": "Horn"},{"pos": "6","amps": 15,"circuit": "VINJI","desc": "VINJI"},{"pos": "8","amps": 15,"circuit": "VINJ2","desc": "VINJ2"},{"pos": "10","amps": 10,"circuit": "FUEL HIGH PUMP","desc": "Fuel pump"},{"pos": "12","amps": 30,"circuit": "E-PKB CONT 1","desc": "E-PKB CONT 1"},{"pos": "14","amps": 30,"circuit": "E-PKB CONT2","desc": "E-PKB CONT2"},{"pos": "18","amps": 40,"circuit": "RAD FAN1","desc": "Radiator fan"},{"pos": "20","amps": 40,"circuit": "VDC MOTOR","desc": "Vehicle dynamics control solenoid"},{"pos": "21","amps": 50,"circuit": "IGN SW","desc": "Ignition switch"},{"pos": "22","amps": 30,"circuit": "VDC SOL","desc": "Vehicle dynamics control solenoid"},{"pos": "25","amps": 40,"circuit": "USM","desc": "USM"},{"pos": "29","amps": 40,"circuit": "RAD FAN2","desc": "Radiator fan"},{"pos": "30","amps": 40,"circuit": "E-VTC CONT","desc": "E-VTC CONT"},{"pos": "31","amps": 40,"circuit": "POWER WDW","desc": "POWER WDW"}],"relays": []},{"name": "Engine Compartment Fuse Box (Additional)","location": "Engine compartment near the battery and air intake, under the fuse box cover","fuses": [{"pos": "1","amps": 10,"circuit": "REV_LAMP/AC_VALVE","desc": "REV_LAMP/AC_VALVE"},{"pos": "3","amps": 10,"circuit": "AT","desc": "AT"},{"pos": "4","amps": 10,"circuit": "AIRBAG/ABS","desc": "Airbag; Anti-lock braking system"},{"pos": "5","amps": 10,"circuit": "ACTUATOR2","desc": "ACTUATOR2"},{"pos": "6","amps": 5,"circuit": "ECM/","desc": "Engine control unit"},{"pos": "9","amps": 15,"circuit": "ACTUATOR1","desc": "ACTUATOR1"}],"relays": []}] }
+      "2019-2026": { panels: [{"name": "Interior Fuse Panel","location": "Driver side of dashboard, behind the lower trim/access cover","fuses": [{"pos": "1","amps": 20,"circuit": "SPARE","desc": "Spare fuse"},{"pos": "2","amps": 15,"circuit": "USB CHARGE","desc": "USB charger"},{"pos": "3","amps": 10,"circuit": "ACC","desc": ") Protects several circuits"},{"pos": "4","amps": 20,"circuit": "POWER SOCKET","desc": "Cigar lighter / power outlet"},{"pos": "5","amps": 10,"circuit": "VDC CONT","desc": "Vehicle dynamics control solenoid"},{"pos": "6","amps": 5,"circuit": "IGN","desc": ") Instrument cluster"},{"pos": "7","amps": 5,"circuit": "SPARE","desc": "Spare fuse"},{"pos": "8","amps": 20,"circuit": "H/SEAT FR","desc": "Front seat heater"},{"pos": "9","amps": 5,"circuit": "STRG","desc": "Steering lock"},{"pos": "10","amps": 5,"circuit": "E-PKB","desc": "E-PKB"},{"pos": "11","amps": 10,"circuit": "AIR BAG","desc": "Airbag"},{"pos": "12","amps": 5,"circuit": "IG SIG","desc": "ELEC PARTS (IG SIG)"},{"pos": "13","amps": 10,"circuit": "IG POWER","desc": "ELEC PARTS (IG POWER)"},{"pos": "14","amps": 5,"circuit": "EPS","desc": "Electric power steering"},{"pos": "15","amps": 10,"circuit": "ATR CONT","desc": "ATR CONT"},{"pos": "16","amps": 10,"circuit": "WASHER PUMP","desc": "Windshield washer"},{"pos": "17","amps": 30,"circuit": "RR DEF","desc": "Rear window defogger"},{"pos": "18","amps": 5,"circuit": "SPARE","desc": "Spare fuse"},{"pos": "19","amps": 10,"circuit": "HEATED MIRROR","desc": "Mirror heater"},{"pos": "20","amps": 5,"circuit": "BCM","desc": "Body control module"},{"pos": "21","amps": 10,"circuit": "BAT","desc": ") Instrument cluster"},{"pos": "22","amps": 10,"circuit": "AUDIO-2","desc": "Audio system"},{"pos": "23","amps": 5,"circuit": "SPARE","desc": "Spare fuse"},{"pos": "24","amps": 20,"circuit": "AUDIO -1","desc": "Audio system"},{"pos": "25","amps": 15,"circuit": "SPARE","desc": "Spare fuse"},{"pos": "26","amps": 20,"circuit": "BOSE","desc": "Audio system"},{"pos": "27","amps": 10,"circuit": "SPARE","desc": "Spare fuse"},{"pos": "28","amps": 15,"circuit": "SPARE","desc": "Spare fuse"},{"pos": "29","amps": 20,"circuit": "SPARE","desc": "Spare fuse"},{"pos": "30","amps": 30,"circuit": "BLOWER MOTOR","desc": "AC blower motor"},{"pos": "31","amps": 30,"circuit": "SPARE","desc": "Spare fuse"},{"pos": "32","amps": 5,"circuit": "ILL","desc": "Illumination"},{"pos": "33","amps": 10,"circuit": "HEATED STRG","desc": "Heated steering wheel"},{"pos": "35","amps": 10,"circuit": "BCM","desc": "Body control module"},{"pos": "36","amps": 10,"circuit": "4WD SOL","desc": "4WD SOL"},{"pos": "37","amps": 10,"circuit": "4WD CONT","desc": "4WD CONT"},{"pos": "38","amps": 10,"circuit": "ELECT PKB","desc": "ELECT PKB"},{"pos": "39","amps": 10,"circuit": "BAT","desc": "ELEC B (BAT)"},{"pos": "40","amps": 10,"circuit": "GATEWAY","desc": "GATEWAY"},{"pos": "41","amps": 10,"circuit": "TCU","desc": "Transmission control unit"},{"pos": "42","amps": 15,"circuit": "DOOR LOCK RR","desc": "Power door lock system"},{"pos": "43","amps": 15,"circuit": "DOOR LOCK FR","desc": "Power door lock system"},{"pos": "44","amps": 10,"circuit": "TURN SIGNAL","desc": "Turn signal"},{"pos": "45","amps": 15,"circuit": "RR FOG","desc": "Rear fog lights"},{"pos": "46","amps": 10,"circuit": "ROOM LAMP","desc": "Dome light and interior light"},{"pos": "47","amps": 10,"circuit": "STOP LAMP -2","desc": "Stop lights"},{"pos": "48","amps": 5,"circuit": "STOP LAMP -1","desc": "Stop lights"}],"relays": [],
+            layout: {
+              cols: 6,
+              rows: 8,
+              cells: {
+                '1': { col: 1, row: 1, w: 1, h: 1 },
+                '2': { col: 2, row: 1, w: 1, h: 1 },
+                '3': { col: 3, row: 1, w: 1, h: 1 },
+                '4': { col: 4, row: 1, w: 1, h: 1 },
+                '5': { col: 5, row: 1, w: 1, h: 1 },
+                '6': { col: 6, row: 1, w: 1, h: 1 },
+                '7': { col: 1, row: 2, w: 1, h: 1 },
+                '8': { col: 2, row: 2, w: 1, h: 1 },
+                '9': { col: 3, row: 2, w: 1, h: 1 },
+                '10': { col: 4, row: 2, w: 1, h: 1 },
+                '11': { col: 5, row: 2, w: 1, h: 1 },
+                '12': { col: 6, row: 2, w: 1, h: 1 },
+                '13': { col: 1, row: 3, w: 1, h: 1 },
+                '14': { col: 2, row: 3, w: 1, h: 1 },
+                '15': { col: 3, row: 3, w: 1, h: 1 },
+                '16': { col: 4, row: 3, w: 1, h: 1 },
+                '17': { col: 5, row: 3, w: 1, h: 1 },
+                '18': { col: 6, row: 3, w: 1, h: 1 },
+                '19': { col: 1, row: 4, w: 1, h: 1 },
+                '20': { col: 2, row: 4, w: 1, h: 1 },
+                '21': { col: 3, row: 4, w: 1, h: 1 },
+                '22': { col: 4, row: 4, w: 1, h: 1 },
+                '23': { col: 5, row: 4, w: 1, h: 1 },
+                '24': { col: 6, row: 4, w: 1, h: 1 },
+                '25': { col: 1, row: 5, w: 1, h: 1 },
+                '26': { col: 2, row: 5, w: 1, h: 1 },
+                '27': { col: 3, row: 5, w: 1, h: 1 },
+                '28': { col: 4, row: 5, w: 1, h: 1 },
+                '29': { col: 5, row: 5, w: 1, h: 1 },
+                '30': { col: 6, row: 5, w: 1, h: 1 },
+                '31': { col: 1, row: 6, w: 1, h: 1 },
+                '32': { col: 2, row: 6, w: 1, h: 1 },
+                '33': { col: 3, row: 6, w: 1, h: 1 },
+                '35': { col: 4, row: 6, w: 1, h: 1 },
+                '36': { col: 5, row: 6, w: 1, h: 1 },
+                '37': { col: 6, row: 6, w: 1, h: 1 },
+                '38': { col: 1, row: 7, w: 1, h: 1 },
+                '39': { col: 2, row: 7, w: 1, h: 1 },
+                '40': { col: 3, row: 7, w: 1, h: 1 },
+                '41': { col: 4, row: 7, w: 1, h: 1 },
+                '42': { col: 5, row: 7, w: 1, h: 1 },
+                '43': { col: 6, row: 7, w: 1, h: 1 },
+                '44': { col: 1, row: 8, w: 1, h: 1 },
+                '45': { col: 2, row: 8, w: 1, h: 1 },
+                '46': { col: 3, row: 8, w: 1, h: 1 },
+                '47': { col: 4, row: 8, w: 1, h: 1 },
+                '48': { col: 5, row: 8, w: 1, h: 1 },
+              },
+              notes: [
+                'Wave 9 — Nissan/Infiniti interior fuse panel layout.',
+                'Uniform row-major approximation of the fuse-box.info diagram',
+                '(source generation noted in the wave report); slot numbers match',
+                'the OEM panel numbering.'
+              ]
+            }
+          },{"name": "Engine Compartment Fuse Box (IPDM E/R)","location": "Driver side of engine compartment, near the battery, under the fuse box cover","fuses": [{"pos": "1","amps": 10,"circuit": "CVI CONT","desc": "CVI CONT"},{"pos": "2","amps": 10,"circuit": "VCR CONT","desc": "VCR CONT"},{"pos": "4","amps": 15,"circuit": "HORN","desc": "Horn"},{"pos": "6","amps": 15,"circuit": "VINJI","desc": "VINJI"},{"pos": "8","amps": 15,"circuit": "VINJ2","desc": "VINJ2"},{"pos": "10","amps": 10,"circuit": "FUEL HIGH PUMP","desc": "Fuel pump"},{"pos": "12","amps": 30,"circuit": "E-PKB CONT 1","desc": "E-PKB CONT 1"},{"pos": "14","amps": 30,"circuit": "E-PKB CONT2","desc": "E-PKB CONT2"},{"pos": "18","amps": 40,"circuit": "RAD FAN1","desc": "Radiator fan"},{"pos": "20","amps": 40,"circuit": "VDC MOTOR","desc": "Vehicle dynamics control solenoid"},{"pos": "21","amps": 50,"circuit": "IGN SW","desc": "Ignition switch"},{"pos": "22","amps": 30,"circuit": "VDC SOL","desc": "Vehicle dynamics control solenoid"},{"pos": "25","amps": 40,"circuit": "USM","desc": "USM"},{"pos": "29","amps": 40,"circuit": "RAD FAN2","desc": "Radiator fan"},{"pos": "30","amps": 40,"circuit": "E-VTC CONT","desc": "E-VTC CONT"},{"pos": "31","amps": 40,"circuit": "POWER WDW","desc": "POWER WDW"}],"relays": [],
+            layout: {
+              cols: 4,
+              rows: 4,
+              cells: {
+                '1': { col: 1, row: 1, w: 1, h: 1 },
+                '2': { col: 2, row: 1, w: 1, h: 1 },
+                '4': { col: 3, row: 1, w: 1, h: 1 },
+                '6': { col: 4, row: 1, w: 1, h: 1 },
+                '8': { col: 1, row: 2, w: 1, h: 1 },
+                '10': { col: 2, row: 2, w: 1, h: 1 },
+                '12': { col: 3, row: 2, w: 1, h: 1 },
+                '14': { col: 4, row: 2, w: 1, h: 1 },
+                '18': { col: 1, row: 3, w: 1, h: 1 },
+                '20': { col: 2, row: 3, w: 1, h: 1 },
+                '21': { col: 3, row: 3, w: 1, h: 1 },
+                '22': { col: 4, row: 3, w: 1, h: 1 },
+                '25': { col: 1, row: 4, w: 1, h: 1 },
+                '29': { col: 2, row: 4, w: 1, h: 1 },
+                '30': { col: 3, row: 4, w: 1, h: 1 },
+                '31': { col: 4, row: 4, w: 1, h: 1 },
+              },
+              notes: [
+                'Wave 9 — Nissan/Infiniti engine compartment fuse box layout.',
+                'Uniform row-major approximation of the fuse-box.info diagram;',
+                'slot numbers match the OEM IPDM/junction block numbering.'
+              ]
+            }
+          },{"name": "Engine Compartment Fuse Box (Additional)","location": "Engine compartment near the battery and air intake, under the fuse box cover","fuses": [{"pos": "1","amps": 10,"circuit": "REV_LAMP/AC_VALVE","desc": "REV_LAMP/AC_VALVE"},{"pos": "3","amps": 10,"circuit": "AT","desc": "AT"},{"pos": "4","amps": 10,"circuit": "AIRBAG/ABS","desc": "Airbag; Anti-lock braking system"},{"pos": "5","amps": 10,"circuit": "ACTUATOR2","desc": "ACTUATOR2"},{"pos": "6","amps": 5,"circuit": "ECM/","desc": "Engine control unit"},{"pos": "9","amps": 15,"circuit": "ACTUATOR1","desc": "ACTUATOR1"}],"relays": [],
+            layout: {
+              cols: 4,
+              rows: 2,
+              cells: {
+                '1': { col: 1, row: 1, w: 1, h: 1 },
+                '3': { col: 2, row: 1, w: 1, h: 1 },
+                '4': { col: 3, row: 1, w: 1, h: 1 },
+                '5': { col: 4, row: 1, w: 1, h: 1 },
+                '6': { col: 1, row: 2, w: 1, h: 1 },
+                '9': { col: 2, row: 2, w: 1, h: 1 },
+              },
+              notes: [
+                'Wave 9 — Nissan/Infiniti engine compartment fuse box layout.',
+                'Uniform row-major approximation of the fuse-box.info diagram;',
+                'slot numbers match the OEM IPDM/junction block numbering.'
+              ]
+            }
+          }] }
     },
     frontier: {
-      "2022-2026": { panels: [{"name": "Interior Fuse Panel","location": "Driver side of dashboard, behind the lower trim/access cover","fuses": [{"pos": "1","amps": 5,"circuit": "BODY CONTROL MODULE POWER DISTRIBUTION SYSTEM","desc": "Body Control Module, Power Distribution System"},{"pos": "2","amps": 20,"circuit": "BASE AUDIO SYSTEM DISPLAY AUDIO SYSTEM NAVIGATIO","desc": "BASE Audio System, Display Audio System, Navigation System, Driver Assistance System"},{"pos": "3","amps": 5,"circuit": "BAT CUT","desc": "Electronic Parts (BAT CUT)"},{"pos": "4","amps": 10,"circuit": "BAT","desc": "Meter (BAT)"},{"pos": "5","amps": 15,"circuit": "AUDIO AMPLIFIER","desc": "Audio Amplifier"},{"pos": "6","amps": 15,"circuit": "AUDIO AMPLIFIER","desc": "Audio Amplifier"},{"pos": "7","amps": 10,"circuit": "EXTENDED STORAGE SW","desc": "Extended Storage SW"},{"pos": "8","amps": 10,"circuit": "BACK-UP LAMP BODY CONTROL MODULE BRAKE CONTROL S","desc": "Back-up Lamp, Body Control Module, Brake Control System, CVT Shift Lock System, Engine Control System, Intelligent Key System, Power Distrib"},{"pos": "9","amps": 5,"circuit": "PUSH ENGINE START","desc": "Push Engine Start"},{"pos": "10","amps": 10,"circuit": "CARGO LAMP","desc": "Cargo Lamp"},{"pos": "11","amps": 10,"circuit": "H STRG","desc": "H STRG"},{"pos": "12","amps": 10,"circuit": "BAT","desc": "Electric Parts (BAT)"},{"pos": "13","amps": 10,"circuit": "BAT","desc": "Dealer Optionals (BAT)"},{"pos": "14","amps": 15,"circuit": "BODY CONTROL MODULE INTELLIGENT KEY SYSTEM POWER","desc": "Body Control Module, Intelligent Key System, Power Door Lock System, Power Window System, Vehicle Security System"},{"pos": "15","amps": 15,"circuit": "BODY CONTROL MODULE INTELLIGENT KEY SYSTEM POWER","desc": "Body Control Module, Intelligent Key System, Power Door Lock System, Power Window System, Vehicle Security System"},{"pos": "16","amps": 10,"circuit": "A/T CONT","desc": "A/T Cont."},{"pos": "17","amps": 10,"circuit": "ROOM LAMP","desc": "Room Lamp"},{"pos": "18","amps": 10,"circuit": "WASHER PUMP","desc": "Washer Pump"},{"pos": "19","amps": 10,"circuit": "SRS AIR BAG CONTROL SYSTEM","desc": "SRS Air Bag Control System"},{"pos": "20","amps": 5,"circuit": "IGN","desc": "Meter (IGN)"},{"pos": "21","amps": 10,"circuit": "IGN PWR","desc": "Electronic Parts (IGN PWR)"},{"pos": "22","amps": 5,"circuit": "IGN SIG","desc": "Electronic Parts (IGN SIG)"},{"pos": "24","amps": 15,"circuit": "BLOWER MOTOR","desc": "Blower Motor"},{"pos": "26","amps": 5,"circuit": "ACCESSORY SPARE","desc": "Accessory Spare"},{"pos": "30","amps": 20,"circuit": "POWER SOCKET 1","desc": "Power Socket 1"},{"pos": "31","amps": 20,"circuit": "POWER SOCKET 2","desc": "Power Socket 2"},{"pos": "32","amps": 10,"circuit": "ACC","desc": "Dealer Optionals (Acc)"},{"pos": "33","amps": 10,"circuit": "ACC","desc": "Electronic Parts (Acc)"},{"pos": "34","amps": 15,"circuit": "BLOWER MOTOR","desc": "Blower Motor"},{"pos": "35","amps": 20,"circuit": "SPARE","desc": "Spare"},{"pos": "36","amps": 15,"circuit": "SPARE","desc": "Spare"},{"pos": "37","amps": 10,"circuit": "SPARE","desc": "Spare"},{"pos": "38","amps": 5,"circuit": "SPARE","desc": "Spare"}],"relays": []},{"name": "Engine Compartment Fuse Box (IPDM E/R)","location": "Driver side of engine compartment, near the battery, under the fuse box cover","fuses": [{"pos": "34","amps": 15,"circuit": "FUEL PUMP","desc": "Fuel Pump"},{"pos": "35","amps": 15,"circuit": "FR FOG","desc": "Front Fog Light"},{"pos": "36","amps": 10,"circuit": "ESCL","desc": "Steering Lock"},{"pos": "37","amps": 15,"circuit": "INJECTOR","desc": "Injector"},{"pos": "38","amps": 15,"circuit": "H/L LO RH","desc": "Headlight Low Beam Right Hand"},{"pos": "39","amps": 15,"circuit": "H/L LO LH","desc": "Headlight Low Beam Left Hand"},{"pos": "40","amps": 15,"circuit": "IGN COIL","desc": "Ignition Coil"},{"pos": "41","amps": 30,"circuit": "FR WIP","desc": "Front Wiper"},{"pos": "42","amps": 10,"circuit": "CLEARANCE LH","desc": "Clearance Light Left Hand"},{"pos": "43","amps": 10,"circuit": "CLEARANCE RH","desc": "Clearance Light Right Hand"},{"pos": "44","amps": 10,"circuit": "H/L HI RH","desc": "Headlight High Beam Right Hand"},{"pos": "45","amps": 10,"circuit": "H/L HI LH","desc": "Headlight High Beam Left Hand"},{"pos": "46","amps": 10,"circuit": "ABS ECU","desc": "Anti-lock Braking System Electronic Control Unit"},{"pos": "51","amps": 10,"circuit": "A/C CLUTCH","desc": "Air Conditioning Clutch"},{"pos": "53","amps": 20,"circuit": "RR DEF","desc": "Rear Defogger"},{"pos": "55","amps": 15,"circuit": "THROTTLE MTR","desc": "Throttle Motor"},{"pos": "56","amps": 20,"circuit": "ECCS","desc": "Engine Control Computer System"},{"pos": "47","amps": 10,"circuit": "A/T ECU","desc": "Automatic Transmission Electronic Control Unit"},{"pos": "48","amps": 10,"circuit": "REVERSE LAMP","desc": "Reverse Lamp"},{"pos": "49","amps": 15,"circuit": "HEATED MIRROR","desc": "Heated Mirror"}],"relays": []},{"name": "Engine Compartment Fuse Box (Additional)","location": "Engine compartment near the battery and air intake, under the fuse box cover","fuses": [{"pos": "24","amps": 15,"circuit": "TRAILER TOW TURN","desc": "Trailer Tow Turn"},{"pos": "25","amps": 10,"circuit": "DAYTIME RUNNING LIGHTS","desc": "Daytime running lights"},{"pos": "26","amps": 10,"circuit": "ELECTRONIC CONTROL UNIT","desc": "Transfer Case Control (Electronic Control Unit)"},{"pos": "27","amps": 10,"circuit": "TRAILER TOW REVERSE","desc": "Trailer Tow Reverse"},{"pos": "28","amps": 15,"circuit": "INJECTOR 2","desc": "Fuel injectors"},{"pos": "29","amps": 10,"circuit": "DIFFERENTIAL LOCK","desc": "Differential Lock"},{"pos": "30","amps": 15,"circuit": "HORN","desc": "Horn"},{"pos": "31","amps": 15,"circuit": "INJECTOR 1","desc": "Fuel injectors"},{"pos": "J","amps": 40,"circuit": "IGNITION SWITCH","desc": "Ignition switch"}],"relays": []},{"name": "Engine Compartment Fuse Box (Relay Block)","location": "Engine compartment near the battery, under the relay block cover","fuses": [{"pos": "1","amps": 50,"circuit": "VTC CONT 2","desc": "Variable Timing Control 2"},{"pos": "2","amps": 50,"circuit": "VTC CONT 1","desc": "Variable Timing Control 1"},{"pos": "3","amps": 60,"circuit": "INVERTER","desc": "Power outlet (DC/AC inverter)"},{"pos": "5","amps": 20,"circuit": "H/SEAT","desc": "Heated Seat"}],"relays": []}] }
+      "2022-2026": { panels: [{"name": "Interior Fuse Panel","location": "Driver side of dashboard, behind the lower trim/access cover","fuses": [{"pos": "1","amps": 5,"circuit": "BODY CONTROL MODULE POWER DISTRIBUTION SYSTEM","desc": "Body Control Module, Power Distribution System"},{"pos": "2","amps": 20,"circuit": "BASE AUDIO SYSTEM DISPLAY AUDIO SYSTEM NAVIGATIO","desc": "BASE Audio System, Display Audio System, Navigation System, Driver Assistance System"},{"pos": "3","amps": 5,"circuit": "BAT CUT","desc": "Electronic Parts (BAT CUT)"},{"pos": "4","amps": 10,"circuit": "BAT","desc": "Meter (BAT)"},{"pos": "5","amps": 15,"circuit": "AUDIO AMPLIFIER","desc": "Audio Amplifier"},{"pos": "6","amps": 15,"circuit": "AUDIO AMPLIFIER","desc": "Audio Amplifier"},{"pos": "7","amps": 10,"circuit": "EXTENDED STORAGE SW","desc": "Extended Storage SW"},{"pos": "8","amps": 10,"circuit": "BACK-UP LAMP BODY CONTROL MODULE BRAKE CONTROL S","desc": "Back-up Lamp, Body Control Module, Brake Control System, CVT Shift Lock System, Engine Control System, Intelligent Key System, Power Distrib"},{"pos": "9","amps": 5,"circuit": "PUSH ENGINE START","desc": "Push Engine Start"},{"pos": "10","amps": 10,"circuit": "CARGO LAMP","desc": "Cargo Lamp"},{"pos": "11","amps": 10,"circuit": "H STRG","desc": "H STRG"},{"pos": "12","amps": 10,"circuit": "BAT","desc": "Electric Parts (BAT)"},{"pos": "13","amps": 10,"circuit": "BAT","desc": "Dealer Optionals (BAT)"},{"pos": "14","amps": 15,"circuit": "BODY CONTROL MODULE INTELLIGENT KEY SYSTEM POWER","desc": "Body Control Module, Intelligent Key System, Power Door Lock System, Power Window System, Vehicle Security System"},{"pos": "15","amps": 15,"circuit": "BODY CONTROL MODULE INTELLIGENT KEY SYSTEM POWER","desc": "Body Control Module, Intelligent Key System, Power Door Lock System, Power Window System, Vehicle Security System"},{"pos": "16","amps": 10,"circuit": "A/T CONT","desc": "A/T Cont."},{"pos": "17","amps": 10,"circuit": "ROOM LAMP","desc": "Room Lamp"},{"pos": "18","amps": 10,"circuit": "WASHER PUMP","desc": "Washer Pump"},{"pos": "19","amps": 10,"circuit": "SRS AIR BAG CONTROL SYSTEM","desc": "SRS Air Bag Control System"},{"pos": "20","amps": 5,"circuit": "IGN","desc": "Meter (IGN)"},{"pos": "21","amps": 10,"circuit": "IGN PWR","desc": "Electronic Parts (IGN PWR)"},{"pos": "22","amps": 5,"circuit": "IGN SIG","desc": "Electronic Parts (IGN SIG)"},{"pos": "24","amps": 15,"circuit": "BLOWER MOTOR","desc": "Blower Motor"},{"pos": "26","amps": 5,"circuit": "ACCESSORY SPARE","desc": "Accessory Spare"},{"pos": "30","amps": 20,"circuit": "POWER SOCKET 1","desc": "Power Socket 1"},{"pos": "31","amps": 20,"circuit": "POWER SOCKET 2","desc": "Power Socket 2"},{"pos": "32","amps": 10,"circuit": "ACC","desc": "Dealer Optionals (Acc)"},{"pos": "33","amps": 10,"circuit": "ACC","desc": "Electronic Parts (Acc)"},{"pos": "34","amps": 15,"circuit": "BLOWER MOTOR","desc": "Blower Motor"},{"pos": "35","amps": 20,"circuit": "SPARE","desc": "Spare"},{"pos": "36","amps": 15,"circuit": "SPARE","desc": "Spare"},{"pos": "37","amps": 10,"circuit": "SPARE","desc": "Spare"},{"pos": "38","amps": 5,"circuit": "SPARE","desc": "Spare"}],"relays": [],
+            layout: {
+              cols: 6,
+              rows: 6,
+              cells: {
+                '1': { col: 1, row: 1, w: 1, h: 1 },
+                '2': { col: 2, row: 1, w: 1, h: 1 },
+                '3': { col: 3, row: 1, w: 1, h: 1 },
+                '4': { col: 4, row: 1, w: 1, h: 1 },
+                '5': { col: 5, row: 1, w: 1, h: 1 },
+                '6': { col: 6, row: 1, w: 1, h: 1 },
+                '7': { col: 1, row: 2, w: 1, h: 1 },
+                '8': { col: 2, row: 2, w: 1, h: 1 },
+                '9': { col: 3, row: 2, w: 1, h: 1 },
+                '10': { col: 4, row: 2, w: 1, h: 1 },
+                '11': { col: 5, row: 2, w: 1, h: 1 },
+                '12': { col: 6, row: 2, w: 1, h: 1 },
+                '13': { col: 1, row: 3, w: 1, h: 1 },
+                '14': { col: 2, row: 3, w: 1, h: 1 },
+                '15': { col: 3, row: 3, w: 1, h: 1 },
+                '16': { col: 4, row: 3, w: 1, h: 1 },
+                '17': { col: 5, row: 3, w: 1, h: 1 },
+                '18': { col: 6, row: 3, w: 1, h: 1 },
+                '19': { col: 1, row: 4, w: 1, h: 1 },
+                '20': { col: 2, row: 4, w: 1, h: 1 },
+                '21': { col: 3, row: 4, w: 1, h: 1 },
+                '22': { col: 4, row: 4, w: 1, h: 1 },
+                '24': { col: 5, row: 4, w: 1, h: 1 },
+                '26': { col: 6, row: 4, w: 1, h: 1 },
+                '30': { col: 1, row: 5, w: 1, h: 1 },
+                '31': { col: 2, row: 5, w: 1, h: 1 },
+                '32': { col: 3, row: 5, w: 1, h: 1 },
+                '33': { col: 4, row: 5, w: 1, h: 1 },
+                '34': { col: 5, row: 5, w: 1, h: 1 },
+                '35': { col: 6, row: 5, w: 1, h: 1 },
+                '36': { col: 1, row: 6, w: 1, h: 1 },
+                '37': { col: 2, row: 6, w: 1, h: 1 },
+                '38': { col: 3, row: 6, w: 1, h: 1 },
+              },
+              notes: [
+                'Wave 9 — Nissan/Infiniti interior fuse panel layout.',
+                'Uniform row-major approximation of the fuse-box.info diagram',
+                '(source generation noted in the wave report); slot numbers match',
+                'the OEM panel numbering.'
+              ]
+            }
+          },{"name": "Engine Compartment Fuse Box (IPDM E/R)","location": "Driver side of engine compartment, near the battery, under the fuse box cover","fuses": [{"pos": "34","amps": 15,"circuit": "FUEL PUMP","desc": "Fuel Pump"},{"pos": "35","amps": 15,"circuit": "FR FOG","desc": "Front Fog Light"},{"pos": "36","amps": 10,"circuit": "ESCL","desc": "Steering Lock"},{"pos": "37","amps": 15,"circuit": "INJECTOR","desc": "Injector"},{"pos": "38","amps": 15,"circuit": "H/L LO RH","desc": "Headlight Low Beam Right Hand"},{"pos": "39","amps": 15,"circuit": "H/L LO LH","desc": "Headlight Low Beam Left Hand"},{"pos": "40","amps": 15,"circuit": "IGN COIL","desc": "Ignition Coil"},{"pos": "41","amps": 30,"circuit": "FR WIP","desc": "Front Wiper"},{"pos": "42","amps": 10,"circuit": "CLEARANCE LH","desc": "Clearance Light Left Hand"},{"pos": "43","amps": 10,"circuit": "CLEARANCE RH","desc": "Clearance Light Right Hand"},{"pos": "44","amps": 10,"circuit": "H/L HI RH","desc": "Headlight High Beam Right Hand"},{"pos": "45","amps": 10,"circuit": "H/L HI LH","desc": "Headlight High Beam Left Hand"},{"pos": "46","amps": 10,"circuit": "ABS ECU","desc": "Anti-lock Braking System Electronic Control Unit"},{"pos": "51","amps": 10,"circuit": "A/C CLUTCH","desc": "Air Conditioning Clutch"},{"pos": "53","amps": 20,"circuit": "RR DEF","desc": "Rear Defogger"},{"pos": "55","amps": 15,"circuit": "THROTTLE MTR","desc": "Throttle Motor"},{"pos": "56","amps": 20,"circuit": "ECCS","desc": "Engine Control Computer System"},{"pos": "47","amps": 10,"circuit": "A/T ECU","desc": "Automatic Transmission Electronic Control Unit"},{"pos": "48","amps": 10,"circuit": "REVERSE LAMP","desc": "Reverse Lamp"},{"pos": "49","amps": 15,"circuit": "HEATED MIRROR","desc": "Heated Mirror"}],"relays": [],
+            layout: {
+              cols: 5,
+              rows: 4,
+              cells: {
+                '34': { col: 1, row: 1, w: 1, h: 1 },
+                '35': { col: 2, row: 1, w: 1, h: 1 },
+                '36': { col: 3, row: 1, w: 1, h: 1 },
+                '37': { col: 4, row: 1, w: 1, h: 1 },
+                '38': { col: 5, row: 1, w: 1, h: 1 },
+                '39': { col: 1, row: 2, w: 1, h: 1 },
+                '40': { col: 2, row: 2, w: 1, h: 1 },
+                '41': { col: 3, row: 2, w: 1, h: 1 },
+                '42': { col: 4, row: 2, w: 1, h: 1 },
+                '43': { col: 5, row: 2, w: 1, h: 1 },
+                '44': { col: 1, row: 3, w: 1, h: 1 },
+                '45': { col: 2, row: 3, w: 1, h: 1 },
+                '46': { col: 3, row: 3, w: 1, h: 1 },
+                '51': { col: 4, row: 3, w: 1, h: 1 },
+                '53': { col: 5, row: 3, w: 1, h: 1 },
+                '55': { col: 1, row: 4, w: 1, h: 1 },
+                '56': { col: 2, row: 4, w: 1, h: 1 },
+                '47': { col: 3, row: 4, w: 1, h: 1 },
+                '48': { col: 4, row: 4, w: 1, h: 1 },
+                '49': { col: 5, row: 4, w: 1, h: 1 },
+              },
+              notes: [
+                'Wave 9 — Nissan/Infiniti engine compartment fuse box layout.',
+                'Uniform row-major approximation of the fuse-box.info diagram;',
+                'slot numbers match the OEM IPDM/junction block numbering.'
+              ]
+            }
+          },{"name": "Engine Compartment Fuse Box (Additional)","location": "Engine compartment near the battery and air intake, under the fuse box cover","fuses": [{"pos": "24","amps": 15,"circuit": "TRAILER TOW TURN","desc": "Trailer Tow Turn"},{"pos": "25","amps": 10,"circuit": "DAYTIME RUNNING LIGHTS","desc": "Daytime running lights"},{"pos": "26","amps": 10,"circuit": "ELECTRONIC CONTROL UNIT","desc": "Transfer Case Control (Electronic Control Unit)"},{"pos": "27","amps": 10,"circuit": "TRAILER TOW REVERSE","desc": "Trailer Tow Reverse"},{"pos": "28","amps": 15,"circuit": "INJECTOR 2","desc": "Fuel injectors"},{"pos": "29","amps": 10,"circuit": "DIFFERENTIAL LOCK","desc": "Differential Lock"},{"pos": "30","amps": 15,"circuit": "HORN","desc": "Horn"},{"pos": "31","amps": 15,"circuit": "INJECTOR 1","desc": "Fuel injectors"},{"pos": "J","amps": 40,"circuit": "IGNITION SWITCH","desc": "Ignition switch"}],"relays": [],
+            layout: {
+              cols: 4,
+              rows: 3,
+              cells: {
+                '24': { col: 1, row: 1, w: 1, h: 1 },
+                '25': { col: 2, row: 1, w: 1, h: 1 },
+                '26': { col: 3, row: 1, w: 1, h: 1 },
+                '27': { col: 4, row: 1, w: 1, h: 1 },
+                '28': { col: 1, row: 2, w: 1, h: 1 },
+                '29': { col: 2, row: 2, w: 1, h: 1 },
+                '30': { col: 3, row: 2, w: 1, h: 1 },
+                '31': { col: 4, row: 2, w: 1, h: 1 },
+                'J': { col: 1, row: 3, w: 1, h: 1 },
+              },
+              notes: [
+                'Wave 9 — Nissan/Infiniti engine compartment fuse box layout.',
+                'Uniform row-major approximation of the fuse-box.info diagram;',
+                'slot numbers match the OEM IPDM/junction block numbering.'
+              ]
+            }
+          },{"name": "Engine Compartment Fuse Box (Relay Block)","location": "Engine compartment near the battery, under the relay block cover","fuses": [{"pos": "1","amps": 50,"circuit": "VTC CONT 2","desc": "Variable Timing Control 2"},{"pos": "2","amps": 50,"circuit": "VTC CONT 1","desc": "Variable Timing Control 1"},{"pos": "3","amps": 60,"circuit": "INVERTER","desc": "Power outlet (DC/AC inverter)"},{"pos": "5","amps": 20,"circuit": "H/SEAT","desc": "Heated Seat"}],"relays": []}] }
     },
     pathfinder: {
       "2022-2026": { panels: [{"name": "Interior Fuse Panel","location": "Driver side of dashboard, behind the lower trim/access cover","fuses": [{"pos": "1","amps": 30,"circuit": "RR DEF","desc": "Rear window defogger"},{"pos": "2","amps": 10,"circuit": "HEATED MIRROR","desc": "Mirror heater"},{"pos": "3","amps": 10,"circuit": "HEATED WASHER","desc": "HEATED WASHER"},{"pos": "4","amps": 10,"circuit": "IGN","desc": "ELEC PARTS"},{"pos": "5","amps": 5,"circuit": "STRG SENS","desc": "STRG SENS"},{"pos": "6","amps": 10,"circuit": "IGN","desc": "METER"},{"pos": "7","amps": 10,"circuit": "AIR BAG","desc": "Airbag"},{"pos": "8","amps": 5,"circuit": "EPS","desc": "Electric power steering"},{"pos": "9","amps": 10,"circuit": "IGN","desc": "ELEC PARTS"},{"pos": "10","amps": 10,"circuit": "BAT 2","desc": "ELEC PARTS"},{"pos": "11","amps": 5,"circuit": "CDM","desc": "CDM"},{"pos": "12","amps": 15,"circuit": "DOOR LOOK FR","desc": "DOOR LOOK FR"},{"pos": "13","amps": 5,"circuit": "INTELLIGENT KEY","desc": "Smart key system"},{"pos": "14","amps": 15,"circuit": "LOCK RR","desc": "LOCK RR"},{"pos": "15","amps": 10,"circuit": "BCM1","desc": "Body control module"},{"pos": "16","amps": 5,"circuit": "CAN GATEWAY","desc": "CAN GATEWAY"},{"pos": "17","amps": 10,"circuit": "TCU","desc": "Transmission control unit"},{"pos": "19","amps": 20,"circuit": "BAT","desc": "POWER SOCKET 3"},{"pos": "20","amps": 10,"circuit": "E PKB","desc": "E PKB"},{"pos": "21","amps": 10,"circuit": "STOP LAMP","desc": "Stop lights"},{"pos": "22","amps": 20,"circuit": "4WD","desc": "All wheel drive system"},{"pos": "24","amps": 10,"circuit": "CABIN LIGHTING","desc": "CABIN LIGHTING"},{"pos": "26","amps": 20,"circuit": "AUDIO","desc": "Audio system"},{"pos": "27","amps": 5,"circuit": "BAT 1","desc": "ELEC PARTS"},{"pos": "28","amps": 10,"circuit": "BOSE AMP 1","desc": "Audio system"},{"pos": "29","amps": 20,"circuit": "BOSE AMP 2","desc": "Audio system"},{"pos": "30","amps": 10,"circuit": "BAT","desc": "METER"},{"pos": "31","amps": 5,"circuit": "BCM","desc": "Body control module"},{"pos": "32","amps": 15,"circuit": "SUNROOF","desc": "Sunroof"},{"pos": "33","amps": 10,"circuit": "VDC/ABS CONT","desc": "Vehicle dynamics control solenoid; Anti-lock braking system"},{"pos": "35","amps": 30,"circuit": "SPARE1","desc": "Spare fuse"},{"pos": "37","amps": 20,"circuit": "SPARE2","desc": "Spare fuse"},{"pos": "38","amps": 15,"circuit": "SPARE3","desc": "Spare fuse"},{"pos": "39","amps": 10,"circuit": "SPARE4","desc": "Spare fuse"},{"pos": "40","amps": 5,"circuit": "SPARE5","desc": "Spare fuse"},{"pos": "41","amps": 10,"circuit": "AUTO ACC","desc": "ELEC PARTS 1"},{"pos": "42","amps": 10,"circuit": "AUTO ACC","desc": "ELEC PARTS 2"},{"pos": "44","amps": 15,"circuit": "USB CHARGE","desc": "USB charger"},{"pos": "45","amps": 10,"circuit": "SHIFT BY WIRE","desc": "SHIFT BY WIRE"},{"pos": "46","amps": 10,"circuit": "P/WDW MAIN SW","desc": "P/WDW MAIN SW"},{"pos": "47","amps": 15,"circuit": "SUN SHADE","desc": "SUN SHADE"},{"pos": "49","amps": 10,"circuit": "HUD","desc": "HUD"},{"pos": "50","amps": 20,"circuit": "P/WDW RR RH","desc": "P/WDW RR RH"},{"pos": "51","amps": 20,"circuit": "P/WDW RR LH","desc": "Power windows"},{"pos": "52","amps": 20,"circuit": "P/WDW FR RH","desc": "P/WDW FR RH"},{"pos": "53","amps": 20,"circuit": "P/WDW FR LH","desc": "P/WDW FR LH"},{"pos": "54","amps": 30,"circuit": "SCCM","desc": "SCCM"},{"pos": "57","amps": 30,"circuit": "AUTO BACK DOOR","desc": "AUTO BACK DOOR"},{"pos": "58","amps": 10,"circuit": "TURNHAZARD","desc": "Turn signal; Hazard light"},{"pos": "59","amps": 20,"circuit": "POWER SEAT LH","desc": "POWER SEAT LH"},{"pos": "60","amps": 30,"circuit": "FLIP UP SEAT 3RD","desc": "FLIP UP SEAT 3RD"},{"pos": "61","amps": 10,"circuit": "WIPER RR","desc": "Rear wiper"},{"pos": "62","amps": 20,"circuit": "POWER SEAT RH","desc": "POWER SEAT RH"},{"pos": "63","amps": 15,"circuit": "WALK IN 2ND","desc": "WALK IN 2ND"},{"pos": "64","amps": 30,"circuit": "SPARE6","desc": "Spare fuse"},{"pos": "66","amps": 10,"circuit": "WASHPUMP","desc": "WASHPUMP"},{"pos": "67","amps": 20,"circuit": "IGN","desc": "POWER SOCKET 1"},{"pos": "68","amps": 10,"circuit": "HEATED STRG","desc": "Heated steering wheel"},{"pos": "69","amps": 20,"circuit": "IGN","desc": "SOWER SOCKET 2"},{"pos": "70","amps": 40,"circuit": "BLOWER MOTOR FR","desc": "BLOWER MOTOR FR"},{"pos": "71","amps": 20,"circuit": "BLOWER MOTOR RR","desc": "BLOWER MOTOR RR"},{"pos": "73","amps": 30,"circuit": "HEATED SEAT LH","desc": "HEATED SEAT LH"},{"pos": "74","amps": 30,"circuit": "HEATED SEAT RH","desc": "HEATED SEAT RH"}],"relays": []},{"name": "Engine Compartment Fuse Box (IPDM E/R)","location": "Driver side of engine compartment, near the battery, under the fuse box cover","fuses": [{"pos": "1","amps": 60,"circuit": "PWM FAN","desc": "PWM FAN"},{"pos": "2","amps": 30,"circuit": "TOWIN","desc": "TOWIN"},{"pos": "3","amps": 10,"circuit": "REVERSE","desc": "TOWIN (REVERSE)"},{"pos": "5","amps": 20,"circuit": "POWER OUTLET","desc": "POWER OUTLET"},{"pos": "6","amps": 15,"circuit": "HEAD LAMP RH","desc": "HEAD LAMP RH"},{"pos": "7","amps": 10,"circuit": "CURRENT SENS","desc": "CURRENT SENS"},{"pos": "8","amps": 15,"circuit": "HEAD LAMP LH","desc": "HEAD LAMP LH"},{"pos": "9","amps": 15,"circuit": "VINJ","desc": "VINJ"},{"pos": "11","amps": 15,"circuit": "ENG CONT","desc": "ENG CONT"},{"pos": "12","amps": 15,"circuit": "AT CONT","desc": "AT CONT"},{"pos": "13","amps": 10,"circuit": "RUN LAMP","desc": "TOWING (RUN LAMP)"},{"pos": "14","amps": 15,"circuit": "STOP/TURN","desc": "TOWING (STOP/TURN)"},{"pos": "15","amps": 15,"circuit": "VINJ 2","desc": "VINJ 2"},{"pos": "16","amps": 15,"circuit": "HORN","desc": "HORN"},{"pos": "17","amps": 15,"circuit": "ANTI THEFT HORN","desc": "ANTI THEFT HORN"},{"pos": "18","amps": 60,"circuit": "OFF LOAD IGN 2","desc": "OFF LOAD IGN 2"},{"pos": "22","amps": 30,"circuit": "BRAKE","desc": "TOWING (BRAKE)"},{"pos": "23","amps": 30,"circuit": "IGN SW","desc": "IGN SW"},{"pos": "24","amps": 40,"circuit": "HEAD LAMP WASH","desc": "HEAD LAMP WASH"},{"pos": "25","amps": 30,"circuit": "E-VTC 1","desc": "E-VTC 1"},{"pos": "26","amps": 60,"circuit": "HFS RH","desc": "HFS RH"},{"pos": "28","amps": 60,"circuit": "HFS LH","desc": "HFS LH"},{"pos": "31","amps": 30,"circuit": "E-VTC 2","desc": "E-VTC 2"},{"pos": "32","amps": 40,"circuit": "USM","desc": "USM"},{"pos": "33","amps": 30,"circuit": "VDC SOL","desc": "VDC SOL"}],"relays": []}] }
     },
     sentra: {
-      "2020-2026": { panels: [{"name": "Interior Fuse Panel","location": "Driver side of dashboard, behind the lower trim/access cover","fuses": [{"pos": "1","amps": 10,"circuit": "VDC CONT","desc": "VDC CONT"},{"pos": "2","amps": 10,"circuit": "ADAS","desc": "ADAS"},{"pos": "3","amps": 10,"circuit": "STOP LAMP-1","desc": "STOP LAMP-1"},{"pos": "5","amps": 5,"circuit": "CLUTCH","desc": "CLUTCH"},{"pos": "6","amps": 10,"circuit": "AUTO ACC","desc": "ELEC PARTS (AUTO ACC)"},{"pos": "7","amps": 20,"circuit": "POWER WDW FR LH","desc": "POWER WDW FR LH"},{"pos": "11","amps": 20,"circuit": "SUNROOF","desc": "SUNROOF"},{"pos": "13","amps": 5,"circuit": "USB","desc": "USB"},{"pos": "17","amps": 10,"circuit": "CONSULT","desc": "CONSULT"},{"pos": "18","amps": 5,"circuit": "CAN GATEWAY","desc": "CAN GATEWAY"},{"pos": "19","amps": 10,"circuit": "FOG LAMP RR","desc": "FOG LAMP RR"},{"pos": "20","amps": 10,"circuit": "HEATED SEAT FR RH","desc": "HEATED SEAT FR RH"},{"pos": "21","amps": 10,"circuit": "HEATED SEAT FR LH","desc": "HEATED SEAT FR LH"},{"pos": "23","amps": 30,"circuit": "POWER SEAT","desc": "POWER SEAT"},{"pos": "24","amps": 30,"circuit": "SPARE","desc": "SPARE"},{"pos": "26","amps": 10,"circuit": "DOOR LOCK FR","desc": "DOOR LOCK FR"},{"pos": "27","amps": 10,"circuit": "DOOR LOCK RR","desc": "DOOR LOCK RR"},{"pos": "28","amps": 15,"circuit": "HAZARD LAMP","desc": "HAZARD LAMP"},{"pos": "29","amps": 10,"circuit": "HFM","desc": "HFM"},{"pos": "30","amps": 10,"circuit": "BCM SIGNAL","desc": "BCM SIGNAL"},{"pos": "31","amps": 20,"circuit": "SPARE","desc": "SPARE"},{"pos": "32","amps": 10,"circuit": "STOP LAMP 2","desc": "STOP LAMP 2"},{"pos": "33","amps": 10,"circuit": "TCU","desc": "TCU"},{"pos": "34","amps": 10,"circuit": "ROOM LAMP","desc": "ROOM LAMP"},{"pos": "35","amps": 15,"circuit": "SPARE","desc": "SPARE"},{"pos": "36","amps": 20,"circuit": "AUDIO AMP","desc": "AUDIO AMP"},{"pos": "37","amps": 10,"circuit": "SPARE","desc": "SPARE"},{"pos": "38","amps": 20,"circuit": "AUDIO","desc": "AUDIO"},{"pos": "39","amps": 5,"circuit": "BCM SIGNAL","desc": "BCM SIGNAL"},{"pos": "40","amps": 10,"circuit": "BAT","desc": "METER (BAT)"},{"pos": "41","amps": 15,"circuit": "POWER SOCKET","desc": "POWER SOCKET"},{"pos": "42","amps": 10,"circuit": "HEATED STRG","desc": "HEATED STRG"},{"pos": "43","amps": 10,"circuit": "WASH PUMP","desc": "WASH PUMP"},{"pos": "44","amps": 30,"circuit": "BLOWER","desc": "BLOWER"},{"pos": "45","amps": 30,"circuit": "SPARE","desc": "SPARE"},{"pos": "46","amps": 30,"circuit": "RR DEF","desc": "RR DEF"},{"pos": "48","amps": 10,"circuit": "AIR BAG","desc": "AIR BAG"},{"pos": "49","amps": 5,"circuit": "IG1","desc": "METER (IG1)"},{"pos": "50","amps": 10,"circuit": "IGN","desc": "ELEC PARTS (IGN)"},{"pos": "51","amps": 10,"circuit": "IGN-RUN","desc": "ELECT PARTS (IGN-RUN)"},{"pos": "52","amps": 10,"circuit": "STRG SENSOR","desc": "STRG SENSOR"},{"pos": "53","amps": 10,"circuit": "HEATED MIRROR","desc": "HEATED MIRROR"},{"pos": "56","amps": 20,"circuit": "POWER WDW FR RH","desc": "POWER WDW FR RH"},{"pos": "57","amps": 30,"circuit": "POWER WDW RR","desc": "POWER WDW RR"}],"relays": []},{"name": "Engine Compartment Fuse Box (IPDM E/R)","location": "Driver side of engine compartment, near the battery, under the fuse box cover","fuses": [{"pos": "F2","amps": 30,"circuit": "BAT ABS VALVES","desc": "BAT ABS VALVES"},{"pos": "F3","amps": 20,"circuit": "FUEL PUMP","desc": "Fuel pump"},{"pos": "F4","amps": 15,"circuit": "ACTUATOR1","desc": "ACTUATOR1"},{"pos": "F5","amps": 15,"circuit": "ACTUATOR3","desc": "ACTUATOR3"},{"pos": "F6","amps": 10,"circuit": "ACTUATOR2","desc": "ACTUATOR2"},{"pos": "F7","amps": 10,"circuit": "ACTUATOR4","desc": "ACTUATOR4"},{"pos": "F8","amps": 15,"circuit": "ACTUATOR 5","desc": "ACTUATOR 5"},{"pos": "F9","amps": 30,"circuit": "WIPER","desc": "Wipers"},{"pos": "F10","amps": 15,"circuit": "LCS CABIN/INJECTOR","desc": "LCS CABIN/INJECTOR"},{"pos": "F11","amps": 10,"circuit": "AT / LPG","desc": "AT / LPG"},{"pos": "F12","amps": 10,"circuit": "AIR BAG / ABS","desc": "Airbag; Anti-lock braking system"},{"pos": "F13","amps": 10,"circuit": "REV LAMP / AC / VALVE","desc": "REV LAMP / AC / VALVE"},{"pos": "F15","amps": 5,"circuit": "ECM","desc": "Engine control unit"}],"relays": []},{"name": "Engine Compartment Fuse Box (Additional)","location": "Engine compartment near the battery and air intake, under the fuse box cover","fuses": [{"pos": "1","amps": 60,"circuit": "CVT OIL PUMP","desc": "Powers the oil pump for CVT lubrication and cooling."},{"pos": "1","amps": 40,"circuit": "E-VCT","desc": "E-VCT"},{"pos": "2","amps": 30,"circuit": "STARTER CUT","desc": "Controls starter motor cut-off to prevent operation in certain conditions."},{"pos": "3","amps": 50,"circuit": "RAD FAN","desc": ") Powers the radiator fan for engine cooling."},{"pos": "4","amps": 40,"circuit": "USM","desc": "Controls electronic modules under the seat or other system modules."},{"pos": "5","amps": 10,"circuit": "BATTERY","desc": ") Powers the CVT control unit."},{"pos": "6","amps": 10,"circuit": "ENG CONT","desc": ") Powers the engine control unit or related circuits."},{"pos": "7","amps": 10,"circuit": "INJ","desc": ") Powers the fuel pump for fuel injection."},{"pos": "8","amps": 10,"circuit": "RAD FAN","desc": ") Additional fuse for radiator fan."},{"pos": "9","amps": 15,"circuit": "HORN","desc": "Powers the horn for signaling."},{"pos": "10","amps": 10,"circuit": "RAD FAN","desc": ") Additional fuse for radiator fan, possibly low-speed operation."},{"pos": "11","amps": 30,"circuit": "VDC CONT","desc": ") Powers the vehicle dynamic control system for stability and traction."},{"pos": "19","amps": 15,"circuit": "INJECTOR 1","desc": "Powers fuel injector circuit 1."},{"pos": "20","amps": 10,"circuit": "INJECTOR 2","desc": "Powers fuel injector circuit 2."}],"relays": []}] }
+      "2020-2026": { panels: [{"name": "Interior Fuse Panel","location": "Driver side of dashboard, behind the lower trim/access cover","fuses": [{"pos": "1","amps": 10,"circuit": "VDC CONT","desc": "VDC CONT"},{"pos": "2","amps": 10,"circuit": "ADAS","desc": "ADAS"},{"pos": "3","amps": 10,"circuit": "STOP LAMP-1","desc": "STOP LAMP-1"},{"pos": "5","amps": 5,"circuit": "CLUTCH","desc": "CLUTCH"},{"pos": "6","amps": 10,"circuit": "AUTO ACC","desc": "ELEC PARTS (AUTO ACC)"},{"pos": "7","amps": 20,"circuit": "POWER WDW FR LH","desc": "POWER WDW FR LH"},{"pos": "11","amps": 20,"circuit": "SUNROOF","desc": "SUNROOF"},{"pos": "13","amps": 5,"circuit": "USB","desc": "USB"},{"pos": "17","amps": 10,"circuit": "CONSULT","desc": "CONSULT"},{"pos": "18","amps": 5,"circuit": "CAN GATEWAY","desc": "CAN GATEWAY"},{"pos": "19","amps": 10,"circuit": "FOG LAMP RR","desc": "FOG LAMP RR"},{"pos": "20","amps": 10,"circuit": "HEATED SEAT FR RH","desc": "HEATED SEAT FR RH"},{"pos": "21","amps": 10,"circuit": "HEATED SEAT FR LH","desc": "HEATED SEAT FR LH"},{"pos": "23","amps": 30,"circuit": "POWER SEAT","desc": "POWER SEAT"},{"pos": "24","amps": 30,"circuit": "SPARE","desc": "SPARE"},{"pos": "26","amps": 10,"circuit": "DOOR LOCK FR","desc": "DOOR LOCK FR"},{"pos": "27","amps": 10,"circuit": "DOOR LOCK RR","desc": "DOOR LOCK RR"},{"pos": "28","amps": 15,"circuit": "HAZARD LAMP","desc": "HAZARD LAMP"},{"pos": "29","amps": 10,"circuit": "HFM","desc": "HFM"},{"pos": "30","amps": 10,"circuit": "BCM SIGNAL","desc": "BCM SIGNAL"},{"pos": "31","amps": 20,"circuit": "SPARE","desc": "SPARE"},{"pos": "32","amps": 10,"circuit": "STOP LAMP 2","desc": "STOP LAMP 2"},{"pos": "33","amps": 10,"circuit": "TCU","desc": "TCU"},{"pos": "34","amps": 10,"circuit": "ROOM LAMP","desc": "ROOM LAMP"},{"pos": "35","amps": 15,"circuit": "SPARE","desc": "SPARE"},{"pos": "36","amps": 20,"circuit": "AUDIO AMP","desc": "AUDIO AMP"},{"pos": "37","amps": 10,"circuit": "SPARE","desc": "SPARE"},{"pos": "38","amps": 20,"circuit": "AUDIO","desc": "AUDIO"},{"pos": "39","amps": 5,"circuit": "BCM SIGNAL","desc": "BCM SIGNAL"},{"pos": "40","amps": 10,"circuit": "BAT","desc": "METER (BAT)"},{"pos": "41","amps": 15,"circuit": "POWER SOCKET","desc": "POWER SOCKET"},{"pos": "42","amps": 10,"circuit": "HEATED STRG","desc": "HEATED STRG"},{"pos": "43","amps": 10,"circuit": "WASH PUMP","desc": "WASH PUMP"},{"pos": "44","amps": 30,"circuit": "BLOWER","desc": "BLOWER"},{"pos": "45","amps": 30,"circuit": "SPARE","desc": "SPARE"},{"pos": "46","amps": 30,"circuit": "RR DEF","desc": "RR DEF"},{"pos": "48","amps": 10,"circuit": "AIR BAG","desc": "AIR BAG"},{"pos": "49","amps": 5,"circuit": "IG1","desc": "METER (IG1)"},{"pos": "50","amps": 10,"circuit": "IGN","desc": "ELEC PARTS (IGN)"},{"pos": "51","amps": 10,"circuit": "IGN-RUN","desc": "ELECT PARTS (IGN-RUN)"},{"pos": "52","amps": 10,"circuit": "STRG SENSOR","desc": "STRG SENSOR"},{"pos": "53","amps": 10,"circuit": "HEATED MIRROR","desc": "HEATED MIRROR"},{"pos": "56","amps": 20,"circuit": "POWER WDW FR RH","desc": "POWER WDW FR RH"},{"pos": "57","amps": 30,"circuit": "POWER WDW RR","desc": "POWER WDW RR"}],"relays": [],
+            layout: {
+              cols: 6,
+              rows: 8,
+              cells: {
+                '1': { col: 1, row: 1, w: 1, h: 1 },
+                '2': { col: 2, row: 1, w: 1, h: 1 },
+                '3': { col: 3, row: 1, w: 1, h: 1 },
+                '5': { col: 4, row: 1, w: 1, h: 1 },
+                '6': { col: 5, row: 1, w: 1, h: 1 },
+                '7': { col: 6, row: 1, w: 1, h: 1 },
+                '11': { col: 1, row: 2, w: 1, h: 1 },
+                '13': { col: 2, row: 2, w: 1, h: 1 },
+                '17': { col: 3, row: 2, w: 1, h: 1 },
+                '18': { col: 4, row: 2, w: 1, h: 1 },
+                '19': { col: 5, row: 2, w: 1, h: 1 },
+                '20': { col: 6, row: 2, w: 1, h: 1 },
+                '21': { col: 1, row: 3, w: 1, h: 1 },
+                '23': { col: 2, row: 3, w: 1, h: 1 },
+                '24': { col: 3, row: 3, w: 1, h: 1 },
+                '26': { col: 4, row: 3, w: 1, h: 1 },
+                '27': { col: 5, row: 3, w: 1, h: 1 },
+                '28': { col: 6, row: 3, w: 1, h: 1 },
+                '29': { col: 1, row: 4, w: 1, h: 1 },
+                '30': { col: 2, row: 4, w: 1, h: 1 },
+                '31': { col: 3, row: 4, w: 1, h: 1 },
+                '32': { col: 4, row: 4, w: 1, h: 1 },
+                '33': { col: 5, row: 4, w: 1, h: 1 },
+                '34': { col: 6, row: 4, w: 1, h: 1 },
+                '35': { col: 1, row: 5, w: 1, h: 1 },
+                '36': { col: 2, row: 5, w: 1, h: 1 },
+                '37': { col: 3, row: 5, w: 1, h: 1 },
+                '38': { col: 4, row: 5, w: 1, h: 1 },
+                '39': { col: 5, row: 5, w: 1, h: 1 },
+                '40': { col: 6, row: 5, w: 1, h: 1 },
+                '41': { col: 1, row: 6, w: 1, h: 1 },
+                '42': { col: 2, row: 6, w: 1, h: 1 },
+                '43': { col: 3, row: 6, w: 1, h: 1 },
+                '44': { col: 4, row: 6, w: 1, h: 1 },
+                '45': { col: 5, row: 6, w: 1, h: 1 },
+                '46': { col: 6, row: 6, w: 1, h: 1 },
+                '48': { col: 1, row: 7, w: 1, h: 1 },
+                '49': { col: 2, row: 7, w: 1, h: 1 },
+                '50': { col: 3, row: 7, w: 1, h: 1 },
+                '51': { col: 4, row: 7, w: 1, h: 1 },
+                '52': { col: 5, row: 7, w: 1, h: 1 },
+                '53': { col: 6, row: 7, w: 1, h: 1 },
+                '56': { col: 1, row: 8, w: 1, h: 1 },
+                '57': { col: 2, row: 8, w: 1, h: 1 },
+              },
+              notes: [
+                'Wave 9 — Nissan/Infiniti interior fuse panel layout.',
+                'Uniform row-major approximation of the fuse-box.info diagram',
+                '(source generation noted in the wave report); slot numbers match',
+                'the OEM panel numbering.'
+              ]
+            }
+          },{"name": "Engine Compartment Fuse Box (IPDM E/R)","location": "Driver side of engine compartment, near the battery, under the fuse box cover","fuses": [{"pos": "F2","amps": 30,"circuit": "BAT ABS VALVES","desc": "BAT ABS VALVES"},{"pos": "F3","amps": 20,"circuit": "FUEL PUMP","desc": "Fuel pump"},{"pos": "F4","amps": 15,"circuit": "ACTUATOR1","desc": "ACTUATOR1"},{"pos": "F5","amps": 15,"circuit": "ACTUATOR3","desc": "ACTUATOR3"},{"pos": "F6","amps": 10,"circuit": "ACTUATOR2","desc": "ACTUATOR2"},{"pos": "F7","amps": 10,"circuit": "ACTUATOR4","desc": "ACTUATOR4"},{"pos": "F8","amps": 15,"circuit": "ACTUATOR 5","desc": "ACTUATOR 5"},{"pos": "F9","amps": 30,"circuit": "WIPER","desc": "Wipers"},{"pos": "F10","amps": 15,"circuit": "LCS CABIN/INJECTOR","desc": "LCS CABIN/INJECTOR"},{"pos": "F11","amps": 10,"circuit": "AT / LPG","desc": "AT / LPG"},{"pos": "F12","amps": 10,"circuit": "AIR BAG / ABS","desc": "Airbag; Anti-lock braking system"},{"pos": "F13","amps": 10,"circuit": "REV LAMP / AC / VALVE","desc": "REV LAMP / AC / VALVE"},{"pos": "F15","amps": 5,"circuit": "ECM","desc": "Engine control unit"}],"relays": [],
+            layout: {
+              cols: 4,
+              rows: 4,
+              cells: {
+                'F2': { col: 1, row: 1, w: 1, h: 1 },
+                'F3': { col: 2, row: 1, w: 1, h: 1 },
+                'F4': { col: 3, row: 1, w: 1, h: 1 },
+                'F5': { col: 4, row: 1, w: 1, h: 1 },
+                'F6': { col: 1, row: 2, w: 1, h: 1 },
+                'F7': { col: 2, row: 2, w: 1, h: 1 },
+                'F8': { col: 3, row: 2, w: 1, h: 1 },
+                'F9': { col: 4, row: 2, w: 1, h: 1 },
+                'F10': { col: 1, row: 3, w: 1, h: 1 },
+                'F11': { col: 2, row: 3, w: 1, h: 1 },
+                'F12': { col: 3, row: 3, w: 1, h: 1 },
+                'F13': { col: 4, row: 3, w: 1, h: 1 },
+                'F15': { col: 1, row: 4, w: 1, h: 1 },
+              },
+              notes: [
+                'Wave 9 — Nissan/Infiniti engine compartment fuse box layout.',
+                'Uniform row-major approximation of the fuse-box.info diagram;',
+                'slot numbers match the OEM IPDM/junction block numbering.'
+              ]
+            }
+          },{"name": "Engine Compartment Fuse Box (Additional)","location": "Engine compartment near the battery and air intake, under the fuse box cover","fuses": [{"pos": "1","amps": 60,"circuit": "CVT OIL PUMP","desc": "Powers the oil pump for CVT lubrication and cooling."},{"pos": "1","amps": 40,"circuit": "E-VCT","desc": "E-VCT"},{"pos": "2","amps": 30,"circuit": "STARTER CUT","desc": "Controls starter motor cut-off to prevent operation in certain conditions."},{"pos": "3","amps": 50,"circuit": "RAD FAN","desc": ") Powers the radiator fan for engine cooling."},{"pos": "4","amps": 40,"circuit": "USM","desc": "Controls electronic modules under the seat or other system modules."},{"pos": "5","amps": 10,"circuit": "BATTERY","desc": ") Powers the CVT control unit."},{"pos": "6","amps": 10,"circuit": "ENG CONT","desc": ") Powers the engine control unit or related circuits."},{"pos": "7","amps": 10,"circuit": "INJ","desc": ") Powers the fuel pump for fuel injection."},{"pos": "8","amps": 10,"circuit": "RAD FAN","desc": ") Additional fuse for radiator fan."},{"pos": "9","amps": 15,"circuit": "HORN","desc": "Powers the horn for signaling."},{"pos": "10","amps": 10,"circuit": "RAD FAN","desc": ") Additional fuse for radiator fan, possibly low-speed operation."},{"pos": "11","amps": 30,"circuit": "VDC CONT","desc": ") Powers the vehicle dynamic control system for stability and traction."},{"pos": "19","amps": 15,"circuit": "INJECTOR 1","desc": "Powers fuel injector circuit 1."},{"pos": "20","amps": 10,"circuit": "INJECTOR 2","desc": "Powers fuel injector circuit 2."}],"relays": [],
+            layout: {
+              cols: 4,
+              rows: 4,
+              cells: {
+                '1': { col: 1, row: 1, w: 1, h: 1 },
+                '2': { col: 2, row: 1, w: 1, h: 1 },
+                '3': { col: 3, row: 1, w: 1, h: 1 },
+                '4': { col: 4, row: 1, w: 1, h: 1 },
+                '5': { col: 1, row: 2, w: 1, h: 1 },
+                '6': { col: 2, row: 2, w: 1, h: 1 },
+                '7': { col: 3, row: 2, w: 1, h: 1 },
+                '8': { col: 4, row: 2, w: 1, h: 1 },
+                '9': { col: 1, row: 3, w: 1, h: 1 },
+                '10': { col: 2, row: 3, w: 1, h: 1 },
+                '11': { col: 3, row: 3, w: 1, h: 1 },
+                '19': { col: 4, row: 3, w: 1, h: 1 },
+                '20': { col: 1, row: 4, w: 1, h: 1 },
+              },
+              notes: [
+                'Wave 9 — Nissan/Infiniti engine compartment fuse box layout.',
+                'Uniform row-major approximation of the fuse-box.info diagram;',
+                'slot numbers match the OEM IPDM/junction block numbering.'
+              ]
+            }
+          }] }
     },
 
 
@@ -38807,7 +39119,47 @@ dodge: {
               { pos: '34', amps: 15, circuit: 'BLOWER MOTOR', desc: 'AC blower motor' },
               { pos: 'S', amps: '—', circuit: 'SPARE', desc: 'Spare fuses' }
             ],
-            relays: []
+            relays: [],
+            layout: {
+              cols: 5,
+              rows: 6,
+              cells: {
+                '1': { col: 1, row: 1, w: 1, h: 1 },
+                '2': { col: 2, row: 1, w: 1, h: 1 },
+                '3': { col: 3, row: 1, w: 1, h: 1 },
+                '4': { col: 4, row: 1, w: 1, h: 1 },
+                '5': { col: 5, row: 1, w: 1, h: 1 },
+                '6': { col: 1, row: 2, w: 1, h: 1 },
+                '7': { col: 2, row: 2, w: 1, h: 1 },
+                '8': { col: 3, row: 2, w: 1, h: 1 },
+                '9': { col: 4, row: 2, w: 1, h: 1 },
+                '12': { col: 5, row: 2, w: 1, h: 1 },
+                '13': { col: 1, row: 3, w: 1, h: 1 },
+                '14': { col: 2, row: 3, w: 1, h: 1 },
+                '15': { col: 3, row: 3, w: 1, h: 1 },
+                '17': { col: 4, row: 3, w: 1, h: 1 },
+                '19': { col: 5, row: 3, w: 1, h: 1 },
+                '20': { col: 1, row: 4, w: 1, h: 1 },
+                '21': { col: 2, row: 4, w: 1, h: 1 },
+                '23': { col: 3, row: 4, w: 1, h: 1 },
+                '24': { col: 4, row: 4, w: 1, h: 1 },
+                '25': { col: 5, row: 4, w: 1, h: 1 },
+                '26': { col: 1, row: 5, w: 1, h: 1 },
+                '27': { col: 2, row: 5, w: 1, h: 1 },
+                '28': { col: 3, row: 5, w: 1, h: 1 },
+                '29': { col: 4, row: 5, w: 1, h: 1 },
+                '30': { col: 5, row: 5, w: 1, h: 1 },
+                '32': { col: 1, row: 6, w: 1, h: 1 },
+                '34': { col: 2, row: 6, w: 1, h: 1 },
+                'S': { col: 3, row: 6, w: 1, h: 1 },
+              },
+              notes: [
+                'Wave 9 — Nissan/Infiniti interior fuse panel layout.',
+                'Uniform row-major approximation of the fuse-box.info diagram',
+                '(source generation noted in the wave report); slot numbers match',
+                'the OEM panel numbering.'
+              ]
+            }
           },
           {
             name: 'Engine Compartment Fuse Box №1',
@@ -38836,7 +39188,40 @@ dodge: {
               { pos: '48', amps: 10, circuit: 'STARTER IG', desc: 'STARTER IG' },
               { pos: '49', amps: 10, circuit: 'ABS CONT', desc: 'ABS CONT' }
             ],
-            relays: []
+            relays: [],
+            layout: {
+              cols: 4,
+              rows: 6,
+              cells: {
+                '34': { col: 1, row: 1, w: 1, h: 1 },
+                '35': { col: 2, row: 1, w: 1, h: 1 },
+                '36': { col: 3, row: 1, w: 1, h: 1 },
+                '37': { col: 4, row: 1, w: 1, h: 1 },
+                '38': { col: 1, row: 2, w: 1, h: 1 },
+                '39': { col: 2, row: 2, w: 1, h: 1 },
+                '40': { col: 3, row: 2, w: 1, h: 1 },
+                '41': { col: 4, row: 2, w: 1, h: 1 },
+                '42': { col: 1, row: 3, w: 1, h: 1 },
+                '43': { col: 2, row: 3, w: 1, h: 1 },
+                '44': { col: 3, row: 3, w: 1, h: 1 },
+                '45': { col: 4, row: 3, w: 1, h: 1 },
+                '46': { col: 1, row: 4, w: 1, h: 1 },
+                '50': { col: 2, row: 4, w: 1, h: 1 },
+                '51': { col: 3, row: 4, w: 1, h: 1 },
+                '52': { col: 4, row: 4, w: 1, h: 1 },
+                '53': { col: 1, row: 5, w: 1, h: 1 },
+                '55': { col: 2, row: 5, w: 1, h: 1 },
+                '56': { col: 3, row: 5, w: 1, h: 1 },
+                '47': { col: 4, row: 5, w: 1, h: 1 },
+                '48': { col: 1, row: 6, w: 1, h: 1 },
+                '49': { col: 2, row: 6, w: 1, h: 1 },
+              },
+              notes: [
+                'Wave 9 — Nissan/Infiniti engine compartment fuse box layout.',
+                'Uniform row-major approximation of the fuse-box.info diagram;',
+                'slot numbers match the OEM IPDM/junction block numbering.'
+              ]
+            }
           },
           {
             name: 'Engine Compartment Fuse Box №2',
@@ -38854,7 +39239,29 @@ dodge: {
               { pos: 'L', amps: 40, circuit: 'AIR CONDITIONING & COOLING FANS SYSTEMS', desc: 'Air Conditioning & Cooling Fans Systems' },
               { pos: 'M', amps: 40, circuit: 'TO FUSE BLOCK (J/B)', desc: 'To Fuse Block (J/B)' }
             ],
-            relays: []
+            relays: [],
+            layout: {
+              cols: 4,
+              rows: 3,
+              cells: {
+                '57': { col: 1, row: 1, w: 1, h: 1 },
+                '59': { col: 2, row: 1, w: 1, h: 1 },
+                '60': { col: 3, row: 1, w: 1, h: 1 },
+                '61': { col: 4, row: 1, w: 1, h: 1 },
+                '62': { col: 1, row: 2, w: 1, h: 1 },
+                '63': { col: 2, row: 2, w: 1, h: 1 },
+                'G': { col: 3, row: 2, w: 1, h: 1 },
+                'H': { col: 4, row: 2, w: 1, h: 1 },
+                'I': { col: 1, row: 3, w: 1, h: 1 },
+                'L': { col: 2, row: 3, w: 1, h: 1 },
+                'M': { col: 3, row: 3, w: 1, h: 1 },
+              },
+              notes: [
+                'Wave 9 — Nissan/Infiniti engine compartment fuse box layout.',
+                'Uniform row-major approximation of the fuse-box.info diagram;',
+                'slot numbers match the OEM IPDM/junction block numbering.'
+              ]
+            }
           },
         ]
       },
@@ -38901,7 +39308,53 @@ dodge: {
               { pos: '43', amps: 15, circuit: 'SPARE', desc: 'Spare fuse' },
               { pos: '44', amps: 20, circuit: 'SPARE', desc: 'Spare fuse' }
             ],
-            relays: []
+            relays: [],
+            layout: {
+              cols: 6,
+              rows: 6,
+              cells: {
+                '5': { col: 1, row: 1, w: 1, h: 1 },
+                '8': { col: 2, row: 1, w: 1, h: 1 },
+                '9': { col: 3, row: 1, w: 1, h: 1 },
+                '10': { col: 4, row: 1, w: 1, h: 1 },
+                '11': { col: 5, row: 1, w: 1, h: 1 },
+                '12': { col: 6, row: 1, w: 1, h: 1 },
+                '13': { col: 1, row: 2, w: 1, h: 1 },
+                '14': { col: 2, row: 2, w: 1, h: 1 },
+                '15': { col: 3, row: 2, w: 1, h: 1 },
+                '16': { col: 4, row: 2, w: 1, h: 1 },
+                '17': { col: 5, row: 2, w: 1, h: 1 },
+                '18': { col: 6, row: 2, w: 1, h: 1 },
+                '19': { col: 1, row: 3, w: 1, h: 1 },
+                '20': { col: 2, row: 3, w: 1, h: 1 },
+                '21': { col: 3, row: 3, w: 1, h: 1 },
+                '22': { col: 4, row: 3, w: 1, h: 1 },
+                '23': { col: 5, row: 3, w: 1, h: 1 },
+                '24': { col: 6, row: 3, w: 1, h: 1 },
+                '25': { col: 1, row: 4, w: 1, h: 1 },
+                '26': { col: 2, row: 4, w: 1, h: 1 },
+                '28': { col: 3, row: 4, w: 1, h: 1 },
+                '29': { col: 4, row: 4, w: 1, h: 1 },
+                '30': { col: 5, row: 4, w: 1, h: 1 },
+                '31': { col: 6, row: 4, w: 1, h: 1 },
+                '33': { col: 1, row: 5, w: 1, h: 1 },
+                '34': { col: 2, row: 5, w: 1, h: 1 },
+                '35': { col: 3, row: 5, w: 1, h: 1 },
+                '37': { col: 4, row: 5, w: 1, h: 1 },
+                '38': { col: 5, row: 5, w: 1, h: 1 },
+                '40': { col: 6, row: 5, w: 1, h: 1 },
+                '41': { col: 1, row: 6, w: 1, h: 1 },
+                '42': { col: 2, row: 6, w: 1, h: 1 },
+                '43': { col: 3, row: 6, w: 1, h: 1 },
+                '44': { col: 4, row: 6, w: 1, h: 1 },
+              },
+              notes: [
+                'Wave 9 — Nissan/Infiniti interior fuse panel layout.',
+                'Uniform row-major approximation of the fuse-box.info diagram',
+                '(source generation noted in the wave report); slot numbers match',
+                'the OEM panel numbering.'
+              ]
+            }
           },
           {
             name: 'Engine Compartment Fuse Box №1',
@@ -38921,7 +39374,31 @@ dodge: {
               { pos: '14', amps: 10, circuit: 'BAT_ABS_VALVES/ECM_BAT', desc: 'BAT_ABS_VALVES/ECM_BAT' },
               { pos: '15', amps: 20, circuit: 'FUEL PUMP', desc: 'Fuel pump' }
             ],
-            relays: []
+            relays: [],
+            layout: {
+              cols: 4,
+              rows: 4,
+              cells: {
+                '1': { col: 1, row: 1, w: 1, h: 1 },
+                '3': { col: 2, row: 1, w: 1, h: 1 },
+                '4': { col: 3, row: 1, w: 1, h: 1 },
+                '5': { col: 4, row: 1, w: 1, h: 1 },
+                '6': { col: 1, row: 2, w: 1, h: 1 },
+                '7': { col: 2, row: 2, w: 1, h: 1 },
+                '9': { col: 3, row: 2, w: 1, h: 1 },
+                '10': { col: 4, row: 2, w: 1, h: 1 },
+                '11': { col: 1, row: 3, w: 1, h: 1 },
+                '12': { col: 2, row: 3, w: 1, h: 1 },
+                '13': { col: 3, row: 3, w: 1, h: 1 },
+                '14': { col: 4, row: 3, w: 1, h: 1 },
+                '15': { col: 1, row: 4, w: 1, h: 1 },
+              },
+              notes: [
+                'Wave 9 — Nissan/Infiniti engine compartment fuse box layout.',
+                'Uniform row-major approximation of the fuse-box.info diagram;',
+                'slot numbers match the OEM IPDM/junction block numbering.'
+              ]
+            }
           },
           {
             name: 'Engine Compartment Fuse Box №2',
@@ -38943,7 +39420,33 @@ dodge: {
               { pos: '19', amps: 10, circuit: 'CVT CONT 2', desc: 'CVT CONT 2' },
               { pos: '20', amps: 30, circuit: 'PTC HEATER', desc: 'Additional heater' }
             ],
-            relays: []
+            relays: [],
+            layout: {
+              cols: 4,
+              rows: 4,
+              cells: {
+                '1': { col: 1, row: 1, w: 1, h: 1 },
+                '2': { col: 2, row: 1, w: 1, h: 1 },
+                '3': { col: 3, row: 1, w: 1, h: 1 },
+                '5': { col: 4, row: 1, w: 1, h: 1 },
+                '6': { col: 1, row: 2, w: 1, h: 1 },
+                '7': { col: 2, row: 2, w: 1, h: 1 },
+                '8': { col: 3, row: 2, w: 1, h: 1 },
+                '9': { col: 4, row: 2, w: 1, h: 1 },
+                '10': { col: 1, row: 3, w: 1, h: 1 },
+                '11': { col: 2, row: 3, w: 1, h: 1 },
+                '13': { col: 3, row: 3, w: 1, h: 1 },
+                '16': { col: 4, row: 3, w: 1, h: 1 },
+                '18': { col: 1, row: 4, w: 1, h: 1 },
+                '19': { col: 2, row: 4, w: 1, h: 1 },
+                '20': { col: 3, row: 4, w: 1, h: 1 },
+              },
+              notes: [
+                'Wave 9 — Nissan/Infiniti engine compartment fuse box layout.',
+                'Uniform row-major approximation of the fuse-box.info diagram;',
+                'slot numbers match the OEM IPDM/junction block numbering.'
+              ]
+            }
           },
         ]
       },
@@ -38977,7 +39480,40 @@ dodge: {
               { pos: '22', amps: 15, circuit: 'FRONT BLOWER MOTOR', desc: 'Front Blower Motor' },
               { pos: 'S', amps: '—', circuit: 'SPARE FUSES', desc: 'Spare Fuses' }
             ],
-            relays: []
+            relays: [],
+            layout: {
+              cols: 5,
+              rows: 5,
+              cells: {
+                '1': { col: 1, row: 1, w: 1, h: 1 },
+                '2': { col: 2, row: 1, w: 1, h: 1 },
+                '3': { col: 3, row: 1, w: 1, h: 1 },
+                '4': { col: 4, row: 1, w: 1, h: 1 },
+                '5': { col: 5, row: 1, w: 1, h: 1 },
+                '6': { col: 1, row: 2, w: 1, h: 1 },
+                '7': { col: 2, row: 2, w: 1, h: 1 },
+                '8': { col: 3, row: 2, w: 1, h: 1 },
+                '9': { col: 4, row: 2, w: 1, h: 1 },
+                '10': { col: 5, row: 2, w: 1, h: 1 },
+                '11': { col: 1, row: 3, w: 1, h: 1 },
+                '12': { col: 2, row: 3, w: 1, h: 1 },
+                '13': { col: 3, row: 3, w: 1, h: 1 },
+                '14': { col: 4, row: 3, w: 1, h: 1 },
+                '15': { col: 5, row: 3, w: 1, h: 1 },
+                '16': { col: 1, row: 4, w: 1, h: 1 },
+                '19': { col: 2, row: 4, w: 1, h: 1 },
+                '20': { col: 3, row: 4, w: 1, h: 1 },
+                '21': { col: 4, row: 4, w: 1, h: 1 },
+                '22': { col: 5, row: 4, w: 1, h: 1 },
+                'S': { col: 1, row: 5, w: 1, h: 1 },
+              },
+              notes: [
+                'Wave 9 — Nissan/Infiniti interior fuse panel layout.',
+                'Uniform row-major approximation of the fuse-box.info diagram',
+                '(source generation noted in the wave report); slot numbers match',
+                'the OEM panel numbering.'
+              ]
+            }
           },
           {
             name: 'Engine Compartment Fuse Box №1',
@@ -39003,7 +39539,37 @@ dodge: {
               { pos: '22', amps: 10, circuit: 'ENGINE CONTROL MODULE (ECM)', desc: 'Engine Control Module (ECM)' },
               { pos: '24', amps: 20, circuit: 'THROTTLE CONTROL MOTOR RELAY', desc: 'Throttle Control Motor Relay' }
             ],
-            relays: []
+            relays: [],
+            layout: {
+              cols: 4,
+              rows: 5,
+              cells: {
+                '1': { col: 1, row: 1, w: 1, h: 1 },
+                '2': { col: 2, row: 1, w: 1, h: 1 },
+                '3': { col: 3, row: 1, w: 1, h: 1 },
+                '4': { col: 4, row: 1, w: 1, h: 1 },
+                '5': { col: 1, row: 2, w: 1, h: 1 },
+                '6': { col: 2, row: 2, w: 1, h: 1 },
+                '7': { col: 3, row: 2, w: 1, h: 1 },
+                '9': { col: 4, row: 2, w: 1, h: 1 },
+                '10': { col: 1, row: 3, w: 1, h: 1 },
+                '11': { col: 2, row: 3, w: 1, h: 1 },
+                '12': { col: 3, row: 3, w: 1, h: 1 },
+                '13': { col: 4, row: 3, w: 1, h: 1 },
+                '14': { col: 1, row: 4, w: 1, h: 1 },
+                '15': { col: 2, row: 4, w: 1, h: 1 },
+                '16': { col: 3, row: 4, w: 1, h: 1 },
+                '17': { col: 4, row: 4, w: 1, h: 1 },
+                '21': { col: 1, row: 5, w: 1, h: 1 },
+                '22': { col: 2, row: 5, w: 1, h: 1 },
+                '24': { col: 3, row: 5, w: 1, h: 1 },
+              },
+              notes: [
+                'Wave 9 — Nissan/Infiniti engine compartment fuse box layout.',
+                'Uniform row-major approximation of the fuse-box.info diagram;',
+                'slot numbers match the OEM IPDM/junction block numbering.'
+              ]
+            }
           },
           {
             name: 'Engine Compartment Fuse Box №2',
@@ -39037,7 +39603,45 @@ dodge: {
               { pos: '80', amps: 10, circuit: 'WIPER DEICER RELAY, DOOR MIRROR', desc: 'Wiper Deicer Relay, Door Mirror' },
               { pos: 'T', amps: 30, circuit: 'AUTOMATIC BACK DOOR CONTROL MODULE', desc: 'Automatic Back Door Control Module' }
             ],
-            relays: []
+            relays: [],
+            layout: {
+              cols: 5,
+              rows: 6,
+              cells: {
+                '31': { col: 1, row: 1, w: 1, h: 1 },
+                '32': { col: 2, row: 1, w: 1, h: 1 },
+                '33': { col: 3, row: 1, w: 1, h: 1 },
+                '34': { col: 4, row: 1, w: 1, h: 1 },
+                '35': { col: 5, row: 1, w: 1, h: 1 },
+                '36': { col: 1, row: 2, w: 1, h: 1 },
+                '37': { col: 2, row: 2, w: 1, h: 1 },
+                '38': { col: 3, row: 2, w: 1, h: 1 },
+                'F': { col: 4, row: 2, w: 1, h: 1 },
+                'G': { col: 5, row: 2, w: 1, h: 1 },
+                'H': { col: 1, row: 3, w: 1, h: 1 },
+                'I': { col: 2, row: 3, w: 1, h: 1 },
+                'J': { col: 3, row: 3, w: 1, h: 1 },
+                'K': { col: 4, row: 3, w: 1, h: 1 },
+                'L': { col: 5, row: 3, w: 1, h: 1 },
+                'M': { col: 1, row: 4, w: 1, h: 1 },
+                'P': { col: 2, row: 4, w: 1, h: 1 },
+                'O': { col: 3, row: 4, w: 1, h: 1 },
+                'R': { col: 4, row: 4, w: 1, h: 1 },
+                'Q': { col: 5, row: 4, w: 1, h: 1 },
+                '75': { col: 1, row: 5, w: 1, h: 1 },
+                '76': { col: 2, row: 5, w: 1, h: 1 },
+                '77': { col: 3, row: 5, w: 1, h: 1 },
+                'S': { col: 4, row: 5, w: 1, h: 1 },
+                '79': { col: 5, row: 5, w: 1, h: 1 },
+                '80': { col: 1, row: 6, w: 1, h: 1 },
+                'T': { col: 2, row: 6, w: 1, h: 1 },
+              },
+              notes: [
+                'Wave 9 — Nissan/Infiniti engine compartment fuse box layout.',
+                'Uniform row-major approximation of the fuse-box.info diagram;',
+                'slot numbers match the OEM IPDM/junction block numbering.'
+              ]
+            }
           },
           {
             name: 'Engine Compartment Relay Box №1',
@@ -39052,7 +39656,26 @@ dodge: {
               { pos: '89', amps: 10, circuit: 'DAYTIME RUNNING LIGHT RELAY', desc: 'Daytime Running Light Relay' },
               { pos: '90', amps: 10, circuit: 'DAYTIME RUNNING LIGHT RELAY', desc: 'Daytime Running Light Relay' }
             ],
-            relays: []
+            relays: [],
+            layout: {
+              cols: 4,
+              rows: 2,
+              cells: {
+                '71': { col: 1, row: 1, w: 1, h: 1 },
+                '72': { col: 2, row: 1, w: 1, h: 1 },
+                '73': { col: 3, row: 1, w: 1, h: 1 },
+                '74': { col: 4, row: 1, w: 1, h: 1 },
+                '87': { col: 1, row: 2, w: 1, h: 1 },
+                '88': { col: 2, row: 2, w: 1, h: 1 },
+                '89': { col: 3, row: 2, w: 1, h: 1 },
+                '90': { col: 4, row: 2, w: 1, h: 1 },
+              },
+              notes: [
+                'Wave 9 — Nissan/Infiniti relay box layout.',
+                'Uniform row-major approximation; slot numbers match the OEM',
+                'relay box numbering.'
+              ]
+            }
           },
           {
             name: 'Engine Compartment Relay Box №2',
@@ -39067,7 +39690,26 @@ dodge: {
               { pos: 'U', amps: 30, circuit: 'HEADLAMP WASHER RELAY', desc: 'Headlamp Washer Relay' },
               { pos: 'V', amps: 30, circuit: 'TRAILER POWER RELAY', desc: 'Trailer Power Relay' }
             ],
-            relays: []
+            relays: [],
+            layout: {
+              cols: 4,
+              rows: 2,
+              cells: {
+                '81': { col: 1, row: 1, w: 1, h: 1 },
+                '82': { col: 2, row: 1, w: 1, h: 1 },
+                '83': { col: 3, row: 1, w: 1, h: 1 },
+                '84': { col: 4, row: 1, w: 1, h: 1 },
+                '85': { col: 1, row: 2, w: 1, h: 1 },
+                '86': { col: 2, row: 2, w: 1, h: 1 },
+                'U': { col: 3, row: 2, w: 1, h: 1 },
+                'V': { col: 4, row: 2, w: 1, h: 1 },
+              },
+              notes: [
+                'Wave 9 — Nissan/Infiniti relay box layout.',
+                'Uniform row-major approximation; slot numbers match the OEM',
+                'relay box numbering.'
+              ]
+            }
           },
         ]
       },
@@ -39113,7 +39755,52 @@ dodge: {
               { pos: '33', amps: 20, circuit: 'AUDIO', desc: 'Audio system' },
               { pos: '34', amps: 5, circuit: 'BCM SIGNAL', desc: 'BCM SIGNAL' }
             ],
-            relays: []
+            relays: [],
+            layout: {
+              cols: 6,
+              rows: 6,
+              cells: {
+                '1': { col: 1, row: 1, w: 1, h: 1 },
+                '2': { col: 2, row: 1, w: 1, h: 1 },
+                '3': { col: 3, row: 1, w: 1, h: 1 },
+                '4': { col: 4, row: 1, w: 1, h: 1 },
+                '5': { col: 5, row: 1, w: 1, h: 1 },
+                '6': { col: 6, row: 1, w: 1, h: 1 },
+                '7': { col: 1, row: 2, w: 1, h: 1 },
+                '8': { col: 2, row: 2, w: 1, h: 1 },
+                '9': { col: 3, row: 2, w: 1, h: 1 },
+                '10': { col: 4, row: 2, w: 1, h: 1 },
+                '11': { col: 5, row: 2, w: 1, h: 1 },
+                '12': { col: 6, row: 2, w: 1, h: 1 },
+                '13': { col: 1, row: 3, w: 1, h: 1 },
+                '14': { col: 2, row: 3, w: 1, h: 1 },
+                '15': { col: 3, row: 3, w: 1, h: 1 },
+                '16': { col: 4, row: 3, w: 1, h: 1 },
+                '17': { col: 5, row: 3, w: 1, h: 1 },
+                '18': { col: 6, row: 3, w: 1, h: 1 },
+                '19': { col: 1, row: 4, w: 1, h: 1 },
+                '20': { col: 2, row: 4, w: 1, h: 1 },
+                '21': { col: 3, row: 4, w: 1, h: 1 },
+                '22': { col: 4, row: 4, w: 1, h: 1 },
+                '23': { col: 5, row: 4, w: 1, h: 1 },
+                '24': { col: 6, row: 4, w: 1, h: 1 },
+                '25': { col: 1, row: 5, w: 1, h: 1 },
+                '26': { col: 2, row: 5, w: 1, h: 1 },
+                '27': { col: 3, row: 5, w: 1, h: 1 },
+                '29': { col: 4, row: 5, w: 1, h: 1 },
+                '30': { col: 5, row: 5, w: 1, h: 1 },
+                '31': { col: 6, row: 5, w: 1, h: 1 },
+                '32': { col: 1, row: 6, w: 1, h: 1 },
+                '33': { col: 2, row: 6, w: 1, h: 1 },
+                '34': { col: 3, row: 6, w: 1, h: 1 },
+              },
+              notes: [
+                'Wave 9 — Nissan/Infiniti interior fuse panel layout.',
+                'Uniform row-major approximation of the fuse-box.info diagram',
+                '(source generation noted in the wave report); slot numbers match',
+                'the OEM panel numbering.'
+              ]
+            }
           },
           {
             name: 'Engine Compartment Fuse Box №1',
@@ -39141,7 +39828,38 @@ dodge: {
               { pos: '55', amps: 15, circuit: 'THROTTLE MTR', desc: 'Electronic throttle control' },
               { pos: '56', amps: 20, circuit: 'ECCS', desc: 'Air conditioning system' }
             ],
-            relays: []
+            relays: [],
+            layout: {
+              cols: 5,
+              rows: 4,
+              cells: {
+                '34': { col: 1, row: 1, w: 1, h: 1 },
+                '35': { col: 2, row: 1, w: 1, h: 1 },
+                '36': { col: 3, row: 1, w: 1, h: 1 },
+                '37': { col: 4, row: 1, w: 1, h: 1 },
+                '38': { col: 5, row: 1, w: 1, h: 1 },
+                '39': { col: 1, row: 2, w: 1, h: 1 },
+                '40': { col: 2, row: 2, w: 1, h: 1 },
+                '41': { col: 3, row: 2, w: 1, h: 1 },
+                '42': { col: 4, row: 2, w: 1, h: 1 },
+                '43': { col: 5, row: 2, w: 1, h: 1 },
+                '44': { col: 1, row: 3, w: 1, h: 1 },
+                '45': { col: 2, row: 3, w: 1, h: 1 },
+                '46': { col: 3, row: 3, w: 1, h: 1 },
+                '47': { col: 4, row: 3, w: 1, h: 1 },
+                '48': { col: 5, row: 3, w: 1, h: 1 },
+                '51': { col: 1, row: 4, w: 1, h: 1 },
+                '52': { col: 2, row: 4, w: 1, h: 1 },
+                '53': { col: 3, row: 4, w: 1, h: 1 },
+                '55': { col: 4, row: 4, w: 1, h: 1 },
+                '56': { col: 5, row: 4, w: 1, h: 1 },
+              },
+              notes: [
+                'Wave 9 — Nissan/Infiniti engine compartment fuse box layout.',
+                'Uniform row-major approximation of the fuse-box.info diagram;',
+                'slot numbers match the OEM IPDM/junction block numbering.'
+              ]
+            }
           },
           {
             name: 'Engine Compartment Fuse Box №2',
@@ -39161,7 +39879,31 @@ dodge: {
               { pos: 'M', amps: 30, circuit: 'ADD', desc: 'Additional power supply' },
               { pos: 'N', amps: 50, circuit: 'VEL', desc: 'Vehicle electronic load (main supply)' }
             ],
-            relays: []
+            relays: [],
+            layout: {
+              cols: 4,
+              rows: 4,
+              cells: {
+                '57': { col: 1, row: 1, w: 1, h: 1 },
+                '58': { col: 2, row: 1, w: 1, h: 1 },
+                '59': { col: 3, row: 1, w: 1, h: 1 },
+                '60': { col: 4, row: 1, w: 1, h: 1 },
+                '61': { col: 1, row: 2, w: 1, h: 1 },
+                '62': { col: 2, row: 2, w: 1, h: 1 },
+                '63': { col: 3, row: 2, w: 1, h: 1 },
+                '64': { col: 4, row: 2, w: 1, h: 1 },
+                'H': { col: 1, row: 3, w: 1, h: 1 },
+                'I': { col: 2, row: 3, w: 1, h: 1 },
+                'J': { col: 3, row: 3, w: 1, h: 1 },
+                'M': { col: 4, row: 3, w: 1, h: 1 },
+                'N': { col: 1, row: 4, w: 1, h: 1 },
+              },
+              notes: [
+                'Wave 9 — Nissan/Infiniti engine compartment fuse box layout.',
+                'Uniform row-major approximation of the fuse-box.info diagram;',
+                'slot numbers match the OEM IPDM/junction block numbering.'
+              ]
+            }
           },
         ]
       },
@@ -39197,7 +39939,42 @@ dodge: {
               { pos: 'R2', amps: '—', circuit: 'ACCESSORY', desc: 'Accessory' },
               { pos: 'R3', amps: '—', circuit: 'IGNITION #2', desc: 'Ignition #2' }
             ],
-            relays: []
+            relays: [],
+            layout: {
+              cols: 5,
+              rows: 5,
+              cells: {
+                '1': { col: 1, row: 1, w: 1, h: 1 },
+                '2': { col: 2, row: 1, w: 1, h: 1 },
+                '3': { col: 3, row: 1, w: 1, h: 1 },
+                '4': { col: 4, row: 1, w: 1, h: 1 },
+                '5': { col: 5, row: 1, w: 1, h: 1 },
+                '6': { col: 1, row: 2, w: 1, h: 1 },
+                '7': { col: 2, row: 2, w: 1, h: 1 },
+                '8': { col: 3, row: 2, w: 1, h: 1 },
+                '9': { col: 4, row: 2, w: 1, h: 1 },
+                '10': { col: 5, row: 2, w: 1, h: 1 },
+                '11': { col: 1, row: 3, w: 1, h: 1 },
+                '12': { col: 2, row: 3, w: 1, h: 1 },
+                '13': { col: 3, row: 3, w: 1, h: 1 },
+                '14': { col: 4, row: 3, w: 1, h: 1 },
+                '16': { col: 5, row: 3, w: 1, h: 1 },
+                '17': { col: 1, row: 4, w: 1, h: 1 },
+                '18': { col: 2, row: 4, w: 1, h: 1 },
+                '19': { col: 3, row: 4, w: 1, h: 1 },
+                '21': { col: 4, row: 4, w: 1, h: 1 },
+                '22': { col: 5, row: 4, w: 1, h: 1 },
+                'R1': { col: 1, row: 5, w: 1, h: 1 },
+                'R2': { col: 2, row: 5, w: 1, h: 1 },
+                'R3': { col: 3, row: 5, w: 1, h: 1 },
+              },
+              notes: [
+                'Wave 9 — Nissan/Infiniti interior fuse panel layout.',
+                'Uniform row-major approximation of the fuse-box.info diagram',
+                '(source generation noted in the wave report); slot numbers match',
+                'the OEM panel numbering.'
+              ]
+            }
           },
           {
             name: 'Front Compartment Fuse Box №1',
@@ -39223,7 +40000,37 @@ dodge: {
               { pos: 'R1', amps: '—', circuit: 'REAR WINDOW DEFOGGER', desc: 'Rear Window Defogger' },
               { pos: 'R4', amps: '—', circuit: 'IGNITION #1', desc: 'Ignition #1' }
             ],
-            relays: []
+            relays: [],
+            layout: {
+              cols: 4,
+              rows: 5,
+              cells: {
+                '41': { col: 1, row: 1, w: 1, h: 1 },
+                '42': { col: 2, row: 1, w: 1, h: 1 },
+                '43': { col: 3, row: 1, w: 1, h: 1 },
+                '45': { col: 4, row: 1, w: 1, h: 1 },
+                '46': { col: 1, row: 2, w: 1, h: 1 },
+                '47': { col: 2, row: 2, w: 1, h: 1 },
+                '50': { col: 3, row: 2, w: 1, h: 1 },
+                '51': { col: 4, row: 2, w: 1, h: 1 },
+                '52': { col: 1, row: 3, w: 1, h: 1 },
+                '53': { col: 2, row: 3, w: 1, h: 1 },
+                '54': { col: 3, row: 3, w: 1, h: 1 },
+                '55': { col: 4, row: 3, w: 1, h: 1 },
+                '56': { col: 1, row: 4, w: 1, h: 1 },
+                '57': { col: 2, row: 4, w: 1, h: 1 },
+                '61': { col: 3, row: 4, w: 1, h: 1 },
+                '62': { col: 4, row: 4, w: 1, h: 1 },
+                '64': { col: 1, row: 5, w: 1, h: 1 },
+                'R1': { col: 2, row: 5, w: 1, h: 1 },
+                'R4': { col: 3, row: 5, w: 1, h: 1 },
+              },
+              notes: [
+                'Wave 9 — Nissan/Infiniti engine compartment fuse box layout.',
+                'Uniform row-major approximation of the fuse-box.info diagram;',
+                'slot numbers match the OEM IPDM/junction block numbering.'
+              ]
+            }
           },
           {
             name: 'Front Compartment Fuse Box №2',
@@ -39248,7 +40055,35 @@ dodge: {
               { pos: 'N', amps: 60, circuit: 'ELECTRONIC POWER STEERING (EPS) CONTROL UNIT', desc: 'Electronic Power Steering (EPS) Control Unit' },
               { pos: 'R1', amps: '—', circuit: 'HORN', desc: 'Horn' }
             ],
-            relays: []
+            relays: [],
+            layout: {
+              cols: 4,
+              rows: 5,
+              cells: {
+                '31': { col: 1, row: 1, w: 1, h: 1 },
+                '32': { col: 2, row: 1, w: 1, h: 1 },
+                '33': { col: 3, row: 1, w: 1, h: 1 },
+                '34': { col: 4, row: 1, w: 1, h: 1 },
+                '35': { col: 1, row: 2, w: 1, h: 1 },
+                '36': { col: 2, row: 2, w: 1, h: 1 },
+                '37': { col: 3, row: 2, w: 1, h: 1 },
+                '38': { col: 4, row: 2, w: 1, h: 1 },
+                '82': { col: 1, row: 3, w: 1, h: 1 },
+                'G': { col: 2, row: 3, w: 1, h: 1 },
+                'H': { col: 3, row: 3, w: 1, h: 1 },
+                'I': { col: 4, row: 3, w: 1, h: 1 },
+                'J': { col: 1, row: 4, w: 1, h: 1 },
+                'K': { col: 2, row: 4, w: 1, h: 1 },
+                'L': { col: 3, row: 4, w: 1, h: 1 },
+                'N': { col: 4, row: 4, w: 1, h: 1 },
+                'R1': { col: 1, row: 5, w: 1, h: 1 },
+              },
+              notes: [
+                'Wave 9 — Nissan/Infiniti engine compartment fuse box layout.',
+                'Uniform row-major approximation of the fuse-box.info diagram;',
+                'slot numbers match the OEM IPDM/junction block numbering.'
+              ]
+            }
           },
           {
             name: 'Front Compartment Fuse Box №3',
@@ -39266,7 +40101,29 @@ dodge: {
               { pos: 'R6', amps: '—', circuit: 'A/C', desc: 'A/C' },
               { pos: 'R7', amps: '—', circuit: 'DAYTIME LIGHT #1', desc: 'Daytime Light #1' }
             ],
-            relays: []
+            relays: [],
+            layout: {
+              cols: 4,
+              rows: 3,
+              cells: {
+                '75': { col: 1, row: 1, w: 1, h: 1 },
+                '76': { col: 2, row: 1, w: 1, h: 1 },
+                '77': { col: 3, row: 1, w: 1, h: 1 },
+                'O': { col: 4, row: 1, w: 1, h: 1 },
+                'R1': { col: 1, row: 2, w: 1, h: 1 },
+                'R2': { col: 2, row: 2, w: 1, h: 1 },
+                'R3': { col: 3, row: 2, w: 1, h: 1 },
+                'R4': { col: 4, row: 2, w: 1, h: 1 },
+                'R5': { col: 1, row: 3, w: 1, h: 1 },
+                'R6': { col: 2, row: 3, w: 1, h: 1 },
+                'R7': { col: 3, row: 3, w: 1, h: 1 },
+              },
+              notes: [
+                'Wave 9 — Nissan/Infiniti engine compartment fuse box layout.',
+                'Uniform row-major approximation of the fuse-box.info diagram;',
+                'slot numbers match the OEM IPDM/junction block numbering.'
+              ]
+            }
           },
           {
             name: 'Front Compartment Relay Box',
@@ -39285,7 +40142,30 @@ dodge: {
               { pos: 'R3', amps: '—', circuit: 'VEHICLE SECURITY HORN', desc: 'Vehicle Security Horn' },
               { pos: 'R4', amps: '—', circuit: 'REVERSE LAMP', desc: 'Reverse Lamp' }
             ],
-            relays: []
+            relays: [],
+            layout: {
+              cols: 4,
+              rows: 3,
+              cells: {
+                '71': { col: 1, row: 1, w: 1, h: 1 },
+                '72': { col: 2, row: 1, w: 1, h: 1 },
+                '73': { col: 3, row: 1, w: 1, h: 1 },
+                '74': { col: 4, row: 1, w: 1, h: 1 },
+                '75': { col: 1, row: 2, w: 1, h: 1 },
+                '76': { col: 2, row: 2, w: 1, h: 1 },
+                '77': { col: 3, row: 2, w: 1, h: 1 },
+                '78': { col: 4, row: 2, w: 1, h: 1 },
+                'R1': { col: 1, row: 3, w: 1, h: 1 },
+                'R2': { col: 2, row: 3, w: 1, h: 1 },
+                'R3': { col: 3, row: 3, w: 1, h: 1 },
+                'R4': { col: 4, row: 3, w: 1, h: 1 },
+              },
+              notes: [
+                'Wave 9 — Nissan/Infiniti relay box layout.',
+                'Uniform row-major approximation; slot numbers match the OEM',
+                'relay box numbering.'
+              ]
+            }
           },
           {
             name: 'Fusible Link Block (Battery)',
@@ -39298,7 +40178,24 @@ dodge: {
               { pos: 'E', amps: 100, circuit: 'HEADLAMP HIGH RELAY (FUSE: "51", "52"), HEADLAMP LOW RELA...', desc: 'Headlamp High Relay (Fuse: "51", "52"), Headlamp Low Relay (Fuse: "53", "54"), Tail Lamp Relay (Fuse: "46", "47"), Front Fog Lamp Relay (Fuse: "50")' },
               { pos: 'F', amps: 60, circuit: 'ELECTRICALLY DRIVEN INTELLIGENT BRAKE (EDIB) UNIT', desc: 'Electrically Driven Intelligent Brake (EDIB) Unit' }
             ],
-            relays: []
+            relays: [],
+            layout: {
+              cols: 6,
+              rows: 1,
+              cells: {
+                'A': { col: 1, row: 1, w: 1, h: 1 },
+                'B': { col: 2, row: 1, w: 1, h: 1 },
+                'C': { col: 3, row: 1, w: 1, h: 1 },
+                'D': { col: 4, row: 1, w: 1, h: 1 },
+                'E': { col: 5, row: 1, w: 1, h: 1 },
+                'F': { col: 6, row: 1, w: 1, h: 1 },
+              },
+              notes: [
+                'Wave 9 — Nissan/Infiniti fusible link block layout.',
+                'Uniform row-major approximation; letter slots match the OEM',
+                'fusible link block (battery terminal block).'
+              ]
+            }
           },
         ]
       },
@@ -42558,8 +43455,62 @@ infiniti: {
               { pos: 'R3', circuit: 'POWER SOCKET', desc: 'Power Socket' },
               { pos: 'R4', circuit: 'IGNITION', desc: 'Ignition' },
               { pos: 'R5', circuit: 'BLOWER', desc: 'Blower' }
-          ]
-        },
+          ],
+            layout: {
+              cols: 6,
+              rows: 7,
+              cells: {
+                '1': { col: 1, row: 1, w: 1, h: 1 },
+                '2': { col: 2, row: 1, w: 1, h: 1 },
+                '3': { col: 3, row: 1, w: 1, h: 1 },
+                '4': { col: 4, row: 1, w: 1, h: 1 },
+                '5': { col: 5, row: 1, w: 1, h: 1 },
+                '6': { col: 6, row: 1, w: 1, h: 1 },
+                '7': { col: 1, row: 2, w: 1, h: 1 },
+                '8': { col: 2, row: 2, w: 1, h: 1 },
+                '9': { col: 3, row: 2, w: 1, h: 1 },
+                '10': { col: 4, row: 2, w: 1, h: 1 },
+                '11': { col: 5, row: 2, w: 1, h: 1 },
+                '12': { col: 6, row: 2, w: 1, h: 1 },
+                '13': { col: 1, row: 3, w: 1, h: 1 },
+                '14': { col: 2, row: 3, w: 1, h: 1 },
+                '15': { col: 3, row: 3, w: 1, h: 1 },
+                '16': { col: 4, row: 3, w: 1, h: 1 },
+                '17': { col: 5, row: 3, w: 1, h: 1 },
+                '18': { col: 6, row: 3, w: 1, h: 1 },
+                '19': { col: 1, row: 4, w: 1, h: 1 },
+                '20': { col: 2, row: 4, w: 1, h: 1 },
+                '21': { col: 3, row: 4, w: 1, h: 1 },
+                '22': { col: 4, row: 4, w: 1, h: 1 },
+                '23': { col: 5, row: 4, w: 1, h: 1 },
+                '24': { col: 6, row: 4, w: 1, h: 1 },
+                '25': { col: 1, row: 5, w: 1, h: 1 },
+                '26': { col: 2, row: 5, w: 1, h: 1 },
+                '27': { col: 3, row: 5, w: 1, h: 1 },
+                '28': { col: 4, row: 5, w: 1, h: 1 },
+                '29': { col: 5, row: 5, w: 1, h: 1 },
+                '30': { col: 6, row: 5, w: 1, h: 1 },
+                '31': { col: 1, row: 6, w: 1, h: 1 },
+                '32': { col: 2, row: 6, w: 1, h: 1 },
+                '33': { col: 3, row: 6, w: 1, h: 1 },
+                '34': { col: 4, row: 6, w: 1, h: 1 },
+                '35': { col: 5, row: 6, w: 1, h: 1 },
+                '36': { col: 6, row: 6, w: 1, h: 1 },
+                '37': { col: 1, row: 7, w: 1, h: 1 },
+                'R1': { col: 2, row: 7, w: 1, h: 1 },
+                'R2': { col: 3, row: 7, w: 1, h: 1 },
+                'R3': { col: 4, row: 7, w: 1, h: 1 },
+                'R4': { col: 5, row: 7, w: 1, h: 1 },
+                'R5': { col: 6, row: 7, w: 1, h: 1 },
+              },
+              notes: [
+                'Wave 9 — Nissan/Infiniti interior fuse panel layout.',
+                'Uniform row-major approximation of the fuse-box.info diagram',
+                '(source generation noted in the wave report); slot numbers match',
+                'the OEM panel numbering.'
+              ]
+            }
+          },
         {
           name: 'Engine Compartment Fuse Box #1',
           location: 'Located in the engine compartment, next to the battery.',
@@ -42589,8 +43540,42 @@ infiniti: {
               { pos: '64', amps: '—', circuit: 'ENGINE CONTROL MODULE (ECM)', desc: 'Engine Control Module (ECM)' }
           ],
           relays: [
-          ]
-        },
+          ],
+            layout: {
+              cols: 5,
+              rows: 5,
+              cells: {
+                '42': { col: 1, row: 1, w: 1, h: 1 },
+                '43': { col: 2, row: 1, w: 1, h: 1 },
+                '44': { col: 3, row: 1, w: 1, h: 1 },
+                '45': { col: 4, row: 1, w: 1, h: 1 },
+                '46': { col: 5, row: 1, w: 1, h: 1 },
+                '47': { col: 1, row: 2, w: 1, h: 1 },
+                '48': { col: 2, row: 2, w: 1, h: 1 },
+                '49': { col: 3, row: 2, w: 1, h: 1 },
+                '50': { col: 4, row: 2, w: 1, h: 1 },
+                '51': { col: 5, row: 2, w: 1, h: 1 },
+                '52': { col: 1, row: 3, w: 1, h: 1 },
+                '53': { col: 2, row: 3, w: 1, h: 1 },
+                '54': { col: 3, row: 3, w: 1, h: 1 },
+                '55': { col: 4, row: 3, w: 1, h: 1 },
+                '56': { col: 5, row: 3, w: 1, h: 1 },
+                '57': { col: 1, row: 4, w: 1, h: 1 },
+                '58': { col: 2, row: 4, w: 1, h: 1 },
+                '59': { col: 3, row: 4, w: 1, h: 1 },
+                '60': { col: 4, row: 4, w: 1, h: 1 },
+                '61': { col: 5, row: 4, w: 1, h: 1 },
+                '62': { col: 1, row: 5, w: 1, h: 1 },
+                '63': { col: 2, row: 5, w: 1, h: 1 },
+                '64': { col: 3, row: 5, w: 1, h: 1 },
+              },
+              notes: [
+                'Wave 9 — Nissan/Infiniti engine compartment fuse box layout.',
+                'Uniform row-major approximation of the fuse-box.info diagram;',
+                'slot numbers match the OEM IPDM/junction block numbering.'
+              ]
+            }
+          },
         {
           name: 'Engine Compartment Fuse Box #2',
           location: 'Located in the engine compartment, next to fuse box #1.',
@@ -42624,8 +43609,46 @@ infiniti: {
               { pos: 'R2', circuit: 'COOLING FAN #1', desc: 'Cooling Fan #1' },
               { pos: 'R3', circuit: 'DAYTIME RUNNING LIGHT', desc: 'Daytime Running Light' },
               { pos: 'R4', circuit: 'VEHICLE SECURITY HORN', desc: 'Vehicle Security Horn' }
-          ]
-        },
+          ],
+            layout: {
+              cols: 5,
+              rows: 6,
+              cells: {
+                '65': { col: 1, row: 1, w: 1, h: 1 },
+                '66': { col: 2, row: 1, w: 1, h: 1 },
+                '67': { col: 3, row: 1, w: 1, h: 1 },
+                '68': { col: 4, row: 1, w: 1, h: 1 },
+                '69': { col: 5, row: 1, w: 1, h: 1 },
+                '70': { col: 1, row: 2, w: 1, h: 1 },
+                '71': { col: 2, row: 2, w: 1, h: 1 },
+                '72': { col: 3, row: 2, w: 1, h: 1 },
+                '73': { col: 4, row: 2, w: 1, h: 1 },
+                '74': { col: 5, row: 2, w: 1, h: 1 },
+                'G': { col: 1, row: 3, w: 1, h: 1 },
+                'H': { col: 2, row: 3, w: 1, h: 1 },
+                'I': { col: 3, row: 3, w: 1, h: 1 },
+                'J': { col: 4, row: 3, w: 1, h: 1 },
+                'K': { col: 5, row: 3, w: 1, h: 1 },
+                'L': { col: 1, row: 4, w: 1, h: 1 },
+                'M': { col: 2, row: 4, w: 1, h: 1 },
+                'N': { col: 3, row: 4, w: 1, h: 1 },
+                'O': { col: 4, row: 4, w: 1, h: 1 },
+                'P': { col: 5, row: 4, w: 1, h: 1 },
+                'Q': { col: 1, row: 5, w: 1, h: 1 },
+                'S': { col: 2, row: 5, w: 1, h: 1 },
+                'R': { col: 3, row: 5, w: 1, h: 1 },
+                'R1': { col: 4, row: 5, w: 1, h: 1 },
+                'R2': { col: 5, row: 5, w: 1, h: 1 },
+                'R3': { col: 1, row: 6, w: 1, h: 1 },
+                'R4': { col: 2, row: 6, w: 1, h: 1 },
+              },
+              notes: [
+                'Wave 9 — Nissan/Infiniti engine compartment fuse box layout.',
+                'Uniform row-major approximation of the fuse-box.info diagram;',
+                'slot numbers match the OEM IPDM/junction block numbering.'
+              ]
+            }
+          },
         {
           name: 'Fusible Link Block',
           location: 'Located in the engine compartment, attached to the battery.',
@@ -42638,8 +43661,25 @@ infiniti: {
               { pos: 'C', amps: '—', circuit: 'FUSES: 65, 66, 67, 68, 69, 70, 72, 73, G, H, J, L, M, N,...', desc: 'Fuses: 65, 66, 67, 68, 69, 70, 72, 73, G, H, J, L, M, N, O, P, Q, R, S' }
           ],
           relays: [
-          ]
-        }
+          ],
+            layout: {
+              cols: 6,
+              rows: 1,
+              cells: {
+                'A': { col: 1, row: 1, w: 1, h: 1 },
+                'B': { col: 2, row: 1, w: 1, h: 1 },
+                'F': { col: 3, row: 1, w: 1, h: 1 },
+                'E': { col: 4, row: 1, w: 1, h: 1 },
+                'D': { col: 5, row: 1, w: 1, h: 1 },
+                'C': { col: 6, row: 1, w: 1, h: 1 },
+              },
+              notes: [
+                'Wave 9 — Nissan/Infiniti fusible link block layout.',
+                'Uniform row-major approximation; letter slots match the OEM',
+                'fusible link block (battery terminal block).'
+              ]
+            }
+          }
       ]
     }
   },
@@ -42690,8 +43730,58 @@ infiniti: {
               { pos: 'R2', circuit: 'BLOWER MOTOR', desc: 'Blower Motor' },
               { pos: 'R3', circuit: 'REAR WINDOW DEFOGGER', desc: 'Rear Window Defogger' },
               { pos: 'R4', circuit: 'ACCESSORY #1', desc: 'Accessory #1' }
-          ]
-        },
+          ],
+            layout: {
+              cols: 6,
+              rows: 7,
+              cells: {
+                '1': { col: 1, row: 1, w: 1, h: 1 },
+                '2': { col: 2, row: 1, w: 1, h: 1 },
+                '3': { col: 3, row: 1, w: 1, h: 1 },
+                '4': { col: 4, row: 1, w: 1, h: 1 },
+                '5': { col: 5, row: 1, w: 1, h: 1 },
+                '6': { col: 6, row: 1, w: 1, h: 1 },
+                '7': { col: 1, row: 2, w: 1, h: 1 },
+                '8': { col: 2, row: 2, w: 1, h: 1 },
+                '9': { col: 3, row: 2, w: 1, h: 1 },
+                '10': { col: 4, row: 2, w: 1, h: 1 },
+                '11': { col: 5, row: 2, w: 1, h: 1 },
+                '12': { col: 6, row: 2, w: 1, h: 1 },
+                '13': { col: 1, row: 3, w: 1, h: 1 },
+                '14': { col: 2, row: 3, w: 1, h: 1 },
+                '15': { col: 3, row: 3, w: 1, h: 1 },
+                '16': { col: 4, row: 3, w: 1, h: 1 },
+                '17': { col: 5, row: 3, w: 1, h: 1 },
+                '18': { col: 6, row: 3, w: 1, h: 1 },
+                '19': { col: 1, row: 4, w: 1, h: 1 },
+                '20': { col: 2, row: 4, w: 1, h: 1 },
+                '21': { col: 3, row: 4, w: 1, h: 1 },
+                '22': { col: 4, row: 4, w: 1, h: 1 },
+                '23': { col: 5, row: 4, w: 1, h: 1 },
+                '24': { col: 6, row: 4, w: 1, h: 1 },
+                '25': { col: 1, row: 5, w: 1, h: 1 },
+                '26': { col: 2, row: 5, w: 1, h: 1 },
+                '27': { col: 3, row: 5, w: 1, h: 1 },
+                '28': { col: 4, row: 5, w: 1, h: 1 },
+                '29': { col: 5, row: 5, w: 1, h: 1 },
+                '30': { col: 6, row: 5, w: 1, h: 1 },
+                '31': { col: 1, row: 6, w: 1, h: 1 },
+                '32': { col: 2, row: 6, w: 1, h: 1 },
+                '33': { col: 3, row: 6, w: 1, h: 1 },
+                '74': { col: 4, row: 6, w: 1, h: 1 },
+                'R1': { col: 5, row: 6, w: 1, h: 1 },
+                'R2': { col: 6, row: 6, w: 1, h: 1 },
+                'R3': { col: 1, row: 7, w: 1, h: 1 },
+                'R4': { col: 2, row: 7, w: 1, h: 1 },
+              },
+              notes: [
+                'Wave 9 — Nissan/Infiniti interior fuse panel layout.',
+                'Uniform row-major approximation of the fuse-box.info diagram',
+                '(source generation noted in the wave report); slot numbers match',
+                'the OEM panel numbering.'
+              ]
+            }
+          },
         {
           name: 'Engine Compartment Fuse Box #1',
           location: 'Located in the engine compartment, next to the battery.',
@@ -42721,8 +43811,42 @@ infiniti: {
               { pos: '56', amps: '—', circuit: 'ENGINE CONTROL MODULE (ECM)', desc: 'Engine Control Module (ECM)' }
           ],
           relays: [
-          ]
-        },
+          ],
+            layout: {
+              cols: 5,
+              rows: 5,
+              cells: {
+                '34': { col: 1, row: 1, w: 1, h: 1 },
+                '35': { col: 2, row: 1, w: 1, h: 1 },
+                '36': { col: 3, row: 1, w: 1, h: 1 },
+                '37': { col: 4, row: 1, w: 1, h: 1 },
+                '38': { col: 5, row: 1, w: 1, h: 1 },
+                '39': { col: 1, row: 2, w: 1, h: 1 },
+                '40': { col: 2, row: 2, w: 1, h: 1 },
+                '41': { col: 3, row: 2, w: 1, h: 1 },
+                '42': { col: 4, row: 2, w: 1, h: 1 },
+                '43': { col: 5, row: 2, w: 1, h: 1 },
+                '44': { col: 1, row: 3, w: 1, h: 1 },
+                '45': { col: 2, row: 3, w: 1, h: 1 },
+                '46': { col: 3, row: 3, w: 1, h: 1 },
+                '47': { col: 4, row: 3, w: 1, h: 1 },
+                '48': { col: 5, row: 3, w: 1, h: 1 },
+                '49': { col: 1, row: 4, w: 1, h: 1 },
+                '50': { col: 2, row: 4, w: 1, h: 1 },
+                '51': { col: 3, row: 4, w: 1, h: 1 },
+                '52': { col: 4, row: 4, w: 1, h: 1 },
+                '53': { col: 5, row: 4, w: 1, h: 1 },
+                '54': { col: 1, row: 5, w: 1, h: 1 },
+                '55': { col: 2, row: 5, w: 1, h: 1 },
+                '56': { col: 3, row: 5, w: 1, h: 1 },
+              },
+              notes: [
+                'Wave 9 — Nissan/Infiniti engine compartment fuse box layout.',
+                'Uniform row-major approximation of the fuse-box.info diagram;',
+                'slot numbers match the OEM IPDM/junction block numbering.'
+              ]
+            }
+          },
         {
           name: 'Engine Compartment Fuse Box #2',
           location: 'Located in the engine compartment, next to fuse box #1.',
@@ -42756,8 +43880,46 @@ infiniti: {
           relays: [
               { pos: 'R1', circuit: 'HORN RELAY', desc: 'Horn Relay' },
               { pos: 'R2', circuit: 'COOLING FAN RELAY', desc: 'Cooling Fan Relay' }
-          ]
-        },
+          ],
+            layout: {
+              cols: 5,
+              rows: 6,
+              cells: {
+                '57': { col: 1, row: 1, w: 1, h: 1 },
+                '58': { col: 2, row: 1, w: 1, h: 1 },
+                '59': { col: 3, row: 1, w: 1, h: 1 },
+                '60': { col: 4, row: 1, w: 1, h: 1 },
+                '61': { col: 5, row: 1, w: 1, h: 1 },
+                '62': { col: 1, row: 2, w: 1, h: 1 },
+                '63': { col: 2, row: 2, w: 1, h: 1 },
+                '64': { col: 3, row: 2, w: 1, h: 1 },
+                '65': { col: 4, row: 2, w: 1, h: 1 },
+                '66': { col: 5, row: 2, w: 1, h: 1 },
+                '67': { col: 1, row: 3, w: 1, h: 1 },
+                '68': { col: 2, row: 3, w: 1, h: 1 },
+                '69': { col: 3, row: 3, w: 1, h: 1 },
+                '70': { col: 4, row: 3, w: 1, h: 1 },
+                '71': { col: 5, row: 3, w: 1, h: 1 },
+                'G': { col: 1, row: 4, w: 1, h: 1 },
+                'H': { col: 2, row: 4, w: 1, h: 1 },
+                'I': { col: 3, row: 4, w: 1, h: 1 },
+                'J': { col: 4, row: 4, w: 1, h: 1 },
+                'K': { col: 5, row: 4, w: 1, h: 1 },
+                'L': { col: 1, row: 5, w: 1, h: 1 },
+                'M': { col: 2, row: 5, w: 1, h: 1 },
+                'N': { col: 3, row: 5, w: 1, h: 1 },
+                'O': { col: 4, row: 5, w: 1, h: 1 },
+                'P': { col: 5, row: 5, w: 1, h: 1 },
+                'R1': { col: 1, row: 6, w: 1, h: 1 },
+                'R2': { col: 2, row: 6, w: 1, h: 1 },
+              },
+              notes: [
+                'Wave 9 — Nissan/Infiniti engine compartment fuse box layout.',
+                'Uniform row-major approximation of the fuse-box.info diagram;',
+                'slot numbers match the OEM IPDM/junction block numbering.'
+              ]
+            }
+          },
         {
           name: 'Relay Box #1',
           location: 'Located in the engine compartment, near the fuse boxes.',
@@ -42772,8 +43934,27 @@ infiniti: {
               { pos: 'R3', circuit: 'ACCESSORY #2', desc: 'Accessory #2' },
               { pos: 'R4', circuit: 'NOT USED', desc: 'Not Used' },
               { pos: 'R5', circuit: 'PTC #1', desc: 'PTC #1' }
-          ]
-        },
+          ],
+            layout: {
+              cols: 4,
+              rows: 2,
+              cells: {
+                '72': { col: 1, row: 1, w: 1, h: 1 },
+                '73': { col: 2, row: 1, w: 1, h: 1 },
+                '74': { col: 3, row: 1, w: 1, h: 1 },
+                'R1': { col: 4, row: 1, w: 1, h: 1 },
+                'R2': { col: 1, row: 2, w: 1, h: 1 },
+                'R3': { col: 2, row: 2, w: 1, h: 1 },
+                'R4': { col: 3, row: 2, w: 1, h: 1 },
+                'R5': { col: 4, row: 2, w: 1, h: 1 },
+              },
+              notes: [
+                'Wave 9 — Nissan/Infiniti relay box layout.',
+                'Uniform row-major approximation; slot numbers match the OEM',
+                'relay box numbering.'
+              ]
+            }
+          },
         {
           name: 'Relay Box #2',
           location: 'Located in the engine compartment, near the fuse boxes.',
@@ -42785,8 +43966,24 @@ infiniti: {
               { pos: 'R2', circuit: 'NOT USED', desc: 'Not Used' },
               { pos: 'R3', circuit: 'NOT USED', desc: 'Not Used' },
               { pos: 'R4', circuit: 'DAYTIME RUNNING LIGHT RELAY', desc: 'Daytime Running Light Relay' }
-          ]
-        },
+          ],
+            layout: {
+              cols: 4,
+              rows: 2,
+              cells: {
+                '75': { col: 1, row: 1, w: 1, h: 1 },
+                'R1': { col: 2, row: 1, w: 1, h: 1 },
+                'R2': { col: 3, row: 1, w: 1, h: 1 },
+                'R3': { col: 4, row: 1, w: 1, h: 1 },
+                'R4': { col: 1, row: 2, w: 1, h: 1 },
+              },
+              notes: [
+                'Wave 9 — Nissan/Infiniti relay box layout.',
+                'Uniform row-major approximation; slot numbers match the OEM',
+                'relay box numbering.'
+              ]
+            }
+          },
         {
           name: 'Fusible Link Block',
           location: 'Located in the engine compartment, attached to the battery.',
@@ -42799,8 +43996,25 @@ infiniti: {
               { pos: 'F', amps: '—', circuit: 'ACCESSORY RELAY NO.1 (FUSES: 19, 20, 21), REAR WINDOW DEF...', desc: 'Accessory Relay No.1 (Fuses: 19, 20, 21), Rear Window Defogger Relay (Fuses: 22, 23, 24), Blower Motor Relay (Fuses: 17, 27), Fuses: 1, 2, 3, 4, 9, 10, 11, 12, 13, 14, 15, 16, 25, 65, 66, 67, G' }
           ],
           relays: [
-          ]
-        }
+          ],
+            layout: {
+              cols: 6,
+              rows: 1,
+              cells: {
+                'A': { col: 1, row: 1, w: 1, h: 1 },
+                'B': { col: 2, row: 1, w: 1, h: 1 },
+                'C': { col: 3, row: 1, w: 1, h: 1 },
+                'D': { col: 4, row: 1, w: 1, h: 1 },
+                'E': { col: 5, row: 1, w: 1, h: 1 },
+                'F': { col: 6, row: 1, w: 1, h: 1 },
+              },
+              notes: [
+                'Wave 9 — Nissan/Infiniti fusible link block layout.',
+                'Uniform row-major approximation; letter slots match the OEM',
+                'fusible link block (battery terminal block).'
+              ]
+            }
+          }
       ]
     }
   },
@@ -42839,8 +44053,46 @@ infiniti: {
             { pos: 'R4', amps: '—', circuit: 'FRONT BLOWER RELAY', desc: 'Front Blower Relay' }
           ],
           relays: [
-          ]
-        },
+          ],
+            layout: {
+              cols: 5,
+              rows: 6,
+              cells: {
+                '1': { col: 1, row: 1, w: 1, h: 1 },
+                '2': { col: 2, row: 1, w: 1, h: 1 },
+                '3': { col: 3, row: 1, w: 1, h: 1 },
+                '4': { col: 4, row: 1, w: 1, h: 1 },
+                '5': { col: 5, row: 1, w: 1, h: 1 },
+                '6': { col: 1, row: 2, w: 1, h: 1 },
+                '7': { col: 2, row: 2, w: 1, h: 1 },
+                '8': { col: 3, row: 2, w: 1, h: 1 },
+                '9': { col: 4, row: 2, w: 1, h: 1 },
+                '10': { col: 5, row: 2, w: 1, h: 1 },
+                '11': { col: 1, row: 3, w: 1, h: 1 },
+                '12': { col: 2, row: 3, w: 1, h: 1 },
+                '13': { col: 3, row: 3, w: 1, h: 1 },
+                '14': { col: 4, row: 3, w: 1, h: 1 },
+                '15': { col: 5, row: 3, w: 1, h: 1 },
+                '16': { col: 1, row: 4, w: 1, h: 1 },
+                '17': { col: 2, row: 4, w: 1, h: 1 },
+                '18': { col: 3, row: 4, w: 1, h: 1 },
+                '19': { col: 4, row: 4, w: 1, h: 1 },
+                '20': { col: 5, row: 4, w: 1, h: 1 },
+                '21': { col: 1, row: 5, w: 1, h: 1 },
+                '22': { col: 2, row: 5, w: 1, h: 1 },
+                'R1': { col: 3, row: 5, w: 1, h: 1 },
+                'R2': { col: 4, row: 5, w: 1, h: 1 },
+                'R3': { col: 5, row: 5, w: 1, h: 1 },
+                'R4': { col: 1, row: 6, w: 1, h: 1 },
+              },
+              notes: [
+                'Wave 9 — Nissan/Infiniti interior fuse panel layout.',
+                'Uniform row-major approximation of the fuse-box.info diagram',
+                '(source generation noted in the wave report); slot numbers match',
+                'the OEM panel numbering.'
+              ]
+            }
+          },
         {
           name: 'Engine Compartment Fuse Box No.1',
           location: 'Engine compartment',
@@ -42867,8 +44119,39 @@ infiniti: {
             { pos: '60', amps: 30, circuit: 'FRONT WIPER RELAY', desc: 'Front Wiper Relay' }
           ],
           relays: [
-          ]
-        },
+          ],
+            layout: {
+              cols: 4,
+              rows: 5,
+              cells: {
+                '41': { col: 1, row: 1, w: 1, h: 1 },
+                '42': { col: 2, row: 1, w: 1, h: 1 },
+                '43': { col: 3, row: 1, w: 1, h: 1 },
+                '44': { col: 4, row: 1, w: 1, h: 1 },
+                '45': { col: 1, row: 2, w: 1, h: 1 },
+                '46': { col: 2, row: 2, w: 1, h: 1 },
+                '47': { col: 3, row: 2, w: 1, h: 1 },
+                '48': { col: 4, row: 2, w: 1, h: 1 },
+                '49': { col: 1, row: 3, w: 1, h: 1 },
+                '50': { col: 2, row: 3, w: 1, h: 1 },
+                '51': { col: 3, row: 3, w: 1, h: 1 },
+                '52': { col: 4, row: 3, w: 1, h: 1 },
+                '53': { col: 1, row: 4, w: 1, h: 1 },
+                '54': { col: 2, row: 4, w: 1, h: 1 },
+                '55': { col: 3, row: 4, w: 1, h: 1 },
+                '56': { col: 4, row: 4, w: 1, h: 1 },
+                '57': { col: 1, row: 5, w: 1, h: 1 },
+                '58': { col: 2, row: 5, w: 1, h: 1 },
+                '59': { col: 3, row: 5, w: 1, h: 1 },
+                '60': { col: 4, row: 5, w: 1, h: 1 },
+              },
+              notes: [
+                'Wave 9 — Nissan/Infiniti engine compartment fuse box layout.',
+                'Uniform row-major approximation of the fuse-box.info diagram;',
+                'slot numbers match the OEM IPDM/junction block numbering.'
+              ]
+            }
+          },
         {
           name: 'Engine Compartment Fuse Box No.2',
           location: 'Engine compartment',
@@ -42894,8 +44177,38 @@ infiniti: {
             { pos: 'R1', amps: '—', circuit: 'HORN RELAY', desc: 'Horn relay' }
           ],
           relays: [
-          ]
-        },
+          ],
+            layout: {
+              cols: 5,
+              rows: 4,
+              cells: {
+                '31': { col: 1, row: 1, w: 1, h: 1 },
+                '32': { col: 2, row: 1, w: 1, h: 1 },
+                '33': { col: 3, row: 1, w: 1, h: 1 },
+                '34': { col: 4, row: 1, w: 1, h: 1 },
+                '35': { col: 5, row: 1, w: 1, h: 1 },
+                '36': { col: 1, row: 2, w: 1, h: 1 },
+                '37': { col: 2, row: 2, w: 1, h: 1 },
+                '38': { col: 3, row: 2, w: 1, h: 1 },
+                'F': { col: 4, row: 2, w: 1, h: 1 },
+                'G': { col: 5, row: 2, w: 1, h: 1 },
+                'H': { col: 1, row: 3, w: 1, h: 1 },
+                'I': { col: 2, row: 3, w: 1, h: 1 },
+                'J': { col: 3, row: 3, w: 1, h: 1 },
+                'K': { col: 4, row: 3, w: 1, h: 1 },
+                'L': { col: 5, row: 3, w: 1, h: 1 },
+                'M': { col: 1, row: 4, w: 1, h: 1 },
+                'N': { col: 2, row: 4, w: 1, h: 1 },
+                'O': { col: 3, row: 4, w: 1, h: 1 },
+                'R1': { col: 4, row: 4, w: 1, h: 1 },
+              },
+              notes: [
+                'Wave 9 — Nissan/Infiniti engine compartment fuse box layout.',
+                'Uniform row-major approximation of the fuse-box.info diagram;',
+                'slot numbers match the OEM IPDM/junction block numbering.'
+              ]
+            }
+          },
         {
           name: 'Engine Compartment Fuse Box No.3',
           location: 'Engine compartment',
@@ -42909,8 +44222,26 @@ infiniti: {
             { pos: 'R2', circuit: 'INTELLIGENT CRUISE CONTROL (ICC) BRAKE HOLD', desc: 'Intelligent Cruise Control (ICC) Brake Hold' },
             { pos: 'R3', circuit: 'NOT USED', desc: 'Not Used' },
             { pos: 'R4', circuit: 'HORN #2', desc: 'Horn #2' }
-          ]
-        },
+          ],
+            layout: {
+              cols: 4,
+              rows: 2,
+              cells: {
+                '61': { col: 1, row: 1, w: 1, h: 1 },
+                '62': { col: 2, row: 1, w: 1, h: 1 },
+                '63': { col: 3, row: 1, w: 1, h: 1 },
+                'R1': { col: 4, row: 1, w: 1, h: 1 },
+                'R2': { col: 1, row: 2, w: 1, h: 1 },
+                'R3': { col: 2, row: 2, w: 1, h: 1 },
+                'R4': { col: 3, row: 2, w: 1, h: 1 },
+              },
+              notes: [
+                'Wave 9 — Nissan/Infiniti engine compartment fuse box layout.',
+                'Uniform row-major approximation of the fuse-box.info diagram;',
+                'slot numbers match the OEM IPDM/junction block numbering.'
+              ]
+            }
+          },
         {
           name: 'Fusible Link Block',
           location: 'Engine compartment, main fusible links',
@@ -42922,8 +44253,24 @@ infiniti: {
             { pos: 'E', amps: 80, circuit: 'ACCESSORY RELAY (FUSE: "18", "19", "20"), REAR WINDOW DEF...', desc: 'Accessory Relay (Fuse: "18", "19", "20"), Rear Window Defogger Relay (Fuse: "13", "14", "15"), Blower Relay (Fuse: "21", "22"), Fuse: "6", "7", "9", "10", "11"' }
           ],
           relays: [
-          ]
-        },
+          ],
+            layout: {
+              cols: 6,
+              rows: 1,
+              cells: {
+                'A': { col: 1, row: 1, w: 1, h: 1 },
+                'B': { col: 2, row: 1, w: 1, h: 1 },
+                'C': { col: 3, row: 1, w: 1, h: 1 },
+                'D': { col: 4, row: 1, w: 1, h: 1 },
+                'E': { col: 5, row: 1, w: 1, h: 1 },
+              },
+              notes: [
+                'Wave 9 — Nissan/Infiniti fusible link block layout.',
+                'Uniform row-major approximation; letter slots match the OEM',
+                'fusible link block (battery terminal block).'
+              ]
+            }
+          },
       ]
     },
     '2019-2022': {
@@ -42980,8 +44327,66 @@ infiniti: {
             { pos: 'S', amps: '—', circuit: 'SPARE FUSES', desc: 'Spare fuses' }
           ],
           relays: [
-          ]
-        },
+          ],
+            layout: {
+              cols: 6,
+              rows: 8,
+              cells: {
+                '1': { col: 1, row: 1, w: 1, h: 1 },
+                '2': { col: 2, row: 1, w: 1, h: 1 },
+                '3': { col: 3, row: 1, w: 1, h: 1 },
+                '4': { col: 4, row: 1, w: 1, h: 1 },
+                '5': { col: 5, row: 1, w: 1, h: 1 },
+                '7': { col: 6, row: 1, w: 1, h: 1 },
+                '8': { col: 1, row: 2, w: 1, h: 1 },
+                '9': { col: 2, row: 2, w: 1, h: 1 },
+                '10': { col: 3, row: 2, w: 1, h: 1 },
+                '11': { col: 4, row: 2, w: 1, h: 1 },
+                '12': { col: 5, row: 2, w: 1, h: 1 },
+                '13': { col: 6, row: 2, w: 1, h: 1 },
+                '14': { col: 1, row: 3, w: 1, h: 1 },
+                '15': { col: 2, row: 3, w: 1, h: 1 },
+                '16': { col: 3, row: 3, w: 1, h: 1 },
+                '19': { col: 4, row: 3, w: 1, h: 1 },
+                '20': { col: 5, row: 3, w: 1, h: 1 },
+                '21': { col: 6, row: 3, w: 1, h: 1 },
+                '22': { col: 1, row: 4, w: 1, h: 1 },
+                '23': { col: 2, row: 4, w: 1, h: 1 },
+                '26': { col: 3, row: 4, w: 1, h: 1 },
+                '30': { col: 4, row: 4, w: 1, h: 1 },
+                '31': { col: 5, row: 4, w: 1, h: 1 },
+                '32': { col: 6, row: 4, w: 1, h: 1 },
+                '33': { col: 1, row: 5, w: 1, h: 1 },
+                '34': { col: 2, row: 5, w: 1, h: 1 },
+                '35': { col: 3, row: 5, w: 1, h: 1 },
+                '36': { col: 4, row: 5, w: 1, h: 1 },
+                '37': { col: 5, row: 5, w: 1, h: 1 },
+                '38': { col: 6, row: 5, w: 1, h: 1 },
+                '39': { col: 1, row: 6, w: 1, h: 1 },
+                '40': { col: 2, row: 6, w: 1, h: 1 },
+                '41': { col: 3, row: 6, w: 1, h: 1 },
+                '42': { col: 4, row: 6, w: 1, h: 1 },
+                '44': { col: 5, row: 6, w: 1, h: 1 },
+                '45': { col: 6, row: 6, w: 1, h: 1 },
+                '46': { col: 1, row: 7, w: 1, h: 1 },
+                '47': { col: 2, row: 7, w: 1, h: 1 },
+                '48': { col: 3, row: 7, w: 1, h: 1 },
+                '49': { col: 4, row: 7, w: 1, h: 1 },
+                '50': { col: 5, row: 7, w: 1, h: 1 },
+                '51': { col: 6, row: 7, w: 1, h: 1 },
+                '52': { col: 1, row: 8, w: 1, h: 1 },
+                '53': { col: 2, row: 8, w: 1, h: 1 },
+                '54': { col: 3, row: 8, w: 1, h: 1 },
+                'S': { col: 4, row: 8, w: 1, h: 1 },
+              },
+              notes: [
+                'Wave 9 — Nissan/Infiniti interior fuse panel layout.',
+                'Uniform row-major approximation of the fuse-box.info diagram',
+                '(source generation noted in the wave report); slot numbers match',
+                'the OEM panel numbering.'
+              ]
+            }
+          },
         {
           name: 'Engine Compartment Fuse Box No.1',
           location: 'Engine compartment',
@@ -43002,8 +44407,33 @@ infiniti: {
             { pos: '67', amps: 10, circuit: 'HEADLAMP AIMING MOTOR, COMPRESSOR, TRANSMISSION RANGE SWI...', desc: 'Headlamp Aiming Motor, Compressor, Transmission Range Switch, Front Window Defogger RH Relay, Front Window Defogger LH Relay, Reverse / Neutral Position Switch, Back-Up Lamp Switch, Neutral Position Switch' }
           ],
           relays: [
-          ]
-        },
+          ],
+            layout: {
+              cols: 4,
+              rows: 4,
+              cells: {
+                '51': { col: 1, row: 1, w: 1, h: 1 },
+                '52': { col: 2, row: 1, w: 1, h: 1 },
+                '53': { col: 3, row: 1, w: 1, h: 1 },
+                '54': { col: 4, row: 1, w: 1, h: 1 },
+                '55': { col: 1, row: 2, w: 1, h: 1 },
+                '56': { col: 2, row: 2, w: 1, h: 1 },
+                '57': { col: 3, row: 2, w: 1, h: 1 },
+                '58': { col: 4, row: 2, w: 1, h: 1 },
+                '60': { col: 1, row: 3, w: 1, h: 1 },
+                '61': { col: 2, row: 3, w: 1, h: 1 },
+                '63': { col: 3, row: 3, w: 1, h: 1 },
+                '65': { col: 4, row: 3, w: 1, h: 1 },
+                '66': { col: 1, row: 4, w: 1, h: 1 },
+                '67': { col: 2, row: 4, w: 1, h: 1 },
+              },
+              notes: [
+                'Wave 9 — Nissan/Infiniti engine compartment fuse box layout.',
+                'Uniform row-major approximation of the fuse-box.info diagram;',
+                'slot numbers match the OEM IPDM/junction block numbering.'
+              ]
+            }
+          },
         {
           name: 'Engine Compartment Fuse Box No.2',
           location: 'Engine compartment',
@@ -43025,8 +44455,34 @@ infiniti: {
             { pos: '15', amps: 15, circuit: 'WIPER DEICER', desc: 'Heated Wiper Zone' }
           ],
           relays: [
-          ]
-        },
+          ],
+            layout: {
+              cols: 4,
+              rows: 4,
+              cells: {
+                '1': { col: 1, row: 1, w: 1, h: 1 },
+                '2': { col: 2, row: 1, w: 1, h: 1 },
+                '3': { col: 3, row: 1, w: 1, h: 1 },
+                '4': { col: 4, row: 1, w: 1, h: 1 },
+                '5': { col: 1, row: 2, w: 1, h: 1 },
+                '6': { col: 2, row: 2, w: 1, h: 1 },
+                '7': { col: 3, row: 2, w: 1, h: 1 },
+                '8': { col: 4, row: 2, w: 1, h: 1 },
+                '9': { col: 1, row: 3, w: 1, h: 1 },
+                '10': { col: 2, row: 3, w: 1, h: 1 },
+                '11': { col: 3, row: 3, w: 1, h: 1 },
+                '12': { col: 4, row: 3, w: 1, h: 1 },
+                '13': { col: 1, row: 4, w: 1, h: 1 },
+                '14': { col: 2, row: 4, w: 1, h: 1 },
+                '15': { col: 3, row: 4, w: 1, h: 1 },
+              },
+              notes: [
+                'Wave 9 — Nissan/Infiniti engine compartment fuse box layout.',
+                'Uniform row-major approximation of the fuse-box.info diagram;',
+                'slot numbers match the OEM IPDM/junction block numbering.'
+              ]
+            }
+          },
       ]
     },
   },
@@ -43065,8 +44521,46 @@ infiniti: {
             { pos: 'R2', circuit: 'IGNITION #2', desc: 'Ignition #2' },
             { pos: 'R3', circuit: 'ACCESSORY', desc: 'Accessory' },
             { pos: 'R4', circuit: 'BLOWER', desc: 'Blower' }
-          ]
-        },
+          ],
+            layout: {
+              cols: 5,
+              rows: 6,
+              cells: {
+                '1': { col: 1, row: 1, w: 1, h: 1 },
+                '2': { col: 2, row: 1, w: 1, h: 1 },
+                '3': { col: 3, row: 1, w: 1, h: 1 },
+                '4': { col: 4, row: 1, w: 1, h: 1 },
+                '5': { col: 5, row: 1, w: 1, h: 1 },
+                '6': { col: 1, row: 2, w: 1, h: 1 },
+                '7': { col: 2, row: 2, w: 1, h: 1 },
+                '8': { col: 3, row: 2, w: 1, h: 1 },
+                '9': { col: 4, row: 2, w: 1, h: 1 },
+                '10': { col: 5, row: 2, w: 1, h: 1 },
+                '11': { col: 1, row: 3, w: 1, h: 1 },
+                '12': { col: 2, row: 3, w: 1, h: 1 },
+                '13': { col: 3, row: 3, w: 1, h: 1 },
+                '14': { col: 4, row: 3, w: 1, h: 1 },
+                '15': { col: 5, row: 3, w: 1, h: 1 },
+                '16': { col: 1, row: 4, w: 1, h: 1 },
+                '17': { col: 2, row: 4, w: 1, h: 1 },
+                '18': { col: 3, row: 4, w: 1, h: 1 },
+                '19': { col: 4, row: 4, w: 1, h: 1 },
+                '20': { col: 5, row: 4, w: 1, h: 1 },
+                '21': { col: 1, row: 5, w: 1, h: 1 },
+                '22': { col: 2, row: 5, w: 1, h: 1 },
+                'R1': { col: 3, row: 5, w: 1, h: 1 },
+                'R2': { col: 4, row: 5, w: 1, h: 1 },
+                'R3': { col: 5, row: 5, w: 1, h: 1 },
+                'R4': { col: 1, row: 6, w: 1, h: 1 },
+              },
+              notes: [
+                'Wave 9 — Nissan/Infiniti interior fuse panel layout.',
+                'Uniform row-major approximation of the fuse-box.info diagram',
+                '(source generation noted in the wave report); slot numbers match',
+                'the OEM panel numbering.'
+              ]
+            }
+          },
         {
           name: 'Engine Compartment Fuse Box No.1',
           location: 'Engine compartment',
@@ -43101,8 +44595,47 @@ infiniti: {
             { pos: 'R2', circuit: 'IGNITION NO.3', desc: 'Ignition No.3' },
             { pos: 'R3', circuit: 'IGNITION NO.2', desc: 'Ignition No.2' },
             { pos: 'R4', circuit: 'IGNITION', desc: 'Ignition' }
-          ]
-        },
+          ],
+            layout: {
+              cols: 5,
+              rows: 6,
+              cells: {
+                '41': { col: 1, row: 1, w: 1, h: 1 },
+                '42': { col: 2, row: 1, w: 1, h: 1 },
+                '43': { col: 3, row: 1, w: 1, h: 1 },
+                '44': { col: 4, row: 1, w: 1, h: 1 },
+                '45': { col: 5, row: 1, w: 1, h: 1 },
+                '46': { col: 1, row: 2, w: 1, h: 1 },
+                '47': { col: 2, row: 2, w: 1, h: 1 },
+                '48': { col: 3, row: 2, w: 1, h: 1 },
+                '49': { col: 4, row: 2, w: 1, h: 1 },
+                '50': { col: 5, row: 2, w: 1, h: 1 },
+                '51': { col: 1, row: 3, w: 1, h: 1 },
+                '52': { col: 2, row: 3, w: 1, h: 1 },
+                '53': { col: 3, row: 3, w: 1, h: 1 },
+                '54': { col: 4, row: 3, w: 1, h: 1 },
+                '55': { col: 5, row: 3, w: 1, h: 1 },
+                '56': { col: 1, row: 4, w: 1, h: 1 },
+                '57': { col: 2, row: 4, w: 1, h: 1 },
+                '58': { col: 3, row: 4, w: 1, h: 1 },
+                '59': { col: 4, row: 4, w: 1, h: 1 },
+                '60': { col: 5, row: 4, w: 1, h: 1 },
+                '61': { col: 1, row: 5, w: 1, h: 1 },
+                '62': { col: 2, row: 5, w: 1, h: 1 },
+                '63': { col: 3, row: 5, w: 1, h: 1 },
+                '64': { col: 4, row: 5, w: 1, h: 1 },
+                'R1': { col: 5, row: 5, w: 1, h: 1 },
+                'R2': { col: 1, row: 6, w: 1, h: 1 },
+                'R3': { col: 2, row: 6, w: 1, h: 1 },
+                'R4': { col: 3, row: 6, w: 1, h: 1 },
+              },
+              notes: [
+                'Wave 9 — Nissan/Infiniti engine compartment fuse box layout.',
+                'Uniform row-major approximation of the fuse-box.info diagram;',
+                'slot numbers match the OEM IPDM/junction block numbering.'
+              ]
+            }
+          },
         {
           name: 'Engine Compartment Fuse Box No.2',
           location: 'Engine compartment',
@@ -43126,8 +44659,36 @@ infiniti: {
             { pos: 'R1', amps: '—', circuit: 'HORN RELAY', desc: 'Horn Relay' }
           ],
           relays: [
-          ]
-        },
+          ],
+            layout: {
+              cols: 4,
+              rows: 5,
+              cells: {
+                '31': { col: 1, row: 1, w: 1, h: 1 },
+                '32': { col: 2, row: 1, w: 1, h: 1 },
+                '33': { col: 3, row: 1, w: 1, h: 1 },
+                '34': { col: 4, row: 1, w: 1, h: 1 },
+                '35': { col: 1, row: 2, w: 1, h: 1 },
+                '36': { col: 2, row: 2, w: 1, h: 1 },
+                '37': { col: 3, row: 2, w: 1, h: 1 },
+                '38': { col: 4, row: 2, w: 1, h: 1 },
+                'F': { col: 1, row: 3, w: 1, h: 1 },
+                'G': { col: 2, row: 3, w: 1, h: 1 },
+                'H': { col: 3, row: 3, w: 1, h: 1 },
+                'I': { col: 4, row: 3, w: 1, h: 1 },
+                'J': { col: 1, row: 4, w: 1, h: 1 },
+                'K': { col: 2, row: 4, w: 1, h: 1 },
+                'L': { col: 3, row: 4, w: 1, h: 1 },
+                'M': { col: 4, row: 4, w: 1, h: 1 },
+                'R1': { col: 1, row: 5, w: 1, h: 1 },
+              },
+              notes: [
+                'Wave 9 — Nissan/Infiniti engine compartment fuse box layout.',
+                'Uniform row-major approximation of the fuse-box.info diagram;',
+                'slot numbers match the OEM IPDM/junction block numbering.'
+              ]
+            }
+          },
         {
           name: 'Additional Fuse Holder',
           location: 'Engine compartment, additional fuse holder',
@@ -43146,8 +44707,31 @@ infiniti: {
             { pos: 'T', amps: 30, circuit: 'AUTOMATIC BACK DOOR CONTROL MODULE', desc: 'Automatic Back Door Control Module' }
           ],
           relays: [
-          ]
-        },
+          ],
+            layout: {
+              cols: 4,
+              rows: 3,
+              cells: {
+                'P': { col: 1, row: 1, w: 1, h: 1 },
+                'O': { col: 2, row: 1, w: 1, h: 1 },
+                'R': { col: 3, row: 1, w: 1, h: 1 },
+                'Q': { col: 4, row: 1, w: 1, h: 1 },
+                '75': { col: 1, row: 2, w: 1, h: 1 },
+                '76': { col: 2, row: 2, w: 1, h: 1 },
+                '77': { col: 3, row: 2, w: 1, h: 1 },
+                'S': { col: 4, row: 2, w: 1, h: 1 },
+                '78': { col: 1, row: 3, w: 1, h: 1 },
+                '79': { col: 2, row: 3, w: 1, h: 1 },
+                '80': { col: 3, row: 3, w: 1, h: 1 },
+                'T': { col: 4, row: 3, w: 1, h: 1 },
+              },
+              notes: [
+                'Wave 9 — Nissan/Infiniti engine compartment fuse box layout.',
+                'Uniform row-major approximation of the fuse-box.info diagram;',
+                'slot numbers match the OEM IPDM/junction block numbering.'
+              ]
+            }
+          },
         {
           name: 'Relay Box No.1',
           location: 'Engine compartment, relay box',
@@ -43176,8 +44760,41 @@ infiniti: {
             { pos: 'R12', circuit: 'AIR COMPRESSOR', desc: 'Air Compressor' },
             { pos: 'R13', circuit: 'IGNITION', desc: 'Ignition' },
             { pos: 'R14', circuit: 'VARIABLE VALVE EVENT AND LIFT (VVEL) ACTUATOR MOTOR', desc: 'Variable Valve Event and Lift (VVEL) Actuator Motor' }
-          ]
-        },
+          ],
+            layout: {
+              cols: 5,
+              rows: 5,
+              cells: {
+                '71': { col: 1, row: 1, w: 1, h: 1 },
+                '72': { col: 2, row: 1, w: 1, h: 1 },
+                '73': { col: 3, row: 1, w: 1, h: 1 },
+                '74': { col: 4, row: 1, w: 1, h: 1 },
+                '87': { col: 5, row: 1, w: 1, h: 1 },
+                '88': { col: 1, row: 2, w: 1, h: 1 },
+                '89': { col: 2, row: 2, w: 1, h: 1 },
+                '90': { col: 3, row: 2, w: 1, h: 1 },
+                'R1': { col: 4, row: 2, w: 1, h: 1 },
+                'R2': { col: 5, row: 2, w: 1, h: 1 },
+                'R3': { col: 1, row: 3, w: 1, h: 1 },
+                'R4': { col: 2, row: 3, w: 1, h: 1 },
+                'R5': { col: 3, row: 3, w: 1, h: 1 },
+                'R6': { col: 4, row: 3, w: 1, h: 1 },
+                'R7': { col: 5, row: 3, w: 1, h: 1 },
+                'R8': { col: 1, row: 4, w: 1, h: 1 },
+                'R9': { col: 2, row: 4, w: 1, h: 1 },
+                'R10': { col: 3, row: 4, w: 1, h: 1 },
+                'R11': { col: 4, row: 4, w: 1, h: 1 },
+                'R12': { col: 5, row: 4, w: 1, h: 1 },
+                'R13': { col: 1, row: 5, w: 1, h: 1 },
+                'R14': { col: 2, row: 5, w: 1, h: 1 },
+              },
+              notes: [
+                'Wave 9 — Nissan/Infiniti relay box layout.',
+                'Uniform row-major approximation; slot numbers match the OEM',
+                'relay box numbering.'
+              ]
+            }
+          },
         {
           name: 'Relay Box No.2',
           location: 'Engine compartment, relay box',
@@ -43198,8 +44815,33 @@ infiniti: {
             { pos: 'R4', circuit: 'TRAILER TURN SIGNAL LAMP (LH)', desc: 'Trailer Turn Signal Lamp (LH)' },
             { pos: 'R5', circuit: 'TRAILER TAIL LAMP', desc: 'Trailer Tail Lamp' },
             { pos: 'R6', circuit: 'TRAILER POWER', desc: 'Trailer Power' }
-          ]
-        },
+          ],
+            layout: {
+              cols: 4,
+              rows: 4,
+              cells: {
+                '81': { col: 1, row: 1, w: 1, h: 1 },
+                '82': { col: 2, row: 1, w: 1, h: 1 },
+                '83': { col: 3, row: 1, w: 1, h: 1 },
+                '84': { col: 4, row: 1, w: 1, h: 1 },
+                '85': { col: 1, row: 2, w: 1, h: 1 },
+                '86': { col: 2, row: 2, w: 1, h: 1 },
+                'U': { col: 3, row: 2, w: 1, h: 1 },
+                'V': { col: 4, row: 2, w: 1, h: 1 },
+                'R1': { col: 1, row: 3, w: 1, h: 1 },
+                'R2': { col: 2, row: 3, w: 1, h: 1 },
+                'R3': { col: 3, row: 3, w: 1, h: 1 },
+                'R4': { col: 4, row: 3, w: 1, h: 1 },
+                'R5': { col: 1, row: 4, w: 1, h: 1 },
+                'R6': { col: 2, row: 4, w: 1, h: 1 },
+              },
+              notes: [
+                'Wave 9 — Nissan/Infiniti relay box layout.',
+                'Uniform row-major approximation; slot numbers match the OEM',
+                'relay box numbering.'
+              ]
+            }
+          },
         {
           name: 'Fusible Link Block',
           location: 'Engine compartment, main fusible links',
@@ -43212,8 +44854,25 @@ infiniti: {
             { pos: 'N', amps: 60, circuit: 'HEADLAMP HIGH RELAY (FUSES: "51", "52"), HEADLAMP LOW REL...', desc: 'Headlamp High Relay (Fuses: "51", "52"), Headlamp Low Relay (Fuses: "53", "54"), Tail Lamp Relay (Fuses: "46", "47"), Front Fog Lamp Relay (Fuses: "50"), Fuses: "45", "49"' }
           ],
           relays: [
-          ]
-        },
+          ],
+            layout: {
+              cols: 6,
+              rows: 1,
+              cells: {
+                'A': { col: 1, row: 1, w: 1, h: 1 },
+                'B': { col: 2, row: 1, w: 1, h: 1 },
+                'C': { col: 3, row: 1, w: 1, h: 1 },
+                'D': { col: 4, row: 1, w: 1, h: 1 },
+                'E': { col: 5, row: 1, w: 1, h: 1 },
+                'N': { col: 6, row: 1, w: 1, h: 1 },
+              },
+              notes: [
+                'Wave 9 — Nissan/Infiniti fusible link block layout.',
+                'Uniform row-major approximation; letter slots match the OEM',
+                'fusible link block (battery terminal block).'
+              ]
+            }
+          },
       ]
     },
   },
