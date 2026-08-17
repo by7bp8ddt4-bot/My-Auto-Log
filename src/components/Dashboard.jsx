@@ -64,8 +64,8 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], mo
     return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
   }).length;
 
-  // Premium AI Mileage Prediction — real linear regression on fuel log data
-  const aiMileagePrediction = isPremium && activeVehicle
+  // AI Mileage Prediction — real linear regression on fuel log data
+  const aiMileagePrediction = activeVehicle
     ? predictMileage(fuelLogs, activeVehicle)
     : null;
 
@@ -456,8 +456,8 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], mo
         </div>
       ) : null}
 
-      {/* AI Mileage Prediction Card — Premium */}
-      {isPremium && aiMileagePrediction && (
+      {/* AI Mileage Prediction Card */}
+      {aiMileagePrediction && (
         <div className="mb-8 p-5 rounded-2xl bg-gradient-to-r from-blue-600/5 to-cyan-600/5 border border-blue-500/20">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-sm font-semibold text-white flex items-center gap-2">
@@ -820,27 +820,25 @@ export default function Dashboard({ vehicles, logs, reminders, fuelLogs = [], mo
         )}
       </div>
 
-      {/* Premium PDF Resale Report */}
-      {isPremium && (
-        <div className="mt-4 p-5 rounded-2xl bg-gradient-to-r from-amber-600/5 to-orange-600/5 border border-amber-500/20">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <FileText className="w-4 h-4 text-amber-400" />
-              <h3 className="text-sm font-semibold text-white">Resale Value Report</h3>
-            </div>
-            <button
-              onClick={() => generateResaleReport(vehicles, logs, reminders)}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-500 text-white text-xs font-medium transition-all"
-            >
-              <Download className="w-3.5 h-3.5" />
-              Generate PDF
-            </button>
+      {/* PDF Resale Report */}
+      <div className="mt-4 p-5 rounded-2xl bg-gradient-to-r from-amber-600/5 to-orange-600/5 border border-amber-500/20">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <FileText className="w-4 h-4 text-amber-400" />
+            <h3 className="text-sm font-semibold text-white">Resale Value Report</h3>
           </div>
-          <p className="text-xs text-slate-400 mt-2">
-            Generate a professional PDF report of your full service history — perfect for dealership trade-ins or private sales.
-          </p>
+          <button
+            onClick={() => generateResaleReport(vehicles, logs, reminders)}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-500 text-white text-xs font-medium transition-all"
+          >
+            <Download className="w-3.5 h-3.5" />
+            Generate PDF
+          </button>
         </div>
-      )}
+        <p className="text-xs text-slate-400 mt-2">
+          Generate a professional PDF report of your full service history — perfect for dealership trade-ins or private sales.
+        </p>
+      </div>
 
     </div>
   );
