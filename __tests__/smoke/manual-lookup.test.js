@@ -65,8 +65,39 @@ describe('manual lookup — known models resolve', () => {
     expect(result.entry.url).toContain('vw.com/en/owners-and-services/about-my-vehicle/owners-manuals.html');
   });
 
-  it('Wave 2: honest upload fallbacks resolve for probed-and-blocked makes', () => {
+  it('Wave 3: Chevrolet re-validated via the GM manuals-guides page (was upload fallback)', () => {
     const result = findManualEntry('Chevrolet', 'Silverado', 2023);
+    expect(result.reason).toBe('matched');
+    expect(result.entry.fetchable).toBe(true);
+    expect(result.entry.url).toContain('chevrolet.com/support/vehicle/manuals-guides');
+  });
+
+  it('Wave 3: Acura per-model routes resolve (owners-portal pattern)', () => {
+    const result = findManualEntry('Acura', 'TLX', 2023);
+    expect(result.reason).toBe('matched');
+    expect(result.entry.fetchable).toBe(true);
+    expect(result.entry.url).toContain('owners.acura.com/vehicle-information/manuals/tlx');
+  });
+
+  it('Wave 3: GMC + Infiniti hub pages resolve', () => {
+    expect(findManualEntry('GMC', 'Sierra', 2023).entry.url).toContain('gmc.com/support/vehicle/manuals-guides');
+    expect(findManualEntry('Infiniti', 'Q50', 2023).entry.url).toContain('infinitiusa.com/owners/manuals-warranties.html');
+  });
+
+  it('Wave 3: Lexus resolves to an honest upload fallback (no public endpoint)', () => {
+    const result = findManualEntry('Lexus', 'ES', 2023);
+    expect(result.reason).toBe('matched');
+    expect(result.entry.fetchable).toBe(false);
+    expect(result.entry.url).toBeNull();
+  });
+
+  it('Wave 3: spaced new keys resolve (Hyundai Ioniq 5, Mitsubishi Eclipse Cross)', () => {
+    expect(findManualEntry('Hyundai', 'Ioniq 5', 2023).reason).toBe('matched');
+    expect(findManualEntry('Mitsubishi', 'Eclipse Cross', 2023).reason).toBe('matched');
+  });
+
+  it('honest upload fallbacks resolve for still-blocked makes (Mazda CX-5)', () => {
+    const result = findManualEntry('Mazda', 'CX-5', 2023);
     expect(result.reason).toBe('matched');
     expect(result.entry.fetchable).toBe(false);
     expect(result.entry.url).toBeNull();

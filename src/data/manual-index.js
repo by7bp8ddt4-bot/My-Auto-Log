@@ -21,66 +21,104 @@
  *   - `source: 'oem'`    → manufacturer-public URL.
  *   - `source: 'upload'` → upload fallback only.
  *
- * Per-brand probe summary (2026-08-14 baseline + 2026-08-17 Wave 2):
+ * Per-brand probe summary (2026-08-14 baseline + 2026-08-17 Waves 2 & 3):
  *   Toyota  — per-model digital manual pages VALIDATED (2020 + 2024 samples).
- *             Wave 2 (2026-08-17): re-probed camry/corolla 2024 (200); added
- *             tundra, 4runner, sienna — same .../digital/{model}/{year}/
- *             pattern, each validated 200 text/html.
+ *             Wave 3 (2026-08-17): prius re-probed .../digital/prius/2023/
+ *             → 200 text/html (added).
  *   Honda   — owners portal + per-model manual routes return 200 (Salesforce
  *             SPA; manual content renders via JS — parse strategy TBD in the
- *             feature build; upload fallback also fine). Wave 2: civic route
- *             re-probed, still 200 (redirects to mygarage.honda.com shell).
- *   Kia     — manuals hub page VALIDATED (re-probed 200 on 2026-08-17);
- *             per-model PDFs are served behind a VIN-linked lookup
- *             (getvehicleinfo — still returns 301/redirect, NOT directly
- *             fetchable as of 2026-08-17; a VIN API integration is a later,
- *             separate decision, not built).
+ *             feature build; upload fallback also fine). Wave 3 (2026-08-17):
+ *             hrv/ridgeline/passport routes re-probed, still 200 (redirect to
+ *             mygarage.honda.com shell) — added.
+ *   Kia     — manuals hub page VALIDATED (200 on 2026-08-17); per-model PDFs
+ *             are served behind a VIN-linked lookup (getvehicleinfo — still
+ *             301/not directly fetchable as of 2026-08-17; a VIN API
+ *             integration is a later, separate decision, not built). Wave 3:
+ *             hub re-probed 200; k5/carnival/ev6/niro added on the hub pattern.
  *   Subaru  — vehicle-resources hub VALIDATED (re-probed 200 on 2026-08-17);
  *             per-model manual list loads via a JS component
- *             (subaru-800-manual-items), not in raw HTML.
- *   Hyundai — manuals-warranties hub VALIDATED (re-probed 200 on 2026-08-17);
- *             per-model digital manuals live at digitalownersmanual.hyundai.com,
- *             which STILL does not resolve (DNS NXDOMAIN) from the build
- *             environment as of the Wave 2 re-probe.
- *   Ford    — NO endpoint validated in Wave 1 or Wave 2: ford.com/support/
- *             owner-manuals and fordservicecontent.com PDFs time out / drop
- *             the connection from this environment (bot protection). Wave 2
- *             re-probe (2026-08-17): Chrome GET, Safari HEAD, HTTP/1.1 GET
- *             (35s), and the service-content PDF all failed — GET/HEAD both
- *             error or hang with 0 bytes. Keep upload fallback; retry from
+ *             (subaru-800-manual-items), not in raw HTML. Wave 3: ascent and
+ *             legacy added on the hub pattern.
+ *   Hyundai — manuals-warranties hub VALIDATED (re-probed 200 on 2026-08-17).
+ *             Wave 3 (2026-08-17): digitalownersmanual.hyundai.com STILL
+ *             NXDOMAIN (DNS); digitalownersmanual.hyundaiusa.com RESOLVES but
+ *             is a parked redirector → www.hyundaiusa.com home (no manual
+ *             content). Hub entries only; upload fallback recommended for
+ *             parse. palisade/kona/ioniq 5/venue added on the hub pattern.
+ *   Ford    — NO endpoint validated in Waves 1-3: ford.com/support/owner-manuals
+ *             and fordservicecontent.com PDFs time out / drop the connection
+ *             from this environment (bot protection). Wave 3 re-probe
+ *             (2026-08-17): Chrome GET, Safari HEAD, and HTTP/1.1 GET all
+ *             failed or hung with 0 bytes. Keep upload fallback; retry from
  *             Vercel IPs in the feature build.
+ *   Nissan  — Manuals & Guides hub VALIDATED (200 on 2026-08-17; "All Nissan
+ *             Owners Vehicle Manuals & Guides"). Per-model manuals load via
+ *             AEM SPA (jcr:content.proxy.json), not in raw HTML. Wave 3: hub
+ *             re-probed 200; kicks/armada/murano added on the hub pattern.
+ *   Volkswagen — "Owner's Manuals" page VALIDATED (200 on 2026-08-17; reached
+ *             from vw.com/en/owners.html nav). Manual lookup/PDFs run through
+ *             the VW owners portal flow (JS-heavy) — page shell validated only.
+ *             Wave 3: page re-probed 200; taos added on the page pattern.
+ *   Mercedes — mbusa.com/en/owners/manuals VALIDATED (200 on 2026-08-17;
+ *             JS-rendered manuals landing page). Per-model manuals are
+ *             VIN-linked via the MB owner portal — shell validated only.
+ *             Wave 3: re-probed 200; gla/glb added on the landing pattern.
+ *   Chevrolet — Wave 3 UNBLOCKED (2026-08-17): the GM "Manuals and Guides"
+ *             page chevrolet.com/support/vehicle/manuals-guides VALIDATED
+ *             (200 text/html; title "Manuals and Guides | Vehicle Support |
+ *             Chevy"), discovered from the chevrolet.com/owners nav. Wave 2
+ *             probed wrong paths (/support/vehicle/manuals + /ownercenter
+ *             404). silverado/equinox/malibu entries converted from upload
+ *             fallback → validated oem.
+ *   GMC     — Wave 3 NEW: gmc.com/support/vehicle/manuals-guides VALIDATED
+ *             (200 text/html; title "Manuals and Guides | Vehicle Support |
+ *             GMC"). sierra/terrain/acadia/yukon added (oem).
+ *   Buick   — Wave 3 NEW: buick.com/support/vehicle/manuals-guides VALIDATED
+ *             (200 text/html; title "Manuals and Guides | Vehicle Support |
+ *             Buick"). encore/enclave/envision added (oem).
+ *   Infiniti — Wave 3 NEW: infinitiusa.com/owners/manuals-warranties.html
+ *             VALIDATED (200 text/html; title "INFINITI Vehicle Manuals and
+ *             Warranties | INFINITI USA"). q50/qx60/qx80 added (oem).
+ *   Acura   — Wave 3 NEW: owners.acura.com per-model routes
+ *             /vehicle-information/manuals/{model}/{year} VALIDATED (200,
+ *             redirect to mygarage.honda.com/s/manuals-search?brand=acura —
+ *             same Salesforce SPA behavior as Honda; content renders via JS).
+ *             tlx/rdx/mdx/ilx/integra added; upload fallback recommended
+ *             for parse.
+ *   BMW     — probed: bmwusa.com/owners-manuals.html + bmw.com alternates —
+ *             HTTP/2 stream error then 35s timeout (0 bytes) in Waves 2 and 3
+ *             (re-probed 2026-08-17) — NOT fetchable; upload fallback.
+ *   Jeep    — probed: mopar.com owner-manual (403 bot wall), jeep.com owners
+ *             paths (redirect to jeep.com root) — upload fallback. Wave 3
+ *             re-probe (2026-08-17): same results.
+ *   Mazda   — probed: mazdausa.com/owners 200 but NO manuals URL exists
+ *             (owners nav links to site search + MyMazda login portal; PDF
+ *             patterns 404) — upload fallback. Wave 3 re-check (2026-08-17):
+ *             same.
+ *   Lexus   — probed Waves 2+3: drivers.lexus.com vehicle-manual,
+ *             lexus.com/owners, lexus.com/My-Lexus/manuals all 404 — no
+ *             public endpoint; es/rx/nx kept as honest upload fallbacks.
+ *   Audi    — probed Wave 3: audiusa.com owners paths return 403 (bot wall) —
+ *             a3/a4/q5 kept as honest upload fallbacks.
+ *   Volvo   — probed Wave 3: volvocars.com/us owner/support manuals paths all
+ *             403 (bot wall) — s60/xc60/xc90 kept as honest upload fallbacks.
+ *   Mitsubishi — probed Wave 3: mitsubishicars.com/owners redirects to a
+ *             Salesforce SPA (owners.mitsubishicars.com/s/) with no manual
+ *             URLs in raw HTML; per-model manual routes 404 — outlander/
+ *             eclipse cross/mirage kept as honest upload fallbacks.
+ *   Lincoln — probed Wave 3: lincoln.com owners paths drop the connection
+ *             (0 bytes; same Akamai bot protection as Ford) — corsair/
+ *             nautilus/navigator kept as honest upload fallbacks.
+ *   Dodge/Chrysler/Ram — probed Wave 3: brand /en/owners/manuals paths
+ *             redirect to mopar.com owners-manual pages which return 403
+ *             (bot wall); ramtrucks.com owners paths redirect to the brand
+ *             home. charger/challenger/durango (dodge), pacifica/300
+ *             (chrysler), 1500/2500 (ram) kept as honest upload fallbacks.
+ *   Pontiac/Oldsmobile/Plymouth/AMC/International/MG-classic — Wave 3
+ *             documented honestly: defunct brands with no public
+ *             owner-manual endpoints (their domains do not respond); NOT
+ *             indexed. Honest gap.
  *   Tesla   — EXCLUDED entirely (owner direction: "not our market").
- *
- * Wave 2 additions (2026-08-17 — all entries below validated or documented
- * honestly; NO guessed URLs):
- *   Nissan   — NEW. Manuals & Guides hub VALIDATED (200 text/html; title
- *              "All Nissan Owners Vehicle Manuals & Guides | Nissan USA").
- *              Per-model manuals load via AEM SPA (jcr:content.proxy.json),
- *              not in raw HTML; guessed PDF patterns returned 404 — hub
- *              entries only, upload fallback recommended for parse.
- *   Volkswagen — NEW. "Owner's Manuals" page under the owners area VALIDATED
- *              (200 text/html; reached from vw.com/en/owners.html nav).
- *              Manual lookup/PDFs run through the VW owners portal flow
- *              (JS-heavy) — page shell validated only.
- *   Mercedes  — NEW. mbusa.com/en/owners/manuals VALIDATED (200 text/html;
- *              JS-rendered manuals landing page). Per-model manuals are
- *              VIN-linked via the MB owner portal — shell validated only.
- *   Chevrolet — probed: chevrolet.com/support/vehicle/manuals (404),
- *              /ownercenter (404), gm.com/owners (404) — NO valid endpoint;
- *              entries below are honest upload fallbacks.
- *   BMW       — probed: bmwusa.com/owners-manuals.html — HTTP/2 stream error,
- *              then 35s timeout (0 bytes) — NOT fetchable; upload fallback.
- *   Jeep      — probed: mopar.com owner-manual (403 bot wall),
- *              jeep.com/en/owners/ (redirects to jeep.com root) — upload
- *              fallback.
- *   Mazda     — probed: mazdausa.com/owners root 200 but NO manuals URL
- *              exists (owners nav links to a site-search page; PDF patterns
- *              404) — upload fallback.
- *   Lexus     — probed: drivers.lexus.com vehicle-manual + lexus.com/owners
- *              both 404 — no index entries (documented here only).
- *   Acura     — probed: owners.acura.com/vehicles/manuals 200 but redirects
- *              to the mygarage.honda.com login shell; per-model route 404 —
- *              no index entries (documented here only).
  */
 export const manualIndex = {
   toyota: {
@@ -147,6 +185,14 @@ export const manualIndex = {
         source: 'oem',
         notes: 'Wave 2 (2026-08-17): per-year interactive manual page; pattern .../digital/sienna/{year}/ — validated 2024 (200 text/html). Substitute the vehicle year in the pattern.'
       }
+    },
+    prius: {
+      '2016-2026': {
+        url: 'https://www.toyota.com/owners/warranty-owners-manuals/digital/prius/2023/',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Wave 3 (2026-08-17): per-year interactive manual page; pattern .../digital/prius/{year}/ — validated 2023 (200 text/html). Substitute the vehicle year in the pattern.'
+      }
     }
   },
   honda: {
@@ -188,6 +234,30 @@ export const manualIndex = {
         fetchable: true,
         source: 'oem',
         notes: 'Owners-portal manual route (200 text/html). Salesforce SPA — see civic note; validate per-model content during feature build.'
+      }
+    },
+    hrv: {
+      '2016-2026': {
+        url: 'https://owners.honda.com/vehicle-information/manuals/hrv/2023',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Wave 3 (2026-08-17): owners-portal manual route (200 text/html, redirects to mygarage shell — same Salesforce SPA as civic). Validate per-model content during feature build; upload fallback also fine.'
+      }
+    },
+    ridgeline: {
+      '2017-2026': {
+        url: 'https://owners.honda.com/vehicle-information/manuals/ridgeline/2021',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Wave 3 (2026-08-17): owners-portal manual route (200 text/html, redirects to mygarage shell — same Salesforce SPA as civic). Validate per-model content during feature build; upload fallback also fine.'
+      }
+    },
+    passport: {
+      '2019-2026': {
+        url: 'https://owners.honda.com/vehicle-information/manuals/passport/2022',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Wave 3 (2026-08-17): owners-portal manual route (200 text/html, redirects to mygarage shell — same Salesforce SPA as civic). Validate per-model content during feature build; upload fallback also fine.'
       }
     }
   },
@@ -231,6 +301,38 @@ export const manualIndex = {
         source: 'oem',
         notes: 'Manuals hub page (200 text/html, model/year search). Per-model PDFs are served behind a VIN-linked lookup (getvehicleinfo — still 301/not directly fetchable 2026-08-17); upload fallback recommended for parse.'
       }
+    },
+    k5: {
+      '2021-2026': {
+        url: 'https://owners.kia.com/us/en/manuals.html',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Wave 3 (2026-08-17): manuals hub page (re-probed 200 text/html). Per-model PDFs remain VIN-linked (see soul note); upload fallback recommended for parse.'
+      }
+    },
+    carnival: {
+      '2022-2026': {
+        url: 'https://owners.kia.com/us/en/manuals.html',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Wave 3 (2026-08-17): manuals hub page (re-probed 200 text/html). Per-model PDFs remain VIN-linked (see soul note); upload fallback recommended for parse.'
+      }
+    },
+    ev6: {
+      '2022-2026': {
+        url: 'https://owners.kia.com/us/en/manuals.html',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Wave 3 (2026-08-17): manuals hub page (re-probed 200 text/html). Per-model PDFs remain VIN-linked (see soul note); upload fallback recommended for parse.'
+      }
+    },
+    niro: {
+      '2017-2026': {
+        url: 'https://owners.kia.com/us/en/manuals.html',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Wave 3 (2026-08-17): manuals hub page (re-probed 200 text/html). Per-model PDFs remain VIN-linked (see soul note); upload fallback recommended for parse.'
+      }
     }
   },
   subaru: {
@@ -265,6 +367,22 @@ export const manualIndex = {
         source: 'oem',
         notes: 'Vehicle-resources hub with "Manuals & Warranties" tab (200 text/html). Per-model manual list loads via a JS component (subaru-800-manual-items), not in raw HTML; upload fallback recommended for parse.'
       }
+    },
+    ascent: {
+      '2019-2026': {
+        url: 'https://www.subaru.com/owners/vehicle-resources.html',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Wave 3 (2026-08-17): vehicle-resources hub (re-probed 200 text/html). Per-model manual list loads via JS (subaru-800-manual-items); upload fallback recommended for parse.'
+      }
+    },
+    legacy: {
+      '2015-2026': {
+        url: 'https://www.subaru.com/owners/vehicle-resources.html',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Wave 3 (2026-08-17): vehicle-resources hub (re-probed 200 text/html). Per-model manual list loads via JS (subaru-800-manual-items); upload fallback recommended for parse.'
+      }
     }
   },
   hyundai: {
@@ -273,7 +391,7 @@ export const manualIndex = {
         url: 'https://owners.hyundaiusa.com/us/en/resources/manuals-warranties.html',
         fetchable: true,
         source: 'oem',
-        notes: 'Manuals & Warranties hub page (200 text/html). Per-model digital manuals live at digitalownersmanual.hyundai.com, which does NOT resolve (DNS) from the build environment (re-checked 2026-08-17 — still NXDOMAIN); upload fallback recommended for parse.'
+        notes: 'Manuals & Warranties hub page (200 text/html). Per-model digital manuals live at digitalownersmanual.hyundai.com, which does NOT resolve (DNS) from the build environment (re-checked 2026-08-17 — still NXDOMAIN; the .hyundaiusa.com variant is a parked redirect to the brand home); upload fallback recommended for parse.'
       }
     },
     sonata: {
@@ -281,7 +399,7 @@ export const manualIndex = {
         url: 'https://owners.hyundaiusa.com/us/en/resources/manuals-warranties.html',
         fetchable: true,
         source: 'oem',
-        notes: 'Manuals & Warranties hub page (200 text/html). Per-model digital manuals live at digitalownersmanual.hyundai.com, which does NOT resolve (DNS) from the build environment (re-checked 2026-08-17 — still NXDOMAIN); upload fallback recommended for parse.'
+        notes: 'Manuals & Warranties hub page (200 text/html). Per-model digital manuals live at digitalownersmanual.hyundai.com, which does NOT resolve (DNS) from the build environment (re-checked 2026-08-17 — still NXDOMAIN; the .hyundaiusa.com variant is a parked redirect to the brand home); upload fallback recommended for parse.'
       }
     },
     tucson: {
@@ -289,7 +407,7 @@ export const manualIndex = {
         url: 'https://owners.hyundaiusa.com/us/en/resources/manuals-warranties.html',
         fetchable: true,
         source: 'oem',
-        notes: 'Manuals & Warranties hub page (200 text/html). Per-model digital manuals live at digitalownersmanual.hyundai.com, which does NOT resolve (DNS) from the build environment (re-checked 2026-08-17 — still NXDOMAIN); upload fallback recommended for parse.'
+        notes: 'Manuals & Warranties hub page (200 text/html). Per-model digital manuals live at digitalownersmanual.hyundai.com, which does NOT resolve (DNS) from the build environment (re-checked 2026-08-17 — still NXDOMAIN; the .hyundaiusa.com variant is a parked redirect to the brand home); upload fallback recommended for parse.'
       }
     },
     'santa fe': {
@@ -297,7 +415,39 @@ export const manualIndex = {
         url: 'https://owners.hyundaiusa.com/us/en/resources/manuals-warranties.html',
         fetchable: true,
         source: 'oem',
-        notes: 'Manuals & Warranties hub page (200 text/html). Per-model digital manuals live at digitalownersmanual.hyundai.com, which does NOT resolve (DNS) from the build environment (re-checked 2026-08-17 — still NXDOMAIN); upload fallback recommended for parse.'
+        notes: 'Manuals & Warranties hub page (200 text/html). Per-model digital manuals live at digitalownersmanual.hyundai.com, which does NOT resolve (DNS) from the build environment (re-checked 2026-08-17 — still NXDOMAIN; the .hyundaiusa.com variant is a parked redirect to the brand home); upload fallback recommended for parse.'
+      }
+    },
+    palisade: {
+      '2020-2026': {
+        url: 'https://owners.hyundaiusa.com/us/en/resources/manuals-warranties.html',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Wave 3 (2026-08-17): manuals-warranties hub (re-probed 200 text/html). Digital manual domain still unresolved (see elantra note); upload fallback recommended for parse.'
+      }
+    },
+    kona: {
+      '2018-2026': {
+        url: 'https://owners.hyundaiusa.com/us/en/resources/manuals-warranties.html',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Wave 3 (2026-08-17): manuals-warranties hub (re-probed 200 text/html). Digital manual domain still unresolved (see elantra note); upload fallback recommended for parse.'
+      }
+    },
+    'ioniq 5': {
+      '2022-2026': {
+        url: 'https://owners.hyundaiusa.com/us/en/resources/manuals-warranties.html',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Wave 3 (2026-08-17): manuals-warranties hub (re-probed 200 text/html). Digital manual domain still unresolved (see elantra note); upload fallback recommended for parse.'
+      }
+    },
+    venue: {
+      '2020-2026': {
+        url: 'https://owners.hyundaiusa.com/us/en/resources/manuals-warranties.html',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Wave 3 (2026-08-17): manuals-warranties hub (re-probed 200 text/html). Digital manual domain still unresolved (see elantra note); upload fallback recommended for parse.'
       }
     }
   },
@@ -307,7 +457,7 @@ export const manualIndex = {
         url: null,
         fetchable: false,
         source: 'upload',
-        notes: 'No validated URL — ford.com/support/owner-manuals and fordservicecontent.com PDFs (e.g. .../Ford_Content/Catalog/owner_information/2023-Ford-F-150-Owners-Manual-version-1_om_EN-US.pdf) time out / drop the connection from the build environment (bot protection). Re-probed 2026-08-17 (Chrome GET, Safari HEAD, HTTP/1.1) — still blocked; upload fallback for now.'
+        notes: 'No validated URL — ford.com/support/owner-manuals and fordservicecontent.com PDFs (e.g. .../Ford_Content/Catalog/owner_information/2023-Ford-F-150-Owners-Manual-version-1_om_EN-US.pdf) time out / drop the connection from the build environment (bot protection). Re-probed 2026-08-17 (Wave 3: Chrome GET, Safari HEAD, HTTP/1.1 GET — all failed/hung) — still blocked; upload fallback for now.'
       }
     },
     escape: {
@@ -315,7 +465,7 @@ export const manualIndex = {
         url: null,
         fetchable: false,
         source: 'upload',
-        notes: 'No validated URL — Ford endpoints time out from the build environment (bot protection). Re-probed 2026-08-17 — still blocked; upload fallback for now.'
+        notes: 'No validated URL — Ford endpoints time out from the build environment (bot protection). Re-probed 2026-08-17 (Wave 3) — still blocked; upload fallback for now.'
       }
     },
     explorer: {
@@ -323,7 +473,7 @@ export const manualIndex = {
         url: null,
         fetchable: false,
         source: 'upload',
-        notes: 'No validated URL — Ford endpoints time out from the build environment (bot protection). Re-probed 2026-08-17 — still blocked; upload fallback for now.'
+        notes: 'No validated URL — Ford endpoints time out from the build environment (bot protection). Re-probed 2026-08-17 (Wave 3) — still blocked; upload fallback for now.'
       }
     },
     mustang: {
@@ -331,7 +481,7 @@ export const manualIndex = {
         url: null,
         fetchable: false,
         source: 'upload',
-        notes: 'No validated URL — Ford endpoints time out from the build environment (bot protection). Re-probed 2026-08-17 — still blocked; upload fallback for now.'
+        notes: 'No validated URL — Ford endpoints time out from the build environment (bot protection). Re-probed 2026-08-17 (Wave 3) — still blocked; upload fallback for now.'
       }
     }
   },
@@ -383,6 +533,30 @@ export const manualIndex = {
         source: 'oem',
         notes: 'Wave 2 (2026-08-17): Manuals & Guides hub (200 text/html). Per-model manuals load via AEM SPA — validated URL only; upload fallback recommended for parse.'
       }
+    },
+    kicks: {
+      '2018-2026': {
+        url: 'https://www.nissanusa.com/owners/manuals-guides.html',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Wave 3 (2026-08-17): Manuals & Guides hub (re-probed 200 text/html). Per-model manuals load via AEM SPA — validated URL only; upload fallback recommended for parse.'
+      }
+    },
+    armada: {
+      '2017-2026': {
+        url: 'https://www.nissanusa.com/owners/manuals-guides.html',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Wave 3 (2026-08-17): Manuals & Guides hub (re-probed 200 text/html). Per-model manuals load via AEM SPA — validated URL only; upload fallback recommended for parse.'
+      }
+    },
+    murano: {
+      '2015-2026': {
+        url: 'https://www.nissanusa.com/owners/manuals-guides.html',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Wave 3 (2026-08-17): Manuals & Guides hub (re-probed 200 text/html). Per-model manuals load via AEM SPA — validated URL only; upload fallback recommended for parse.'
+      }
     }
   },
   volkswagen: {
@@ -433,6 +607,14 @@ export const manualIndex = {
         source: 'oem',
         notes: 'Wave 2 (2026-08-17): VW "Owner\'s Manuals" page (200 text/html). Portal flow is JS-heavy — page shell validated only; upload fallback also fine.'
       }
+    },
+    taos: {
+      '2022-2026': {
+        url: 'https://www.vw.com/en/owners-and-services/about-my-vehicle/owners-manuals.html',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Wave 3 (2026-08-17): VW "Owner\'s Manuals" page (re-probed 200 text/html). Portal flow is JS-heavy — page shell validated only; upload fallback also fine.'
+      }
     }
   },
   mercedes: {
@@ -467,31 +649,47 @@ export const manualIndex = {
         source: 'oem',
         notes: 'Wave 2 (2026-08-17): MBUSA Owners Manuals landing page (200 text/html, JS-rendered). VIN-linked per-model portal — page shell validated only; upload fallback recommended for parse.'
       }
+    },
+    gla: {
+      '2015-2026': {
+        url: 'https://www.mbusa.com/en/owners/manuals',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Wave 3 (2026-08-17): MBUSA Owners Manuals landing page (re-probed 200 text/html). VIN-linked per-model portal — page shell validated only; upload fallback recommended for parse.'
+      }
+    },
+    glb: {
+      '2020-2026': {
+        url: 'https://www.mbusa.com/en/owners/manuals',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Wave 3 (2026-08-17): MBUSA Owners Manuals landing page (re-probed 200 text/html). VIN-linked per-model portal — page shell validated only; upload fallback recommended for parse.'
+      }
     }
   },
   chevrolet: {
     silverado: {
       '2019-2026': {
-        url: null,
-        fetchable: false,
-        source: 'upload',
-        notes: 'Wave 2 (2026-08-17): no validated URL — chevrolet.com/support/vehicle/manuals (404), /ownercenter (404), gm.com/owners (404); GM manual portal is login-gated. Upload fallback for now.'
+        url: 'https://www.chevrolet.com/support/vehicle/manuals-guides',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Wave 3 (2026-08-17): GM "Manuals and Guides" page VALIDATED (200 text/html; title "Manuals and Guides | Vehicle Support | Chevy"), reached from chevrolet.com/owners nav. Converted from Wave-2 upload fallback (chevrolet.com/support/vehicle/manuals and /ownercenter were 404; this is the correct path).'
       }
     },
     equinox: {
       '2018-2026': {
-        url: null,
-        fetchable: false,
-        source: 'upload',
-        notes: 'Wave 2 (2026-08-17): no validated URL — Chevrolet endpoints 404 from the build environment (see silverado note). Upload fallback for now.'
+        url: 'https://www.chevrolet.com/support/vehicle/manuals-guides',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Wave 3 (2026-08-17): GM "Manuals and Guides" page VALIDATED (200 text/html; see silverado note). Converted from Wave-2 upload fallback.'
       }
     },
     malibu: {
       '2016-2026': {
-        url: null,
-        fetchable: false,
-        source: 'upload',
-        notes: 'Wave 2 (2026-08-17): no validated URL — Chevrolet endpoints 404 from the build environment (see silverado note). Upload fallback for now.'
+        url: 'https://www.chevrolet.com/support/vehicle/manuals-guides',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Wave 3 (2026-08-17): GM "Manuals and Guides" page VALIDATED (200 text/html; see silverado note). Converted from Wave-2 upload fallback.'
       }
     }
   },
@@ -501,7 +699,7 @@ export const manualIndex = {
         url: null,
         fetchable: false,
         source: 'upload',
-        notes: 'Wave 2 (2026-08-17): no validated URL — bmwusa.com/owners-manuals.html fails (HTTP/2 stream error, then 35s timeout with 0 bytes). Upload fallback for now.'
+        notes: 'No validated URL — bmwusa.com/owners-manuals.html fails (HTTP/2 stream error, then 35s timeout with 0 bytes); bmw.com alternate hosts also drop the connection. Re-probed 2026-08-17 (Wave 3) — still blocked; upload fallback for now.'
       }
     },
     x3: {
@@ -509,7 +707,7 @@ export const manualIndex = {
         url: null,
         fetchable: false,
         source: 'upload',
-        notes: 'Wave 2 (2026-08-17): no validated URL — bmwusa.com/owners-manuals.html fails (HTTP/2 stream error, then 35s timeout with 0 bytes). Upload fallback for now.'
+        notes: 'No validated URL — bmwusa.com/owners-manuals.html fails (HTTP/2 stream error, then 35s timeout with 0 bytes); bmw.com alternate hosts also drop the connection. Re-probed 2026-08-17 (Wave 3) — still blocked; upload fallback for now.'
       }
     }
   },
@@ -519,7 +717,7 @@ export const manualIndex = {
         url: null,
         fetchable: false,
         source: 'upload',
-        notes: 'Wave 2 (2026-08-17): no validated URL — mopar.com owner-manual page returns 403 (bot wall); jeep.com/en/owners/ redirects to the jeep.com root. Upload fallback for now.'
+        notes: 'No validated URL — mopar.com owner-manual page returns 403 (bot wall); jeep.com/en/owners/ redirects to the jeep.com root. Re-probed 2026-08-17 (Wave 3) — same; upload fallback for now.'
       }
     },
     'grand cherokee': {
@@ -527,7 +725,7 @@ export const manualIndex = {
         url: null,
         fetchable: false,
         source: 'upload',
-        notes: 'Wave 2 (2026-08-17): no validated URL — mopar.com owner-manual page returns 403 (bot wall); jeep.com/en/owners/ redirects to the jeep.com root. Upload fallback for now.'
+        notes: 'No validated URL — mopar.com owner-manual page returns 403 (bot wall); jeep.com/en/owners/ redirects to the jeep.com root. Re-probed 2026-08-17 (Wave 3) — same; upload fallback for now.'
       }
     }
   },
@@ -537,7 +735,7 @@ export const manualIndex = {
         url: null,
         fetchable: false,
         source: 'upload',
-        notes: 'Wave 2 (2026-08-17): no validated URL — mazdausa.com/owners loads (200) but has no manuals page (owners nav links to site search; PDF patterns return 404); manuals live behind the MyMazda login portal. Upload fallback for now.'
+        notes: 'No validated URL — mazdausa.com/owners loads (200) but has no manuals page (owners nav links to site search + MyMazda login portal; PDF patterns return 404). Re-checked 2026-08-17 (Wave 3) — same; upload fallback for now.'
       }
     },
     'cx-5': {
@@ -545,7 +743,327 @@ export const manualIndex = {
         url: null,
         fetchable: false,
         source: 'upload',
-        notes: 'Wave 2 (2026-08-17): no validated URL — Mazda manuals live behind the MyMazda login portal (see mazda3 note). Upload fallback for now.'
+        notes: 'No validated URL — Mazda manuals live behind the MyMazda login portal (see mazda3 note). Re-checked 2026-08-17 (Wave 3) — same; upload fallback for now.'
+      }
+    }
+  },
+  gmc: {
+    sierra: {
+      '2014-2026': {
+        url: 'https://www.gmc.com/support/vehicle/manuals-guides',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Wave 3 (2026-08-17): GM "Manuals and Guides" page VALIDATED (200 text/html; title "Manuals and Guides | Vehicle Support | GMC"), reached from gmc.com/owners nav.'
+      }
+    },
+    terrain: {
+      '2018-2026': {
+        url: 'https://www.gmc.com/support/vehicle/manuals-guides',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Wave 3 (2026-08-17): GM "Manuals and Guides" page VALIDATED (200 text/html; see sierra note).'
+      }
+    },
+    acadia: {
+      '2017-2026': {
+        url: 'https://www.gmc.com/support/vehicle/manuals-guides',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Wave 3 (2026-08-17): GM "Manuals and Guides" page VALIDATED (200 text/html; see sierra note).'
+      }
+    },
+    yukon: {
+      '2015-2026': {
+        url: 'https://www.gmc.com/support/vehicle/manuals-guides',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Wave 3 (2026-08-17): GM "Manuals and Guides" page VALIDATED (200 text/html; see sierra note).'
+      }
+    }
+  },
+  buick: {
+    encore: {
+      '2013-2026': {
+        url: 'https://www.buick.com/support/vehicle/manuals-guides',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Wave 3 (2026-08-17): GM "Manuals and Guides" page VALIDATED (200 text/html; title "Manuals and Guides | Vehicle Support | Buick"), reached from buick.com/owners nav.'
+      }
+    },
+    enclave: {
+      '2013-2026': {
+        url: 'https://www.buick.com/support/vehicle/manuals-guides',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Wave 3 (2026-08-17): GM "Manuals and Guides" page VALIDATED (200 text/html; see encore note).'
+      }
+    },
+    envision: {
+      '2016-2026': {
+        url: 'https://www.buick.com/support/vehicle/manuals-guides',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Wave 3 (2026-08-17): GM "Manuals and Guides" page VALIDATED (200 text/html; see encore note).'
+      }
+    }
+  },
+  infiniti: {
+    q50: {
+      '2014-2026': {
+        url: 'https://www.infinitiusa.com/owners/manuals-warranties.html',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Wave 3 (2026-08-17): INFINITI "Vehicle Manuals and Warranties" page VALIDATED (200 text/html; title "INFINITI Vehicle Manuals and Warranties | INFINITI USA"), reached from infinitiusa.com/owners.html nav.'
+      }
+    },
+    qx60: {
+      '2014-2026': {
+        url: 'https://www.infinitiusa.com/owners/manuals-warranties.html',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Wave 3 (2026-08-17): INFINITI "Vehicle Manuals and Warranties" page VALIDATED (200 text/html; see q50 note).'
+      }
+    },
+    qx80: {
+      '2014-2026': {
+        url: 'https://www.infinitiusa.com/owners/manuals-warranties.html',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Wave 3 (2026-08-17): INFINITI "Vehicle Manuals and Warranties" page VALIDATED (200 text/html; see q50 note).'
+      }
+    }
+  },
+  acura: {
+    tlx: {
+      '2015-2026': {
+        url: 'https://owners.acura.com/vehicle-information/manuals/tlx/2023',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Wave 3 (2026-08-17): owners-portal manual route (200 text/html; redirects to mygarage.honda.com/s/manuals-search?brand=acura — same Salesforce SPA behavior as Honda). Validate per-model content during feature build; upload fallback also fine.'
+      }
+    },
+    rdx: {
+      '2013-2026': {
+        url: 'https://owners.acura.com/vehicle-information/manuals/rdx/2022',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Wave 3 (2026-08-17): owners-portal manual route (200 text/html; redirects to mygarage manuals-search?brand=acura — same Salesforce SPA behavior as Honda). Validate per-model content during feature build; upload fallback also fine.'
+      }
+    },
+    mdx: {
+      '2014-2026': {
+        url: 'https://owners.acura.com/vehicle-information/manuals/mdx/2022',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Wave 3 (2026-08-17): owners-portal manual route (200 text/html; redirects to mygarage manuals-search?brand=acura — same Salesforce SPA behavior as Honda). Validate per-model content during feature build; upload fallback also fine.'
+      }
+    },
+    ilx: {
+      '2013-2026': {
+        url: 'https://owners.acura.com/vehicle-information/manuals/ilx/2020',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Wave 3 (2026-08-17): owners-portal manual route (200 text/html; redirects to mygarage manuals-search?brand=acura — same Salesforce SPA behavior as Honda). Validate per-model content during feature build; upload fallback also fine.'
+      }
+    },
+    integra: {
+      '2023-2026': {
+        url: 'https://owners.acura.com/vehicle-information/manuals/integra/2023',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Wave 3 (2026-08-17): owners-portal manual route (200 text/html; redirects to mygarage manuals-search?brand=acura — same Salesforce SPA behavior as Honda). Validate per-model content during feature build; upload fallback also fine.'
+      }
+    }
+  },
+  lexus: {
+    es: {
+      '2013-2026': {
+        url: null,
+        fetchable: false,
+        source: 'upload',
+        notes: 'No validated URL — probed Waves 2+3 (2026-08-17): drivers.lexus.com vehicle-manual, lexus.com/owners, lexus.com/My-Lexus/manuals all 404; Lexus manuals sit behind the Lexus Drivers login. Upload fallback for now.'
+      }
+    },
+    rx: {
+      '2010-2026': {
+        url: null,
+        fetchable: false,
+        source: 'upload',
+        notes: 'No validated URL — Lexus has no public manual endpoint (see es note). Upload fallback for now.'
+      }
+    },
+    nx: {
+      '2015-2026': {
+        url: null,
+        fetchable: false,
+        source: 'upload',
+        notes: 'No validated URL — Lexus has no public manual endpoint (see es note). Upload fallback for now.'
+      }
+    }
+  },
+  audi: {
+    a3: {
+      '2015-2026': {
+        url: null,
+        fetchable: false,
+        source: 'upload',
+        notes: 'No validated URL — audiusa.com owners paths return 403 (bot wall) when probed 2026-08-17 (Wave 3). Upload fallback for now.'
+      }
+    },
+    a4: {
+      '2009-2026': {
+        url: null,
+        fetchable: false,
+        source: 'upload',
+        notes: 'No validated URL — audiusa.com owners paths return 403 (bot wall) when probed 2026-08-17 (Wave 3). Upload fallback for now.'
+      }
+    },
+    q5: {
+      '2009-2026': {
+        url: null,
+        fetchable: false,
+        source: 'upload',
+        notes: 'No validated URL — audiusa.com owners paths return 403 (bot wall) when probed 2026-08-17 (Wave 3). Upload fallback for now.'
+      }
+    }
+  },
+  volvo: {
+    s60: {
+      '2011-2026': {
+        url: null,
+        fetchable: false,
+        source: 'upload',
+        notes: 'No validated URL — volvocars.com/us owner/support manuals paths all return 403 (bot wall) when probed 2026-08-17 (Wave 3). Upload fallback for now.'
+      }
+    },
+    xc60: {
+      '2010-2026': {
+        url: null,
+        fetchable: false,
+        source: 'upload',
+        notes: 'No validated URL — volvocars.com/us manuals paths return 403 (bot wall) when probed 2026-08-17 (Wave 3). Upload fallback for now.'
+      }
+    },
+    xc90: {
+      '2003-2026': {
+        url: null,
+        fetchable: false,
+        source: 'upload',
+        notes: 'No validated URL — volvocars.com/us manuals paths return 403 (bot wall) when probed 2026-08-17 (Wave 3). Upload fallback for now.'
+      }
+    }
+  },
+  mitsubishi: {
+    outlander: {
+      '2007-2026': {
+        url: null,
+        fetchable: false,
+        source: 'upload',
+        notes: 'No validated URL — mitsubishicars.com/owners redirects to a Salesforce SPA (owners.mitsubishicars.com/s/) with no manual URLs in raw HTML; per-model manual routes 404 (probed 2026-08-17, Wave 3). Upload fallback for now.'
+      }
+    },
+    'eclipse cross': {
+      '2018-2026': {
+        url: null,
+        fetchable: false,
+        source: 'upload',
+        notes: 'No validated URL — Mitsubishi owners SPA has no manual URLs (see outlander note, probed 2026-08-17). Upload fallback for now.'
+      }
+    },
+    mirage: {
+      '2014-2026': {
+        url: null,
+        fetchable: false,
+        source: 'upload',
+        notes: 'No validated URL — Mitsubishi owners SPA has no manual URLs (see outlander note, probed 2026-08-17). Upload fallback for now.'
+      }
+    }
+  },
+  lincoln: {
+    corsair: {
+      '2020-2026': {
+        url: null,
+        fetchable: false,
+        source: 'upload',
+        notes: 'No validated URL — lincoln.com owners paths drop the connection (0 bytes; same Akamai bot protection as Ford) when probed 2026-08-17 (Wave 3). Upload fallback for now.'
+      }
+    },
+    nautilus: {
+      '2019-2026': {
+        url: null,
+        fetchable: false,
+        source: 'upload',
+        notes: 'No validated URL — lincoln.com drops the connection (see corsair note, probed 2026-08-17). Upload fallback for now.'
+      }
+    },
+    navigator: {
+      '2007-2026': {
+        url: null,
+        fetchable: false,
+        source: 'upload',
+        notes: 'No validated URL — lincoln.com drops the connection (see corsair note, probed 2026-08-17). Upload fallback for now.'
+      }
+    }
+  },
+  dodge: {
+    charger: {
+      '2011-2026': {
+        url: null,
+        fetchable: false,
+        source: 'upload',
+        notes: 'No validated URL — dodge.com/en/owners/manuals redirects to mopar.com/dodge/en-us/care/owners-manual.html which returns 403 (bot wall); probed 2026-08-17 (Wave 3). Upload fallback for now.'
+      }
+    },
+    challenger: {
+      '2008-2026': {
+        url: null,
+        fetchable: false,
+        source: 'upload',
+        notes: 'No validated URL — dodge manuals live on the mopar.com bot-walled portal (see charger note, probed 2026-08-17). Upload fallback for now.'
+      }
+    },
+    durango: {
+      '2011-2026': {
+        url: null,
+        fetchable: false,
+        source: 'upload',
+        notes: 'No validated URL — dodge manuals live on the mopar.com bot-walled portal (see charger note, probed 2026-08-17). Upload fallback for now.'
+      }
+    }
+  },
+  chrysler: {
+    pacifica: {
+      '2017-2026': {
+        url: null,
+        fetchable: false,
+        source: 'upload',
+        notes: 'No validated URL — chrysler.com/en/owners/manuals redirects to mopar.com/chrysler/en-us/care/owners-manual.html which returns 403 (bot wall); probed 2026-08-17 (Wave 3). Upload fallback for now.'
+      }
+    },
+    '300': {
+      '2011-2026': {
+        url: null,
+        fetchable: false,
+        source: 'upload',
+        notes: 'No validated URL — chrysler manuals live on the mopar.com bot-walled portal (see pacifica note, probed 2026-08-17). Upload fallback for now.'
+      }
+    }
+  },
+  ram: {
+    '1500': {
+      '2013-2026': {
+        url: null,
+        fetchable: false,
+        source: 'upload',
+        notes: 'No validated URL — ramtrucks.com/en/owners paths redirect to the brand home (no manuals page); manual portal is mopar.com bot-walled; probed 2026-08-17 (Wave 3). Upload fallback for now.'
+      }
+    },
+    '2500': {
+      '2013-2026': {
+        url: null,
+        fetchable: false,
+        source: 'upload',
+        notes: 'No validated URL — ramtrucks.com owners paths redirect to the brand home; manual portal is mopar.com bot-walled (see 1500 note, probed 2026-08-17). Upload fallback for now.'
       }
     }
   }
