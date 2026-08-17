@@ -10,7 +10,7 @@ import { TIER_LIST, TIERS, normalizeInterval } from '../utils/tiering.js';
 const TIER_FEATURES = [
   { label: 'Vehicles', free: '1 automotive', family: 'Up to 4 (any type)', fleet: 'Unlimited (any type)' },
   { label: 'Motorcycle / boat / ATV / ag', free: '✕', family: '✓', fleet: '✓' },
-  { label: 'Scheduled maintenance reminders', free: '✕', family: '✓', fleet: '✓' },
+  { label: 'Scheduled maintenance reminders', free: '✓', family: '✓', fleet: '✓' },
   { label: 'Service logging', free: '✓', family: '✓', fleet: '✓' },
   { label: 'Vehicle Specs list', free: '✓', family: '✓', fleet: '✓' },
   { label: 'Fuse Diagrams', free: '✕', family: '✓', fleet: '✓' },
