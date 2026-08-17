@@ -10742,7 +10742,7 @@ const wave27SemiTruckBackfill = {
   peterbilt: {
     '520': { engine: { oilViscosity: 'SAE 15W-40 diesel oil (PACCAR/Cummins)', oilCapacity: "Consult owner's manual", oilFilterPN: "Consult owner's manual", coolantType: 'Heavy-duty extended-life diesel coolant', coolantCapacity: "Consult owner's manual" }, transmission: { fluidType: 'Allison vocational ATF or Eaton Fuller heavy-duty gear oil', capacity: "Consult owner's manual" }, tires: { frontPSI: '100-110 PSI', rearPSI: '100-110 PSI', oemSizes: ['11R22.5', '11R24.5'], lugNutTorque: "Consult owner's manual" }, note: 'Severe-service vocational truck; engine, transmission, and axle fluids depend on application.' }
   },
-  'volvo-trucks': {
+  'volvo trucks': {
     vnr: { engine: { oilViscosity: 'SAE 15W-40 diesel oil (Volvo D11/D13)', oilCapacity: "Consult owner's manual", oilFilterPN: "Consult owner's manual", coolantType: 'Volvo-approved heavy-duty extended-life coolant', coolantCapacity: "Consult owner's manual" }, transmission: { fluidType: 'Volvo I-Shift approved transmission fluid', capacity: "Consult owner's manual" }, tires: { frontPSI: '100-110 PSI', rearPSI: '100-110 PSI', oemSizes: ['11R22.5', '11R24.5'], lugNutTorque: "Consult owner's manual" }, note: 'Regional highway tractor; Volvo D11/D13 and axle options vary by model year.' },
     vnx: { engine: { oilViscosity: 'SAE 15W-40 diesel oil (Volvo D13)', oilCapacity: "Consult owner's manual", oilFilterPN: "Consult owner's manual", coolantType: 'Volvo-approved heavy-duty extended-life coolant', coolantCapacity: "Consult owner's manual" }, transmission: { fluidType: 'Volvo I-Shift approved transmission fluid', capacity: "Consult owner's manual" }, tires: { frontPSI: '100-110 PSI', rearPSI: '100-110 PSI', oemSizes: ['11R22.5', '11R24.5'], lugNutTorque: "Consult owner's manual" }, note: 'Severe-duty highway/off-road tractor; heavy-haul axle and engine configurations vary.' }
   },
@@ -10751,7 +10751,7 @@ const wave27SemiTruckBackfill = {
     lonestar: { engine: { oilViscosity: 'SAE 15W-40 diesel oil (Cummins ISX/X15)', oilCapacity: "Consult owner's manual", oilFilterPN: "Consult owner's manual", coolantType: 'Heavy-duty extended-life diesel coolant', coolantCapacity: "Consult owner's manual" }, transmission: { fluidType: 'Eaton Fuller heavy-duty gear oil or automated-manual transmission fluid', capacity: "Consult owner's manual" }, tires: { frontPSI: '100-110 PSI', rearPSI: '100-110 PSI', oemSizes: ['11R22.5', '11R24.5'], lugNutTorque: "Consult owner's manual" }, note: 'Long-haul Class 8 tractor; Cummins diesel, 6x4 axles, and transmission vary by model year.' },
     mv: { engine: { oilViscosity: 'SAE 15W-40 diesel oil (Cummins/International)', oilCapacity: "Consult owner's manual", oilFilterPN: "Consult owner's manual", coolantType: 'Heavy-duty extended-life diesel coolant', coolantCapacity: "Consult owner's manual" }, transmission: { fluidType: 'Allison vocational ATF or Eaton Fuller heavy-duty gear oil', capacity: "Consult owner's manual" }, tires: { frontPSI: '100-110 PSI', rearPSI: '100-110 PSI', oemSizes: ['11R22.5', '11R24.5'], lugNutTorque: "Consult owner's manual" }, note: 'Medium-duty vocational truck; engine, axle, and transmission combinations vary by application.' }
   },
-  'western-star': {
+  'western star': {
     '4900': { engine: { oilViscosity: 'SAE 15W-40 diesel oil (Detroit/Cummins)', oilCapacity: "Consult owner's manual", oilFilterPN: "Consult owner's manual", coolantType: 'Heavy-duty extended-life diesel coolant', coolantCapacity: "Consult owner's manual" }, transmission: { fluidType: 'Eaton Fuller heavy-duty gear oil or automated-manual transmission fluid', capacity: "Consult owner's manual" }, tires: { frontPSI: '100-110 PSI', rearPSI: '100-110 PSI', oemSizes: ['11R22.5', '11R24.5'], lugNutTorque: "Consult owner's manual" }, note: 'Severe-duty vocational and highway truck; Detroit/Cummins engine and axle options vary.' },
     '5700': { engine: { oilViscosity: 'SAE 15W-40 diesel oil (Detroit DD13/DD15)', oilCapacity: "Consult owner's manual", oilFilterPN: "Consult owner's manual", coolantType: 'Heavy-duty extended-life diesel coolant', coolantCapacity: "Consult owner's manual" }, transmission: { fluidType: 'Detroit DT12 approved fluid or Eaton Fuller heavy-duty gear oil', capacity: "Consult owner's manual" }, tires: { frontPSI: '100-110 PSI', rearPSI: '100-110 PSI', oemSizes: ['11R22.5', '11R24.5'], lugNutTorque: "Consult owner's manual" }, note: 'Highway tractor; Detroit diesel and DT12/Eaton transmission specifications vary by year.' },
     '6900': { engine: { oilViscosity: 'SAE 15W-40 diesel oil (Detroit/Cummins)', oilCapacity: "Consult owner's manual", oilFilterPN: "Consult owner's manual", coolantType: 'Heavy-duty extended-life diesel coolant', coolantCapacity: "Consult owner's manual" }, transmission: { fluidType: 'Eaton Fuller heavy-duty gear oil or Allison approved ATF', capacity: "Consult owner's manual" }, tires: { frontPSI: '100-110 PSI', rearPSI: '100-110 PSI', oemSizes: ['11R22.5', '11R24.5'], lugNutTorque: "Consult owner's manual" }, note: 'Extreme-duty off-road/highway truck; 6x4/6x6 configurations and axle capacities vary.' }
@@ -10826,6 +10826,62 @@ const wave30FinalBackfill = {
 for (const [make, models] of Object.entries(wave30FinalBackfill)) {
   referenceSpecs[make] = referenceSpecs[make] || {};
   for (const [model, spec] of Object.entries(models)) referenceSpecs[make][model] = { '2000-2026': spec };
+}
+
+
+// ── Wave 31 — non-auto specs completion (audit: cat c9/c4.4/c6.6/c8.7) ──────
+// MS + app + audit resolve Caterpillar marine engines under the make key 'cat'
+// (see MS_SPEC_MAKE / VehicleSpecs KEY_MAP — no cat mapping, so 'cat' is used
+// as-is). Wave 25 merged these four engines under 'caterpillar' only; mirror
+// them under 'cat' so every MS cat model resolves. Same engines, same values.
+const wave31CatMarineUnderCat = {
+  c9: {
+    '2005-2026': {
+      engine: { oilViscosity: 'SAE 15W-40 diesel oil', oilCapacity: "Consult owner's manual", oilFilterPN: "Consult owner's manual", coolantType: 'Closed freshwater cooling with heat exchanger; manufacturer-approved marine coolant', coolantCapacity: "Consult owner's manual" },
+      transmission: { fluidType: 'Marine gear oil — SAE 30 or manufacturer-specified marine transmission fluid', capacity: "Consult owner's manual" },
+      transferCase: null, differentials: { front: null, rear: null }, brakeFluid: 'N/A — marine vessel (no wheel brakes)',
+      tires: { frontPSI: 'N/A', rearPSI: 'N/A', oemSizes: [], lugNutTorque: 'N/A' },
+      bulbs: { lowBeam: 'N/A', highBeam: 'N/A', frontTurn: 'N/A', rearTurn: 'N/A', tailBrake: 'N/A', interior: 'N/A', license: 'N/A' },
+      obd2Location: 'Marine diagnostic connector varies by engine — SAE J1939 for CAT marine engines. Not standard OBD-II.', serviceUnit: 'hrs',
+      note: 'Marine engine. Inline-6, 8.8L. Raw water pump impeller replacement is critical maintenance. Check zinc anodes regularly.'
+    }
+  },
+  'c4.4': {
+    '2005-2026': {
+      engine: { oilViscosity: 'SAE 15W-40 diesel oil', oilCapacity: "Consult owner's manual", oilFilterPN: "Consult owner's manual", coolantType: 'Closed freshwater cooling with heat exchanger; manufacturer-approved marine coolant', coolantCapacity: "Consult owner's manual" },
+      transmission: { fluidType: 'Marine gear oil — SAE 30 or manufacturer-specified marine transmission fluid', capacity: "Consult owner's manual" },
+      transferCase: null, differentials: { front: null, rear: null }, brakeFluid: 'N/A — marine vessel (no wheel brakes)',
+      tires: { frontPSI: 'N/A', rearPSI: 'N/A', oemSizes: [], lugNutTorque: 'N/A' },
+      bulbs: { lowBeam: 'N/A', highBeam: 'N/A', frontTurn: 'N/A', rearTurn: 'N/A', tailBrake: 'N/A', interior: 'N/A', license: 'N/A' },
+      obd2Location: 'Marine diagnostic connector varies by engine — SAE J1939 for CAT marine engines. Not standard OBD-II.', serviceUnit: 'hrs',
+      note: 'Marine engine. 4-cylinder, 4.4L. Raw water pump impeller replacement is critical maintenance. Check zinc anodes regularly.'
+    }
+  },
+  'c6.6': {
+    '2005-2026': {
+      engine: { oilViscosity: 'SAE 15W-40 diesel oil', oilCapacity: "Consult owner's manual", oilFilterPN: "Consult owner's manual", coolantType: 'Closed freshwater cooling with heat exchanger; manufacturer-approved marine coolant', coolantCapacity: "Consult owner's manual" },
+      transmission: { fluidType: 'Marine gear oil — SAE 30 or manufacturer-specified marine transmission fluid', capacity: "Consult owner's manual" },
+      transferCase: null, differentials: { front: null, rear: null }, brakeFluid: 'N/A — marine vessel (no wheel brakes)',
+      tires: { frontPSI: 'N/A', rearPSI: 'N/A', oemSizes: [], lugNutTorque: 'N/A' },
+      bulbs: { lowBeam: 'N/A', highBeam: 'N/A', frontTurn: 'N/A', rearTurn: 'N/A', tailBrake: 'N/A', interior: 'N/A', license: 'N/A' },
+      obd2Location: 'Marine diagnostic connector varies by engine — SAE J1939 for CAT marine engines. Not standard OBD-II.', serviceUnit: 'hrs',
+      note: 'Marine engine. Inline-6, 6.6L. Raw water pump impeller replacement is critical maintenance. Check zinc anodes regularly.'
+    }
+  },
+  'c8.7': {
+    '2010-2026': {
+      engine: { oilViscosity: 'SAE 15W-40 diesel oil', oilCapacity: "Consult owner's manual", oilFilterPN: "Consult owner's manual", coolantType: 'Closed freshwater cooling with heat exchanger; manufacturer-approved marine coolant', coolantCapacity: "Consult owner's manual" },
+      transmission: { fluidType: 'Marine gear oil — SAE 30 or manufacturer-specified marine transmission fluid', capacity: "Consult owner's manual" },
+      transferCase: null, differentials: { front: null, rear: null }, brakeFluid: 'N/A — marine vessel (no wheel brakes)',
+      tires: { frontPSI: 'N/A', rearPSI: 'N/A', oemSizes: [], lugNutTorque: 'N/A' },
+      bulbs: { lowBeam: 'N/A', highBeam: 'N/A', frontTurn: 'N/A', rearTurn: 'N/A', tailBrake: 'N/A', interior: 'N/A', license: 'N/A' },
+      obd2Location: 'Marine diagnostic connector varies by engine — SAE J1939 for CAT marine engines. Not standard OBD-II.', serviceUnit: 'hrs',
+      note: 'Marine engine. Inline-6, 8.7L. Raw water pump impeller replacement is critical maintenance. Check zinc anodes regularly.'
+    }
+  }
+};
+for (const [model, years] of Object.entries(wave31CatMarineUnderCat)) {
+  referenceSpecs.cat[model] = { ...referenceSpecs.cat[model], ...years };
 }
 
 export default referenceSpecs;
