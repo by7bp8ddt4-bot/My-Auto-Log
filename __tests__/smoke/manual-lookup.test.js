@@ -50,6 +50,27 @@ describe('manual lookup — known models resolve', () => {
     expect(result.reason).toBe('year_out_of_range');
     expect(findManualEntry('Kia', 'Telluride', 2021).reason).toBe('matched');
   });
+
+  it('Wave 2: Nissan hub entries resolve (Manuals & Guides)', () => {
+    const result = findManualEntry('Nissan', 'Altima', 2024);
+    expect(result.reason).toBe('matched');
+    expect(result.entry.fetchable).toBe(true);
+    expect(result.entry.url).toContain('nissanusa.com/owners/manuals-guides.html');
+  });
+
+  it('Wave 2: Volkswagen entries resolve (owners-manuals page)', () => {
+    const result = findManualEntry('Volkswagen', 'ID.4', 2023);
+    expect(result.reason).toBe('matched');
+    expect(result.entry.fetchable).toBe(true);
+    expect(result.entry.url).toContain('vw.com/en/owners-and-services/about-my-vehicle/owners-manuals.html');
+  });
+
+  it('Wave 2: honest upload fallbacks resolve for probed-and-blocked makes', () => {
+    const result = findManualEntry('Chevrolet', 'Silverado', 2023);
+    expect(result.reason).toBe('matched');
+    expect(result.entry.fetchable).toBe(false);
+    expect(result.entry.url).toBeNull();
+  });
 });
 
 describe('manual lookup — normalization matches app conventions', () => {
@@ -67,9 +88,13 @@ describe('manual lookup — normalization matches app conventions', () => {
   });
 
   it('make alias: NHTSA "Mercedes-Benz" style names reach canonical keys', () => {
-    // manual-index has no Mercedes entry today; the alias map must still apply
+    // Wave 2 added a mercedes make; the alias map must still route
+    // "Mercedes-Benz" → 'mercedes' so canonical model names resolve.
+    expect(findManualEntry('Mercedes-Benz', 'C-Class', 2020).reason).toBe('matched');
+    // NHTSA-style "C 300" is not a canonical key — honest gap, never guessed.
     const result = findManualEntry('Mercedes-Benz', 'C 300', 2020);
-    expect(result.reason).toBe('make_not_in_index');
+    expect(result.reason).toBe('model_not_in_index');
+    expect(result.entry).toBeNull();
   });
 
   it('leading-token refinement: "Santa Fe Hybrid" refines to santa fe', () => {
@@ -89,7 +114,7 @@ describe('manual lookup — honest no-match states', () => {
   });
 
   it('unmapped model within a mapped make → model_not_in_index', () => {
-    const result = findManualEntry('Toyota', 'Sienna', 2020);
+    const result = findManualEntry('Toyota', 'Avalon', 2020);
     expect(result.reason).toBe('model_not_in_index');
     expect(result.entry).toBeNull();
   });
