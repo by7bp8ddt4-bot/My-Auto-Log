@@ -71829,6 +71829,655 @@ mitsubishi: {
         }
       ]
     }
+  },
+  eclipse: {
+    '1995-1999': {
+      panels: [
+        {
+          name: 'Passenger Compartment Fuse Box',
+          location: 'Below the instrument panel (driver side).',
+          fuses: [
+            { pos: '1', amps: 15, circuit: 'Amplifier', desc: 'Amplifier' },
+            { pos: '3', amps: 10, circuit: 'Back-up lamp, combination meter (2.0 non turbo), EATX-ECM (2.0 non turbo) and SRS-ECU', desc: 'Back-up lamp, combination meter (2.0 non turbo), EATX-ECM (2.0 non turbo) and SRS-ECU' },
+            { pos: '4', amps: 10, circuit: 'Turn-signal and hazard frasher unit', desc: 'Turn-signal and hazard frasher unit' },
+            { pos: '5', amps: 10, circuit: 'Theft-alarm horn and theft-alarm horn relay', desc: 'Theft-alarm horn and theft-alarm horn relay' },
+            { pos: '6', amps: 30, circuit: 'Defogger and defogger switch', desc: 'Defogger and defogger switch' },
+            { pos: '8', amps: 10, circuit: 'Combination meter, ETACS-ECU, SRS-ECU, sunroof-ECU, immobilizer-ECU, motor antenna assembly and auto-cruise control main switch', desc: 'Combination meter, ETACS-ECU, SRS-ECU, sunroof-ECU, immobilizer-ECU, motor antenna assembly and auto-cruise control main switch' },
+            { pos: '9', amps: 20, circuit: 'Windshield intermittent wiper relay, windshield wiper motor, windshield washer motor, rear intermittent wiper relay, rear wiper motor, rear washer motor and headlamp washer relay', desc: 'Windshield intermittent wiper relay, windshield wiper motor, windshield washer motor, rear intermittent wiper relay, rear wiper motor, rear washer motor and headlamp washer relay' },
+            { pos: '10', amps: 10, circuit: 'Door lock power relay, door lock actuator and diagnosis connector', desc: 'Door lock power relay, door lock actuator and diagnosis connector' },
+            { pos: '11', amps: 30, circuit: 'Blower motor', desc: 'Blower motor' },
+            { pos: '13', amps: 10, circuit: 'DRL-ECU, DRL relay (1), power window relay, blower relay, A/C-ECU, radiator tan relay, condensor fan relay (HI), defogger relay and ABS-ECU', desc: 'DRL-ECU, DRL relay (1), power window relay, blower relay, A/C-ECU, radiator tan relay, condensor fan relay (HI), defogger relay and ABS-ECU' },
+            { pos: '14', amps: 15, circuit: 'Cigarette lighter', desc: 'Cigarette lighter' },
+            { pos: '15', amps: 10, circuit: 'Auto-cruise-ECU (2.0 turbo), combination meter (2.0 turbo) and ELC 4-speed automatic transaxle control module (2.0 turbo)', desc: 'Auto-cruise-ECU (2.0 turbo), combination meter (2.0 turbo) and ELC 4-speed automatic transaxle control module (2.0 turbo)' },
+            { pos: '17', amps: 20, circuit: 'Sunroof-ECU', desc: 'Sunroof-ECU' },
+            { pos: '18', amps: '—', circuit: 'Auto-cruise control system', desc: 'Auto-cruise control system' },
+            { pos: '19', amps: 10, circuit: 'Remote controlled mirror', desc: 'Remote controlled mirror' },
+          ],
+          relays: [
+          ],
+            layout: {
+              cols: 5,
+              rows: 4,
+              cells: {
+                '1': { col: 1, row: 1, w: 1, h: 1 },
+                '3': { col: 2, row: 1, w: 1, h: 1 },
+                '4': { col: 3, row: 1, w: 1, h: 1 },
+                '5': { col: 4, row: 1, w: 1, h: 1 },
+                '6': { col: 5, row: 1, w: 1, h: 1 },
+                '8': { col: 1, row: 2, w: 1, h: 1 },
+                '9': { col: 2, row: 2, w: 1, h: 1 },
+                '10': { col: 3, row: 2, w: 1, h: 1 },
+                '11': { col: 4, row: 2, w: 1, h: 1 },
+                '13': { col: 5, row: 2, w: 1, h: 1 },
+                '14': { col: 1, row: 3, w: 1, h: 1 },
+                '15': { col: 2, row: 3, w: 1, h: 1 },
+                '17': { col: 3, row: 3, w: 1, h: 1 },
+                '18': { col: 4, row: 3, w: 1, h: 1 },
+                '19': { col: 5, row: 3, w: 1, h: 1 }
+              },
+              notes: [
+                'Transcribed from the fuse-box.info position table (15 positions).',
+                'Uniform row-major approximation: cells placed in OEM numbering order; exact slot geometry is approximated — verify against the fuse box cover.'
+              ]
+            }
+        },
+        {
+          name: 'Engine Compartment Fuse Box',
+          location: 'In the engine compartment (left side).',
+          fuses: [
+            { pos: '1', amps: 60, circuit: 'Circuits using dedicated fuses №17 and 20 (engine compartment), circuit using multi-purpose fuses №1, 5, 6, 10, and 11 (instrument panel)', desc: 'Circuits using dedicated fuses №17 and 20 (engine compartment), circuit using multi-purpose fuses №1, 5, 6, 10, and 11 (instrument panel)' },
+            { pos: '2', amps: '100A/120A', circuit: 'Charging system, fusible links №1 and 4 (engine compartment).', desc: 'Charging system, fusible links №1 and 4 (engine compartment).' },
+            { pos: '3', amps: 30, circuit: 'Convertible top', desc: 'Convertible top' },
+            { pos: '4', amps: '30A/40A', circuit: 'Power seat and power windows', desc: 'Power seat and power windows' },
+            { pos: '5', amps: 20, circuit: 'MPI/MFI system, ELC 4-speed AT and immobilizer system', desc: 'MPI/MFI system, ELC 4-speed AT and immobilizer system' },
+            { pos: '6', amps: 40, circuit: 'Charging system, fog lights, circuits using headlamp relay, and circuit using tail lamp relay', desc: 'Charging system, fog lights, circuits using headlamp relay, and circuit using tail lamp relay' },
+            { pos: '7', amps: 30, circuit: 'Fuse №17 (instrument panel) and ignition switch', desc: 'Fuse №17 (instrument panel) and ignition switch' },
+            { pos: '8', amps: 30, circuit: 'Air conditioner and cooling system / Radiator fan', desc: 'Air conditioner and cooling system / Radiator fan' },
+            { pos: '9', amps: 50, circuit: 'Anti-skid braking system (ABS)', desc: 'Anti-skid braking system (ABS)' },
+            { pos: '11', amps: 15, circuit: 'Anti-lock braking system, auto-cruise control system and stop lamp', desc: 'Anti-lock braking system, auto-cruise control system and stop lamp' },
+            { pos: '12', amps: 15, circuit: 'Horn', desc: 'Horn' },
+            { pos: '13', amps: 15, circuit: 'Turn-signal lamp and hazard lamp', desc: 'Turn-signal lamp and hazard lamp' },
+            { pos: '14', amps: '10A/15A', circuit: 'Tail lamp, position lamp and licence plate lamp (10A); Glove compartment light, license plate fight, lighting monitor buzzer, rheostat, side marker light, taillight and illumination light (15A)', desc: 'Tail lamp, position lamp and licence plate lamp (10A); Glove compartment light, license plate fight, lighting monitor buzzer, rheostat, side marker light, taillight and illumination light (15A)' },
+            { pos: '15', amps: 15, circuit: 'Front fog lamp', desc: 'Front fog lamp' },
+            { pos: '16', amps: 10, circuit: 'Headlamp and headlamp leveling system / Hight-beam indicator light', desc: 'Headlamp and headlamp leveling system / Hight-beam indicator light' },
+            { pos: '17', amps: 10, circuit: 'Air conditioner', desc: 'Air conditioner' },
+            { pos: '18', amps: 20, circuit: 'Air conditioner and cooling system', desc: 'Air conditioner and cooling system' },
+            { pos: '19', amps: 10, circuit: 'Air conditioner, auto-cruise control system, cigarette lighter, front fog lamp, glove box lamp, heater, headlamp leveling system, headlamp washer, lighting monitor buzzer, meter and gauge, radio with tape player, rear fog lamp, rear window defogger, rear wiper and washer, remote controlled mirror, tail lamp, position lamp, licence plate lamp, turn-signal lamp and hazard lamp', desc: 'Air conditioner, auto-cruise control system, cigarette lighter, front fog lamp, glove box lamp, heater, headlamp leveling system, headlamp washer, lighting monitor buzzer, meter and gauge, radio with tape player, rear fog lamp, rear window defogger, rear wiper and washer, remote controlled mirror, tail lamp, position lamp, licence plate lamp, turn-signal lamp and hazard lamp' },
+            { pos: '20', amps: 10, circuit: 'Anti-lock braking system, auto-cruise control system, central door locking system, door lamp, foot lamp, luggage compartment lamp, ignition key cylinder illumination lamp, immobilizer system, lighting monitor buzzer, meter and gauge, MPI system, radio with tape player, rear window, defogger and supplemental restraint system', desc: 'Anti-lock braking system, auto-cruise control system, central door locking system, door lamp, foot lamp, luggage compartment lamp, ignition key cylinder illumination lamp, immobilizer system, lighting monitor buzzer, meter and gauge, MPI system, radio with tape player, rear window, defogger and supplemental restraint system' },
+            { pos: '21', amps: 10, circuit: 'Auto-cruise control system and radio with tape player', desc: 'Auto-cruise control system and radio with tape player' },
+            { pos: '22', amps: 10, circuit: 'ABS system (AWD)', desc: 'ABS system (AWD)' },
+          ],
+          relays: [
+          ],
+            layout: {
+              cols: 6,
+              rows: 4,
+              cells: {
+                '1': { col: 1, row: 1, w: 1, h: 1 },
+                '2': { col: 2, row: 1, w: 1, h: 1 },
+                '3': { col: 3, row: 1, w: 1, h: 1 },
+                '4': { col: 4, row: 1, w: 1, h: 1 },
+                '5': { col: 5, row: 1, w: 1, h: 1 },
+                '6': { col: 6, row: 1, w: 1, h: 1 },
+                '7': { col: 1, row: 2, w: 1, h: 1 },
+                '8': { col: 2, row: 2, w: 1, h: 1 },
+                '9': { col: 3, row: 2, w: 1, h: 1 },
+                '11': { col: 4, row: 2, w: 1, h: 1 },
+                '12': { col: 5, row: 2, w: 1, h: 1 },
+                '13': { col: 6, row: 2, w: 1, h: 1 },
+                '14': { col: 1, row: 3, w: 1, h: 1 },
+                '15': { col: 2, row: 3, w: 1, h: 1 },
+                '16': { col: 3, row: 3, w: 1, h: 1 },
+                '17': { col: 4, row: 3, w: 1, h: 1 },
+                '18': { col: 5, row: 3, w: 1, h: 1 },
+                '19': { col: 6, row: 3, w: 1, h: 1 },
+                '20': { col: 1, row: 4, w: 1, h: 1 },
+                '21': { col: 2, row: 4, w: 1, h: 1 },
+                '22': { col: 3, row: 4, w: 1, h: 1 }
+              },
+              notes: [
+                'Transcribed from the fuse-box.info position table (21 positions).',
+                'Uniform row-major approximation: cells placed in OEM numbering order; exact slot geometry is approximated — verify against the fuse box cover.'
+              ]
+            }
+        }
+      ]
+    },
+    '2000-2002': {
+      panels: [
+        {
+          name: 'Passenger Compartment Fuse Box',
+          location: 'Behind the dashboard side cover on the driver\'s side.',
+          fuses: [
+            { pos: '1', amps: 30, circuit: 'Defogger and choke coil', desc: 'Defogger and choke coil' },
+            { pos: '2', amps: 30, circuit: 'Automatic compressor controller, resistor and blower motor', desc: 'Automatic compressor controller, resistor and blower motor' },
+            { pos: '3', amps: 15, circuit: 'Powertrain control module, ABS-ECU, stoplight, autocruise control-ECU and immobilizer-ECU', desc: 'Powertrain control module, ABS-ECU, stoplight, autocruise control-ECU and immobilizer-ECU' },
+            { pos: '5', amps: 10, circuit: 'Powertrain control module, input shaft speed sensor, output shaft speed sensor, backup light, SRS-ECU, and ETACS-ECU', desc: 'Powertrain control module, input shaft speed sensor, output shaft speed sensor, backup light, SRS-ECU, and ETACS-ECU' },
+            { pos: '7', amps: 15, circuit: 'Cigarette lighter, accessory socket, remote controlled mirror and multi center display unit', desc: 'Cigarette lighter, accessory socket, remote controlled mirror and multi center display unit' },
+            { pos: '8', amps: 20, circuit: 'ETACS-ECU and fuse #20 (Windshield wiper and washer)', desc: 'ETACS-ECU and fuse #20 (Windshield wiper and washer)' },
+            { pos: '9', amps: 10, circuit: 'Convertible top control module and ABS-ECU', desc: 'Convertible top control module and ABS-ECU' },
+            { pos: '10', amps: 10, circuit: 'Horn, horn relay, theft-alarm horn and theft-alarm horn relay', desc: 'Horn, horn relay, theft-alarm horn and theft-alarm horn relay' },
+            { pos: '11', amps: 15, circuit: 'Data link connector, ETACS-ECU and combination meter', desc: 'Data link connector, ETACS-ECU and combination meter' },
+            { pos: '12', amps: 10, circuit: 'Motor antenna assembly (ECLIPSE SPYDER)', desc: 'Motor antenna assembly (ECLIPSE SPYDER)' },
+            { pos: '13', amps: 10, circuit: 'Combination meter, ETACS-ECU, SRS-ECU, auto-cruise control-ECU, column-ECU, multi center display unit and vehicle speed sensor', desc: 'Combination meter, ETACS-ECU, SRS-ECU, auto-cruise control-ECU, column-ECU, multi center display unit and vehicle speed sensor' },
+            { pos: '16', amps: 10, circuit: 'Blower relay, outside/inside air selection damper control motor, defogger relay, A/C switch, front-ECU, A/C compressor relay and automatic compressor controller', desc: 'Blower relay, outside/inside air selection damper control motor, defogger relay, A/C switch, front-ECU, A/C compressor relay and automatic compressor controller' },
+            { pos: '17', amps: 20, circuit: 'Audio system (Vehicles with amplifier)', desc: 'Audio system (Vehicles with amplifier)' },
+            { pos: '19', amps: 20, circuit: 'Sunroof (ECLIPSE)', desc: 'Sunroof (ECLIPSE)' },
+            { pos: '20', amps: 20, circuit: 'Windshield wiper and washer', desc: 'Windshield wiper and washer' },
+          ],
+          relays: [
+          ],
+            layout: {
+              cols: 5,
+              rows: 4,
+              cells: {
+                '1': { col: 1, row: 1, w: 1, h: 1 },
+                '2': { col: 2, row: 1, w: 1, h: 1 },
+                '3': { col: 3, row: 1, w: 1, h: 1 },
+                '5': { col: 4, row: 1, w: 1, h: 1 },
+                '7': { col: 5, row: 1, w: 1, h: 1 },
+                '8': { col: 1, row: 2, w: 1, h: 1 },
+                '9': { col: 2, row: 2, w: 1, h: 1 },
+                '10': { col: 3, row: 2, w: 1, h: 1 },
+                '11': { col: 4, row: 2, w: 1, h: 1 },
+                '12': { col: 5, row: 2, w: 1, h: 1 },
+                '13': { col: 1, row: 3, w: 1, h: 1 },
+                '16': { col: 2, row: 3, w: 1, h: 1 },
+                '17': { col: 3, row: 3, w: 1, h: 1 },
+                '19': { col: 4, row: 3, w: 1, h: 1 },
+                '20': { col: 5, row: 3, w: 1, h: 1 }
+              },
+              notes: [
+                'Transcribed from the fuse-box.info position table (15 positions).',
+                'Uniform row-major approximation: cells placed in OEM numbering order; exact slot geometry is approximated — verify against the fuse box cover.'
+              ]
+            }
+        },
+        {
+          name: 'Engine Compartment Fuse Box',
+          location: 'In the engine compartment (left side). Fusible links A-H are mounted in the relay/fusible-link box.',
+          fuses: [
+            { pos: '2', amps: 15, circuit: 'Fog light', desc: 'Fog light' },
+            { pos: '3', amps: 10, circuit: 'Air conditioning system', desc: 'Air conditioning system' },
+            { pos: '4', amps: 10, circuit: 'ECU power supply, dome light, trunk light, universal garage door opener, sunroof assembly, luggage compartment light, audio system, multi-center display, meter and gauge', desc: 'ECU power supply, dome light, trunk light, universal garage door opener, sunroof assembly, luggage compartment light, audio system, multi-center display, meter and gauge' },
+            { pos: '5', amps: 10, circuit: 'Audio system', desc: 'Audio system' },
+            { pos: '6', amps: 10, circuit: 'Headlight and theft-alarm system', desc: 'Headlight and theft-alarm system' },
+            { pos: '7', amps: 10, circuit: 'Headlight and theft-alarm system', desc: 'Headlight and theft-alarm system' },
+            { pos: '8', amps: 10, circuit: 'Rheostat, taillight, position light, rear side marker light and illumination circuit', desc: 'Rheostat, taillight, position light, rear side marker light and illumination circuit' },
+            { pos: '9', amps: 10, circuit: 'Taillight, position light, rear side marker light and license plate light', desc: 'Taillight, position light, rear side marker light and license plate light' },
+            { pos: '11', amps: 10, circuit: 'Headlight', desc: 'Headlight' },
+            { pos: '12', amps: 10, circuit: 'Headlight', desc: 'Headlight' },
+            { pos: '13', amps: 20, circuit: 'INVECS-II 4A/T, MFI system, air conditioning system, cooling system and immobilizer system', desc: 'INVECS-II 4A/T, MFI system, air conditioning system, cooling system and immobilizer system' },
+            { pos: '14', amps: 10, circuit: 'Charging system, central door locking system (Vehicles with keyless entry system), turn-signal light and hazard warning light', desc: 'Charging system, central door locking system (Vehicles with keyless entry system), turn-signal light and hazard warning light' },
+            { pos: 'A', amps: 60, circuit: 'Instrument panel fuses №1, 2, 3, 10, 11', desc: 'Instrument panel fuses №1, 2, 3, 10, 11' },
+            { pos: 'C', amps: 30, circuit: 'Instrument panel fuses №17, 19, power windows, power seat, convertible top and audio system (Vehicles with amplifier)', desc: 'Instrument panel fuses №17, 19, power windows, power seat, convertible top and audio system (Vehicles with amplifier)' },
+            { pos: 'D', amps: 50, circuit: 'Air conditioning system and cooling system', desc: 'Air conditioning system and cooling system' },
+            { pos: 'E', amps: 50, circuit: 'Anti-lock braking system', desc: 'Anti-lock braking system' },
+            { pos: 'F', amps: 30, circuit: 'Convertible top circuit', desc: 'Convertible top circuit' },
+            { pos: 'G', amps: 30, circuit: 'Ignition switch circuit', desc: 'Ignition switch circuit' },
+            { pos: 'H', amps: 120, circuit: 'Generator circuit (the fusible link is located on the battery)', desc: 'Generator circuit (the fusible link is located on the battery)' },
+          ],
+          relays: [
+          ],
+            layout: {
+              cols: 6,
+              rows: 4,
+              cells: {
+                '2': { col: 1, row: 1, w: 1, h: 1 },
+                '3': { col: 2, row: 1, w: 1, h: 1 },
+                '4': { col: 3, row: 1, w: 1, h: 1 },
+                '5': { col: 4, row: 1, w: 1, h: 1 },
+                '6': { col: 5, row: 1, w: 1, h: 1 },
+                '7': { col: 6, row: 1, w: 1, h: 1 },
+                '8': { col: 1, row: 2, w: 1, h: 1 },
+                '9': { col: 2, row: 2, w: 1, h: 1 },
+                '11': { col: 3, row: 2, w: 1, h: 1 },
+                '12': { col: 4, row: 2, w: 1, h: 1 },
+                '13': { col: 5, row: 2, w: 1, h: 1 },
+                '14': { col: 6, row: 2, w: 1, h: 1 },
+                'A': { col: 1, row: 3, w: 1, h: 1 },
+                'C': { col: 2, row: 3, w: 1, h: 1 },
+                'D': { col: 3, row: 3, w: 1, h: 1 },
+                'E': { col: 4, row: 3, w: 1, h: 1 },
+                'F': { col: 5, row: 3, w: 1, h: 1 },
+                'G': { col: 6, row: 3, w: 1, h: 1 },
+                'H': { col: 1, row: 4, w: 1, h: 1 }
+              },
+              notes: [
+                'Transcribed from the fuse-box.info position table (19 positions).',
+                'Uniform row-major approximation: cells placed in OEM numbering order; exact slot geometry is approximated — verify against the fuse box cover.'
+              ]
+            }
+        }
+      ]
+    },
+    '2003-2005': {
+      panels: [
+        {
+          name: 'Instrument Panel Fuse Box',
+          location: 'Behind the dashboard side cover on the driver\'s side.',
+          fuses: [
+            { pos: '1', amps: 20, circuit: 'Amplifier', desc: 'Amplifier' },
+            { pos: '3', amps: 20, circuit: 'Sunroof motor assembly', desc: 'Sunroof motor assembly' },
+            { pos: '5', amps: 30, circuit: 'Capacitor, choke coil and defogger', desc: 'Capacitor, choke coil and defogger' },
+            { pos: '6', amps: 30, circuit: 'Automatic compressor controller, blower motor and resistor', desc: 'Automatic compressor controller, blower motor and resistor' },
+            { pos: '10', amps: 15, circuit: 'Combination meter, data link connector and ETACS-ECU', desc: 'Combination meter, data link connector and ETACS-ECU' },
+            { pos: '11', amps: 15, circuit: 'Capacitor, ETACS-ECU and rear wiper motor', desc: 'Capacitor, ETACS-ECU and rear wiper motor' },
+            { pos: '13', amps: 7.5, circuit: 'ABS-ECU, convertible top control module and sunroof motor assembly', desc: 'ABS-ECU, convertible top control module and sunroof motor assembly' },
+            { pos: '14', amps: 7.5, circuit: 'Remote controlled mirror', desc: 'Remote controlled mirror' },
+            { pos: '16', amps: 15, circuit: 'Accessory socket, cigarette lighter and multi center display unit', desc: 'Accessory socket, cigarette lighter and multi center display unit' },
+            { pos: '17', amps: 7.5, circuit: 'Engine control module, fuel pump relay and powertrain control module', desc: 'Engine control module, fuel pump relay and powertrain control module' },
+            { pos: '18', amps: 20, circuit: 'Front-ECU and windshield wiper motor', desc: 'Front-ECU and windshield wiper motor' },
+            { pos: '20', amps: 7.5, circuit: 'A/C compressor relay, A/C switch, automatic compressor controller, blower relay, defogger relay, front-ECU, outside/inside air selection damper control motor, water shut motor and water shut valve controller', desc: 'A/C compressor relay, A/C switch, automatic compressor controller, blower relay, defogger relay, front-ECU, outside/inside air selection damper control motor, water shut motor and water shut valve controller' },
+            { pos: '21', amps: 7.5, circuit: 'Auto-cruise control-ECU and autocruise control switch', desc: 'Auto-cruise control-ECU and autocruise control switch' },
+            { pos: '22', amps: 7.5, circuit: 'Backup light, combination meter, ETACS-ECU, input shaft speed sensor, output shaft speed sensor, powertrain control module and SRS-ECU', desc: 'Backup light, combination meter, ETACS-ECU, input shaft speed sensor, output shaft speed sensor, powertrain control module and SRS-ECU' },
+            { pos: '23', amps: 7.5, circuit: 'Column switch, combination meter, ETACS-ECU, motor antenna assembly, multi center display unit, SRS-ECU and vehicle speed sensor', desc: 'Column switch, combination meter, ETACS-ECU, motor antenna assembly, multi center display unit, SRS-ECU and vehicle speed sensor' },
+            { pos: '24', amps: 10, circuit: 'Capacitor, distributor assembly and ignition coil', desc: 'Capacitor, distributor assembly and ignition coil' },
+          ],
+          relays: [
+          ],
+            layout: {
+              cols: 6,
+              rows: 4,
+              cells: {
+                '1': { col: 1, row: 1, w: 1, h: 1 },
+                '3': { col: 2, row: 1, w: 1, h: 1 },
+                '5': { col: 3, row: 1, w: 1, h: 1 },
+                '6': { col: 4, row: 1, w: 1, h: 1 },
+                '10': { col: 5, row: 1, w: 1, h: 1 },
+                '11': { col: 6, row: 1, w: 1, h: 1 },
+                '13': { col: 1, row: 2, w: 1, h: 1 },
+                '14': { col: 2, row: 2, w: 1, h: 1 },
+                '16': { col: 3, row: 2, w: 1, h: 1 },
+                '17': { col: 4, row: 2, w: 1, h: 1 },
+                '18': { col: 5, row: 2, w: 1, h: 1 },
+                '20': { col: 6, row: 2, w: 1, h: 1 },
+                '21': { col: 1, row: 3, w: 1, h: 1 },
+                '22': { col: 2, row: 3, w: 1, h: 1 },
+                '23': { col: 3, row: 3, w: 1, h: 1 },
+                '24': { col: 4, row: 3, w: 1, h: 1 }
+              },
+              notes: [
+                'Transcribed from the fuse-box.info position table (16 positions).',
+                'Uniform row-major approximation: cells placed in OEM numbering order; exact slot geometry is approximated — verify against the fuse box cover.'
+              ]
+            }
+        },
+        {
+          name: 'Engine Compartment Fuse Box',
+          location: 'In the engine compartment (left side).',
+          fuses: [
+            { pos: '1', amps: 60, circuit: 'Fuses №5, 6, 10 (in junction block) circuit', desc: 'Fuses №5, 6, 10 (in junction block) circuit' },
+            { pos: '2', amps: 50, circuit: 'Fan controller', desc: 'Fan controller' },
+            { pos: '3', amps: 60, circuit: 'ABS-ECU', desc: 'ABS-ECU' },
+            { pos: '4', amps: 40, circuit: 'Ignition switch circuit, theft-alarm horn and theft-alarm horn relay', desc: 'Ignition switch circuit, theft-alarm horn and theft-alarm horn relay' },
+            { pos: '5', amps: 30, circuit: 'Fuses №1, 3 (injunction block) circuit, convertible top control module, power seat assembly, power window main switch and power window motor', desc: 'Fuses №1, 3 (injunction block) circuit, convertible top control module, power seat assembly, power window main switch and power window motor' },
+            { pos: '6', amps: 15, circuit: 'Combination meter and fog light', desc: 'Combination meter and fog light' },
+            { pos: '8', amps: 15, circuit: 'Horn and horn relay', desc: 'Horn and horn relay' },
+            { pos: '9', amps: 20, circuit: 'Camshaft position sensor, crankshaft position sensor, distributor assembly, EGR solenoid valve, engine control module, evaporative emission purge solenoid, evaporative emission ventilation solenoid, heated oxygen sensor, idle air control motor, immobilizer-ECU, injector, MFI relay, powertrain control module, variable induction control solenoid valve and volume air flow sensor', desc: 'Camshaft position sensor, crankshaft position sensor, distributor assembly, EGR solenoid valve, engine control module, evaporative emission purge solenoid, evaporative emission ventilation solenoid, heated oxygen sensor, idle air control motor, immobilizer-ECU, injector, MFI relay, powertrain control module, variable induction control solenoid valve and volume air flow sensor' },
+            { pos: '10', amps: 10, circuit: 'A/C compressor assembly and automatic compressor controller', desc: 'A/C compressor assembly and automatic compressor controller' },
+            { pos: '11', amps: 15, circuit: 'ABS-ECU, auto-cruise control-ECU, capacitor, high-mounted stoplight, immobilizer-ECU, powertrain control module and rear combination light', desc: 'ABS-ECU, auto-cruise control-ECU, capacitor, high-mounted stoplight, immobilizer-ECU, powertrain control module and rear combination light' },
+            { pos: '13', amps: 7.5, circuit: 'Generator', desc: 'Generator' },
+            { pos: '14', amps: 10, circuit: 'ETACS-ECU', desc: 'ETACS-ECU' },
+            { pos: '15', amps: 20, circuit: 'A/T control solenoid valve assembly and powertrain control module', desc: 'A/T control solenoid valve assembly and powertrain control module' },
+            { pos: '16', amps: 10, circuit: 'Headlight (RH)', desc: 'Headlight (RH)' },
+            { pos: '17', amps: 10, circuit: 'Headlight (LH)', desc: 'Headlight (LH)' },
+            { pos: '18', amps: 10, circuit: 'Headlight (RH)', desc: 'Headlight (RH)' },
+            { pos: '19', amps: 10, circuit: 'Headlight (LH)', desc: 'Headlight (LH)' },
+            { pos: '20', amps: 7.5, circuit: 'A/C switch, A/T selector lever position illumination light, ashtray illumination light, automatic compressor controller, combination meter, fog light switch, front combination light (RH), glove box light, hazard warning light switch, heater control panel illumination light, multi center display unit, radio, tape player, CD player, rear combination light (RH), rear side marker light (RH) and rheostat', desc: 'A/C switch, A/T selector lever position illumination light, ashtray illumination light, automatic compressor controller, combination meter, fog light switch, front combination light (RH), glove box light, hazard warning light switch, heater control panel illumination light, multi center display unit, radio, tape player, CD player, rear combination light (RH), rear side marker light (RH) and rheostat' },
+            { pos: '21', amps: 7.5, circuit: 'Front combination light (LH), license plate light, rear combination light (LH) and rear side marker light (LH)', desc: 'Front combination light (LH), license plate light, rear combination light (LH) and rear side marker light (LH)' },
+            { pos: '22', amps: 10, circuit: 'Column switch, combination meter, ETACS-ECU, front-ECU, motor antenna assembly, multi center display unit, radio, tape player, CD player, sunroof motor assembly and vanity mirror light', desc: 'Column switch, combination meter, ETACS-ECU, front-ECU, motor antenna assembly, multi center display unit, radio, tape player, CD player, sunroof motor assembly and vanity mirror light' },
+            { pos: '23', amps: 10, circuit: 'ETACS-ECU, motor antenna assembly, radio, tape player and CD player', desc: 'ETACS-ECU, motor antenna assembly, radio, tape player and CD player' },
+            { pos: '24', amps: 15, circuit: 'Fuel pump module', desc: 'Fuel pump module' },
+            { pos: '26', amps: 120, circuit: 'Generator (The fusible link is connected to battery positive terminal)', desc: 'Generator (The fusible link is connected to battery positive terminal)' },
+            { pos: '27', amps: 30, circuit: 'Convertible top control module (The fusible link is connected in front of the relay box)', desc: 'Convertible top control module (The fusible link is connected in front of the relay box)' },
+          ],
+          relays: [
+          ],
+            layout: {
+              cols: 7,
+              rows: 4,
+              cells: {
+                '1': { col: 1, row: 1, w: 1, h: 1 },
+                '2': { col: 2, row: 1, w: 1, h: 1 },
+                '3': { col: 3, row: 1, w: 1, h: 1 },
+                '4': { col: 4, row: 1, w: 1, h: 1 },
+                '5': { col: 5, row: 1, w: 1, h: 1 },
+                '6': { col: 6, row: 1, w: 1, h: 1 },
+                '8': { col: 7, row: 1, w: 1, h: 1 },
+                '9': { col: 1, row: 2, w: 1, h: 1 },
+                '10': { col: 2, row: 2, w: 1, h: 1 },
+                '11': { col: 3, row: 2, w: 1, h: 1 },
+                '13': { col: 4, row: 2, w: 1, h: 1 },
+                '14': { col: 5, row: 2, w: 1, h: 1 },
+                '15': { col: 6, row: 2, w: 1, h: 1 },
+                '16': { col: 7, row: 2, w: 1, h: 1 },
+                '17': { col: 1, row: 3, w: 1, h: 1 },
+                '18': { col: 2, row: 3, w: 1, h: 1 },
+                '19': { col: 3, row: 3, w: 1, h: 1 },
+                '20': { col: 4, row: 3, w: 1, h: 1 },
+                '21': { col: 5, row: 3, w: 1, h: 1 },
+                '22': { col: 6, row: 3, w: 1, h: 1 },
+                '23': { col: 7, row: 3, w: 1, h: 1 },
+                '24': { col: 1, row: 4, w: 1, h: 1 },
+                '26': { col: 2, row: 4, w: 1, h: 1 },
+                '27': { col: 3, row: 4, w: 1, h: 1 }
+              },
+              notes: [
+                'Transcribed from the fuse-box.info position table (24 positions).',
+                'Uniform row-major approximation: cells placed in OEM numbering order; exact slot geometry is approximated — verify against the fuse box cover.'
+              ]
+            }
+        }
+      ]
+    },
+  },
+  lancer: {
+    '2000-2007': {
+      panels: [
+        {
+          name: 'Passenger Compartment Fuse Box',
+          location: 'In the instrument panel (on the driver\'s side), behind the cover.',
+          fuses: [
+            { pos: '1', amps: '10', circuit: 'Capacitor and ignition coil', desc: 'Capacitor and ignition coil' },
+            { pos: '2', amps: '7.5', circuit: 'ABS warning lamp, brake warning lamp, charging warning lamp, check engine warning lamp, column switch, combination meter, ETACS-ECU, low fuel warning lamp, oil pressure warning lamp, SRS air bag warning lamp, SRS-ECU and vehicle speed sensor', desc: 'ABS warning lamp, brake warning lamp, charging warning lamp, check engine warning lamp, column switch, combination meter, ETACS-ECU, low fuel warning lamp, oil pressure warning lamp, SRS air bag warning lamp, SRS-ECU and vehicle speed sensor' },
+            { pos: '3', amps: '7.5', circuit: 'A/T control relay, combination meter, engine-A/T-ECU, ETACS-ECU, input shaft speed sensor, output shaft speed sensor, rear combination lamp and SRS-ECU', desc: 'A/T control relay, combination meter, engine-A/T-ECU, ETACS-ECU, input shaft speed sensor, output shaft speed sensor, rear combination lamp and SRS-ECU' },
+            { pos: '5', amps: '7.5', circuit: 'A/C compressor relay, A/C-ECU, blower relay, rear window defogger relay, front-ECU, heated seat relay, heater control unit and outside inside air selection damper control motor', desc: 'A/C compressor relay, A/C-ECU, blower relay, rear window defogger relay, front-ECU, heated seat relay, heater control unit and outside inside air selection damper control motor' },
+            { pos: '6', amps: '7.5', circuit: 'Remote controlled mirror', desc: 'Remote controlled mirror' },
+            { pos: '7', amps: '20', circuit: 'Front-ECU and windshield wiper motor', desc: 'Front-ECU and windshield wiper motor' },
+            { pos: '8', amps: '7.5', circuit: 'Engine-A/T-ECU, engine-ECU, fuel pump relay (1) and fuel pump relay (2)', desc: 'Engine-A/T-ECU, engine-ECU, fuel pump relay (1) and fuel pump relay (2)' },
+            { pos: '9', amps: '15', circuit: 'Cigarette lighter', desc: 'Cigarette lighter' },
+            { pos: '11', amps: '7.5', circuit: 'Accessor.- socket relay and Remote controlled mirror', desc: 'Accessor.- socket relay and Remote controlled mirror' },
+            { pos: '12', amps: '7.5', circuit: 'ABS-ECU', desc: 'ABS-ECU' },
+            { pos: '14', amps: '15', circuit: 'ETACS-ECU and rear wiper motor', desc: 'ETACS-ECU and rear wiper motor' },
+            { pos: '15', amps: '15', circuit: 'Diagnosis connector', desc: 'Diagnosis connector' },
+            { pos: '16', amps: '10', circuit: 'Rear fog lamp, rear fog lamp indicator lamp and rear fog lamp relay', desc: 'Rear fog lamp, rear fog lamp indicator lamp and rear fog lamp relay' },
+            { pos: '19', amps: '30', circuit: 'A/C-ECU, blower motor, heater control unit and resistor', desc: 'A/C-ECU, blower motor, heater control unit and resistor' },
+            { pos: '20', amps: '30', circuit: 'Rear window defogger', desc: 'Rear window defogger' },
+            { pos: '1', amps: '—', circuit: 'Fuel pump relay (1)', desc: 'Fuel pump relay (1)' },
+            { pos: '2', amps: '—', circuit: 'Heated seat relay', desc: 'Heated seat relay' },
+            { pos: '3', amps: '—', circuit: 'Fuel pump relay (2)', desc: 'Fuel pump relay (2)' },
+            { pos: '4', amps: '—', circuit: 'Accessory socket relay', desc: 'Accessory socket relay' },
+            { pos: '5', amps: '—', circuit: 'Rear fog lamp relay', desc: 'Rear fog lamp relay' },
+            { pos: '6', amps: '—', circuit: 'Power window relay', desc: 'Power window relay' },
+            { pos: '7', amps: '—', circuit: 'Blower relay', desc: 'Blower relay' },
+            { pos: '8', amps: '—', circuit: 'Rear window defogger relay', desc: 'Rear window defogger relay' },
+          ],
+          relays: [
+            { pos: '1', circuit: 'Fuel pump relay (1)', desc: 'Fuel pump relay (1)' },
+            { pos: '2', circuit: 'Heated seat relay', desc: 'Heated seat relay' },
+            { pos: '3', circuit: 'Fuel pump relay (2)', desc: 'Fuel pump relay (2)' },
+            { pos: '4', circuit: 'Accessory socket relay', desc: 'Accessory socket relay' },
+            { pos: '5', circuit: 'Rear fog lamp relay', desc: 'Rear fog lamp relay' },
+            { pos: '6', circuit: 'Power window relay', desc: 'Power window relay' },
+            { pos: '7', circuit: 'Blower relay', desc: 'Blower relay' },
+            { pos: '8', circuit: 'Rear window defogger relay', desc: 'Rear window defogger relay' },
+          ],
+        },
+        {
+          name: 'Engine Compartment Fuse Box',
+          location: 'In the engine compartment (left side).',
+          fuses: [
+            { pos: '1', amps: '60', circuit: 'Fuse No. 15, 16, 19, 20 (in junction block) circuit', desc: 'Fuse No. 15, 16, 19, 20 (in junction block) circuit' },
+            { pos: '2', amps: '50', circuit: 'Fan controller', desc: 'Fan controller' },
+            { pos: '3', amps: '60', circuit: 'ABS-ECU', desc: 'ABS-ECU' },
+            { pos: '4', amps: '40', circuit: 'Ignition switch circuit', desc: 'Ignition switch circuit' },
+            { pos: '5', amps: '30', circuit: 'Power window main switch and power window sub switch', desc: 'Power window main switch and power window sub switch' },
+            { pos: '6', amps: '15', circuit: 'Front fog lamp, front fog lamp indicator lamp, front fog lamp relay and spare connector (for front fog lamp)', desc: 'Front fog lamp, front fog lamp indicator lamp, front fog lamp relay and spare connector (for front fog lamp)' },
+            { pos: '7', amps: '10', circuit: 'Horn relay and horn', desc: 'Horn relay and horn' },
+            { pos: '8', amps: '20', circuit: 'Air cleaner air flow sensor, camshaft position sensor, emission solenoid valve (EGR system), emission solenoid valve (purge control system), engine-A/T-ECU, engine-ECU, engine control oxygen sensor, engine control relay, engine crank angle sensor, fan control relay, fuel injector, ignition coil relay, immobilizer-ECU and throttle body idle speed control servo', desc: 'Air cleaner air flow sensor, camshaft position sensor, emission solenoid valve (EGR system), emission solenoid valve (purge control system), engine-A/T-ECU, engine-ECU, engine control oxygen sensor, engine control relay, engine crank angle sensor, fan control relay, fuel injector, ignition coil relay, immobilizer-ECU and throttle body idle speed control servo' },
+            { pos: '9', amps: '10', circuit: 'A/C compressor', desc: 'A/C compressor' },
+            { pos: '10', amps: '15', circuit: 'ABS-ECU, engine-A/T-ECU, high mount stop lamp and rear combination lamp', desc: 'ABS-ECU, engine-A/T-ECU, high mount stop lamp and rear combination lamp' },
+            { pos: '11', amps: '15', circuit: 'Accessory socket', desc: 'Accessory socket' },
+            { pos: '12', amps: '7.5', circuit: 'Alternator', desc: 'Alternator' },
+            { pos: '13', amps: '10', circuit: 'ETACS-ECU, front turn signal lamp, rear combination lamp, side turn signal lamp and turn signal indicator lamp', desc: 'ETACS-ECU, front turn signal lamp, rear combination lamp, side turn signal lamp and turn signal indicator lamp' },
+            { pos: '14', amps: '20', circuit: 'A/T control solenoid valve assembly and engine-A/T-ECU', desc: 'A/T control solenoid valve assembly and engine-A/T-ECU' },
+            { pos: '15', amps: '15', circuit: 'Fuel pump', desc: 'Fuel pump' },
+            { pos: '16', amps: '10', circuit: 'Headlamp (RH)', desc: 'Headlamp (RH)' },
+            { pos: '17', amps: '10', circuit: 'Headlamp (LH) and high beam indicator lamp', desc: 'Headlamp (LH) and high beam indicator lamp' },
+            { pos: '18', amps: '10', circuit: 'Headlamp (RH)', desc: 'Headlamp (RH)' },
+            { pos: '19', amps: '10', circuit: 'Headlamp (LH), headlamp assembly and headlamp levelling switch', desc: 'Headlamp (LH), headlamp assembly and headlamp levelling switch' },
+            { pos: '20', amps: '7.5', circuit: 'A/C-ECU, ashtray illumination lamp, cigarette lighter illumination lamp, combination meter, fog lamp switch, front turn signal lamp, hazard warning switch, headlamp assembly (RH), headlamp levelling switch, heated seat switch, heater control unit, licence plate lamp, rear combination lamp, rheostat, side turn signal lamp and spare connector (for audio)', desc: 'A/C-ECU, ashtray illumination lamp, cigarette lighter illumination lamp, combination meter, fog lamp switch, front turn signal lamp, hazard warning switch, headlamp assembly (RH), headlamp levelling switch, heated seat switch, heater control unit, licence plate lamp, rear combination lamp, rheostat, side turn signal lamp and spare connector (for audio)' },
+            { pos: '21', amps: '7.5', circuit: 'Combination meter, headlamp assembly (LH), licence plate lamp, position lamp (LH) and rear combination lamp (LH)', desc: 'Combination meter, headlamp assembly (LH), licence plate lamp, position lamp (LH) and rear combination lamp (LH)' },
+            { pos: '22', amps: '10', circuit: 'Combination meter, column switch, ETACS-ECU and front-ECU', desc: 'Combination meter, column switch, ETACS-ECU and front-ECU' },
+            { pos: '23', amps: '10', circuit: 'Clock, ETACS-ECU and spare connector (for audio)', desc: 'Clock, ETACS-ECU and spare connector (for audio)' },
+            { pos: '25', amps: '20', circuit: 'Heated seat assembly and heated seat switch', desc: 'Heated seat assembly and heated seat switch' },
+            { pos: '26', amps: '100/120', circuit: 'Battery, fusible link No.1,2, 3, 4, 5, fuse No.6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 22 (relay box) and front-ECU', desc: 'Battery, fusible link No.1,2, 3, 4, 5, fuse No.6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 22 (relay box) and front-ECU' },
+            { pos: 'A-04X', amps: '—', circuit: 'Front fog lamp relay', desc: 'Front fog lamp relay' },
+            { pos: 'A-05X', amps: '—', circuit: 'Horn relay', desc: 'Horn relay' },
+            { pos: 'A-09X', amps: '—', circuit: 'Fan control relay', desc: 'Fan control relay' },
+            { pos: 'A-10X', amps: '—', circuit: 'Front-ECU', desc: 'Front-ECU' },
+            { pos: 'A-11X', amps: '—', circuit: 'Front-ECU', desc: 'Front-ECU' },
+          ],
+          relays: [
+            { pos: 'A-04X', circuit: 'Front fog lamp relay', desc: 'Front fog lamp relay' },
+            { pos: 'A-05X', circuit: 'Horn relay', desc: 'Horn relay' },
+            { pos: 'A-09X', circuit: 'Fan control relay', desc: 'Fan control relay' },
+            { pos: 'A-10X', circuit: 'Front-ECU', desc: 'Front-ECU' },
+            { pos: 'A-11X', circuit: 'Front-ECU', desc: 'Front-ECU' },
+          ],
+            layout: {
+              cols: 6,
+              rows: 6,
+              cells: {
+                '1': { col: 1, row: 1, w: 1, h: 1 },
+                '2': { col: 2, row: 1, w: 1, h: 1 },
+                '3': { col: 3, row: 1, w: 1, h: 1 },
+                '4': { col: 4, row: 1, w: 1, h: 1 },
+                '5': { col: 5, row: 1, w: 1, h: 1 },
+                '6': { col: 6, row: 1, w: 1, h: 1 },
+                '7': { col: 1, row: 2, w: 1, h: 1 },
+                '8': { col: 2, row: 2, w: 1, h: 1 },
+                '9': { col: 3, row: 2, w: 1, h: 1 },
+                '10': { col: 4, row: 2, w: 1, h: 1 },
+                '11': { col: 5, row: 2, w: 1, h: 1 },
+                '12': { col: 6, row: 2, w: 1, h: 1 },
+                '13': { col: 1, row: 3, w: 1, h: 1 },
+                '14': { col: 2, row: 3, w: 1, h: 1 },
+                '15': { col: 3, row: 3, w: 1, h: 1 },
+                '16': { col: 4, row: 3, w: 1, h: 1 },
+                '17': { col: 5, row: 3, w: 1, h: 1 },
+                '18': { col: 6, row: 3, w: 1, h: 1 },
+                '19': { col: 1, row: 4, w: 1, h: 1 },
+                '20': { col: 2, row: 4, w: 1, h: 1 },
+                '21': { col: 3, row: 4, w: 1, h: 1 },
+                '22': { col: 4, row: 4, w: 1, h: 1 },
+                '23': { col: 5, row: 4, w: 1, h: 1 },
+                '25': { col: 6, row: 4, w: 1, h: 1 },
+                '26': { col: 1, row: 5, w: 1, h: 1 },
+                'A-04X': { col: 2, row: 5, w: 1, h: 1 },
+                'A-05X': { col: 3, row: 5, w: 1, h: 1 },
+                'A-09X': { col: 4, row: 5, w: 1, h: 1 },
+                'A-10X': { col: 5, row: 5, w: 1, h: 1 },
+                'A-11X': { col: 6, row: 5, w: 1, h: 1 },
+                'A-04X': { col: 1, row: 6, w: 1, h: 1 },
+                'A-05X': { col: 2, row: 6, w: 1, h: 1 },
+                'A-09X': { col: 3, row: 6, w: 1, h: 1 },
+                'A-10X': { col: 4, row: 6, w: 1, h: 1 },
+                'A-11X': { col: 5, row: 6, w: 1, h: 1 }
+              },
+              notes: [
+                'Transcribed from the fuse-box.info position table (35 positions).',
+                'Uniform row-major approximation: cells placed in OEM numbering order; exact slot geometry is approximated — verify against the fuse box cover.'
+              ]
+            }
+        },
+        {
+          name: 'Passenger Compartment Relay Box',
+          location: 'In the passenger compartment relay box (junction block).',
+          fuses: [
+          ],
+          relays: [
+            { pos: 'B-10X', circuit: 'Engine speed detection connector', desc: 'Engine speed detection connector' },
+            { pos: 'B-14X', circuit: 'Ignition coil relay', desc: 'Ignition coil relay' },
+            { pos: 'B-15X', circuit: 'A/T control relay', desc: 'A/T control relay' },
+            { pos: 'B-16X', circuit: 'Engine control relay', desc: 'Engine control relay' },
+            { pos: 'B-17X', circuit: 'A/C compressor relay', desc: 'A/C compressor relay' },
+          ],
+            layout: {
+              cols: 4,
+              rows: 2,
+              cells: {
+                'B-10X': { col: 1, row: 1, w: 1, h: 1 },
+                'B-14X': { col: 2, row: 1, w: 1, h: 1 },
+                'B-15X': { col: 3, row: 1, w: 1, h: 1 },
+                'B-16X': { col: 4, row: 1, w: 1, h: 1 },
+                'B-17X': { col: 1, row: 2, w: 1, h: 1 }
+              },
+              notes: [
+                'Transcribed from the fuse-box.info position table (5 positions).',
+                'Uniform row-major approximation: cells placed in OEM numbering order; exact slot geometry is approximated — verify against the fuse box cover.'
+              ]
+            }
+        }
+      ]
+    }
+  },
+  montero: {
+    '2003-2006': {
+      panels: [
+        {
+          name: 'Instrument Panel Fuse Box',
+          location: 'In the instrument panel, behind the cover on the driver\'s side.',
+          fuses: [
+            { pos: '1', amps: 15, circuit: 'Rear window wiper', desc: 'Rear window wiper' },
+            { pos: '3', amps: 10, circuit: 'Radio', desc: 'Radio' },
+            { pos: '4', amps: 15, circuit: 'Cigarette lighter', desc: 'Cigarette lighter' },
+            { pos: '5', amps: 10, circuit: 'Relay', desc: 'Relay' },
+            { pos: '6', amps: 10, circuit: 'Gauge', desc: 'Gauge' },
+            { pos: '7', amps: 20, circuit: 'Engine control', desc: 'Engine control' },
+            { pos: '8', amps: 10, circuit: 'Reversing lamps', desc: 'Reversing lamps' },
+            { pos: '9', amps: 10, circuit: 'Rear fog lamp', desc: 'Rear fog lamp' },
+            { pos: '10', amps: 20, circuit: 'Central door locks', desc: 'Central door locks' },
+            { pos: '11', amps: 30, circuit: 'Rear window demister', desc: 'Rear window demister' },
+            { pos: '12', amps: 30, circuit: 'Heater', desc: 'Heater' },
+            { pos: '13', amps: 20, circuit: 'LHD: Sunroof', desc: 'LHD: Sunroof' },
+            { pos: '13', amps: 10, circuit: 'RHD: Heated door mirror', desc: 'RHD: Heated door mirror' },
+            { pos: '14', amps: 10, circuit: 'LHD: Anti-lock brake system', desc: 'LHD: Anti-lock brake system' },
+            { pos: '14', amps: 20, circuit: 'RHD: Heated seat', desc: 'RHD: Heated seat' },
+            { pos: '15', amps: 20, circuit: 'LHD: Heated seat', desc: 'LHD: Heated seat' },
+            { pos: '15', amps: 10, circuit: 'RHD: Anti-lock brake system', desc: 'RHD: Anti-lock brake system' },
+            { pos: '16', amps: 10, circuit: 'LHD: Heated door mirror', desc: 'LHD: Heated door mirror' },
+            { pos: '16', amps: 20, circuit: 'RHD: Sunroof', desc: 'RHD: Sunroof' },
+            { pos: '17', amps: 10, circuit: 'Spare fuse', desc: 'Spare fuse' },
+            { pos: '18', amps: 15, circuit: 'Spare fuse', desc: 'Spare fuse' },
+            { pos: '19', amps: 20, circuit: 'Spare fuse', desc: 'Spare fuse' },
+            { pos: '20', amps: 30, circuit: 'Spare fuse', desc: 'Spare fuse' },
+          ],
+          relays: [
+          ],
+            layout: {
+              cols: 5,
+              rows: 4,
+              cells: {
+                '1': { col: 1, row: 1, w: 1, h: 1 },
+                '3': { col: 2, row: 1, w: 1, h: 1 },
+                '4': { col: 3, row: 1, w: 1, h: 1 },
+                '5': { col: 4, row: 1, w: 1, h: 1 },
+                '6': { col: 5, row: 1, w: 1, h: 1 },
+                '7': { col: 1, row: 2, w: 1, h: 1 },
+                '8': { col: 2, row: 2, w: 1, h: 1 },
+                '9': { col: 3, row: 2, w: 1, h: 1 },
+                '10': { col: 4, row: 2, w: 1, h: 1 },
+                '11': { col: 5, row: 2, w: 1, h: 1 },
+                '12': { col: 1, row: 3, w: 1, h: 1 },
+                '13': { col: 2, row: 3, w: 1, h: 1 },
+                '14': { col: 3, row: 3, w: 1, h: 1 },
+                '15': { col: 4, row: 3, w: 1, h: 1 },
+                '16': { col: 5, row: 3, w: 1, h: 1 },
+                '17': { col: 1, row: 4, w: 1, h: 1 },
+                '18': { col: 2, row: 4, w: 1, h: 1 },
+                '19': { col: 3, row: 4, w: 1, h: 1 },
+                '20': { col: 4, row: 4, w: 1, h: 1 }
+              },
+              notes: [
+                'Transcribed from the fuse-box.info position table (19 positions).',
+                'Uniform row-major approximation: cells placed in OEM numbering order; exact slot geometry is approximated — verify against the fuse box cover.',
+                'Positions 13-16 carry LHD/RHD variants; each slot appears once in the diagram.'
+              ]
+            }
+        },
+        {
+          name: 'Engine Compartment Fuse Box',
+          location: 'In the engine compartment (left side).',
+          fuses: [
+            { pos: '1', amps: 120, circuit: 'Alternator', desc: 'Alternator' },
+            { pos: '2', amps: 60, circuit: 'Fuse (+B)', desc: 'Fuse (+B)' },
+            { pos: '3', amps: 40, circuit: 'Ignition switch', desc: 'Ignition switch' },
+            { pos: '4', amps: 30, circuit: 'Electrical window control', desc: 'Electrical window control' },
+            { pos: '5', amps: 20, circuit: 'Engine control', desc: 'Engine control' },
+            { pos: '6', amps: 20, circuit: 'Fuel pump', desc: 'Fuel pump' },
+            { pos: '7', amps: 25, circuit: 'Rear air conditioning', desc: 'Rear air conditioning' },
+            { pos: '8', amps: 15, circuit: 'Accessory socket', desc: 'Accessory socket' },
+            { pos: '9', amps: 25, circuit: 'Fuel line heater', desc: 'Fuel line heater' },
+            { pos: '9', amps: 15, circuit: 'Daytime running lamp', desc: 'Daytime running lamp' },
+            { pos: '10', amps: 25, circuit: 'Condenser fan motor', desc: 'Condenser fan motor' },
+            { pos: '11', amps: 20, circuit: 'Rear air conditioning', desc: 'Rear air conditioning' },
+            { pos: '12', amps: 10, circuit: 'Horn', desc: 'Horn' },
+            { pos: '12', amps: 15, circuit: 'Wiper deicer', desc: 'Wiper deicer' },
+            { pos: '13', amps: 10, circuit: 'Horn', desc: 'Horn' },
+            { pos: '14', amps: 20, circuit: 'Automatic transmission', desc: 'Automatic transmission' },
+            { pos: '15', amps: 10, circuit: 'Hazard warning flasher', desc: 'Hazard warning flasher' },
+            { pos: '16', amps: 15, circuit: 'Stop lamps', desc: 'Stop lamps' },
+            { pos: '17', amps: 10, circuit: 'Radio', desc: 'Radio' },
+            { pos: '18', amps: 10, circuit: 'Room lamp', desc: 'Room lamp' },
+            { pos: '19', amps: 10, circuit: 'Air conditioning', desc: 'Air conditioning' },
+            { pos: '20', amps: 20, circuit: 'Front fog lamps', desc: 'Front fog lamps' },
+            { pos: '21', amps: 10, circuit: 'Horn', desc: 'Horn' },
+            { pos: '22', amps: 20, circuit: 'Windscreen wiper', desc: 'Windscreen wiper' },
+            { pos: '23', amps: 10, circuit: 'Tail lamps (right)', desc: 'Tail lamps (right)' },
+            { pos: '24', amps: 10, circuit: 'Tail lamps (left)', desc: 'Tail lamps (left)' },
+            { pos: '25', amps: 10, circuit: 'Headlamp low beam (right)', desc: 'Headlamp low beam (right)' },
+            { pos: '26', amps: 10, circuit: 'Headlamp low beam (left)', desc: 'Headlamp low beam (left)' },
+            { pos: '27', amps: 10, circuit: 'Headlamp upper beam (right)', desc: 'Headlamp upper beam (right)' },
+            { pos: '28', amps: 10, circuit: 'Headlamp upper beam (left)', desc: 'Headlamp upper beam (left)' },
+            { pos: '30', amps: 50, circuit: 'Heater', desc: 'Heater' },
+          ],
+          relays: [
+          ],
+            layout: {
+              cols: 5,
+              rows: 6,
+              cells: {
+                '1': { col: 1, row: 1, w: 1, h: 1 },
+                '2': { col: 2, row: 1, w: 1, h: 1 },
+                '3': { col: 3, row: 1, w: 1, h: 1 },
+                '4': { col: 4, row: 1, w: 1, h: 1 },
+                '5': { col: 5, row: 1, w: 1, h: 1 },
+                '6': { col: 1, row: 2, w: 1, h: 1 },
+                '7': { col: 2, row: 2, w: 1, h: 1 },
+                '8': { col: 3, row: 2, w: 1, h: 1 },
+                '9': { col: 4, row: 2, w: 1, h: 1 },
+                '10': { col: 5, row: 2, w: 1, h: 1 },
+                '11': { col: 1, row: 3, w: 1, h: 1 },
+                '12': { col: 2, row: 3, w: 1, h: 1 },
+                '13': { col: 3, row: 3, w: 1, h: 1 },
+                '14': { col: 4, row: 3, w: 1, h: 1 },
+                '15': { col: 5, row: 3, w: 1, h: 1 },
+                '16': { col: 1, row: 4, w: 1, h: 1 },
+                '17': { col: 2, row: 4, w: 1, h: 1 },
+                '18': { col: 3, row: 4, w: 1, h: 1 },
+                '19': { col: 4, row: 4, w: 1, h: 1 },
+                '20': { col: 5, row: 4, w: 1, h: 1 },
+                '21': { col: 1, row: 5, w: 1, h: 1 },
+                '22': { col: 2, row: 5, w: 1, h: 1 },
+                '23': { col: 3, row: 5, w: 1, h: 1 },
+                '24': { col: 4, row: 5, w: 1, h: 1 },
+                '25': { col: 5, row: 5, w: 1, h: 1 },
+                '26': { col: 1, row: 6, w: 1, h: 1 },
+                '27': { col: 2, row: 6, w: 1, h: 1 },
+                '28': { col: 3, row: 6, w: 1, h: 1 },
+                '30': { col: 4, row: 6, w: 1, h: 1 }
+              },
+              notes: [
+                'Transcribed from the fuse-box.info position table (29 positions).',
+                'Uniform row-major approximation: cells placed in OEM numbering order; exact slot geometry is approximated — verify against the fuse box cover.',
+                'Positions 13-16 carry LHD/RHD variants; each slot appears once in the diagram.'
+              ]
+            }
+        }
+      ]
+    }
   }
 },
 volvo: {
