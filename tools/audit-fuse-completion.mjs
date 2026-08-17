@@ -62,7 +62,7 @@ const MS_SPEC_MAKE = {
   'forest-river': 'forest river', 'grand-design': 'grand design'
 };
 
-const EXPECTED_LAYOUT_TOTAL = 466;
+const EXPECTED_LAYOUT_TOTAL = 476; // Wave 16 +10 (eclipse 6, lancer 2, montero 2)
 
 /* ─────────────────────── normalization helpers ─────────────────────── */
 
