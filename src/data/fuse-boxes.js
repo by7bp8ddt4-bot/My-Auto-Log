@@ -48809,7 +48809,28 @@ infiniti: {
               { pos: 'F49', amps: 7.5, circuit: 'LUMBAR SUPPORT', desc: 'Lumbar Support' },
               { pos: 'F50', amps: 7.5, circuit: 'WIRELESS CHARGING PAD', desc: 'Wireless Charging Pad' },
               { pos: 'F51', amps: 7.5, circuit: 'DRIVER WINDOW SWITCH', desc: 'Driver Window Switch/ Power Mirrors' }
-            ]
+            ],
+            layout: {
+              cols: 5,
+              rows: 2,
+              cells: {
+                'F32': { col: 1, row: 1, w: 1, h: 1 },
+                'F36': { col: 2, row: 1, w: 1, h: 1 },
+                'F37': { col: 3, row: 1, w: 1, h: 1 },
+                'F38': { col: 4, row: 1, w: 1, h: 1 },
+                'F42': { col: 5, row: 1, w: 1, h: 1 },
+                'F43': { col: 1, row: 2, w: 1, h: 1 },
+                'F48': { col: 2, row: 2, w: 1, h: 1 },
+                'F49': { col: 3, row: 2, w: 1, h: 1 },
+                'F50': { col: 4, row: 2, w: 1, h: 1 },
+                'F51': { col: 5, row: 2, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Jeep Cherokee KL 2014-2018 s1t1 table; the app fuse list matches the OEM table 1:1 (position+circuit verification, cov>=0.94, popCover=1.00).',
+                'Cells are placed in the OEM numbering order (left to right, top to bottom) as listed in the source table; the exact slot geometry is approximated — verify against the fuse block label.',
+                'Layout covers the positions present in the app data; unused/absent slots are left empty and trims/options may add or remove fuses.'
+              ]
+            }
           },
           {
             name: 'Underhood Power Distribution Center (PDC)',
@@ -49581,7 +49602,21 @@ infiniti: {
               { pos: 'F1', amps: 10, circuit: 'CONTROLLER EXTERIOR LIGHTING', desc: '2020-2021: Controller Exterior Lighting On Trailer' },
               { pos: 'F5', amps: 15, circuit: 'CONTROLLER EXTERIOR LIGHTING', desc: 'Controller Exterior Lighting Lights (Drivers Side)' },
               { pos: 'F6', amps: 15, circuit: 'CONTROLLER EXTERIOR LIGHTING', desc: 'Controller Exterior Lighting Lights (Passenger Side)' }
-            ]
+            ],
+            layout: {
+              cols: 3,
+              rows: 1,
+              cells: {
+                'F1': { col: 1, row: 1, w: 1, h: 1 },
+                'F5': { col: 2, row: 1, w: 1, h: 1 },
+                'F6': { col: 3, row: 1, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Jeep Renegade BU 2014-present s2t3 table; the app fuse list matches the OEM table 1:1 (position+circuit verification, cov>=0.94, popCover=1.00).',
+                'Cells are placed in the OEM numbering order (left to right, top to bottom) as listed in the source table; the exact slot geometry is approximated — verify against the fuse block label.',
+                'Layout covers the positions present in the app data; unused/absent slots are left empty and trims/options may add or remove fuses.'
+              ]
+            }
           }
         ]
       }
@@ -49998,7 +50033,55 @@ infiniti: {
               { pos: '37', amps: '—', circuit: 'DIESEL FUEL HEATER (IF EQUIPPED)', desc: 'Diesel Fuel Heater (if equipped)' }
             ],
             relays: [
-            ]
+            ],
+            layout: {
+              cols: 8,
+              rows: 5,
+              cells: {
+                '1': { col: 1, row: 1, w: 1, h: 1 },
+                '2': { col: 2, row: 1, w: 1, h: 1 },
+                '3': { col: 3, row: 1, w: 1, h: 1 },
+                '4': { col: 4, row: 1, w: 1, h: 1 },
+                '5': { col: 5, row: 1, w: 1, h: 1 },
+                '6': { col: 6, row: 1, w: 1, h: 1 },
+                '7': { col: 7, row: 1, w: 1, h: 1 },
+                '8': { col: 8, row: 1, w: 1, h: 1 },
+                '9': { col: 1, row: 2, w: 1, h: 1 },
+                '10': { col: 2, row: 2, w: 1, h: 1 },
+                '11': { col: 3, row: 2, w: 1, h: 1 },
+                '12': { col: 4, row: 2, w: 1, h: 1 },
+                '13': { col: 5, row: 2, w: 1, h: 1 },
+                '14': { col: 6, row: 2, w: 1, h: 1 },
+                '15': { col: 7, row: 2, w: 1, h: 1 },
+                '16': { col: 8, row: 2, w: 1, h: 1 },
+                '17': { col: 1, row: 3, w: 1, h: 1 },
+                '18': { col: 2, row: 3, w: 1, h: 1 },
+                '19': { col: 3, row: 3, w: 1, h: 1 },
+                '20': { col: 4, row: 3, w: 1, h: 1 },
+                '21': { col: 5, row: 3, w: 1, h: 1 },
+                '22': { col: 6, row: 3, w: 1, h: 1 },
+                '23': { col: 7, row: 3, w: 1, h: 1 },
+                '24': { col: 8, row: 3, w: 1, h: 1 },
+                '25': { col: 1, row: 4, w: 1, h: 1 },
+                '26': { col: 2, row: 4, w: 1, h: 1 },
+                '27': { col: 3, row: 4, w: 1, h: 1 },
+                '28': { col: 4, row: 4, w: 1, h: 1 },
+                '29': { col: 5, row: 4, w: 1, h: 1 },
+                '30': { col: 6, row: 4, w: 1, h: 1 },
+                '31': { col: 7, row: 4, w: 1, h: 1 },
+                '32': { col: 8, row: 4, w: 1, h: 1 },
+                '33': { col: 1, row: 5, w: 1, h: 1 },
+                '34': { col: 2, row: 5, w: 1, h: 1 },
+                '35': { col: 3, row: 5, w: 1, h: 1 },
+                '36': { col: 4, row: 5, w: 1, h: 1 },
+                '37': { col: 5, row: 5, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Jeep Compass MK49 2011-2017 s2t0 table; the app fuse list matches the OEM table 1:1 (position+circuit verification, cov>=0.94, popCover=1.00).',
+                'Cells are placed in the OEM numbering order (left to right, top to bottom) as listed in the source table; the exact slot geometry is approximated — verify against the fuse block label.',
+                'Layout covers the positions present in the app data; unused/absent slots are left empty and trims/options may add or remove fuses.'
+              ]
+            }
           },
         ]
       },
@@ -50047,7 +50130,55 @@ infiniti: {
               { pos: '37', amps: '—', circuit: '110 INVERTER (IF EQUIPPED)/DIESEL FUEL HEATER (IF EQUIPPED)', desc: '110 Inverter (if equipped)/Diesel Fuel Heater (if equipped)' }
             ],
             relays: [
-            ]
+            ],
+            layout: {
+              cols: 8,
+              rows: 5,
+              cells: {
+                '1': { col: 1, row: 1, w: 1, h: 1 },
+                '2': { col: 2, row: 1, w: 1, h: 1 },
+                '3': { col: 3, row: 1, w: 1, h: 1 },
+                '4': { col: 4, row: 1, w: 1, h: 1 },
+                '5': { col: 5, row: 1, w: 1, h: 1 },
+                '6': { col: 6, row: 1, w: 1, h: 1 },
+                '7': { col: 7, row: 1, w: 1, h: 1 },
+                '8': { col: 8, row: 1, w: 1, h: 1 },
+                '9': { col: 1, row: 2, w: 1, h: 1 },
+                '10': { col: 2, row: 2, w: 1, h: 1 },
+                '11': { col: 3, row: 2, w: 1, h: 1 },
+                '12': { col: 4, row: 2, w: 1, h: 1 },
+                '13': { col: 5, row: 2, w: 1, h: 1 },
+                '14': { col: 6, row: 2, w: 1, h: 1 },
+                '15': { col: 7, row: 2, w: 1, h: 1 },
+                '16': { col: 8, row: 2, w: 1, h: 1 },
+                '17': { col: 1, row: 3, w: 1, h: 1 },
+                '18': { col: 2, row: 3, w: 1, h: 1 },
+                '19': { col: 3, row: 3, w: 1, h: 1 },
+                '20': { col: 4, row: 3, w: 1, h: 1 },
+                '21': { col: 5, row: 3, w: 1, h: 1 },
+                '22': { col: 6, row: 3, w: 1, h: 1 },
+                '23': { col: 7, row: 3, w: 1, h: 1 },
+                '24': { col: 8, row: 3, w: 1, h: 1 },
+                '25': { col: 1, row: 4, w: 1, h: 1 },
+                '26': { col: 2, row: 4, w: 1, h: 1 },
+                '27': { col: 3, row: 4, w: 1, h: 1 },
+                '28': { col: 4, row: 4, w: 1, h: 1 },
+                '29': { col: 5, row: 4, w: 1, h: 1 },
+                '30': { col: 6, row: 4, w: 1, h: 1 },
+                '31': { col: 7, row: 4, w: 1, h: 1 },
+                '32': { col: 8, row: 4, w: 1, h: 1 },
+                '33': { col: 1, row: 5, w: 1, h: 1 },
+                '34': { col: 2, row: 5, w: 1, h: 1 },
+                '35': { col: 3, row: 5, w: 1, h: 1 },
+                '36': { col: 4, row: 5, w: 1, h: 1 },
+                '37': { col: 5, row: 5, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Jeep Compass MK49 2011-2017 s2t1 table; the app fuse list matches the OEM table 1:1 (position+circuit verification, cov>=0.94, popCover=1.00).',
+                'Cells are placed in the OEM numbering order (left to right, top to bottom) as listed in the source table; the exact slot geometry is approximated — verify against the fuse block label.',
+                'Layout covers the positions present in the app data; unused/absent slots are left empty and trims/options may add or remove fuses.'
+              ]
+            }
           },
         ]
       },
@@ -50096,7 +50227,55 @@ infiniti: {
               { pos: '37', amps: '—', circuit: 'DIESEL FUEL HEATER (IF EQUIPPED)', desc: 'Diesel Fuel Heater (if equipped)' }
             ],
             relays: [
-            ]
+            ],
+            layout: {
+              cols: 8,
+              rows: 5,
+              cells: {
+                '1': { col: 1, row: 1, w: 1, h: 1 },
+                '2': { col: 2, row: 1, w: 1, h: 1 },
+                '3': { col: 3, row: 1, w: 1, h: 1 },
+                '4': { col: 4, row: 1, w: 1, h: 1 },
+                '5': { col: 5, row: 1, w: 1, h: 1 },
+                '6': { col: 6, row: 1, w: 1, h: 1 },
+                '7': { col: 7, row: 1, w: 1, h: 1 },
+                '8': { col: 8, row: 1, w: 1, h: 1 },
+                '9': { col: 1, row: 2, w: 1, h: 1 },
+                '10': { col: 2, row: 2, w: 1, h: 1 },
+                '11': { col: 3, row: 2, w: 1, h: 1 },
+                '12': { col: 4, row: 2, w: 1, h: 1 },
+                '13': { col: 5, row: 2, w: 1, h: 1 },
+                '14': { col: 6, row: 2, w: 1, h: 1 },
+                '15': { col: 7, row: 2, w: 1, h: 1 },
+                '16': { col: 8, row: 2, w: 1, h: 1 },
+                '17': { col: 1, row: 3, w: 1, h: 1 },
+                '18': { col: 2, row: 3, w: 1, h: 1 },
+                '19': { col: 3, row: 3, w: 1, h: 1 },
+                '20': { col: 4, row: 3, w: 1, h: 1 },
+                '21': { col: 5, row: 3, w: 1, h: 1 },
+                '22': { col: 6, row: 3, w: 1, h: 1 },
+                '23': { col: 7, row: 3, w: 1, h: 1 },
+                '24': { col: 8, row: 3, w: 1, h: 1 },
+                '25': { col: 1, row: 4, w: 1, h: 1 },
+                '26': { col: 2, row: 4, w: 1, h: 1 },
+                '27': { col: 3, row: 4, w: 1, h: 1 },
+                '28': { col: 4, row: 4, w: 1, h: 1 },
+                '29': { col: 5, row: 4, w: 1, h: 1 },
+                '30': { col: 6, row: 4, w: 1, h: 1 },
+                '31': { col: 7, row: 4, w: 1, h: 1 },
+                '32': { col: 8, row: 4, w: 1, h: 1 },
+                '33': { col: 1, row: 5, w: 1, h: 1 },
+                '34': { col: 2, row: 5, w: 1, h: 1 },
+                '35': { col: 3, row: 5, w: 1, h: 1 },
+                '36': { col: 4, row: 5, w: 1, h: 1 },
+                '37': { col: 5, row: 5, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Jeep Compass MK49 2011-2017 s2t0 table; the app fuse list matches the OEM table 1:1 (position+circuit verification, cov>=0.94, popCover=1.00).',
+                'Cells are placed in the OEM numbering order (left to right, top to bottom) as listed in the source table; the exact slot geometry is approximated — verify against the fuse block label.',
+                'Layout covers the positions present in the app data; unused/absent slots are left empty and trims/options may add or remove fuses.'
+              ]
+            }
           },
         ]
       },
@@ -50145,7 +50324,55 @@ infiniti: {
               { pos: '37', amps: '—', circuit: 'DIESEL FUEL HEATER (IF EQUIPPED)', desc: 'Diesel Fuel Heater (if equipped)' }
             ],
             relays: [
-            ]
+            ],
+            layout: {
+              cols: 8,
+              rows: 5,
+              cells: {
+                '1': { col: 1, row: 1, w: 1, h: 1 },
+                '2': { col: 2, row: 1, w: 1, h: 1 },
+                '3': { col: 3, row: 1, w: 1, h: 1 },
+                '4': { col: 4, row: 1, w: 1, h: 1 },
+                '5': { col: 5, row: 1, w: 1, h: 1 },
+                '6': { col: 6, row: 1, w: 1, h: 1 },
+                '7': { col: 7, row: 1, w: 1, h: 1 },
+                '8': { col: 8, row: 1, w: 1, h: 1 },
+                '9': { col: 1, row: 2, w: 1, h: 1 },
+                '10': { col: 2, row: 2, w: 1, h: 1 },
+                '11': { col: 3, row: 2, w: 1, h: 1 },
+                '12': { col: 4, row: 2, w: 1, h: 1 },
+                '13': { col: 5, row: 2, w: 1, h: 1 },
+                '14': { col: 6, row: 2, w: 1, h: 1 },
+                '15': { col: 7, row: 2, w: 1, h: 1 },
+                '16': { col: 8, row: 2, w: 1, h: 1 },
+                '17': { col: 1, row: 3, w: 1, h: 1 },
+                '18': { col: 2, row: 3, w: 1, h: 1 },
+                '19': { col: 3, row: 3, w: 1, h: 1 },
+                '20': { col: 4, row: 3, w: 1, h: 1 },
+                '21': { col: 5, row: 3, w: 1, h: 1 },
+                '22': { col: 6, row: 3, w: 1, h: 1 },
+                '23': { col: 7, row: 3, w: 1, h: 1 },
+                '24': { col: 8, row: 3, w: 1, h: 1 },
+                '25': { col: 1, row: 4, w: 1, h: 1 },
+                '26': { col: 2, row: 4, w: 1, h: 1 },
+                '27': { col: 3, row: 4, w: 1, h: 1 },
+                '28': { col: 4, row: 4, w: 1, h: 1 },
+                '29': { col: 5, row: 4, w: 1, h: 1 },
+                '30': { col: 6, row: 4, w: 1, h: 1 },
+                '31': { col: 7, row: 4, w: 1, h: 1 },
+                '32': { col: 8, row: 4, w: 1, h: 1 },
+                '33': { col: 1, row: 5, w: 1, h: 1 },
+                '34': { col: 2, row: 5, w: 1, h: 1 },
+                '35': { col: 3, row: 5, w: 1, h: 1 },
+                '36': { col: 4, row: 5, w: 1, h: 1 },
+                '37': { col: 5, row: 5, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Jeep Compass MK49 2011-2017 s2t2 table; the app fuse list matches the OEM table 1:1 (position+circuit verification, cov>=0.94, popCover=1.00).',
+                'Cells are placed in the OEM numbering order (left to right, top to bottom) as listed in the source table; the exact slot geometry is approximated — verify against the fuse block label.',
+                'Layout covers the positions present in the app data; unused/absent slots are left empty and trims/options may add or remove fuses.'
+              ]
+            }
           },
         ]
       },
@@ -50194,7 +50421,55 @@ infiniti: {
               { pos: '37', amps: '—', circuit: 'DIESEL HEATER AND H2/MOD POWER TOP', desc: 'Diesel Heater and H2/MOD power top' }
             ],
             relays: [
-            ]
+            ],
+            layout: {
+              cols: 8,
+              rows: 5,
+              cells: {
+                '1': { col: 1, row: 1, w: 1, h: 1 },
+                '2': { col: 2, row: 1, w: 1, h: 1 },
+                '3': { col: 3, row: 1, w: 1, h: 1 },
+                '4': { col: 4, row: 1, w: 1, h: 1 },
+                '5': { col: 5, row: 1, w: 1, h: 1 },
+                '6': { col: 6, row: 1, w: 1, h: 1 },
+                '7': { col: 7, row: 1, w: 1, h: 1 },
+                '8': { col: 8, row: 1, w: 1, h: 1 },
+                '9': { col: 1, row: 2, w: 1, h: 1 },
+                '10': { col: 2, row: 2, w: 1, h: 1 },
+                '11': { col: 3, row: 2, w: 1, h: 1 },
+                '12': { col: 4, row: 2, w: 1, h: 1 },
+                '13': { col: 5, row: 2, w: 1, h: 1 },
+                '14': { col: 6, row: 2, w: 1, h: 1 },
+                '15': { col: 7, row: 2, w: 1, h: 1 },
+                '16': { col: 8, row: 2, w: 1, h: 1 },
+                '17': { col: 1, row: 3, w: 1, h: 1 },
+                '18': { col: 2, row: 3, w: 1, h: 1 },
+                '19': { col: 3, row: 3, w: 1, h: 1 },
+                '20': { col: 4, row: 3, w: 1, h: 1 },
+                '21': { col: 5, row: 3, w: 1, h: 1 },
+                '22': { col: 6, row: 3, w: 1, h: 1 },
+                '23': { col: 7, row: 3, w: 1, h: 1 },
+                '24': { col: 8, row: 3, w: 1, h: 1 },
+                '25': { col: 1, row: 4, w: 1, h: 1 },
+                '26': { col: 2, row: 4, w: 1, h: 1 },
+                '27': { col: 3, row: 4, w: 1, h: 1 },
+                '28': { col: 4, row: 4, w: 1, h: 1 },
+                '29': { col: 5, row: 4, w: 1, h: 1 },
+                '30': { col: 6, row: 4, w: 1, h: 1 },
+                '31': { col: 7, row: 4, w: 1, h: 1 },
+                '32': { col: 8, row: 4, w: 1, h: 1 },
+                '33': { col: 1, row: 5, w: 1, h: 1 },
+                '34': { col: 2, row: 5, w: 1, h: 1 },
+                '35': { col: 3, row: 5, w: 1, h: 1 },
+                '36': { col: 4, row: 5, w: 1, h: 1 },
+                '37': { col: 5, row: 5, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Jeep Compass MK49 2011-2017 s2t3 table; the app fuse list matches the OEM table 1:1 (position+circuit verification, cov>=0.94, popCover=1.00).',
+                'Cells are placed in the OEM numbering order (left to right, top to bottom) as listed in the source table; the exact slot geometry is approximated — verify against the fuse block label.',
+                'Layout covers the positions present in the app data; unused/absent slots are left empty and trims/options may add or remove fuses.'
+              ]
+            }
           },
         ]
       },
@@ -50238,7 +50513,50 @@ infiniti: {
               { pos: 'Fxx', amps: '—', circuit: 'DUAL BATTERY CONTROL RELAY', desc: 'Dual Battery Control Relay' }
             ],
             relays: [
-            ]
+            ],
+            layout: {
+              cols: 10,
+              rows: 4,
+              cells: {
+                'F01': { col: 1, row: 1, w: 1, h: 1 },
+                'F02': { col: 2, row: 1, w: 1, h: 1 },
+                'F03': { col: 3, row: 1, w: 1, h: 1 },
+                'F04': { col: 4, row: 1, w: 1, h: 1 },
+                'F05': { col: 5, row: 1, w: 1, h: 1 },
+                'F06': { col: 6, row: 1, w: 1, h: 1 },
+                'F07': { col: 7, row: 1, w: 1, h: 1 },
+                'F08': { col: 8, row: 1, w: 1, h: 1 },
+                'F09': { col: 9, row: 1, w: 1, h: 1 },
+                'F10': { col: 10, row: 1, w: 1, h: 1 },
+                'F11': { col: 1, row: 2, w: 1, h: 1 },
+                'F14': { col: 2, row: 2, w: 1, h: 1 },
+                'F15': { col: 3, row: 2, w: 1, h: 1 },
+                'F16': { col: 4, row: 2, w: 1, h: 1 },
+                'F17': { col: 5, row: 2, w: 1, h: 1 },
+                'F18': { col: 6, row: 2, w: 1, h: 1 },
+                'F19': { col: 7, row: 2, w: 1, h: 1 },
+                'F20': { col: 8, row: 2, w: 1, h: 1 },
+                'F21': { col: 9, row: 2, w: 1, h: 1 },
+                'F22': { col: 10, row: 2, w: 1, h: 1 },
+                'F23': { col: 1, row: 3, w: 1, h: 1 },
+                'F24': { col: 2, row: 3, w: 1, h: 1 },
+                'F30': { col: 3, row: 3, w: 1, h: 1 },
+                'F81': { col: 4, row: 3, w: 1, h: 1 },
+                'F82': { col: 5, row: 3, w: 1, h: 1 },
+                'F83': { col: 6, row: 3, w: 1, h: 1 },
+                'F84': { col: 7, row: 3, w: 1, h: 1 },
+                'F87': { col: 8, row: 3, w: 1, h: 1 },
+                'F88': { col: 9, row: 3, w: 1, h: 1 },
+                'F89': { col: 10, row: 3, w: 1, h: 1 },
+                'F90': { col: 1, row: 4, w: 1, h: 1 },
+                'Fxx': { col: 2, row: 4, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Jeep Compass MP/552 2017-present s2t0 table; the app fuse list matches the OEM table 1:1 (position+circuit verification, cov>=0.94, popCover=1.00).',
+                'Cells are placed in the OEM numbering order (left to right, top to bottom) as listed in the source table; the exact slot geometry is approximated — verify against the fuse block label.',
+                'Layout covers the positions present in the app data; unused/absent slots are left empty and trims/options may add or remove fuses.'
+              ]
+            }
           },
           {
             name: 'Engine Compartment Fuse Box (4x4/AWD)',
@@ -50249,7 +50567,21 @@ infiniti: {
               { pos: 'F3', amps: 2, circuit: 'MOD STEERING CONTROL', desc: 'Mod Steering Control' }
             ],
             relays: [
-            ]
+            ],
+            layout: {
+              cols: 3,
+              rows: 1,
+              cells: {
+                'F1': { col: 1, row: 1, w: 1, h: 1 },
+                'F2': { col: 2, row: 1, w: 1, h: 1 },
+                'F3': { col: 3, row: 1, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Jeep Compass MP/552 2017-present s2t1 table; the app fuse list matches the OEM table 1:1 (position+circuit verification, cov>=0.94, popCover=1.00).',
+                'Cells are placed in the OEM numbering order (left to right, top to bottom) as listed in the source table; the exact slot geometry is approximated — verify against the fuse block label.',
+                'Layout covers the positions present in the app data; unused/absent slots are left empty and trims/options may add or remove fuses.'
+              ]
+            }
           },
           {
             name: 'Passenger Compartment Fuse Box',
@@ -50288,7 +50620,26 @@ infiniti: {
               { pos: 'F8', amps: 20, circuit: 'HEATED SEATS', desc: 'Heated Seats' }
             ],
             relays: [
-            ]
+            ],
+            layout: {
+              cols: 4,
+              rows: 2,
+              cells: {
+                'F1': { col: 1, row: 1, w: 1, h: 1 },
+                'F2': { col: 2, row: 1, w: 1, h: 1 },
+                'F3': { col: 3, row: 1, w: 1, h: 1 },
+                'F4': { col: 4, row: 1, w: 1, h: 1 },
+                'F5': { col: 1, row: 2, w: 1, h: 1 },
+                'F6': { col: 2, row: 2, w: 1, h: 1 },
+                'F7': { col: 3, row: 2, w: 1, h: 1 },
+                'F8': { col: 4, row: 2, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Jeep Compass MP/552 2017-present s2t3 table; the app fuse list matches the OEM table 1:1 (position+circuit verification, cov>=0.94, popCover=1.00).',
+                'Cells are placed in the OEM numbering order (left to right, top to bottom) as listed in the source table; the exact slot geometry is approximated — verify against the fuse block label.',
+                'Layout covers the positions present in the app data; unused/absent slots are left empty and trims/options may add or remove fuses.'
+              ]
+            }
           },
         ]
       },
@@ -50368,7 +50719,86 @@ infiniti: {
               { pos: '', amps: '—', circuit: '* IF EQUIPPED', desc: '* If Equipped' }
             ],
             relays: [
-            ]
+            ],
+            layout: {
+              cols: 10,
+              rows: 7,
+              cells: {
+                'F01': { col: 1, row: 1, w: 1, h: 1 },
+                'F02': { col: 2, row: 1, w: 1, h: 1 },
+                'F03': { col: 3, row: 1, w: 1, h: 1 },
+                'F04': { col: 4, row: 1, w: 1, h: 1 },
+                'F05': { col: 5, row: 1, w: 1, h: 1 },
+                'F06': { col: 6, row: 1, w: 1, h: 1 },
+                'F07': { col: 7, row: 1, w: 1, h: 1 },
+                'F08': { col: 8, row: 1, w: 1, h: 1 },
+                'F09': { col: 9, row: 1, w: 1, h: 1 },
+                'F10': { col: 10, row: 1, w: 1, h: 1 },
+                'F11': { col: 1, row: 2, w: 1, h: 1 },
+                'F12': { col: 2, row: 2, w: 1, h: 1 },
+                'F13': { col: 3, row: 2, w: 1, h: 1 },
+                'F14': { col: 4, row: 2, w: 1, h: 1 },
+                'F15': { col: 5, row: 2, w: 1, h: 1 },
+                'F16': { col: 6, row: 2, w: 1, h: 1 },
+                'F17': { col: 7, row: 2, w: 1, h: 1 },
+                'F18': { col: 8, row: 2, w: 1, h: 1 },
+                'F19': { col: 9, row: 2, w: 1, h: 1 },
+                'F20': { col: 10, row: 2, w: 1, h: 1 },
+                'F21': { col: 1, row: 3, w: 1, h: 1 },
+                'F22': { col: 2, row: 3, w: 1, h: 1 },
+                'F23': { col: 3, row: 3, w: 1, h: 1 },
+                'F24': { col: 4, row: 3, w: 1, h: 1 },
+                'F25': { col: 5, row: 3, w: 1, h: 1 },
+                'F26': { col: 6, row: 3, w: 1, h: 1 },
+                'F27': { col: 7, row: 3, w: 1, h: 1 },
+                'F28': { col: 8, row: 3, w: 1, h: 1 },
+                'F29A & B': { col: 9, row: 3, w: 1, h: 1 },
+                'F30': { col: 10, row: 3, w: 1, h: 1 },
+                'F31': { col: 1, row: 4, w: 1, h: 1 },
+                'F32': { col: 2, row: 4, w: 1, h: 1 },
+                'F33': { col: 3, row: 4, w: 1, h: 1 },
+                'F34A & B': { col: 4, row: 4, w: 1, h: 1 },
+                'F35': { col: 5, row: 4, w: 1, h: 1 },
+                'F36': { col: 6, row: 4, w: 1, h: 1 },
+                'F37': { col: 7, row: 4, w: 1, h: 1 },
+                'F38': { col: 8, row: 4, w: 1, h: 1 },
+                'F39': { col: 9, row: 4, w: 1, h: 1 },
+                'F40': { col: 10, row: 4, w: 1, h: 1 },
+                'F41': { col: 1, row: 5, w: 1, h: 1 },
+                'F42': { col: 2, row: 5, w: 1, h: 1 },
+                'F43': { col: 3, row: 5, w: 1, h: 1 },
+                'F44': { col: 4, row: 5, w: 1, h: 1 },
+                'F45': { col: 5, row: 5, w: 1, h: 1 },
+                'F46': { col: 6, row: 5, w: 1, h: 1 },
+                'F47': { col: 7, row: 5, w: 1, h: 1 },
+                'F48': { col: 8, row: 5, w: 1, h: 1 },
+                'F49': { col: 9, row: 5, w: 1, h: 1 },
+                'F50': { col: 10, row: 5, w: 1, h: 1 },
+                'F51': { col: 1, row: 6, w: 1, h: 1 },
+                'F52': { col: 2, row: 6, w: 1, h: 1 },
+                'F53': { col: 3, row: 6, w: 1, h: 1 },
+                'F54': { col: 4, row: 6, w: 1, h: 1 },
+                'F55': { col: 5, row: 6, w: 1, h: 1 },
+                'F56': { col: 6, row: 6, w: 1, h: 1 },
+                'F57': { col: 7, row: 6, w: 1, h: 1 },
+                'F58': { col: 8, row: 6, w: 1, h: 1 },
+                'F59': { col: 9, row: 6, w: 1, h: 1 },
+                'F60': { col: 10, row: 6, w: 1, h: 1 },
+                'F61': { col: 1, row: 7, w: 1, h: 1 },
+                'F62': { col: 2, row: 7, w: 1, h: 1 },
+                'F63': { col: 3, row: 7, w: 1, h: 1 },
+                'F64': { col: 4, row: 7, w: 1, h: 1 },
+                'F65': { col: 5, row: 7, w: 1, h: 1 },
+                'F66': { col: 6, row: 7, w: 1, h: 1 },
+                'F67': { col: 7, row: 7, w: 1, h: 1 },
+                '': { col: 8, row: 7, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Jeep Compass 2022-2026 s1t0 table; the app fuse list matches the OEM table 1:1 (position+circuit verification, cov>=0.94, popCover=1.00).',
+                'Cells are placed in the OEM numbering order (left to right, top to bottom) as listed in the source table; the exact slot geometry is approximated — verify against the fuse block label.',
+                'Layout covers the positions present in the app data; unused/absent slots are left empty and trims/options may add or remove fuses.'
+              ]
+            }
           },
           {
             name: 'Passenger Compartment Fuse Box',
@@ -50466,7 +50896,55 @@ infiniti: {
               { pos: '37', amps: '—', circuit: '110 INVERTER', desc: '110 Inverter' }
             ],
             relays: [
-            ]
+            ],
+            layout: {
+              cols: 8,
+              rows: 5,
+              cells: {
+                '1': { col: 1, row: 1, w: 1, h: 1 },
+                '2': { col: 2, row: 1, w: 1, h: 1 },
+                '3': { col: 3, row: 1, w: 1, h: 1 },
+                '4': { col: 4, row: 1, w: 1, h: 1 },
+                '5': { col: 5, row: 1, w: 1, h: 1 },
+                '6': { col: 6, row: 1, w: 1, h: 1 },
+                '7': { col: 7, row: 1, w: 1, h: 1 },
+                '8': { col: 8, row: 1, w: 1, h: 1 },
+                '9': { col: 1, row: 2, w: 1, h: 1 },
+                '10': { col: 2, row: 2, w: 1, h: 1 },
+                '11': { col: 3, row: 2, w: 1, h: 1 },
+                '12': { col: 4, row: 2, w: 1, h: 1 },
+                '13': { col: 5, row: 2, w: 1, h: 1 },
+                '14': { col: 6, row: 2, w: 1, h: 1 },
+                '15': { col: 7, row: 2, w: 1, h: 1 },
+                '16': { col: 8, row: 2, w: 1, h: 1 },
+                '17': { col: 1, row: 3, w: 1, h: 1 },
+                '18': { col: 2, row: 3, w: 1, h: 1 },
+                '19': { col: 3, row: 3, w: 1, h: 1 },
+                '20': { col: 4, row: 3, w: 1, h: 1 },
+                '21': { col: 5, row: 3, w: 1, h: 1 },
+                '22': { col: 6, row: 3, w: 1, h: 1 },
+                '23': { col: 7, row: 3, w: 1, h: 1 },
+                '24': { col: 8, row: 3, w: 1, h: 1 },
+                '25': { col: 1, row: 4, w: 1, h: 1 },
+                '26': { col: 2, row: 4, w: 1, h: 1 },
+                '27': { col: 3, row: 4, w: 1, h: 1 },
+                '28': { col: 4, row: 4, w: 1, h: 1 },
+                '29': { col: 5, row: 4, w: 1, h: 1 },
+                '30': { col: 6, row: 4, w: 1, h: 1 },
+                '31': { col: 7, row: 4, w: 1, h: 1 },
+                '32': { col: 8, row: 4, w: 1, h: 1 },
+                '33': { col: 1, row: 5, w: 1, h: 1 },
+                '34': { col: 2, row: 5, w: 1, h: 1 },
+                '35': { col: 3, row: 5, w: 1, h: 1 },
+                '36': { col: 4, row: 5, w: 1, h: 1 },
+                '37': { col: 5, row: 5, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Jeep Patriot MK74 2007-2017 s2t0 table; the app fuse list matches the OEM table 1:1 (position+circuit verification, cov>=0.94, popCover=1.00).',
+                'Cells are placed in the OEM numbering order (left to right, top to bottom) as listed in the source table; the exact slot geometry is approximated — verify against the fuse block label.',
+                'Layout covers the positions present in the app data; unused/absent slots are left empty and trims/options may add or remove fuses.'
+              ]
+            }
           },
         ]
       },
@@ -50515,7 +50993,55 @@ infiniti: {
               { pos: '37', amps: '—', circuit: 'DIESEL FUEL HEATER (IF EQUIPPED)', desc: 'Diesel Fuel Heater (if equipped)' }
             ],
             relays: [
-            ]
+            ],
+            layout: {
+              cols: 8,
+              rows: 5,
+              cells: {
+                '1': { col: 1, row: 1, w: 1, h: 1 },
+                '2': { col: 2, row: 1, w: 1, h: 1 },
+                '3': { col: 3, row: 1, w: 1, h: 1 },
+                '4': { col: 4, row: 1, w: 1, h: 1 },
+                '5': { col: 5, row: 1, w: 1, h: 1 },
+                '6': { col: 6, row: 1, w: 1, h: 1 },
+                '7': { col: 7, row: 1, w: 1, h: 1 },
+                '8': { col: 8, row: 1, w: 1, h: 1 },
+                '9': { col: 1, row: 2, w: 1, h: 1 },
+                '10': { col: 2, row: 2, w: 1, h: 1 },
+                '11': { col: 3, row: 2, w: 1, h: 1 },
+                '12': { col: 4, row: 2, w: 1, h: 1 },
+                '13': { col: 5, row: 2, w: 1, h: 1 },
+                '14': { col: 6, row: 2, w: 1, h: 1 },
+                '15': { col: 7, row: 2, w: 1, h: 1 },
+                '16': { col: 8, row: 2, w: 1, h: 1 },
+                '17': { col: 1, row: 3, w: 1, h: 1 },
+                '18': { col: 2, row: 3, w: 1, h: 1 },
+                '19': { col: 3, row: 3, w: 1, h: 1 },
+                '20': { col: 4, row: 3, w: 1, h: 1 },
+                '21': { col: 5, row: 3, w: 1, h: 1 },
+                '22': { col: 6, row: 3, w: 1, h: 1 },
+                '23': { col: 7, row: 3, w: 1, h: 1 },
+                '24': { col: 8, row: 3, w: 1, h: 1 },
+                '25': { col: 1, row: 4, w: 1, h: 1 },
+                '26': { col: 2, row: 4, w: 1, h: 1 },
+                '27': { col: 3, row: 4, w: 1, h: 1 },
+                '28': { col: 4, row: 4, w: 1, h: 1 },
+                '29': { col: 5, row: 4, w: 1, h: 1 },
+                '30': { col: 6, row: 4, w: 1, h: 1 },
+                '31': { col: 7, row: 4, w: 1, h: 1 },
+                '32': { col: 8, row: 4, w: 1, h: 1 },
+                '33': { col: 1, row: 5, w: 1, h: 1 },
+                '34': { col: 2, row: 5, w: 1, h: 1 },
+                '35': { col: 3, row: 5, w: 1, h: 1 },
+                '36': { col: 4, row: 5, w: 1, h: 1 },
+                '37': { col: 5, row: 5, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Jeep Patriot MK74 2007-2017 s2t1 table; the app fuse list matches the OEM table 1:1 (position+circuit verification, cov>=0.94, popCover=1.00).',
+                'Cells are placed in the OEM numbering order (left to right, top to bottom) as listed in the source table; the exact slot geometry is approximated — verify against the fuse block label.',
+                'Layout covers the positions present in the app data; unused/absent slots are left empty and trims/options may add or remove fuses.'
+              ]
+            }
           },
         ]
       },
@@ -50564,7 +51090,55 @@ infiniti: {
               { pos: '37', amps: '—', circuit: 'DIESEL FUEL HEATER (IF EQUIPPED)', desc: 'Diesel Fuel Heater (if equipped)' }
             ],
             relays: [
-            ]
+            ],
+            layout: {
+              cols: 8,
+              rows: 5,
+              cells: {
+                '1': { col: 1, row: 1, w: 1, h: 1 },
+                '2': { col: 2, row: 1, w: 1, h: 1 },
+                '3': { col: 3, row: 1, w: 1, h: 1 },
+                '4': { col: 4, row: 1, w: 1, h: 1 },
+                '5': { col: 5, row: 1, w: 1, h: 1 },
+                '6': { col: 6, row: 1, w: 1, h: 1 },
+                '7': { col: 7, row: 1, w: 1, h: 1 },
+                '8': { col: 8, row: 1, w: 1, h: 1 },
+                '9': { col: 1, row: 2, w: 1, h: 1 },
+                '10': { col: 2, row: 2, w: 1, h: 1 },
+                '11': { col: 3, row: 2, w: 1, h: 1 },
+                '12': { col: 4, row: 2, w: 1, h: 1 },
+                '13': { col: 5, row: 2, w: 1, h: 1 },
+                '14': { col: 6, row: 2, w: 1, h: 1 },
+                '15': { col: 7, row: 2, w: 1, h: 1 },
+                '16': { col: 8, row: 2, w: 1, h: 1 },
+                '17': { col: 1, row: 3, w: 1, h: 1 },
+                '18': { col: 2, row: 3, w: 1, h: 1 },
+                '19': { col: 3, row: 3, w: 1, h: 1 },
+                '20': { col: 4, row: 3, w: 1, h: 1 },
+                '21': { col: 5, row: 3, w: 1, h: 1 },
+                '22': { col: 6, row: 3, w: 1, h: 1 },
+                '23': { col: 7, row: 3, w: 1, h: 1 },
+                '24': { col: 8, row: 3, w: 1, h: 1 },
+                '25': { col: 1, row: 4, w: 1, h: 1 },
+                '26': { col: 2, row: 4, w: 1, h: 1 },
+                '27': { col: 3, row: 4, w: 1, h: 1 },
+                '28': { col: 4, row: 4, w: 1, h: 1 },
+                '29': { col: 5, row: 4, w: 1, h: 1 },
+                '30': { col: 6, row: 4, w: 1, h: 1 },
+                '31': { col: 7, row: 4, w: 1, h: 1 },
+                '32': { col: 8, row: 4, w: 1, h: 1 },
+                '33': { col: 1, row: 5, w: 1, h: 1 },
+                '34': { col: 2, row: 5, w: 1, h: 1 },
+                '35': { col: 3, row: 5, w: 1, h: 1 },
+                '36': { col: 4, row: 5, w: 1, h: 1 },
+                '37': { col: 5, row: 5, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Jeep Patriot MK74 2007-2017 s2t2 table; the app fuse list matches the OEM table 1:1 (position+circuit verification, cov>=0.94, popCover=1.00).',
+                'Cells are placed in the OEM numbering order (left to right, top to bottom) as listed in the source table; the exact slot geometry is approximated — verify against the fuse block label.',
+                'Layout covers the positions present in the app data; unused/absent slots are left empty and trims/options may add or remove fuses.'
+              ]
+            }
           },
         ]
       },
@@ -50613,7 +51187,55 @@ infiniti: {
               { pos: '37', amps: '—', circuit: '110 INVERTER (IF EQUIPPED)/DIESEL FUEL HEATER (IF EQUIPPED)', desc: '110 Inverter (if equipped)/Diesel Fuel Heater (if equipped)' }
             ],
             relays: [
-            ]
+            ],
+            layout: {
+              cols: 8,
+              rows: 5,
+              cells: {
+                '1': { col: 1, row: 1, w: 1, h: 1 },
+                '2': { col: 2, row: 1, w: 1, h: 1 },
+                '3': { col: 3, row: 1, w: 1, h: 1 },
+                '4': { col: 4, row: 1, w: 1, h: 1 },
+                '5': { col: 5, row: 1, w: 1, h: 1 },
+                '6': { col: 6, row: 1, w: 1, h: 1 },
+                '7': { col: 7, row: 1, w: 1, h: 1 },
+                '8': { col: 8, row: 1, w: 1, h: 1 },
+                '9': { col: 1, row: 2, w: 1, h: 1 },
+                '10': { col: 2, row: 2, w: 1, h: 1 },
+                '11': { col: 3, row: 2, w: 1, h: 1 },
+                '12': { col: 4, row: 2, w: 1, h: 1 },
+                '13': { col: 5, row: 2, w: 1, h: 1 },
+                '14': { col: 6, row: 2, w: 1, h: 1 },
+                '15': { col: 7, row: 2, w: 1, h: 1 },
+                '16': { col: 8, row: 2, w: 1, h: 1 },
+                '17': { col: 1, row: 3, w: 1, h: 1 },
+                '18': { col: 2, row: 3, w: 1, h: 1 },
+                '19': { col: 3, row: 3, w: 1, h: 1 },
+                '20': { col: 4, row: 3, w: 1, h: 1 },
+                '21': { col: 5, row: 3, w: 1, h: 1 },
+                '22': { col: 6, row: 3, w: 1, h: 1 },
+                '23': { col: 7, row: 3, w: 1, h: 1 },
+                '24': { col: 8, row: 3, w: 1, h: 1 },
+                '25': { col: 1, row: 4, w: 1, h: 1 },
+                '26': { col: 2, row: 4, w: 1, h: 1 },
+                '27': { col: 3, row: 4, w: 1, h: 1 },
+                '28': { col: 4, row: 4, w: 1, h: 1 },
+                '29': { col: 5, row: 4, w: 1, h: 1 },
+                '30': { col: 6, row: 4, w: 1, h: 1 },
+                '31': { col: 7, row: 4, w: 1, h: 1 },
+                '32': { col: 8, row: 4, w: 1, h: 1 },
+                '33': { col: 1, row: 5, w: 1, h: 1 },
+                '34': { col: 2, row: 5, w: 1, h: 1 },
+                '35': { col: 3, row: 5, w: 1, h: 1 },
+                '36': { col: 4, row: 5, w: 1, h: 1 },
+                '37': { col: 5, row: 5, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Jeep Patriot MK74 2007-2017 s2t3 table; the app fuse list matches the OEM table 1:1 (position+circuit verification, cov>=0.94, popCover=1.00).',
+                'Cells are placed in the OEM numbering order (left to right, top to bottom) as listed in the source table; the exact slot geometry is approximated — verify against the fuse block label.',
+                'Layout covers the positions present in the app data; unused/absent slots are left empty and trims/options may add or remove fuses.'
+              ]
+            }
           },
         ]
       },
@@ -50662,7 +51284,55 @@ infiniti: {
               { pos: '37', amps: '—', circuit: 'DIESEL FUEL HEATER (IF EQUIPPED)', desc: 'Diesel Fuel Heater (if equipped)' }
             ],
             relays: [
-            ]
+            ],
+            layout: {
+              cols: 8,
+              rows: 5,
+              cells: {
+                '1': { col: 1, row: 1, w: 1, h: 1 },
+                '2': { col: 2, row: 1, w: 1, h: 1 },
+                '3': { col: 3, row: 1, w: 1, h: 1 },
+                '4': { col: 4, row: 1, w: 1, h: 1 },
+                '5': { col: 5, row: 1, w: 1, h: 1 },
+                '6': { col: 6, row: 1, w: 1, h: 1 },
+                '7': { col: 7, row: 1, w: 1, h: 1 },
+                '8': { col: 8, row: 1, w: 1, h: 1 },
+                '9': { col: 1, row: 2, w: 1, h: 1 },
+                '10': { col: 2, row: 2, w: 1, h: 1 },
+                '11': { col: 3, row: 2, w: 1, h: 1 },
+                '12': { col: 4, row: 2, w: 1, h: 1 },
+                '13': { col: 5, row: 2, w: 1, h: 1 },
+                '14': { col: 6, row: 2, w: 1, h: 1 },
+                '15': { col: 7, row: 2, w: 1, h: 1 },
+                '16': { col: 8, row: 2, w: 1, h: 1 },
+                '17': { col: 1, row: 3, w: 1, h: 1 },
+                '18': { col: 2, row: 3, w: 1, h: 1 },
+                '19': { col: 3, row: 3, w: 1, h: 1 },
+                '20': { col: 4, row: 3, w: 1, h: 1 },
+                '21': { col: 5, row: 3, w: 1, h: 1 },
+                '22': { col: 6, row: 3, w: 1, h: 1 },
+                '23': { col: 7, row: 3, w: 1, h: 1 },
+                '24': { col: 8, row: 3, w: 1, h: 1 },
+                '25': { col: 1, row: 4, w: 1, h: 1 },
+                '26': { col: 2, row: 4, w: 1, h: 1 },
+                '27': { col: 3, row: 4, w: 1, h: 1 },
+                '28': { col: 4, row: 4, w: 1, h: 1 },
+                '29': { col: 5, row: 4, w: 1, h: 1 },
+                '30': { col: 6, row: 4, w: 1, h: 1 },
+                '31': { col: 7, row: 4, w: 1, h: 1 },
+                '32': { col: 8, row: 4, w: 1, h: 1 },
+                '33': { col: 1, row: 5, w: 1, h: 1 },
+                '34': { col: 2, row: 5, w: 1, h: 1 },
+                '35': { col: 3, row: 5, w: 1, h: 1 },
+                '36': { col: 4, row: 5, w: 1, h: 1 },
+                '37': { col: 5, row: 5, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Jeep Patriot MK74 2007-2017 s2t2 table; the app fuse list matches the OEM table 1:1 (position+circuit verification, cov>=0.94, popCover=1.00).',
+                'Cells are placed in the OEM numbering order (left to right, top to bottom) as listed in the source table; the exact slot geometry is approximated — verify against the fuse block label.',
+                'Layout covers the positions present in the app data; unused/absent slots are left empty and trims/options may add or remove fuses.'
+              ]
+            }
           },
         ]
       },
@@ -50711,7 +51381,55 @@ infiniti: {
               { pos: '37', amps: '—', circuit: 'DIESEL HEATER AND H2/MOD POWER TOP', desc: 'Diesel Heater and H2/MOD power top' }
             ],
             relays: [
-            ]
+            ],
+            layout: {
+              cols: 8,
+              rows: 5,
+              cells: {
+                '1': { col: 1, row: 1, w: 1, h: 1 },
+                '2': { col: 2, row: 1, w: 1, h: 1 },
+                '3': { col: 3, row: 1, w: 1, h: 1 },
+                '4': { col: 4, row: 1, w: 1, h: 1 },
+                '5': { col: 5, row: 1, w: 1, h: 1 },
+                '6': { col: 6, row: 1, w: 1, h: 1 },
+                '7': { col: 7, row: 1, w: 1, h: 1 },
+                '8': { col: 8, row: 1, w: 1, h: 1 },
+                '9': { col: 1, row: 2, w: 1, h: 1 },
+                '10': { col: 2, row: 2, w: 1, h: 1 },
+                '11': { col: 3, row: 2, w: 1, h: 1 },
+                '12': { col: 4, row: 2, w: 1, h: 1 },
+                '13': { col: 5, row: 2, w: 1, h: 1 },
+                '14': { col: 6, row: 2, w: 1, h: 1 },
+                '15': { col: 7, row: 2, w: 1, h: 1 },
+                '16': { col: 8, row: 2, w: 1, h: 1 },
+                '17': { col: 1, row: 3, w: 1, h: 1 },
+                '18': { col: 2, row: 3, w: 1, h: 1 },
+                '19': { col: 3, row: 3, w: 1, h: 1 },
+                '20': { col: 4, row: 3, w: 1, h: 1 },
+                '21': { col: 5, row: 3, w: 1, h: 1 },
+                '22': { col: 6, row: 3, w: 1, h: 1 },
+                '23': { col: 7, row: 3, w: 1, h: 1 },
+                '24': { col: 8, row: 3, w: 1, h: 1 },
+                '25': { col: 1, row: 4, w: 1, h: 1 },
+                '26': { col: 2, row: 4, w: 1, h: 1 },
+                '27': { col: 3, row: 4, w: 1, h: 1 },
+                '28': { col: 4, row: 4, w: 1, h: 1 },
+                '29': { col: 5, row: 4, w: 1, h: 1 },
+                '30': { col: 6, row: 4, w: 1, h: 1 },
+                '31': { col: 7, row: 4, w: 1, h: 1 },
+                '32': { col: 8, row: 4, w: 1, h: 1 },
+                '33': { col: 1, row: 5, w: 1, h: 1 },
+                '34': { col: 2, row: 5, w: 1, h: 1 },
+                '35': { col: 3, row: 5, w: 1, h: 1 },
+                '36': { col: 4, row: 5, w: 1, h: 1 },
+                '37': { col: 5, row: 5, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Jeep Patriot MK74 2007-2017 s2t4 table; the app fuse list matches the OEM table 1:1 (position+circuit verification, cov>=0.94, popCover=1.00).',
+                'Cells are placed in the OEM numbering order (left to right, top to bottom) as listed in the source table; the exact slot geometry is approximated — verify against the fuse block label.',
+                'Layout covers the positions present in the app data; unused/absent slots are left empty and trims/options may add or remove fuses.'
+              ]
+            }
           },
         ]
       },
@@ -50760,7 +51478,55 @@ infiniti: {
               { pos: '37', amps: '—', circuit: 'DIESEL HEATER AND H2/MOD POWER TOP', desc: 'Diesel Heater and H2/MOD power top' }
             ],
             relays: [
-            ]
+            ],
+            layout: {
+              cols: 8,
+              rows: 5,
+              cells: {
+                '1': { col: 1, row: 1, w: 1, h: 1 },
+                '2': { col: 2, row: 1, w: 1, h: 1 },
+                '3': { col: 3, row: 1, w: 1, h: 1 },
+                '4': { col: 4, row: 1, w: 1, h: 1 },
+                '5': { col: 5, row: 1, w: 1, h: 1 },
+                '6': { col: 6, row: 1, w: 1, h: 1 },
+                '7': { col: 7, row: 1, w: 1, h: 1 },
+                '8': { col: 8, row: 1, w: 1, h: 1 },
+                '9': { col: 1, row: 2, w: 1, h: 1 },
+                '10': { col: 2, row: 2, w: 1, h: 1 },
+                '11': { col: 3, row: 2, w: 1, h: 1 },
+                '12': { col: 4, row: 2, w: 1, h: 1 },
+                '13': { col: 5, row: 2, w: 1, h: 1 },
+                '14': { col: 6, row: 2, w: 1, h: 1 },
+                '15': { col: 7, row: 2, w: 1, h: 1 },
+                '16': { col: 8, row: 2, w: 1, h: 1 },
+                '17': { col: 1, row: 3, w: 1, h: 1 },
+                '18': { col: 2, row: 3, w: 1, h: 1 },
+                '19': { col: 3, row: 3, w: 1, h: 1 },
+                '20': { col: 4, row: 3, w: 1, h: 1 },
+                '21': { col: 5, row: 3, w: 1, h: 1 },
+                '22': { col: 6, row: 3, w: 1, h: 1 },
+                '23': { col: 7, row: 3, w: 1, h: 1 },
+                '24': { col: 8, row: 3, w: 1, h: 1 },
+                '25': { col: 1, row: 4, w: 1, h: 1 },
+                '26': { col: 2, row: 4, w: 1, h: 1 },
+                '27': { col: 3, row: 4, w: 1, h: 1 },
+                '28': { col: 4, row: 4, w: 1, h: 1 },
+                '29': { col: 5, row: 4, w: 1, h: 1 },
+                '30': { col: 6, row: 4, w: 1, h: 1 },
+                '31': { col: 7, row: 4, w: 1, h: 1 },
+                '32': { col: 8, row: 4, w: 1, h: 1 },
+                '33': { col: 1, row: 5, w: 1, h: 1 },
+                '34': { col: 2, row: 5, w: 1, h: 1 },
+                '35': { col: 3, row: 5, w: 1, h: 1 },
+                '36': { col: 4, row: 5, w: 1, h: 1 },
+                '37': { col: 5, row: 5, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Jeep Patriot MK74 2007-2017 s2t5 table; the app fuse list matches the OEM table 1:1 (position+circuit verification, cov>=0.94, popCover=1.00).',
+                'Cells are placed in the OEM numbering order (left to right, top to bottom) as listed in the source table; the exact slot geometry is approximated — verify against the fuse block label.',
+                'Layout covers the positions present in the app data; unused/absent slots are left empty and trims/options may add or remove fuses.'
+              ]
+            }
           },
         ]
       },
@@ -52838,7 +53604,52 @@ infiniti: {
               { pos: '35', amps: 5, circuit: 'ECU-IG1 NO.2', desc: 'Engine control unit' },
               { pos: '36', amps: 5, circuit: 'ECU-IG1 NO.1', desc: 'Engine control unit' }
             ],
-            relays: []
+            relays: [],
+            layout: {
+              cols: 6,
+              rows: 6,
+              cells: {
+                '1': { col: 1, row: 1, w: 1, h: 1 },
+                '2': { col: 2, row: 1, w: 1, h: 1 },
+                '3': { col: 3, row: 1, w: 1, h: 1 },
+                '4': { col: 4, row: 1, w: 1, h: 1 },
+                '6': { col: 5, row: 1, w: 1, h: 1 },
+                '7': { col: 6, row: 1, w: 1, h: 1 },
+                '8': { col: 1, row: 2, w: 1, h: 1 },
+                '9': { col: 2, row: 2, w: 1, h: 1 },
+                '10': { col: 3, row: 2, w: 1, h: 1 },
+                '11': { col: 4, row: 2, w: 1, h: 1 },
+                '12': { col: 5, row: 2, w: 1, h: 1 },
+                '13': { col: 6, row: 2, w: 1, h: 1 },
+                '14': { col: 1, row: 3, w: 1, h: 1 },
+                '15': { col: 2, row: 3, w: 1, h: 1 },
+                '16': { col: 3, row: 3, w: 1, h: 1 },
+                '17': { col: 4, row: 3, w: 1, h: 1 },
+                '18': { col: 5, row: 3, w: 1, h: 1 },
+                '19': { col: 6, row: 3, w: 1, h: 1 },
+                '20': { col: 1, row: 4, w: 1, h: 1 },
+                '21': { col: 2, row: 4, w: 1, h: 1 },
+                '22': { col: 3, row: 4, w: 1, h: 1 },
+                '23': { col: 4, row: 4, w: 1, h: 1 },
+                '24': { col: 5, row: 4, w: 1, h: 1 },
+                '25': { col: 6, row: 4, w: 1, h: 1 },
+                '26': { col: 1, row: 5, w: 1, h: 1 },
+                '27': { col: 2, row: 5, w: 1, h: 1 },
+                '28': { col: 3, row: 5, w: 1, h: 1 },
+                '29': { col: 4, row: 5, w: 1, h: 1 },
+                '30': { col: 5, row: 5, w: 1, h: 1 },
+                '31': { col: 6, row: 5, w: 1, h: 1 },
+                '33': { col: 1, row: 6, w: 1, h: 1 },
+                '34': { col: 2, row: 6, w: 1, h: 1 },
+                '35': { col: 3, row: 6, w: 1, h: 1 },
+                '36': { col: 4, row: 6, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Lexus ES 2019-2024 s1t0 table; the app fuse list matches the OEM table 1:1 (position+circuit verification, cov>=0.94, popCover=1.00).',
+                'Cells are placed in the OEM numbering order (left to right, top to bottom) as listed in the source table; the exact slot geometry is approximated — verify against the fuse block label.',
+                'Layout covers the positions present in the app data; unused/absent slots are left empty and trims/options may add or remove fuses.'
+              ]
+            }
           },
           {
             name: 'Engine Compartment Fuse Box №1 (2GR-FKS / A25A-FKS)',
@@ -53280,7 +54091,51 @@ infiniti: {
               { pos: '38', amps: 7.5, circuit: 'PANEL', desc: 'Emergency flasher switch, seat heater switch, 4WD switch, center differential lock switch, rear differential lock switch, air suspension, VSC off switch, interior light switch, glove box light, shift position indicator light, audio system, navigation system, steering switch, parking assist system switch, headlight leveling switch, headlight cleaner switch, folding seat switch, outside rear view mirror switch, ODO/TRIP switch, P/SEAT IND, SHIFT, COOL BOX, multi-information display, air conditioning system, cup holder lights, auxiliary box light' },
               { pos: '39', amps: 10, circuit: 'TAIL', desc: 'Front position lights, tail lights, license plate lights, EFI ECU, rear fog lights, towing, front fog lights' }
             ],
-            relays: []
+            relays: [],
+            layout: {
+              cols: 6,
+              rows: 6,
+              cells: {
+                '1': { col: 1, row: 1, w: 1, h: 1 },
+                '2': { col: 2, row: 1, w: 1, h: 1 },
+                '3': { col: 3, row: 1, w: 1, h: 1 },
+                '4': { col: 4, row: 1, w: 1, h: 1 },
+                '5': { col: 5, row: 1, w: 1, h: 1 },
+                '6': { col: 6, row: 1, w: 1, h: 1 },
+                '7': { col: 1, row: 2, w: 1, h: 1 },
+                '8': { col: 2, row: 2, w: 1, h: 1 },
+                '9': { col: 3, row: 2, w: 1, h: 1 },
+                '11': { col: 4, row: 2, w: 1, h: 1 },
+                '12': { col: 5, row: 2, w: 1, h: 1 },
+                '13': { col: 6, row: 2, w: 1, h: 1 },
+                '15': { col: 1, row: 3, w: 1, h: 1 },
+                '16': { col: 2, row: 3, w: 1, h: 1 },
+                '17': { col: 3, row: 3, w: 1, h: 1 },
+                '18': { col: 4, row: 3, w: 1, h: 1 },
+                '20': { col: 5, row: 3, w: 1, h: 1 },
+                '21': { col: 6, row: 3, w: 1, h: 1 },
+                '22': { col: 1, row: 4, w: 1, h: 1 },
+                '24': { col: 2, row: 4, w: 1, h: 1 },
+                '25': { col: 3, row: 4, w: 1, h: 1 },
+                '26': { col: 4, row: 4, w: 1, h: 1 },
+                '27': { col: 5, row: 4, w: 1, h: 1 },
+                '28': { col: 6, row: 4, w: 1, h: 1 },
+                '29': { col: 1, row: 5, w: 1, h: 1 },
+                '31': { col: 2, row: 5, w: 1, h: 1 },
+                '32': { col: 3, row: 5, w: 1, h: 1 },
+                '33': { col: 4, row: 5, w: 1, h: 1 },
+                '35': { col: 5, row: 5, w: 1, h: 1 },
+                '36': { col: 6, row: 5, w: 1, h: 1 },
+                '37': { col: 1, row: 6, w: 1, h: 1 },
+                '38': { col: 2, row: 6, w: 1, h: 1 },
+                '39': { col: 3, row: 6, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Lexus GX460 2010-2017 s1t0 table; the app fuse list matches the OEM table 1:1 (position+circuit verification, cov>=0.94, popCover=1.00).',
+                'Cells are placed in the OEM numbering order (left to right, top to bottom) as listed in the source table; the exact slot geometry is approximated — verify against the fuse block label.',
+                'Layout covers the positions present in the app data; unused/absent slots are left empty and trims/options may add or remove fuses.'
+              ]
+            }
           },
           {
             name: 'Engine Compartment Fuse Box',
@@ -53348,7 +54203,79 @@ infiniti: {
               { pos: '72', amps: '—', circuit: 'SPARE', desc: 'Spare fuse' },
               { pos: '73', amps: '—', circuit: 'SPARE', desc: 'Spare fuse' }
             ],
-            relays: []
+            relays: [],
+            layout: {
+              cols: 10,
+              rows: 7,
+              cells: {
+                '1': { col: 1, row: 1, w: 1, h: 1 },
+                '3': { col: 2, row: 1, w: 1, h: 1 },
+                '4': { col: 3, row: 1, w: 1, h: 1 },
+                '6': { col: 4, row: 1, w: 1, h: 1 },
+                '8': { col: 5, row: 1, w: 1, h: 1 },
+                '11': { col: 6, row: 1, w: 1, h: 1 },
+                '13': { col: 7, row: 1, w: 1, h: 1 },
+                '14': { col: 8, row: 1, w: 1, h: 1 },
+                '15': { col: 9, row: 1, w: 1, h: 1 },
+                '16': { col: 10, row: 1, w: 1, h: 1 },
+                '18': { col: 1, row: 2, w: 1, h: 1 },
+                '19': { col: 2, row: 2, w: 1, h: 1 },
+                '20': { col: 3, row: 2, w: 1, h: 1 },
+                '21': { col: 4, row: 2, w: 1, h: 1 },
+                '22': { col: 5, row: 2, w: 1, h: 1 },
+                '24': { col: 6, row: 2, w: 1, h: 1 },
+                '25': { col: 7, row: 2, w: 1, h: 1 },
+                '26': { col: 8, row: 2, w: 1, h: 1 },
+                '27': { col: 9, row: 2, w: 1, h: 1 },
+                '29': { col: 10, row: 2, w: 1, h: 1 },
+                '30': { col: 1, row: 3, w: 1, h: 1 },
+                '31': { col: 2, row: 3, w: 1, h: 1 },
+                '32': { col: 3, row: 3, w: 1, h: 1 },
+                '33': { col: 4, row: 3, w: 1, h: 1 },
+                '34': { col: 5, row: 3, w: 1, h: 1 },
+                '36': { col: 6, row: 3, w: 1, h: 1 },
+                '37': { col: 7, row: 3, w: 1, h: 1 },
+                '38': { col: 8, row: 3, w: 1, h: 1 },
+                '39': { col: 9, row: 3, w: 1, h: 1 },
+                '40': { col: 10, row: 3, w: 1, h: 1 },
+                '41': { col: 1, row: 4, w: 1, h: 1 },
+                '42': { col: 2, row: 4, w: 1, h: 1 },
+                '43': { col: 3, row: 4, w: 1, h: 1 },
+                '45': { col: 4, row: 4, w: 1, h: 1 },
+                '46': { col: 5, row: 4, w: 1, h: 1 },
+                '47': { col: 6, row: 4, w: 1, h: 1 },
+                '49': { col: 7, row: 4, w: 1, h: 1 },
+                '50': { col: 8, row: 4, w: 1, h: 1 },
+                '51': { col: 9, row: 4, w: 1, h: 1 },
+                '52': { col: 10, row: 4, w: 1, h: 1 },
+                '53': { col: 1, row: 5, w: 1, h: 1 },
+                '54': { col: 2, row: 5, w: 1, h: 1 },
+                '55': { col: 3, row: 5, w: 1, h: 1 },
+                '56': { col: 4, row: 5, w: 1, h: 1 },
+                '57': { col: 5, row: 5, w: 1, h: 1 },
+                '58': { col: 6, row: 5, w: 1, h: 1 },
+                '59': { col: 7, row: 5, w: 1, h: 1 },
+                '60': { col: 8, row: 5, w: 1, h: 1 },
+                '61': { col: 9, row: 5, w: 1, h: 1 },
+                '62': { col: 10, row: 5, w: 1, h: 1 },
+                '63': { col: 1, row: 6, w: 1, h: 1 },
+                '64': { col: 2, row: 6, w: 1, h: 1 },
+                '65': { col: 3, row: 6, w: 1, h: 1 },
+                '66': { col: 4, row: 6, w: 1, h: 1 },
+                '67': { col: 5, row: 6, w: 1, h: 1 },
+                '68': { col: 6, row: 6, w: 1, h: 1 },
+                '69': { col: 7, row: 6, w: 1, h: 1 },
+                '70': { col: 8, row: 6, w: 1, h: 1 },
+                '71': { col: 9, row: 6, w: 1, h: 1 },
+                '72': { col: 10, row: 6, w: 1, h: 1 },
+                '73': { col: 1, row: 7, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Lexus GX460 2010-2017 s2t0 table; the app fuse list matches the OEM table 1:1 (position+circuit verification, cov>=0.94, popCover=1.00).',
+                'Cells are placed in the OEM numbering order (left to right, top to bottom) as listed in the source table; the exact slot geometry is approximated — verify against the fuse block label.',
+                'Layout covers the positions present in the app data; unused/absent slots are left empty and trims/options may add or remove fuses.'
+              ]
+            }
           }
         ]
       }
@@ -53806,7 +54733,37 @@ infiniti: {
               { pos: '19', amps: 30, circuit: 'FR WIP', desc: 'FR WIP' }
             ],
             relays: [
-            ]
+            ],
+            layout: {
+              cols: 5,
+              rows: 4,
+              cells: {
+                '1': { col: 1, row: 1, w: 1, h: 1 },
+                '2': { col: 2, row: 1, w: 1, h: 1 },
+                '3': { col: 3, row: 1, w: 1, h: 1 },
+                '4': { col: 4, row: 1, w: 1, h: 1 },
+                '5': { col: 5, row: 1, w: 1, h: 1 },
+                '6': { col: 1, row: 2, w: 1, h: 1 },
+                '7': { col: 2, row: 2, w: 1, h: 1 },
+                '8': { col: 3, row: 2, w: 1, h: 1 },
+                '9': { col: 4, row: 2, w: 1, h: 1 },
+                '10': { col: 5, row: 2, w: 1, h: 1 },
+                '11': { col: 1, row: 3, w: 1, h: 1 },
+                '12': { col: 2, row: 3, w: 1, h: 1 },
+                '13': { col: 3, row: 3, w: 1, h: 1 },
+                '14': { col: 4, row: 3, w: 1, h: 1 },
+                '15': { col: 5, row: 3, w: 1, h: 1 },
+                '16': { col: 1, row: 4, w: 1, h: 1 },
+                '17': { col: 2, row: 4, w: 1, h: 1 },
+                '18': { col: 3, row: 4, w: 1, h: 1 },
+                '19': { col: 4, row: 4, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Lexus IS XE20 2006-2013 s1t0 table; the app fuse list matches the OEM table 1:1 (position+circuit verification, cov>=0.94, popCover=1.00).',
+                'Cells are placed in the OEM numbering order (left to right, top to bottom) as listed in the source table; the exact slot geometry is approximated — verify against the fuse block label.',
+                'Layout covers the positions present in the app data; unused/absent slots are left empty and trims/options may add or remove fuses.'
+              ]
+            }
           },
           {
             name: 'Passenger Compartment Fuse Box No.2',
@@ -53831,7 +54788,35 @@ infiniti: {
               { pos: '17', amps: 10, circuit: 'ECU-IG RH', desc: 'ECU-IG RH' }
             ],
             relays: [
-            ]
+            ],
+            layout: {
+              cols: 5,
+              rows: 4,
+              cells: {
+                '1': { col: 1, row: 1, w: 1, h: 1 },
+                '2': { col: 2, row: 1, w: 1, h: 1 },
+                '3': { col: 3, row: 1, w: 1, h: 1 },
+                '4': { col: 4, row: 1, w: 1, h: 1 },
+                '5': { col: 5, row: 1, w: 1, h: 1 },
+                '6': { col: 1, row: 2, w: 1, h: 1 },
+                '7': { col: 2, row: 2, w: 1, h: 1 },
+                '8': { col: 3, row: 2, w: 1, h: 1 },
+                '9': { col: 4, row: 2, w: 1, h: 1 },
+                '10': { col: 5, row: 2, w: 1, h: 1 },
+                '11': { col: 1, row: 3, w: 1, h: 1 },
+                '12': { col: 2, row: 3, w: 1, h: 1 },
+                '13': { col: 3, row: 3, w: 1, h: 1 },
+                '14': { col: 4, row: 3, w: 1, h: 1 },
+                '15': { col: 5, row: 3, w: 1, h: 1 },
+                '16': { col: 1, row: 4, w: 1, h: 1 },
+                '17': { col: 2, row: 4, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Lexus IS XE20 2006-2013 s2t0 table; the app fuse list matches the OEM table 1:1 (position+circuit verification, cov>=0.94, popCover=1.00).',
+                'Cells are placed in the OEM numbering order (left to right, top to bottom) as listed in the source table; the exact slot geometry is approximated — verify against the fuse block label.',
+                'Layout covers the positions present in the app data; unused/absent slots are left empty and trims/options may add or remove fuses.'
+              ]
+            }
           },
           {
             name: 'Engine Compartment Fuse Box No.1',
@@ -53902,7 +54887,43 @@ infiniti: {
               { pos: '25', amps: 15, circuit: 'FR FOG', desc: 'FR FOG' }
             ],
             relays: [
-            ]
+            ],
+            layout: {
+              cols: 10,
+              rows: 3,
+              cells: {
+                '1': { col: 1, row: 1, w: 1, h: 1 },
+                '2': { col: 2, row: 1, w: 1, h: 1 },
+                '3': { col: 3, row: 1, w: 1, h: 1 },
+                '4': { col: 4, row: 1, w: 1, h: 1 },
+                '5': { col: 5, row: 1, w: 1, h: 1 },
+                '6': { col: 6, row: 1, w: 1, h: 1 },
+                '7': { col: 7, row: 1, w: 1, h: 1 },
+                '8': { col: 8, row: 1, w: 1, h: 1 },
+                '9': { col: 9, row: 1, w: 1, h: 1 },
+                '10': { col: 10, row: 1, w: 1, h: 1 },
+                '11': { col: 1, row: 2, w: 1, h: 1 },
+                '12': { col: 2, row: 2, w: 1, h: 1 },
+                '13': { col: 3, row: 2, w: 1, h: 1 },
+                '14': { col: 4, row: 2, w: 1, h: 1 },
+                '15': { col: 5, row: 2, w: 1, h: 1 },
+                '16': { col: 6, row: 2, w: 1, h: 1 },
+                '17': { col: 7, row: 2, w: 1, h: 1 },
+                '18': { col: 8, row: 2, w: 1, h: 1 },
+                '19': { col: 9, row: 2, w: 1, h: 1 },
+                '20': { col: 10, row: 2, w: 1, h: 1 },
+                '21': { col: 1, row: 3, w: 1, h: 1 },
+                '22': { col: 2, row: 3, w: 1, h: 1 },
+                '23': { col: 3, row: 3, w: 1, h: 1 },
+                '24': { col: 4, row: 3, w: 1, h: 1 },
+                '25': { col: 5, row: 3, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Lexus IS XE20 2006-2013 s4t0 table; the app fuse list matches the OEM table 1:1 (position+circuit verification, cov>=0.94, popCover=1.00).',
+                'Cells are placed in the OEM numbering order (left to right, top to bottom) as listed in the source table; the exact slot geometry is approximated — verify against the fuse block label.',
+                'Layout covers the positions present in the app data; unused/absent slots are left empty and trims/options may add or remove fuses.'
+              ]
+            }
           },
         ]
       },
@@ -54002,7 +55023,52 @@ infiniti: {
               { pos: 's', amps: '—', circuit: 'SPARE FUSE', desc: 'Spare fuse' }
             ],
             relays: [
-            ]
+            ],
+            layout: {
+              cols: 10,
+              rows: 4,
+              cells: {
+                '1': { col: 1, row: 1, w: 1, h: 1 },
+                '2': { col: 2, row: 1, w: 1, h: 1 },
+                '3': { col: 3, row: 1, w: 1, h: 1 },
+                '4': { col: 4, row: 1, w: 1, h: 1 },
+                '5': { col: 5, row: 1, w: 1, h: 1 },
+                '6': { col: 6, row: 1, w: 1, h: 1 },
+                '7': { col: 7, row: 1, w: 1, h: 1 },
+                '8': { col: 8, row: 1, w: 1, h: 1 },
+                '9': { col: 9, row: 1, w: 1, h: 1 },
+                '10': { col: 10, row: 1, w: 1, h: 1 },
+                '11': { col: 1, row: 2, w: 1, h: 1 },
+                '12': { col: 2, row: 2, w: 1, h: 1 },
+                '13': { col: 3, row: 2, w: 1, h: 1 },
+                '14': { col: 4, row: 2, w: 1, h: 1 },
+                '15': { col: 5, row: 2, w: 1, h: 1 },
+                '25A': { col: 6, row: 2, w: 1, h: 1 },
+                '16': { col: 7, row: 2, w: 1, h: 1 },
+                '17': { col: 8, row: 2, w: 1, h: 1 },
+                '18': { col: 9, row: 2, w: 1, h: 1 },
+                '19': { col: 10, row: 2, w: 1, h: 1 },
+                '20': { col: 1, row: 3, w: 1, h: 1 },
+                '21': { col: 2, row: 3, w: 1, h: 1 },
+                '22': { col: 3, row: 3, w: 1, h: 1 },
+                '23': { col: 4, row: 3, w: 1, h: 1 },
+                '24': { col: 5, row: 3, w: 1, h: 1 },
+                '25': { col: 6, row: 3, w: 1, h: 1 },
+                '26': { col: 7, row: 3, w: 1, h: 1 },
+                '27': { col: 8, row: 3, w: 1, h: 1 },
+                '28': { col: 9, row: 3, w: 1, h: 1 },
+                '29': { col: 10, row: 3, w: 1, h: 1 },
+                '30': { col: 1, row: 4, w: 1, h: 1 },
+                '31': { col: 2, row: 4, w: 1, h: 1 },
+                '32': { col: 3, row: 4, w: 1, h: 1 },
+                's': { col: 4, row: 4, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Lexus IS 2014-2024 s2t0 table; the app fuse list matches the OEM table 1:1 (position+circuit verification, cov>=0.94, popCover=1.00).',
+                'Cells are placed in the OEM numbering order (left to right, top to bottom) as listed in the source table; the exact slot geometry is approximated — verify against the fuse block label.',
+                'Layout covers the positions present in the app data; unused/absent slots are left empty and trims/options may add or remove fuses.'
+              ]
+            }
           },
           {
             name: 'Engine Compartment Fuse Box No.2',
@@ -54041,7 +55107,49 @@ infiniti: {
               { pos: '32', amps: 30, circuit: 'H-LP MAIN RH', desc: 'H-LP MAIN RH' }
             ],
             relays: [
-            ]
+            ],
+            layout: {
+              cols: 10,
+              rows: 4,
+              cells: {
+                '1': { col: 1, row: 1, w: 1, h: 1 },
+                '2': { col: 2, row: 1, w: 1, h: 1 },
+                '3': { col: 3, row: 1, w: 1, h: 1 },
+                '4': { col: 4, row: 1, w: 1, h: 1 },
+                '5': { col: 5, row: 1, w: 1, h: 1 },
+                '6': { col: 6, row: 1, w: 1, h: 1 },
+                '7': { col: 7, row: 1, w: 1, h: 1 },
+                '8': { col: 8, row: 1, w: 1, h: 1 },
+                '30A': { col: 9, row: 1, w: 1, h: 1 },
+                '9': { col: 10, row: 1, w: 1, h: 1 },
+                '10': { col: 1, row: 2, w: 1, h: 1 },
+                '11': { col: 2, row: 2, w: 1, h: 1 },
+                '12': { col: 3, row: 2, w: 1, h: 1 },
+                '13': { col: 4, row: 2, w: 1, h: 1 },
+                '14': { col: 5, row: 2, w: 1, h: 1 },
+                '15': { col: 6, row: 2, w: 1, h: 1 },
+                '16': { col: 7, row: 2, w: 1, h: 1 },
+                '17': { col: 8, row: 2, w: 1, h: 1 },
+                '19': { col: 9, row: 2, w: 1, h: 1 },
+                '20': { col: 10, row: 2, w: 1, h: 1 },
+                '21': { col: 1, row: 3, w: 1, h: 1 },
+                '22': { col: 2, row: 3, w: 1, h: 1 },
+                '23': { col: 3, row: 3, w: 1, h: 1 },
+                '24': { col: 4, row: 3, w: 1, h: 1 },
+                '25': { col: 5, row: 3, w: 1, h: 1 },
+                '27': { col: 6, row: 3, w: 1, h: 1 },
+                '28': { col: 7, row: 3, w: 1, h: 1 },
+                '29': { col: 8, row: 3, w: 1, h: 1 },
+                '30': { col: 9, row: 3, w: 1, h: 1 },
+                '31': { col: 10, row: 3, w: 1, h: 1 },
+                '32': { col: 1, row: 4, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Lexus IS 2014-2024 s2t1 table; the app fuse list matches the OEM table 1:1 (position+circuit verification, cov>=0.94, popCover=1.00).',
+                'Cells are placed in the OEM numbering order (left to right, top to bottom) as listed in the source table; the exact slot geometry is approximated — verify against the fuse block label.',
+                'Layout covers the positions present in the app data; unused/absent slots are left empty and trims/options may add or remove fuses.'
+              ]
+            }
           },
         ]
       },
@@ -68902,7 +70010,48 @@ acura: {
                 { pos: '37', amps: 10, circuit: 'IGPS VSS', desc: 'IGPS (VSS) (3.5L engine) (if equipped)' },
                 { pos: '38', amps: 10, circuit: 'SUB FAN DIODE', desc: 'Cooling fan diode (3.5L engine)' },
                 { pos: '39', amps: 10, circuit: 'IGPS ABV', desc: 'IGPS (ABV) (3.0L engine)' },
+              ],
+            layout: {
+              cols: 10,
+              rows: 3,
+              cells: {
+                '1': { col: 1, row: 1, w: 1, h: 1 },
+                '2': { col: 2, row: 1, w: 1, h: 1 },
+                '3': { col: 3, row: 1, w: 1, h: 1 },
+                '4': { col: 4, row: 1, w: 1, h: 1 },
+                '5': { col: 5, row: 1, w: 1, h: 1 },
+                '6': { col: 6, row: 1, w: 1, h: 1 },
+                '7': { col: 7, row: 1, w: 1, h: 1 },
+                '8': { col: 8, row: 1, w: 1, h: 1 },
+                '9': { col: 9, row: 1, w: 1, h: 1 },
+                '11': { col: 10, row: 1, w: 1, h: 1 },
+                '13': { col: 1, row: 2, w: 1, h: 1 },
+                '14': { col: 2, row: 2, w: 1, h: 1 },
+                '15': { col: 3, row: 2, w: 1, h: 1 },
+                '16': { col: 4, row: 2, w: 1, h: 1 },
+                '18': { col: 5, row: 2, w: 1, h: 1 },
+                '19': { col: 6, row: 2, w: 1, h: 1 },
+                '20': { col: 7, row: 2, w: 1, h: 1 },
+                '21': { col: 8, row: 2, w: 1, h: 1 },
+                '23': { col: 9, row: 2, w: 1, h: 1 },
+                '25': { col: 10, row: 2, w: 1, h: 1 },
+                '26': { col: 1, row: 3, w: 1, h: 1 },
+                '27': { col: 2, row: 3, w: 1, h: 1 },
+                '28': { col: 3, row: 3, w: 1, h: 1 },
+                '31': { col: 4, row: 3, w: 1, h: 1 },
+                '32': { col: 5, row: 3, w: 1, h: 1 },
+                '33': { col: 6, row: 3, w: 1, h: 1 },
+                '36': { col: 7, row: 3, w: 1, h: 1 },
+                '37': { col: 8, row: 3, w: 1, h: 1 },
+                '38': { col: 9, row: 3, w: 1, h: 1 },
+                '39': { col: 10, row: 3, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Acura MDX 2022-2026 s1t0 table; the app fuse list matches the OEM table 1:1 (position+circuit verification, cov>=0.94, popCover=1.00).',
+                'Cells are placed in the OEM numbering order (left to right, top to bottom) as listed in the source table; the exact slot geometry is approximated — verify against the fuse block label.',
+                'Layout covers the positions present in the app data; unused/absent slots are left empty and trims/options may add or remove fuses.'
               ]
+            }
             },
             {
               name: 'Engine Compartment Main Fuses',
@@ -68914,7 +70063,25 @@ acura: {
                 { pos: '5', amps: 40, circuit: 'ESB', desc: 'Electric servo brake' },
                 { pos: '6', amps: 60, circuit: 'RFC2', desc: 'Radiator fan control 2' },
                 { pos: '7', amps: 60, circuit: 'RFC1', desc: 'Radiator fan control 1' },
+              ],
+            layout: {
+              cols: 4,
+              rows: 2,
+              cells: {
+                '1': { col: 1, row: 1, w: 1, h: 1 },
+                '2': { col: 2, row: 1, w: 1, h: 1 },
+                '3': { col: 3, row: 1, w: 1, h: 1 },
+                '4': { col: 4, row: 1, w: 1, h: 1 },
+                '5': { col: 1, row: 2, w: 1, h: 1 },
+                '6': { col: 2, row: 2, w: 1, h: 1 },
+                '7': { col: 3, row: 2, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Acura MDX 2022-2026 s1t1 table; the app fuse list matches the OEM table 1:1 (position+circuit verification, cov>=0.94, popCover=1.00).',
+                'Cells are placed in the OEM numbering order (left to right, top to bottom) as listed in the source table; the exact slot geometry is approximated — verify against the fuse block label.',
+                'Layout covers the positions present in the app data; unused/absent slots are left empty and trims/options may add or remove fuses.'
               ]
+            }
             },
             {
               name: 'Passenger Compartment Fuse Box',
@@ -68987,7 +70154,27 @@ acura: {
                 { pos: '10', amps: 20, circuit: 'SECOND ROW SEAT HEATERS', desc: 'Second Row Seat Heaters* (if equipped)' },
                 { pos: '11', amps: 20, circuit: 'ACCESSORY POWER SOCKET ON THE REAR OF THE CONSOLE COMPARTMENT', desc: 'Accessory Power Socket (on the rear of the Console Compartment)' },
                 { pos: '12', amps: 20, circuit: 'ACCESSORY POWER SOCKET FRONT CONSOLE', desc: 'Accessory Power Socket (Front Console)' },
+              ],
+            layout: {
+              cols: 5,
+              rows: 2,
+              cells: {
+                '2': { col: 1, row: 1, w: 1, h: 1 },
+                '3': { col: 2, row: 1, w: 1, h: 1 },
+                '4': { col: 3, row: 1, w: 1, h: 1 },
+                '5': { col: 4, row: 1, w: 1, h: 1 },
+                '6': { col: 5, row: 1, w: 1, h: 1 },
+                '7': { col: 1, row: 2, w: 1, h: 1 },
+                '10': { col: 2, row: 2, w: 1, h: 1 },
+                '11': { col: 3, row: 2, w: 1, h: 1 },
+                '12': { col: 4, row: 2, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Acura MDX 2022-2026 s2t1 table; the app fuse list matches the OEM table 1:1 (position+circuit verification, cov>=0.94, popCover=1.00).',
+                'Cells are placed in the OEM numbering order (left to right, top to bottom) as listed in the source table; the exact slot geometry is approximated — verify against the fuse block label.',
+                'Layout covers the positions present in the app data; unused/absent slots are left empty and trims/options may add or remove fuses.'
               ]
+            }
             },
             {
               name: 'Luggage Compartment Fuse Box',
@@ -69013,7 +70200,38 @@ acura: {
                 { pos: '23', amps: 10, circuit: 'BATTERY SENSOR', desc: 'Battery Sensor* (if equipped)' },
                 { pos: '25', amps: 20, circuit: 'THIRD ROW SEAT ACCESS', desc: 'Third Row Seat Access' },
                 { pos: '26', amps: 20, circuit: 'TRAILER CHARGE', desc: 'Trailer Charge* (if equipped)' },
+              ],
+            layout: {
+              cols: 10,
+              rows: 2,
+              cells: {
+                '1': { col: 1, row: 1, w: 1, h: 1 },
+                '2': { col: 2, row: 1, w: 1, h: 1 },
+                '3': { col: 3, row: 1, w: 1, h: 1 },
+                '5': { col: 4, row: 1, w: 1, h: 1 },
+                '10': { col: 5, row: 1, w: 1, h: 1 },
+                '11': { col: 6, row: 1, w: 1, h: 1 },
+                '12': { col: 7, row: 1, w: 1, h: 1 },
+                '13': { col: 8, row: 1, w: 1, h: 1 },
+                '14': { col: 9, row: 1, w: 1, h: 1 },
+                '15': { col: 10, row: 1, w: 1, h: 1 },
+                '16': { col: 1, row: 2, w: 1, h: 1 },
+                '17': { col: 2, row: 2, w: 1, h: 1 },
+                '18': { col: 3, row: 2, w: 1, h: 1 },
+                '19': { col: 4, row: 2, w: 1, h: 1 },
+                '20': { col: 5, row: 2, w: 1, h: 1 },
+                '21': { col: 6, row: 2, w: 1, h: 1 },
+                '22': { col: 7, row: 2, w: 1, h: 1 },
+                '23': { col: 8, row: 2, w: 1, h: 1 },
+                '25': { col: 9, row: 2, w: 1, h: 1 },
+                '26': { col: 10, row: 2, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Acura MDX 2022-2026 s3t0 table; the app fuse list matches the OEM table 1:1 (position+circuit verification, cov>=0.94, popCover=1.00).',
+                'Cells are placed in the OEM numbering order (left to right, top to bottom) as listed in the source table; the exact slot geometry is approximated — verify against the fuse block label.',
+                'Layout covers the positions present in the app data; unused/absent slots are left empty and trims/options may add or remove fuses.'
               ]
+            }
             },
             {
               name: 'Luggage Compartment Main Fuses',
@@ -69023,7 +70241,23 @@ acura: {
                 { pos: 'F', amps: 70, circuit: 'REAR FUSE BOX 1', desc: 'Rear fuse box main feed 1' },
                 { pos: 'G', amps: 60, circuit: 'FUSE BOX 2', desc: 'Fuse box main feed 2' },
                 { pos: 'H', amps: 70, circuit: 'REAR FUSE BOX 2', desc: 'Rear fuse box main feed 2' },
+              ],
+            layout: {
+              cols: 5,
+              rows: 1,
+              cells: {
+                'B': { col: 1, row: 1, w: 1, h: 1 },
+                'D': { col: 2, row: 1, w: 1, h: 1 },
+                'F': { col: 3, row: 1, w: 1, h: 1 },
+                'G': { col: 4, row: 1, w: 1, h: 1 },
+                'H': { col: 5, row: 1, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Acura MDX 2022-2026 s3t1 table; the app fuse list matches the OEM table 1:1 (position+circuit verification, cov>=0.94, popCover=1.00).',
+                'Cells are placed in the OEM numbering order (left to right, top to bottom) as listed in the source table; the exact slot geometry is approximated — verify against the fuse block label.',
+                'Layout covers the positions present in the app data; unused/absent slots are left empty and trims/options may add or remove fuses.'
               ]
+            }
             },
         ]
       },
@@ -69060,7 +70294,45 @@ acura: {
                 { pos: '29', amps: 30, circuit: 'MAIN FAN', desc: 'Radiator main cooling fan' },
                 { pos: '30', amps: 30, circuit: 'SUB FAN', desc: 'Secondary cooling fan' },
                 { pos: '31', amps: 30, circuit: 'WIPER MAIN', desc: 'Wiper Main' },
+              ],
+            layout: {
+              cols: 10,
+              rows: 3,
+              cells: {
+                '1': { col: 1, row: 1, w: 1, h: 1 },
+                '3': { col: 2, row: 1, w: 1, h: 1 },
+                '4': { col: 3, row: 1, w: 1, h: 1 },
+                '5': { col: 4, row: 1, w: 1, h: 1 },
+                '6': { col: 5, row: 1, w: 1, h: 1 },
+                '7': { col: 6, row: 1, w: 1, h: 1 },
+                '8': { col: 7, row: 1, w: 1, h: 1 },
+                '9': { col: 8, row: 1, w: 1, h: 1 },
+                '10': { col: 9, row: 1, w: 1, h: 1 },
+                '11': { col: 10, row: 1, w: 1, h: 1 },
+                '12': { col: 1, row: 2, w: 1, h: 1 },
+                '13': { col: 2, row: 2, w: 1, h: 1 },
+                '14': { col: 3, row: 2, w: 1, h: 1 },
+                '15': { col: 4, row: 2, w: 1, h: 1 },
+                '16': { col: 5, row: 2, w: 1, h: 1 },
+                '17': { col: 6, row: 2, w: 1, h: 1 },
+                '18': { col: 7, row: 2, w: 1, h: 1 },
+                '20': { col: 8, row: 2, w: 1, h: 1 },
+                '22': { col: 9, row: 2, w: 1, h: 1 },
+                '24': { col: 10, row: 2, w: 1, h: 1 },
+                '25': { col: 1, row: 3, w: 1, h: 1 },
+                '26': { col: 2, row: 3, w: 1, h: 1 },
+                '27': { col: 3, row: 3, w: 1, h: 1 },
+                '28': { col: 4, row: 3, w: 1, h: 1 },
+                '29': { col: 5, row: 3, w: 1, h: 1 },
+                '30': { col: 6, row: 3, w: 1, h: 1 },
+                '31': { col: 7, row: 3, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Acura MDX YD3 2014-2018 s2t11 table; the app fuse list matches the OEM table 1:1 (position+circuit verification, cov>=0.94, popCover=1.00).',
+                'Cells are placed in the OEM numbering order (left to right, top to bottom) as listed in the source table; the exact slot geometry is approximated — verify against the fuse block label.',
+                'Layout covers the positions present in the app data; unused/absent slots are left empty and trims/options may add or remove fuses.'
               ]
+            }
             },
             {
               name: 'Engine Compartment Fuse Box No. 2',
@@ -69078,7 +70350,30 @@ acura: {
                 { pos: '9', amps: 10, circuit: 'HAZARD', desc: 'Hazard warning lights' },
                 { pos: '10', amps: 7.5, circuit: 'BMS', desc: 'Battery management system / battery sensor' },
                 { pos: '11', amps: 7.5, circuit: 'SMALL LT NOT AVAILABLE ON ALL MODELS', desc: 'Small LT (Not available on all models)' },
+              ],
+            layout: {
+              cols: 6,
+              rows: 2,
+              cells: {
+                '1': { col: 1, row: 1, w: 1, h: 1 },
+                '2': { col: 2, row: 1, w: 1, h: 1 },
+                '3': { col: 3, row: 1, w: 1, h: 1 },
+                '4': { col: 4, row: 1, w: 1, h: 1 },
+                '5': { col: 5, row: 1, w: 1, h: 1 },
+                '6': { col: 6, row: 1, w: 1, h: 1 },
+                '7': { col: 1, row: 2, w: 1, h: 1 },
+                '8': { col: 2, row: 2, w: 1, h: 1 },
+                '8': { col: 3, row: 2, w: 1, h: 1 },
+                '9': { col: 4, row: 2, w: 1, h: 1 },
+                '10': { col: 5, row: 2, w: 1, h: 1 },
+                '11': { col: 6, row: 2, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Acura MDX YD3 2014-2018 s2t6 table; the app fuse list matches the OEM table 1:1 (position+circuit verification, cov>=0.94, popCover=1.00).',
+                'Cells are placed in the OEM numbering order (left to right, top to bottom) as listed in the source table; the exact slot geometry is approximated — verify against the fuse block label.',
+                'Layout covers the positions present in the app data; unused/absent slots are left empty and trims/options may add or remove fuses.'
               ]
+            }
             },
             {
               name: 'Passenger Compartment Fuse Box',
@@ -69113,7 +70408,47 @@ acura: {
                 { pos: '30', amps: 7.5, circuit: 'INT LIGHTS', desc: 'INT Lights' },
                 { pos: '31', amps: 20, circuit: 'ETS TILT', desc: 'ETS TILT' },
                 { pos: '32', amps: 20, circuit: 'DR P/SEAT REC', desc: 'DR P/Seat (REC)' },
+              ],
+            layout: {
+              cols: 6,
+              rows: 5,
+              cells: {
+                '1': { col: 1, row: 1, w: 1, h: 1 },
+                '2': { col: 2, row: 1, w: 1, h: 1 },
+                '3': { col: 3, row: 1, w: 1, h: 1 },
+                '4': { col: 4, row: 1, w: 1, h: 1 },
+                '5': { col: 5, row: 1, w: 1, h: 1 },
+                '6': { col: 6, row: 1, w: 1, h: 1 },
+                '7': { col: 1, row: 2, w: 1, h: 1 },
+                '9': { col: 2, row: 2, w: 1, h: 1 },
+                '10': { col: 3, row: 2, w: 1, h: 1 },
+                '11': { col: 4, row: 2, w: 1, h: 1 },
+                '12': { col: 5, row: 2, w: 1, h: 1 },
+                '13': { col: 6, row: 2, w: 1, h: 1 },
+                '15': { col: 1, row: 3, w: 1, h: 1 },
+                '16': { col: 2, row: 3, w: 1, h: 1 },
+                '17': { col: 3, row: 3, w: 1, h: 1 },
+                '18': { col: 4, row: 3, w: 1, h: 1 },
+                '19': { col: 5, row: 3, w: 1, h: 1 },
+                '21': { col: 6, row: 3, w: 1, h: 1 },
+                '22': { col: 1, row: 4, w: 1, h: 1 },
+                '23': { col: 2, row: 4, w: 1, h: 1 },
+                '24': { col: 3, row: 4, w: 1, h: 1 },
+                '25': { col: 4, row: 4, w: 1, h: 1 },
+                '26': { col: 5, row: 4, w: 1, h: 1 },
+                '27': { col: 6, row: 4, w: 1, h: 1 },
+                '28': { col: 1, row: 5, w: 1, h: 1 },
+                '29': { col: 2, row: 5, w: 1, h: 1 },
+                '30': { col: 3, row: 5, w: 1, h: 1 },
+                '31': { col: 4, row: 5, w: 1, h: 1 },
+                '32': { col: 5, row: 5, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Acura MDX YD3 2014-2018 s2t7 table; the app fuse list matches the OEM table 1:1 (position+circuit verification, cov>=0.94, popCover=1.00).',
+                'Cells are placed in the OEM numbering order (left to right, top to bottom) as listed in the source table; the exact slot geometry is approximated — verify against the fuse block label.',
+                'Layout covers the positions present in the app data; unused/absent slots are left empty and trims/options may add or remove fuses.'
               ]
+            }
             },
             {
               name: 'Passenger’s Side Interior Fuse Box',
@@ -69129,7 +70464,28 @@ acura: {
                 { pos: '13', amps: 7.5, circuit: 'AUDIO/TCU', desc: 'Audio system / telematics control unit' },
                 { pos: '14', amps: 10, circuit: 'BACK UP', desc: 'Backup lights' },
                 { pos: '15', amps: 20, circuit: 'AUDIO/ANC', desc: 'Audio system / active noise cancellation' },
+              ],
+            layout: {
+              cols: 5,
+              rows: 2,
+              cells: {
+                '1': { col: 1, row: 1, w: 1, h: 1 },
+                '2': { col: 2, row: 1, w: 1, h: 1 },
+                '3': { col: 3, row: 1, w: 1, h: 1 },
+                '9': { col: 4, row: 1, w: 1, h: 1 },
+                '10': { col: 5, row: 1, w: 1, h: 1 },
+                '11': { col: 1, row: 2, w: 1, h: 1 },
+                '12': { col: 2, row: 2, w: 1, h: 1 },
+                '13': { col: 3, row: 2, w: 1, h: 1 },
+                '14': { col: 4, row: 2, w: 1, h: 1 },
+                '15': { col: 5, row: 2, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Acura MDX YD3 2014-2018 s2t8 table; the app fuse list matches the OEM table 1:1 (position+circuit verification, cov>=0.94, popCover=1.00).',
+                'Cells are placed in the OEM numbering order (left to right, top to bottom) as listed in the source table; the exact slot geometry is approximated — verify against the fuse block label.',
+                'Layout covers the positions present in the app data; unused/absent slots are left empty and trims/options may add or remove fuses.'
               ]
+            }
             },
             {
               name: 'Rear Fuse Box',
@@ -69157,7 +70513,40 @@ acura: {
                 { pos: '26', amps: 30, circuit: 'EPT L NOT AVAILABLE ON ALL MODELS', desc: 'EPT L (Not available on all models) (if equipped)' },
                 { pos: '27', amps: 20, circuit: 'CTR ACC SOCKET', desc: 'Center console 12V accessory socket' },
                 { pos: '28', amps: 30, circuit: 'AC INVTR', desc: 'AC power inverter (if equipped)' },
+              ],
+            layout: {
+              cols: 8,
+              rows: 3,
+              cells: {
+                '1': { col: 1, row: 1, w: 1, h: 1 },
+                '2': { col: 2, row: 1, w: 1, h: 1 },
+                '3': { col: 3, row: 1, w: 1, h: 1 },
+                '4': { col: 4, row: 1, w: 1, h: 1 },
+                '5': { col: 5, row: 1, w: 1, h: 1 },
+                '6': { col: 6, row: 1, w: 1, h: 1 },
+                '7': { col: 7, row: 1, w: 1, h: 1 },
+                '8': { col: 8, row: 1, w: 1, h: 1 },
+                '9': { col: 1, row: 2, w: 1, h: 1 },
+                '10': { col: 2, row: 2, w: 1, h: 1 },
+                '11': { col: 3, row: 2, w: 1, h: 1 },
+                '14': { col: 4, row: 2, w: 1, h: 1 },
+                '15': { col: 5, row: 2, w: 1, h: 1 },
+                '18': { col: 6, row: 2, w: 1, h: 1 },
+                '19': { col: 7, row: 2, w: 1, h: 1 },
+                '20': { col: 8, row: 2, w: 1, h: 1 },
+                '21': { col: 1, row: 3, w: 1, h: 1 },
+                '24': { col: 2, row: 3, w: 1, h: 1 },
+                '25': { col: 3, row: 3, w: 1, h: 1 },
+                '26': { col: 4, row: 3, w: 1, h: 1 },
+                '27': { col: 5, row: 3, w: 1, h: 1 },
+                '28': { col: 6, row: 3, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Acura MDX YD3 2014-2018 s2t9 table; the app fuse list matches the OEM table 1:1 (position+circuit verification, cov>=0.94, popCover=1.00).',
+                'Cells are placed in the OEM numbering order (left to right, top to bottom) as listed in the source table; the exact slot geometry is approximated — verify against the fuse block label.',
+                'Layout covers the positions present in the app data; unused/absent slots are left empty and trims/options may add or remove fuses.'
               ]
+            }
             },
             {
               name: 'Trunk Fuse Box',
@@ -69174,7 +70563,29 @@ acura: {
                 { pos: '15', amps: 30, circuit: 'EPB-R', desc: 'Electric parking brake — right' },
                 { pos: '16', amps: 30, circuit: 'EPB-L', desc: 'Electric parking brake — left' },
                 { pos: '18', amps: 40, circuit: 'PTG MTR', desc: 'Power tailgate motor' },
+              ],
+            layout: {
+              cols: 6,
+              rows: 2,
+              cells: {
+                '1': { col: 1, row: 1, w: 1, h: 1 },
+                '3': { col: 2, row: 1, w: 1, h: 1 },
+                '4': { col: 3, row: 1, w: 1, h: 1 },
+                '5': { col: 4, row: 1, w: 1, h: 1 },
+                '7': { col: 5, row: 1, w: 1, h: 1 },
+                '12': { col: 6, row: 1, w: 1, h: 1 },
+                '13': { col: 1, row: 2, w: 1, h: 1 },
+                '14': { col: 2, row: 2, w: 1, h: 1 },
+                '15': { col: 3, row: 2, w: 1, h: 1 },
+                '16': { col: 4, row: 2, w: 1, h: 1 },
+                '18': { col: 5, row: 2, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Acura MDX YD3 2014-2018 s2t16 table; the app fuse list matches the OEM table 1:1 (position+circuit verification, cov>=0.94, popCover=1.00).',
+                'Cells are placed in the OEM numbering order (left to right, top to bottom) as listed in the source table; the exact slot geometry is approximated — verify against the fuse block label.',
+                'Layout covers the positions present in the app data; unused/absent slots are left empty and trims/options may add or remove fuses.'
               ]
+            }
             },
         ]
       },
@@ -69215,7 +70626,47 @@ acura: {
                 { pos: '30', amps: 10, circuit: 'L H/L LO', desc: 'L H/L LO' },
                 { pos: '31', amps: 10, circuit: 'VBACT', desc: 'VBACT' },
                 { pos: '32', amps: 10, circuit: 'IGPS LAF', desc: 'IGPS (LAF)' },
+              ],
+            layout: {
+              cols: 10,
+              rows: 3,
+              cells: {
+                '3': { col: 1, row: 1, w: 1, h: 1 },
+                '4': { col: 2, row: 1, w: 1, h: 1 },
+                '5': { col: 3, row: 1, w: 1, h: 1 },
+                '6': { col: 4, row: 1, w: 1, h: 1 },
+                '7': { col: 5, row: 1, w: 1, h: 1 },
+                '8': { col: 6, row: 1, w: 1, h: 1 },
+                '9': { col: 7, row: 1, w: 1, h: 1 },
+                '10': { col: 8, row: 1, w: 1, h: 1 },
+                '11': { col: 9, row: 1, w: 1, h: 1 },
+                '12': { col: 10, row: 1, w: 1, h: 1 },
+                '13': { col: 1, row: 2, w: 1, h: 1 },
+                '14': { col: 2, row: 2, w: 1, h: 1 },
+                '15': { col: 3, row: 2, w: 1, h: 1 },
+                '16': { col: 4, row: 2, w: 1, h: 1 },
+                '17': { col: 5, row: 2, w: 1, h: 1 },
+                '18': { col: 6, row: 2, w: 1, h: 1 },
+                '19': { col: 7, row: 2, w: 1, h: 1 },
+                '20': { col: 8, row: 2, w: 1, h: 1 },
+                '21': { col: 9, row: 2, w: 1, h: 1 },
+                '22': { col: 10, row: 2, w: 1, h: 1 },
+                '23': { col: 1, row: 3, w: 1, h: 1 },
+                '24': { col: 2, row: 3, w: 1, h: 1 },
+                '25': { col: 3, row: 3, w: 1, h: 1 },
+                '26': { col: 4, row: 3, w: 1, h: 1 },
+                '27': { col: 5, row: 3, w: 1, h: 1 },
+                '29': { col: 6, row: 3, w: 1, h: 1 },
+                '30': { col: 7, row: 3, w: 1, h: 1 },
+                '31': { col: 8, row: 3, w: 1, h: 1 },
+                '32': { col: 9, row: 3, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Acura RDX 2019 s1t0 table; the app fuse list matches the OEM table 1:1 (position+circuit verification, cov>=0.94, popCover=1.00).',
+                'Cells are placed in the OEM numbering order (left to right, top to bottom) as listed in the source table; the exact slot geometry is approximated — verify against the fuse block label.',
+                'Layout covers the positions present in the app data; unused/absent slots are left empty and trims/options may add or remove fuses.'
               ]
+            }
             },
             {
               name: 'Engine Compartment Fuse Box No. 2',
@@ -69249,7 +70700,46 @@ acura: {
                 { pos: '22', amps: 7.5, circuit: 'TRL HAZARD NOT AVAILABLE ON ALL MODELS', desc: 'TRL HAZARD (Not available on all models)' },
                 { pos: '23', amps: 10, circuit: 'BMS', desc: 'Battery management system / battery sensor' },
                 { pos: '24', amps: 40, circuit: 'PTG MTR', desc: 'Power tailgate motor' },
+              ],
+            layout: {
+              cols: 10,
+              rows: 3,
+              cells: {
+                '1': { col: 1, row: 1, w: 1, h: 1 },
+                '1': { col: 2, row: 1, w: 1, h: 1 },
+                '1': { col: 3, row: 1, w: 1, h: 1 },
+                '1': { col: 4, row: 1, w: 1, h: 1 },
+                '1': { col: 5, row: 1, w: 1, h: 1 },
+                '1': { col: 6, row: 1, w: 1, h: 1 },
+                '1': { col: 7, row: 1, w: 1, h: 1 },
+                '4': { col: 8, row: 1, w: 1, h: 1 },
+                '5': { col: 9, row: 1, w: 1, h: 1 },
+                '6': { col: 10, row: 1, w: 1, h: 1 },
+                '7': { col: 1, row: 2, w: 1, h: 1 },
+                '8': { col: 2, row: 2, w: 1, h: 1 },
+                '9': { col: 3, row: 2, w: 1, h: 1 },
+                '10': { col: 4, row: 2, w: 1, h: 1 },
+                '11': { col: 5, row: 2, w: 1, h: 1 },
+                '12': { col: 6, row: 2, w: 1, h: 1 },
+                '13': { col: 7, row: 2, w: 1, h: 1 },
+                '14': { col: 8, row: 2, w: 1, h: 1 },
+                '15': { col: 9, row: 2, w: 1, h: 1 },
+                '16': { col: 10, row: 2, w: 1, h: 1 },
+                '17': { col: 1, row: 3, w: 1, h: 1 },
+                '18': { col: 2, row: 3, w: 1, h: 1 },
+                '19': { col: 3, row: 3, w: 1, h: 1 },
+                '20': { col: 4, row: 3, w: 1, h: 1 },
+                '21': { col: 5, row: 3, w: 1, h: 1 },
+                '22': { col: 6, row: 3, w: 1, h: 1 },
+                '23': { col: 7, row: 3, w: 1, h: 1 },
+                '24': { col: 8, row: 3, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Acura RDX 2019 s1t1 table; the app fuse list matches the OEM table 1:1 (position+circuit verification, cov>=0.94, popCover=1.00).',
+                'Cells are placed in the OEM numbering order (left to right, top to bottom) as listed in the source table; the exact slot geometry is approximated — verify against the fuse block label.',
+                'Layout covers the positions present in the app data; unused/absent slots are left empty and trims/options may add or remove fuses.'
               ]
+            }
             },
             {
               name: 'Engine Compartment Main Fuses',
@@ -69299,7 +70789,52 @@ acura: {
                 { pos: '38', amps: 20, circuit: 'DOOR LOCK', desc: 'DOOR LOCK' },
                 { pos: '39', amps: 20, circuit: 'AS P/W', desc: 'AS P/W' },
                 { pos: 'A', amps: 20, circuit: 'REAR SEAT HEATER NOT AVAILABLE ON ALL MODELS', desc: 'REAR SEAT HEATER (Not available on all models)' },
+              ],
+            layout: {
+              cols: 6,
+              rows: 6,
+              cells: {
+                '1': { col: 1, row: 1, w: 1, h: 1 },
+                '2': { col: 2, row: 1, w: 1, h: 1 },
+                '3': { col: 3, row: 1, w: 1, h: 1 },
+                '9': { col: 4, row: 1, w: 1, h: 1 },
+                '10': { col: 5, row: 1, w: 1, h: 1 },
+                '11': { col: 6, row: 1, w: 1, h: 1 },
+                '12': { col: 1, row: 2, w: 1, h: 1 },
+                '13': { col: 2, row: 2, w: 1, h: 1 },
+                '14': { col: 3, row: 2, w: 1, h: 1 },
+                '15': { col: 4, row: 2, w: 1, h: 1 },
+                '16': { col: 5, row: 2, w: 1, h: 1 },
+                '17': { col: 6, row: 2, w: 1, h: 1 },
+                '18': { col: 1, row: 3, w: 1, h: 1 },
+                '19': { col: 2, row: 3, w: 1, h: 1 },
+                '20': { col: 3, row: 3, w: 1, h: 1 },
+                '21': { col: 4, row: 3, w: 1, h: 1 },
+                '22': { col: 5, row: 3, w: 1, h: 1 },
+                '23': { col: 6, row: 3, w: 1, h: 1 },
+                '24': { col: 1, row: 4, w: 1, h: 1 },
+                '25': { col: 2, row: 4, w: 1, h: 1 },
+                '26': { col: 3, row: 4, w: 1, h: 1 },
+                '27': { col: 4, row: 4, w: 1, h: 1 },
+                '28': { col: 5, row: 4, w: 1, h: 1 },
+                '29': { col: 6, row: 4, w: 1, h: 1 },
+                '30': { col: 1, row: 5, w: 1, h: 1 },
+                '31': { col: 2, row: 5, w: 1, h: 1 },
+                '33': { col: 3, row: 5, w: 1, h: 1 },
+                '34': { col: 4, row: 5, w: 1, h: 1 },
+                '35': { col: 5, row: 5, w: 1, h: 1 },
+                '36': { col: 6, row: 5, w: 1, h: 1 },
+                '37': { col: 1, row: 6, w: 1, h: 1 },
+                '38': { col: 2, row: 6, w: 1, h: 1 },
+                '39': { col: 3, row: 6, w: 1, h: 1 },
+                'A': { col: 4, row: 6, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Acura RDX 2019 s2t0 table; the app fuse list matches the OEM table 1:1 (position+circuit verification, cov>=0.94, popCover=1.00).',
+                'Cells are placed in the OEM numbering order (left to right, top to bottom) as listed in the source table; the exact slot geometry is approximated — verify against the fuse block label.',
+                'Layout covers the positions present in the app data; unused/absent slots are left empty and trims/options may add or remove fuses.'
               ]
+            }
             },
             {
               name: 'Passenger Compartment Main Fuses',
@@ -69318,7 +70853,20 @@ acura: {
               fuses: [
                 { pos: '3', amps: 10, circuit: 'A/C MG GL', desc: 'A/C compressor magnetic clutch' },
                 { pos: '5', amps: 20, circuit: 'FR H/SEAT', desc: 'Front seat heater' },
+              ],
+            layout: {
+              cols: 2,
+              rows: 1,
+              cells: {
+                '3': { col: 1, row: 1, w: 1, h: 1 },
+                '5': { col: 2, row: 1, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Acura RDX 2019 s2t2 table; the app fuse list matches the OEM table 1:1 (position+circuit verification, cov>=0.94, popCover=1.00).',
+                'Cells are placed in the OEM numbering order (left to right, top to bottom) as listed in the source table; the exact slot geometry is approximated — verify against the fuse block label.',
+                'Layout covers the positions present in the app data; unused/absent slots are left empty and trims/options may add or remove fuses.'
               ]
+            }
             },
         ]
       },
@@ -69364,7 +70912,52 @@ acura: {
                 { pos: '52', amps: 20, circuit: 'RR L P/W', desc: 'RR L P/W' },
                 { pos: '53', amps: 20, circuit: 'AS P/W', desc: 'AS P/W' },
                 { pos: '54', amps: 20, circuit: 'DRIVER P/W', desc: 'DRIVER P/W' },
+              ],
+            layout: {
+              cols: 6,
+              rows: 6,
+              cells: {
+                '2': { col: 1, row: 1, w: 1, h: 1 },
+                '3': { col: 2, row: 1, w: 1, h: 1 },
+                '4': { col: 3, row: 1, w: 1, h: 1 },
+                '6': { col: 4, row: 1, w: 1, h: 1 },
+                '8': { col: 5, row: 1, w: 1, h: 1 },
+                '9': { col: 6, row: 1, w: 1, h: 1 },
+                '10': { col: 1, row: 2, w: 1, h: 1 },
+                '11': { col: 2, row: 2, w: 1, h: 1 },
+                '12': { col: 3, row: 2, w: 1, h: 1 },
+                '13': { col: 4, row: 2, w: 1, h: 1 },
+                '14': { col: 5, row: 2, w: 1, h: 1 },
+                '15': { col: 6, row: 2, w: 1, h: 1 },
+                '16': { col: 1, row: 3, w: 1, h: 1 },
+                '17': { col: 2, row: 3, w: 1, h: 1 },
+                '18': { col: 3, row: 3, w: 1, h: 1 },
+                '19': { col: 4, row: 3, w: 1, h: 1 },
+                '20': { col: 5, row: 3, w: 1, h: 1 },
+                '21': { col: 6, row: 3, w: 1, h: 1 },
+                '29': { col: 1, row: 4, w: 1, h: 1 },
+                '32': { col: 2, row: 4, w: 1, h: 1 },
+                '35': { col: 3, row: 4, w: 1, h: 1 },
+                '36': { col: 4, row: 4, w: 1, h: 1 },
+                '37': { col: 5, row: 4, w: 1, h: 1 },
+                '38': { col: 6, row: 4, w: 1, h: 1 },
+                '42': { col: 1, row: 5, w: 1, h: 1 },
+                '45': { col: 2, row: 5, w: 1, h: 1 },
+                '46': { col: 3, row: 5, w: 1, h: 1 },
+                '48': { col: 4, row: 5, w: 1, h: 1 },
+                '49': { col: 5, row: 5, w: 1, h: 1 },
+                '50': { col: 6, row: 5, w: 1, h: 1 },
+                '51': { col: 1, row: 6, w: 1, h: 1 },
+                '52': { col: 2, row: 6, w: 1, h: 1 },
+                '53': { col: 3, row: 6, w: 1, h: 1 },
+                '54': { col: 4, row: 6, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Acura TLX 2021-2022 s1t0 table; the app fuse list matches the OEM table 1:1 (position+circuit verification, cov>=0.94, popCover=1.00).',
+                'Cells are placed in the OEM numbering order (left to right, top to bottom) as listed in the source table; the exact slot geometry is approximated — verify against the fuse block label.',
+                'Layout covers the positions present in the app data; unused/absent slots are left empty and trims/options may add or remove fuses.'
               ]
+            }
             },
             {
               name: 'Engine Compartment Fuse Box',
@@ -69405,7 +70998,53 @@ acura: {
                 { pos: '48', amps: 10, circuit: 'BACK UP VST', desc: 'BACK UP (VST)' },
                 { pos: '49', amps: 10, circuit: 'IDAS VST', desc: 'IDAS (VST)' },
                 { pos: '50', amps: 10, circuit: 'BCM VST', desc: 'BCM (VST)' },
+              ],
+            layout: {
+              cols: 10,
+              rows: 4,
+              cells: {
+                '1': { col: 1, row: 1, w: 1, h: 1 },
+                '4': { col: 2, row: 1, w: 1, h: 1 },
+                '5': { col: 3, row: 1, w: 1, h: 1 },
+                '6': { col: 4, row: 1, w: 1, h: 1 },
+                '7': { col: 5, row: 1, w: 1, h: 1 },
+                '8': { col: 6, row: 1, w: 1, h: 1 },
+                '9': { col: 7, row: 1, w: 1, h: 1 },
+                '10': { col: 8, row: 1, w: 1, h: 1 },
+                '11': { col: 9, row: 1, w: 1, h: 1 },
+                '12': { col: 10, row: 1, w: 1, h: 1 },
+                '13': { col: 1, row: 2, w: 1, h: 1 },
+                '14': { col: 2, row: 2, w: 1, h: 1 },
+                '15': { col: 3, row: 2, w: 1, h: 1 },
+                '16': { col: 4, row: 2, w: 1, h: 1 },
+                '17': { col: 5, row: 2, w: 1, h: 1 },
+                '18': { col: 6, row: 2, w: 1, h: 1 },
+                '21': { col: 7, row: 2, w: 1, h: 1 },
+                '23': { col: 8, row: 2, w: 1, h: 1 },
+                '24': { col: 9, row: 2, w: 1, h: 1 },
+                '31': { col: 10, row: 2, w: 1, h: 1 },
+                '32': { col: 1, row: 3, w: 1, h: 1 },
+                '33': { col: 2, row: 3, w: 1, h: 1 },
+                '34': { col: 3, row: 3, w: 1, h: 1 },
+                '35': { col: 4, row: 3, w: 1, h: 1 },
+                '36': { col: 5, row: 3, w: 1, h: 1 },
+                '37': { col: 6, row: 3, w: 1, h: 1 },
+                '39': { col: 7, row: 3, w: 1, h: 1 },
+                '40': { col: 8, row: 3, w: 1, h: 1 },
+                '41': { col: 9, row: 3, w: 1, h: 1 },
+                '42': { col: 10, row: 3, w: 1, h: 1 },
+                '46': { col: 1, row: 4, w: 1, h: 1 },
+                '47': { col: 2, row: 4, w: 1, h: 1 },
+                '48': { col: 3, row: 4, w: 1, h: 1 },
+                '49': { col: 4, row: 4, w: 1, h: 1 },
+                '50': { col: 5, row: 4, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Acura TLX 2021-2022 s2t0 table; the app fuse list matches the OEM table 1:1 (position+circuit verification, cov>=0.94, popCover=1.00).',
+                'Cells are placed in the OEM numbering order (left to right, top to bottom) as listed in the source table; the exact slot geometry is approximated — verify against the fuse block label.',
+                'Layout covers the positions present in the app data; unused/absent slots are left empty and trims/options may add or remove fuses.'
               ]
+            }
             },
             {
               name: 'Engine Compartment Main Fuses',
@@ -69416,7 +71055,24 @@ acura: {
                 { pos: '4', amps: 40, circuit: 'VSA', desc: 'Vehicle Stability Assist' },
                 { pos: '5', amps: 40, circuit: 'ESB', desc: 'Electric servo brake' },
                 { pos: '7', amps: 30, circuit: 'FAN1', desc: 'FAN1 (2.0L engine)' },
+              ],
+            layout: {
+              cols: 4,
+              rows: 2,
+              cells: {
+                '1': { col: 1, row: 1, w: 1, h: 1 },
+                '2': { col: 2, row: 1, w: 1, h: 1 },
+                '3': { col: 3, row: 1, w: 1, h: 1 },
+                '4': { col: 4, row: 1, w: 1, h: 1 },
+                '5': { col: 1, row: 2, w: 1, h: 1 },
+                '7': { col: 2, row: 2, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Acura TLX 2021-2022 s2t1 table; the app fuse list matches the OEM table 1:1 (position+circuit verification, cov>=0.94, popCover=1.00).',
+                'Cells are placed in the OEM numbering order (left to right, top to bottom) as listed in the source table; the exact slot geometry is approximated — verify against the fuse block label.',
+                'Layout covers the positions present in the app data; unused/absent slots are left empty and trims/options may add or remove fuses.'
               ]
+            }
             },
             {
               name: 'Rear Fuse Box',
@@ -69433,7 +71089,29 @@ acura: {
                 { pos: '14', amps: 40, circuit: 'REAR DEFROSTER', desc: 'REAR DEFROSTER' },
                 { pos: '15', amps: 30, circuit: '4WD', desc: '4WD* (if equipped)' },
                 { pos: '17', amps: 30, circuit: 'IG MAIN 2', desc: 'IG MAIN 2' },
+              ],
+            layout: {
+              cols: 6,
+              rows: 2,
+              cells: {
+                '1': { col: 1, row: 1, w: 1, h: 1 },
+                '2': { col: 2, row: 1, w: 1, h: 1 },
+                '3': { col: 3, row: 1, w: 1, h: 1 },
+                '4': { col: 4, row: 1, w: 1, h: 1 },
+                '5': { col: 5, row: 1, w: 1, h: 1 },
+                '6': { col: 6, row: 1, w: 1, h: 1 },
+                '7': { col: 1, row: 2, w: 1, h: 1 },
+                '12': { col: 2, row: 2, w: 1, h: 1 },
+                '14': { col: 3, row: 2, w: 1, h: 1 },
+                '15': { col: 4, row: 2, w: 1, h: 1 },
+                '17': { col: 5, row: 2, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Acura TLX 2021-2022 s3t0 table; the app fuse list matches the OEM table 1:1 (position+circuit verification, cov>=0.94, popCover=1.00).',
+                'Cells are placed in the OEM numbering order (left to right, top to bottom) as listed in the source table; the exact slot geometry is approximated — verify against the fuse block label.',
+                'Layout covers the positions present in the app data; unused/absent slots are left empty and trims/options may add or remove fuses.'
               ]
+            }
             },
             {
               name: 'Trunk Room Fuse Box',
@@ -69444,7 +71122,23 @@ acura: {
                 { pos: 'e', amps: 70, circuit: 'REAR BOX 1', desc: 'Rear fuse box main feed 1' },
                 { pos: 'f', amps: 60, circuit: 'FUSE BOX 2', desc: 'Fuse box main feed 2' },
                 { pos: 'g', amps: 70, circuit: 'REAR BOX 2', desc: 'Rear fuse box main feed 2' },
+              ],
+            layout: {
+              cols: 5,
+              rows: 1,
+              cells: {
+                'a': { col: 1, row: 1, w: 1, h: 1 },
+                'c': { col: 2, row: 1, w: 1, h: 1 },
+                'e': { col: 3, row: 1, w: 1, h: 1 },
+                'f': { col: 4, row: 1, w: 1, h: 1 },
+                'g': { col: 5, row: 1, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Acura TLX 2021-2022 s4t0 table; the app fuse list matches the OEM table 1:1 (position+circuit verification, cov>=0.94, popCover=1.00).',
+                'Cells are placed in the OEM numbering order (left to right, top to bottom) as listed in the source table; the exact slot geometry is approximated — verify against the fuse block label.',
+                'Layout covers the positions present in the app data; unused/absent slots are left empty and trims/options may add or remove fuses.'
               ]
+            }
             },
         ]
       },
@@ -69482,7 +71176,46 @@ acura: {
                 { pos: '27', amps: 15, circuit: 'PARKING LIGHTS 4-CYLINDER MODELS 6-CYLINDER MODELS WITH 2WD', desc: 'Parking Lights (4-cylinder models, 6-cylinder models with 2WD)' },
                 { pos: '28', amps: 7.5, circuit: 'BMS', desc: 'Battery management system / battery sensor' },
                 { pos: '29', amps: 10, circuit: 'BACK UP', desc: 'Backup lights' },
+              ],
+            layout: {
+              cols: 10,
+              rows: 3,
+              cells: {
+                '1': { col: 1, row: 1, w: 1, h: 1 },
+                '2': { col: 2, row: 1, w: 1, h: 1 },
+                '3': { col: 3, row: 1, w: 1, h: 1 },
+                '8': { col: 4, row: 1, w: 1, h: 1 },
+                '9': { col: 5, row: 1, w: 1, h: 1 },
+                '10': { col: 6, row: 1, w: 1, h: 1 },
+                '11': { col: 7, row: 1, w: 1, h: 1 },
+                '12': { col: 8, row: 1, w: 1, h: 1 },
+                '13': { col: 9, row: 1, w: 1, h: 1 },
+                '14': { col: 10, row: 1, w: 1, h: 1 },
+                '15': { col: 1, row: 2, w: 1, h: 1 },
+                '16': { col: 2, row: 2, w: 1, h: 1 },
+                '17': { col: 3, row: 2, w: 1, h: 1 },
+                '17': { col: 4, row: 2, w: 1, h: 1 },
+                '18': { col: 5, row: 2, w: 1, h: 1 },
+                '19': { col: 6, row: 2, w: 1, h: 1 },
+                '19': { col: 7, row: 2, w: 1, h: 1 },
+                '20': { col: 8, row: 2, w: 1, h: 1 },
+                '20': { col: 9, row: 2, w: 1, h: 1 },
+                '21': { col: 10, row: 2, w: 1, h: 1 },
+                '22': { col: 1, row: 3, w: 1, h: 1 },
+                '23': { col: 2, row: 3, w: 1, h: 1 },
+                '24': { col: 3, row: 3, w: 1, h: 1 },
+                '25': { col: 4, row: 3, w: 1, h: 1 },
+                '26': { col: 5, row: 3, w: 1, h: 1 },
+                '27': { col: 6, row: 3, w: 1, h: 1 },
+                '28': { col: 7, row: 3, w: 1, h: 1 },
+                '29': { col: 8, row: 3, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Acura TLX 2014-2018 s2t8 table; the app fuse list matches the OEM table 1:1 (position+circuit verification, cov>=0.94, popCover=1.00).',
+                'Cells are placed in the OEM numbering order (left to right, top to bottom) as listed in the source table; the exact slot geometry is approximated — verify against the fuse block label.',
+                'Layout covers the positions present in the app data; unused/absent slots are left empty and trims/options may add or remove fuses.'
               ]
+            }
             },
             {
               name: 'Headlight Low Beam Fuse Box',
@@ -69492,7 +71225,22 @@ acura: {
                 { pos: '2', amps: 7.5, circuit: 'RIGHT HEADLIGHT LOW BEAM', desc: 'Right Headlight Low Beam' },
                 { pos: '3', amps: 7.5, circuit: 'RIGHT HEADLIGHT HIGH BEAM', desc: 'Right Headlight High Beam' },
                 { pos: '4', amps: 7.5, circuit: 'LEFT HEADLIGHT HIGH BEAM', desc: 'Left Headlight High Beam' },
+              ],
+            layout: {
+              cols: 4,
+              rows: 1,
+              cells: {
+                '1': { col: 1, row: 1, w: 1, h: 1 },
+                '2': { col: 2, row: 1, w: 1, h: 1 },
+                '3': { col: 3, row: 1, w: 1, h: 1 },
+                '4': { col: 4, row: 1, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Acura TLX 2014-2018 s2t1 table; the app fuse list matches the OEM table 1:1 (position+circuit verification, cov>=0.94, popCover=1.00).',
+                'Cells are placed in the OEM numbering order (left to right, top to bottom) as listed in the source table; the exact slot geometry is approximated — verify against the fuse block label.',
+                'Layout covers the positions present in the app data; unused/absent slots are left empty and trims/options may add or remove fuses.'
               ]
+            }
             },
             {
               name: 'Interior Fuse Box',
@@ -69558,7 +71306,24 @@ acura: {
                 { pos: '6', amps: 40, circuit: 'P-AWS R', desc: 'P-AWS R (if equipped)' },
                 { pos: '7', amps: 15, circuit: 'FR DE-ICE NOT AVAILABLE ON ALL MODELS', desc: 'FR DE-ICE (Not available on all models) (if equipped)' },
                 { pos: '8', amps: 30, circuit: 'IDLE STOP AWD MODELS', desc: 'Idle Stop (AWD models) (if equipped)' },
+              ],
+            layout: {
+              cols: 3,
+              rows: 2,
+              cells: {
+                '1': { col: 1, row: 1, w: 1, h: 1 },
+                '4': { col: 2, row: 1, w: 1, h: 1 },
+                '5': { col: 3, row: 1, w: 1, h: 1 },
+                '6': { col: 1, row: 2, w: 1, h: 1 },
+                '7': { col: 2, row: 2, w: 1, h: 1 },
+                '8': { col: 3, row: 2, w: 1, h: 1 },
+              },
+              notes: [
+                'Transcribed from the fuse-box.info Acura TLX 2014-2018 s2t11 table; the app fuse list matches the OEM table 1:1 (position+circuit verification, cov>=0.94, popCover=1.00).',
+                'Cells are placed in the OEM numbering order (left to right, top to bottom) as listed in the source table; the exact slot geometry is approximated — verify against the fuse block label.',
+                'Layout covers the positions present in the app data; unused/absent slots are left empty and trims/options may add or remove fuses.'
               ]
+            }
             },
         ]
       },
