@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import {
   Crown, ArrowRight, X, CheckCircle2, AlertTriangle, Mail,
-  CreditCard, Calendar, Shield, Zap, ChevronRight, ExternalLink
+  CreditCard, Calendar, Shield, ChevronRight, ExternalLink, Loader2
 } from 'lucide-react';
 import { formatDate } from '../utils/helpers';
 import { isCapacitorIOS } from '../utils/platform.js';
+import { normalizePlan, tierForPlan, getTier, TIER_BY_ID } from '../utils/tiering.js';
 
 const SUBSCRIPTION_KEYS = {
   PLAN: 'mtxtrkr_subscription_plan',
@@ -12,9 +13,17 @@ const SUBSCRIPTION_KEYS = {
   NEXT_BILLING: 'mtxtrkr_subscription_next_billing',
 };
 
+// Legacy direct payment link for Family ($4.99/mo — the pre-tier "monthly"
+// link). Used ONLY as a fallback when the API checkout is unreachable.
+// Fleet has no direct link — it always goes through the API session
+// (STRIPE_PRICE_ID_FLEET), which returns a clean error until configured.
+const FAMILY_PAYMENT_LINK = 'https://buy.stripe.com/6oU9AT5ko1Ob6GV36b0sU00';
+
 export function getSubscriptionData() {
+  // Read-time normalization: legacy 'monthly'/'yearly' values are interpreted
+  // as 'family' (one-time migration, monthly-only model — no rewrite needed).
   return {
-    plan: localStorage.getItem(SUBSCRIPTION_KEYS.PLAN) || 'monthly',
+    plan: normalizePlan(localStorage.getItem(SUBSCRIPTION_KEYS.PLAN)),
     status: localStorage.getItem(SUBSCRIPTION_KEYS.STATUS) || null,
     nextBilling: localStorage.getItem(SUBSCRIPTION_KEYS.NEXT_BILLING) || null,
   };
@@ -32,25 +41,46 @@ export function clearSubscriptionData() {
   localStorage.removeItem(SUBSCRIPTION_KEYS.NEXT_BILLING);
 }
 
-// Estimate next billing date based on plan type and current date
-function estimateNextBilling(plan, status) {
+// App-wide tier helpers — single source of truth for tier lookups.
+export { tierForPlan, getTier, TIER_BY_ID };
+
+/**
+ * Start Stripe checkout via the serverless API (api/create-checkout-session.js).
+ * POSTs { userId, tier } ('family' | 'fleet') and returns the checkout URL.
+ * Throws an Error with a user-safe message when the API refuses (e.g. Fleet
+ * price not configured yet — the owner must add STRIPE_PRICE_ID_FLEET).
+ */
+export async function startTierCheckout({ tier, userId }) {
+  let res;
+  try {
+    res = await fetch('/api/create-checkout-session', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId, tier }),
+    });
+  } catch (e) {
+    throw new Error('Could not reach checkout. Check your connection and try again.');
+  }
+  let data = {};
+  try { data = await res.json(); } catch (e) { /* non-JSON error body */ }
+  if (!res.ok) {
+    throw new Error(data?.error || `Checkout failed (${res.status})`);
+  }
+  if (!data?.url) {
+    throw new Error('Checkout session did not return a payment URL.');
+  }
+  return data.url;
+}
+
+// Estimate next billing date (monthly only — 3-tier model has no annual).
+function estimateNextBilling(status) {
   if (status !== 'active') return null;
   const stored = localStorage.getItem(SUBSCRIPTION_KEYS.NEXT_BILLING);
   if (stored) return stored;
-  // Estimate: start from today + interval
   const d = new Date();
-  if (plan === 'yearly') {
-    d.setFullYear(d.getFullYear() + 1);
-  } else {
-    d.setMonth(d.getMonth() + 1);
-  }
+  d.setMonth(d.getMonth() + 1);
   return d.toISOString().split('T')[0];
 }
-
-const STRIPE_URLS = {
-  monthly: 'https://buy.stripe.com/6oU9AT5ko1Ob6GV36b0sU00',
-  yearly: 'https://buy.stripe.com/eVq00j1480K77KZayD0sU01',
-};
 
 export default function SubscriptionManagement({ userId, isPremium, onNavigate, trackEvent }) {
   const isIOS = isCapacitorIOS();
@@ -58,14 +88,13 @@ export default function SubscriptionManagement({ userId, isPremium, onNavigate, 
   const [showCancelConfirm, setShowCancelConfirm] = useState(false);
   const [cancelled, setCancelled] = useState(sub.status === 'cancelled');
   const [showIOSNotice, setShowIOSNotice] = useState(false);
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState(null);
 
-  const plan = sub.plan || 'monthly';
+  const tier = getTier({ isPremium });
   const status = cancelled ? 'cancelled' : sub.status;
-  const nextBilling = estimateNextBilling(plan, status);
-
-  const planLabel = plan === 'yearly' ? 'Yearly' : 'Monthly';
-  const planPrice = plan === 'yearly' ? '$39.99/yr' : '$4.99/mo';
-  const planSavings = plan === 'yearly' ? 'Save 33% vs monthly' : null;
+  const nextBilling = estimateNextBilling(status);
+  const tierDef = TIER_BY_ID[tier.id] || TIER_BY_ID.family;
 
   const handleCancel = () => {
     // Mark as cancelled locally + show instructions
@@ -73,24 +102,28 @@ export default function SubscriptionManagement({ userId, isPremium, onNavigate, 
     localStorage.removeItem(SUBSCRIPTION_KEYS.NEXT_BILLING);
     setCancelled(true);
     setShowCancelConfirm(false);
-    trackEvent?.('subscription_cancelled', { plan, userId });
+    trackEvent?.('subscription_cancelled', { tier: tier.id, userId });
   };
 
-  const handleReactivate = () => {
+  const handleReactivate = async () => {
     if (isIOS) { setShowIOSNotice(true); return; }
-    const stripeUrl = STRIPE_URLS[plan];
-    const url = userId ? `${stripeUrl}?client_reference_id=${userId}&prefilled_email=${userId}` : stripeUrl;
-    trackEvent?.('subscription_reactivate_started', { plan, userId });
-    window.location.href = url;
-  };
-
-  const handleUpgradeToYearly = () => {
-    if (isIOS) { setShowIOSNotice(true); return; }
-    const url = userId
-      ? `${STRIPE_URLS.yearly}?client_reference_id=${userId}&prefilled_email=${userId}`
-      : STRIPE_URLS.yearly;
-    trackEvent?.('subscription_upgrade_yearly_started', { userId });
-    window.location.href = url;
+    setBusy(true);
+    setError(null);
+    trackEvent?.('subscription_reactivate_started', { tier: tier.id, userId });
+    try {
+      const url = await startTierCheckout({ tier: tier.id, userId });
+      window.location.href = url;
+    } catch (e) {
+      // Fallback for Family: legacy direct payment link (proven in production).
+      if (tier.id === 'family') {
+        window.location.href = userId
+          ? `${FAMILY_PAYMENT_LINK}?client_reference_id=${userId}&prefilled_email=${userId}`
+          : FAMILY_PAYMENT_LINK;
+      } else {
+        setError(e.message);
+        setBusy(false);
+      }
+    }
   };
 
   const handleContactSupport = () => {
@@ -104,13 +137,13 @@ export default function SubscriptionManagement({ userId, isPremium, onNavigate, 
           <Crown className="w-6 h-6 text-blue-400" />
         </div>
         <h3 className="text-sm font-bold text-white mb-2">No Active Subscription</h3>
-        <p className="text-xs text-slate-500 mb-4">Upgrade to premium to manage your subscription.</p>
+        <p className="text-xs text-slate-500 mb-4">Upgrade to Family or Fleet to manage your subscription.</p>
         <button
           onClick={() => onNavigate('premium')}
           className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white text-xs font-medium shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 transition-all"
         >
           <Crown className="w-3.5 h-3.5" />
-          Upgrade to Premium
+          Choose a Plan
         </button>
       </div>
     );
@@ -121,7 +154,7 @@ export default function SubscriptionManagement({ userId, isPremium, onNavigate, 
       <div className="mb-6">
         <h2 className="text-xl font-bold text-white">Subscription</h2>
         <p className="text-sm text-slate-400 mt-0.5">
-          Manage your MTXtrkr Premium plan
+          Manage your MTXtrkr {tierDef.label} plan
         </p>
       </div>
 
@@ -142,15 +175,12 @@ export default function SubscriptionManagement({ userId, isPremium, onNavigate, 
                 }`} />
               </div>
               <div>
-                <h3 className="text-sm font-bold text-white flex items-center gap-2">
-                  MTXtrkr Premium
-                  {planSavings && (
-                    <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-bold uppercase tracking-tighter">
-                      Best Value
-                    </span>
-                  )}
+                <h3 className="text-sm font-bold text-white">
+                  MTXtrkr {tierDef.label}
                 </h3>
-                <p className="text-xs text-slate-400">{planLabel} — {planPrice}</p>
+                <p className="text-xs text-slate-400">
+                  {tierDef.label === 'Fleet' ? 'Unlimited vehicles' : `Up to ${tierDef.vehicleLimit} vehicles`} — {tierDef.priceLabel}
+                </p>
               </div>
             </div>
             {/* Status Badge */}
@@ -182,25 +212,22 @@ export default function SubscriptionManagement({ userId, isPremium, onNavigate, 
               <div>
                 <p className="text-xs font-semibold text-amber-300 mb-0.5">Subscription Cancelled</p>
                 <p className="text-[10px] text-slate-400 leading-relaxed">
-                  Your premium features will remain active until the end of your current billing period, then you'll revert to the free plan.
+                  Your paid features will remain active until the end of your current billing period, then you'll revert to the free plan.
                 </p>
               </div>
             </div>
           )}
 
+          {/* Error (e.g. Fleet checkout not configured yet) */}
+          {error && (
+            <div className="flex items-start gap-2 p-3 rounded-xl bg-red-500/5 border border-red-500/20 mb-4">
+              <AlertTriangle className="w-4 h-4 text-red-400 shrink-0 mt-0.5" />
+              <p className="text-xs text-red-300 leading-relaxed">{error}</p>
+            </div>
+          )}
+
           {/* Action Buttons */}
           <div className="space-y-2">
-            {status === 'active' && plan === 'monthly' && (
-              <button
-                onClick={handleUpgradeToYearly}
-                className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white text-sm font-medium shadow-lg shadow-blue-500/20 hover:shadow-blue-500/30 transition-all"
-              >
-                <Zap className="w-4 h-4" />
-                Upgrade to Yearly — Save 33%
-                <ArrowRight className="w-4 h-4" />
-              </button>
-            )}
-
             {status === 'active' && !showCancelConfirm && (
               <button
                 onClick={() => setShowCancelConfirm(true)}
@@ -215,14 +242,14 @@ export default function SubscriptionManagement({ userId, isPremium, onNavigate, 
               <div className="space-y-2 p-3 rounded-xl bg-red-500/5 border border-red-500/20">
                 <p className="text-xs text-red-300 font-medium">Are you sure you want to cancel?</p>
                 <p className="text-[10px] text-slate-400 mb-2">
-                  Your premium features will remain active until the end of the current billing period. After that, you'll lose access to premium features.
+                  Your paid features will remain active until the end of the current billing period. After that, you'll lose access.
                 </p>
                 <div className="flex gap-2">
                   <button
                     onClick={() => setShowCancelConfirm(false)}
                     className="flex-1 py-2 rounded-lg border border-slate-700 text-xs font-medium text-slate-300 hover:bg-slate-800 transition-all"
                   >
-                    Keep Premium
+                    Keep Plan
                   </button>
                   <button
                     onClick={handleCancel}
@@ -237,11 +264,12 @@ export default function SubscriptionManagement({ userId, isPremium, onNavigate, 
             {status === 'cancelled' && (
               <button
                 onClick={handleReactivate}
-                className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white text-sm font-medium shadow-lg shadow-blue-500/20 hover:shadow-blue-500/30 transition-all"
+                disabled={busy}
+                className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white text-sm font-medium shadow-lg shadow-blue-500/20 hover:shadow-blue-500/30 transition-all disabled:opacity-60"
               >
-                <CheckCircle2 className="w-4 h-4" />
-                Reactivate Subscription
-                <ArrowRight className="w-4 h-4" />
+                {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : <CheckCircle2 className="w-4 h-4" />}
+                {busy ? 'Starting checkout…' : 'Reactivate Subscription'}
+                {!busy && <ArrowRight className="w-4 h-4" />}
               </button>
             )}
           </div>
@@ -257,7 +285,7 @@ export default function SubscriptionManagement({ userId, isPremium, onNavigate, 
               <div className="flex-1">
                 <h3 className="text-sm font-semibold text-white mb-1">Manage on the Web</h3>
                 <p className="text-xs text-slate-400 leading-relaxed mb-3">
-                  Premium management (upgrades, plan changes) is available at <strong className="text-blue-300">www.MTXtrkr.com</strong>. Visit on any desktop or mobile browser to manage your subscription.
+                  Subscription management (upgrades, plan changes) is available at <strong className="text-blue-300">www.MTXtrkr.com</strong>. Visit on any desktop or mobile browser to manage your subscription.
                 </p>
                 <button
                   onClick={() => setShowIOSNotice(false)}
@@ -279,11 +307,17 @@ export default function SubscriptionManagement({ userId, isPremium, onNavigate, 
           <div className="space-y-3">
             <div className="flex items-center justify-between text-xs">
               <span className="text-slate-400">Plan</span>
-              <span className="text-white font-medium">MTXtrkr Premium — {planLabel}</span>
+              <span className="text-white font-medium">MTXtrkr {tierDef.label} — monthly</span>
+            </div>
+            <div className="flex items-center justify-between text-xs">
+              <span className="text-slate-400">Vehicles</span>
+              <span className="text-white font-medium">
+                {tierDef.vehicleLimit === Infinity ? 'Unlimited' : `Up to ${tierDef.vehicleLimit}`}
+              </span>
             </div>
             <div className="flex items-center justify-between text-xs">
               <span className="text-slate-400">Price</span>
-              <span className="text-white font-medium">{planPrice}</span>
+              <span className="text-white font-medium">{tierDef.priceLabel}</span>
             </div>
             <div className="flex items-center justify-between text-xs">
               <span className="text-slate-400">Status</span>

@@ -42,6 +42,7 @@ export default async function handler(req, res) {
 
     return res.status(200).json({
       success: true,
+      tier: 'family', // owner-restore maps to Family (3-tier model, monthly-only)
       profile: {
         id: profile.id,
         email: profile.email,

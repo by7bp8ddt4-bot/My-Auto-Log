@@ -2,7 +2,7 @@ import VehicleList from '../components/VehicleList.jsx';
 
 export default function VehiclesPage({
   vehiclesStore, addVehicle, sync, showSyncError,
-  supabaseVehicles, premium, navigate,
+  supabaseVehicles, premium, tier, navigate,
 }) {
   return (
     <VehicleList
@@ -19,6 +19,7 @@ export default function VehiclesPage({
         sync.markChanged();
       }}
       isPremium={premium}
+      tier={tier}
       vehicleCount={vehiclesStore.data.length}
       onNavigate={navigate}
     />

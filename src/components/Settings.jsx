@@ -1,5 +1,6 @@
 import { Settings2, Download, Trash2, RefreshCw, Database, User, Crown, ChevronRight, LogOut, Mail, Cloud, CheckCircle2 } from 'lucide-react';
 import { getSubscriptionData } from './SubscriptionManagement.jsx';
+import { getTier, TIER_BY_ID } from '../utils/tiering.js';
 import { useState } from 'react';
 
 export default function Settings({ onReset, onExport, vehicles, logs, reminders, fuelLogs, modifications, isAuthenticated, isPremium, onNavigate, onLogout, onDeleteAccount, showCancelSubDialog, onDismissCancelSub, onSyncFromCloud, onPushToCloud }) {
@@ -12,6 +13,8 @@ export default function Settings({ onReset, onExport, vehicles, logs, reminders,
   const [pushError, setPushError] = useState(false);
   const [pushErrorStores, setPushErrorStores] = useState([]);
   const sub = getSubscriptionData();
+  const tier = getTier({ isPremium });
+  const tierLabel = (TIER_BY_ID[tier.id] || TIER_BY_ID.family).label;
 
   const formatPushErrorStores = (failedStores = []) => failedStores
     .map(({ store, failedCount }) =>
@@ -65,8 +68,8 @@ export default function Settings({ onReset, onExport, vehicles, logs, reminders,
               <h3 className="text-sm font-semibold text-white">Account</h3>
               <p className="text-xs text-slate-500">
                 {isPremium
-                  ? `Premium — ${sub.plan === 'yearly' ? 'Yearly' : 'Monthly'} Plan`
-                  : 'Free Plan — 1 vehicle limit'}
+                  ? `${tierLabel} Plan — ${sub.status === 'cancelled' ? 'cancelled' : 'monthly'}`
+                  : 'Free Plan — 1 automotive vehicle'}
               </p>
             </div>
             {isPremium && (

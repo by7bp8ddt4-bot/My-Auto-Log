@@ -458,7 +458,7 @@ export default function useSyncEngine({
       if (profile?.premium === true) {
         localStorage.setItem(STORAGE_KEYS.PREMIUM_STATUS, 'true');
         setPremium(true);
-        setSubscriptionData({ plan: 'monthly', status: 'active', nextBilling: null });
+        setSubscriptionData({ plan: 'family', status: 'active', nextBilling: null });
       }
     } catch (err) {
       console.error('[SyncFromCloud] Error fetching premium status:', err);

@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
-import { X, Car, Plus, Pencil, Trash2, ChevronRight, ScanLine, Loader2, CheckCircle2, AlertCircle, Tractor, Package, Ship, Anchor, Cog, Battery } from 'lucide-react';
+import { X, Car, Plus, Pencil, Trash2, ChevronRight, ScanLine, Loader2, CheckCircle2, AlertCircle, Tractor, Package, Ship, Anchor, Cog, Battery, Crown } from 'lucide-react';
 import { formatNumber } from '../utils/helpers';
 import { ManufacturerBadge } from '../utils/manufacturerBranding.jsx';
 import { decodeVin, isValidVin, isValidPin } from '../utils/vinDecoder.js';
 import { VEHICLE_TYPES } from '../utils/constants.js';
 import { getSpecsForVehicle } from '../data/maintenance-schedules.js';
+import { canAddVehicle, tierBadgeLabel } from '../utils/tiering.js';
 import MotorcycleIcon from './MotorcycleIcon';
 import SemiTruckIcon from './SemiTruckIcon';
 import RVIcon from './RVIcon';
@@ -13,7 +14,7 @@ import ATVIcon from './ATVIcon';
 // Map icon names to lucide-react components
 const TYPE_ICONS = { Car, Motorcycle: MotorcycleIcon, ATV: ATVIcon, Tractor, Package, Ship, Anchor, Cog, SemiTruck: SemiTruckIcon, RV: RVIcon };
 
-export default function VehicleList({ vehicles, onAdd, onEdit, onDelete, isPremium, vehicleCount, onNavigate }) {
+export default function VehicleList({ vehicles, onAdd, onEdit, onDelete, isPremium, tier, vehicleCount, onNavigate }) {
   const [showForm, setShowForm] = useState(false);
   const [editingVehicle, setEditingVehicle] = useState(null);
   const [vehicleType, setVehicleType] = useState('car');
@@ -44,7 +45,11 @@ export default function VehicleList({ vehicles, onAdd, onEdit, onDelete, isPremi
   };
 
   const handleAdd = (type = 'car') => {
-    if (vehicles.length >= 1 && !isPremium) {
+    // 3-tier gate: Free = 1 automotive vehicle only; Family = 4 any type;
+    // Fleet = unlimited. Any non-automotive type requires a paid tier.
+    const tierId = tier?.id || (isPremium ? 'family' : 'free');
+    const gate = canAddVehicle(tierId, vehicles, type);
+    if (!gate.allowed) {
       onNavigate('premium');
       return;
     }
@@ -86,6 +91,27 @@ export default function VehicleList({ vehicles, onAdd, onEdit, onDelete, isPremi
           <p className="text-sm text-slate-400 mt-0.5">
             {vehicleCount} {vehicleCount === 1 ? 'vehicle' : 'vehicles'} tracked
           </p>
+        </div>
+        {/* Tier badge / counter */}
+        <div className="flex items-center gap-2">
+          {(() => {
+            const tierId = tier?.id || (isPremium ? 'family' : 'free');
+            return (
+              <button
+                onClick={() => tierId === 'free' && onNavigate('premium')}
+                className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider border ${
+                  tierId === 'free'
+                    ? 'bg-slate-800/80 border-slate-700 text-slate-300 hover:border-blue-500/40 hover:text-white transition-all'
+                    : tierId === 'fleet'
+                      ? 'bg-purple-500/15 border-purple-500/30 text-purple-300'
+                      : 'bg-blue-500/15 border-blue-500/30 text-blue-300'
+                }`}
+              >
+                {tierId !== 'free' && <Crown className="w-3 h-3" />}
+                {tierBadgeLabel(tierId, vehicleCount)}
+              </button>
+            );
+          })()}
         </div>
       </div>
 
