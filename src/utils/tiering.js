@@ -1,16 +1,21 @@
 /**
- * 3-tier pricing model (owner-ratified 2026-08-14).
+ * 3-tier pricing model (owner-ratified 2026-08-14; amended 2026-08-17).
  *
  *   Free   — 1 automotive vehicle/vessel, limited app access. A 2nd vehicle
  *            OR any non-automotive type (motorcycle, boat, PWC, ATV, ag…)
  *            requires a paid tier.
- *   Family — $4.99/mo, up to 4 vehicles/vessels (any type), full app access
- *            incl. Owner's Manual. MONTHLY ONLY (no annual option).
- *   Fleet  — $9.99/mo, unlimited vehicles/vessels, full access incl.
- *            Inspected Vessels (Fleet-only, NOT in Family).
+ *   Family — $4.99/mo OR $39.99/yr, up to 4 vehicles/vessels (any type),
+ *            full app access incl. Owner's Manual. Billing interval chosen
+ *            at checkout (yearly ≈ 33% saving). Yearly option restored by
+ *            the owner's pricing amendment 2026-08-17.
+ *   Fleet  — $9.99/mo (MONTHLY ONLY — no yearly), unlimited vehicles/vessels,
+ *            full access incl. Inspected Vessels (Fleet-only, NOT in Family).
  *
  * Plan keys stored in localStorage ('mtxtrkr_subscription_plan'):
  *   'family' | 'fleet' | 'free'   (legacy 'monthly'/'yearly' → 'family')
+ *
+ * Billing interval stored separately ('mtxtrkr_subscription_interval'):
+ *   'monthly' | 'yearly'   (Family only — Fleet is always monthly)
  *
  * Tier derivation is client-side (Supabase DB is READ-ONLY — no columns added).
  * The `mtxtrkr_premium_status` flag stays the app-wide "paid" gate; the plan
@@ -19,6 +24,7 @@
 import { STORAGE_KEYS } from './constants.js';
 
 export const SUBSCRIPTION_PLAN_KEY = 'mtxtrkr_subscription_plan';
+export const SUBSCRIPTION_INTERVAL_KEY = 'mtxtrkr_subscription_interval';
 
 export const TIERS = {
   FREE: {
@@ -26,6 +32,7 @@ export const TIERS = {
     label: 'Free',
     priceLabel: '$0',
     monthlyPrice: 0,
+    monthlyLabel: '$0',
     vehicleLimit: 1,
     tagline: 'Get started',
     blurb: 'One automotive vehicle, core tracking tools.',
@@ -33,8 +40,13 @@ export const TIERS = {
   FAMILY: {
     id: 'family',
     label: 'Family',
-    priceLabel: '$4.99/mo',
+    priceLabel: '$4.99/mo or $39.99/yr',
     monthlyPrice: 4.99,
+    yearlyPrice: 39.99,
+    monthlyLabel: '$4.99/mo',
+    yearlyLabel: '$39.99/yr',
+    hasYearly: true,
+    yearlySavings: 'Save 33%',
     vehicleLimit: 4,
     tagline: 'Households & small fleets',
     blurb: 'Up to 4 vehicles of any type, full app access incl. Owner\u2019s Manual.',
@@ -44,6 +56,8 @@ export const TIERS = {
     label: 'Fleet',
     priceLabel: '$9.99/mo',
     monthlyPrice: 9.99,
+    monthlyLabel: '$9.99/mo',
+    hasYearly: false,
     vehicleLimit: Infinity,
     tagline: 'Unlimited vehicles',
     blurb: 'Unlimited vehicles of any type, full access incl. Inspected Vessels.',
@@ -58,13 +72,32 @@ export const TIER_BY_ID = {
 
 export const TIER_LIST = [TIERS.FREE, TIERS.FAMILY, TIERS.FLEET];
 
-// Legacy single-premium plan values migrate to Family (monthly-only model).
-// Read-time normalization — stored values are never rewritten (one-time,
-// non-destructive migration; the value is simply interpreted as 'family').
+// Legacy single-premium plan values migrate to Family (billing interval is
+// preserved separately — see resolveInterval). Read-time normalization —
+// stored values are never rewritten (one-time, non-destructive migration;
+// the value is simply interpreted as 'family').
 export const LEGACY_PLAN_MAP = {
   monthly: 'family',
   yearly: 'family',
 };
+
+/**
+ * Normalize a billing interval to 'monthly' | 'yearly'.
+ * Anything other than 'yearly' → 'monthly' (Fleet is always monthly).
+ */
+export function normalizeInterval(interval) {
+  return interval === 'yearly' ? 'yearly' : 'monthly';
+}
+
+/**
+ * Resolve the billing interval for display/next-billing math.
+ * Priority: explicit stored interval → legacy raw plan value ('yearly' →
+ * yearly; 'monthly' → monthly) → 'monthly' default.
+ */
+export function resolveInterval(rawPlan, storedInterval) {
+  if (storedInterval === 'yearly' || storedInterval === 'monthly') return storedInterval;
+  return rawPlan === 'yearly' ? 'yearly' : 'monthly';
+}
 
 /**
  * Normalize a stored plan value to one of 'free' | 'family' | 'fleet'.

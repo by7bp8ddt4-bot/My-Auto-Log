@@ -5,40 +5,49 @@ import {
 } from 'lucide-react';
 import { formatDate } from '../utils/helpers';
 import { isCapacitorIOS } from '../utils/platform.js';
-import { normalizePlan, tierForPlan, getTier, TIER_BY_ID } from '../utils/tiering.js';
+import { normalizePlan, tierForPlan, getTier, TIER_BY_ID, resolveInterval } from '../utils/tiering.js';
 
 const SUBSCRIPTION_KEYS = {
   PLAN: 'mtxtrkr_subscription_plan',
   STATUS: 'mtxtrkr_subscription_status',
   NEXT_BILLING: 'mtxtrkr_subscription_next_billing',
+  INTERVAL: 'mtxtrkr_subscription_interval',
 };
 
-// Legacy direct payment link for Family ($4.99/mo — the pre-tier "monthly"
-// link). Used ONLY as a fallback when the API checkout is unreachable.
+// Legacy direct payment links for Family (the pre-tier "monthly" and "yearly"
+// links). Used ONLY as a fallback when the API checkout is unreachable.
 // Fleet has no direct link — it always goes through the API session
 // (STRIPE_PRICE_ID_FLEET), which returns a clean error until configured.
 const FAMILY_PAYMENT_LINK = 'https://buy.stripe.com/6oU9AT5ko1Ob6GV36b0sU00';
+const FAMILY_YEARLY_PAYMENT_LINK = 'https://buy.stripe.com/eVq00j1480K77KZayD0sU01';
 
 export function getSubscriptionData() {
-  // Read-time normalization: legacy 'monthly'/'yearly' values are interpreted
-  // as 'family' (one-time migration, monthly-only model — no rewrite needed).
+  const rawPlan = localStorage.getItem(SUBSCRIPTION_KEYS.PLAN);
+  const storedInterval = localStorage.getItem(SUBSCRIPTION_KEYS.INTERVAL);
+  // Read-time normalization: legacy 'monthly'/'yearly' plan values are
+  // interpreted as 'family' (one-time migration — no rewrite needed), and
+  // the legacy raw value feeds the billing interval (yearly → Family yearly)
+  // so next-billing display stays correct for pre-3-tier yearly subscribers.
   return {
-    plan: normalizePlan(localStorage.getItem(SUBSCRIPTION_KEYS.PLAN)),
+    plan: normalizePlan(rawPlan),
+    interval: resolveInterval(rawPlan, storedInterval),
     status: localStorage.getItem(SUBSCRIPTION_KEYS.STATUS) || null,
     nextBilling: localStorage.getItem(SUBSCRIPTION_KEYS.NEXT_BILLING) || null,
   };
 }
 
-export function setSubscriptionData({ plan, status, nextBilling }) {
+export function setSubscriptionData({ plan, status, nextBilling, interval }) {
   if (plan) localStorage.setItem(SUBSCRIPTION_KEYS.PLAN, plan);
   if (status) localStorage.setItem(SUBSCRIPTION_KEYS.STATUS, status);
   if (nextBilling) localStorage.setItem(SUBSCRIPTION_KEYS.NEXT_BILLING, nextBilling);
+  if (interval) localStorage.setItem(SUBSCRIPTION_KEYS.INTERVAL, interval);
 }
 
 export function clearSubscriptionData() {
   localStorage.removeItem(SUBSCRIPTION_KEYS.PLAN);
   localStorage.removeItem(SUBSCRIPTION_KEYS.STATUS);
   localStorage.removeItem(SUBSCRIPTION_KEYS.NEXT_BILLING);
+  localStorage.removeItem(SUBSCRIPTION_KEYS.INTERVAL);
 }
 
 // App-wide tier helpers — single source of truth for tier lookups.
@@ -46,17 +55,19 @@ export { tierForPlan, getTier, TIER_BY_ID };
 
 /**
  * Start Stripe checkout via the serverless API (api/create-checkout-session.js).
- * POSTs { userId, tier } ('family' | 'fleet') and returns the checkout URL.
- * Throws an Error with a user-safe message when the API refuses (e.g. Fleet
- * price not configured yet — the owner must add STRIPE_PRICE_ID_FLEET).
+ * POSTs { userId, tier, interval } ('family' | 'fleet'; interval 'monthly' |
+ * 'yearly' — yearly is only honored for Family; Fleet is always monthly).
+ * Returns the checkout URL. Throws an Error with a user-safe message when the
+ * API refuses (e.g. Fleet price not configured yet — the owner must add
+ * STRIPE_PRICE_ID_FLEET).
  */
-export async function startTierCheckout({ tier, userId }) {
+export async function startTierCheckout({ tier, userId, interval }) {
   let res;
   try {
     res = await fetch('/api/create-checkout-session', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ userId, tier }),
+      body: JSON.stringify({ userId, tier, interval }),
     });
   } catch (e) {
     throw new Error('Could not reach checkout. Check your connection and try again.');
@@ -72,13 +83,18 @@ export async function startTierCheckout({ tier, userId }) {
   return data.url;
 }
 
-// Estimate next billing date (monthly only — 3-tier model has no annual).
-function estimateNextBilling(status) {
+// Estimate next billing date from the billing interval (Family: monthly →
+// +1 month / yearly → +1 year; Fleet: monthly only).
+function estimateNextBilling(status, interval) {
   if (status !== 'active') return null;
   const stored = localStorage.getItem(SUBSCRIPTION_KEYS.NEXT_BILLING);
   if (stored) return stored;
   const d = new Date();
-  d.setMonth(d.getMonth() + 1);
+  if (interval === 'yearly') {
+    d.setFullYear(d.getFullYear() + 1);
+  } else {
+    d.setMonth(d.getMonth() + 1);
+  }
   return d.toISOString().split('T')[0];
 }
 
@@ -93,8 +109,15 @@ export default function SubscriptionManagement({ userId, isPremium, onNavigate, 
 
   const tier = getTier({ isPremium });
   const status = cancelled ? 'cancelled' : sub.status;
-  const nextBilling = estimateNextBilling(status);
+  // Billing interval: Family may be 'monthly' or 'yearly' (legacy 'yearly'
+  // plan values migrate to family + yearly); Fleet is always 'monthly'.
+  const interval = tier.id === 'family' ? sub.interval : 'monthly';
+  const nextBilling = estimateNextBilling(status, interval);
   const tierDef = TIER_BY_ID[tier.id] || TIER_BY_ID.family;
+  // Interval-aware price display (e.g. Family yearly → $39.99/yr).
+  const priceLabel = tierDef.hasYearly && interval === 'yearly'
+    ? tierDef.yearlyLabel
+    : (tierDef.monthlyLabel || tierDef.priceLabel);
 
   const handleCancel = () => {
     // Mark as cancelled locally + show instructions
@@ -111,14 +134,15 @@ export default function SubscriptionManagement({ userId, isPremium, onNavigate, 
     setError(null);
     trackEvent?.('subscription_reactivate_started', { tier: tier.id, userId });
     try {
-      const url = await startTierCheckout({ tier: tier.id, userId });
+      const url = await startTierCheckout({ tier: tier.id, userId, interval });
       window.location.href = url;
     } catch (e) {
       // Fallback for Family: legacy direct payment link (proven in production).
       if (tier.id === 'family') {
+        const link = interval === 'yearly' ? FAMILY_YEARLY_PAYMENT_LINK : FAMILY_PAYMENT_LINK;
         window.location.href = userId
-          ? `${FAMILY_PAYMENT_LINK}?client_reference_id=${userId}&prefilled_email=${userId}`
-          : FAMILY_PAYMENT_LINK;
+          ? `${link}?client_reference_id=${userId}&prefilled_email=${userId}`
+          : link;
       } else {
         setError(e.message);
         setBusy(false);
@@ -179,7 +203,7 @@ export default function SubscriptionManagement({ userId, isPremium, onNavigate, 
                   MTXtrkr {tierDef.label}
                 </h3>
                 <p className="text-xs text-slate-400">
-                  {tierDef.label === 'Fleet' ? 'Unlimited vehicles' : `Up to ${tierDef.vehicleLimit} vehicles`} — {tierDef.priceLabel}
+                  {tierDef.label === 'Fleet' ? 'Unlimited vehicles' : `Up to ${tierDef.vehicleLimit} vehicles`} — {priceLabel}
                 </p>
               </div>
             </div>
@@ -307,7 +331,7 @@ export default function SubscriptionManagement({ userId, isPremium, onNavigate, 
           <div className="space-y-3">
             <div className="flex items-center justify-between text-xs">
               <span className="text-slate-400">Plan</span>
-              <span className="text-white font-medium">MTXtrkr {tierDef.label} — monthly</span>
+              <span className="text-white font-medium">MTXtrkr {tierDef.label} — {interval === 'yearly' ? 'yearly' : 'monthly'}</span>
             </div>
             <div className="flex items-center justify-between text-xs">
               <span className="text-slate-400">Vehicles</span>
@@ -317,7 +341,7 @@ export default function SubscriptionManagement({ userId, isPremium, onNavigate, 
             </div>
             <div className="flex items-center justify-between text-xs">
               <span className="text-slate-400">Price</span>
-              <span className="text-white font-medium">{tierDef.priceLabel}</span>
+              <span className="text-white font-medium">{priceLabel}</span>
             </div>
             <div className="flex items-center justify-between text-xs">
               <span className="text-slate-400">Status</span>

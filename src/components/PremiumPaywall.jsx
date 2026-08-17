@@ -4,7 +4,7 @@ import {
 } from 'lucide-react';
 import { setSubscriptionData, startTierCheckout } from './SubscriptionManagement.jsx';
 import { isCapacitorIOS } from '../utils/platform.js';
-import { TIER_LIST, TIERS } from '../utils/tiering.js';
+import { TIER_LIST, TIERS, normalizeInterval } from '../utils/tiering.js';
 
 // Feature matrix per tier (owner-ratified 3-tier model, 2026-08-14).
 const TIER_FEATURES = [
@@ -17,22 +17,43 @@ const TIER_FEATURES = [
   { label: 'Inspected Vessels', free: '✕', family: '✕', fleet: '✓' },
 ];
 
+// Legacy direct payment links for Family (monthly + yearly). Used ONLY as a
+// fallback when the API checkout is unreachable.
+const FAMILY_PAYMENT_LINK = 'https://buy.stripe.com/6oU9AT5ko1Ob6GV36b0sU00';
+const FAMILY_YEARLY_PAYMENT_LINK = 'https://buy.stripe.com/eVq00j1480K77KZayD0sU01';
+
+// Optimistic next-billing estimate for the selected billing interval.
+function optimisticNextBilling(interval) {
+  const d = new Date();
+  if (interval === 'yearly') {
+    d.setFullYear(d.getFullYear() + 1);
+  } else {
+    d.setMonth(d.getMonth() + 1);
+  }
+  return d.toISOString().split('T')[0];
+}
+
 export default function PremiumPaywall({ onClose, onUpgrade, userId, trackEvent }) {
   const isIOS = isCapacitorIOS();
   const [busyTier, setBusyTier] = useState(null);
   const [error, setError] = useState(null);
+  // Billing interval for Family (Monthly / Yearly). Fleet is always monthly.
+  const [familyInterval, setFamilyInterval] = useState('monthly');
 
-  const handleChoose = async (tierId) => {
+  const handleChoose = async (tierId, interval = 'monthly') => {
     setError(null);
     setBusyTier(tierId);
     const tier = TIERS[tierId.toUpperCase()];
-    trackEvent?.('checkout_started', { tier: tierId, price: tier.monthlyPrice, userId });
+    // Fleet has no yearly option — always bill monthly.
+    const billingInterval = tier.hasYearly ? normalizeInterval(interval) : 'monthly';
+    const price = billingInterval === 'yearly' ? tier.yearlyPrice : tier.monthlyPrice;
+    trackEvent?.('checkout_started', { tier: tierId, interval: billingInterval, price, userId });
 
     if (isIOS) {
       // iOS: no external payment links (App Store §3.1.1). Optimistically
       // activate so the user isn't blocked in-app; manage billing on the web.
-      const nextBilling = new Date(Date.now() + 30 * 86400000).toISOString().split('T')[0];
-      setSubscriptionData({ plan: tierId, status: 'active', nextBilling });
+      const nextBilling = optimisticNextBilling(billingInterval);
+      setSubscriptionData({ plan: tierId, status: 'active', nextBilling, interval: billingInterval });
       await onUpgrade();
       setBusyTier(null);
       return;
@@ -41,20 +62,22 @@ export default function PremiumPaywall({ onClose, onUpgrade, userId, trackEvent 
     // Prefer the serverless checkout session (needed for Fleet — no direct
     // payment link exists until STRIPE_PRICE_ID_FLEET is configured).
     try {
-      const url = await startTierCheckout({ tier: tierId, userId });
+      const url = await startTierCheckout({ tier: tierId, userId, interval: billingInterval });
       // Optimistic write: record the plan + premium before redirecting so the
       // tier model is correct when the user returns (payment_success=true).
-      const nextBilling = new Date(Date.now() + 30 * 86400000).toISOString().split('T')[0];
-      setSubscriptionData({ plan: tierId, status: 'active', nextBilling });
+      const nextBilling = optimisticNextBilling(billingInterval);
+      setSubscriptionData({ plan: tierId, status: 'active', nextBilling, interval: billingInterval });
       await onUpgrade();
       window.location.href = url;
     } catch (e) {
       if (tierId === 'family') {
-        // Fallback: legacy direct payment link (proven in production).
-        const nextBilling = new Date(Date.now() + 30 * 86400000).toISOString().split('T')[0];
-        setSubscriptionData({ plan: 'family', status: 'active', nextBilling });
+        // Fallback: legacy direct payment link (proven in production) —
+        // monthly or yearly depending on the selected interval.
+        const link = billingInterval === 'yearly' ? FAMILY_YEARLY_PAYMENT_LINK : FAMILY_PAYMENT_LINK;
+        const nextBilling = optimisticNextBilling(billingInterval);
+        setSubscriptionData({ plan: 'family', status: 'active', nextBilling, interval: billingInterval });
         await onUpgrade();
-        const base = 'https://buy.stripe.com/6oU9AT5ko1Ob6GV36b0sU00';
+        const base = link;
         window.location.href = userId ? `${base}?client_reference_id=${userId}` : base;
       } else {
         setError(e.message || 'Fleet checkout is not configured yet. Please try again later.');
@@ -92,7 +115,7 @@ export default function PremiumPaywall({ onClose, onUpgrade, userId, trackEvent 
             Plans for every garage
           </h1>
           <p className="text-slate-400 text-sm">
-            Monthly only — cancel anytime. No annual commitments.
+            Family — $4.99/mo or $39.99/yr · Fleet — $9.99/mo (monthly only). Cancel anytime.
           </p>
         </div>
 
@@ -128,9 +151,40 @@ export default function PremiumPaywall({ onClose, onUpgrade, userId, trackEvent 
                 )}
                 <h3 className={`text-sm font-bold text-white mt-1 ${isFamily || isFleet ? 'mt-3' : ''}`}>{tier.label}</h3>
                 <p className="text-2xl font-bold text-white mt-1">
-                  {tier.monthlyPrice === 0 ? '$0' : `$${tier.monthlyPrice}`}
-                  {tier.monthlyPrice > 0 && <span className="text-xs text-slate-500 font-normal">/mo</span>}
+                  {tier.monthlyPrice === 0
+                    ? '$0'
+                    : String.fromCharCode(36) + (isFamily && familyInterval === 'yearly' ? tier.yearlyPrice : tier.monthlyPrice)}
+                  {tier.monthlyPrice > 0 && (
+                    <span className="text-xs text-slate-500 font-normal">
+                      /{isFamily && familyInterval === 'yearly' ? 'yr' : 'mo'}
+                    </span>
+                  )}
                 </p>
+                {/* Family billing interval toggle (monthly or yearly) */}
+                {isFamily && (
+                  <div className="mt-2 flex items-center gap-1 rounded-xl bg-slate-950/60 border border-slate-800 p-1">
+                    <button
+                      onClick={() => setFamilyInterval('monthly')}
+                      className={`flex-1 py-1.5 rounded-lg text-[10px] font-semibold transition-all ${
+                        familyInterval === 'monthly'
+                          ? 'bg-blue-600 text-white shadow'
+                          : 'text-slate-400 hover:text-white'
+                      }`}
+                    >
+                      Monthly
+                    </button>
+                    <button
+                      onClick={() => setFamilyInterval('yearly')}
+                      className={`flex-1 py-1.5 rounded-lg text-[10px] font-semibold transition-all ${
+                        familyInterval === 'yearly'
+                          ? 'bg-blue-600 text-white shadow'
+                          : 'text-slate-400 hover:text-white'
+                      }`}
+                    >
+                      Yearly <span className={familyInterval === 'yearly' ? 'text-emerald-300' : 'text-emerald-400'}>Save 33%</span>
+                    </button>
+                  </div>
+                )}
                 <p className="text-[10px] text-slate-500 mt-1 leading-relaxed flex-1">{tier.blurb}</p>
                 {isFleet && (
                   <span className="inline-flex items-center gap-1 mt-2 self-start px-2 py-0.5 rounded-full bg-purple-500/20 text-purple-300 text-[9px] font-bold uppercase tracking-tighter">
@@ -138,7 +192,7 @@ export default function PremiumPaywall({ onClose, onUpgrade, userId, trackEvent 
                   </span>
                 )}
                 <button
-                  onClick={() => handleChoose(tier.id)}
+                  onClick={() => handleChoose(tier.id, isFamily ? familyInterval : 'monthly')}
                   disabled={busyTier === tier.id}
                   className={`mt-4 w-full py-2.5 rounded-xl font-semibold transition-all duration-200 flex items-center justify-center gap-2 disabled:opacity-60 ${ctaStyles[tier.id]}`}
                 >

@@ -103,10 +103,13 @@ export default function App() {
 
     if (params.get('activate') === 'premium') {
       localStorage.setItem(STORAGE_KEYS.PREMIUM_STATUS, 'true');
-      // 3-tier model: legacy 'monthly'/'yearly' (or missing) → 'family'.
-      const plan = normalizePlan(params.get('plan') || 'family');
+      // 3-tier model: legacy 'monthly'/'yearly' (or missing) → 'family';
+      // the billing interval is preserved (legacy 'yearly' → family+yearly).
+      const rawPlan = params.get('plan') || 'family';
+      const plan = normalizePlan(rawPlan);
+      const interval = params.get('interval') || (rawPlan === 'yearly' ? 'yearly' : 'monthly');
       const nextBilling = params.get('next_billing') || null;
-      setSubscriptionData({ plan, status: 'active', nextBilling });
+      setSubscriptionData({ plan, status: 'active', nextBilling, interval });
       setPremium(true);
       analytics.track('premium_activated', { method: 'url_param', plan });
 
@@ -121,12 +124,14 @@ export default function App() {
     // Stripe checkout success — set premium when user returns from payment
     if (params.get('payment_success') === 'true') {
       localStorage.setItem(STORAGE_KEYS.PREMIUM_STATUS, 'true');
-      // The checkout session's success_url includes &tier= (set server-side);
-      // record it so the client stores the right plan key even if the
-      // optimistic write was lost (e.g. different browser/device).
+      // The checkout session's success_url includes &tier= and &interval=
+      // (set server-side); record them so the client stores the right plan
+      // key + billing interval even if the optimistic write was lost
+      // (e.g. different browser/device).
       const tier = normalizePlan(params.get('tier') || null);
+      const interval = params.get('interval') === 'yearly' ? 'yearly' : 'monthly';
       if (tier !== 'free') {
-        setSubscriptionData({ plan: tier, status: 'active', nextBilling: null });
+        setSubscriptionData({ plan: tier, status: 'active', nextBilling: null, interval });
       }
       setPremium(true);
       analytics.track('premium_activated', { method: 'stripe_checkout' });
@@ -151,8 +156,8 @@ export default function App() {
     // sync effect verifies against Supabase on the next auth cycle.
     if (params.get('restore-premium') === '1') {
       localStorage.setItem(STORAGE_KEYS.PREMIUM_STATUS, 'true');
-      // Owner restore maps to Family (monthly-only 3-tier model).
-      setSubscriptionData({ plan: 'family', status: 'active', nextBilling: null });
+      // Owner restore maps to Family (3-tier model; default monthly billing).
+      setSubscriptionData({ plan: 'family', status: 'active', nextBilling: null, interval: 'monthly' });
       setPremium(true);
       analytics.track('premium_activated', { method: 'restore_url' });
 

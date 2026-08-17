@@ -32,11 +32,13 @@ export default async function handler(req, res) {
 
     // Map the subscription to a tier name so the client stores the right
     // plan key. Sessions created by api/create-checkout-session.js carry
-    // metadata.tier ('family' | 'fleet'); anything else defaults to 'family'
-    // (legacy monthly subs migrate to Family — monthly-only model).
+    // metadata.tier ('family' | 'fleet') + metadata.interval ('monthly' |
+    // 'yearly'); anything else defaults to 'family' monthly (legacy monthly
+    // subs migrate to Family monthly; legacy yearly subs to Family yearly).
     const tier = session.metadata?.tier === 'fleet' ? 'fleet' : 'family';
+    const interval = session.metadata?.interval === 'yearly' ? 'yearly' : 'monthly';
 
-    console.log(`Checkout completed for user: ${userId}, tier: ${tier}`);
+    console.log(`Checkout completed for user: ${userId}, tier: ${tier}, interval: ${interval}`);
 
     if (userId) {
       const stripeCustomerId = session.customer || null;
