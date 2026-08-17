@@ -9,6 +9,7 @@ import { useLocalStorage, useSyncStatus } from './hooks/useLocalStorage.js';
 import useAnalytics from './hooks/useAnalytics.js';
 import { STORAGE_KEYS } from './utils/constants.js';
 import { isSameService } from './utils/serviceMatcher.js';
+import { getTier, normalizePlan, canAddVehicle } from './utils/tiering.js';
 import { supabase } from './lib/supabase.js';
 
 // Migration: myautolog_ → mtxtrkr_ localStorage keys (runs once on import)
@@ -70,6 +71,11 @@ export default function App() {
 
   const [forceOffline, setForceOffline] = useState(false);
 
+  // Current tier (Free / Family / Fleet) — derived from premium flag +
+  // subscription plan key. Used for feature gates (Owner's Manual, Inspected
+  // Vessels) and the garage header badge.
+  const tier = getTier({ isPremium: premium });
+
   // Global error handlers — runs once on mount, not on every render
   useEffect(() => {
     setupGlobalErrorHandlers();
@@ -97,9 +103,13 @@ export default function App() {
 
     if (params.get('activate') === 'premium') {
       localStorage.setItem(STORAGE_KEYS.PREMIUM_STATUS, 'true');
-      const plan = params.get('plan') || 'monthly';
+      // 3-tier model: legacy 'monthly'/'yearly' (or missing) → 'family';
+      // the billing interval is preserved (legacy 'yearly' → family+yearly).
+      const rawPlan = params.get('plan') || 'family';
+      const plan = normalizePlan(rawPlan);
+      const interval = params.get('interval') || (rawPlan === 'yearly' ? 'yearly' : 'monthly');
       const nextBilling = params.get('next_billing') || null;
-      setSubscriptionData({ plan, status: 'active', nextBilling });
+      setSubscriptionData({ plan, status: 'active', nextBilling, interval });
       setPremium(true);
       analytics.track('premium_activated', { method: 'url_param', plan });
 
@@ -114,6 +124,15 @@ export default function App() {
     // Stripe checkout success — set premium when user returns from payment
     if (params.get('payment_success') === 'true') {
       localStorage.setItem(STORAGE_KEYS.PREMIUM_STATUS, 'true');
+      // The checkout session's success_url includes &tier= and &interval=
+      // (set server-side); record them so the client stores the right plan
+      // key + billing interval even if the optimistic write was lost
+      // (e.g. different browser/device).
+      const tier = normalizePlan(params.get('tier') || null);
+      const interval = params.get('interval') === 'yearly' ? 'yearly' : 'monthly';
+      if (tier !== 'free') {
+        setSubscriptionData({ plan: tier, status: 'active', nextBilling: null, interval });
+      }
       setPremium(true);
       analytics.track('premium_activated', { method: 'stripe_checkout' });
 
@@ -137,7 +156,8 @@ export default function App() {
     // sync effect verifies against Supabase on the next auth cycle.
     if (params.get('restore-premium') === '1') {
       localStorage.setItem(STORAGE_KEYS.PREMIUM_STATUS, 'true');
-      setSubscriptionData({ plan: 'monthly', status: 'active', nextBilling: null });
+      // Owner restore maps to Family (3-tier model; default monthly billing).
+      setSubscriptionData({ plan: 'family', status: 'active', nextBilling: null, interval: 'monthly' });
       setPremium(true);
       analytics.track('premium_activated', { method: 'restore_url' });
 
@@ -537,8 +557,17 @@ export default function App() {
 
   // Add vehicle
   const addVehicle = useCallback(async (data) => {
-    if (!premium && vehiclesStore.data.length >= 1) {
-      analytics.track('premium_gate_hit', { gate: 'add_vehicle', vehicleCount: vehiclesStore.data.length });
+    // 3-tier gate (owner-ratified): Free = 1 automotive vehicle only;
+    // Family = up to 4 any type; Fleet = unlimited. Client-side at add-time
+    // (Supabase DB is READ-ONLY — no server-side column for tier).
+    const tier = getTier({ isPremium: premium });
+    const gate = canAddVehicle(tier.id, vehiclesStore.data, data?.type || 'car');
+    if (!gate.allowed) {
+      analytics.track('premium_gate_hit', {
+        gate: gate.reason === 'non-automotive' ? 'add_non_automotive' : 'add_vehicle_limit',
+        tier: tier.id,
+        vehicleCount: vehiclesStore.data.length,
+      });
       setPage('premium');
       return;
     }
@@ -817,6 +846,7 @@ export default function App() {
       auth={auth}
       isAuthenticated={isAuthenticated}
       premium={premium}
+      tier={tier}
       cancelSubDialog={cancelSubDialog}
       setCancelSubDialog={setCancelSubDialog}
       sync={sync}

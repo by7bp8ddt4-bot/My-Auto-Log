@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import logoImg from '/assets/logo.png';
 import iconImg from '/assets/icon-1024.png';
-import { LayoutDashboard, Car, ClipboardList, Bell, Settings, LogOut, ChevronRight, Calendar, Fuel, Wrench, Grid3X3, X, FileText, Zap, Info, BookOpen } from 'lucide-react';
+import { LayoutDashboard, Car, ClipboardList, Bell, Settings, LogOut, ChevronRight, Calendar, Fuel, Wrench, Grid3X3, X, FileText, Zap, Info, BookOpen, ShieldCheck } from 'lucide-react';
+import { canAccessInspectedVessels } from '../utils/tiering.js';
 
-const allNavItems = [
+const baseNavItems = [
   { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { id: 'vehicles', label: 'Garage', icon: Car },
   { id: 'schedule', label: 'Scheduled Maintenance', icon: Calendar },
@@ -17,16 +18,26 @@ const allNavItems = [
   { id: 'reminders', label: 'Reminders', icon: Bell },
 ];
 
-// Primary items shown in bottom nav; rest go in the More drawer
-const primaryNavItems = allNavItems.filter(i =>
-  ['dashboard', 'vehicles', 'schedule', 'logs'].includes(i.id)
-);
-const moreNavItems = allNavItems.filter(i =>
-  ['mods', 'fuel', 'specs', 'wiring', 'manual', 'documents', 'reminders'].includes(i.id)
-);
+// Inspected Vessels is Fleet-only (owner-ratified 2026-08-14): the tab is
+// hidden for Free/Family users. When the feature ships it checks the same
+// helper (canAccessInspectedVessels) — a single source of truth.
+const inspectedNavItem = { id: 'inspected', label: 'Inspected Vessels', icon: ShieldCheck };
 
-export default function Layout({ currentPage, onNavigate, onLogout, children }) {
+export default function Layout({ currentPage, onNavigate, onLogout, tier, children }) {
   const [showMoreDrawer, setShowMoreDrawer] = useState(false);
+
+  // Compute nav lists per tier: Inspected Vessels only for Fleet.
+  const allNavItems = tier && canAccessInspectedVessels(tier.id)
+    ? [...baseNavItems, inspectedNavItem]
+    : baseNavItems;
+
+  // Primary items shown in bottom nav; rest go in the More drawer
+  const primaryNavItems = allNavItems.filter(i =>
+    ['dashboard', 'vehicles', 'schedule', 'logs'].includes(i.id)
+  );
+  const moreNavItems = allNavItems.filter(i =>
+    ['mods', 'fuel', 'specs', 'wiring', 'manual', 'documents', 'reminders', 'inspected'].includes(i.id)
+  );
 
   const handleNavigate = (id) => {
     onNavigate(id);

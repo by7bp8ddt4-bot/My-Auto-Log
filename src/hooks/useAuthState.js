@@ -129,7 +129,7 @@ export default function useAuthState() {
       if (result.premium === true) {
         setPremium(true);
         localStorage.setItem(STORAGE_KEYS.PREMIUM_STATUS, 'true');
-        setSubscriptionData({ plan: 'monthly', status: 'active', nextBilling: null });
+        setSubscriptionData({ plan: 'family', status: 'active', nextBilling: null });
         return;
       }
 
