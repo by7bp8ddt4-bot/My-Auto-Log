@@ -226,6 +226,8 @@ export default function Router({
     wiring: <WiringPage
       vehicles={vehiclesStore.data}
       selectedVehicleId={selectedVehicleId}
+      isPremium={premium}
+      onNavigate={navigate}
     />,
     manual: <OwnersManualPage
       vehicles={vehiclesStore.data}
