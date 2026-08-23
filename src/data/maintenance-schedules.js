@@ -124,7 +124,7 @@ export const MAINTENANCE_SCHEDULES = {
     specs: { oil: { viscosity: '5W-30', type: 'Dexos Full Synthetic', capacity: '6.0 qt' }, transmission: { type: 'Dexron VI', capacity: '4.0 qt' }, coolant: { type: 'Dex-Cool Orange' }, brakeFluid: { type: 'DOT 3' }, tirePressure: { psi: 36 }, sparkPlugs: { type: 'Iridium', gap: '0.040 in' }, battery: { groupSize: 'Group 48' } },
     models: {
       silverado: [
-        { service: 'Oil & Filter Change (Oil Life System)', intervalMiles: 0, intervalMonths: 12, severity: 'medium', description: 'Change when the CHANGE ENGINE OIL SOON message displays (oil-life monitor), at least once a year; reset the oil-life system after each change.' },
+        { service: 'Oil & Filter Change (Oil Life System)', intervalMiles: 7500, intervalMonths: 12, severity: 'medium', description: 'Change every 7,500 mi or 12 months, whichever comes first (or when the CHANGE ENGINE OIL SOON message displays); reset the oil-life system after each change.' },
         { service: 'Tire Rotation', intervalMiles: 7500, intervalMonths: 12, severity: 'low', description: 'Reduces road noise.' },
         { service: 'Engine Air Cleaner Filter', intervalMiles: 45000, intervalMonths: 48, severity: 'low', description: 'Inspect every 4 years and replace per matrix; service more often in dusty conditions.' },
         { service: 'Passenger-Compartment (Cabin) Air Filter', intervalMiles: 22500, intervalMonths: 24, severity: 'low', description: 'Replace every 22,500 mi (36,000 km) or 2 years, whichever comes first.' },
