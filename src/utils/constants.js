@@ -124,6 +124,11 @@ export const VEHICLE_TYPES = [
   { id: 'rv', label: 'RV', icon: 'RV', color: 'bg-purple-700 hover:bg-purple-600', border: 'border-purple-600', badgeColor: 'bg-purple-700' },
 ];
 
+// Vehicle types that qualify as "vessels" for the Inspected Vessels feature
+// (Fleet-only). Single source of truth: Personal Watercraft, Outboard Engine,
+// Marine Diesel. Semi-truck / RV are road vehicles, not vessels.
+export const VESSEL_TYPE_IDS = ['watercraft', 'outboard', 'marine-diesel'];
+
 export const SERVICE_TYPES = [
   'Oil & Filter Change',
   'Tire Rotation',
