@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import logoImg from '/assets/logo.png';
 import iconImg from '/assets/icon-1024.png';
-import { LayoutDashboard, Car, ClipboardList, Bell, Settings, LogOut, ChevronRight, Calendar, Fuel, Wrench, Grid3X3, X, FileText, Zap, Info, BookOpen, ShieldCheck } from 'lucide-react';
+import { LayoutDashboard, Car, ClipboardList, Bell, Settings, LogOut, ChevronRight, Calendar, Fuel, Wrench, Grid3X3, X, FileText, Zap, Info, BookOpen, Ship } from 'lucide-react';
 import { canAccessInspectedVessels } from '../utils/tiering.js';
 
 const baseNavItems = [
@@ -21,7 +21,7 @@ const baseNavItems = [
 // Inspected Vessels is Fleet-only (owner-ratified 2026-08-14): the tab is
 // hidden for Free/Family users. When the feature ships it checks the same
 // helper (canAccessInspectedVessels) — a single source of truth.
-const inspectedNavItem = { id: 'inspected', label: 'Inspected Vessels', icon: ShieldCheck };
+const inspectedNavItem = { id: 'vessels', label: 'Inspected Vessels', icon: Ship };
 
 export default function Layout({ currentPage, onNavigate, onLogout, tier, children }) {
   const [showMoreDrawer, setShowMoreDrawer] = useState(false);
@@ -36,7 +36,7 @@ export default function Layout({ currentPage, onNavigate, onLogout, tier, childr
     ['dashboard', 'vehicles', 'schedule', 'logs'].includes(i.id)
   );
   const moreNavItems = allNavItems.filter(i =>
-    ['mods', 'fuel', 'specs', 'wiring', 'manual', 'documents', 'reminders', 'inspected'].includes(i.id)
+    ['mods', 'fuel', 'specs', 'wiring', 'manual', 'documents', 'reminders', 'vessels'].includes(i.id)
   );
 
   const handleNavigate = (id) => {
