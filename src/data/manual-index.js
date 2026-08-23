@@ -48,11 +48,18 @@
  *             NOT the BMW Motorrad r1250gs MC entry.
  *     John Deere https://shop.deere.com/us/ownersupport            (Owner Support page; user enters equipment
  *             serial/VIN to get the operator manual — owner-supplied, verified HTTP 200 2026-08-23) — ag, non-automotive.
+ *     Audi    https://ownersmanual.audi.com/home/en_US             (Audi "Owner's Manual" portal; no login,
+ *             default "Select with VIN" textbox + "Select by model" Year/Model tab — verified 2026-08-23 in a real
+ *             browser; covers all Audi models, model year 2008+). Added to existing audi a3/a4/q5 entries.
+ *   Additive wave (2026-08-23, owner-expanded acceptance bar): a free no-login YEAR/MAKE/MODEL manual-search hub
+ *   also qualifies as a verified lookup. New CADILLAC make added (previously absent) as a fetchable GM hub mirroring
+ *   chevrolet/buick — https://www.cadillac.com/support/vehicle/manuals-guides (genuine GM "Manuals and Guides" page,
+ *   verified via curl body HTTP 200 2026-08-23; browser IP-blocked by GM/Akamai from this env, so no a11y render).
+ *   Stores real Cadillac model lineup (xt5/xt4/xt6/escalade/ct4/ct5/lyriq), fetchable:true, source:'oem'.
  *   Honest gaps (no public VIN/HIN/serial input verified from this env — keep upload fallback):
  *     Jeep/Dodge/Chrysler/Ram (Mopar VIN lookup exists but bot-walled: "Access Denied"
  *       even in a real browser from this IP), Mazda (no public endpoint; MyMazda login),
- *       Lexus (behind Lexus Drivers login; lexus.com + drivers.lexus.com 404), Audi
- *       (audiusa.com manuals 403 / "Access Denied" in browser), Volvo (volvocars.com 403),
+ *       Lexus (behind Lexus Drivers login; lexus.com + drivers.lexus.com 404), Volvo (volvocars.com 403),
  *       Mitsubishi (Salesforce SPA, no manual URL), BMW Motorrad r1250gs (Moto portal
  *       unreachable), and ALL non-automotive (harley-davidson, yamaha, kawasaki, indian,
  *       mercury, cat, cummins, yanmar, hyster, all semi OEMs, all RV OEMs —
@@ -898,6 +905,64 @@ export const manualIndex = {
       }
     }
   },
+  cadillac: {
+    xt5: {
+      '2017-2026': {
+        url: 'https://www.cadillac.com/support/vehicle/manuals-guides',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Additive wave (2026-08-23): GM "Manuals and Guides" page VALIDATED (200 text/html; title "Manuals and Guides  | Vehicle Support | Cadillac") — genuine public Year/Make/Model manual-search hub. Cadillac is browser IP-blocked by GM/Akamai from this env (Access Denied), so verification is from the genuine curl body (accepted under the owner bar). Mirrors chevrolet/buick fetchable hub pattern.'
+      }
+    },
+    xt4: {
+      '2019-2026': {
+        url: 'https://www.cadillac.com/support/vehicle/manuals-guides',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Additive wave (2026-08-23): GM "Manuals and Guides" page VALIDATED (200 text/html; title "Manuals and Guides  | Vehicle Support | Cadillac") — genuine public Year/Make/Model manual-search hub. Cadillac is browser IP-blocked by GM/Akamai from this env (Access Denied), so verification is from the genuine curl body (accepted under the owner bar). Mirrors chevrolet/buick fetchable hub pattern.'
+      }
+    },
+    xt6: {
+      '2020-2026': {
+        url: 'https://www.cadillac.com/support/vehicle/manuals-guides',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Additive wave (2026-08-23): GM "Manuals and Guides" page VALIDATED (200 text/html; title "Manuals and Guides  | Vehicle Support | Cadillac") — genuine public Year/Make/Model manual-search hub. Cadillac is browser IP-blocked by GM/Akamai from this env (Access Denied), so verification is from the genuine curl body (accepted under the owner bar). Mirrors chevrolet/buick fetchable hub pattern.'
+      }
+    },
+    escalade: {
+      '2015-2026': {
+        url: 'https://www.cadillac.com/support/vehicle/manuals-guides',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Additive wave (2026-08-23): GM "Manuals and Guides" page VALIDATED (200 text/html; title "Manuals and Guides  | Vehicle Support | Cadillac") — genuine public Year/Make/Model manual-search hub. Cadillac is browser IP-blocked by GM/Akamai from this env (Access Denied), so verification is from the genuine curl body (accepted under the owner bar). Mirrors chevrolet/buick fetchable hub pattern.'
+      }
+    },
+    ct4: {
+      '2020-2026': {
+        url: 'https://www.cadillac.com/support/vehicle/manuals-guides',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Additive wave (2026-08-23): GM "Manuals and Guides" page VALIDATED (200 text/html; title "Manuals and Guides  | Vehicle Support | Cadillac") — genuine public Year/Make/Model manual-search hub. Cadillac is browser IP-blocked by GM/Akamai from this env (Access Denied), so verification is from the genuine curl body (accepted under the owner bar). Mirrors chevrolet/buick fetchable hub pattern.'
+      }
+    },
+    ct5: {
+      '2020-2026': {
+        url: 'https://www.cadillac.com/support/vehicle/manuals-guides',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Additive wave (2026-08-23): GM "Manuals and Guides" page VALIDATED (200 text/html; title "Manuals and Guides  | Vehicle Support | Cadillac") — genuine public Year/Make/Model manual-search hub. Cadillac is browser IP-blocked by GM/Akamai from this env (Access Denied), so verification is from the genuine curl body (accepted under the owner bar). Mirrors chevrolet/buick fetchable hub pattern.'
+      }
+    },
+    lyriq: {
+      '2023-2026': {
+        url: 'https://www.cadillac.com/support/vehicle/manuals-guides',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Additive wave (2026-08-23): GM "Manuals and Guides" page VALIDATED (200 text/html; title "Manuals and Guides  | Vehicle Support | Cadillac") — genuine public Year/Make/Model manual-search hub. Cadillac is browser IP-blocked by GM/Akamai from this env (Access Denied), so verification is from the genuine curl body (accepted under the owner bar). Mirrors chevrolet/buick fetchable hub pattern.'
+      }
+    }
+  },
   infiniti: {
     q50: {
       '2014-2026': {
@@ -998,7 +1063,8 @@ export const manualIndex = {
         url: null,
         fetchable: false,
         source: 'upload',
-        notes: 'No validated URL — audiusa.com owners paths return 403 (bot wall) when probed 2026-08-17 (Wave 3). Upload fallback for now.'
+        lookupUrl: 'https://ownersmanual.audi.com/home/en_US',
+        notes: 'No directly fetchable PDF (audiusa.com owners paths 403 bot wall) — upload fallback for parsing. lookupUrl deep-links to Audis public owners-manual portal (verified 2026-08-23, browser: "Select with VIN" textbox + "Select by model" Year/Model tabs, no login) so the owner types their VIN to get their manual (covers all Audi models, model year 2008+).'
       }
     },
     a4: {
@@ -1006,7 +1072,8 @@ export const manualIndex = {
         url: null,
         fetchable: false,
         source: 'upload',
-        notes: 'No validated URL — audiusa.com owners paths return 403 (bot wall) when probed 2026-08-17 (Wave 3). Upload fallback for now.'
+        lookupUrl: 'https://ownersmanual.audi.com/home/en_US',
+        notes: 'No directly fetchable PDF (audiusa.com owners paths 403 bot wall) — upload fallback for parsing. lookupUrl deep-links to Audis public owners-manual portal (verified 2026-08-23, browser: "Select with VIN" textbox + "Select by model" Year/Model tabs, no login) so the owner types their VIN to get their manual (covers all Audi models, model year 2008+).'
       }
     },
     q5: {
@@ -1014,7 +1081,8 @@ export const manualIndex = {
         url: null,
         fetchable: false,
         source: 'upload',
-        notes: 'No validated URL — audiusa.com owners paths return 403 (bot wall) when probed 2026-08-17 (Wave 3). Upload fallback for now.'
+        lookupUrl: 'https://ownersmanual.audi.com/home/en_US',
+        notes: 'No directly fetchable PDF (audiusa.com owners paths 403 bot wall) — upload fallback for parsing. lookupUrl deep-links to Audis public owners-manual portal (verified 2026-08-23, browser: "Select with VIN" textbox + "Select by model" Year/Model tabs, no login) so the owner types their VIN to get their manual (covers all Audi models, model year 2008+).'
       }
     }
   },
