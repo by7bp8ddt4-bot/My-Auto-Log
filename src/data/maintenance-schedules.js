@@ -150,6 +150,8 @@ export const MAINTENANCE_SCHEDULES = {
         { service: 'Spark Plugs', intervalMiles: 97500, intervalMonths: 96, severity: 'medium', description: 'Maintains engine performance.' },
         { service: 'Coolant Exchange', intervalMiles: 100000, intervalMonths: 60, severity: 'high', description: 'Prevents overheating and corrosion.' },
       ],
+      // Silverado HD 2500/3500 resolve to the K2XX/scoped schedule (same cadence as Silverado 1500).
+      'silverado 2500': 'chevrolet.silverado', 'silverado 3500': 'chevrolet.silverado',
       equinox: 'silverado-shared', malibu: 'silverado-shared',
       tahoe: [
         { service: 'Oil & Filter Change', intervalMiles: 7500, intervalMonths: 12, severity: 'medium', description: 'Full-size SUV. Dexos 5W-30. Essential for heavy loads.' },
