@@ -293,18 +293,31 @@ export default function OwnersManual({ vehicles, selectedVehicleId, isPremium, o
                     {lookup.entry.notes || 'Fetching the manual so we can pull out the highlights for you.'}
                   </p>
                   <div className="flex flex-wrap gap-2 mt-4">
-                    <button
-                      onClick={handleAutoFetch}
-                      className="px-5 py-2.5 rounded-full bg-blue-600 text-white text-sm font-bold hover:bg-blue-500 transition-all shadow-lg shadow-blue-600/30"
-                    >
-                      Fetch Manual &amp; Build Highlights
-                    </button>
-                    <button
-                      onClick={() => fileInputRef.current?.click()}
-                      className="px-5 py-2.5 rounded-full bg-slate-800 text-slate-300 text-sm font-semibold hover:bg-slate-700 border border-slate-700 transition-all"
-                    >
-                      Upload My Own PDF Instead
-                    </button>
+                    {lookup.entry.lookupUrl ? (
+                      <a
+                        href={lookup.entry.lookupUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-blue-600 text-white text-sm font-bold hover:bg-blue-500 transition-all shadow-lg shadow-blue-600/30"
+                      >
+                        <ExternalLink className="w-4 h-4" /> Open OEM Manual Lookup
+                      </a>
+                    ) : (
+                      <>
+                        <button
+                          onClick={handleAutoFetch}
+                          className="px-5 py-2.5 rounded-full bg-blue-600 text-white text-sm font-bold hover:bg-blue-500 transition-all shadow-lg shadow-blue-600/30"
+                        >
+                          Fetch Manual &amp; Build Highlights
+                        </button>
+                        <button
+                          onClick={() => fileInputRef.current?.click()}
+                          className="px-5 py-2.5 rounded-full bg-slate-800 text-slate-300 text-sm font-semibold hover:bg-slate-700 border border-slate-700 transition-all"
+                        >
+                          Upload My Own PDF Instead
+                        </button>
+                      </>
+                    )}
                   </div>
                 </div>
               </div>
