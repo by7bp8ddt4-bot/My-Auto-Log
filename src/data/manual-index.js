@@ -46,6 +46,8 @@
  *     Lincoln https://www.lincoln.com/support/owner-manuals/      ("Search by VIN" tab + "Input VIN" textbox)
  *     BMW     https://www.bmwusa.com/owners-manuals.html          (required "VIN Code" textbox) — automotive only,
  *             NOT the BMW Motorrad r1250gs MC entry.
+ *     John Deere https://shop.deere.com/us/ownersupport            (Owner Support page; user enters equipment
+ *             serial/VIN to get the operator manual — owner-supplied, verified HTTP 200 2026-08-23) — ag, non-automotive.
  *   Honest gaps (no public VIN/HIN/serial input verified from this env — keep upload fallback):
  *     Jeep/Dodge/Chrysler/Ram (Mopar VIN lookup exists but bot-walled: "Access Denied"
  *       even in a real browser from this IP), Mazda (no public endpoint; MyMazda login),
@@ -53,9 +55,9 @@
  *       (audiusa.com manuals 403 / "Access Denied" in browser), Volvo (volvocars.com 403),
  *       Mitsubishi (Salesforce SPA, no manual URL), BMW Motorrad r1250gs (Moto portal
  *       unreachable), and ALL non-automotive (harley-davidson, yamaha, kawasaki, indian,
- *       mercury, cat, cummins, yanmar, john-deere, hyster, all semi OEMs, all RV OEMs —
- *       login/dealer/owner-portal-gated, 403/bot-walled, or 404; John Deere's serial-entry
- *       page is owner-flagged but NOT verifiable from this env). *
+ *       mercury, cat, cummins, yanmar, hyster, all semi OEMs, all RV OEMs —
+ *       login/dealer/owner-portal-gated, 403/bot-walled, or 404). John Deere is verified
+ *       (owner-supplied serial lookup) — see the verified list above, not a gap. *
  * Per-brand probe summary (2026-08-14 baseline + 2026-08-17 Waves 2 & 3):
  *   Toyota  — per-model digital manual pages VALIDATED (2020 + 2024 samples).
  *             Wave 3 (2026-08-17): prius re-probed .../digital/prius/2023/
@@ -1429,7 +1431,8 @@ export const manualIndex = {
         url: null,
         fetchable: false,
         source: 'upload',
-        notes: 'No validated URL — John Deere operator manuals require dealer-portal login; probed 2026-08-17 (Wave 4). Upload fallback.'
+        lookupUrl: 'https://shop.deere.com/us/ownersupport',
+        notes: 'No directly fetchable PDF (dealer-portal gated) — upload fallback for manual parsing. lookupUrl deep-links to John Deeres Owner Support page (owner-supplied, verified HTTP 200 2026-08-23, page exposes the equipment serial/VIN lookup UI) so the owner enters their equipment serial/VIN to get the operator manual.'
       }
     }
   },
