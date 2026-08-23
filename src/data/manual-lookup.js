@@ -22,6 +22,8 @@ import { manualIndex } from './manual-index.js';
  */
 const MAKE_ALIASES = {
   'mercedes-benz': 'mercedes',
+  'sea-doo': 'seadoo',
+  'sea doo': 'seadoo',
 };
 
 /**

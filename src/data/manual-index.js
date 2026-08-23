@@ -4,6 +4,18 @@
  * the app matches their vehicle to this index → the server helper fetches
  * the URL (PDF or manual page) → the client parses it into a highlights reel.
  *
+
+ * Wave 4 (2026-08-17): NON-AUTOMOTIVE coverage (motorcycle / marine / ag /
+ *   semi / RV). New make keys: suzuki, seadoo, kubota, airstream (VERIFIED hubs),
+ *   plus upload-fallback-only keys: harley-davidson, yamaha (outboard+PWC+MC),
+ *   kawasaki (PWC+MC), indian, mercury, cat, cummins, yanmar, john-deere, hyster,
+ *   freightliner, kenworth, peterbilt, mack, international, western-star,
+ *   volvo-trucks, winnebago, thor, jayco, newmar, forest-river, grand-design.
+ *   Honda and BMW motorcycle models are folded into the existing honda/bmw blocks
+ *   because the lookup keys by stored make string. VERIFIED fetchable hubs (all
+ *   200 text/html 2026-08-17): suzuki, kubota, seadoo, airstream plus Honda
+ *   powersports per-year manual routes. Semi OEMs and industrial/marine are
+ *   dealer-gated or bot-walled — honest upload fallbacks, no fabrication. (2026-08-17)
  * Structure:
  *   make -> model -> yearRange -> { url, fetchable, source, notes }
  *
@@ -258,6 +270,46 @@ export const manualIndex = {
         fetchable: true,
         source: 'oem',
         notes: 'Wave 3 (2026-08-17): owners-portal manual route (200 text/html, redirects to mygarage shell — same Salesforce SPA as civic). Validate per-model content during feature build; upload fallback also fine.'
+      }
+    },
+    'cbr1000rr': {
+      '2000-2026': {
+        url: 'https://owners.honda.com/vehicle-information/manuals/cbr1000rr/2024',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Wave 4 (2026-08-17): Honda powersports per-year manual route — VALIDATED 2024 (200 text/html). Pattern https://owners.honda.com/vehicle-information/manuals/{model}/{year}; substitute vehicle year.'
+      }
+    },
+    'cbr600rr': {
+      '2000-2026': {
+        url: 'https://owners.honda.com/vehicle-information/manuals/cbr600rr/2024',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Wave 4 (2026-08-17): Honda powersports per-year manual route — pattern https://owners.honda.com/vehicle-information/manuals/{model}/{year} (same Salesforce SPA as cbr1000rr, validated). Substitute vehicle year.'
+      }
+    },
+    'goldwing': {
+      '2000-2026': {
+        url: 'https://owners.honda.com/vehicle-information/manuals/goldwing/2024',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Wave 4 (2026-08-17): Honda powersports per-year manual route — VALIDATED 2024 (200 text/html). Pattern https://owners.honda.com/vehicle-information/manuals/{model}/{year}; substitute vehicle year.'
+      }
+    },
+    'rebel': {
+      '2000-2026': {
+        url: 'https://owners.honda.com/vehicle-information/manuals/rebel/2024',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Wave 4 (2026-08-17): Honda powersports per-year manual route — pattern https://owners.honda.com/vehicle-information/manuals/{model}/{year} (same Salesforce SPA as cbr1000rr, validated). Substitute vehicle year.'
+      }
+    },
+    'nc750x': {
+      '2000-2026': {
+        url: 'https://owners.honda.com/vehicle-information/manuals/nc750x/2024',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Wave 4 (2026-08-17): Honda powersports per-year manual route — pattern https://owners.honda.com/vehicle-information/manuals/{model}/{year} (same Salesforce SPA as cbr1000rr, validated). Substitute vehicle year.'
       }
     }
   },
@@ -709,6 +761,14 @@ export const manualIndex = {
         source: 'upload',
         notes: 'No validated URL — bmwusa.com/owners-manuals.html fails (HTTP/2 stream error, then 35s timeout with 0 bytes); bmw.com alternate hosts also drop the connection. Re-probed 2026-08-17 (Wave 3) — still blocked; upload fallback for now.'
       }
+    },
+    r1250gs: {
+      '2000-2026': {
+        url: null,
+        fetchable: false,
+        source: 'upload',
+        notes: 'No validated URL — bmw-motorrad.com service/manual drops the connection (000 timeout) from this env; probed 2026-08-17 (Wave 4). Upload fallback.'
+      }
     }
   },
   jeep: {
@@ -1066,7 +1126,422 @@ export const manualIndex = {
         notes: 'No validated URL — ramtrucks.com owners paths redirect to the brand home; manual portal is mopar.com bot-walled (see 1500 note, probed 2026-08-17). Upload fallback for now.'
       }
     }
-  }
+  },
+  suzuki: {
+    'gsx-r1000': {
+      '2000-2026': {
+        url: 'https://suzukicycles.com/owners/manuals',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Wave 4 (2026-08-17): Suzuki motorcycle owner-manual hub — VALIDATED 200 text/html. Covers GSX-R/SV650/V-Strom/Hayabusa; per-model PDFs open from hub. Hub-only entry.'
+      }
+    },
+    'gsx-r750': {
+      '2000-2026': {
+        url: 'https://suzukicycles.com/owners/manuals',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Wave 4 (2026-08-17): Suzuki hub — VALIDATED 200 (see gsx-r1000 note). Hub-only entry.'
+      }
+    },
+    'gsx-r600': {
+      '2000-2026': {
+        url: 'https://suzukicycles.com/owners/manuals',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Wave 4 (2026-08-17): Suzuki hub — VALIDATED 200 (see gsx-r1000 note). Hub-only entry.'
+      }
+    },
+    'sv650': {
+      '2000-2026': {
+        url: 'https://suzukicycles.com/owners/manuals',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Wave 4 (2026-08-17): Suzuki hub — VALIDATED 200 (see gsx-r1000 note). Hub-only entry.'
+      }
+    },
+    'v-strom 650': {
+      '2000-2026': {
+        url: 'https://suzukicycles.com/owners/manuals',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Wave 4 (2026-08-17): Suzuki hub — VALIDATED 200 (see gsx-r1000 note). Hub-only entry.'
+      }
+    },
+    'hayabusa': {
+      '2000-2026': {
+        url: 'https://suzukicycles.com/owners/manuals',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Wave 4 (2026-08-17): Suzuki hub — VALIDATED 200 (see gsx-r1000 note). Hub-only entry.'
+      }
+    }
+  },
+  seadoo: {
+    gtx: {
+      '2000-2026': {
+        url: 'https://www.sea-doo.com/owners.html',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Wave 4 (2026-08-17): Sea-Doo owner/operator-guide hub — VALIDATED 200 text/html. Covers GTX/Spark/RXP etc. Hub-only entry.'
+      }
+    },
+    rxp: {
+      '2000-2026': {
+        url: 'https://www.sea-doo.com/owners.html',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Wave 4 (2026-08-17): Sea-Doo hub — VALIDATED 200 (see gtx note). Hub-only entry.'
+      }
+    },
+    gti: {
+      '2000-2026': {
+        url: 'https://www.sea-doo.com/owners.html',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Wave 4 (2026-08-17): Sea-Doo hub — VALIDATED 200 (see gtx note). Hub-only entry.'
+      }
+    },
+    rxt: {
+      '2000-2026': {
+        url: 'https://www.sea-doo.com/owners.html',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Wave 4 (2026-08-17): Sea-Doo hub — VALIDATED 200 (see gtx note). Hub-only entry.'
+      }
+    },
+    spark: {
+      '2000-2026': {
+        url: 'https://www.sea-doo.com/owners.html',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Wave 4 (2026-08-17): Sea-Doo hub — VALIDATED 200 (see gtx note). Hub-only entry.'
+      }
+    }
+  },
+  kubota: {
+    lx3310: {
+      '2000-2026': {
+        url: 'https://www.kubotausa.com/operators-manuals',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Wave 4 (2026-08-17): Kubota operator-manual hub (US) — VALIDATED 200 text/html. Covers LX/L/B compact tractors. Hub-only entry.'
+      }
+    },
+    l4701: {
+      '2000-2026': {
+        url: 'https://www.kubotausa.com/operators-manuals',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Wave 4 (2026-08-17): Kubota hub — VALIDATED 200 (see lx3310 note). Hub-only entry.'
+      }
+    },
+    b2601: {
+      '2000-2026': {
+        url: 'https://www.kubotausa.com/operators-manuals',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Wave 4 (2026-08-17): Kubota hub — VALIDATED 200 (see lx3310 note). Hub-only entry.'
+      }
+    },
+    l3901: {
+      '2000-2026': {
+        url: 'https://www.kubotausa.com/operators-manuals',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Wave 4 (2026-08-17): Kubota hub — VALIDATED 200 (see lx3310 note). Hub-only entry.'
+      }
+    }
+  },
+  airstream: {
+    classic: {
+      '2000-2026': {
+        url: 'https://www.airstream.com/owners/manuals/',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Wave 4 (2026-08-17): Airstream owner-manuals hub — VALIDATED 200 text/html. Covers Classic/Bambi/Interstate/Atlas. Hub-only entry.'
+      }
+    },
+    bambi: {
+      '2000-2026': {
+        url: 'https://www.airstream.com/owners/manuals/',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Wave 4 (2026-08-17): Airstream hub — VALIDATED 200 (see classic note). Hub-only entry.'
+      }
+    },
+    interstate: {
+      '2000-2026': {
+        url: 'https://www.airstream.com/owners/manuals/',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Wave 4 (2026-08-17): Airstream hub — VALIDATED 200 (see classic note). Hub-only entry.'
+      }
+    },
+    atlas: {
+      '2000-2026': {
+        url: 'https://www.airstream.com/owners/manuals/',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Wave 4 (2026-08-17): Airstream hub — VALIDATED 200 (see classic note). Hub-only entry.'
+      }
+    }
+  },
+  'harley-davidson': {
+    'street glide': {
+      '2000-2026': {
+        url: null,
+        fetchable: false,
+        source: 'upload',
+        notes: 'No validated URL — harley-davidson.com owner-manual portal needs a logged-in account; public manual path 404s; probed 2026-08-17 (Wave 4). Upload fallback.'
+      }
+    }
+  },
+  yamaha: {
+    f115: {
+      '2000-2026': {
+        url: null,
+        fetchable: false,
+        source: 'upload',
+        notes: 'No validated URL — yamaha-motor.com owner-manuals live in a JS owner dashboard; yamahaoutboards.com manual route 404s; probed 2026-08-17 (Wave 4). Upload fallback.'
+      }
+    },
+    'fx cruiser': {
+      '2000-2026': {
+        url: null,
+        fetchable: false,
+        source: 'upload',
+        notes: 'No validated URL — Yamaha WaveRunner manuals live in the yamaha-motor.com JS dashboard (see f115 note, 2026-08-17). Upload fallback.'
+      }
+    },
+    r1: {
+      '2000-2026': {
+        url: null,
+        fetchable: false,
+        source: 'upload',
+        notes: 'No validated URL — Yamaha motorcycle manuals live in the yamaha-motor.com JS dashboard (see f115 note, 2026-08-17). Upload fallback.'
+      }
+    }
+  },
+  kawasaki: {
+    'ninja zx-10r': {
+      '2000-2026': {
+        url: null,
+        fetchable: false,
+        source: 'upload',
+        notes: 'No validated URL — kawasaki.com/en-us/owners/manuals 302-loops to itself / JS owner portal from this env; probed 2026-08-17 (Wave 4). Upload fallback.'
+      }
+    },
+    'ultra 310': {
+      '2000-2026': {
+        url: null,
+        fetchable: false,
+        source: 'upload',
+        notes: 'No validated URL — Kawasaki Jet Ski manuals live in the same kawasaki.com JS portal (see ninja zx-10r note, 2026-08-17). Upload fallback.'
+      }
+    }
+  },
+  indian: {
+    challenger: {
+      '2000-2026': {
+        url: null,
+        fetchable: false,
+        source: 'upload',
+        notes: 'No validated URL — indianmotorcycle.com owner/manual pages return 403 (bot wall); probed 2026-08-17 (Wave 4). Upload fallback.'
+      }
+    }
+  },
+  mercury: {
+    verado: {
+      '2000-2026': {
+        url: null,
+        fetchable: false,
+        source: 'upload',
+        notes: 'No validated URL — mercurymarine.com owners-manual pages return 403 (bot wall); probed 2026-08-17 (Wave 4). Upload fallback.'
+      }
+    }
+  },
+  cat: {
+    c7: {
+      '2000-2026': {
+        url: null,
+        fetchable: false,
+        source: 'upload',
+        notes: 'No validated URL — Caterpillar O&MM is dealer-login-gated (no public free PDF); probed 2026-08-17 (Wave 4). Upload fallback.'
+      }
+    }
+  },
+  cummins: {
+    qsb: {
+      '2000-2026': {
+        url: null,
+        fetchable: false,
+        source: 'upload',
+        notes: 'No validated URL — Cummins marine OMM requires dealer/portal access; probed 2026-08-17 (Wave 4). Upload fallback.'
+      }
+    }
+  },
+  yanmar: {
+    '4jh': {
+      '2000-2026': {
+        url: null,
+        fetchable: false,
+        source: 'upload',
+        notes: 'No validated URL — Yanmar marine manuals go to dealers/registered owners only; probed 2026-08-17 (Wave 4). Upload fallback.'
+      }
+    }
+  },
+  'john-deere': {
+    '6r': {
+      '2000-2026': {
+        url: null,
+        fetchable: false,
+        source: 'upload',
+        notes: 'No validated URL — John Deere operator manuals require dealer-portal login; probed 2026-08-17 (Wave 4). Upload fallback.'
+      }
+    }
+  },
+  hyster: {
+    h50: {
+      '2000-2026': {
+        url: null,
+        fetchable: false,
+        source: 'upload',
+        notes: 'No validated URL — Hyster publishes no public operator-manual page (dealer portal only); probed 2026-08-17 (Wave 4). Upload fallback.'
+      }
+    }
+  },
+  freightliner: {
+    cascadia: {
+      '2000-2026': {
+        url: null,
+        fetchable: false,
+        source: 'upload',
+        notes: 'No validated URL — Freightliner manuals are DTNA owner-portal-gated (freightliner.com/owners/ 404); probed 2026-08-17 (Wave 4). Upload fallback.'
+      }
+    }
+  },
+  kenworth: {
+    t680: {
+      '2000-2026': {
+        url: null,
+        fetchable: false,
+        source: 'upload',
+        notes: 'No validated URL — Kenworth manuals are PACCAR owner-portal-gated (kenworth.com/owners/ 404); probed 2026-08-17 (Wave 4). Upload fallback.'
+      }
+    }
+  },
+  peterbilt: {
+    '579': {
+      '2000-2026': {
+        url: null,
+        fetchable: false,
+        source: 'upload',
+        notes: 'No validated URL — Peterbilt manuals are PACCAR owner-portal-gated (peterbilt.com/owners/ 500); probed 2026-08-17 (Wave 4). Upload fallback.'
+      }
+    }
+  },
+  mack: {
+    anthem: {
+      '2000-2026': {
+        url: null,
+        fetchable: false,
+        source: 'upload',
+        notes: 'No validated URL — Mack manuals are Volvo/Mack owner-portal-gated (macktrucks.com/owners/ 404); probed 2026-08-17 (Wave 4). Upload fallback.'
+      }
+    }
+  },
+  international: {
+    lt: {
+      '2000-2026': {
+        url: null,
+        fetchable: false,
+        source: 'upload',
+        notes: 'No validated URL — International (Navistar) manuals are owner-portal-gated (no public PDF); probed 2026-08-17 (Wave 4). Upload fallback.'
+      }
+    }
+  },
+  'western-star': {
+    '4700': {
+      '2000-2026': {
+        url: null,
+        fetchable: false,
+        source: 'upload',
+        notes: 'No validated URL — Western Star manuals are DTNA owner-portal-gated (westernstar.com/owners/ 404); probed 2026-08-17 (Wave 4). Upload fallback.'
+      }
+    }
+  },
+  'volvo-trucks': {
+    vnl: {
+      '2000-2026': {
+        url: null,
+        fetchable: false,
+        source: 'upload',
+        notes: 'No validated URL — Volvo Trucks manuals are owner/ASIST-portal-gated (volvotrucks.us/owners/ 404); probed 2026-08-17 (Wave 4). Upload fallback.'
+      }
+    }
+  },
+  winnebago: {
+    vista: {
+      '2000-2026': {
+        url: null,
+        fetchable: false,
+        source: 'upload',
+        notes: 'No validated URL — winnebago.com owner-resources returns a bot wall / JS stub (167-byte response); probed 2026-08-17 (Wave 4). Upload fallback.'
+      }
+    }
+  },
+  thor: {
+    'four winds': {
+      '2000-2026': {
+        url: null,
+        fetchable: false,
+        source: 'upload',
+        notes: 'No validated URL — thormotorcoach.com owner-manual page 404s; probed 2026-08-17 (Wave 4). Upload fallback.'
+      }
+    }
+  },
+  jayco: {
+    greyhawk: {
+      '2000-2026': {
+        url: null,
+        fetchable: false,
+        source: 'upload',
+        notes: 'No validated URL — jayco.com owner-manual page 404s; probed 2026-08-17 (Wave 4). Upload fallback.'
+      }
+    }
+  },
+  newmar: {
+    'bay star': {
+      '2000-2026': {
+        url: null,
+        fetchable: false,
+        source: 'upload',
+        notes: 'No validated URL — newmar.com owner/resource manual route 404s; probed 2026-08-17 (Wave 4). Upload fallback.'
+      }
+    }
+  },
+  'forest-river': {
+    sunseeker: {
+      '2000-2026': {
+        url: null,
+        fetchable: false,
+        source: 'upload',
+        notes: 'No validated URL — forestriverinc.com owner-manuals page 403 (bot wall); probed 2026-08-17 (Wave 4). Upload fallback.'
+      }
+    }
+  },
+  'grand-design': {
+    solitude: {
+      '2000-2026': {
+        url: null,
+        fetchable: false,
+        source: 'upload',
+        notes: 'No validated URL — granddesignrv.com owner-manual lookup 404s / needs registration; probed 2026-08-17 (Wave 4). Upload fallback.'
+      }
+    }
+  },
+
 };
 
 export default manualIndex;
