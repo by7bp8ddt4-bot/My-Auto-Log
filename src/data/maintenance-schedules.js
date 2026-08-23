@@ -124,6 +124,21 @@ export const MAINTENANCE_SCHEDULES = {
     specs: { oil: { viscosity: '5W-30', type: 'Dexos Full Synthetic', capacity: '6.0 qt' }, transmission: { type: 'Dexron VI', capacity: '4.0 qt' }, coolant: { type: 'Dex-Cool Orange' }, brakeFluid: { type: 'DOT 3' }, tirePressure: { psi: 36 }, sparkPlugs: { type: 'Iridium', gap: '0.040 in' }, battery: { groupSize: 'Group 48' } },
     models: {
       silverado: [
+        { service: 'Oil & Filter Change (Oil Life System)', intervalMiles: 0, intervalMonths: 12, severity: 'medium', description: 'Change when the CHANGE ENGINE OIL SOON message displays (oil-life monitor), at least once a year; reset the oil-life system after each change.' },
+        { service: 'Tire Rotation', intervalMiles: 7500, intervalMonths: 12, severity: 'low', description: 'Reduces road noise.' },
+        { service: 'Engine Air Cleaner Filter', intervalMiles: 45000, intervalMonths: 48, severity: 'low', description: 'Inspect every 4 years and replace per matrix; service more often in dusty conditions.' },
+        { service: 'Passenger-Compartment (Cabin) Air Filter', intervalMiles: 22500, intervalMonths: 24, severity: 'low', description: 'Replace every 22,500 mi (36,000 km) or 2 years, whichever comes first.' },
+        { service: 'Brake Fluid Flush', intervalMiles: 45000, intervalMonths: 60, severity: 'medium', description: 'Replace brake fluid every 5 years to prevent corrosion in your braking system.' },
+        { service: 'Transmission Fluid', intervalMiles: 45000, intervalMonths: 48, severity: 'high', description: 'Keeps gear shifts smooth.' },
+        { service: 'Front Differential Fluid', intervalMiles: 50000, intervalMonths: 48, severity: 'medium', description: 'Protects front differential gears in 4x4 trucks.' },
+        { service: 'Rear Differential Fluid', intervalMiles: 50000, intervalMonths: 48, severity: 'medium', description: 'Fresh fluid prevents rear axle gear wear.' },
+        { service: 'Transfer Case Fluid', intervalMiles: 75000, intervalMonths: 96, severity: 'medium', description: 'Every ~75,000 mi for GVW over 3,900 kg; GVW under 3,900 kg per maintenance matrix. Severe service changes more often.' },
+        { service: 'Spark Plugs', intervalMiles: 112500, intervalMonths: 96, severity: 'medium', description: '~112,500 mi (180,000 km); inspect plug wires at the same time. Maintains engine performance.' },
+        { service: 'Evaporative Control System', intervalMiles: 45000, intervalMonths: 48, severity: 'low', description: 'Visually inspect the evaporative emission control system per the maintenance schedule matrix.' },
+        { service: 'Accessory Drive Belts', intervalMiles: 0, intervalMonths: 120, severity: 'low', description: 'Visually inspect the accessory drive belts every 10 years for cracks, wear, or damage.' },
+        { service: 'Coolant Exchange', intervalMiles: 100000, intervalMonths: 60, severity: 'high', description: 'Drain and fill engine cooling system every 5 years. Prevents overheating and corrosion.' },
+      ],
+      'silverado-shared': [
         { service: 'Oil & Filter Change', intervalMiles: 7500, intervalMonths: 12, severity: 'medium', description: 'Essential protection for your engine.' },
         { service: 'Tire Rotation', intervalMiles: 7500, intervalMonths: 12, severity: 'low', description: 'Reduces road noise.' },
         { service: 'Engine Air Filter', intervalMiles: 45000, intervalMonths: 48, severity: 'low', description: 'Ensures your engine gets oxygen.' },
@@ -135,7 +150,7 @@ export const MAINTENANCE_SCHEDULES = {
         { service: 'Spark Plugs', intervalMiles: 97500, intervalMonths: 96, severity: 'medium', description: 'Maintains engine performance.' },
         { service: 'Coolant Exchange', intervalMiles: 100000, intervalMonths: 60, severity: 'high', description: 'Prevents overheating and corrosion.' },
       ],
-      equinox: 'silverado', malibu: 'silverado',
+      equinox: 'silverado-shared', malibu: 'silverado-shared',
       tahoe: [
         { service: 'Oil & Filter Change', intervalMiles: 7500, intervalMonths: 12, severity: 'medium', description: 'Full-size SUV. Dexos 5W-30. Essential for heavy loads.' },
         { service: 'Tire Rotation', intervalMiles: 7500, intervalMonths: 12, severity: 'low', description: 'Important for heavy SUV tire life.' },
@@ -378,7 +393,7 @@ export const MAINTENANCE_SCHEDULES = {
   },
   gmc: {
     specs: { oil: { viscosity: '5W-30', type: 'Dexos Full Synthetic', capacity: '6.0 qt' }, transmission: { type: 'Dexron VI', capacity: '4.0 qt' }, coolant: { type: 'Dex-Cool Orange' }, brakeFluid: { type: 'DOT 3' }, tirePressure: { psi: 36 }, sparkPlugs: { type: 'Iridium', gap: '0.040 in' }, battery: { groupSize: 'Group 48' } },
-    models: { sierra: 'chevrolet.silverado', yukon: 'chevrolet.silverado' }
+    models: { sierra: 'chevrolet.silverado-shared', yukon: 'chevrolet.silverado-shared' }
   },
   mazda: {
     specs: { oil: { viscosity: '0W-20', type: 'Full Synthetic', capacity: '4.8 qt' }, transmission: { type: 'Mazda ATF FZ', capacity: '4.0 qt' }, coolant: { type: 'Mazda FL22' }, brakeFluid: { type: 'DOT 3' }, tirePressure: { psi: 34 }, sparkPlugs: { type: 'Iridium', gap: '0.044 in' }, battery: { groupSize: 'Group 35' } },
@@ -1043,7 +1058,7 @@ export const MAINTENANCE_SCHEDULES = {
   buick: {
     specs: { oil: { viscosity: '5W-30', type: 'Dexos Full Synthetic', capacity: '5.0 qt' }, transmission: { type: 'Dexron VI', capacity: '4.0 qt' }, coolant: { type: 'Dex-Cool Orange' }, brakeFluid: { type: 'DOT 3' }, tirePressure: { psi: 34 }, sparkPlugs: { type: 'Iridium', gap: '0.040 in' }, battery: { groupSize: 'Group 48' } },
     models: {
-      enclave: 'chevrolet.silverado', envision: 'chevrolet.silverado', encore: 'chevrolet.silverado', lacrosse: 'chevrolet.silverado', gnx: 'chevrolet.silverado', riviera: 'chevrolet.silverado', lesabre: 'chevrolet.silverado', 'park avenue': 'chevrolet.silverado', rendezvous: 'chevrolet.silverado'
+      enclave: 'chevrolet.silverado-shared', envision: 'chevrolet.silverado-shared', encore: 'chevrolet.silverado-shared', lacrosse: 'chevrolet.silverado-shared', gnx: 'chevrolet.silverado-shared', riviera: 'chevrolet.silverado-shared', lesabre: 'chevrolet.silverado-shared', 'park avenue': 'chevrolet.silverado-shared', rendezvous: 'chevrolet.silverado-shared'
     }
   },
 
@@ -1353,13 +1368,13 @@ export const MAINTENANCE_SCHEDULES = {
   pontiac: {
     specs: { oil: { viscosity: '5W-30', type: 'Dexos Full Synthetic', capacity: '5.0 qt' }, transmission: { type: 'Dexron VI', capacity: '4.0 qt' }, coolant: { type: 'Dex-Cool Orange' }, brakeFluid: { type: 'DOT 3' }, tirePressure: { psi: 34 }, sparkPlugs: { type: 'Iridium', gap: '0.040 in' }, battery: { groupSize: 'Group 48' } },
     models: {
-      'grand prix': 'chevrolet.silverado',
-      g6: 'chevrolet.silverado',
-      bonneville: 'chevrolet.silverado',
-      'grand am': 'chevrolet.silverado',
-      sunfire: 'chevrolet.silverado',
-      montana: 'chevrolet.silverado',
-      torrent: 'chevrolet.silverado',
+      'grand prix': 'chevrolet.silverado-shared',
+      g6: 'chevrolet.silverado-shared',
+      bonneville: 'chevrolet.silverado-shared',
+      'grand am': 'chevrolet.silverado-shared',
+      sunfire: 'chevrolet.silverado-shared',
+      montana: 'chevrolet.silverado-shared',
+      torrent: 'chevrolet.silverado-shared',
       solstice: [
         { service: 'Oil & Filter Change', intervalMiles: 7500, intervalMonths: 12, severity: 'medium', description: '2.4L Ecotec or 2.0L turbo. Dexos 5W-30 full synthetic.' },
         { service: 'Tire Rotation', intervalMiles: 7500, intervalMonths: 12, severity: 'low', description: 'RWD sports car. Staggered fitment — rotation limited.' },
@@ -1475,9 +1490,9 @@ export const MAINTENANCE_SCHEDULES = {
   oldsmobile: {
     specs: { oil: { viscosity: '5W-30', type: 'Dexos Full Synthetic', capacity: '5.0 qt' }, transmission: { type: 'Dexron VI', capacity: '4.0 qt' }, coolant: { type: 'Dex-Cool Orange' }, brakeFluid: { type: 'DOT 3' }, tirePressure: { psi: 34 }, sparkPlugs: { type: 'Iridium', gap: '0.040 in' }, battery: { groupSize: 'Group 48' } },
     models: {
-      alero: 'chevrolet.silverado',
-      intrigue: 'chevrolet.silverado',
-      silhouette: 'chevrolet.silverado',
+      alero: 'chevrolet.silverado-shared',
+      intrigue: 'chevrolet.silverado-shared',
+      silhouette: 'chevrolet.silverado-shared',
       aurora: [
         { service: 'Oil & Filter Change', intervalMiles: 7500, intervalMonths: 12, severity: 'medium', description: '4.0L Aurora V8 or 3.5L Shortstar V6. Dexos 5W-30. DOHC luxury engine.' },
         { service: 'Tire Rotation', intervalMiles: 7500, intervalMonths: 12, severity: 'low', description: 'Premium sedan tire rotation.' },
