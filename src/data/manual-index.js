@@ -32,7 +32,32 @@
  *     unresolvable); the app falls back to user upload for those models.
  *   - `source: 'oem'`    → manufacturer-public URL.
  *   - `source: 'upload'` → upload fallback only.
+ *   - `lookupUrl` (OPTIONAL, Phase 1 VIN/HIN conversion 2026-08-23) → a
+ *     VERIFIED OEM page with a VIN / HIN / serial / input field the user types
+ *     their vehicle ID into to get their manual. Only set where directly
+ *     verified to expose that input (curl 200 or browser-rendered). When
+ *     present, the app opens the OEM lookup instead of the upload prompt.
+ *     `fetchable` + `url` stay for the direct/manual-fetch path; a make may
+ *     have BOTH, url-null + lookupUrl, or neither (honest upload fallback).
  *
+ * VIN/HIN/serial lookup conversion — Phase 1 (Vehicle Data Specialist, 2026-08-23):
+ *   Verified OEM VIN-input lookup pages (browser-rendered, expose a VIN input) → lookupUrl added:
+ *     Ford    https://www.ford.com/support/owner-manuals-details/  ("Vehicle Search" + "Search by VIN dialog")
+ *     Lincoln https://www.lincoln.com/support/owner-manuals/      ("Search by VIN" tab + "Input VIN" textbox)
+ *     BMW     https://www.bmwusa.com/owners-manuals.html          (required "VIN Code" textbox) — automotive only,
+ *             NOT the BMW Motorrad r1250gs MC entry.
+ *     John Deere https://shop.deere.com/us/ownersupport            (Owner Support page; user enters equipment
+ *             serial/VIN to get the operator manual — owner-supplied, verified HTTP 200 2026-08-23) — ag, non-automotive.
+ *   Honest gaps (no public VIN/HIN/serial input verified from this env — keep upload fallback):
+ *     Jeep/Dodge/Chrysler/Ram (Mopar VIN lookup exists but bot-walled: "Access Denied"
+ *       even in a real browser from this IP), Mazda (no public endpoint; MyMazda login),
+ *       Lexus (behind Lexus Drivers login; lexus.com + drivers.lexus.com 404), Audi
+ *       (audiusa.com manuals 403 / "Access Denied" in browser), Volvo (volvocars.com 403),
+ *       Mitsubishi (Salesforce SPA, no manual URL), BMW Motorrad r1250gs (Moto portal
+ *       unreachable), and ALL non-automotive (harley-davidson, yamaha, kawasaki, indian,
+ *       mercury, cat, cummins, yanmar, hyster, all semi OEMs, all RV OEMs —
+ *       login/dealer/owner-portal-gated, 403/bot-walled, or 404). John Deere is verified
+ *       (owner-supplied serial lookup) — see the verified list above, not a gap. *
  * Per-brand probe summary (2026-08-14 baseline + 2026-08-17 Waves 2 & 3):
  *   Toyota  — per-model digital manual pages VALIDATED (2020 + 2024 samples).
  *             Wave 3 (2026-08-17): prius re-probed .../digital/prius/2023/
@@ -509,7 +534,8 @@ export const manualIndex = {
         url: null,
         fetchable: false,
         source: 'upload',
-        notes: 'No validated URL — ford.com/support/owner-manuals and fordservicecontent.com PDFs (e.g. .../Ford_Content/Catalog/owner_information/2023-Ford-F-150-Owners-Manual-version-1_om_EN-US.pdf) time out / drop the connection from the build environment (bot protection). Re-probed 2026-08-17 (Wave 3: Chrome GET, Safari HEAD, HTTP/1.1 GET — all failed/hung) — still blocked; upload fallback for now.'
+        lookupUrl: 'https://www.ford.com/support/owner-manuals-details/',
+        notes: 'No directly fetchable PDF (fordservicecontent bot wall) — upload fallback for manual parsing. lookupUrl deep-links to Fords public owner-manual page (verified 2026-08-23, browser: "Vehicle Search" + "Search by VIN dialog" + Year/Model) so the owner types their VIN to get their manual.'
       }
     },
     escape: {
@@ -517,7 +543,8 @@ export const manualIndex = {
         url: null,
         fetchable: false,
         source: 'upload',
-        notes: 'No validated URL — Ford endpoints time out from the build environment (bot protection). Re-probed 2026-08-17 (Wave 3) — still blocked; upload fallback for now.'
+        lookupUrl: 'https://www.ford.com/support/owner-manuals-details/',
+        notes: 'No directly fetchable PDF (fordservicecontent bot wall) — upload fallback for manual parsing. lookupUrl deep-links to Fords public owner-manual page (verified 2026-08-23, browser: "Vehicle Search" + "Search by VIN dialog" + Year/Model) so the owner types their VIN to get their manual.'
       }
     },
     explorer: {
@@ -525,7 +552,8 @@ export const manualIndex = {
         url: null,
         fetchable: false,
         source: 'upload',
-        notes: 'No validated URL — Ford endpoints time out from the build environment (bot protection). Re-probed 2026-08-17 (Wave 3) — still blocked; upload fallback for now.'
+        lookupUrl: 'https://www.ford.com/support/owner-manuals-details/',
+        notes: 'No directly fetchable PDF (fordservicecontent bot wall) — upload fallback for manual parsing. lookupUrl deep-links to Fords public owner-manual page (verified 2026-08-23, browser: "Vehicle Search" + "Search by VIN dialog" + Year/Model) so the owner types their VIN to get their manual.'
       }
     },
     mustang: {
@@ -533,7 +561,8 @@ export const manualIndex = {
         url: null,
         fetchable: false,
         source: 'upload',
-        notes: 'No validated URL — Ford endpoints time out from the build environment (bot protection). Re-probed 2026-08-17 (Wave 3) — still blocked; upload fallback for now.'
+        lookupUrl: 'https://www.ford.com/support/owner-manuals-details/',
+        notes: 'No directly fetchable PDF (fordservicecontent bot wall) — upload fallback for manual parsing. lookupUrl deep-links to Fords public owner-manual page (verified 2026-08-23, browser: "Vehicle Search" + "Search by VIN dialog" + Year/Model) so the owner types their VIN to get their manual.'
       }
     }
   },
@@ -751,7 +780,8 @@ export const manualIndex = {
         url: null,
         fetchable: false,
         source: 'upload',
-        notes: 'No validated URL — bmwusa.com/owners-manuals.html fails (HTTP/2 stream error, then 35s timeout with 0 bytes); bmw.com alternate hosts also drop the connection. Re-probed 2026-08-17 (Wave 3) — still blocked; upload fallback for now.'
+        lookupUrl: 'https://www.bmwusa.com/owners-manuals.html',
+        notes: 'No directly fetchable PDF (bmwusa/bmw.com bot wall) — upload fallback for parsing. lookupUrl deep-links to BMWs public digital-owner-manual page (verified 2026-08-23, browser: "Find Your Digital Owners Manual" with a required "VIN Code" textbox; enter full VIN).'
       }
     },
     x3: {
@@ -759,7 +789,8 @@ export const manualIndex = {
         url: null,
         fetchable: false,
         source: 'upload',
-        notes: 'No validated URL — bmwusa.com/owners-manuals.html fails (HTTP/2 stream error, then 35s timeout with 0 bytes); bmw.com alternate hosts also drop the connection. Re-probed 2026-08-17 (Wave 3) — still blocked; upload fallback for now.'
+        lookupUrl: 'https://www.bmwusa.com/owners-manuals.html',
+        notes: 'No directly fetchable PDF (bmwusa/bmw.com bot wall) — upload fallback for parsing. lookupUrl deep-links to BMWs public digital-owner-manual page (verified 2026-08-23, browser: "Find Your Digital Owners Manual" with a required "VIN Code" textbox; enter full VIN).'
       }
     },
     r1250gs: {
@@ -1045,7 +1076,8 @@ export const manualIndex = {
         url: null,
         fetchable: false,
         source: 'upload',
-        notes: 'No validated URL — lincoln.com owners paths drop the connection (0 bytes; same Akamai bot protection as Ford) when probed 2026-08-17 (Wave 3). Upload fallback for now.'
+        lookupUrl: 'https://www.lincoln.com/support/owner-manuals/',
+        notes: 'No directly fetchable PDF (lincoln.com Akamai bot wall) — upload fallback for parsing. lookupUrl deep-links to Lincolns public owner-manual page (verified 2026-08-23, browser: "Enter Your Vehicle Information", "Search by VIN" tab with an "Input VIN" textbox).'
       }
     },
     nautilus: {
@@ -1053,7 +1085,8 @@ export const manualIndex = {
         url: null,
         fetchable: false,
         source: 'upload',
-        notes: 'No validated URL — lincoln.com drops the connection (see corsair note, probed 2026-08-17). Upload fallback for now.'
+        lookupUrl: 'https://www.lincoln.com/support/owner-manuals/',
+        notes: 'No directly fetchable PDF (lincoln.com Akamai bot wall) — upload fallback for parsing. lookupUrl deep-links to Lincolns public owner-manual page (verified 2026-08-23, browser: "Enter Your Vehicle Information", "Search by VIN" tab with an "Input VIN" textbox).'
       }
     },
     navigator: {
@@ -1061,7 +1094,8 @@ export const manualIndex = {
         url: null,
         fetchable: false,
         source: 'upload',
-        notes: 'No validated URL — lincoln.com drops the connection (see corsair note, probed 2026-08-17). Upload fallback for now.'
+        lookupUrl: 'https://www.lincoln.com/support/owner-manuals/',
+        notes: 'No directly fetchable PDF (lincoln.com Akamai bot wall) — upload fallback for parsing. lookupUrl deep-links to Lincolns public owner-manual page (verified 2026-08-23, browser: "Enter Your Vehicle Information", "Search by VIN" tab with an "Input VIN" textbox).'
       }
     }
   },
@@ -1397,7 +1431,8 @@ export const manualIndex = {
         url: null,
         fetchable: false,
         source: 'upload',
-        notes: 'No validated URL — John Deere operator manuals require dealer-portal login; probed 2026-08-17 (Wave 4). Upload fallback.'
+        lookupUrl: 'https://shop.deere.com/us/ownersupport',
+        notes: 'No directly fetchable PDF (dealer-portal gated) — upload fallback for manual parsing. lookupUrl deep-links to John Deeres Owner Support page (owner-supplied, verified HTTP 200 2026-08-23, page exposes the equipment serial/VIN lookup UI) so the owner enters their equipment serial/VIN to get the operator manual.'
       }
     }
   },
