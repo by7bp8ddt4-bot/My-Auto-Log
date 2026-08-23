@@ -116,13 +116,16 @@ describe('Universal 12-month oil clause — automotive only', () => {
     for (const e of ols) {
       expect(e.months).toBe(12);
     }
-    // The Chevrolet Silverado (incl. HD 2500/3500 via reference) uses the official
-    // GM oil-life monitor: 0 fixed miles, 12-month annual floor. Mileage preserved.
-    const sched = resolveSchedule('chevrolet', 'silverado');
-    const oil = sched.find(s => s.service === 'Oil & Filter Change (Oil Life System)');
-    expect(oil).toBeTruthy();
-    expect(oil.intervalMiles).toBe(0);
-    expect(oil.intervalMonths).toBe(12);
+    // The Chevrolet Silverado and HD 2500/3500 now carry the owner-mandated
+    // 7,500 mi / 12 months (whichever comes first) figure — corrected from the
+    // former 0-mile oil-life-monitor-only entry.
+    for (const model of ['silverado', 'silverado 2500', 'silverado 3500']) {
+      const sched = resolveSchedule('chevrolet', model);
+      const oil = sched.find(s => s.service === 'Oil & Filter Change (Oil Life System)');
+      expect(oil, `chevrolet ${model} oil entry`).toBeTruthy();
+      expect(oil.intervalMonths, `chevrolet ${model} months`).toBe(12);
+      expect(oil.intervalMiles, `chevrolet ${model} miles`).toBe(7500);
+    }
   });
 
   it('non-automotive vehicles are NOT forced to a 12-month time', () => {
