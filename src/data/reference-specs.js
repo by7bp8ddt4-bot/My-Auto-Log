@@ -5913,7 +5913,9 @@ const wave19K2XX = {
           oilCapacity: '6.0 qt (4.3L V6 w/filter) / 8.0 qt (5.3L V8 w/filter) / 8.0 qt (6.2L w/filter)',
           oilFilterPN: 'ACDelco PF63E (4.3L/5.3L/6.2L)',
           coolantType: 'Dex-Cool (orange)',
-          coolantCapacity: '13.0 qt (4.3L V6) / 16.5 qt (5.3L V8) / 17.0 qt (6.2L) — total system; verify level at surge tank'
+          coolantCapacity: '15.9 qt (4.3L V6) / 16.6 qt (5.3L V8) / 17.0 qt (6.2L) — total system (2017 1500 manual); verify level at surge tank',
+          airFilters: { engine: 'ACDelco A3181C (22845992)', cabin: 'ACDelco CF188 (23281440)' },
+          fuelTank: { capacity: '26 gal (98.4L) short box / 34 gal (128.7L) long box — 1500' }
         },
         transmission: {
           fluidType: 'DEXRON-VI (6-speed 6L80) / DEXRON-HP (8-speed 8L90 — 6.2L, 2015+)',
@@ -5932,7 +5934,7 @@ const wave19K2XX = {
             note: '4WD models only'
           },
           rear: {
-            fluidType: 'SAE 75W-90 GL-5 (standard) / SAE 75W-90 with friction modifier (G80 locking differential)',
+            fluidType: 'SAE 75W-85 GL-5 (standard — 2017 1500) / SAE 75W-90 GL-5 with friction modifier (G80 locking differential)',
             capacity: '2.6 qt (8.6" axle) / 2.8 qt (9.5" axle) / 3.0 qt (9.76" heavy-duty axle)',
             note: 'Add GM friction modifier (P/N 88862624) for G80 limited-slip. Confirm exact capacity on the axle RPO tag.'
           }
@@ -5967,7 +5969,9 @@ const wave19K2XX = {
           oilCapacity: '6.0 qt (4.3L V6 w/filter) / 8.0 qt (5.3L V8 w/filter) / 8.0 qt (6.2L w/filter)',
           oilFilterPN: 'ACDelco PF63E (4.3L/5.3L/6.2L)',
           coolantType: 'Dex-Cool (orange)',
-          coolantCapacity: '13.0 qt (4.3L V6) / 16.5 qt (5.3L V8) / 17.0 qt (6.2L) — total system; verify level at surge tank'
+          coolantCapacity: '15.9 qt (4.3L V6) / 16.6 qt (5.3L V8) / 17.0 qt (6.2L) — total system (2017 1500 manual); verify level at surge tank',
+          airFilters: { engine: 'ACDelco A3181C (22845992)', cabin: 'ACDelco CF188 (23281440)' },
+          fuelTank: { capacity: '26 gal (98.4L) short box / 34 gal (128.7L) long box — 1500' }
         },
         transmission: {
           fluidType: 'DEXRON-VI (6-speed 6L80) / DEXRON-HP (8-speed 8L90 — 6.2L, 2015+)',
@@ -5986,7 +5990,7 @@ const wave19K2XX = {
             note: '4WD models only'
           },
           rear: {
-            fluidType: 'SAE 75W-90 GL-5 (standard) / SAE 75W-90 with friction modifier (G80 locking differential)',
+            fluidType: 'SAE 75W-85 GL-5 (standard — 2017 1500) / SAE 75W-90 GL-5 with friction modifier (G80 locking differential)',
             capacity: '2.6 qt (8.6" axle) / 2.8 qt (9.5" axle) / 3.0 qt (9.76" heavy-duty axle)',
             note: 'Add GM friction modifier (P/N 88862624) for G80 limited-slip. Confirm exact capacity on the axle RPO tag.'
           }
