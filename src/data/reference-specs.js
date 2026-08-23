@@ -5958,6 +5958,83 @@ const wave19K2XX = {
         },
         obd2Location: 'Under driver side dashboard, left of steering column, above the parking brake release near the hood release.'
       }
+    },
+    // Silverado HD 2500/3500 — 6.0L Vortec V8 (L96). Official 2017 owner's manual figures.
+    'silverado 2500': {
+      '2015-2019': {
+        engine: {
+          description: '6.0L Vortec V8 (L96, VIN G) — Silverado HD 2500/3500',
+          oilViscosity: 'dexos1 spec',
+          oilCapacity: '5.7L / 6.0 qt (6.0L V8, w/filter)',
+          oilFilterPN: 'ACDelco PF48E (GM 19303975)',
+          coolantType: '50/50 DEX-COOL',
+          coolantCapacity: '16.1L / 17.0 qt (6.0L V8 2500/3500)',
+          sparkPlugs: { type: 'ACDelco 41-110 (GM 12621258) — 6.0L L96, VIN G', gap: '0.95\u20131.10mm / 0.037\u20130.043 in (~0.040 in)', oemPN: 'ACDelco 41-110 (GM 12621258)' },
+          fuelTank: { capacity: '136.3L / 36 gal (2500/3500 standard & long box)' }
+        },
+        transmission: {
+          fluidType: "Consult the owner's manual",
+          capacity: "Consult the owner's manual",
+          note: 'Transmission fluid type/capacity not among the official figures provided for the HD 6.0L.'
+        },
+        powerSteering: { fluidType: 'GM Power Steering Fluid (2500/3500 only)' },
+        transferCase: { fluidType: 'DEXRON-VI', capacity: '1.5L / 1.6 qt', note: 'Standard AutoTrac transfer case.' },
+        differentials: {
+          front: { fluidType: 'SAE 75W-90', capacity: "Consult the owner's manual", note: '4WD models only.' },
+          rear: { fluidType: 'SAE 75W-90 Synthetic Axle Lubricant', capacity: "Consult the owner's manual" }
+        },
+        brakeFluid: "Consult the owner's manual",
+        tires: {
+          frontPSI: "Consult the owner's manual",
+          rearPSI: "Consult the owner's manual",
+          oemSizes: ["Consult the owner's manual"],
+          lugNutTorque: 140
+        },
+        bulbs: {
+          lowBeam: "Consult the owner's manual", highBeam: "Consult the owner's manual",
+          frontTurn: "Consult the owner's manual", rearTurn: "Consult the owner's manual",
+          tailBrake: "Consult the owner's manual", interior: "Consult the owner's manual", license: "Consult the owner's manual"
+        },
+        obd2Location: "Consult the owner's manual — under the driver-side dashboard, left of the steering column."
+      }
+    },
+    'silverado 3500': {
+      '2015-2019': {
+        engine: {
+          description: '6.0L Vortec V8 (L96, VIN G) — Silverado HD 2500/3500',
+          oilViscosity: 'dexos1 spec',
+          oilCapacity: '5.7L / 6.0 qt (6.0L V8, w/filter)',
+          oilFilterPN: 'ACDelco PF48E (GM 19303975)',
+          coolantType: '50/50 DEX-COOL',
+          coolantCapacity: '16.1L / 17.0 qt (6.0L V8 2500/3500)',
+          sparkPlugs: { type: 'ACDelco 41-110 (GM 12621258) — 6.0L L96, VIN G', gap: '0.95\u20131.10mm / 0.037\u20130.043 in (~0.040 in)', oemPN: 'ACDelco 41-110 (GM 12621258)' },
+          fuelTank: { capacity: '136.3L / 36 gal (2500/3500 standard & long box); 3500 Chassis Cab 240.4L / 63.5 gal (front tank 89.0L / 23.5 gal, rear tank 151.4L / 40.0 gal if equipped)' }
+        },
+        transmission: {
+          fluidType: "Consult the owner's manual",
+          capacity: "Consult the owner's manual",
+          note: 'Transmission fluid type/capacity not among the official figures provided for the HD 6.0L.'
+        },
+        powerSteering: { fluidType: 'GM Power Steering Fluid (2500/3500 only)' },
+        transferCase: { fluidType: 'DEXRON-VI', capacity: '1.5L / 1.6 qt', note: 'Standard AutoTrac transfer case.' },
+        differentials: {
+          front: { fluidType: 'SAE 75W-90', capacity: "Consult the owner's manual", note: '4WD models only.' },
+          rear: { fluidType: 'SAE 75W-90 Synthetic Axle Lubricant', capacity: "Consult the owner's manual" }
+        },
+        brakeFluid: "Consult the owner's manual",
+        tires: {
+          frontPSI: "Consult the owner's manual",
+          rearPSI: "Consult the owner's manual",
+          oemSizes: ["Consult the owner's manual"],
+          lugNutTorque: 140
+        },
+        bulbs: {
+          lowBeam: "Consult the owner's manual", highBeam: "Consult the owner's manual",
+          frontTurn: "Consult the owner's manual", rearTurn: "Consult the owner's manual",
+          tailBrake: "Consult the owner's manual", interior: "Consult the owner's manual", license: "Consult the owner's manual"
+        },
+        obd2Location: "Consult the owner's manual — under the driver-side dashboard, left of the steering column."
+      }
     }
   },
   gmc: {
