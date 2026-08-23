@@ -413,8 +413,8 @@ export default function InspectedVessels({
           <Anchor className="w-12 h-12 text-slate-600 mx-auto mb-4" />
           <h3 className="text-lg font-semibold text-white mb-2">No vessels yet</h3>
           <p className="text-sm text-slate-400 max-w-md mx-auto mb-6">
-            Add a Personal Watercraft, Outboard Engine, or Marine Diesel to your
-            Garage to start storing its certified inspection documents.
+            Add an Outboard Engine or Marine Diesel to your Garage to start
+            storing its certified inspection documents.
           </p>
           <button
             onClick={() => onNavigate?.('vehicles')}
@@ -458,7 +458,7 @@ export default function InspectedVessels({
           ))}
         </select>
         <p className="text-[11px] text-slate-500 mt-2">
-          {vessels.length} vessel{vessels.length !== 1 ? 's' : ''} in your garage · {VESSEL_TYPE_IDS.length} certificate folders
+          {vessels.length} vessel{vessels.length !== 1 ? 's' : ''} in your garage · {CERT_FOLDERS.length} certificate folders
         </p>
       </div>
 
