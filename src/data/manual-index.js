@@ -169,73 +169,82 @@ export const manualIndex = {
     camry: {
       '2018-2026': {
         url: 'https://www.toyota.com/owners/warranty-owners-manuals/digital/camry/2024/',
+        lookupUrl: 'https://www.toyota.com/owners/warranty-owners-manuals/',
         fetchable: true,
         source: 'oem',
-        notes: 'Per-year interactive manual page; pattern .../digital/camry/{year}/ — validated 2024 (200 text/html). Substitute the vehicle year in the pattern.'
+        notes: 'Per-year interactive manual page; pattern .../digital/camry/{year}/ — validated 2024 (200 text/html). Substitute the vehicle year in the pattern. lookupUrl = Toyota year/model manual-search hub (toyota.com/owners/warranty-owners-manuals; verified 2026-08-23 browser: "Select your vehicle to access all manuals" + year/model selectors, no login wall).'
       }
     },
     corolla: {
       '2014-2026': {
         url: 'https://www.toyota.com/owners/warranty-owners-manuals/digital/corolla/2024/',
+        lookupUrl: 'https://www.toyota.com/owners/warranty-owners-manuals/',
         fetchable: true,
         source: 'oem',
-        notes: 'Per-year interactive manual page; pattern .../digital/corolla/{year}/ — validated 2024 (200 text/html). Substitute the vehicle year in the pattern.'
+        notes: 'Per-year interactive manual page; pattern .../digital/corolla/{year}/ — validated 2024 (200 text/html). Substitute the vehicle year in the pattern. lookupUrl = Toyota year/model manual-search hub (toyota.com/owners/warranty-owners-manuals; verified 2026-08-23 browser: "Select your vehicle to access all manuals" + year/model selectors, no login wall).'
       }
     },
     rav4: {
       '2019-2026': {
         url: 'https://www.toyota.com/owners/warranty-owners-manuals/digital/rav4/2024/',
+        lookupUrl: 'https://www.toyota.com/owners/warranty-owners-manuals/',
         fetchable: true,
         source: 'oem',
-        notes: 'Per-year interactive manual page; pattern .../digital/rav4/{year}/ — validated 2024 (200 text/html). Substitute the vehicle year in the pattern.'
+        notes: 'Per-year interactive manual page; pattern .../digital/rav4/{year}/ — validated 2024 (200 text/html). Substitute the vehicle year in the pattern. lookupUrl = Toyota year/model manual-search hub (toyota.com/owners/warranty-owners-manuals; verified 2026-08-23 browser: "Select your vehicle to access all manuals" + year/model selectors, no login wall).'
       }
     },
     tacoma: {
       '2016-2026': {
         url: 'https://www.toyota.com/owners/warranty-owners-manuals/digital/tacoma/2024/',
+        lookupUrl: 'https://www.toyota.com/owners/warranty-owners-manuals/',
         fetchable: true,
         source: 'oem',
-        notes: 'Per-year interactive manual page; pattern .../digital/tacoma/{year}/ — validated 2020 and 2024 (both 200 text/html). Substitute the vehicle year in the pattern.'
+        notes: 'Per-year interactive manual page; pattern .../digital/tacoma/{year}/ — validated 2020 and 2024 (both 200 text/html). Substitute the vehicle year in the pattern. lookupUrl = Toyota year/model manual-search hub (toyota.com/owners/warranty-owners-manuals; verified 2026-08-23 browser: "Select your vehicle to access all manuals" + year/model selectors, no login wall).'
       }
     },
     highlander: {
       '2020-2026': {
         url: 'https://www.toyota.com/owners/warranty-owners-manuals/digital/highlander/2024/',
+        lookupUrl: 'https://www.toyota.com/owners/warranty-owners-manuals/',
         fetchable: true,
         source: 'oem',
-        notes: 'Per-year interactive manual page; pattern .../digital/highlander/{year}/ — validated 2020 and 2024 (both 200 text/html). Substitute the vehicle year in the pattern.'
+        notes: 'Per-year interactive manual page; pattern .../digital/highlander/{year}/ — validated 2020 and 2024 (both 200 text/html). Substitute the vehicle year in the pattern. lookupUrl = Toyota year/model manual-search hub (toyota.com/owners/warranty-owners-manuals; verified 2026-08-23 browser: "Select your vehicle to access all manuals" + year/model selectors, no login wall).'
       }
     },
     tundra: {
       '2022-2026': {
         url: 'https://www.toyota.com/owners/warranty-owners-manuals/digital/tundra/2024/',
+        lookupUrl: 'https://www.toyota.com/owners/warranty-owners-manuals/',
         fetchable: true,
         source: 'oem',
-        notes: 'Wave 2 (2026-08-17): per-year interactive manual page; pattern .../digital/tundra/{year}/ — validated 2024 (200 text/html). Substitute the vehicle year in the pattern.'
+        notes: 'Wave 2 (2026-08-17): per-year interactive manual page; pattern .../digital/tundra/{year}/ — validated 2024 (200 text/html). Substitute the vehicle year in the pattern. lookupUrl = Toyota year/model manual-search hub (toyota.com/owners/warranty-owners-manuals; verified 2026-08-23 browser: "Select your vehicle to access all manuals" + year/model selectors, no login wall).'
       }
     },
     '4runner': {
       '2010-2026': {
         url: 'https://www.toyota.com/owners/warranty-owners-manuals/digital/4runner/2024/',
+        lookupUrl: 'https://www.toyota.com/owners/warranty-owners-manuals/',
         fetchable: true,
         source: 'oem',
-        notes: 'Wave 2 (2026-08-17): per-year interactive manual page; pattern .../digital/4runner/{year}/ — validated 2024 (200 text/html). Substitute the vehicle year in the pattern.'
+        notes: 'Wave 2 (2026-08-17): per-year interactive manual page; pattern .../digital/4runner/{year}/ — validated 2024 (200 text/html). Substitute the vehicle year in the pattern. lookupUrl = Toyota year/model manual-search hub (toyota.com/owners/warranty-owners-manuals; verified 2026-08-23 browser: "Select your vehicle to access all manuals" + year/model selectors, no login wall).'
       }
     },
     sienna: {
       '2021-2026': {
         url: 'https://www.toyota.com/owners/warranty-owners-manuals/digital/sienna/2024/',
+        lookupUrl: 'https://www.toyota.com/owners/warranty-owners-manuals/',
         fetchable: true,
         source: 'oem',
-        notes: 'Wave 2 (2026-08-17): per-year interactive manual page; pattern .../digital/sienna/{year}/ — validated 2024 (200 text/html). Substitute the vehicle year in the pattern.'
+        notes: 'Wave 2 (2026-08-17): per-year interactive manual page; pattern .../digital/sienna/{year}/ — validated 2024 (200 text/html). Substitute the vehicle year in the pattern. lookupUrl = Toyota year/model manual-search hub (toyota.com/owners/warranty-owners-manuals; verified 2026-08-23 browser: "Select your vehicle to access all manuals" + year/model selectors, no login wall).'
       }
     },
     prius: {
       '2016-2026': {
         url: 'https://www.toyota.com/owners/warranty-owners-manuals/digital/prius/2023/',
+        lookupUrl: 'https://www.toyota.com/owners/warranty-owners-manuals/',
         fetchable: true,
         source: 'oem',
-        notes: 'Wave 3 (2026-08-17): per-year interactive manual page; pattern .../digital/prius/{year}/ — validated 2023 (200 text/html). Substitute the vehicle year in the pattern.'
+        notes: 'Wave 3 (2026-08-17): per-year interactive manual page; pattern .../digital/prius/{year}/ — validated 2023 (200 text/html). Substitute the vehicle year in the pattern. lookupUrl = Toyota year/model manual-search hub (toyota.com/owners/warranty-owners-manuals; verified 2026-08-23 browser: "Select your vehicle to access all manuals" + year/model selectors, no login wall).'
       }
     }
   },
@@ -243,105 +252,118 @@ export const manualIndex = {
     civic: {
       '2016-2026': {
         url: 'https://owners.honda.com/vehicle-information/manuals/civic/2024',
+        lookupUrl: 'https://mygarage.honda.com/s/manuals-search?brand=honda',
         fetchable: true,
         source: 'oem',
-        notes: 'Owners-portal manual route (200 text/html). Site is a Salesforce SPA — page shell renders via JS; per-model manual PDFs load through the owners API. Validated URL only; parse strategy TBD in the feature build, upload fallback also fine.'
+        notes: 'Owners-portal manual route (200 text/html). Site is a Salesforce SPA — page shell renders via JS; per-model manual PDFs load through the owners API. Validated URL only; parse strategy TBD in the feature build, upload fallback also fine. lookupUrl = Honda manual-search page (mygarage.honda.com/s/manuals-search?brand=honda; verified 2026-08-23 browser: Year/Model/Trim dropdowns + VIN input, "Enter your year, model, and trim for information about your Honda", no login wall).'
       }
     },
     accord: {
       '2018-2026': {
         url: 'https://owners.honda.com/vehicle-information/manuals/accord/2024',
+        lookupUrl: 'https://mygarage.honda.com/s/manuals-search?brand=honda',
         fetchable: true,
         source: 'oem',
-        notes: 'Owners-portal manual route (200 text/html). Salesforce SPA — see civic note; validate per-model content during feature build.'
+        notes: 'Owners-portal manual route (200 text/html). Salesforce SPA — see civic note; validate per-model content during feature build. lookupUrl = Honda manual-search page (mygarage.honda.com/s/manuals-search?brand=honda; verified 2026-08-23 browser: Year/Model/Trim dropdowns + VIN input, "Enter your year, model, and trim for information about your Honda", no login wall).'
       }
     },
     'cr-v': {
       '2017-2026': {
         url: 'https://owners.honda.com/vehicle-information/manuals/cr-v/2024',
+        lookupUrl: 'https://mygarage.honda.com/s/manuals-search?brand=honda',
         fetchable: true,
         source: 'oem',
-        notes: 'Owners-portal manual route (200 text/html). Salesforce SPA — see civic note; validate per-model content during feature build.'
+        notes: 'Owners-portal manual route (200 text/html). Salesforce SPA — see civic note; validate per-model content during feature build. lookupUrl = Honda manual-search page (mygarage.honda.com/s/manuals-search?brand=honda; verified 2026-08-23 browser: Year/Model/Trim dropdowns + VIN input, "Enter your year, model, and trim for information about your Honda", no login wall).'
       }
     },
     pilot: {
       '2016-2026': {
         url: 'https://owners.honda.com/vehicle-information/manuals/pilot/2024',
+        lookupUrl: 'https://mygarage.honda.com/s/manuals-search?brand=honda',
         fetchable: true,
         source: 'oem',
-        notes: 'Owners-portal manual route (200 text/html). Salesforce SPA — see civic note; validate per-model content during feature build.'
+        notes: 'Owners-portal manual route (200 text/html). Salesforce SPA — see civic note; validate per-model content during feature build. lookupUrl = Honda manual-search page (mygarage.honda.com/s/manuals-search?brand=honda; verified 2026-08-23 browser: Year/Model/Trim dropdowns + VIN input, "Enter your year, model, and trim for information about your Honda", no login wall).'
       }
     },
     odyssey: {
       '2018-2026': {
         url: 'https://owners.honda.com/vehicle-information/manuals/odyssey/2024',
+        lookupUrl: 'https://mygarage.honda.com/s/manuals-search?brand=honda',
         fetchable: true,
         source: 'oem',
-        notes: 'Owners-portal manual route (200 text/html). Salesforce SPA — see civic note; validate per-model content during feature build.'
+        notes: 'Owners-portal manual route (200 text/html). Salesforce SPA — see civic note; validate per-model content during feature build. lookupUrl = Honda manual-search page (mygarage.honda.com/s/manuals-search?brand=honda; verified 2026-08-23 browser: Year/Model/Trim dropdowns + VIN input, "Enter your year, model, and trim for information about your Honda", no login wall).'
       }
     },
     hrv: {
       '2016-2026': {
         url: 'https://owners.honda.com/vehicle-information/manuals/hrv/2023',
+        lookupUrl: 'https://mygarage.honda.com/s/manuals-search?brand=honda',
         fetchable: true,
         source: 'oem',
-        notes: 'Wave 3 (2026-08-17): owners-portal manual route (200 text/html, redirects to mygarage shell — same Salesforce SPA as civic). Validate per-model content during feature build; upload fallback also fine.'
+        notes: 'Wave 3 (2026-08-17): owners-portal manual route (200 text/html, redirects to mygarage shell — same Salesforce SPA as civic). Validate per-model content during feature build; upload fallback also fine. lookupUrl = Honda manual-search page (mygarage.honda.com/s/manuals-search?brand=honda; verified 2026-08-23 browser: Year/Model/Trim dropdowns + VIN input, "Enter your year, model, and trim for information about your Honda", no login wall).'
       }
     },
     ridgeline: {
       '2017-2026': {
         url: 'https://owners.honda.com/vehicle-information/manuals/ridgeline/2021',
+        lookupUrl: 'https://mygarage.honda.com/s/manuals-search?brand=honda',
         fetchable: true,
         source: 'oem',
-        notes: 'Wave 3 (2026-08-17): owners-portal manual route (200 text/html, redirects to mygarage shell — same Salesforce SPA as civic). Validate per-model content during feature build; upload fallback also fine.'
+        notes: 'Wave 3 (2026-08-17): owners-portal manual route (200 text/html, redirects to mygarage shell — same Salesforce SPA as civic). Validate per-model content during feature build; upload fallback also fine. lookupUrl = Honda manual-search page (mygarage.honda.com/s/manuals-search?brand=honda; verified 2026-08-23 browser: Year/Model/Trim dropdowns + VIN input, "Enter your year, model, and trim for information about your Honda", no login wall).'
       }
     },
     passport: {
       '2019-2026': {
         url: 'https://owners.honda.com/vehicle-information/manuals/passport/2022',
+        lookupUrl: 'https://mygarage.honda.com/s/manuals-search?brand=honda',
         fetchable: true,
         source: 'oem',
-        notes: 'Wave 3 (2026-08-17): owners-portal manual route (200 text/html, redirects to mygarage shell — same Salesforce SPA as civic). Validate per-model content during feature build; upload fallback also fine.'
+        notes: 'Wave 3 (2026-08-17): owners-portal manual route (200 text/html, redirects to mygarage shell — same Salesforce SPA as civic). Validate per-model content during feature build; upload fallback also fine. lookupUrl = Honda manual-search page (mygarage.honda.com/s/manuals-search?brand=honda; verified 2026-08-23 browser: Year/Model/Trim dropdowns + VIN input, "Enter your year, model, and trim for information about your Honda", no login wall).'
       }
     },
     'cbr1000rr': {
       '2000-2026': {
         url: 'https://owners.honda.com/vehicle-information/manuals/cbr1000rr/2024',
+        lookupUrl: 'https://mygarage.honda.com/s/manuals-search?brand=honda',
         fetchable: true,
         source: 'oem',
-        notes: 'Wave 4 (2026-08-17): Honda powersports per-year manual route — VALIDATED 2024 (200 text/html). Pattern https://owners.honda.com/vehicle-information/manuals/{model}/{year}; substitute vehicle year.'
+        notes: 'Wave 4 (2026-08-17): Honda powersports per-year manual route — VALIDATED 2024 (200 text/html). Pattern https://owners.honda.com/vehicle-information/manuals/{model}/{year}; substitute vehicle year. lookupUrl = Honda manual-search page (mygarage.honda.com/s/manuals-search?brand=honda; verified 2026-08-23 browser: Year/Model/Trim dropdowns + VIN input, "Enter your year, model, and trim for information about your Honda", no login wall).'
       }
     },
     'cbr600rr': {
       '2000-2026': {
         url: 'https://owners.honda.com/vehicle-information/manuals/cbr600rr/2024',
+        lookupUrl: 'https://mygarage.honda.com/s/manuals-search?brand=honda',
         fetchable: true,
         source: 'oem',
-        notes: 'Wave 4 (2026-08-17): Honda powersports per-year manual route — pattern https://owners.honda.com/vehicle-information/manuals/{model}/{year} (same Salesforce SPA as cbr1000rr, validated). Substitute vehicle year.'
+        notes: 'Wave 4 (2026-08-17): Honda powersports per-year manual route — pattern https://owners.honda.com/vehicle-information/manuals/{model}/{year} (same Salesforce SPA as cbr1000rr, validated). Substitute vehicle year. lookupUrl = Honda manual-search page (mygarage.honda.com/s/manuals-search?brand=honda; verified 2026-08-23 browser: Year/Model/Trim dropdowns + VIN input, "Enter your year, model, and trim for information about your Honda", no login wall).'
       }
     },
     'goldwing': {
       '2000-2026': {
         url: 'https://owners.honda.com/vehicle-information/manuals/goldwing/2024',
+        lookupUrl: 'https://mygarage.honda.com/s/manuals-search?brand=honda',
         fetchable: true,
         source: 'oem',
-        notes: 'Wave 4 (2026-08-17): Honda powersports per-year manual route — VALIDATED 2024 (200 text/html). Pattern https://owners.honda.com/vehicle-information/manuals/{model}/{year}; substitute vehicle year.'
+        notes: 'Wave 4 (2026-08-17): Honda powersports per-year manual route — VALIDATED 2024 (200 text/html). Pattern https://owners.honda.com/vehicle-information/manuals/{model}/{year}; substitute vehicle year. lookupUrl = Honda manual-search page (mygarage.honda.com/s/manuals-search?brand=honda; verified 2026-08-23 browser: Year/Model/Trim dropdowns + VIN input, "Enter your year, model, and trim for information about your Honda", no login wall).'
       }
     },
     'rebel': {
       '2000-2026': {
         url: 'https://owners.honda.com/vehicle-information/manuals/rebel/2024',
+        lookupUrl: 'https://mygarage.honda.com/s/manuals-search?brand=honda',
         fetchable: true,
         source: 'oem',
-        notes: 'Wave 4 (2026-08-17): Honda powersports per-year manual route — pattern https://owners.honda.com/vehicle-information/manuals/{model}/{year} (same Salesforce SPA as cbr1000rr, validated). Substitute vehicle year.'
+        notes: 'Wave 4 (2026-08-17): Honda powersports per-year manual route — pattern https://owners.honda.com/vehicle-information/manuals/{model}/{year} (same Salesforce SPA as cbr1000rr, validated). Substitute vehicle year. lookupUrl = Honda manual-search page (mygarage.honda.com/s/manuals-search?brand=honda; verified 2026-08-23 browser: Year/Model/Trim dropdowns + VIN input, "Enter your year, model, and trim for information about your Honda", no login wall).'
       }
     },
     'nc750x': {
       '2000-2026': {
         url: 'https://owners.honda.com/vehicle-information/manuals/nc750x/2024',
+        lookupUrl: 'https://mygarage.honda.com/s/manuals-search?brand=honda',
         fetchable: true,
         source: 'oem',
-        notes: 'Wave 4 (2026-08-17): Honda powersports per-year manual route — pattern https://owners.honda.com/vehicle-information/manuals/{model}/{year} (same Salesforce SPA as cbr1000rr, validated). Substitute vehicle year.'
+        notes: 'Wave 4 (2026-08-17): Honda powersports per-year manual route — pattern https://owners.honda.com/vehicle-information/manuals/{model}/{year} (same Salesforce SPA as cbr1000rr, validated). Substitute vehicle year. lookupUrl = Honda manual-search page (mygarage.honda.com/s/manuals-search?brand=honda; verified 2026-08-23 browser: Year/Model/Trim dropdowns + VIN input, "Enter your year, model, and trim for information about your Honda", no login wall).'
       }
     }
   },

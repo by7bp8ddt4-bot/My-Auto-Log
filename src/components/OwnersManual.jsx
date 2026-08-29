@@ -293,7 +293,7 @@ export default function OwnersManual({ vehicles, selectedVehicleId, isPremium, o
                     {lookup.entry.notes || 'Fetching the manual so we can pull out the highlights for you.'}
                   </p>
                   <div className="flex flex-wrap gap-2 mt-4">
-                    {lookup.entry.lookupUrl ? (
+                    {lookup.entry.lookupUrl && (
                       <a
                         href={lookup.entry.lookupUrl}
                         target="_blank"
@@ -302,7 +302,8 @@ export default function OwnersManual({ vehicles, selectedVehicleId, isPremium, o
                       >
                         <ExternalLink className="w-4 h-4" /> Open OEM Manual Lookup
                       </a>
-                    ) : (
+                    )}
+                    {(!lookup.entry.lookupUrl || (lookup.entry.url && lookup.entry.fetchable)) && (
                       <>
                         <button
                           onClick={handleAutoFetch}
