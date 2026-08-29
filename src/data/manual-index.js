@@ -56,6 +56,14 @@
  *   chevrolet/buick — https://www.cadillac.com/support/vehicle/manuals-guides (genuine GM "Manuals and Guides" page,
  *   verified via curl body HTTP 200 2026-08-23; browser IP-blocked by GM/Akamai from this env, so no a11y render).
  *   Stores real Cadillac model lineup (xt5/xt4/xt6/escalade/ct4/ct5/lyriq), fetchable:true, source:'oem'.
+ *   Additive wave (2026-08-29, owner-supplied URLs, owner-approved): four more automotive makes added lookupUrl
+ *   additively (each already had a working fetchable url/source:'oem', kept — Honda/Toyota PR #315 pattern):
+ *     Mercedes-Benz https://www.mbusa.com/en/owners/manuals        (owner pre-confirmed: selects by model year)
+ *     Nissan        https://www.nissanusa.com/owners/manuals-guides.html (verified 2026-08-29 HTTP body: title
+ *                    "All Nissan Owners Vehicle Manuals & Guides", Model Year selectors, VIN lookup)
+ *     Kia           https://owners.kia.com/us/en/manuals.html      (verified 2026-08-29 HTTP body title "Manuals")
+ *     Hyundai       https://owners.hyundaiusa.com/us/en/resources/manuals-warranties (verified 2026-08-29 HTTP
+ *                    body title "Manuals & Warranties | Hyundai Resources | MyHyundai", VIN/model search)
  *   Honest gaps (no public VIN/HIN/serial input verified from this env — keep upload fallback):
  *     Jeep/Dodge/Chrysler/Ram (Mopar VIN lookup exists but bot-walled: "Access Denied"
  *       even in a real browser from this IP), Mazda (no public endpoint; MyMazda login),
@@ -373,7 +381,8 @@ export const manualIndex = {
         url: 'https://owners.kia.com/us/en/manuals.html',
         fetchable: true,
         source: 'oem',
-        notes: 'Manuals hub page (200 text/html, model/year search). Per-model PDFs are served behind a VIN-linked lookup (getvehicleinfo — still 301/not directly fetchable 2026-08-17); upload fallback recommended for parse.'
+        lookupUrl: 'https://owners.kia.com/us/en/manuals.html',
+        notes: 'Manuals hub page (200 text/html, model/year search). Per-model PDFs are served behind a VIN-linked lookup (getvehicleinfo — still 301/not directly fetchable 2026-08-17); upload fallback recommended for parse. lookupUrl = Kia Owners manual hub (owners.kia.com/us/en/manuals.html; verified 2026-08-29 HTTP body title Manuals, model/year manual search, no-login hub).'
       }
     },
     forte: {
@@ -381,7 +390,8 @@ export const manualIndex = {
         url: 'https://owners.kia.com/us/en/manuals.html',
         fetchable: true,
         source: 'oem',
-        notes: 'Manuals hub page (200 text/html, model/year search). Per-model PDFs are served behind a VIN-linked lookup (getvehicleinfo — still 301/not directly fetchable 2026-08-17); upload fallback recommended for parse.'
+        lookupUrl: 'https://owners.kia.com/us/en/manuals.html',
+        notes: 'Manuals hub page (200 text/html, model/year search). Per-model PDFs are served behind a VIN-linked lookup (getvehicleinfo — still 301/not directly fetchable 2026-08-17); upload fallback recommended for parse. lookupUrl = Kia Owners manual hub (owners.kia.com/us/en/manuals.html; verified 2026-08-29 HTTP body title Manuals, model/year manual search, no-login hub).'
       }
     },
     sportage: {
@@ -389,7 +399,8 @@ export const manualIndex = {
         url: 'https://owners.kia.com/us/en/manuals.html',
         fetchable: true,
         source: 'oem',
-        notes: 'Manuals hub page (200 text/html, model/year search). Per-model PDFs are served behind a VIN-linked lookup (getvehicleinfo — still 301/not directly fetchable 2026-08-17); upload fallback recommended for parse.'
+        lookupUrl: 'https://owners.kia.com/us/en/manuals.html',
+        notes: 'Manuals hub page (200 text/html, model/year search). Per-model PDFs are served behind a VIN-linked lookup (getvehicleinfo — still 301/not directly fetchable 2026-08-17); upload fallback recommended for parse. lookupUrl = Kia Owners manual hub (owners.kia.com/us/en/manuals.html; verified 2026-08-29 HTTP body title Manuals, model/year manual search, no-login hub).'
       }
     },
     sorento: {
@@ -397,7 +408,8 @@ export const manualIndex = {
         url: 'https://owners.kia.com/us/en/manuals.html',
         fetchable: true,
         source: 'oem',
-        notes: 'Manuals hub page (200 text/html, model/year search). Per-model PDFs are served behind a VIN-linked lookup (getvehicleinfo — still 301/not directly fetchable 2026-08-17); upload fallback recommended for parse.'
+        lookupUrl: 'https://owners.kia.com/us/en/manuals.html',
+        notes: 'Manuals hub page (200 text/html, model/year search). Per-model PDFs are served behind a VIN-linked lookup (getvehicleinfo — still 301/not directly fetchable 2026-08-17); upload fallback recommended for parse. lookupUrl = Kia Owners manual hub (owners.kia.com/us/en/manuals.html; verified 2026-08-29 HTTP body title Manuals, model/year manual search, no-login hub).'
       }
     },
     telluride: {
@@ -405,7 +417,8 @@ export const manualIndex = {
         url: 'https://owners.kia.com/us/en/manuals.html',
         fetchable: true,
         source: 'oem',
-        notes: 'Manuals hub page (200 text/html, model/year search). Per-model PDFs are served behind a VIN-linked lookup (getvehicleinfo — still 301/not directly fetchable 2026-08-17); upload fallback recommended for parse.'
+        lookupUrl: 'https://owners.kia.com/us/en/manuals.html',
+        notes: 'Manuals hub page (200 text/html, model/year search). Per-model PDFs are served behind a VIN-linked lookup (getvehicleinfo — still 301/not directly fetchable 2026-08-17); upload fallback recommended for parse. lookupUrl = Kia Owners manual hub (owners.kia.com/us/en/manuals.html; verified 2026-08-29 HTTP body title Manuals, model/year manual search, no-login hub).'
       }
     },
     k5: {
@@ -413,7 +426,8 @@ export const manualIndex = {
         url: 'https://owners.kia.com/us/en/manuals.html',
         fetchable: true,
         source: 'oem',
-        notes: 'Wave 3 (2026-08-17): manuals hub page (re-probed 200 text/html). Per-model PDFs remain VIN-linked (see soul note); upload fallback recommended for parse.'
+        lookupUrl: 'https://owners.kia.com/us/en/manuals.html',
+        notes: 'Wave 3 (2026-08-17): manuals hub page (re-probed 200 text/html). Per-model PDFs remain VIN-linked (see soul note); upload fallback recommended for parse. lookupUrl = Kia Owners manual hub (owners.kia.com/us/en/manuals.html; verified 2026-08-29 HTTP body title Manuals, model/year manual search, no-login hub).'
       }
     },
     carnival: {
@@ -421,7 +435,8 @@ export const manualIndex = {
         url: 'https://owners.kia.com/us/en/manuals.html',
         fetchable: true,
         source: 'oem',
-        notes: 'Wave 3 (2026-08-17): manuals hub page (re-probed 200 text/html). Per-model PDFs remain VIN-linked (see soul note); upload fallback recommended for parse.'
+        lookupUrl: 'https://owners.kia.com/us/en/manuals.html',
+        notes: 'Wave 3 (2026-08-17): manuals hub page (re-probed 200 text/html). Per-model PDFs remain VIN-linked (see soul note); upload fallback recommended for parse. lookupUrl = Kia Owners manual hub (owners.kia.com/us/en/manuals.html; verified 2026-08-29 HTTP body title Manuals, model/year manual search, no-login hub).'
       }
     },
     ev6: {
@@ -429,7 +444,8 @@ export const manualIndex = {
         url: 'https://owners.kia.com/us/en/manuals.html',
         fetchable: true,
         source: 'oem',
-        notes: 'Wave 3 (2026-08-17): manuals hub page (re-probed 200 text/html). Per-model PDFs remain VIN-linked (see soul note); upload fallback recommended for parse.'
+        lookupUrl: 'https://owners.kia.com/us/en/manuals.html',
+        notes: 'Wave 3 (2026-08-17): manuals hub page (re-probed 200 text/html). Per-model PDFs remain VIN-linked (see soul note); upload fallback recommended for parse. lookupUrl = Kia Owners manual hub (owners.kia.com/us/en/manuals.html; verified 2026-08-29 HTTP body title Manuals, model/year manual search, no-login hub).'
       }
     },
     niro: {
@@ -437,7 +453,8 @@ export const manualIndex = {
         url: 'https://owners.kia.com/us/en/manuals.html',
         fetchable: true,
         source: 'oem',
-        notes: 'Wave 3 (2026-08-17): manuals hub page (re-probed 200 text/html). Per-model PDFs remain VIN-linked (see soul note); upload fallback recommended for parse.'
+        lookupUrl: 'https://owners.kia.com/us/en/manuals.html',
+        notes: 'Wave 3 (2026-08-17): manuals hub page (re-probed 200 text/html). Per-model PDFs remain VIN-linked (see soul note); upload fallback recommended for parse. lookupUrl = Kia Owners manual hub (owners.kia.com/us/en/manuals.html; verified 2026-08-29 HTTP body title Manuals, model/year manual search, no-login hub).'
       }
     }
   },
@@ -497,7 +514,8 @@ export const manualIndex = {
         url: 'https://owners.hyundaiusa.com/us/en/resources/manuals-warranties.html',
         fetchable: true,
         source: 'oem',
-        notes: 'Manuals & Warranties hub page (200 text/html). Per-model digital manuals live at digitalownersmanual.hyundai.com, which does NOT resolve (DNS) from the build environment (re-checked 2026-08-17 — still NXDOMAIN; the .hyundaiusa.com variant is a parked redirect to the brand home); upload fallback recommended for parse.'
+        lookupUrl: 'https://owners.hyundaiusa.com/us/en/resources/manuals-warranties',
+        notes: 'Manuals & Warranties hub page (200 text/html). Per-model digital manuals live at digitalownersmanual.hyundai.com, which does NOT resolve (DNS) from the build environment (re-checked 2026-08-17 — still NXDOMAIN; the .hyundaiusa.com variant is a parked redirect to the brand home); upload fallback recommended for parse. lookupUrl = Hyundai Manuals and Warranties hub (owners.hyundaiusa.com/us/en/resources/manuals-warranties; verified 2026-08-29 HTTP body title Manuals and Warranties, VIN/model search, no-login hub).'
       }
     },
     sonata: {
@@ -505,7 +523,8 @@ export const manualIndex = {
         url: 'https://owners.hyundaiusa.com/us/en/resources/manuals-warranties.html',
         fetchable: true,
         source: 'oem',
-        notes: 'Manuals & Warranties hub page (200 text/html). Per-model digital manuals live at digitalownersmanual.hyundai.com, which does NOT resolve (DNS) from the build environment (re-checked 2026-08-17 — still NXDOMAIN; the .hyundaiusa.com variant is a parked redirect to the brand home); upload fallback recommended for parse.'
+        lookupUrl: 'https://owners.hyundaiusa.com/us/en/resources/manuals-warranties',
+        notes: 'Manuals & Warranties hub page (200 text/html). Per-model digital manuals live at digitalownersmanual.hyundai.com, which does NOT resolve (DNS) from the build environment (re-checked 2026-08-17 — still NXDOMAIN; the .hyundaiusa.com variant is a parked redirect to the brand home); upload fallback recommended for parse. lookupUrl = Hyundai Manuals and Warranties hub (owners.hyundaiusa.com/us/en/resources/manuals-warranties; verified 2026-08-29 HTTP body title Manuals and Warranties, VIN/model search, no-login hub).'
       }
     },
     tucson: {
@@ -513,7 +532,8 @@ export const manualIndex = {
         url: 'https://owners.hyundaiusa.com/us/en/resources/manuals-warranties.html',
         fetchable: true,
         source: 'oem',
-        notes: 'Manuals & Warranties hub page (200 text/html). Per-model digital manuals live at digitalownersmanual.hyundai.com, which does NOT resolve (DNS) from the build environment (re-checked 2026-08-17 — still NXDOMAIN; the .hyundaiusa.com variant is a parked redirect to the brand home); upload fallback recommended for parse.'
+        lookupUrl: 'https://owners.hyundaiusa.com/us/en/resources/manuals-warranties',
+        notes: 'Manuals & Warranties hub page (200 text/html). Per-model digital manuals live at digitalownersmanual.hyundai.com, which does NOT resolve (DNS) from the build environment (re-checked 2026-08-17 — still NXDOMAIN; the .hyundaiusa.com variant is a parked redirect to the brand home); upload fallback recommended for parse. lookupUrl = Hyundai Manuals and Warranties hub (owners.hyundaiusa.com/us/en/resources/manuals-warranties; verified 2026-08-29 HTTP body title Manuals and Warranties, VIN/model search, no-login hub).'
       }
     },
     'santa fe': {
@@ -521,7 +541,8 @@ export const manualIndex = {
         url: 'https://owners.hyundaiusa.com/us/en/resources/manuals-warranties.html',
         fetchable: true,
         source: 'oem',
-        notes: 'Manuals & Warranties hub page (200 text/html). Per-model digital manuals live at digitalownersmanual.hyundai.com, which does NOT resolve (DNS) from the build environment (re-checked 2026-08-17 — still NXDOMAIN; the .hyundaiusa.com variant is a parked redirect to the brand home); upload fallback recommended for parse.'
+        lookupUrl: 'https://owners.hyundaiusa.com/us/en/resources/manuals-warranties',
+        notes: 'Manuals & Warranties hub page (200 text/html). Per-model digital manuals live at digitalownersmanual.hyundai.com, which does NOT resolve (DNS) from the build environment (re-checked 2026-08-17 — still NXDOMAIN; the .hyundaiusa.com variant is a parked redirect to the brand home); upload fallback recommended for parse. lookupUrl = Hyundai Manuals and Warranties hub (owners.hyundaiusa.com/us/en/resources/manuals-warranties; verified 2026-08-29 HTTP body title Manuals and Warranties, VIN/model search, no-login hub).'
       }
     },
     palisade: {
@@ -529,7 +550,8 @@ export const manualIndex = {
         url: 'https://owners.hyundaiusa.com/us/en/resources/manuals-warranties.html',
         fetchable: true,
         source: 'oem',
-        notes: 'Wave 3 (2026-08-17): manuals-warranties hub (re-probed 200 text/html). Digital manual domain still unresolved (see elantra note); upload fallback recommended for parse.'
+        lookupUrl: 'https://owners.hyundaiusa.com/us/en/resources/manuals-warranties',
+        notes: 'Wave 3 (2026-08-17): manuals-warranties hub (re-probed 200 text/html). Digital manual domain still unresolved (see elantra note); upload fallback recommended for parse. lookupUrl = Hyundai Manuals and Warranties hub (owners.hyundaiusa.com/us/en/resources/manuals-warranties; verified 2026-08-29 HTTP body title Manuals and Warranties, VIN/model search, no-login hub).'
       }
     },
     kona: {
@@ -537,7 +559,8 @@ export const manualIndex = {
         url: 'https://owners.hyundaiusa.com/us/en/resources/manuals-warranties.html',
         fetchable: true,
         source: 'oem',
-        notes: 'Wave 3 (2026-08-17): manuals-warranties hub (re-probed 200 text/html). Digital manual domain still unresolved (see elantra note); upload fallback recommended for parse.'
+        lookupUrl: 'https://owners.hyundaiusa.com/us/en/resources/manuals-warranties',
+        notes: 'Wave 3 (2026-08-17): manuals-warranties hub (re-probed 200 text/html). Digital manual domain still unresolved (see elantra note); upload fallback recommended for parse. lookupUrl = Hyundai Manuals and Warranties hub (owners.hyundaiusa.com/us/en/resources/manuals-warranties; verified 2026-08-29 HTTP body title Manuals and Warranties, VIN/model search, no-login hub).'
       }
     },
     'ioniq 5': {
@@ -545,7 +568,8 @@ export const manualIndex = {
         url: 'https://owners.hyundaiusa.com/us/en/resources/manuals-warranties.html',
         fetchable: true,
         source: 'oem',
-        notes: 'Wave 3 (2026-08-17): manuals-warranties hub (re-probed 200 text/html). Digital manual domain still unresolved (see elantra note); upload fallback recommended for parse.'
+        lookupUrl: 'https://owners.hyundaiusa.com/us/en/resources/manuals-warranties',
+        notes: 'Wave 3 (2026-08-17): manuals-warranties hub (re-probed 200 text/html). Digital manual domain still unresolved (see elantra note); upload fallback recommended for parse. lookupUrl = Hyundai Manuals and Warranties hub (owners.hyundaiusa.com/us/en/resources/manuals-warranties; verified 2026-08-29 HTTP body title Manuals and Warranties, VIN/model search, no-login hub).'
       }
     },
     venue: {
@@ -553,7 +577,8 @@ export const manualIndex = {
         url: 'https://owners.hyundaiusa.com/us/en/resources/manuals-warranties.html',
         fetchable: true,
         source: 'oem',
-        notes: 'Wave 3 (2026-08-17): manuals-warranties hub (re-probed 200 text/html). Digital manual domain still unresolved (see elantra note); upload fallback recommended for parse.'
+        lookupUrl: 'https://owners.hyundaiusa.com/us/en/resources/manuals-warranties',
+        notes: 'Wave 3 (2026-08-17): manuals-warranties hub (re-probed 200 text/html). Digital manual domain still unresolved (see elantra note); upload fallback recommended for parse. lookupUrl = Hyundai Manuals and Warranties hub (owners.hyundaiusa.com/us/en/resources/manuals-warranties; verified 2026-08-29 HTTP body title Manuals and Warranties, VIN/model search, no-login hub).'
       }
     }
   },
@@ -601,7 +626,8 @@ export const manualIndex = {
         url: 'https://www.nissanusa.com/owners/manuals-guides.html',
         fetchable: true,
         source: 'oem',
-        notes: 'Wave 2 (2026-08-17): Manuals & Guides hub (200 text/html; "All Nissan Owners Vehicle Manuals & Guides"). Per-model manuals load via AEM SPA (jcr:content.proxy.json), not in raw HTML — validated URL only; upload fallback recommended for parse.'
+        lookupUrl: 'https://www.nissanusa.com/owners/manuals-guides.html',
+        notes: 'Wave 2 (2026-08-17): Manuals & Guides hub (200 text/html; "All Nissan Owners Vehicle Manuals & Guides"). Per-model manuals load via AEM SPA (jcr:content.proxy.json), not in raw HTML — validated URL only; upload fallback recommended for parse. lookupUrl = Nissan Manuals and Guides hub (nissanusa.com/owners/manuals-guides.html; verified 2026-08-29 HTTP body - title All Nissan Owners Vehicle Manuals and Guides, Model Year selectors, no-login manual-search hub).'
       }
     },
     rogue: {
@@ -609,7 +635,8 @@ export const manualIndex = {
         url: 'https://www.nissanusa.com/owners/manuals-guides.html',
         fetchable: true,
         source: 'oem',
-        notes: 'Wave 2 (2026-08-17): Manuals & Guides hub (200 text/html). Per-model manuals load via AEM SPA — validated URL only; upload fallback recommended for parse.'
+        lookupUrl: 'https://www.nissanusa.com/owners/manuals-guides.html',
+        notes: 'Wave 2 (2026-08-17): Manuals & Guides hub (200 text/html). Per-model manuals load via AEM SPA — validated URL only; upload fallback recommended for parse. lookupUrl = Nissan Manuals and Guides hub (nissanusa.com/owners/manuals-guides.html; verified 2026-08-29 HTTP body - title All Nissan Owners Vehicle Manuals and Guides, Model Year selectors, no-login manual-search hub).'
       }
     },
     sentra: {
@@ -617,7 +644,8 @@ export const manualIndex = {
         url: 'https://www.nissanusa.com/owners/manuals-guides.html',
         fetchable: true,
         source: 'oem',
-        notes: 'Wave 2 (2026-08-17): Manuals & Guides hub (200 text/html). Per-model manuals load via AEM SPA — validated URL only; upload fallback recommended for parse.'
+        lookupUrl: 'https://www.nissanusa.com/owners/manuals-guides.html',
+        notes: 'Wave 2 (2026-08-17): Manuals & Guides hub (200 text/html). Per-model manuals load via AEM SPA — validated URL only; upload fallback recommended for parse. lookupUrl = Nissan Manuals and Guides hub (nissanusa.com/owners/manuals-guides.html; verified 2026-08-29 HTTP body - title All Nissan Owners Vehicle Manuals and Guides, Model Year selectors, no-login manual-search hub).'
       }
     },
     pathfinder: {
@@ -625,7 +653,8 @@ export const manualIndex = {
         url: 'https://www.nissanusa.com/owners/manuals-guides.html',
         fetchable: true,
         source: 'oem',
-        notes: 'Wave 2 (2026-08-17): Manuals & Guides hub (200 text/html). Per-model manuals load via AEM SPA — validated URL only; upload fallback recommended for parse.'
+        lookupUrl: 'https://www.nissanusa.com/owners/manuals-guides.html',
+        notes: 'Wave 2 (2026-08-17): Manuals & Guides hub (200 text/html). Per-model manuals load via AEM SPA — validated URL only; upload fallback recommended for parse. lookupUrl = Nissan Manuals and Guides hub (nissanusa.com/owners/manuals-guides.html; verified 2026-08-29 HTTP body - title All Nissan Owners Vehicle Manuals and Guides, Model Year selectors, no-login manual-search hub).'
       }
     },
     frontier: {
@@ -633,7 +662,8 @@ export const manualIndex = {
         url: 'https://www.nissanusa.com/owners/manuals-guides.html',
         fetchable: true,
         source: 'oem',
-        notes: 'Wave 2 (2026-08-17): Manuals & Guides hub (200 text/html). Per-model manuals load via AEM SPA — validated URL only; upload fallback recommended for parse.'
+        lookupUrl: 'https://www.nissanusa.com/owners/manuals-guides.html',
+        notes: 'Wave 2 (2026-08-17): Manuals & Guides hub (200 text/html). Per-model manuals load via AEM SPA — validated URL only; upload fallback recommended for parse. lookupUrl = Nissan Manuals and Guides hub (nissanusa.com/owners/manuals-guides.html; verified 2026-08-29 HTTP body - title All Nissan Owners Vehicle Manuals and Guides, Model Year selectors, no-login manual-search hub).'
       }
     },
     versa: {
@@ -641,7 +671,8 @@ export const manualIndex = {
         url: 'https://www.nissanusa.com/owners/manuals-guides.html',
         fetchable: true,
         source: 'oem',
-        notes: 'Wave 2 (2026-08-17): Manuals & Guides hub (200 text/html). Per-model manuals load via AEM SPA — validated URL only; upload fallback recommended for parse.'
+        lookupUrl: 'https://www.nissanusa.com/owners/manuals-guides.html',
+        notes: 'Wave 2 (2026-08-17): Manuals & Guides hub (200 text/html). Per-model manuals load via AEM SPA — validated URL only; upload fallback recommended for parse. lookupUrl = Nissan Manuals and Guides hub (nissanusa.com/owners/manuals-guides.html; verified 2026-08-29 HTTP body - title All Nissan Owners Vehicle Manuals and Guides, Model Year selectors, no-login manual-search hub).'
       }
     },
     kicks: {
@@ -649,7 +680,8 @@ export const manualIndex = {
         url: 'https://www.nissanusa.com/owners/manuals-guides.html',
         fetchable: true,
         source: 'oem',
-        notes: 'Wave 3 (2026-08-17): Manuals & Guides hub (re-probed 200 text/html). Per-model manuals load via AEM SPA — validated URL only; upload fallback recommended for parse.'
+        lookupUrl: 'https://www.nissanusa.com/owners/manuals-guides.html',
+        notes: 'Wave 3 (2026-08-17): Manuals & Guides hub (re-probed 200 text/html). Per-model manuals load via AEM SPA — validated URL only; upload fallback recommended for parse. lookupUrl = Nissan Manuals and Guides hub (nissanusa.com/owners/manuals-guides.html; verified 2026-08-29 HTTP body - title All Nissan Owners Vehicle Manuals and Guides, Model Year selectors, no-login manual-search hub).'
       }
     },
     armada: {
@@ -657,7 +689,8 @@ export const manualIndex = {
         url: 'https://www.nissanusa.com/owners/manuals-guides.html',
         fetchable: true,
         source: 'oem',
-        notes: 'Wave 3 (2026-08-17): Manuals & Guides hub (re-probed 200 text/html). Per-model manuals load via AEM SPA — validated URL only; upload fallback recommended for parse.'
+        lookupUrl: 'https://www.nissanusa.com/owners/manuals-guides.html',
+        notes: 'Wave 3 (2026-08-17): Manuals & Guides hub (re-probed 200 text/html). Per-model manuals load via AEM SPA — validated URL only; upload fallback recommended for parse. lookupUrl = Nissan Manuals and Guides hub (nissanusa.com/owners/manuals-guides.html; verified 2026-08-29 HTTP body - title All Nissan Owners Vehicle Manuals and Guides, Model Year selectors, no-login manual-search hub).'
       }
     },
     murano: {
@@ -665,7 +698,8 @@ export const manualIndex = {
         url: 'https://www.nissanusa.com/owners/manuals-guides.html',
         fetchable: true,
         source: 'oem',
-        notes: 'Wave 3 (2026-08-17): Manuals & Guides hub (re-probed 200 text/html). Per-model manuals load via AEM SPA — validated URL only; upload fallback recommended for parse.'
+        lookupUrl: 'https://www.nissanusa.com/owners/manuals-guides.html',
+        notes: 'Wave 3 (2026-08-17): Manuals & Guides hub (re-probed 200 text/html). Per-model manuals load via AEM SPA — validated URL only; upload fallback recommended for parse. lookupUrl = Nissan Manuals and Guides hub (nissanusa.com/owners/manuals-guides.html; verified 2026-08-29 HTTP body - title All Nissan Owners Vehicle Manuals and Guides, Model Year selectors, no-login manual-search hub).'
       }
     }
   },
@@ -733,7 +767,8 @@ export const manualIndex = {
         url: 'https://www.mbusa.com/en/owners/manuals',
         fetchable: true,
         source: 'oem',
-        notes: 'Wave 2 (2026-08-17): MBUSA Owners Manuals landing page (200 text/html, JS-rendered). Per-model manuals are VIN-linked via the MB owner portal — page shell validated only; upload fallback recommended for parse.'
+        lookupUrl: 'https://www.mbusa.com/en/owners/manuals',
+        notes: 'Wave 2 (2026-08-17): MBUSA Owners Manuals landing page (200 text/html, JS-rendered). Per-model manuals are VIN-linked via the MB owner portal — page shell validated only; upload fallback recommended for parse. lookupUrl = MBUSA Owners Manuals page (mbusa.com/en/owners/manuals; owner-confirmed 2026-08-29 - selects by model year, no-login manual-search hub).'
       }
     },
     'e-class': {
@@ -741,7 +776,8 @@ export const manualIndex = {
         url: 'https://www.mbusa.com/en/owners/manuals',
         fetchable: true,
         source: 'oem',
-        notes: 'Wave 2 (2026-08-17): MBUSA Owners Manuals landing page (200 text/html, JS-rendered). VIN-linked per-model portal — page shell validated only; upload fallback recommended for parse.'
+        lookupUrl: 'https://www.mbusa.com/en/owners/manuals',
+        notes: 'Wave 2 (2026-08-17): MBUSA Owners Manuals landing page (200 text/html, JS-rendered). VIN-linked per-model portal — page shell validated only; upload fallback recommended for parse. lookupUrl = MBUSA Owners Manuals page (mbusa.com/en/owners/manuals; owner-confirmed 2026-08-29 - selects by model year, no-login manual-search hub).'
       }
     },
     glc: {
@@ -749,7 +785,8 @@ export const manualIndex = {
         url: 'https://www.mbusa.com/en/owners/manuals',
         fetchable: true,
         source: 'oem',
-        notes: 'Wave 2 (2026-08-17): MBUSA Owners Manuals landing page (200 text/html, JS-rendered). VIN-linked per-model portal — page shell validated only; upload fallback recommended for parse.'
+        lookupUrl: 'https://www.mbusa.com/en/owners/manuals',
+        notes: 'Wave 2 (2026-08-17): MBUSA Owners Manuals landing page (200 text/html, JS-rendered). VIN-linked per-model portal — page shell validated only; upload fallback recommended for parse. lookupUrl = MBUSA Owners Manuals page (mbusa.com/en/owners/manuals; owner-confirmed 2026-08-29 - selects by model year, no-login manual-search hub).'
       }
     },
     gle: {
@@ -757,7 +794,8 @@ export const manualIndex = {
         url: 'https://www.mbusa.com/en/owners/manuals',
         fetchable: true,
         source: 'oem',
-        notes: 'Wave 2 (2026-08-17): MBUSA Owners Manuals landing page (200 text/html, JS-rendered). VIN-linked per-model portal — page shell validated only; upload fallback recommended for parse.'
+        lookupUrl: 'https://www.mbusa.com/en/owners/manuals',
+        notes: 'Wave 2 (2026-08-17): MBUSA Owners Manuals landing page (200 text/html, JS-rendered). VIN-linked per-model portal — page shell validated only; upload fallback recommended for parse. lookupUrl = MBUSA Owners Manuals page (mbusa.com/en/owners/manuals; owner-confirmed 2026-08-29 - selects by model year, no-login manual-search hub).'
       }
     },
     gla: {
@@ -765,7 +803,8 @@ export const manualIndex = {
         url: 'https://www.mbusa.com/en/owners/manuals',
         fetchable: true,
         source: 'oem',
-        notes: 'Wave 3 (2026-08-17): MBUSA Owners Manuals landing page (re-probed 200 text/html). VIN-linked per-model portal — page shell validated only; upload fallback recommended for parse.'
+        lookupUrl: 'https://www.mbusa.com/en/owners/manuals',
+        notes: 'Wave 3 (2026-08-17): MBUSA Owners Manuals landing page (re-probed 200 text/html). VIN-linked per-model portal — page shell validated only; upload fallback recommended for parse. lookupUrl = MBUSA Owners Manuals page (mbusa.com/en/owners/manuals; owner-confirmed 2026-08-29 - selects by model year, no-login manual-search hub).'
       }
     },
     glb: {
@@ -773,7 +812,8 @@ export const manualIndex = {
         url: 'https://www.mbusa.com/en/owners/manuals',
         fetchable: true,
         source: 'oem',
-        notes: 'Wave 3 (2026-08-17): MBUSA Owners Manuals landing page (re-probed 200 text/html). VIN-linked per-model portal — page shell validated only; upload fallback recommended for parse.'
+        lookupUrl: 'https://www.mbusa.com/en/owners/manuals',
+        notes: 'Wave 3 (2026-08-17): MBUSA Owners Manuals landing page (re-probed 200 text/html). VIN-linked per-model portal — page shell validated only; upload fallback recommended for parse. lookupUrl = MBUSA Owners Manuals page (mbusa.com/en/owners/manuals; owner-confirmed 2026-08-29 - selects by model year, no-login manual-search hub).'
       }
     }
   },
