@@ -64,9 +64,22 @@
  *     Kia           https://owners.kia.com/us/en/manuals.html      (verified 2026-08-29 HTTP body title "Manuals")
  *     Hyundai       https://owners.hyundaiusa.com/us/en/resources/manuals-warranties (verified 2026-08-29 HTTP
  *                    body title "Manuals & Warranties | Hyundai Resources | MyHyundai", VIN/model search)
+ *   Additive wave (2026-08-29, owner-supplied URLs, owner-approved): three more automotive makes added lookupUrl
+ *   additively — Mazda + Subaru (year/model manual-search hubs verified 2026-08-29 in a real browser), and
+ *     Volkswagen (VW Canada owner-s-manual VIN/model search verified 2026-08-29 browser+HTTP body).
+ *     Mazda        https://www.mazdausa.com/owners/how-to-use-my-mazda  (in-page "SELECT YEAR / SELECT MODEL /
+ *                    FIND VEHICLE" manual search; "Manuals refer to Mazda U.S. vehicles only"; no login)
+ *     Subaru       https://www.subaru.com/owners/vehicle-resources.html (Vehicle Resources year/model search,
+ *                    "Select Year 2000-2026 / Select Model / Select Trim / View Resources", no login; the
+ *                    owner-supplied subaru.com/owners.html is just a portal that links here)
+ *     Volkswagen   https://www.vw.ca/en/owners-and-drivers/owner-s-manual.html (VW Canada; "Enter your Vehicle
+ *                    Identification Number (VIN)… view the corresponding manuals" + model-year selectors)
+ *     Volvo        NOT added — volvocars.com/…support/topic AF URL is Akamai-blocked (403 "Access Denied") in
+ *                    both curl and a real browser from this env (matches existing "Volvo (volvocars.com 403)"
+ *                    honest-gap note); cannot verify a manual-search flow → flagged for owner confirmation.
  *   Honest gaps (no public VIN/HIN/serial input verified from this env — keep upload fallback):
  *     Jeep/Dodge/Chrysler/Ram (Mopar VIN lookup exists but bot-walled: "Access Denied"
- *       even in a real browser from this IP), Mazda (no public endpoint; MyMazda login),
+ *       even in a real browser from this IP),
  *       Lexus (behind Lexus Drivers login; lexus.com + drivers.lexus.com 404), Volvo (volvocars.com 403),
  *       Mitsubishi (Salesforce SPA, no manual URL), BMW Motorrad r1250gs (Moto portal
  *       unreachable), and ALL non-automotive (harley-davidson, yamaha, kawasaki, indian,
@@ -464,7 +477,8 @@ export const manualIndex = {
         url: 'https://www.subaru.com/owners/vehicle-resources.html',
         fetchable: true,
         source: 'oem',
-        notes: 'Vehicle-resources hub with "Manuals & Warranties" tab (200 text/html). Per-model manual list loads via a JS component (subaru-800-manual-items), not in raw HTML; upload fallback recommended for parse.'
+                lookupUrl: 'https://www.subaru.com/owners/vehicle-resources.html',
+notes: 'Vehicle-resources hub with "Manuals & Warranties" tab (200 text/html). Per-model manual list loads via a JS component (subaru-800-manual-items), not in raw HTML; upload fallback recommended for parse. lookupUrl = Subaru Vehicle Resources year/model manual-search page (subaru.com/owners/vehicle-resources.html; verified 2026-08-29 browser: "Enter your vehicle\'s information to view manuals… Select Year 2000-2026 / Select Model / Select Trim / View Resources", no login wall; subaru.com/owners.html is just a portal that links to this search).'
       }
     },
     forester: {
@@ -472,7 +486,8 @@ export const manualIndex = {
         url: 'https://www.subaru.com/owners/vehicle-resources.html',
         fetchable: true,
         source: 'oem',
-        notes: 'Vehicle-resources hub with "Manuals & Warranties" tab (200 text/html). Per-model manual list loads via a JS component (subaru-800-manual-items), not in raw HTML; upload fallback recommended for parse.'
+                lookupUrl: 'https://www.subaru.com/owners/vehicle-resources.html',
+notes: 'Vehicle-resources hub with "Manuals & Warranties" tab (200 text/html). Per-model manual list loads via a JS component (subaru-800-manual-items), not in raw HTML; upload fallback recommended for parse. lookupUrl = Subaru Vehicle Resources year/model manual-search page (subaru.com/owners/vehicle-resources.html; verified 2026-08-29 browser: "Enter your vehicle\'s information to view manuals… Select Year 2000-2026 / Select Model / Select Trim / View Resources", no login wall; subaru.com/owners.html is just a portal that links to this search).'
       }
     },
     crosstrek: {
@@ -480,7 +495,8 @@ export const manualIndex = {
         url: 'https://www.subaru.com/owners/vehicle-resources.html',
         fetchable: true,
         source: 'oem',
-        notes: 'Vehicle-resources hub with "Manuals & Warranties" tab (200 text/html). Per-model manual list loads via a JS component (subaru-800-manual-items), not in raw HTML; upload fallback recommended for parse.'
+                lookupUrl: 'https://www.subaru.com/owners/vehicle-resources.html',
+notes: 'Vehicle-resources hub with "Manuals & Warranties" tab (200 text/html). Per-model manual list loads via a JS component (subaru-800-manual-items), not in raw HTML; upload fallback recommended for parse. lookupUrl = Subaru Vehicle Resources year/model manual-search page (subaru.com/owners/vehicle-resources.html; verified 2026-08-29 browser: "Enter your vehicle\'s information to view manuals… Select Year 2000-2026 / Select Model / Select Trim / View Resources", no login wall; subaru.com/owners.html is just a portal that links to this search).'
       }
     },
     impreza: {
@@ -488,7 +504,8 @@ export const manualIndex = {
         url: 'https://www.subaru.com/owners/vehicle-resources.html',
         fetchable: true,
         source: 'oem',
-        notes: 'Vehicle-resources hub with "Manuals & Warranties" tab (200 text/html). Per-model manual list loads via a JS component (subaru-800-manual-items), not in raw HTML; upload fallback recommended for parse.'
+                lookupUrl: 'https://www.subaru.com/owners/vehicle-resources.html',
+notes: 'Vehicle-resources hub with "Manuals & Warranties" tab (200 text/html). Per-model manual list loads via a JS component (subaru-800-manual-items), not in raw HTML; upload fallback recommended for parse. lookupUrl = Subaru Vehicle Resources year/model manual-search page (subaru.com/owners/vehicle-resources.html; verified 2026-08-29 browser: "Enter your vehicle\'s information to view manuals… Select Year 2000-2026 / Select Model / Select Trim / View Resources", no login wall; subaru.com/owners.html is just a portal that links to this search).'
       }
     },
     ascent: {
@@ -496,7 +513,8 @@ export const manualIndex = {
         url: 'https://www.subaru.com/owners/vehicle-resources.html',
         fetchable: true,
         source: 'oem',
-        notes: 'Wave 3 (2026-08-17): vehicle-resources hub (re-probed 200 text/html). Per-model manual list loads via JS (subaru-800-manual-items); upload fallback recommended for parse.'
+                lookupUrl: 'https://www.subaru.com/owners/vehicle-resources.html',
+notes: 'Wave 3 (2026-08-17): vehicle-resources hub (re-probed 200 text/html). Per-model manual list loads via JS (subaru-800-manual-items); upload fallback recommended for parse. lookupUrl = Subaru Vehicle Resources year/model manual-search page (subaru.com/owners/vehicle-resources.html; verified 2026-08-29 browser: "Enter your vehicle\'s information to view manuals… Select Year 2000-2026 / Select Model / Select Trim / View Resources", no login wall; subaru.com/owners.html is just a portal that links to this search).'
       }
     },
     legacy: {
@@ -504,7 +522,8 @@ export const manualIndex = {
         url: 'https://www.subaru.com/owners/vehicle-resources.html',
         fetchable: true,
         source: 'oem',
-        notes: 'Wave 3 (2026-08-17): vehicle-resources hub (re-probed 200 text/html). Per-model manual list loads via JS (subaru-800-manual-items); upload fallback recommended for parse.'
+                lookupUrl: 'https://www.subaru.com/owners/vehicle-resources.html',
+notes: 'Wave 3 (2026-08-17): vehicle-resources hub (re-probed 200 text/html). Per-model manual list loads via JS (subaru-800-manual-items); upload fallback recommended for parse. lookupUrl = Subaru Vehicle Resources year/model manual-search page (subaru.com/owners/vehicle-resources.html; verified 2026-08-29 browser: "Enter your vehicle\'s information to view manuals… Select Year 2000-2026 / Select Model / Select Trim / View Resources", no login wall; subaru.com/owners.html is just a portal that links to this search).'
       }
     }
   },
@@ -709,7 +728,8 @@ export const manualIndex = {
         url: 'https://www.vw.com/en/owners-and-services/about-my-vehicle/owners-manuals.html',
         fetchable: true,
         source: 'oem',
-        notes: 'Wave 2 (2026-08-17): VW "Owner\'s Manuals" page (200 text/html; reached from vw.com/en/owners.html nav). Manual lookup/PDFs run through the VW owners portal flow (JS-heavy) — page shell validated only; upload fallback also fine.'
+        lookupUrl: 'https://www.vw.ca/en/owners-and-drivers/owner-s-manual.html',
+        notes: 'Wave 2 (2026-08-17): VW "Owner\'s Manuals" page (200 text/html; reached from vw.com/en/owners.html nav). Manual lookup/PDFs run through the VW owners portal flow (JS-heavy) — page shell validated only; lookupUrl = VW Canada owner\'s-manual VIN/model search page (vw.ca/en/owners-and-drivers/owner-s-manual.html; verified 2026-08-29 browser + HTTP body: "Enter your Vehicle Identification Number (VIN)… view the corresponding manuals" + model-year selectors for 2023+ and 2012-2022, no login wall).'
       }
     },
     tiguan: {
@@ -717,7 +737,8 @@ export const manualIndex = {
         url: 'https://www.vw.com/en/owners-and-services/about-my-vehicle/owners-manuals.html',
         fetchable: true,
         source: 'oem',
-        notes: 'Wave 2 (2026-08-17): VW "Owner\'s Manuals" page (200 text/html). Portal flow is JS-heavy — page shell validated only; upload fallback also fine.'
+        lookupUrl: 'https://www.vw.ca/en/owners-and-drivers/owner-s-manual.html',
+        notes: 'Wave 2 (2026-08-17): VW "Owner\'s Manuals" page (200 text/html). Portal flow is JS-heavy — page shell validated only; lookupUrl = VW Canada owner\'s-manual VIN/model search page (vw.ca/en/owners-and-drivers/owner-s-manual.html; verified 2026-08-29 browser + HTTP body: "Enter your Vehicle Identification Number (VIN)… view the corresponding manuals" + model-year selectors for 2023+ and 2012-2022, no login wall).'
       }
     },
     golf: {
@@ -725,7 +746,8 @@ export const manualIndex = {
         url: 'https://www.vw.com/en/owners-and-services/about-my-vehicle/owners-manuals.html',
         fetchable: true,
         source: 'oem',
-        notes: 'Wave 2 (2026-08-17): VW "Owner\'s Manuals" page (200 text/html). Portal flow is JS-heavy — page shell validated only; upload fallback also fine.'
+        lookupUrl: 'https://www.vw.ca/en/owners-and-drivers/owner-s-manual.html',
+        notes: 'Wave 2 (2026-08-17): VW "Owner\'s Manuals" page (200 text/html). Portal flow is JS-heavy — page shell validated only; lookupUrl = VW Canada owner\'s-manual VIN/model search page (vw.ca/en/owners-and-drivers/owner-s-manual.html; verified 2026-08-29 browser + HTTP body: "Enter your Vehicle Identification Number (VIN)… view the corresponding manuals" + model-year selectors for 2023+ and 2012-2022, no login wall).'
       }
     },
     passat: {
@@ -733,7 +755,8 @@ export const manualIndex = {
         url: 'https://www.vw.com/en/owners-and-services/about-my-vehicle/owners-manuals.html',
         fetchable: true,
         source: 'oem',
-        notes: 'Wave 2 (2026-08-17): VW "Owner\'s Manuals" page (200 text/html). Portal flow is JS-heavy — page shell validated only; upload fallback also fine.'
+        lookupUrl: 'https://www.vw.ca/en/owners-and-drivers/owner-s-manual.html',
+        notes: 'Wave 2 (2026-08-17): VW "Owner\'s Manuals" page (200 text/html). Portal flow is JS-heavy — page shell validated only; lookupUrl = VW Canada owner\'s-manual VIN/model search page (vw.ca/en/owners-and-drivers/owner-s-manual.html; verified 2026-08-29 browser + HTTP body: "Enter your Vehicle Identification Number (VIN)… view the corresponding manuals" + model-year selectors for 2023+ and 2012-2022, no login wall).'
       }
     },
     atlas: {
@@ -741,7 +764,8 @@ export const manualIndex = {
         url: 'https://www.vw.com/en/owners-and-services/about-my-vehicle/owners-manuals.html',
         fetchable: true,
         source: 'oem',
-        notes: 'Wave 2 (2026-08-17): VW "Owner\'s Manuals" page (200 text/html). Portal flow is JS-heavy — page shell validated only; upload fallback also fine.'
+        lookupUrl: 'https://www.vw.ca/en/owners-and-drivers/owner-s-manual.html',
+        notes: 'Wave 2 (2026-08-17): VW "Owner\'s Manuals" page (200 text/html). Portal flow is JS-heavy — page shell validated only; lookupUrl = VW Canada owner\'s-manual VIN/model search page (vw.ca/en/owners-and-drivers/owner-s-manual.html; verified 2026-08-29 browser + HTTP body: "Enter your Vehicle Identification Number (VIN)… view the corresponding manuals" + model-year selectors for 2023+ and 2012-2022, no login wall).'
       }
     },
     'id.4': {
@@ -749,7 +773,8 @@ export const manualIndex = {
         url: 'https://www.vw.com/en/owners-and-services/about-my-vehicle/owners-manuals.html',
         fetchable: true,
         source: 'oem',
-        notes: 'Wave 2 (2026-08-17): VW "Owner\'s Manuals" page (200 text/html). Portal flow is JS-heavy — page shell validated only; upload fallback also fine.'
+        lookupUrl: 'https://www.vw.ca/en/owners-and-drivers/owner-s-manual.html',
+        notes: 'Wave 2 (2026-08-17): VW "Owner\'s Manuals" page (200 text/html). Portal flow is JS-heavy — page shell validated only; lookupUrl = VW Canada owner\'s-manual VIN/model search page (vw.ca/en/owners-and-drivers/owner-s-manual.html; verified 2026-08-29 browser + HTTP body: "Enter your Vehicle Identification Number (VIN)… view the corresponding manuals" + model-year selectors for 2023+ and 2012-2022, no login wall).'
       }
     },
     taos: {
@@ -757,7 +782,8 @@ export const manualIndex = {
         url: 'https://www.vw.com/en/owners-and-services/about-my-vehicle/owners-manuals.html',
         fetchable: true,
         source: 'oem',
-        notes: 'Wave 3 (2026-08-17): VW "Owner\'s Manuals" page (re-probed 200 text/html). Portal flow is JS-heavy — page shell validated only; upload fallback also fine.'
+        lookupUrl: 'https://www.vw.ca/en/owners-and-drivers/owner-s-manual.html',
+        notes: 'Wave 3 (2026-08-17): VW "Owner\'s Manuals" page (re-probed 200 text/html). Portal flow is JS-heavy — page shell validated only; lookupUrl = VW Canada owner\'s-manual VIN/model search page (vw.ca/en/owners-and-drivers/owner-s-manual.html; verified 2026-08-29 browser + HTTP body: "Enter your Vehicle Identification Number (VIN)… view the corresponding manuals" + model-year selectors for 2023+ and 2012-2022, no login wall).'
       }
     }
   },
@@ -895,7 +921,8 @@ export const manualIndex = {
         url: null,
         fetchable: false,
         source: 'upload',
-        notes: 'No validated URL — mazdausa.com/owners loads (200) but has no manuals page (owners nav links to site search + MyMazda login portal; PDF patterns return 404). Re-checked 2026-08-17 (Wave 3) — same; upload fallback for now.'
+                lookupUrl: 'https://www.mazdausa.com/owners/how-to-use-my-mazda',
+notes: 'No validated URL — mazdausa.com/owners loads (200) but has no manuals page (owners nav links to site search + MyMazda login portal; PDF patterns return 404). Re-checked 2026-08-17 (Wave 3) — same; upload fallback for now. lookupUrl = Mazda Owners in-page year/model manual-search page (mazdausa.com/owners/how-to-use-my-mazda; verified 2026-08-29 in a real browser: "Select the year and model of your vehicle to get started… SELECT YEAR / SELECT MODEL / FIND VEHICLE / VEHICLE RESOURCES"; "Manuals refer to Mazda U.S. vehicles only"; no login wall).'
       }
     },
     'cx-5': {
@@ -903,7 +930,8 @@ export const manualIndex = {
         url: null,
         fetchable: false,
         source: 'upload',
-        notes: 'No validated URL — Mazda manuals live behind the MyMazda login portal (see mazda3 note). Re-checked 2026-08-17 (Wave 3) — same; upload fallback for now.'
+                lookupUrl: 'https://www.mazdausa.com/owners/how-to-use-my-mazda',
+notes: 'No validated URL — Mazda manuals live behind the MyMazda login portal (see mazda3 note). Re-checked 2026-08-17 (Wave 3) — same; upload fallback for now. lookupUrl = Mazda Owners in-page year/model manual-search page (mazdausa.com/owners/how-to-use-my-mazda; verified 2026-08-29 in a real browser: year/model select + "Manuals refer to Mazda U.S. vehicles only"; no login wall).'
       }
     }
   },
