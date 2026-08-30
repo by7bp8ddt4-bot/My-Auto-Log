@@ -845,11 +845,27 @@ notes: 'Wave 3 (2026-08-17): vehicle-resources hub (re-probed 200 text/html). Pe
   },
   chevrolet: {
     silverado: {
-      '2019-2026': {
+      '2014-2026': {
         url: 'https://www.chevrolet.com/support/vehicle/manuals-guides',
         fetchable: true,
         source: 'oem',
-        notes: 'Wave 3 (2026-08-17): GM "Manuals and Guides" page VALIDATED (200 text/html; title "Manuals and Guides | Vehicle Support | Chevy"), reached from chevrolet.com/owners nav. Converted from Wave-2 upload fallback (chevrolet.com/support/vehicle/manuals and /ownercenter were 404; this is the correct path).'
+        notes: 'Wave 3 (2026-08-17): GM "Manuals and Guides" page VALIDATED (200 text/html; title "Manuals and Guides | Vehicle Support | Chevy"), reached from chevrolet.com/owners nav. Converted from Wave-2 upload fallback (chevrolet.com/support/vehicle/manuals and /ownercenter were 404; this is the correct path). Year window broadened from 2019-2026 to 2014-2026 so the K2XX 2014-2018 Silverado also resolves to the hub (a 2017 Silverado was falling through to the upload fallback).'
+      }
+    },
+    'silverado 2500': {
+      '2015-2026': {
+        url: 'https://www.chevrolet.com/support/vehicle/manuals-guides',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Silverado HD 2500 mirror of the chevrolet silverado entry — resolves the same GM "Manuals and Guides" hub (chevrolet.com/support/vehicle/manuals-guides). Keyed per the repo model-key convention (maintenance-schedules/reference-specs use "silverado 2500").'
+      }
+    },
+    'silverado 3500': {
+      '2015-2026': {
+        url: 'https://www.chevrolet.com/support/vehicle/manuals-guides',
+        fetchable: true,
+        source: 'oem',
+        notes: 'Silverado HD 3500 mirror of the chevrolet silverado entry — resolves the same GM "Manuals and Guides" hub (chevrolet.com/support/vehicle/manuals-guides). Keyed per the repo model-key convention (maintenance-schedules/reference-specs use "silverado 3500").'
       }
     },
     equinox: {
