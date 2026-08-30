@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import { useSupabaseAuth } from './useSupabaseData.js';
 import { supabase } from '../lib/supabase.js';
 import { STORAGE_KEYS } from '../utils/constants.js';
@@ -72,10 +72,30 @@ export default function useAuthState() {
     }
   }, []);
 
+  // Which auth session the premium-confirmation poll has already started for.
+  // Guards against re-entering the poll when `premium` flips mid-session.
+  const premiumSyncStartedFor = useRef(null);
   // ── Premium sync with Supabase ────────────────────────────────
+  // NOTE: this premium-confirmation poll must run ONCE per auth session, NOT
+  // restart whenever `premium` flips. Right after a successful checkout/upgrade
+  // the app writes premium + subscription keys and `premium` toggles; if this
+  // effect re-ran on that flip it would start a fresh 6-attempt profile poll +
+  // re-upsert each time. Stacked on top of the sign-in wipe + two-way sync firing
+  // in the same transition, that compounding churn renders the whole screen
+  // unreadable (the "rapid flicker") right after an Apple/Family upgrade. Keying
+  // the run to the session (isAuthenticated + user id) instead of the premium
+  // bool makes it run exactly once per sign-in/session-restore — still seeding
+  // sticky premium and confirming the cloud grant, never re-entering for a
+  // mid-session premium write.
   useEffect(() => {
-    if (!isAuthenticated || !auth.user?.id) return;
-
+    if (!isAuthenticated || !auth.user?.id) {
+      // Signed out / cleared — reset so the next sign-in re-verifies premium.
+      premiumSyncStartedFor.current = null;
+      return;
+    }
+    const sessionKey = `${isAuthenticated}:${auth.user?.id}`;
+    if (premiumSyncStartedFor.current === sessionKey) return; // already syncing this session
+    premiumSyncStartedFor.current = sessionKey;
     let cancelled = false;
     const timeoutEntries = [];
     const waitWithTimeout = (ms) => new Promise((resolve) => {
@@ -172,7 +192,10 @@ export default function useAuthState() {
       });
       timeoutEntries.length = 0;
     };
-  }, [isAuthenticated, auth.user?.id, premium, fetchProfilePremium, persistPremiumBackup]);
+  // `premium` is intentionally omitted: the poll runs once per auth session via
+  // premiumSyncStartedFor, so a mid-session premium flip (post-checkout jump)
+  // must not restart the confirm/re-upsert cycle and re-render the tree.
+  }, [isAuthenticated, auth.user?.id, fetchProfilePremium, persistPremiumBackup]);
 
   // ── Clear subscription data on sign-out ────────────────────────
   useEffect(() => {
