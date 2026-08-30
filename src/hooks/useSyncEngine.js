@@ -93,6 +93,18 @@ export default function useSyncEngine({
       'mtxtrkr_onboarding_dismissed',
       'mtxtrkr_performance_mods',
       'mtxtrkr_auth_reset_backup',
+      // Subscription keys are PROTECTED so a returning paid user's plan/status/
+      // interval survive the sign-in wipe. Wiping them on a signed-in user's
+      // own session-restore made the subscription UI flash to "Cancelled"
+      // (any status !== 'active' renders as Cancelled) right after auth — the
+      // post-sign-in glitch. Cross-account isolation is still enforced by
+      // clearSubscriptionData() on sign-out (useAuthState.js), which wipes
+      // these keys when the user actually leaves, so they never leak to the
+      // next account on the device.
+      'mtxtrkr_subscription_plan',
+      'mtxtrkr_subscription_status',
+      'mtxtrkr_subscription_interval',
+      'mtxtrkr_subscription_next_billing',
     ];
 
     // Skip the wipe cycle entirely when userId is falsy (signed out).

@@ -79,9 +79,14 @@ function simulateAuthChangeWipe(protectedKeys) {
 // change, preventing cross-account contamination even when premium_status
 // survives the wipe. mtxtrkr_documents removed from protected keys in the
 // Supabase Storage migration (PR #71) — documents now sync via cloud.
-// Subscription keys (mtxtrkr_subscription_*) were REMOVED from PROTECTED_KEYS
-// in PR #101 to fix cross-account subscription leak (Bug #1). They are
-// Stripe-managed ephemeral data that must be wiped on auth change.
+// Subscription keys (mtxtrkr_subscription_*) are PROTECTED so a returning paid
+// user's plan/status/interval survive the sign-in wipe. They were removed from
+// PROTECTED_KEYS in PR #101 to guard cross-account leak, but wiping a paid
+// user's OWN status on their own session-restore made the subscription UI
+// flash to "Cancelled" right after sign-in (any status !== 'active' renders
+// as Cancelled). Cross-account isolation is still enforced by
+// clearSubscriptionData() on sign-out (useAuthState.js), which clears these
+// keys whenever a user actually leaves the device.
 // mtxtrkr_auth_reset_backup added in PR #155 — the pre-wipe data snapshot
 // must survive the wipe so the two-way sync can restore it after Supabase loads.
 const EXPECTED_PROTECTED_KEYS = [
@@ -93,6 +98,10 @@ const EXPECTED_PROTECTED_KEYS = [
   'mtxtrkr_supabase_cache_migrated',
   'mtxtrkr_onboarding_dismissed',
   'mtxtrkr_auth_reset_backup',
+  'mtxtrkr_subscription_plan',
+  'mtxtrkr_subscription_status',
+  'mtxtrkr_subscription_interval',
+  'mtxtrkr_subscription_next_billing',
 ];
 
 // ── 5 data store keys (must survive wipe) ──────────────────────────
@@ -117,9 +126,9 @@ describe('Data Integrity Gate', () => {
 
   // ── 1. PROTECTED_KEYS Audit ──────────────────────────────────
   describe('PROTECTED_KEYS Audit', () => {
-    it('should have exactly 8 protected keys in useSyncEngine.js', () => {
+    it('should have exactly 12 protected keys in useSyncEngine.js', () => {
       const actual = extractProtectedKeys();
-      expect(actual).toHaveLength(8);
+      expect(actual).toHaveLength(12);
     });
 
     it('should match expected PROTECTED_KEYS exactly', () => {
@@ -130,11 +139,12 @@ describe('Data Integrity Gate', () => {
       expect(sortedActual).toEqual(sortedExpected);
     });
 
-    it('should NOT include subscription keys (they are ephemeral Stripe data)', () => {
+    it('should include subscription keys (they carry the paid plan/status)', () => {
       const actual = extractProtectedKeys();
-      expect(actual).not.toContain('mtxtrkr_subscription_status');
-      expect(actual).not.toContain('mtxtrkr_subscription_plan');
-      expect(actual).not.toContain('mtxtrkr_subscription_next_billing');
+      expect(actual).toContain('mtxtrkr_subscription_status');
+      expect(actual).toContain('mtxtrkr_subscription_plan');
+      expect(actual).toContain('mtxtrkr_subscription_next_billing');
+      expect(actual).toContain('mtxtrkr_subscription_interval');
     });
 
     it('should include premium status key (fallback for slow Supabase fetches)', () => {
@@ -265,27 +275,27 @@ describe('Data Integrity Gate', () => {
       expect(localStorage.getItem('mtxtrkr_vehicles')).toBeNull();
     });
 
-    it('should wipe subscription keys after simulated auth-change wipe (Bug #1 fix)', () => {
-      // Seed premium-related keys — premium_status now survives as a fallback.
-      // The premium sync effect still verifies against Supabase on auth change,
-      // preventing permanent cross-account contamination.
-      // Subscription keys are intentionally NOT protected (Bug #1 fix):
-      // they are ephemeral Stripe data that must be wiped on auth change
-      // to prevent User A's "cancelled" status leaking into User B's session.
+    it('should PRESERVE subscription keys after simulated auth-change wipe (post-auth glitch fix)', () => {
+      // A paid user's subscription keys must survive the sign-in wipe so the
+      // subscription UI does not flash to "Cancelled" right after auth. Wiping
+      // them on the user's OWN session-restore was the post-sign-in glitch.
+      // Cross-account isolation is still handled by clearSubscriptionData()
+      // on sign-out, not by this genocidal wipe.
       localStorage.setItem('mtxtrkr_premium_status', 'true');
       localStorage.setItem('mtxtrkr_subscription_status', 'active');
-      localStorage.setItem('mtxtrkr_subscription_plan', 'monthly');
-      localStorage.setItem('mtxtrkr_subscription_next_billing', '2026-08-25');
+      localStorage.setItem('mtxtrkr_subscription_plan', 'family');
+      localStorage.setItem('mtxtrkr_subscription_interval', 'monthly');
+      localStorage.setItem('mtxtrkr_subscription_next_billing', '2026-09-25');
 
       // Simulate the auth-change wipe
       simulateAuthChangeWipe(EXPECTED_PROTECTED_KEYS);
 
-      // Premium status should survive (in PROTECTED_KEYS)
+      // Premium status AND subscription keys should survive (all protected)
       expect(localStorage.getItem('mtxtrkr_premium_status')).toBe('true');
-      // Subscription keys should be WIPED (NOT in PROTECTED_KEYS — Bug #1 fix)
-      expect(localStorage.getItem('mtxtrkr_subscription_status')).toBeNull();
-      expect(localStorage.getItem('mtxtrkr_subscription_plan')).toBeNull();
-      expect(localStorage.getItem('mtxtrkr_subscription_next_billing')).toBeNull();
+      expect(localStorage.getItem('mtxtrkr_subscription_status')).toBe('active');
+      expect(localStorage.getItem('mtxtrkr_subscription_plan')).toBe('family');
+      expect(localStorage.getItem('mtxtrkr_subscription_interval')).toBe('monthly');
+      expect(localStorage.getItem('mtxtrkr_subscription_next_billing')).toBe('2026-09-25');
     });
 
     it('should remove non-data, non-protected mtxtrkr_ keys during wipe', () => {
