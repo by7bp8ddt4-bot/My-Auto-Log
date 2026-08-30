@@ -9,7 +9,7 @@ import { useLocalStorage, useSyncStatus } from './hooks/useLocalStorage.js';
 import useAnalytics from './hooks/useAnalytics.js';
 import { STORAGE_KEYS } from './utils/constants.js';
 import { isSameService } from './utils/serviceMatcher.js';
-import { getTier, normalizePlan, canAddVehicle } from './utils/tiering.js';
+import { getTier, normalizePlan, canAddVehicle, isStickyPaid } from './utils/tiering.js';
 import { supabase } from './lib/supabase.js';
 
 // Migration: myautolog_ → mtxtrkr_ localStorage keys (runs once on import)
@@ -73,8 +73,9 @@ export default function App() {
 
   // Current tier (Free / Family / Fleet) — derived from premium flag +
   // subscription plan key. Used for feature gates (Owner's Manual, Inspected
-  // Vessels) and the garage header badge.
-  const tier = getTier({ isPremium: premium });
+  // Vessels) and the garage header badge. OR'd with the STICKY paid marker so
+  // a paid user's tier never collapses to Free mid-sync (see isStickyPaid).
+  const tier = getTier({ isPremium: premium || isStickyPaid() });
 
   // Global error handlers — runs once on mount, not on every render
   useEffect(() => {
@@ -560,7 +561,7 @@ export default function App() {
     // 3-tier gate (owner-ratified): Free = 1 automotive vehicle only;
     // Family = up to 4 any type; Fleet = unlimited. Client-side at add-time
     // (Supabase DB is READ-ONLY — no server-side column for tier).
-    const tier = getTier({ isPremium: premium });
+    const tier = getTier({ isPremium: premium || isStickyPaid() });
     const gate = canAddVehicle(tier.id, vehiclesStore.data, data?.type || 'car');
     if (!gate.allowed) {
       analytics.track('premium_gate_hit', {

@@ -25,6 +25,7 @@ import { STORAGE_KEYS } from './constants.js';
 
 export const SUBSCRIPTION_PLAN_KEY = 'mtxtrkr_subscription_plan';
 export const SUBSCRIPTION_INTERVAL_KEY = 'mtxtrkr_subscription_interval';
+export const SUBSCRIPTION_STATUS_KEY = 'mtxtrkr_subscription_status';
 
 export const TIERS = {
   FREE: {
@@ -113,6 +114,33 @@ export function normalizePlan(plan) {
 /** Map a plan value to a tier object. */
 export function tierForPlan(plan) {
   return TIER_BY_ID[normalizePlan(plan)] || TIERS.FAMILY;
+}
+
+/**
+ * STICKY PAID gate — the single source of truth for "is this user paid" on
+ * the current device.
+ *
+ * The grant of premium is durably stored server-side by the Stripe webhook
+ * (profiles.premium = true), but a brand-new load (new tab, browser reopen,
+ * Capacitor iOS webview) starts before the cloud sync has caught up — and
+ * historically the ONLY local marker was `mtxtrkr_premium_status`, which is
+ * device/browser-scoped. If that flag was missing or reset, the app read
+ * premium=false and bounced a paying customer back to the paywall ("the loop").
+ *
+ * To close that gap the paid marker is now derived from ANY of:
+ *   1. the app-wide premium flag (`mtxtrkr_premium_status === 'true'`), OR
+ *   2. an explicit subscription plan + an active/trialing status.
+ * As long as ANY local marker survived the reload, the user stays paid until
+ * the server-side profile sync confirms/restores the grant. Safe to call on
+ * every render and in add-time gates (reads localStorage synchronously).
+ */
+export function isStickyPaid() {
+  if (typeof localStorage === 'undefined') return false;
+  if (localStorage.getItem(STORAGE_KEYS.PREMIUM_STATUS) === 'true') return true;
+  const plan = localStorage.getItem(SUBSCRIPTION_PLAN_KEY);
+  const status = localStorage.getItem(SUBSCRIPTION_STATUS_KEY);
+  if (plan && (status === 'active' || status === 'trialing')) return true;
+  return false;
 }
 
 /**
