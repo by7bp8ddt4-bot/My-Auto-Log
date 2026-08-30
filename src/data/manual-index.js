@@ -74,13 +74,12 @@
  *                    owner-supplied subaru.com/owners.html is just a portal that links here)
  *     Volkswagen   https://www.vw.ca/en/owners-and-drivers/owner-s-manual.html (VW Canada; "Enter your Vehicle
  *                    Identification Number (VIN)… view the corresponding manuals" + model-year selectors)
- *     Volvo        NOT added — volvocars.com/…support/topic AF URL is Akamai-blocked (403 "Access Denied") in
- *                    both curl and a real browser from this env (matches existing "Volvo (volvocars.com 403)"
- *                    honest-gap note); cannot verify a manual-search flow → flagged for owner confirmation.
+ *     Volvo        https://www.volvocars.com/us/support/topic/f2d15ef7057c40c8a570b75a2a091698/ (added #318; see
+ *                    the per-brand Volvo RESOLVED note below for the full owner-verified resolution)
  *   Honest gaps (no public VIN/HIN/serial input verified from this env — keep upload fallback):
  *     Jeep/Dodge/Chrysler/Ram (Mopar VIN lookup exists but bot-walled: "Access Denied"
  *       even in a real browser from this IP),
- *       Lexus (behind Lexus Drivers login; lexus.com + drivers.lexus.com 404), Volvo (volvocars.com 403),
+ *       Lexus (behind Lexus Drivers login; lexus.com + drivers.lexus.com 404),
  *       Mitsubishi (Salesforce SPA, no manual URL), BMW Motorrad r1250gs (Moto portal
  *       unreachable), and ALL non-automotive (harley-davidson, yamaha, kawasaki, indian,
  *       mercury, cat, cummins, yanmar, hyster, all semi OEMs, all RV OEMs —
@@ -167,6 +166,11 @@
  *             a3/a4/q5 kept as honest upload fallbacks.
  *   Volvo   — probed Wave 3: volvocars.com/us owner/support manuals paths all
  *             403 (bot wall) — s60/xc60/xc90 kept as honest upload fallbacks.
+ *             2026-08-29: RESOLVED — owner verified from their own browser that
+ *             volvocars.com/us/support/topic/f2d15ef7057c40c8a570b75a2a091698/ is
+ *             a genuine no-login VIN OR year/model owner-manual search page
+ *             (volvocars.com is Akamai-blocked from this env only). lookupUrl
+ *             added to all three Volvo entries (Ford/BMW url-null pattern).
  *   Mitsubishi — probed Wave 3: mitsubishicars.com/owners redirects to a
  *             Salesforce SPA (owners.mitsubishicars.com/s/) with no manual
  *             URLs in raw HTML; per-model manual routes 404 — outlander/
@@ -1182,7 +1186,8 @@ notes: 'No validated URL — Mazda manuals live behind the MyMazda login portal 
         url: null,
         fetchable: false,
         source: 'upload',
-        notes: 'No validated URL — volvocars.com/us owner/support manuals paths all return 403 (bot wall) when probed 2026-08-17 (Wave 3). Upload fallback for now.'
+        lookupUrl: 'https://www.volvocars.com/us/support/topic/f2d15ef7057c40c8a570b75a2a091698/',
+        notes: 'No directly fetchable PDF (volvocars.com Akamai bot wall) — upload fallback for manual parsing. lookupUrl deep-links to the Volvo US owner-manual support page (owner-verified 2026-08-29 in their own browser: no-login VIN OR year/model manual search; the page is Akamai-blocked from this env, which is why our probe 403s) so the owner looks up their manual.'
       }
     },
     xc60: {
@@ -1190,7 +1195,8 @@ notes: 'No validated URL — Mazda manuals live behind the MyMazda login portal 
         url: null,
         fetchable: false,
         source: 'upload',
-        notes: 'No validated URL — volvocars.com/us manuals paths return 403 (bot wall) when probed 2026-08-17 (Wave 3). Upload fallback for now.'
+        lookupUrl: 'https://www.volvocars.com/us/support/topic/f2d15ef7057c40c8a570b75a2a091698/',
+        notes: 'No directly fetchable PDF (volvocars.com Akamai bot wall) — upload fallback for manual parsing. lookupUrl deep-links to the Volvo US owner-manual support page (owner-verified 2026-08-29 in their own browser: no-login VIN OR year/model manual search; the page is Akamai-blocked from this env, which is why our probe 403s) so the owner looks up their manual.'
       }
     },
     xc90: {
@@ -1198,7 +1204,8 @@ notes: 'No validated URL — Mazda manuals live behind the MyMazda login portal 
         url: null,
         fetchable: false,
         source: 'upload',
-        notes: 'No validated URL — volvocars.com/us manuals paths return 403 (bot wall) when probed 2026-08-17 (Wave 3). Upload fallback for now.'
+        lookupUrl: 'https://www.volvocars.com/us/support/topic/f2d15ef7057c40c8a570b75a2a091698/',
+        notes: 'No directly fetchable PDF (volvocars.com Akamai bot wall) — upload fallback for manual parsing. lookupUrl deep-links to the Volvo US owner-manual support page (owner-verified 2026-08-29 in their own browser: no-login VIN OR year/model manual search; the page is Akamai-blocked from this env, which is why our probe 403s) so the owner looks up their manual.'
       }
     }
   },
