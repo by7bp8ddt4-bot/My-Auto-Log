@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import { useSupabaseAuth } from './useSupabaseData.js';
 import { supabase } from '../lib/supabase.js';
 import { STORAGE_KEYS } from '../utils/constants.js';
@@ -25,8 +25,18 @@ export default function useAuthState() {
   });
 
   // ── Premium persistence helpers ────────────────────────────────
+  // In-flight guard keyed on userId. A premium grant can trigger several
+  // near-simultaneous persistPremiumBackup calls (poll completion, sticky-paid
+  // re-upsert, two-way sync). Without a guard these would stack multiple
+  // concurrent `profiles` upserts for the same user, compounding the
+  // post-upgrade write storm. The guard collapses concurrent calls for the
+  // SAME user into one in-flight upsert; once it settles, later calls may run.
+  const persistBackupInFlight = useRef(new Set());
+
   const persistPremiumBackup = useCallback(async (userId) => {
     if (!userId) return;
+    if (persistBackupInFlight.current.has(userId)) return; // already writing — dedupe
+    persistBackupInFlight.current.add(userId);
     try {
       const { error } = await supabase
         .from('profiles')
@@ -36,6 +46,8 @@ export default function useAuthState() {
       }
     } catch (error) {
       console.warn('[Premium Sync] Failed to persist premium backup:', error);
+    } finally {
+      persistBackupInFlight.current.delete(userId);
     }
   }, []);
 
@@ -73,8 +85,30 @@ export default function useAuthState() {
   }, []);
 
   // ── Premium sync with Supabase ────────────────────────────────
+  // Which auth session (user id) the premium-confirmation poll has already
+  // been started/completed for. Keying the poll to the user id — NOT to the
+  // `premium` boolean — means a mid-session premium flip (the post-upgrade
+  // jump right after checkout) does NOT tear down and restart the 6-attempt
+  // poll (each restart also fired an extra persistPremiumBackup upsert), which
+  // was the compounding re-render + write storm behind the post-upgrade
+  // flicker. The ref is set synchronously the moment the poll begins, so it
+  // never gates auth *before* the poll actually starts; the poll always runs
+  // and completes on every fresh sign-in (a new user id), preserving
+  // sign-in/sign-up redirect behavior (this is what #324's reverted
+  // session-keying got wrong — never re-introduce a pre-poll gate).
+  const premiumPollStartedFor = useRef(null);
+
   useEffect(() => {
-    if (!isAuthenticated || !auth.user?.id) return;
+    if (!isAuthenticated || !auth.user?.id) {
+      // Signed out / cleared — reset so the next sign-in re-verifies premium.
+      premiumPollStartedFor.current = null;
+      return;
+    }
+
+    // Already polled for this user id this session — do not re-enter when
+    // `premium` flips (it is intentionally not a dependency below).
+    if (premiumPollStartedFor.current === auth.user.id) return;
+    premiumPollStartedFor.current = auth.user.id;
 
     let cancelled = false;
     const timeoutEntries = [];
@@ -172,7 +206,10 @@ export default function useAuthState() {
       });
       timeoutEntries.length = 0;
     };
-  }, [isAuthenticated, auth.user?.id, premium, fetchProfilePremium, persistPremiumBackup]);
+    // `premium` is intentionally NOT a dependency: the poll is keyed to the
+    // signed-in user id via premiumPollStartedFor and must run once per
+    // session, so a mid-session premium flip cannot restart it.
+  }, [isAuthenticated, auth.user?.id, fetchProfilePremium, persistPremiumBackup]);
 
   // ── Clear subscription data on sign-out ────────────────────────
   useEffect(() => {
