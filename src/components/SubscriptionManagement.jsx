@@ -14,12 +14,12 @@ const SUBSCRIPTION_KEYS = {
   INTERVAL: 'mtxtrkr_subscription_interval',
 };
 
-// Legacy direct payment links for Family (the pre-tier "monthly" and "yearly"
-// links). Used ONLY as a fallback when the API checkout is unreachable.
-// Fleet has no direct link — it always goes through the API session
-// (STRIPE_PRICE_ID_FLEET), which returns a clean error until configured.
-const FAMILY_PAYMENT_LINK = 'https://buy.stripe.com/6oU9AT5ko1Ob6GV36b0sU00';
-const FAMILY_YEARLY_PAYMENT_LINK = 'https://buy.stripe.com/eVq00j1480K77KZayD0sU01';
+// Legacy direct payment links for Family were REMOVED as a reactivate
+// fallback. They can't reliably carry the Supabase user id into the Stripe
+// Checkout Session, so the webhook would silently no-op. Reactivation always
+// goes through the id-carrying startTierCheckout → create-checkout-session.js
+// flow (which stamps `client_reference_id` + `metadata.userId`), so the webhook
+// can always grant premium server-side.
 
 export function getSubscriptionData() {
   const rawPlan = localStorage.getItem(SUBSCRIPTION_KEYS.PLAN);
@@ -137,16 +137,11 @@ export default function SubscriptionManagement({ userId, isPremium, onNavigate, 
       const url = await startTierCheckout({ tier: tier.id, userId, interval });
       window.location.href = url;
     } catch (e) {
-      // Fallback for Family: legacy direct payment link (proven in production).
-      if (tier.id === 'family') {
-        const link = interval === 'yearly' ? FAMILY_YEARLY_PAYMENT_LINK : FAMILY_PAYMENT_LINK;
-        window.location.href = userId
-          ? `${link}?client_reference_id=${userId}&prefilled_email=${userId}`
-          : link;
-      } else {
-        setError(e.message);
-        setBusy(false);
-      }
+      // No legacy buy.stripe.com fallback here: it can't carry the Supabase
+      // user id (the webhook would silently no-op → premium loop). Surface the
+      // error so the user retries the id-carrying checkout flow.
+      setError(e.message || 'Checkout failed. Please try again.');
+      setBusy(false);
     }
   };
 

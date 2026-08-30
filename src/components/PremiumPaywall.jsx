@@ -22,10 +22,14 @@ const TIER_FEATURES = [
   { label: 'Inspected Vessels', free: '✕', family: '✕', fleet: '✓' },
 ];
 
-// Legacy direct payment links for Family (monthly + yearly). Used ONLY as a
-// fallback when the API checkout is unreachable.
-const FAMILY_PAYMENT_LINK = 'https://buy.stripe.com/6oU9AT5ko1Ob6GV36b0sU00';
-const FAMILY_YEARLY_PAYMENT_LINK = 'https://buy.stripe.com/eVq00j1480K77KZayD0sU01';
+// Legacy direct payment links for Family (monthly + yearly) were REMOVED as a
+// checkout fallback. They can't reliably carry the Supabase user id into the
+// Stripe Checkout Session, so the webhook would silently no-op and the ONLY
+// mark of payment would be a browser-local flag — the root cause of the
+// premium "loop". All upgrades now go through the id-carrying
+// startTierCheckout → api/create-checkout-session.js flow, which stamps both
+// `client_reference_id` AND `metadata.userId` so the webhook can always grant
+// premium server-side.
 
 // Optimistic next-billing estimate for the selected billing interval.
 function optimisticNextBilling(interval) {
@@ -75,19 +79,11 @@ export default function PremiumPaywall({ onClose, onUpgrade, userId, trackEvent 
       await onUpgrade();
       window.location.href = url;
     } catch (e) {
-      if (tierId === 'family') {
-        // Fallback: legacy direct payment link (proven in production) —
-        // monthly or yearly depending on the selected interval.
-        const link = billingInterval === 'yearly' ? FAMILY_YEARLY_PAYMENT_LINK : FAMILY_PAYMENT_LINK;
-        const nextBilling = optimisticNextBilling(billingInterval);
-        setSubscriptionData({ plan: 'family', status: 'active', nextBilling, interval: billingInterval });
-        await onUpgrade();
-        const base = link;
-        window.location.href = userId ? `${base}?client_reference_id=${userId}` : base;
-      } else {
-        setError(e.message || 'Fleet checkout is not configured yet. Please try again later.');
-        setBusyTier(null);
-      }
+      // No legacy buy.stripe.com fallback here: it can't carry the Supabase
+      // user id (webhook would silently no-op → premium loop). Surface the
+      // error so the user retries the id-carrying checkout flow.
+      setError(e.message || 'Checkout failed. Please try again.');
+      setBusyTier(null);
     }
   };
 

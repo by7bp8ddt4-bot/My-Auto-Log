@@ -2,6 +2,7 @@ import { useState, useCallback, useEffect } from 'react';
 import { useSupabaseAuth } from './useSupabaseData.js';
 import { supabase } from '../lib/supabase.js';
 import { STORAGE_KEYS } from '../utils/constants.js';
+import { isStickyPaid } from '../utils/tiering.js';
 import { setSubscriptionData, clearSubscriptionData } from '../components/SubscriptionManagement.jsx';
 
 /**
@@ -15,8 +16,12 @@ export default function useAuthState() {
   const isAuthenticated = !!auth.user;
 
   // ── Premium state ──────────────────────────────────────────────
+  // Seeded from the STICKY paid marker (premium flag OR active/trialing
+  // subscription plan+status) so a post-payment fresh load — new tab,
+  // browser reopen, Capacitor iOS webview — starts paid instead of bouncing
+  // back to the paywall before the server-side profile sync catches up.
   const [premium, setPremium] = useState(() => {
-    return localStorage.getItem(STORAGE_KEYS.PREMIUM_STATUS) === 'true';
+    return isStickyPaid();
   });
 
   // ── Premium persistence helpers ────────────────────────────────
@@ -84,7 +89,11 @@ export default function useAuthState() {
     });
 
     const syncPremiumStatus = async () => {
-      const localPremium = localStorage.getItem(STORAGE_KEYS.PREMIUM_STATUS) === 'true' || premium === true;
+      // Sticky paid = any local marker survived the reload. This keeps the
+      // user paid (and re-upserts profiles.premium=true below) even when a
+      // fresh profile query returns null/false, so a paying customer is never
+      // downgraded to the paywall while the cloud grant is still syncing.
+      const localPremium = isStickyPaid() || premium === true;
 
       if (localPremium) {
         localStorage.setItem(STORAGE_KEYS.PREMIUM_STATUS, 'true');
@@ -134,14 +143,21 @@ export default function useAuthState() {
       }
 
       if (result.premium === null) {
+        // Profile not found / grant not visible yet. If a local sticky marker
+        // exists the user IS paid — re-upsert the server grant so the cloud
+        // catches up, and never downgrade.
+        if (isStickyPaid() || premium === true) {
+          await persistPremiumBackup(auth.user.id);
+        }
         if (attemptsCompleted >= 6) {
           console.warn('[Premium Sync] Premium remained null after 6 attempts. Keeping local premium state.');
         }
         return;
       }
 
-      // DB responded with premium=false. Never auto-downgrade.
-      if (localStorage.getItem(STORAGE_KEYS.PREMIUM_STATUS) === 'true' || premium === true) {
+      // DB responded with premium=false. Never auto-downgrade: any surviving
+      // local marker means the user was granted premium — re-upsert the grant.
+      if (isStickyPaid() || premium === true) {
         await persistPremiumBackup(auth.user.id);
       }
     };
