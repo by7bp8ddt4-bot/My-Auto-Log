@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import {
   Crown, ArrowRight, X, CheckCircle2, AlertTriangle, Mail,
-  CreditCard, Calendar, Shield, ChevronRight, ExternalLink, Loader2
+  CreditCard, Calendar, Shield, ChevronRight, ExternalLink, Loader2, RefreshCw, ArrowLeftRight
 } from 'lucide-react';
 import { formatDate } from '../utils/helpers';
 import { isCapacitorIOS } from '../utils/platform.js';
 import { normalizePlan, tierForPlan, getTier, TIER_BY_ID, resolveInterval } from '../utils/tiering.js';
+import { STORAGE_KEYS } from '../utils/constants.js';
+import { isValidTargetPlan, describeSwitch } from '../utils/planSwitch.js';
 
 const SUBSCRIPTION_KEYS = {
   PLAN: 'mtxtrkr_subscription_plan',
@@ -83,6 +85,194 @@ export async function startTierCheckout({ tier, userId, interval }) {
   return data.url;
 }
 
+/**
+ * Self-service plan switch for an existing subscriber.
+ * POSTs { userId, tier, interval } to api/switch-subscription.js, which
+ * validates the target (family-monthly / family-yearly / fleet-monthly),
+ * finds the user's active Stripe subscription, and switches the price with
+ * proration (create_prorations). Returns the updated { tier, interval,
+ * status, nextBilling }. Throws an Error with a user-safe message on failure.
+ */
+export async function switchSubscription({ userId, tier, interval }) {
+  let res;
+  try {
+    res = await fetch('/api/switch-subscription', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId, tier, interval }),
+    });
+  } catch (e) {
+    throw new Error('Could not reach server. Check your connection and try again.');
+  }
+  let data = {};
+  try { data = await res.json(); } catch (e) { /* non-JSON error body */ }
+  if (!res.ok) {
+    throw new Error(data?.error || `Plan change failed (${res.status})`);
+  }
+  return data; // { tier, interval, status, nextBilling, changed, ... }
+}
+
+/**
+ * "Change Plan" — self-service switch among paid tiers for an active
+ * subscriber. Lets the user pick a target tier (Family / Fleet) and, for
+ * Family, a billing interval (Monthly / Yearly); Fleet is monthly-only and
+ * the interval selector is disabled for it. A confirm step shows a proration
+ * summary before committing, and Cancel is always available.
+ */
+function ChangePlanSection({ currentTier, currentInterval, userId, onSwitched, trackEvent }) {
+  const [targetTier, setTargetTier] = useState('family');
+  const [targetInterval, setTargetInterval] = useState('monthly');
+  const [confirming, setConfirming] = useState(false);
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState(null);
+
+  const target = { tier: targetTier, interval: targetInterval };
+  const diff = describeSwitch(currentTier, currentInterval, target.tier, target.interval);
+  const valid = isValidTargetPlan(target.tier, target.interval);
+
+  const chooseTier = (t) => {
+    setTargetTier(t);
+    setTargetInterval('monthly'); // Fleet is monthly-only; reset for a clean default
+    setConfirming(false);
+    setError(null);
+  };
+
+  const handleConfirm = async () => {
+    setBusy(true);
+    setError(null);
+    trackEvent?.('subscription_switch_started', {
+      from: `${currentTier}-${currentInterval}`,
+      to: `${target.tier}-${target.interval}`,
+      userId,
+    });
+    try {
+      const result = await switchSubscription({ userId, tier: target.tier, interval: targetInterval });
+      onSwitched(result);
+      trackEvent?.('subscription_switched', {
+        from: `${currentTier}-${currentInterval}`,
+        to: `${result.tier}-${result.interval}`,
+        changed: !!result.changed,
+        userId,
+      });
+    } catch (e) {
+      setError(e.message);
+      setBusy(false);
+    }
+  };
+
+  return (
+    <div className="p-5 rounded-2xl bg-slate-900/60 border border-slate-800">
+      <h3 className="text-sm font-semibold text-white mb-1 flex items-center gap-2">
+        <RefreshCw className="w-4 h-4 text-cyan-400" />
+        Change Plan
+      </h3>
+      <p className="text-[10px] text-slate-500 mb-4 leading-relaxed">
+        Switch billing or move between Family and Fleet. Changes are prorated — you only pay (or get credit for) the difference.
+      </p>
+
+      {/* Target tier selector */}
+      <div className="grid grid-cols-2 gap-2 mb-3">
+        <button
+          onClick={() => chooseTier('family')}
+          className={`p-3 rounded-xl border text-left transition-all ${
+            targetTier === 'family' ? 'border-cyan-500/50 bg-cyan-500/10' : 'border-slate-700 hover:bg-slate-800/60'
+          }`}
+        >
+          <p className="text-xs font-bold text-white">Family</p>
+          <p className="text-[10px] text-slate-400">${targetInterval === 'yearly' && targetTier === 'family' ? '39.99/yr' : '4.99/mo'} · 4 vehicles</p>
+        </button>
+        <button
+          onClick={() => chooseTier('fleet')}
+          className={`p-3 rounded-xl border text-left transition-all ${
+            targetTier === 'fleet' ? 'border-cyan-500/50 bg-cyan-500/10' : 'border-slate-700 hover:bg-slate-800/60'
+          }`}
+        >
+          <p className="text-xs font-bold text-white">Fleet</p>
+          <p className="text-[10px] text-slate-400">$9.99/mo · Unlimited</p>
+        </button>
+      </div>
+
+      {/* Family billing interval (Fleet is monthly-only) */}
+      {targetTier === 'family' && (
+        <div className="mb-3">
+          <p className="text-[10px] text-slate-500 mb-1.5">Billing interval</p>
+          <div className="grid grid-cols-2 gap-2">
+            <button
+              onClick={() => { setTargetInterval('monthly'); setConfirming(false); setError(null); }}
+              className={`p-2.5 rounded-xl border text-center transition-all ${
+                targetInterval === 'monthly' ? 'border-cyan-500/50 bg-cyan-500/10' : 'border-slate-700 hover:bg-slate-800/60'
+              }`}
+            >
+              <p className="text-xs font-bold text-white">Monthly</p>
+              <p className="text-[10px] text-slate-400">$4.99/mo</p>
+            </button>
+            <button
+              onClick={() => { setTargetInterval('yearly'); setConfirming(false); setError(null); }}
+              className={`p-2.5 rounded-xl border text-center transition-all ${
+                targetInterval === 'yearly' ? 'border-cyan-500/50 bg-cyan-500/10' : 'border-slate-700 hover:bg-slate-800/60'
+              }`}
+            >
+              <p className="text-xs font-bold text-white">Yearly</p>
+              <p className="text-[10px] text-emerald-400">$39.99/yr · Save 33%</p>
+            </button>
+          </div>
+        </div>
+      )}
+      {targetTier === 'fleet' && (
+        <p className="text-[10px] text-slate-500 mb-3 flex items-center gap-1.5">
+          <CheckCircle2 className="w-3 h-3 text-emerald-400" />
+          Fleet is billed monthly only ($9.99/mo).
+        </p>
+      )}
+
+      {error && (
+        <div className="flex items-start gap-2 p-3 rounded-xl bg-red-500/5 border border-red-500/20 mb-3">
+          <AlertTriangle className="w-4 h-4 text-red-400 shrink-0 mt-0.5" />
+          <p className="text-[11px] text-red-300 leading-relaxed">{error}</p>
+        </div>
+      )}
+
+      {/* Confirm step (proration summary) */}
+      {confirming && !error ? (
+        <div className="space-y-3 p-3 rounded-xl bg-cyan-500/5 border border-cyan-500/20">
+          <p className="text-xs font-semibold text-white">Confirm your plan change</p>
+          <p className="text-[11px] text-slate-300 leading-relaxed">{diff.summary}</p>
+          <p className="text-[11px] text-cyan-300 leading-relaxed">{diff.payNow}</p>
+          <p className="text-[10px] text-slate-500 leading-relaxed">
+            The exact amount is calculated by Stripe and charged to / credited on your card automatically.
+          </p>
+          <div className="flex gap-2">
+            <button
+              onClick={() => setConfirming(false)}
+              disabled={busy}
+              className="flex-1 py-2 rounded-lg border border-slate-700 text-xs font-medium text-slate-300 hover:bg-slate-800 transition-all disabled:opacity-50"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={handleConfirm}
+              disabled={busy}
+              className="flex-1 py-2 rounded-lg bg-gradient-to-r from-cyan-600 to-blue-500 text-white text-xs font-medium shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/30 transition-all disabled:opacity-50 flex items-center justify-center gap-1.5"
+            >
+              {busy ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <CheckCircle2 className="w-3.5 h-3.5" />}
+              {busy ? 'Switching…' : 'Confirm & Switch'}
+            </button>
+          </div>
+        </div>
+      ) : (
+        <button
+          onClick={() => { setConfirming(true); setError(null); }}
+          disabled={!valid || diff.same}
+          className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl border border-cyan-500/40 text-cyan-300 text-sm font-medium hover:bg-cyan-500/10 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          <ArrowLeftRight className="w-4 h-4" />
+          {diff.same ? 'Already on this plan' : 'Review Switch'}
+        </button>
+      )}
+    </div>
+  );
+}
+
 // Estimate next billing date from the billing interval (Family: monthly →
 // +1 month / yearly → +1 year; Fleet: monthly only).
 function estimateNextBilling(status, interval) {
@@ -106,6 +296,7 @@ export default function SubscriptionManagement({ userId, isPremium, onNavigate, 
   const [showIOSNotice, setShowIOSNotice] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState(null);
+  const [refreshKey, setRefreshKey] = useState(0);
 
   const tier = getTier({ isPremium });
   const status = cancelled ? 'cancelled' : sub.status;
@@ -147,6 +338,24 @@ export default function SubscriptionManagement({ userId, isPremium, onNavigate, 
 
   const handleContactSupport = () => {
     window.location.href = 'mailto:support@mtxtrkr.app?subject=Cancellation%20Request';
+  };
+
+  // After a successful self-service plan switch: persist the new tier +
+  // interval + status/next-billing to localStorage (matching the sticky-paid
+  // model in tiering.js — isStickyPaid stays true; plan key selects the tier).
+  // Forces a re-render so the whole section reflects the new plan immediately.
+  const handleSwitched = (result) => {
+    setSubscriptionData({
+      plan: result.tier,
+      status: result.status || 'active',
+      interval: result.interval,
+      ...(result.nextBilling ? { nextBilling: result.nextBilling } : {}),
+    });
+    // We're only ever moving between paid tiers — premium stays true.
+    localStorage.setItem(STORAGE_KEYS.PREMIUM_STATUS, 'true');
+    setRefreshKey((k) => k + 1);
+    setShowCancelConfirm(false);
+    setError(null);
   };
 
   if (!isPremium) {
@@ -293,6 +502,19 @@ export default function SubscriptionManagement({ userId, isPremium, onNavigate, 
             )}
           </div>
         </div>
+
+        {/* Self-service plan switch — paid, active subscribers only.
+            Hidden on iOS (App Store §3.1.1 — subscription management is
+            handled on the web there; see the iOS notice below). */}
+        {status === 'active' && !isIOS && (
+          <ChangePlanSection
+            currentTier={tier.id}
+            currentInterval={interval}
+            userId={userId}
+            onSwitched={handleSwitched}
+            trackEvent={trackEvent}
+          />
+        )}
 
         {/* iOS Notice — App Store §3.1.1 prohibits external payment links */}
         {showIOSNotice && (
