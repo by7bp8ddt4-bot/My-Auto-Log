@@ -5,7 +5,7 @@ import {
 } from 'lucide-react';
 import { formatDate } from '../utils/helpers';
 import { isCapacitorIOS } from '../utils/platform.js';
-import { normalizePlan, tierForPlan, getTier, TIER_BY_ID, resolveInterval } from '../utils/tiering.js';
+import { normalizePlan, tierForPlan, getTier, TIER_BY_ID, resolveInterval, resolveSubscriptionStatus } from '../utils/tiering.js';
 import { STORAGE_KEYS } from '../utils/constants.js';
 import { isValidTargetPlan, describeSwitch } from '../utils/planSwitch.js';
 
@@ -299,7 +299,16 @@ export default function SubscriptionManagement({ userId, isPremium, onNavigate, 
   const [refreshKey, setRefreshKey] = useState(0);
 
   const tier = getTier({ isPremium });
-  const status = cancelled ? 'cancelled' : sub.status;
+  // A premium user is Active unless they have EXPLICITLY cancelled. A missing
+  // or null status (legacy premium-only accounts, or keys wiped in an older
+  // session) must never render as "Cancelled" — that mislabeled genuine paid
+  // users as cancelled right after sign-in. This card only renders when
+  // isPremium is true, so a premium user defaulting to 'active' is correct.
+  const status = resolveSubscriptionStatus({
+    isPremium,
+    storedStatus: sub.status,
+    explicitlyCancelled: cancelled,
+  });
   // Billing interval: Family may be 'monthly' or 'yearly' (legacy 'yearly'
   // plan values migrate to family + yearly); Fleet is always 'monthly'.
   const interval = tier.id === 'family' ? sub.interval : 'monthly';

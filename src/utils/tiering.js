@@ -117,6 +117,25 @@ export function tierForPlan(plan) {
 }
 
 /**
+ * Resolve the subscription status a user should SEE.
+ *
+ * A premium user is 'active' unless they have EXPLICITLY cancelled (status
+ * literally 'cancelled'). A missing/null stored status — legacy premium-only
+ * accounts, or an older session whose subscription keys were wiped — must
+ * never be presented as "Cancelled". That mislabeled genuine paid users as
+ * cancelled right after sign-in (the post-auth glitch); the subscription UI
+ * previously rendered "Cancelled" for ANY status !== 'active', including null.
+ *
+ * @param {{ isPremium: boolean, storedStatus?: string|null, explicitlyCancelled?: boolean }} opts
+ * @returns {'active'|'cancelled'|null}
+ */
+export function resolveSubscriptionStatus({ isPremium, storedStatus, explicitlyCancelled = false }) {
+  if (explicitlyCancelled || storedStatus === 'cancelled') return 'cancelled';
+  if (isPremium) return 'active';
+  return storedStatus || null;
+}
+
+/**
  * STICKY PAID gate — the single source of truth for "is this user paid" on
  * the current device.
  *
