@@ -27,6 +27,41 @@ export const SUBSCRIPTION_PLAN_KEY = 'mtxtrkr_subscription_plan';
 export const SUBSCRIPTION_INTERVAL_KEY = 'mtxtrkr_subscription_interval';
 export const SUBSCRIPTION_STATUS_KEY = 'mtxtrkr_subscription_status';
 
+/**
+ * Account-scoping companion to `mtxtrkr_premium_status`.
+ *
+ * The premium flag is device-global (one per browser), so on its own it would
+ * leak a paid marker from one account to the next account that signs in on the
+ * same device. To close that leak, every premium grant now records the Supabase
+ * user id that earned it in this key, and `isStickyPaid(userId)` only honors
+ * the flag for that owning account. (Legacy markers written before scoping
+ * shipped have no owner — see `isStickyPaid` for how they are handled.)
+ */
+export const PREMIUM_OWNER_KEY = 'mtxtrkr_premium_owner';
+
+/**
+ * Persist a premium grant locally, stamped with the account that earned it.
+ * The durable source of truth remains server-side `profiles.premium` (set by
+ * the Stripe webhook); this is only the device-local "sticky" marker used to
+ * avoid bouncing a returning paid user to the paywall before the server poll.
+ *
+ * @param {string|null} userId - the Supabase user id that owns the grant.
+ */
+export function setPremiumFlag(userId) {
+  if (typeof localStorage === 'undefined') return;
+  localStorage.setItem(STORAGE_KEYS.PREMIUM_STATUS, 'true');
+  if (userId) {
+    localStorage.setItem(PREMIUM_OWNER_KEY, userId);
+  }
+}
+
+/** Remove the device-local premium marker (flag + owner). */
+export function clearPremiumFlag() {
+  if (typeof localStorage === 'undefined') return;
+  localStorage.removeItem(STORAGE_KEYS.PREMIUM_STATUS);
+  localStorage.removeItem(PREMIUM_OWNER_KEY);
+}
+
 export const TIERS = {
   FREE: {
     id: 'free',
@@ -153,9 +188,21 @@ export function resolveSubscriptionStatus({ isPremium, storedStatus, explicitlyC
  * the server-side profile sync confirms/restores the grant. Safe to call on
  * every render and in add-time gates (reads localStorage synchronously).
  */
-export function isStickyPaid() {
+export function isStickyPaid(userId) {
   if (typeof localStorage === 'undefined') return false;
-  if (localStorage.getItem(STORAGE_KEYS.PREMIUM_STATUS) === 'true') return true;
+  if (localStorage.getItem(STORAGE_KEYS.PREMIUM_STATUS) === 'true') {
+    const owner = localStorage.getItem(PREMIUM_OWNER_KEY);
+    // No user context yet (the very first render while the Supabase session is
+    // still being restored): honor the flag so a returning paid user is never
+    // bounced to the paywall before the server poll re-grants them.
+    if (userId == null) return true;
+    // Account-scoped: only the account that earned the flag may inherit it.
+    // A legacy marker with no recorded owner (written before scoping shipped)
+    // is honored for the current user for backward compatibility — it is
+    // cleared on sign-out so it cannot leak to the next account.
+    if (!owner) return true;
+    return owner === userId;
+  }
   const plan = localStorage.getItem(SUBSCRIPTION_PLAN_KEY);
   const status = localStorage.getItem(SUBSCRIPTION_STATUS_KEY);
   if (plan && (status === 'active' || status === 'trialing')) return true;

@@ -5,8 +5,7 @@ import {
 } from 'lucide-react';
 import { formatDate } from '../utils/helpers';
 import { isCapacitorIOS } from '../utils/platform.js';
-import { normalizePlan, tierForPlan, getTier, TIER_BY_ID, resolveInterval, resolveSubscriptionStatus } from '../utils/tiering.js';
-import { STORAGE_KEYS } from '../utils/constants.js';
+import { normalizePlan, tierForPlan, getTier, TIER_BY_ID, resolveInterval, resolveSubscriptionStatus, setPremiumFlag, clearPremiumFlag } from '../utils/tiering.js';
 import { isValidTargetPlan, describeSwitch } from '../utils/planSwitch.js';
 
 const SUBSCRIPTION_KEYS = {
@@ -50,6 +49,10 @@ export function clearSubscriptionData() {
   localStorage.removeItem(SUBSCRIPTION_KEYS.STATUS);
   localStorage.removeItem(SUBSCRIPTION_KEYS.NEXT_BILLING);
   localStorage.removeItem(SUBSCRIPTION_KEYS.INTERVAL);
+  // The premium flag is device-global, so it MUST be cleared on sign-out
+  // (along with its owner stamp) or it leaks a paid account's premium into
+  // the next account that signs in on this device.
+  clearPremiumFlag();
 }
 
 // App-wide tier helpers — single source of truth for tier lookups.
@@ -360,8 +363,9 @@ export default function SubscriptionManagement({ userId, isPremium, onNavigate, 
       interval: result.interval,
       ...(result.nextBilling ? { nextBilling: result.nextBilling } : {}),
     });
-    // We're only ever moving between paid tiers — premium stays true.
-    localStorage.setItem(STORAGE_KEYS.PREMIUM_STATUS, 'true');
+    // We're only ever moving between paid tiers — premium stays true, stamped
+    // with the owning account so it cannot leak across accounts.
+    setPremiumFlag(userId);
     setRefreshKey((k) => k + 1);
     setShowCancelConfirm(false);
     setError(null);

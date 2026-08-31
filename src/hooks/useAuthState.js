@@ -1,8 +1,7 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
 import { useSupabaseAuth } from './useSupabaseData.js';
 import { supabase } from '../lib/supabase.js';
-import { STORAGE_KEYS } from '../utils/constants.js';
-import { isStickyPaid } from '../utils/tiering.js';
+import { isStickyPaid, setPremiumFlag } from '../utils/tiering.js';
 import { setSubscriptionData, clearSubscriptionData } from '../components/SubscriptionManagement.jsx';
 
 /**
@@ -16,40 +15,23 @@ export default function useAuthState() {
   const isAuthenticated = !!auth.user;
 
   // ── Premium state ──────────────────────────────────────────────
-  // Seeded from the STICKY paid marker (premium flag OR active/trialing
-  // subscription plan+status) so a post-payment fresh load — new tab,
-  // browser reopen, Capacitor iOS webview — starts paid instead of bouncing
-  // back to the paywall before the server-side profile sync catches up.
+  // Seeded from the ACCOUNT-SCOPED sticky paid marker (premium flag owned by
+  // the current user, OR an active/trialing subscription plan+status) so a
+  // post-payment fresh load — new tab, browser reopen, Capacitor iOS webview —
+  // starts paid instead of bouncing back to the paywall before the server-side
+  // profile sync catches up. On the very first render `auth.user` is still
+  // null (the session is restoring), so `isStickyPaid(null)` honors the flag
+  // provisionally and the sync below reconciles once the real user id is known.
   const [premium, setPremium] = useState(() => {
-    return isStickyPaid();
+    return isStickyPaid(auth.user?.id);
   });
 
-  // ── Premium persistence helpers ────────────────────────────────
-  // In-flight guard keyed on userId. A premium grant can trigger several
-  // near-simultaneous persistPremiumBackup calls (poll completion, sticky-paid
-  // re-upsert, two-way sync). Without a guard these would stack multiple
-  // concurrent `profiles` upserts for the same user, compounding the
-  // post-upgrade write storm. The guard collapses concurrent calls for the
-  // SAME user into one in-flight upsert; once it settles, later calls may run.
-  const persistBackupInFlight = useRef(new Set());
-
-  const persistPremiumBackup = useCallback(async (userId) => {
-    if (!userId) return;
-    if (persistBackupInFlight.current.has(userId)) return; // already writing — dedupe
-    persistBackupInFlight.current.add(userId);
-    try {
-      const { error } = await supabase
-        .from('profiles')
-        .upsert({ id: userId, premium: true, updated_at: new Date().toISOString() });
-      if (error) {
-        console.warn('[Premium Sync] Failed to persist premium backup:', error);
-      }
-    } catch (error) {
-      console.warn('[Premium Sync] Failed to persist premium backup:', error);
-    } finally {
-      persistBackupInFlight.current.delete(userId);
-    }
-  }, []);
+  // NOTE: There is intentionally NO client-side `profiles.premium=true` write
+  // from a device-local marker here. The durable source of truth for "paid" is
+  // server-side `profiles.premium`, set by the Stripe webhook (and by the
+  // genuine checkout-success / restore / upgrade flows in App.jsx). Writing
+  // premium=true to a profile from a stale device marker is exactly the
+  // cross-account contamination this hook must never reintroduce.
 
   const fetchProfilePremium = useCallback(async (userId) => {
     if (!userId) return { ok: false, premium: null };
@@ -123,16 +105,14 @@ export default function useAuthState() {
     });
 
     const syncPremiumStatus = async () => {
-      // Sticky paid = any local marker survived the reload. This keeps the
-      // user paid (and re-upserts profiles.premium=true below) even when a
-      // fresh profile query returns null/false, so a paying customer is never
-      // downgraded to the paywall while the cloud grant is still syncing.
-      const localPremium = isStickyPaid() || premium === true;
-
-      if (localPremium) {
-        localStorage.setItem(STORAGE_KEYS.PREMIUM_STATUS, 'true');
-        if (!premium) setPremium(true);
-        await persistPremiumBackup(auth.user.id);
+      // Reconcile a stale cross-account seed. On the very first render the
+      // premium state was seeded from the sticky flag before the real user id
+      // was known. If the surviving marker belongs to a DIFFERENT account (or
+      // there is no marker at all), drop back to Free rather than inheriting
+      // another account's premium. The server poll below is the durable source
+      // of truth and re-grants a genuine paid user.
+      if (premium === true && !isStickyPaid(auth.user.id)) {
+        setPremium(false);
       }
 
       let result = null;
@@ -170,29 +150,22 @@ export default function useAuthState() {
       }
 
       if (result.premium === true) {
+        // Genuine server-side grant — re-apply it locally (and record the
+        // owning account) without writing anything to the DB: the server
+        // already has premium=true.
         setPremium(true);
-        localStorage.setItem(STORAGE_KEYS.PREMIUM_STATUS, 'true');
+        setPremiumFlag(auth.user.id);
         setSubscriptionData({ plan: 'family', status: 'active', nextBilling: null });
         return;
       }
 
-      if (result.premium === null) {
-        // Profile not found / grant not visible yet. If a local sticky marker
-        // exists the user IS paid — re-upsert the server grant so the cloud
-        // catches up, and never downgrade.
-        if (isStickyPaid() || premium === true) {
-          await persistPremiumBackup(auth.user.id);
-        }
-        if (attemptsCompleted >= 6) {
-          console.warn('[Premium Sync] Premium remained null after 6 attempts. Keeping local premium state.');
-        }
-        return;
-      }
-
-      // DB responded with premium=false. Never auto-downgrade: any surviving
-      // local marker means the user was granted premium — re-upsert the grant.
-      if (isStickyPaid() || premium === true) {
-        await persistPremiumBackup(auth.user.id);
+      // result.premium is null (profile not found / grant not visible yet) or
+      // false (server says not paid). Do NOT write premium=true to the profile
+      // from a device-local marker — that is the cross-account leak. Keep the
+      // current local state: a genuine paid user whose webhook is still syncing
+      // stays paid via the sticky marker; a never-paid account stays Free.
+      if (result.premium === null && attemptsCompleted >= 6) {
+        console.warn('[Premium Sync] Premium remained null after 6 attempts. Keeping local premium state.');
       }
     };
 
@@ -209,14 +182,20 @@ export default function useAuthState() {
     // `premium` is intentionally NOT a dependency: the poll is keyed to the
     // signed-in user id via premiumPollStartedFor and must run once per
     // session, so a mid-session premium flip cannot restart it.
-  }, [isAuthenticated, auth.user?.id, fetchProfilePremium, persistPremiumBackup]);
+  }, [isAuthenticated, auth.user?.id, fetchProfilePremium]);
 
-  // ── Clear subscription data on sign-out ────────────────────────
+  // ── Clear account-scoped subscription + premium state on sign-out ──
+  // Guarded by `auth.loading` so this does NOT run on the very first mount
+  // (before the session is restored) — clearing the sticky premium marker
+  // early would bounce a returning paid user to the paywall before the server
+  // poll re-grants them. It only fires on a real sign-out / session expiry,
+  // after the session state has settled.
   useEffect(() => {
-    if (!isAuthenticated) {
+    if (!isAuthenticated && !auth.loading) {
       clearSubscriptionData();
+      setPremium(false);
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, auth.loading]);
 
   return {
     // Auth (delegated from useSupabaseAuth)
