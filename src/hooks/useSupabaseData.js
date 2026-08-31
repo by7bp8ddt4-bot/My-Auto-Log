@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { supabase } from '../lib/supabase';
+import { setPremiumFlag } from '../utils/tiering.js';
 
 // Helper to convert object keys to snake_case for Postgres
 const toSnakeCase = (str) => str.replace(/[A-Z]/g, letter => `_${letter.toLowerCase()}`);
@@ -578,17 +579,17 @@ export function useSupabaseAuth() {
       const { data, error } = await supabase.from('profiles').select('premium').eq('id', user.id).single();
       if (error) {
         console.warn('[useSupabaseAuth] checkPremium warning:', error.message);
-        return localStorage.getItem('mtxtrkr_premium_status') === 'true';
+        return false;
       }
       return data?.premium === true;
     } catch (e) {
       console.warn('[useSupabaseAuth] checkPremium error:', e);
-      return localStorage.getItem('mtxtrkr_premium_status') === 'true';
+      return false;
     }
   }, [user]);
 
   const setPremiumStatus = useCallback(async (userId) => {
-    localStorage.setItem('mtxtrkr_premium_status', 'true');
+    setPremiumFlag(userId);
     try {
       const { error } = await supabase.from('profiles').upsert({ id: userId, premium: true, updated_at: new Date().toISOString() });
       if (error) {

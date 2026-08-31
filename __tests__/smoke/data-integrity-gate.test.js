@@ -91,6 +91,7 @@ function simulateAuthChangeWipe(protectedKeys) {
 // must survive the wipe so the two-way sync can restore it after Supabase loads.
 const EXPECTED_PROTECTED_KEYS = [
   'mtxtrkr_premium_status',
+  'mtxtrkr_premium_owner',
   'mtxtrkr_selected_vehicle',
   'mtxtrkr_performance_mods',
   'mtxtrkr_stale_cache_cleaned',
@@ -126,9 +127,9 @@ describe('Data Integrity Gate', () => {
 
   // ── 1. PROTECTED_KEYS Audit ──────────────────────────────────
   describe('PROTECTED_KEYS Audit', () => {
-    it('should have exactly 12 protected keys in useSyncEngine.js', () => {
+    it('should have exactly 13 protected keys in useSyncEngine.js', () => {
       const actual = extractProtectedKeys();
-      expect(actual).toHaveLength(12);
+      expect(actual).toHaveLength(13);
     });
 
     it('should match expected PROTECTED_KEYS exactly', () => {

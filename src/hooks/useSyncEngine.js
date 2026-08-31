@@ -3,6 +3,7 @@ import { supabase } from '../lib/supabase.js';
 import { STORAGE_KEYS } from '../utils/constants.js';
 import { sanitizeForStorage } from './useLocalStorage.js';
 import { setSubscriptionData } from '../components/SubscriptionManagement.jsx';
+import { setPremiumFlag } from '../utils/tiering.js';
 
 /**
  * Sync engine hook — manages localStorage ↔ Supabase data synchronization.
@@ -86,6 +87,11 @@ export default function useSyncEngine({
     // two-way sync effect after Supabase data is loaded.
     const PROTECTED_KEYS = [
       'mtxtrkr_premium_status',
+      // The owner stamp that scopes the premium flag to the account that earned
+      // it. It must survive the auth-reset wipe for the same reason the flag
+      // does — if it were wiped, the flag would become ownerless and could be
+      // inherited by a different account that signs in on this device.
+      'mtxtrkr_premium_owner',
       'mtxtrkr_selected_vehicle',
       'mtxtrkr_stale_cache_cleaned',
       'mtxtrkr_cache_migrated',
@@ -468,7 +474,7 @@ export default function useSyncEngine({
         .eq('id', userId)
         .single();
       if (profile?.premium === true) {
-        localStorage.setItem(STORAGE_KEYS.PREMIUM_STATUS, 'true');
+        setPremiumFlag(userId);
         setPremium(true);
         setSubscriptionData({ plan: 'family', status: 'active', nextBilling: null });
       }
@@ -558,7 +564,10 @@ export default function useSyncEngine({
     if (!storesWithErrors.has('documents')) supabaseDocuments.clearAllFailedWrites();
 
     if (premium) {
-      localStorage.setItem(STORAGE_KEYS.PREMIUM_STATUS, 'true');
+      // `premium` here is the account-scoped React state (only true for a
+      // genuine grant), so re-asserting it locally + to the DB is safe. Stamp
+      // the owner so the flag cannot be inherited by a different account.
+      setPremiumFlag(userId);
       await supabase.from('profiles').upsert({ id: userId, premium: true });
     }
     analytics.track('push_to_cloud', {

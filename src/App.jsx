@@ -9,7 +9,7 @@ import { useLocalStorage, useSyncStatus } from './hooks/useLocalStorage.js';
 import useAnalytics from './hooks/useAnalytics.js';
 import { STORAGE_KEYS } from './utils/constants.js';
 import { isSameService } from './utils/serviceMatcher.js';
-import { getTier, normalizePlan, canAddVehicle, isStickyPaid } from './utils/tiering.js';
+import { getTier, normalizePlan, canAddVehicle, isStickyPaid, setPremiumFlag } from './utils/tiering.js';
 import { supabase } from './lib/supabase.js';
 
 // Migration: myautolog_ → mtxtrkr_ localStorage keys (runs once on import)
@@ -73,9 +73,10 @@ export default function App() {
 
   // Current tier (Free / Family / Fleet) — derived from premium flag +
   // subscription plan key. Used for feature gates (Owner's Manual, Inspected
-  // Vessels) and the garage header badge. OR'd with the STICKY paid marker so
-  // a paid user's tier never collapses to Free mid-sync (see isStickyPaid).
-  const tier = getTier({ isPremium: premium || isStickyPaid() });
+  // Vessels) and the garage header badge. OR'd with the ACCOUNT-SCOPED sticky
+  // paid marker so a paid user's tier never collapses to Free mid-sync while
+  // a different account on the same device is never credited with it.
+  const tier = getTier({ isPremium: premium || isStickyPaid(user?.id) });
 
   // Global error handlers — runs once on mount, not on every render
   useEffect(() => {
@@ -103,7 +104,7 @@ export default function App() {
     const params = new URLSearchParams(window.location.search);
 
     if (params.get('activate') === 'premium') {
-      localStorage.setItem(STORAGE_KEYS.PREMIUM_STATUS, 'true');
+      setPremiumFlag(auth.user?.id);
       // 3-tier model: legacy 'monthly'/'yearly' (or missing) → 'family';
       // the billing interval is preserved (legacy 'yearly' → family+yearly).
       const rawPlan = params.get('plan') || 'family';
@@ -124,7 +125,7 @@ export default function App() {
 
     // Stripe checkout success — set premium when user returns from payment
     if (params.get('payment_success') === 'true') {
-      localStorage.setItem(STORAGE_KEYS.PREMIUM_STATUS, 'true');
+      setPremiumFlag(auth.user?.id);
       // The checkout session's success_url includes &tier= and &interval=
       // (set server-side); record them so the client stores the right plan
       // key + billing interval even if the optimistic write was lost
@@ -156,7 +157,7 @@ export default function App() {
     // race — React state and localStorage stay in sync, and the premium
     // sync effect verifies against Supabase on the next auth cycle.
     if (params.get('restore-premium') === '1') {
-      localStorage.setItem(STORAGE_KEYS.PREMIUM_STATUS, 'true');
+      setPremiumFlag(auth.user?.id);
       // Owner restore maps to Family (3-tier model; default monthly billing).
       setSubscriptionData({ plan: 'family', status: 'active', nextBilling: null, interval: 'monthly' });
       setPremium(true);
@@ -561,7 +562,7 @@ export default function App() {
     // 3-tier gate (owner-ratified): Free = 1 automotive vehicle only;
     // Family = up to 4 any type; Fleet = unlimited. Client-side at add-time
     // (Supabase DB is READ-ONLY — no server-side column for tier).
-    const tier = getTier({ isPremium: premium || isStickyPaid() });
+    const tier = getTier({ isPremium: premium || isStickyPaid(user?.id) });
     const gate = canAddVehicle(tier.id, vehiclesStore.data, data?.type || 'car');
     if (!gate.allowed) {
       analytics.track('premium_gate_hit', {
@@ -829,7 +830,7 @@ export default function App() {
     }
 
     // 2. Activate premium (after migration completes)
-    localStorage.setItem(STORAGE_KEYS.PREMIUM_STATUS, 'true');
+    setPremiumFlag(auth.user?.id);
     if (auth.user?.id) {
       auth.setPremiumStatus(auth.user.id);
     }
