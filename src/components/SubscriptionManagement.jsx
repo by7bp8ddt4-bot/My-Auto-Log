@@ -116,6 +116,34 @@ export async function switchSubscription({ userId, tier, interval }) {
 }
 
 /**
+ * Self-service cancellation for an existing subscriber.
+ * POSTs { userId } to api/cancel-subscription.js, which finds the user's
+ * active Stripe subscription and schedules it to cancel at period end
+ * (`cancel_at_period_end: true`). Returns { status, nextBilling,
+ * cancelAtPeriodEnd } — nextBilling is Stripe's REAL current_period_end so the
+ * "remain active until end of period" notice is truthful. Throws an Error with
+ * a user-safe message on failure.
+ */
+export async function cancelSubscription({ userId }) {
+  let res;
+  try {
+    res = await fetch('/api/cancel-subscription', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId }),
+    });
+  } catch (e) {
+    throw new Error('Could not reach server. Check your connection and try again.');
+  }
+  let data = {};
+  try { data = await res.json(); } catch (e) { /* non-JSON error body */ }
+  if (!res.ok) {
+    throw new Error(data?.error || `Cancellation failed (${res.status})`);
+  }
+  return data; // { status, nextBilling, cancelAtPeriodEnd }
+}
+
+/**
  * "Change Plan" — self-service switch among paid tiers for an active
  * subscriber. Lets the user pick a target tier (Family / Fleet) and, for
  * Family, a billing interval (Monthly / Yearly); Fleet is monthly-only and
@@ -353,13 +381,31 @@ export default function SubscriptionManagement({ userId, isPremium, onNavigate, 
     ? tierDef.yearlyLabel
     : (tierDef.monthlyLabel || tierDef.priceLabel);
 
-  const handleCancel = () => {
-    // Mark as cancelled locally + show instructions
-    localStorage.setItem(SUBSCRIPTION_KEYS.STATUS, 'cancelled');
-    localStorage.removeItem(SUBSCRIPTION_KEYS.NEXT_BILLING);
-    setCancelled(true);
-    setShowCancelConfirm(false);
-    trackEvent?.('subscription_cancelled', { tier: tier.id, userId });
+  const handleCancel = async () => {
+    setBusy(true);
+    setError(null);
+    try {
+      // Cancel for REAL in Stripe first — schedule period-end cancellation so
+      // the subscription stops renewing. Only after Stripe confirms do we mark
+      // the local status and persist the real nextBilling date (so the "remain
+      // active until end of period" notice shows the truthful end date).
+      const result = await cancelSubscription({ userId });
+      setSubscriptionData({
+        status: 'cancelled',
+        ...(result.nextBilling ? { nextBilling: result.nextBilling } : {}),
+      });
+      setCancelled(true);
+      setShowCancelConfirm(false);
+      setBusy(false);
+      trackEvent?.('subscription_cancelled', {
+        tier: tier.id,
+        userId,
+        cancelAtPeriodEnd: !!result.cancelAtPeriodEnd,
+      });
+    } catch (e) {
+      setError(e.message || 'Cancellation failed. Please try again.');
+      setBusy(false);
+    }
   };
 
   const handleReactivate = async () => {
@@ -528,15 +574,18 @@ export default function SubscriptionManagement({ userId, isPremium, onNavigate, 
                 <div className="flex gap-2">
                   <button
                     onClick={() => setShowCancelConfirm(false)}
-                    className="flex-1 py-2 rounded-lg border border-slate-700 text-xs font-medium text-slate-300 hover:bg-slate-800 transition-all"
+                    disabled={busy}
+                    className="flex-1 py-2 rounded-lg border border-slate-700 text-xs font-medium text-slate-300 hover:bg-slate-800 transition-all disabled:opacity-50"
                   >
                     Keep Plan
                   </button>
                   <button
                     onClick={handleCancel}
-                    className="flex-1 py-2 rounded-lg bg-red-600 hover:bg-red-500 text-white text-xs font-medium transition-all"
+                    disabled={busy}
+                    className="flex-1 py-2 rounded-lg bg-red-600 hover:bg-red-500 text-white text-xs font-medium transition-all disabled:opacity-60 flex items-center justify-center gap-1.5"
                   >
-                    Yes, Cancel
+                    {busy ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <X className="w-3.5 h-3.5" />}
+                    {busy ? 'Cancelling…' : 'Yes, Cancel'}
                   </button>
                 </div>
               </div>
