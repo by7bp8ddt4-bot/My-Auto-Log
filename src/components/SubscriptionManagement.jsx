@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Crown, ArrowRight, X, CheckCircle2, AlertTriangle, Mail,
   CreditCard, Calendar, Shield, ChevronRight, ExternalLink, Loader2, RefreshCw, ArrowLeftRight
@@ -278,17 +278,22 @@ function ChangePlanSection({ currentTier, currentInterval, userId, onSwitched, t
 
 // Estimate next billing date from the billing interval (Family: monthly →
 // +1 month / yearly → +1 year; Fleet: monthly only).
-function estimateNextBilling(status, interval) {
+//
+// Returns { date, isEstimate } instead of a bare string so the UI can label a
+// computed guess "Estimated" instead of presenting it as fact. A stored
+// NEXT_BILLING value (written from Stripe's real current_period_end) is the
+// source of truth; only when it's missing do we fall back to today + interval.
+export function estimateNextBilling(status, interval) {
   if (status !== 'active') return null;
   const stored = localStorage.getItem(SUBSCRIPTION_KEYS.NEXT_BILLING);
-  if (stored) return stored;
+  if (stored) return { date: stored, isEstimate: false };
   const d = new Date();
   if (interval === 'yearly') {
     d.setFullYear(d.getFullYear() + 1);
   } else {
     d.setMonth(d.getMonth() + 1);
   }
-  return d.toISOString().split('T')[0];
+  return { date: d.toISOString().split('T')[0], isEstimate: true };
 }
 
 export default function SubscriptionManagement({ userId, isPremium, onNavigate, trackEvent }) {
@@ -300,6 +305,32 @@ export default function SubscriptionManagement({ userId, isPremium, onNavigate, 
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState(null);
   const [refreshKey, setRefreshKey] = useState(0);
+
+  // Pull the REAL next-billing date from Stripe (api/get-subscription.js) when
+  // a premium user is viewing this screen. On success it persists the real
+  // date so estimateNextBilling() below stops guessing. On notFound / any
+  // fetch failure we do nothing and keep the fallback — which is now labeled
+  // "Estimated" so a guess is never presented as fact. Status display is
+  // untouched (see PRs #323–#327).
+  useEffect(() => {
+    if (!isPremium || !userId) return;
+    let cancelledEffect = false;
+    fetch('/api/get-subscription', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (cancelledEffect || !data?.nextBilling) return;
+        setSubscriptionData({ nextBilling: data.nextBilling });
+        setRefreshKey((k) => k + 1);
+      })
+      .catch(() => {
+        // Keep the fallback estimate — no stored real date to show.
+      });
+    return () => { cancelledEffect = true; };
+  }, [isPremium, userId]);
 
   const tier = getTier({ isPremium });
   // A premium user is Active unless they have EXPLICITLY cancelled. A missing
@@ -439,8 +470,17 @@ export default function SubscriptionManagement({ userId, isPremium, onNavigate, 
             <div className="flex items-center gap-2 p-3 rounded-xl bg-slate-950/40 border border-slate-800 mb-4">
               <Calendar className="w-4 h-4 text-slate-400 shrink-0" />
               <div className="flex-1">
-                <p className="text-xs text-slate-400">Next billing date</p>
-                <p className="text-sm font-semibold text-white">{formatDate(nextBilling)}</p>
+                <p className="text-xs text-slate-400">
+                  {nextBilling.isEstimate ? 'Estimated next billing date' : 'Next billing date'}
+                </p>
+                <p className="text-sm font-semibold text-white flex items-center gap-1.5">
+                  {formatDate(nextBilling.date)}
+                  {nextBilling.isEstimate && (
+                    <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-full bg-amber-500/15 text-amber-400 border border-amber-500/30 uppercase tracking-wider">
+                      Estimated
+                    </span>
+                  )}
+                </p>
               </div>
               <CreditCard className="w-4 h-4 text-slate-500" />
             </div>
@@ -581,8 +621,17 @@ export default function SubscriptionManagement({ userId, isPremium, onNavigate, 
             </div>
             {status === 'active' && nextBilling && (
               <div className="flex items-center justify-between text-xs">
-                <span className="text-slate-400">Next Billing</span>
-                <span className="text-white font-medium">{formatDate(nextBilling)}</span>
+                <span className="text-slate-400">
+                  {nextBilling.isEstimate ? 'Next Billing (Estimated)' : 'Next Billing'}
+                </span>
+                <span className="text-white font-medium flex items-center gap-1.5">
+                  {formatDate(nextBilling.date)}
+                  {nextBilling.isEstimate && (
+                    <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-full bg-amber-500/15 text-amber-400 border border-amber-500/30 uppercase tracking-wider">
+                      Estimated
+                    </span>
+                  )}
+                </span>
               </div>
             )}
           </div>
