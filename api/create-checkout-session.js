@@ -1,5 +1,16 @@
 import Stripe from 'stripe';
+import { createClient } from '@supabase/supabase-js';
+import {
+  checkoutCustomerField,
+  isUsableCustomer,
+} from '../src/utils/checkoutCustomer.js';
+
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+const supabase = createClient(
+  process.env.VITE_SUPABASE_URL,
+  process.env.SUPABASE_SERVICE_ROLE_KEY
+);
+
 // 3-tier pricing (owner-ratified 2026-08-14; amended 2026-08-17).
 // Family → STRIPE_PRICE_ID_MONTHLY ($4.99/mo) or STRIPE_PRICE_ID_YEARLY
 //          ($39.99/yr — yearly option restored by owner amendment).
@@ -48,7 +59,13 @@ export default async function handler(req, res) {
     return res.status(500).json({ error: notConfiguredError });
   }
   try {
-    const session = await stripe.checkout.sessions.create({
+    // Reuse the user's existing Stripe Customer (if one is on file) instead of
+    // letting Stripe mint a brand-new Customer on every Checkout Session —
+    // which used to overwrite profiles.stripe_customer_id and orphan the old
+    // duplicate Customer records on each repeat subscription.
+    const customerId = await resolveExistingCustomer(userId);
+
+    const sessionParams = {
       payment_method_types: ['card'],
       line_items: [
         {
@@ -65,10 +82,48 @@ export default async function handler(req, res) {
         tier: tierName,
         interval: intervalName,
       },
-    });
+    };
+    // Attach the existing customer when we have a live one; otherwise omit
+    // `customer` entirely so Stripe creates a new customer (current behavior
+    // for brand-new users) and the webhook persists it.
+    Object.assign(sessionParams, checkoutCustomerField(customerId));
+
+    const session = await stripe.checkout.sessions.create(sessionParams);
     res.status(200).json({ url: session.url, tier: tierName, interval: intervalName });
   } catch (err) {
     console.error('Error creating checkout session:', err);
     res.status(500).json({ error: err.message });
   }
+}
+
+/**
+ * Resolve the user's existing Stripe customer id from `profiles`, returning
+ * `null` when there is none (new user) or the stored id is no longer usable
+ * (deleted / failed lookup) so checkout falls back to creating a new customer
+ * rather than failing outright.
+ */
+async function resolveExistingCustomer(userId) {
+  const { data: profile, error: profileError } = await supabase
+    .from('profiles')
+    .select('stripe_customer_id')
+    .eq('id', userId)
+    .maybeSingle();
+  if (profileError) {
+    console.error('Failed to look up existing Stripe customer:', profileError);
+    return null;
+  }
+  const customerId = profile?.stripe_customer_id;
+  if (!customerId) return null;
+
+  // Verify the stored customer still exists — Stripe reports a deleted
+  // customer as `{ deleted: true }` (no throw), and a stale id passed to
+  // checkout would otherwise hard-fail the session. Fall back to a new
+  // customer when the id is stale so the checkout still proceeds.
+  try {
+    const customer = await stripe.customers.retrieve(customerId);
+    if (isUsableCustomer(customer)) return customerId;
+  } catch (err) {
+    console.error('Stored Stripe customer lookup failed; creating a new customer:', err);
+  }
+  return null;
 }
