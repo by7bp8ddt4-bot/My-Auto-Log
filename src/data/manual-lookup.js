@@ -24,6 +24,19 @@ const MAKE_ALIASES = {
   'mercedes-benz': 'mercedes',
   'sea-doo': 'seadoo',
   'sea doo': 'seadoo',
+  // Type-scoped inventory keys (src/data/inventory.js) → folded manual-index base keys.
+  // Multi-type makes split by vehicle type in maintenance-schedules/inventory
+  // (yamaha-mc vs yamaha-wc vs yamaha, honda-mc vs honda, ...) but the manual
+  // index folds all types under the base make key.
+  'yamaha-mc': 'yamaha',
+  'yamaha-wc': 'yamaha',
+  'kawasaki-mc': 'kawasaki',
+  'kawasaki-wc': 'kawasaki',
+  'honda-mc': 'honda',
+  'bmw-mc': 'bmw',
+  'suzuki-mc': 'suzuki',
+  'yanmar-ag': 'yanmar',
+  'hyster-e': 'hyster',
 };
 
 /**
