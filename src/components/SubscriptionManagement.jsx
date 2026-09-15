@@ -144,6 +144,40 @@ export async function cancelSubscription({ userId }) {
 }
 
 /**
+ * Self-service reactivation for a period-end-cancelled subscriber.
+ * POSTs { userId } to api/reactivate-subscription.js, which finds the user's
+ * active Stripe subscription and — if it is marked `cancel_at_period_end:
+ * true` — UN-cancels it in place (`cancel_at_period_end: false`), keeping the
+ * SAME subscription so no second Checkout Session / subscription is created.
+ *
+ * Returns the endpoint payload:
+ *   - { reactivated: true, status, nextBilling, cancelAtPeriodEnd } on success.
+ *   - { reactivated: false } (HTTP 200) when there is nothing to un-cancel —
+ *     the caller then falls back to a fresh Checkout Session.
+ * Throws an Error with a user-safe message only on a genuine server/network
+ * failure (the caller also falls back to checkout then, so the user is never
+ * stranded).
+ */
+export async function reactivateSubscription({ userId }) {
+  let res;
+  try {
+    res = await fetch('/api/reactivate-subscription', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId }),
+    });
+  } catch (e) {
+    throw new Error('Could not reach server. Check your connection and try again.');
+  }
+  let data = {};
+  try { data = await res.json(); } catch (e) { /* non-JSON error body */ }
+  if (!res.ok) {
+    throw new Error(data?.error || `Reactivation failed (${res.status})`);
+  }
+  return data; // { reactivated: boolean, status?, nextBilling?, cancelAtPeriodEnd? }
+}
+
+/**
  * "Change Plan" — self-service switch among paid tiers for an active
  * subscriber. Lets the user pick a target tier (Family / Fleet) and, for
  * Family, a billing interval (Monthly / Yearly); Fleet is monthly-only and
@@ -413,13 +447,50 @@ export default function SubscriptionManagement({ userId, isPremium, onNavigate, 
     setBusy(true);
     setError(null);
     trackEvent?.('subscription_reactivate_started', { tier: tier.id, userId });
+
+    // First try an in-place UN-cancel of the period-end-cancelled subscription
+    // (api/reactivate-subscription.js). This keeps the SAME Stripe subscription
+    // — no new Checkout Session, no new subscription, no overlapping double
+    // charge, and `stripe_customer_id` is never overwritten.
+    try {
+      const result = await reactivateSubscription({ userId });
+      if (result?.reactivated) {
+        // Resume in place: persist the active status + Stripe's real next
+        // billing date, clear the cancelled/confirm/notice UI, and re-stamp the
+        // device-local premium grant. No redirect to checkout.
+        setSubscriptionData({
+          status: 'active',
+          ...(result.nextBilling ? { nextBilling: result.nextBilling } : {}),
+        });
+        setCancelled(false);
+        setPremiumFlag(userId);
+        setRefreshKey((k) => k + 1);
+        setShowCancelConfirm(false);
+        setShowIOSNotice(false);
+        setError(null);
+        setBusy(false);
+        trackEvent?.('subscription_reactivated', {
+          tier: tier.id,
+          userId,
+          nextBilling: result.nextBilling || null,
+        });
+        return;
+      }
+      // result.reactivated === false → nothing to un-cancel (e.g. the
+      // subscription actually lapsed). Fall through to a fresh checkout.
+    } catch (e) {
+      // Reactivate call failed (network/server) — fall through to checkout so
+      // the user is never stranded.
+    }
+
+    // Fall back to the existing id-carrying checkout flow. No legacy
+    // buy.stripe.com fallback here: it can't carry the Supabase user id (the
+    // webhook would silently no-op → premium loop). Surface the error so the
+    // user retries.
     try {
       const url = await startTierCheckout({ tier: tier.id, userId, interval });
       window.location.href = url;
     } catch (e) {
-      // No legacy buy.stripe.com fallback here: it can't carry the Supabase
-      // user id (the webhook would silently no-op → premium loop). Surface the
-      // error so the user retries the id-carrying checkout flow.
       setError(e.message || 'Checkout failed. Please try again.');
       setBusy(false);
     }
